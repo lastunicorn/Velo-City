@@ -18,25 +18,23 @@ using System;
 using System.Linq;
 using DustInTheWind.VeloCity.Application.EstimateVelocity;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.UserControls;
 
 namespace DustInTheWind.VeloCity.EstimateVelocity
 {
-    internal class EstimateVelocityView
+    public class EstimateVelocityView
     {
         public void DisplaySprintVelocity(EstimateVelocityResponse response)
         {
             Console.WriteLine($"{response.SprintName} ({response.StartDate:d} - {response.EndDate:d})");
             Console.WriteLine(new string('=', 79));
 
-            Console.WriteLine($"Work Days: {response.WorkDays.Count} days");
-
-            for (int i = 0; i < response.WorkDays.Count; i++)
+            WorkDaysControl workDaysControl = new()
             {
-                DateTime dateTime = response.WorkDays[i];
-                int dayIndex = i + 1;
-                Console.WriteLine($"  {dayIndex:D2} - {dateTime:d} ({dateTime:dddd})");
-            }
-
+                Days = response.WorkDays
+            };
+            workDaysControl.Display();
+            
             Console.WriteLine($"Estimated Story Points: {response.EstimatedStoryPoints} SP");
             Console.WriteLine($"Actual Work Hours: {response.TotalWorkHours} h");
             Console.WriteLine($"Estimated Velocity: {response.EstimatedVelocity} SP/h");

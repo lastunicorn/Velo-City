@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
@@ -23,14 +24,21 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     internal class SprintRepository : ISprintRepository
     {
+        private readonly Database database;
+
+        public SprintRepository(Database database)
+        {
+            this.database = database ?? throw new ArgumentNullException(nameof(database));
+        }
+
         public Sprint Get(int sprintId)
         {
-            return Database.Sprints.FirstOrDefault(x => x.Id == sprintId);
+            return database.Sprints.FirstOrDefault(x => x.Id == sprintId);
         }
 
         public IEnumerable<Sprint> GetBefore(int sprintId, int count)
         {
-            return Database.Sprints
+            return database.Sprints
                 .OrderByDescending(x => x.StartDate)
                 .SkipWhile(x => x.Id != sprintId)
                 .Skip(1)

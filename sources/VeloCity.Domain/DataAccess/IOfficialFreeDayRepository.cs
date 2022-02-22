@@ -21,6 +21,6 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public interface IOfficialFreeDayRepository
     {
-        IEnumerable<OfficialFreeDay> GetAll(DateTime startDate, DateTime endDate);
+        IEnumerable<OfficialHoliday> GetAll(DateTime startDate, DateTime endDate);
     }
 }

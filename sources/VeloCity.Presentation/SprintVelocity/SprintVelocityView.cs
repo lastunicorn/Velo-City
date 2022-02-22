@@ -18,24 +18,22 @@ using System;
 using System.Linq;
 using DustInTheWind.VeloCity.Application.SprintVelocity;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.UserControls;
 
 namespace DustInTheWind.VeloCity.SprintVelocity
 {
-    internal class SprintVelocityView
+    public class SprintVelocityView
     {
         public void DisplaySprintVelocity(SprintVelocityResponse response)
         {
             Console.WriteLine($"{response.SprintName} ({response.StartDate:d} - {response.EndDate:d})");
             Console.WriteLine(new string('=', 79));
 
-            Console.WriteLine($"Work Days: {response.WorkDays.Count} days");
-
-            for (int i = 0; i < response.WorkDays.Count; i++)
+            WorkDaysControl workDaysControl = new()
             {
-                DateTime dateTime = response.WorkDays[i];
-                int dayIndex = i + 1;
-                Console.WriteLine($"  {dayIndex:D2} - {dateTime:d} ({dateTime:dddd})");
-            }
+                Days = response.WorkDays
+            };
+            workDaysControl.Display();
 
             Console.WriteLine($"Story Points: {response.TotalStoryPoints} SP");
             Console.WriteLine($"Actual Work Hours: {response.TotalWorkHours} h");

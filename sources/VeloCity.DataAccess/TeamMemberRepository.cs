@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 
@@ -23,17 +23,16 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     internal class TeamMemberRepository : ITeamMemberRepository
     {
+        private readonly Database database;
+
+        public TeamMemberRepository(Database database)
+        {
+            this.database = database ?? throw new ArgumentNullException(nameof(database));
+        }
+
         public IEnumerable<TeamMember> GetAll()
         {
-            return Database.TeamMembers
-                .Select(x =>
-                {
-                    x.Vacations = Database.Vacations
-                        .Where(z => z.TeamMember == x)
-                        .ToList();
-
-                    return x;
-                });
+            return database.TeamMembers;
         }
     }
 }

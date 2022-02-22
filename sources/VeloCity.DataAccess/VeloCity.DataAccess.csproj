@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\VeloCity.DataAccess.Jsonfiles\VeloCity.DataAccess.JsonFiles.csproj" />
       <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
     </ItemGroup>
 

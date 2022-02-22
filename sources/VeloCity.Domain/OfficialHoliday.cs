@@ -14,19 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Linq;
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using System;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class VacationRepository : IVacationRepository
+    public class OfficialHoliday
     {
-        public IEnumerable<Vacation> GetByTeamMember(int teamMemberId)
-        {
-            return Database.Vacations
-                .Where(x => x.TeamMember.Id == teamMemberId);
-        }
+        public DateTime Date { get; set; }
+
+        public string Name { get; set; }
     }
 }

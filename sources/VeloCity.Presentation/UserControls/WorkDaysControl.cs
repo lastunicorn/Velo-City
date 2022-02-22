@@ -15,15 +15,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.UserControls
 {
-    public class Vacation
+    internal class WorkDaysControl
     {
-        public TeamMember TeamMember { get; set; }
+        public List<DateTime> Days { get; set; }
 
-        public DateTime Date { get; set; }
+        public void Display()
+        {
+            Console.WriteLine($"Work Days: {Days.Count} days");
 
-        public int? HourCount { get; set; }
+            for (int i = 0; i < Days.Count; i++)
+            {
+                DateTime dateTime = Days[i];
+                int dayIndex = i + 1;
+                Console.WriteLine($"  - day {dayIndex:D2}: {dateTime:d} ({dateTime:dddd})");
+            }
+        }
     }
 }

@@ -24,6 +24,6 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         
         public ITeamMemberRepository TeamMemberRepository { get; }
         
-        public IVacationRepository VacationRepository { get; }
+        //public IVacationRepository VacationRepository { get; }
     }
 }

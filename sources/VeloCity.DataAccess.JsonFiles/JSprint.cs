@@ -15,13 +15,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO.Enumeration;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace VeloCity.DataAccess.Jsonfiles
 {
-    public class OfficialFreeDay
+    public class JSprint
     {
-        public DateTime Date { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
+        public int StoryPoints { get; set; }
     }
 }

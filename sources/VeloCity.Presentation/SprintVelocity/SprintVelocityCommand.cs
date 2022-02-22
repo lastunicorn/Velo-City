@@ -21,7 +21,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.SprintVelocity
 {
-    internal class SprintVelocityCommand
+    public class SprintVelocityCommand
     {
         private readonly SprintVelocityView view;
         private readonly IMediator mediator;

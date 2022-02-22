@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity", "VeloCity\VeloCity.csproj", "{FED35DE4-65E2-4777-9B52-A21B0669A680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity", "VeloCity\VeloCity.csproj", "{FED35DE4-65E2-4777-9B52-A21B0669A680}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.DataAccess", "VeloCity.DataAccess\VeloCity.DataAccess.csproj", "{9C38A3FB-5029-48F3-B13E-1CF8250DAF51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.DataAccess", "VeloCity.DataAccess\VeloCity.DataAccess.csproj", "{9C38A3FB-5029-48F3-B13E-1CF8250DAF51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Domain", "VeloCity.Domain\VeloCity.Domain.csproj", "{00A95EAF-7616-4846-9198-7C811E49C7E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Domain", "VeloCity.Domain\VeloCity.Domain.csproj", "{00A95EAF-7616-4846-9198-7C811E49C7E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Application", "VeloCity.Application\VeloCity.Application.csproj", "{259FA603-87B7-40D9-AFA0-6FAFB6CB39F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Application", "VeloCity.Application\VeloCity.Application.csproj", "{259FA603-87B7-40D9-AFA0-6FAFB6CB39F4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.DataAccess.JsonFiles", "VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj", "{E049FF0F-68F0-4990-A476-E71E35D6EFB6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Presentation", "VeloCity.Presentation\VeloCity.Presentation.csproj", "{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{259FA603-87B7-40D9-AFA0-6FAFB6CB39F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{259FA603-87B7-40D9-AFA0-6FAFB6CB39F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{259FA603-87B7-40D9-AFA0-6FAFB6CB39F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E049FF0F-68F0-4990-A476-E71E35D6EFB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E049FF0F-68F0-4990-A476-E71E35D6EFB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E049FF0F-68F0-4990-A476-E71E35D6EFB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E049FF0F-68F0-4990-A476-E71E35D6EFB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

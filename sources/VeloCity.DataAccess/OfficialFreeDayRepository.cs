@@ -24,9 +24,16 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     internal class OfficialFreeDayRepository : IOfficialFreeDayRepository
     {
-        public IEnumerable<OfficialFreeDay> GetAll(DateTime startDate, DateTime endDate)
+        private readonly Database database;
+
+        public OfficialFreeDayRepository(Database database)
         {
-            return Database.OfficialFreeDays
+            this.database = database ?? throw new ArgumentNullException(nameof(database));
+        }
+
+        public IEnumerable<OfficialHoliday> GetAll(DateTime startDate, DateTime endDate)
+        {
+            return database.OfficialHolidays
                 .Where(x => x.Date >= startDate && x.Date <= endDate);
         }
     }

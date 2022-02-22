@@ -20,17 +20,16 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private readonly Database database = new();
+
         private OfficialFreeDayRepository officialFreeDayRepository;
         private SprintRepository sprintRepository;
         private TeamMemberRepository teamMemberRepository;
-        private VacationRepository vacationRepository;
 
-        public IOfficialFreeDayRepository OfficialFreeDayRepository => officialFreeDayRepository ??= new OfficialFreeDayRepository();
-        
-        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository();
-        
-        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository();
+        public IOfficialFreeDayRepository OfficialFreeDayRepository => officialFreeDayRepository ??= new OfficialFreeDayRepository(database);
 
-        public IVacationRepository VacationRepository => vacationRepository ??= new VacationRepository();
+        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(database);
+
+        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(database);
     }
 }

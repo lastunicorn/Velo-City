@@ -21,7 +21,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.EstimateVelocity
 {
-    internal class EstimateVelocityCommand
+    public class EstimateVelocityCommand
     {
         private readonly EstimateVelocityView view;
         private readonly IMediator mediator;

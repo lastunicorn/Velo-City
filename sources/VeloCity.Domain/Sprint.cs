@@ -32,7 +32,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public int StoryPoints { get; set; }
 
-        public List<OfficialFreeDay> OfficialFreeDays { get; set; }
+        public List<OfficialHoliday> OfficialFreeDays { get; set; }
 
         public IEnumerable<DateTime> CalculateWorkDays()
         {

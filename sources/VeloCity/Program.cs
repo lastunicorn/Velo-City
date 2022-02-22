@@ -32,8 +32,8 @@ namespace DustInTheWind.VeloCity
         {
             IContainer container = BuildContainer();
 
-            //SprintVelocityCommand command = container.Resolve<SprintVelocityCommand>();
-            EstimateVelocityCommand command = container.Resolve<EstimateVelocityCommand>();
+            SprintVelocityCommand command = container.Resolve<SprintVelocityCommand>();
+            //EstimateVelocityCommand command = container.Resolve<EstimateVelocityCommand>();
             await command.Execute();
         }
 
@@ -41,7 +41,7 @@ namespace DustInTheWind.VeloCity
         {
             ContainerBuilder containerBuilder = new();
             ConfigureServices(containerBuilder);
-            
+
             return containerBuilder.Build();
         }
 
@@ -51,7 +51,7 @@ namespace DustInTheWind.VeloCity
             containerBuilder.RegisterMediatR(assembly);
 
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
-            
+
             containerBuilder.RegisterType<SprintVelocityCommand>().AsSelf();
             containerBuilder.RegisterType<SprintVelocityView>().AsSelf();
 

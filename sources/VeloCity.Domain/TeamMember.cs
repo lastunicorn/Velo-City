@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public int HoursPerDay { get; set; }
 
-        public List<Vacation> Vacations { get; set; }
+        public List<VacationDay> VacationDays { get; set; }
 
         public SprintMember ToSprintMember(Sprint sprint)
         {
@@ -63,13 +63,13 @@ namespace DustInTheWind.VeloCity.Domain
                 ? 8
                 : HoursPerDay;
 
-            Vacation vacation = Vacations.FirstOrDefault(x => x.Date == dateTime);
+            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == dateTime);
 
-            if (vacation != null)
+            if (vacationDay != null)
             {
-                hours = vacation.HourCount == null
+                hours = vacationDay.HourCount == null
                     ? 0
-                    : hours - vacation.HourCount.Value;
+                    : hours - vacationDay.HourCount.Value;
             }
 
             return hours;
