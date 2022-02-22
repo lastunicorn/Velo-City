@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>DustInTheWind.VeloCity.DataAccess</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.DataAccess</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

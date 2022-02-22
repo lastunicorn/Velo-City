@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>DustInTheWind.VeloCity.Application</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="10.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
+    </ItemGroup>
+
+</Project>
