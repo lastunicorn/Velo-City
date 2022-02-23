@@ -29,6 +29,7 @@ using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
+
 namespace DustInTheWind.VeloCity.Bootstrapper
 {
     internal class Program
@@ -37,8 +38,13 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
         private static async Task Main(string[] args)
         {
+            bool debugVerbose = true;
+
             try
             {
+                Config config = new();
+                debugVerbose = config.DebugVerbose;
+
                 container = BuildContainer();
 
                 if (args.Length == 0)
@@ -46,10 +52,14 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
                 ICliCommand command = CreateCommand(args);
                 await command.Execute();
+
             }
             catch (Exception ex)
             {
-                CustomConsole.WriteLineError(ex);
+                if (debugVerbose)
+                    CustomConsole.WriteLineError(ex);
+                else
+                    CustomConsole.WriteLineError(ex.Message);
             }
         }
 

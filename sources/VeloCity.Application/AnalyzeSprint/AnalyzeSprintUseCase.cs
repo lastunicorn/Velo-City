@@ -40,12 +40,21 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 ? unitOfWork.SprintRepository.GetLast()
                 : unitOfWork.SprintRepository.Get(request.SprintNumber.Value);
 
+            if (currentSprint == null)
+            {
+                if (request.SprintNumber == null)
+                    throw new NoSprintException();
+
+                throw new SprintDoesNotExistException(request.SprintNumber.Value);
+            }
+
             List<DateTime> workDays = currentSprint.GetWorkDays()
                 .Select(x => x.Date)
                 .ToList();
 
             List<SprintMember> sprintMembers = unitOfWork.TeamMemberRepository.GetAll()
                 .Select(x => x.ToSprintMember(currentSprint))
+                .Where(x => x.IsEmployed)
                 .ToList();
 
             int totalWorkHours = sprintMembers
@@ -54,7 +63,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             float velocity = (float)currentSprint.ActualStoryPoints / totalWorkHours;
 
-            float averageVelocity = unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackCount).ToList()
+            IEnumerable<float> previousVelocities = unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackCount)
                 .Select(x =>
                 {
                     int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
@@ -62,8 +71,11 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                         .Sum();
 
                     return (float)x.ActualStoryPoints / totalWorkHours;
-                })
-                .Average();
+                });
+
+            float averageVelocity = previousVelocities.Any()
+                ? previousVelocities.Average()
+                : 0;
 
             AnalyzeSprintResponse response = new()
             {

@@ -14,17 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Linq;
+using System;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class SprintMember
+    public class NoSprintException : Exception
     {
-        public string Name { get; set; }
+        private const string DefaultMessage = "There is no sprint in the database.";
 
-        public List<SprintMemberDay> Days { get; set; }
-
-        public bool IsEmployed => Days.Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
+        public NoSprintException()
+            : base(DefaultMessage)
+        {
+        }
     }
 }

@@ -12,12 +12,6 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
 
         public int TotalWorkHours { get; set; }
 
-        public float EstimatedStoryPoints { get; set; }
-
-        public float EstimatedVelocity { get; set; }
-
-        public int CommitmentStoryPoints { get; set; }
-
         public int ActualStoryPoints { get; set; }
 
         public float ActualVelocity { get; set; }

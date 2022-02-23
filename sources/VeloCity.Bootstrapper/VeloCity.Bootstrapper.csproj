@@ -10,6 +10,8 @@
     <ItemGroup>
       <PackageReference Include="Autofac" Version="6.3.0" />
       <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="8.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -17,5 +19,15 @@
       <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" />
       <ProjectReference Include="..\VeloCity.Presentation\VeloCity.Presentation.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="xcopy /y &quot;$(TargetDir)$(TargetName).exe&quot; &quot;$(TargetDir)velo.exe&quot;" />
+    </Target>
 
 </Project>

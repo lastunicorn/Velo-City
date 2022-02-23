@@ -41,7 +41,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
                 : request.Count.Value;
 
             List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetPage(0, sprintCount)
-                .Select(ExtractSprintOverview)
+                .Select(CreateSprintOverview)
                 .ToList();
 
             PresentSprintsResponse response = new()
@@ -52,28 +52,13 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
             return Task.FromResult(response);
         }
 
-        private SprintOverview ExtractSprintOverview(Sprint sprint)
+        private SprintOverview CreateSprintOverview(Sprint sprint)
         {
-            List<SprintMember> sprintMembers = unitOfWork.TeamMemberRepository.GetAll()
-                .Select(x => x.ToSprintMember(sprint))
-                .ToList();
-
-            int totalWorkHours = sprintMembers
-                .SelectMany(x => x.Days.Select(z => z.WorkHours))
+            int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
+                .Select(x => x.CalculateWorkHoursFor(sprint))
                 .Sum();
 
             float velocity = (float)sprint.ActualStoryPoints / totalWorkHours;
-
-            float averageVelocity = unitOfWork.SprintRepository.GetBefore(sprint.Number, 6).ToList()
-                .Select(x =>
-                {
-                    int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
-                        .Select(z => z.CalculateWorkHoursFor(x))
-                        .Sum();
-
-                    return (float)x.ActualStoryPoints / totalWorkHours;
-                })
-                .Average();
 
             return new SprintOverview
             {
@@ -82,10 +67,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
                 EndDate = sprint.EndDate,
                 TotalWorkHours = totalWorkHours,
                 ActualStoryPoints = sprint.ActualStoryPoints,
-                ActualVelocity = velocity,
-                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                EstimatedStoryPoints = totalWorkHours * averageVelocity,
-                EstimatedVelocity = averageVelocity
+                ActualVelocity = velocity
             };
         }
     }

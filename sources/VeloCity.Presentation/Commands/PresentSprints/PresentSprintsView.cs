@@ -34,15 +34,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
                 Console.WriteLine();
                 
                 Console.WriteLine($"Total Work Hours: {sprintOverview.TotalWorkHours} h");
-                
-                Console.WriteLine();
-                
-                Console.WriteLine($"Estimated Story Points: {sprintOverview.EstimatedStoryPoints} SP");
-                Console.WriteLine($"Estimated Velocity: {sprintOverview.EstimatedVelocity} SP/h");
-                Console.WriteLine($"Commitment Story Points: {sprintOverview.CommitmentStoryPoints} SP");
-                
-                Console.WriteLine();
-                
                 Console.WriteLine($"Actual Story Points: {sprintOverview.ActualStoryPoints} SP");
                 Console.WriteLine($"Actual Velocity: {sprintOverview.ActualVelocity} SP/h");
 
