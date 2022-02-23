@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product
+        Id="*"
+        Name="Velo City"
+        Language="1033"
+        Version="1.0.0.0"
+        Manufacturer="Dust in the Wind"
+        UpgradeCode="ecb19ba8-d443-4ac2-ae3e-46e9e6bab11b">
+
+        <Package
+            InstallerVersion="200"
+            Compressed="yes"
+            InstallScope="perMachine" />
+
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+        <MediaTemplate />
+
+        <Feature
+            Id="ProductFeature"
+            Title="Velo City"
+            Level="1">
+
+            <ComponentGroupRef Id="VeloCityFiles" />
+        </Feature>
+    </Product>
+
+</Wix>

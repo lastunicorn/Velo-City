@@ -1,0 +1,1 @@
+msiexec /x VeloCity.msi /l*vx uninstall.log

@@ -1,0 +1,1 @@
+msiexec /i VeloCity.msi /l*vx install.log

@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="INSTALLFOLDER">
+            <Component Id="cmpF82FCA80BBAF44D285C97F10993DEEE6" Guid="{73BD4FCA-23F4-4A38-B843-B3DFDBBC000D}">
+                <File Id="fil840B80AC19861C7F9F04FBDCFAE331CE" KeyPath="yes" Source="$(var.FileSourceDirectory)\appsettings.json" />
+            </Component>
+            <Component Id="cmpDA27922DC39ABEE4AED51766786E4CFD" Guid="{DC92989A-C4E5-4AA2-883B-4F763BCAB5A8}">
+                <File Id="fil35A245A4D0EADE39BA1ACE4C3747CE4D" KeyPath="yes" Source="$(var.FileSourceDirectory)\Autofac.dll" />
+            </Component>
+            <Component Id="cmpDCD2EA7F79D24108B1EEFEE1A254E201" Guid="{1D74A729-2EC5-48C1-94FA-76836748AF84}">
+                <File Id="fil47330AFA80AA3E8FF312ACD19B83BDE9" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.ConsoleTools.Controls.dll" />
+            </Component>
+            <Component Id="cmp07D8BD24B55BDC79AFFCB4921848974A" Guid="{A8D2589B-3597-4801-B7B3-30C3522B1886}">
+                <File Id="fil80D5C21382710A8D930618C334407BDD" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.ConsoleTools.Controls.Menus.dll" />
+            </Component>
+            <Component Id="cmp0F52ABC6B2B7AB53450D814EB0BBE04E" Guid="{8E8889BB-B31C-4D62-9DDD-FBB3C996803B}">
+                <File Id="fil202030B244FC960C16F715BE41DD91C1" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.ConsoleTools.Controls.Spinners.dll" />
+            </Component>
+            <Component Id="cmpD6A984E930BC3C6AD28C4379CCD28F0F" Guid="{DA0066C7-9BC1-4AC2-ABE8-682D702E7390}">
+                <File Id="fil863189893BD67E8486AAB5D28103C324" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.ConsoleTools.Controls.Tables.dll" />
+            </Component>
+            <Component Id="cmp06E6FB223394AE2D0CCCDAFD076A979A" Guid="{46A86A97-C95A-442B-9ECD-930AF9F20B79}">
+                <File Id="fil3FFE191ED7EE6B26ECFEDE6EFE804F94" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.ConsoleTools.Core.dll" />
+            </Component>
+            <Component Id="cmpA9239E6C026D0DDAF3D8F049D2228F8B" Guid="{1D9EAD24-5B16-49BF-8DA3-11A8A36A9714}">
+                <File Id="filE78EDED82B70CF175B6AECEEE0705E65" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.Application.dll" />
+            </Component>
+            <Component Id="cmp0849F2BE0869BAB5F1621C8BFD7FD48D" Guid="{8BD7CF1D-977E-4B33-B2B3-4955F409F33B}">
+                <File Id="fil5E85B7651453109AAA2C8C8E65995C00" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.Application.pdb" />
+            </Component>
+            <Component Id="cmp16E0C0734583F74D4438921D4F13802B" Guid="{535E7461-CF4F-410C-8879-A5EFC80B8B71}">
+                <File Id="filA6857535960A6E6A080D3F9620463308" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.DataAccess.dll" />
+            </Component>
+            <Component Id="cmp1B004E154BACEC32514729E7FA6E6926" Guid="{B2AB9DDF-5203-462F-A5B5-74DC6663E6AE}">
+                <File Id="fil4F609614E3EBFF86B056A3BEBED7A19C" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.DataAccess.pdb" />
+            </Component>
+            <Component Id="cmp2BDA265A9353DFC96C59DADDF99C1C36" Guid="{7A6C1345-CFC6-4658-B045-700D0B048F7B}">
+                <File Id="filFF74C899B6BC6259EB65F46BE0D864A1" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.deps.json" />
+            </Component>
+            <Component Id="cmpEF1C998FBC4336A53241EF488616DC17" Guid="{3A6CE0E4-AC4D-4E9E-92CB-E48AA028751C}">
+                <File Id="fil37D73C3F3BB32D3DECA3996BF38CD4C1" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.dll" />
+            </Component>
+            <Component Id="cmpDFBA37638BECECF548936D208B0E6116" Guid="{8BBBBDBF-454D-44C5-993F-C45B44633CEC}">
+                <File Id="fil37E522FA37560CB50A01413458164F36" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.Domain.dll" />
+            </Component>
+            <Component Id="cmpBFBE09227F947E5686D4A5B96E202890" Guid="{7D75FE6E-CB61-4278-B1D6-B3D2FD976BB9}">
+                <File Id="filB27C5E6FDAA63154AE347EB46BC46499" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.Domain.pdb" />
+            </Component>
+            <Component Id="cmp98E0EACF7DE0FF249A888445D871CC41" Guid="{EE72A3D4-0207-4437-8BB0-38449C005B80}">
+                <File Id="fil31A117BA691C62FAA7F54EFCBCD77012" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.exe" />
+            </Component>
+            <Component Id="cmp8B9C0120367CC383DAB7770BD1C5F2A7" Guid="{61B0EDAD-C870-4C2E-8043-E7455A06C218}">
+                <File Id="filF71C6909765A3E4011D29FCDCAEE9EE8" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.JsonFiles.dll" />
+            </Component>
+            <Component Id="cmpCECFC7BF455C796437E0649A1AB0A9D6" Guid="{FB3A95CC-2C75-445E-8BBA-BC48AEA2D1FF}">
+                <File Id="fil96184F827FCD45619A5518A637FF2A61" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.JsonFiles.pdb" />
+            </Component>
+            <Component Id="cmp0215D9A6A1D8A6D8B8CFADC758E9EA0F" Guid="{0E808332-3A1D-47F1-84D3-F2473BA63589}">
+                <File Id="fil2F71D8C071167759D82B755C47586186" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.pdb" />
+            </Component>
+            <Component Id="cmp1C6733F219AC6C031F14EF56B0D25DC0" Guid="{856C6556-2669-48B0-BFD2-AD3F6C08F218}">
+                <File Id="filB11962E711D538D88372025779489BE4" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.Presentation.dll" />
+            </Component>
+            <Component Id="cmpB22DC7D40017943EF46E473B48E7F8B4" Guid="{7D4CC9AA-F222-441C-85CD-F81D0A8DFCB4}">
+                <File Id="fil802CE0E9273D7318140CCA398DCD0428" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.Presentation.pdb" />
+            </Component>
+            <Component Id="cmp472513FA9654BFA58067D6C77EFC7048" Guid="{19D0A718-6B88-4C91-8045-A9C7ABA347BE}">
+                <File Id="filC5F18092B853514677275670042F4A8E" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.runtimeconfig.dev.json" />
+            </Component>
+            <Component Id="cmpCF2DA44EA84250F2D006C201247D2B9B" Guid="{C8AABF5E-0283-4C90-9231-4A180F8584B0}">
+                <File Id="fil27159B5F245ED11393E2E95D19FA36C2" KeyPath="yes" Source="$(var.FileSourceDirectory)\DustInTheWind.VeloCity.runtimeconfig.json" />
+            </Component>
+            <Component Id="cmp434AFE8503EC1FDF086A7B65744BBE3E" Guid="{5CB5277B-1968-4139-A2C1-29D6D193B524}">
+                <File Id="filFBA118C73F14C88437FB05F72E254669" KeyPath="yes" Source="$(var.FileSourceDirectory)\MediatR.Contracts.dll" />
+            </Component>
+            <Component Id="cmp257EA8281FB771B78FAEDC2CD80B4A5F" Guid="{10043BA5-DA1A-472E-8D5A-D25A4F7C41F6}">
+                <File Id="filE0C20EAC9C3438F2434A2A5C4BB16C88" KeyPath="yes" Source="$(var.FileSourceDirectory)\MediatR.dll" />
+            </Component>
+            <Component Id="cmp06E874D376EB882855A264EE790C92E9" Guid="{B49174EC-A98F-49D3-A921-8CF3E87B94A3}">
+                <File Id="fil5CAAD073C2CC9E46EDF0A2B7CB545ECC" KeyPath="yes" Source="$(var.FileSourceDirectory)\MediatR.Extensions.Autofac.DependencyInjection.dll" />
+            </Component>
+            <Component Id="cmpDC19BA21EFF423B27F8787A2AB8F2B3C" Guid="{1126DCF6-F1B7-40BB-B591-D97E8730E65A}">
+                <File Id="filF6767F9D22B6D46DD3A2FC798B5F23DE" KeyPath="yes" Source="$(var.FileSourceDirectory)\Microsoft.Extensions.Configuration.Abstractions.dll" />
+            </Component>
+            <Component Id="cmpC2B3CC4C105FBF588A9EBBD45742C349" Guid="{538C0D67-FD62-43E0-98F8-6CCFAB012CA5}">
+                <File Id="filE9F345539532616C2BEF86BE1CEB83E2" KeyPath="yes" Source="$(var.FileSourceDirectory)\Microsoft.Extensions.Configuration.dll" />
+            </Component>
+            <Component Id="cmp0F72FDFC2B5DABBEED0952957424C516" Guid="{FC24BAF7-D2E2-4AE8-A9CA-2F75771D21B5}">
+                <File Id="fil732B9D1BB8B2BA629B3802CB721B7E55" KeyPath="yes" Source="$(var.FileSourceDirectory)\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+            </Component>
+            <Component Id="cmp191446DEBB621CC91C2B2E713F085F01" Guid="{7A87C65F-776B-49BE-9807-6BF3C3829C77}">
+                <File Id="fil0CC9532B169036B73874B81A5F9C8F97" KeyPath="yes" Source="$(var.FileSourceDirectory)\Microsoft.Extensions.Configuration.Json.dll" />
+            </Component>
+            <Component Id="cmp0209E8308C907CAD5474151F7C6836F5" Guid="{616329B2-4FB0-4228-9554-4065A8E80A28}">
+                <File Id="fil1036FDFADEB4E1F1FB133485A70A0DD4" KeyPath="yes" Source="$(var.FileSourceDirectory)\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+            </Component>
+            <Component Id="cmp6361EE614B62630DD923390326EAF03C" Guid="{8618B1F4-5955-403C-AF9F-A8A81637CBEA}">
+                <File Id="fil1B3C0C67DC448F84DA45630529031E78" KeyPath="yes" Source="$(var.FileSourceDirectory)\Microsoft.Extensions.FileProviders.Physical.dll" />
+            </Component>
+            <Component Id="cmp1E5A63B6F657DD090469973A1C3D2C59" Guid="{2C4EFF1F-CD75-468F-89FC-8F6A1E67958D}">
+                <File Id="fil931DDF3633F4CABF1422600B672C70DE" KeyPath="yes" Source="$(var.FileSourceDirectory)\Microsoft.Extensions.FileSystemGlobbing.dll" />
+            </Component>
+            <Component Id="cmp946145B53A7DCDFA822B0EFD2314FAB6" Guid="{65D78D62-E7AA-4879-A4C0-C9E0715AF983}">
+                <File Id="fil773F29942324AAB2A7E1977E1AC63609" KeyPath="yes" Source="$(var.FileSourceDirectory)\Microsoft.Extensions.Primitives.dll" />
+            </Component>
+            <Component Id="cmpBC4FC00A26E7D32479D42D3411317FC5" Guid="{8573D9E3-9AEE-40ED-A6DE-7885F0DCD302}">
+                <File Id="fil90A8AAD9FC612906D405476D61CEA3F4" KeyPath="yes" Source="$(var.FileSourceDirectory)\Newtonsoft.Json.dll" />
+            </Component>
+            <Component Id="cmpAFCF21A15F6EDA45A32D147050609285" Guid="{828D26F0-4D34-440B-A29E-4A3358CFE586}">
+                <File Id="filAE286E96EA00902BC284AEBF3030D6E4" KeyPath="yes" Source="$(var.FileSourceDirectory)\System.Runtime.CompilerServices.Unsafe.dll" />
+            </Component>
+            <Component Id="cmpB8A7E5BEDFB4B8D0CC7AF759CF02E85C" Guid="{1AA71611-B38B-43AC-81DB-B3C424BB956D}">
+                <File Id="filA40308264694C0D9CFCDD77B25AB3F6A" KeyPath="yes" Source="$(var.FileSourceDirectory)\System.Text.Encodings.Web.dll" />
+            </Component>
+            <Component Id="cmpA5817A2BB296EF3C39CAFA8A07CD6B59" Guid="{3B569B28-6738-4561-A37C-F65B2D0DB06C}">
+                <File Id="fil1FBF587862F484BB82A1D65565F935B6" KeyPath="yes" Source="$(var.FileSourceDirectory)\System.Text.Json.dll" />
+            </Component>
+            <Component Id="cmp37CAB4F5CA6359C8BE62ECACD3463CA2" Guid="{A0ECA8B7-78CB-405B-BC49-FEDEB28225C6}">
+                <File Id="fil49A81EACBA04BE45A2D9B953E2BD5FEB" KeyPath="yes" Source="$(var.FileSourceDirectory)\velo.exe" />
+            </Component>
+            <Directory Id="dirE7B4A6F2DD043E7C7ECBDE7B89C02FF1" Name="ref">
+                <Component Id="cmp0ECDB80F9672206EA564CCB0B7C5BDC3" Guid="{402F2269-7FBD-4409-B198-215AF613D5DF}">
+                    <File Id="filC214E88F419EE53C1A15D6A4E8062982" KeyPath="yes" Source="$(var.FileSourceDirectory)\ref\DustInTheWind.VeloCity.dll" />
+                </Component>
+            </Directory>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="VeloCityFiles">
+            <ComponentRef Id="cmpF82FCA80BBAF44D285C97F10993DEEE6" />
+            <ComponentRef Id="cmpDA27922DC39ABEE4AED51766786E4CFD" />
+            <ComponentRef Id="cmpDCD2EA7F79D24108B1EEFEE1A254E201" />
+            <ComponentRef Id="cmp07D8BD24B55BDC79AFFCB4921848974A" />
+            <ComponentRef Id="cmp0F52ABC6B2B7AB53450D814EB0BBE04E" />
+            <ComponentRef Id="cmpD6A984E930BC3C6AD28C4379CCD28F0F" />
+            <ComponentRef Id="cmp06E6FB223394AE2D0CCCDAFD076A979A" />
+            <ComponentRef Id="cmpA9239E6C026D0DDAF3D8F049D2228F8B" />
+            <ComponentRef Id="cmp0849F2BE0869BAB5F1621C8BFD7FD48D" />
+            <ComponentRef Id="cmp16E0C0734583F74D4438921D4F13802B" />
+            <ComponentRef Id="cmp1B004E154BACEC32514729E7FA6E6926" />
+            <ComponentRef Id="cmp2BDA265A9353DFC96C59DADDF99C1C36" />
+            <ComponentRef Id="cmpEF1C998FBC4336A53241EF488616DC17" />
+            <ComponentRef Id="cmpDFBA37638BECECF548936D208B0E6116" />
+            <ComponentRef Id="cmpBFBE09227F947E5686D4A5B96E202890" />
+            <ComponentRef Id="cmp98E0EACF7DE0FF249A888445D871CC41" />
+            <ComponentRef Id="cmp8B9C0120367CC383DAB7770BD1C5F2A7" />
+            <ComponentRef Id="cmpCECFC7BF455C796437E0649A1AB0A9D6" />
+            <ComponentRef Id="cmp0215D9A6A1D8A6D8B8CFADC758E9EA0F" />
+            <ComponentRef Id="cmp1C6733F219AC6C031F14EF56B0D25DC0" />
+            <ComponentRef Id="cmpB22DC7D40017943EF46E473B48E7F8B4" />
+            <ComponentRef Id="cmp472513FA9654BFA58067D6C77EFC7048" />
+            <ComponentRef Id="cmpCF2DA44EA84250F2D006C201247D2B9B" />
+            <ComponentRef Id="cmp434AFE8503EC1FDF086A7B65744BBE3E" />
+            <ComponentRef Id="cmp257EA8281FB771B78FAEDC2CD80B4A5F" />
+            <ComponentRef Id="cmp06E874D376EB882855A264EE790C92E9" />
+            <ComponentRef Id="cmpDC19BA21EFF423B27F8787A2AB8F2B3C" />
+            <ComponentRef Id="cmpC2B3CC4C105FBF588A9EBBD45742C349" />
+            <ComponentRef Id="cmp0F72FDFC2B5DABBEED0952957424C516" />
+            <ComponentRef Id="cmp191446DEBB621CC91C2B2E713F085F01" />
+            <ComponentRef Id="cmp0209E8308C907CAD5474151F7C6836F5" />
+            <ComponentRef Id="cmp6361EE614B62630DD923390326EAF03C" />
+            <ComponentRef Id="cmp1E5A63B6F657DD090469973A1C3D2C59" />
+            <ComponentRef Id="cmp946145B53A7DCDFA822B0EFD2314FAB6" />
+            <ComponentRef Id="cmpBC4FC00A26E7D32479D42D3411317FC5" />
+            <ComponentRef Id="cmpAFCF21A15F6EDA45A32D147050609285" />
+            <ComponentRef Id="cmpB8A7E5BEDFB4B8D0CC7AF759CF02E85C" />
+            <ComponentRef Id="cmpA5817A2BB296EF3C39CAFA8A07CD6B59" />
+            <ComponentRef Id="cmp37CAB4F5CA6359C8BE62ECACD3463CA2" />
+            <ComponentRef Id="cmp0ECDB80F9672206EA564CCB0B7C5BDC3" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>
