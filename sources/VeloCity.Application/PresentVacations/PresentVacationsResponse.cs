@@ -16,12 +16,10 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
-    public interface ITeamMemberRepository
+    public class PresentVacationsResponse
     {
-        IEnumerable<TeamMember> GetAll();
-        
-        IEnumerable<TeamMember> Find(string text);
+        public List<TeamMemberVacation> TeamMemberVacations { get; set; }
     }
 }

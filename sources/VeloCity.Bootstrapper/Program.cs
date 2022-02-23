@@ -27,6 +27,7 @@ using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
+using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
 
@@ -93,6 +94,13 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                         : null;
                     return presentVelocityCommand;
 
+                case "vacations":
+                    VacationsCommand vacationsCommand = container.Resolve<VacationsCommand>();
+                    vacationsCommand.PersonName = args.Length > 1
+                        ? args[1]
+                        : null;
+                    return vacationsCommand;
+
                 default:
                     throw new Exception("Invalid Command");
             }
@@ -124,6 +132,9 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             containerBuilder.RegisterType<PresentVelocityCommand>().AsSelf();
             containerBuilder.RegisterType<PresentVelocityView>().AsSelf();
+
+            containerBuilder.RegisterType<VacationsCommand>().AsSelf();
+            containerBuilder.RegisterType<VacationsView>().AsSelf();
         }
     }
 }

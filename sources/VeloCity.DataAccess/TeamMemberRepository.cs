@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 
@@ -33,6 +34,12 @@ namespace DustInTheWind.VeloCity.DataAccess
         public IEnumerable<TeamMember> GetAll()
         {
             return database.TeamMembers;
+        }
+
+        public IEnumerable<TeamMember> Find(string text)
+        {
+            return database.TeamMembers
+                .Where(x => x.Name.Contains(text, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

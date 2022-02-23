@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
-    public interface ITeamMemberRepository
+    public class VacationInfo
     {
-        IEnumerable<TeamMember> GetAll();
-        
-        IEnumerable<TeamMember> Find(string text);
+        public DateTime Date { get; set; }
+
+        public int? HourCount { get; set; }
+
+        public string Comments { get; set; }
     }
 }

@@ -14,14 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
-    public interface ITeamMemberRepository
+    public class PresentVacationsRequest : IRequest<PresentVacationsResponse>
     {
-        IEnumerable<TeamMember> GetAll();
-        
-        IEnumerable<TeamMember> Find(string text);
+        public string TeamMemberName { get; set; }
     }
 }
