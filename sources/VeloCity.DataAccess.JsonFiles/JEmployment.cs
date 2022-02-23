@@ -14,12 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
+using System;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public class PresentSprintCalendarRequest : IRequest<PresentSprintCalendarResponse>
+    public class JEmployment
     {
-        public int SprintNumber { get; set; }
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
+        public int HoursPerDay { get; set; }
     }
 }

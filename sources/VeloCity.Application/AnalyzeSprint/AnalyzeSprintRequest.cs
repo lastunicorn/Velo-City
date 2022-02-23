@@ -20,8 +20,8 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 {
     public class AnalyzeSprintRequest : IRequest<AnalyzeSprintResponse>
     {
-        public int SprintId { get; set; }
+        public int? SprintNumber { get; set; }
 
-        public int LookBack { get; set; } = 6;
+        public int LookBackCount { get; set; } = 6;
     }
 }

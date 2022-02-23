@@ -36,7 +36,11 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
 
         public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
         {
-            List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetPage(0, request.Count)
+            int sprintCount = request.Count is null or < 1
+                ? 6
+                : request.Count.Value;
+
+            List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetPage(0, sprintCount)
                 .Select(ExtractSprintOverview)
                 .ToList();
 
@@ -60,7 +64,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
 
             float velocity = (float)sprint.ActualStoryPoints / totalWorkHours;
 
-            float averageVelocity = unitOfWork.SprintRepository.GetBefore(sprint.Id, 6).ToList()
+            float averageVelocity = unitOfWork.SprintRepository.GetBefore(sprint.Number, 6).ToList()
                 .Select(x =>
                 {
                     int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()

@@ -35,8 +35,10 @@ namespace DustInTheWind.VeloCity.DataAccess
             {
                 Id = teamMember.Id,
                 Name = teamMember.Name,
-                HoursPerDay = teamMember.HoursPerDay,
-                VacationDays = teamMember.VacationDays
+                VacationDays = teamMember.VacationDays?
+                    .ToJEntities()
+                    .ToList(),
+                Employments = teamMember.Employments?
                     .ToJEntities()
                     .ToList()
             };
@@ -54,8 +56,10 @@ namespace DustInTheWind.VeloCity.DataAccess
             {
                 Id = teamMember.Id,
                 Name = teamMember.Name,
-                HoursPerDay = teamMember.HoursPerDay,
-                VacationDays = teamMember.VacationDays
+                VacationDays = teamMember.VacationDays?
+                    .ToEntities()
+                    .ToList(),
+                Employments = teamMember.Employments?
                     .ToEntities()
                     .ToList()
             };

@@ -24,10 +24,10 @@ namespace DustInTheWind.VeloCity.Domain
 
         public int WorkHours { get; set; }
         
-        public int VacationHours { get; set; }
+        public int AbsenceHours { get; set; }
         
-        public VacationReason VacationReason { get; set; }
+        public AbsenceReason AbsenceReason { get; set; }
         
-        public string VacationComments { get; set; }
+        public string AbsenceComments { get; set; }
     }
 }

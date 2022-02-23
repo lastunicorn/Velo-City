@@ -21,7 +21,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
-    public class PresentSprintsCommand
+    public class PresentSprintsCommand : ICliCommand
     {
         private readonly PresentSprintsView view;
         private readonly IMediator mediator;
@@ -32,11 +32,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
+        public int? SprintCount { get; set; }
+
         public async Task Execute()
         {
             PresentSprintsRequest request = new()
             {
-                Count = 6
+                Count = SprintCount
             };
 
             PresentSprintsResponse response = await mediator.Send(request);

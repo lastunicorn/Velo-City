@@ -21,10 +21,12 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
-    public class AnalyzeSprintCommand
+    public class AnalyzeSprintCommand : ICliCommand
     {
         private readonly AnalyzeSprintView view;
         private readonly IMediator mediator;
+
+        public int? SprintNumber { get; set; }
 
         public AnalyzeSprintCommand(AnalyzeSprintView view, IMediator mediator)
         {
@@ -36,7 +38,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         {
             AnalyzeSprintRequest request = new()
             {
-                SprintId = 21
+                SprintNumber = SprintNumber
             };
 
             AnalyzeSprintResponse response = await mediator.Send(request);

@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             return new JSprint
             {
-                Id = sprint.Id,
+                Id = sprint.Number,
                 Name = sprint.Name,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
@@ -53,7 +53,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             return new Sprint
             {
-                Id = sprint.Id,
+                Number = sprint.Id,
                 Name = sprint.Name,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,

@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class Sprint
     {
-        public int Id { get; set; }
+        public int Number { get; set; }
 
         public string Name { get; set; }
 

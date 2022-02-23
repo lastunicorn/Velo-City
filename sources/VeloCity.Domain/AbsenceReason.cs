@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
-
-namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class PresentSprintCalendarRequest : IRequest<PresentSprintCalendarResponse>
+    public enum AbsenceReason
     {
-        public int SprintNumber { get; set; }
+        None,
+        WeekEnd,
+        OfficialHoliday,
+        Vacation,
+        Unemployed
     }
 }

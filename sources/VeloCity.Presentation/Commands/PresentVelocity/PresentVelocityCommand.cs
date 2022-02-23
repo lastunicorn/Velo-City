@@ -16,30 +16,32 @@
 
 using System;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentSprintCalendar;
+using DustInTheWind.VeloCity.Application.PresentVelocity;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
-    public class PresentSprintCalendarCommand : ICliCommand
+    public class PresentVelocityCommand : ICliCommand
     {
-        private readonly PresentSprintCalendarView view;
+        private readonly PresentVelocityView view;
         private readonly IMediator mediator;
 
-        public PresentSprintCalendarCommand(PresentSprintCalendarView view, IMediator mediator)
+        public PresentVelocityCommand(PresentVelocityView view, IMediator mediator)
         {
             this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
+        public int? SprintCount { get; set; }
+
         public async Task Execute()
         {
-            PresentSprintCalendarRequest request = new()
+            PresentVelocityRequest request = new()
             {
-                SprintNumber = 24
+                Count = SprintCount
             };
 
-            PresentSprintCalendarResponse response = await mediator.Send(request);
+            PresentVelocityResponse response = await mediator.Send(request);
 
             view.Display(response);
         }

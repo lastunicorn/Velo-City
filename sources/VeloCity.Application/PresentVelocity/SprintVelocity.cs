@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
-
-namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Application.PresentVelocity
 {
-    public class PresentSprintCalendarRequest : IRequest<PresentSprintCalendarResponse>
+    public class SprintVelocity
     {
         public int SprintNumber { get; set; }
+
+        public string SprintName { get; set; }
+
+        public float Velocity { get; set; }
     }
 }

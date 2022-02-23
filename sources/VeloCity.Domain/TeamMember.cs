@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,9 +26,16 @@ namespace DustInTheWind.VeloCity.Domain
 
         public string Name { get; set; }
 
-        public int HoursPerDay { get; set; }
-
         public List<VacationDay> VacationDays { get; set; }
+
+        public List<Employment> Employments { get; set; }
+
+        public int CalculateWorkHoursFor(Sprint sprint)
+        {
+            return sprint.GetWorkDays()
+                .Select(CalculateWorkHoursFor)
+                .Sum();
+        }
 
         public SprintMember ToSprintMember(Sprint sprint)
         {
@@ -45,10 +53,82 @@ namespace DustInTheWind.VeloCity.Domain
                 {
                     Date = x.Date,
                     WorkHours = CalculateWorkHoursFor(x),
-                    VacationHours = CalculateVacationHoursFor(x),
-                    VacationReason = CalculateVacationReason(x),
-                    VacationComments = GetVacationComments(x)
+                    AbsenceHours = CalculateVacationHoursFor(x),
+                    AbsenceReason = CalculateVacationReason(x),
+                    AbsenceComments = GetVacationComments(x)
                 });
+        }
+
+        public int CalculateWorkHoursFor(SprintDay sprintDay)
+        {
+            Employment employment = GetEmploymentFor(sprintDay.Date);
+
+            bool isEmployed = employment != null;
+            if (!isEmployed)
+                return 0;
+
+            if (sprintDay.IsFreeDay)
+                return 0;
+
+            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
+
+            if (vacationDay == null)
+                return employment.HoursPerDay;
+
+            return vacationDay.HourCount == null
+                ? 0
+                : employment.HoursPerDay - vacationDay.HourCount.Value;
+        }
+
+        private int CalculateVacationHoursFor(SprintDay sprintDay)
+        {
+            Employment employment = GetEmploymentFor(sprintDay.Date);
+
+            bool isEmployed = employment != null;
+            if (!isEmployed)
+                return 0;
+
+            if (sprintDay.IsFreeDay)
+                return employment.HoursPerDay;
+
+            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
+
+            if (vacationDay == null)
+                return 0;
+
+            return vacationDay.HourCount ?? employment.HoursPerDay;
+        }
+
+        private bool IsEmployed(DateTime date)
+        {
+            Employment employment = GetEmploymentFor(date);
+            return employment != null;
+        }
+
+        private Employment GetEmploymentFor(DateTime date)
+        {
+            return Employments?
+                .FirstOrDefault(x => (x.StartDate == null || date >= x.StartDate) && (x.EndDate == null || date <= x.EndDate));
+
+        }
+
+        private AbsenceReason CalculateVacationReason(SprintDay sprintDay)
+        {
+            bool isEmployed = IsEmployed(sprintDay.Date);
+            if (!isEmployed)
+                return AbsenceReason.Unemployed;
+
+            if (sprintDay.IsWeekEnd)
+                return AbsenceReason.WeekEnd;
+
+            if (sprintDay.IsOfficialHoliday)
+                return AbsenceReason.OfficialHoliday;
+
+            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
+
+            return vacationDay != null
+                ? AbsenceReason.Vacation
+                : AbsenceReason.None;
         }
 
         private string GetVacationComments(SprintDay sprintDay)
@@ -56,66 +136,6 @@ namespace DustInTheWind.VeloCity.Domain
             VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
 
             return vacationDay?.Comments;
-        }
-
-        private VacationReason CalculateVacationReason(SprintDay sprintDay)
-        {
-            if (sprintDay.IsWeekEnd)
-                return VacationReason.WeekEnd;
-
-            if (sprintDay.IsOfficialHoliday)
-                return VacationReason.OfficialHoliday;
-
-            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
-
-            return vacationDay != null
-                ? VacationReason.Vacation
-                : VacationReason.None;
-        }
-
-        private int CalculateVacationHoursFor(SprintDay sprintDay)
-        {
-            int hoursPerDay = HoursPerDay == 0
-                ? 8
-                : HoursPerDay;
-
-            if (sprintDay.IsFreeDay)
-                return hoursPerDay;
-
-            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
-
-            if (vacationDay == null)
-                return 0;
-
-            return vacationDay.HourCount ?? hoursPerDay;
-        }
-
-        public int CalculateWorkHoursFor(Sprint sprint)
-        {
-            return sprint.GetWorkDays()
-                .Select(CalculateWorkHoursFor)
-                .Sum();
-        }
-
-        public int CalculateWorkHoursFor(SprintDay sprintDay)
-        {
-            if (sprintDay.IsFreeDay)
-                return 0;
-
-            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
-
-            int workHours = HoursPerDay == 0
-                ? 8
-                : HoursPerDay;
-
-            if (vacationDay != null)
-            {
-                workHours = vacationDay.HourCount == null
-                    ? 0
-                    : workHours - vacationDay.HourCount.Value;
-            }
-
-            return workHours;
         }
     }
 }

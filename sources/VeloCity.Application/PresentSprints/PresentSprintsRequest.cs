@@ -20,6 +20,6 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
 {
     public class PresentSprintsRequest : IRequest<PresentSprintsResponse>
     {
-        public int Count { get; set; }
+        public int? Count { get; set; }
     }
 }

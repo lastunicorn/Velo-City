@@ -14,30 +14,78 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
+using DustInTheWind.ConsoleTools;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Presentation;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
+using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
 namespace DustInTheWind.VeloCity.Bootstrapper
 {
     internal class Program
     {
+        private static IContainer container;
+
         private static async Task Main(string[] args)
         {
-            IContainer container = BuildContainer();
+            try
+            {
+                container = BuildContainer();
 
-            AnalyzeSprintCommand command = container.Resolve<AnalyzeSprintCommand>();
-            //PresentSprintCalendarCommand command = container.Resolve<PresentSprintCalendarCommand>();
-            //PresentSprintsCommand command = container.Resolve<PresentSprintsCommand>();
+                if (args.Length == 0)
+                    throw new Exception("No command was provided.");
 
-            await command.Execute();
+                ICliCommand command = CreateCommand(args);
+                await command.Execute();
+            }
+            catch (Exception ex)
+            {
+                CustomConsole.WriteLineError(ex);
+            }
+        }
+
+        private static ICliCommand CreateCommand(string[] args)
+        {
+            string commandName = args[0];
+
+            switch (commandName)
+            {
+                case "sprint":
+                    AnalyzeSprintCommand analyzeSprintCommand = container.Resolve<AnalyzeSprintCommand>();
+                    analyzeSprintCommand.SprintNumber = args.Length > 1
+                        ? int.Parse(args[1])
+                        : null;
+                    return analyzeSprintCommand;
+
+                case "calendar":
+                    return container.Resolve<PresentSprintCalendarCommand>();
+
+                case "sprints":
+                    PresentSprintsCommand presentSprintsCommand = container.Resolve<PresentSprintsCommand>();
+                    presentSprintsCommand.SprintCount = args.Length > 1
+                        ? int.Parse(args[1])
+                        : null;
+                    return presentSprintsCommand;
+
+                case "velocity":
+                    PresentVelocityCommand presentVelocityCommand = container.Resolve<PresentVelocityCommand>();
+                    presentVelocityCommand.SprintCount = args.Length > 1
+                        ? int.Parse(args[1])
+                        : null;
+                    return presentVelocityCommand;
+
+                default:
+                    throw new Exception("Invalid Command");
+            }
         }
 
         private static IContainer BuildContainer()
@@ -57,12 +105,15 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             containerBuilder.RegisterType<AnalyzeSprintCommand>().AsSelf();
             containerBuilder.RegisterType<AnalyzeSprintView>().AsSelf();
-            
+
             containerBuilder.RegisterType<PresentSprintCalendarCommand>().AsSelf();
             containerBuilder.RegisterType<PresentSprintCalendarView>().AsSelf();
-            
+
             containerBuilder.RegisterType<PresentSprintsCommand>().AsSelf();
             containerBuilder.RegisterType<PresentSprintsView>().AsSelf();
+
+            containerBuilder.RegisterType<PresentVelocityCommand>().AsSelf();
+            containerBuilder.RegisterType<PresentVelocityView>().AsSelf();
         }
     }
 }

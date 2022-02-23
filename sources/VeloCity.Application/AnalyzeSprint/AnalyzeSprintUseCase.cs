@@ -36,7 +36,9 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = unitOfWork.SprintRepository.Get(request.SprintId);
+            Sprint currentSprint = request.SprintNumber == null
+                ? unitOfWork.SprintRepository.GetLast()
+                : unitOfWork.SprintRepository.Get(request.SprintNumber.Value);
 
             List<DateTime> workDays = currentSprint.GetWorkDays()
                 .Select(x => x.Date)
@@ -52,7 +54,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             float velocity = (float)currentSprint.ActualStoryPoints / totalWorkHours;
 
-            float averageVelocity = unitOfWork.SprintRepository.GetBefore(request.SprintId, request.LookBack).ToList()
+            float averageVelocity = unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackCount).ToList()
                 .Select(x =>
                 {
                     int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()

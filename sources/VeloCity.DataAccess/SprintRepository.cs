@@ -33,23 +33,31 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public Sprint Get(int sprintId)
         {
-            return database.Sprints.FirstOrDefault(x => x.Id == sprintId);
+            return database.Sprints.FirstOrDefault(x => x.Number == sprintId);
         }
 
         public IEnumerable<Sprint> GetBefore(int sprintId, int count)
         {
             return database.Sprints
                 .OrderByDescending(x => x.StartDate)
-                .SkipWhile(x => x.Id != sprintId)
+                .SkipWhile(x => x.Number != sprintId)
                 .Skip(1)
                 .Take(count);
         }
 
-        public IEnumerable<Sprint> GetPage(int index, int count)
+        public IEnumerable<Sprint> GetPage(int pageIndex, int count)
         {
             return database.Sprints
                 .OrderByDescending(x => x.StartDate)
+                .Skip(pageIndex * count)
                 .Take(count);
+        }
+
+        public Sprint GetLast()
+        {
+            return database.Sprints
+                .OrderByDescending(x => x.StartDate)
+                .FirstOrDefault();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
         public Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
         {
             // retrieve sprint
-            Sprint sprint = unitOfWork.SprintRepository.Get(request.SprintId);
+            Sprint sprint = unitOfWork.SprintRepository.Get(request.SprintNumber);
 
             // calculate list of days
             IEnumerable<SprintDay> sprintDays = sprint.EnumerateAllDays();

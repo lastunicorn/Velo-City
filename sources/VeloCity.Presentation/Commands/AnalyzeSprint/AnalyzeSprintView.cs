@@ -87,30 +87,30 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             string workHours = sprintMemberDay.WorkHours == 0
                 ? "-"
                 : sprintMemberDay.WorkHours.ToString();
-            string vacationHours = sprintMemberDay.VacationHours == 0
+            string vacationHours = sprintMemberDay.AbsenceHours == 0
                 ? "-"
-                : sprintMemberDay.VacationHours.ToString();
+                : sprintMemberDay.AbsenceHours.ToString();
             sb.Append($"  - {sprintMemberDay.Date:d}: {workHours}h / {vacationHours}h ({sprintMemberDay.Date:dddd})");
 
-            if (sprintMemberDay.VacationHours > 0)
+            if (sprintMemberDay.AbsenceReason != AbsenceReason.None)
             {
-                sb.Append($" - {sprintMemberDay.VacationReason}");
+                sb.Append($" - {sprintMemberDay.AbsenceReason}");
 
-                if (sprintMemberDay.VacationComments != null)
-                    sb.Append($" - {sprintMemberDay.VacationComments}");
+                if (sprintMemberDay.AbsenceComments != null)
+                    sb.Append($" - {sprintMemberDay.AbsenceComments}");
             }
 
-            switch (sprintMemberDay.VacationReason)
+            switch (sprintMemberDay.AbsenceReason)
             {
-                case VacationReason.None:
+                case AbsenceReason.None:
                     CustomConsole.WriteLineSuccess(sb.ToString());
                     break;
 
-                case VacationReason.WeekEnd:
-                case VacationReason.OfficialHoliday:
+                case AbsenceReason.WeekEnd:
+                case AbsenceReason.OfficialHoliday:
                     break;
 
-                case VacationReason.Vacation:
+                case AbsenceReason.Vacation:
                     CustomConsole.WriteLineWarning(sb.ToString());
                     break;
 

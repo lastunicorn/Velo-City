@@ -14,13 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain
+using MediatR;
+
+namespace DustInTheWind.VeloCity.Application.PresentVelocity
 {
-    public enum VacationReason
+    public class PresentVelocityRequest : IRequest<PresentVelocityResponse>
     {
-        None,
-        WeekEnd,
-        OfficialHoliday,
-        Vacation
+        public int? Count { get; set; }
     }
 }
