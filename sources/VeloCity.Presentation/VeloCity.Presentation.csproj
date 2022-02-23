@@ -15,4 +15,8 @@
       <ProjectReference Include="..\VeloCity.Application\VeloCity.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Commands\PresentVelocity\" />
+    </ItemGroup>
+
 </Project>

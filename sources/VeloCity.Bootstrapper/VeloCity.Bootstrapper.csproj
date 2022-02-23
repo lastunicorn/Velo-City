@@ -4,7 +4,7 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
         <AssemblyName>DustInTheWind.VeloCity</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity</RootNamespace>
+        <RootNamespace>DustInTheWind.VeloCity.Bootstrapper</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

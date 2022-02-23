@@ -17,7 +17,7 @@
 using System;
 using DustInTheWind.VeloCity.Application.PresentSprints;
 
-namespace DustInTheWind.VeloCity.Presentation.PresentSprints
+namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
     public class PresentSprintsView
     {

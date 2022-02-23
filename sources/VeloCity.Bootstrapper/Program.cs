@@ -20,12 +20,12 @@ using Autofac;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain.DataAccess;
-using DustInTheWind.VeloCity.Presentation.AnalyzeSprint;
-using DustInTheWind.VeloCity.Presentation.PresentSprintCalendar;
-using DustInTheWind.VeloCity.Presentation.PresentSprints;
+using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
+using DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar;
+using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
-namespace DustInTheWind.VeloCity
+namespace DustInTheWind.VeloCity.Bootstrapper
 {
     internal class Program
     {

@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentSprintCalendar;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
 {
     public class PresentSprintCalendarCommand
     {

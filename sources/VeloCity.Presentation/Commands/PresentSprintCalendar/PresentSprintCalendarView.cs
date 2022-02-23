@@ -19,7 +19,7 @@ using System.Text;
 using DustInTheWind.VeloCity.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
 {
     public class PresentSprintCalendarView
     {

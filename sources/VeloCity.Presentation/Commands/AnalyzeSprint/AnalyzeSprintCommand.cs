@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
     public class AnalyzeSprintCommand
     {
@@ -36,7 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.AnalyzeSprint
         {
             AnalyzeSprintRequest request = new()
             {
-                SprintId = 24
+                SprintId = 21
             };
 
             AnalyzeSprintResponse response = await mediator.Send(request);

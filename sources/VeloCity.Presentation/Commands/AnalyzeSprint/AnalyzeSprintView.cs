@@ -22,7 +22,7 @@ using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
     public class AnalyzeSprintView
     {

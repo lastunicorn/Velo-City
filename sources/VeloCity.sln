@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity", "VeloCity\VeloCity.csproj", "{FED35DE4-65E2-4777-9B52-A21B0669A680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Bootstrapper", "VeloCity.Bootstrapper\VeloCity.Bootstrapper.csproj", "{FED35DE4-65E2-4777-9B52-A21B0669A680}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.DataAccess", "VeloCity.DataAccess\VeloCity.DataAccess.csproj", "{9C38A3FB-5029-48F3-B13E-1CF8250DAF51}"
 EndProject
@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Application", "Vel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.DataAccess.JsonFiles", "VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj", "{E049FF0F-68F0-4990-A476-E71E35D6EFB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Presentation", "VeloCity.Presentation\VeloCity.Presentation.csproj", "{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Presentation", "VeloCity.Presentation\VeloCity.Presentation.csproj", "{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
