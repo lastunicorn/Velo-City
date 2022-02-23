@@ -16,17 +16,17 @@
 
 using System;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.EstimateVelocity;
+using DustInTheWind.VeloCity.Application.PresentSprints;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.EstimateVelocity
+namespace DustInTheWind.VeloCity.Presentation.PresentSprints
 {
-    public class EstimateVelocityCommand
+    public class PresentSprintsCommand
     {
-        private readonly EstimateVelocityView view;
+        private readonly PresentSprintsView view;
         private readonly IMediator mediator;
 
-        public EstimateVelocityCommand(EstimateVelocityView view, IMediator mediator)
+        public PresentSprintsCommand(PresentSprintsView view, IMediator mediator)
         {
             this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -34,14 +34,14 @@ namespace DustInTheWind.VeloCity.EstimateVelocity
 
         public async Task Execute()
         {
-            EstimateVelocityRequest request = new()
+            PresentSprintsRequest request = new()
             {
-                SprintId = 24
+                Count = 6
             };
 
-            EstimateVelocityResponse response = await mediator.Send(request);
+            PresentSprintsResponse response = await mediator.Send(request);
 
-            view.DisplaySprintVelocity(response);
+            view.Display(response);
         }
     }
 }

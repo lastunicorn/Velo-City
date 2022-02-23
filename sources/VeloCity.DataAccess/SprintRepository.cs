@@ -44,5 +44,12 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Skip(1)
                 .Take(count);
         }
+
+        public IEnumerable<Sprint> GetPage(int index, int count)
+        {
+            return database.Sprints
+                .OrderByDescending(x => x.StartDate)
+                .Take(count);
+        }
     }
 }

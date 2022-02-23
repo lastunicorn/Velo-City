@@ -15,9 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO.Enumeration;
 
-namespace VeloCity.DataAccess.Jsonfiles
+namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class JSprint
     {
@@ -29,6 +28,8 @@ namespace VeloCity.DataAccess.Jsonfiles
 
         public DateTime EndDate { get; set; }
 
-        public int StoryPoints { get; set; }
+        public int CommitmentStoryPoints { get; set; }
+
+        public int ActualStoryPoints { get; set; }
     }
 }

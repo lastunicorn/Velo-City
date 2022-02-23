@@ -17,11 +17,12 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
-using DustInTheWind.VeloCity.Application.SprintVelocity;
+using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain.DataAccess;
-using DustInTheWind.VeloCity.EstimateVelocity;
-using DustInTheWind.VeloCity.SprintVelocity;
+using DustInTheWind.VeloCity.Presentation.AnalyzeSprint;
+using DustInTheWind.VeloCity.Presentation.PresentSprintCalendar;
+using DustInTheWind.VeloCity.Presentation.PresentSprints;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
 namespace DustInTheWind.VeloCity
@@ -32,8 +33,10 @@ namespace DustInTheWind.VeloCity
         {
             IContainer container = BuildContainer();
 
-            SprintVelocityCommand command = container.Resolve<SprintVelocityCommand>();
-            //EstimateVelocityCommand command = container.Resolve<EstimateVelocityCommand>();
+            AnalyzeSprintCommand command = container.Resolve<AnalyzeSprintCommand>();
+            //PresentSprintCalendarCommand command = container.Resolve<PresentSprintCalendarCommand>();
+            //PresentSprintsCommand command = container.Resolve<PresentSprintsCommand>();
+
             await command.Execute();
         }
 
@@ -47,16 +50,19 @@ namespace DustInTheWind.VeloCity
 
         private static void ConfigureServices(ContainerBuilder containerBuilder)
         {
-            Assembly assembly = typeof(SprintVelocityRequest).Assembly;
+            Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
 
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
 
-            containerBuilder.RegisterType<SprintVelocityCommand>().AsSelf();
-            containerBuilder.RegisterType<SprintVelocityView>().AsSelf();
-
-            containerBuilder.RegisterType<EstimateVelocityCommand>().AsSelf();
-            containerBuilder.RegisterType<EstimateVelocityView>().AsSelf();
+            containerBuilder.RegisterType<AnalyzeSprintCommand>().AsSelf();
+            containerBuilder.RegisterType<AnalyzeSprintView>().AsSelf();
+            
+            containerBuilder.RegisterType<PresentSprintCalendarCommand>().AsSelf();
+            containerBuilder.RegisterType<PresentSprintCalendarView>().AsSelf();
+            
+            containerBuilder.RegisterType<PresentSprintsCommand>().AsSelf();
+            containerBuilder.RegisterType<PresentSprintsView>().AsSelf();
         }
     }
 }

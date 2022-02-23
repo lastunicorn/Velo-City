@@ -14,14 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
+using System;
 
-namespace DustInTheWind.VeloCity.Application.EstimateVelocity
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class EstimateVelocityRequest : IRequest<EstimateVelocityResponse>
+    public class SprintDay
     {
-        public int SprintId { get; set; }
+        public DateTime Date { get; set; }
 
-        public int LookBack { get; set; } = 6;
+        public bool IsWeekEnd { get; set; }
+
+        public bool IsOfficialHoliday { get; set; }
+
+        public bool IsWorkDay => !IsWeekEnd && !IsOfficialHoliday;
+        
+        public bool IsFreeDay => IsWeekEnd || IsOfficialHoliday;
     }
 }

@@ -14,25 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.EstimateVelocity
+namespace DustInTheWind.VeloCity.Application.PresentSprints
 {
-    public class EstimateVelocityResponse
+    public class PresentSprintsRequest : IRequest<PresentSprintsResponse>
     {
-        public string SprintName { get; set; }
-
-        public List<DateTime> WorkDays { get; set; }
-
-        public DateTime StartDate { get; set; }
-        
-        public DateTime EndDate { get; set; }
-        
-        public float EstimatedStoryPoints { get; set; }
-        
-        public float EstimatedVelocity { get; set; }
-
-        public int TotalWorkHours { get; set; }
+        public int Count { get; set; }
     }
 }

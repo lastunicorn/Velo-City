@@ -16,9 +16,9 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.SprintVelocity
+namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 {
-    public class SprintVelocityRequest : IRequest<SprintVelocityResponse>
+    public class PresentSprintCalendarRequest : IRequest<PresentSprintCalendarResponse>
     {
         public int SprintId { get; set; }
     }

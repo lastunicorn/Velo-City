@@ -15,19 +15,33 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 {
-    public class SprintMemberDay
+    public class AnalyzeSprintResponse
     {
-        public DateTime Date { get; set; }
+        public string SprintName { get; set; }
+        
+        public List<DateTime> WorkDays { get; set; }
 
-        public int WorkHours { get; set; }
+        public DateTime StartDate { get; set; }
         
-        public int VacationHours { get; set; }
-        
-        public VacationReason VacationReason { get; set; }
-        
-        public string VacationComments { get; set; }
+        public DateTime EndDate { get; set; }
+
+        public List<SprintMember> SprintMembers { get; set; }
+
+        public int TotalWorkHours { get; set; }
+
+        public float EstimatedStoryPoints { get; set; }
+
+        public float EstimatedVelocity { get; set; }
+
+        public int CommitmentStoryPoints { get; set; }
+
+        public int ActualStoryPoints { get; set; }
+
+        public float ActualVelocity { get; set; }
     }
 }

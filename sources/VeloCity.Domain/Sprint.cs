@@ -25,36 +25,41 @@ namespace DustInTheWind.VeloCity.Domain
         public int Id { get; set; }
 
         public string Name { get; set; }
-        
+
         public DateTime StartDate { get; set; }
-        
+
         public DateTime EndDate { get; set; }
 
-        public int StoryPoints { get; set; }
+        public int CommitmentStoryPoints { get; set; }
 
-        public List<OfficialHoliday> OfficialFreeDays { get; set; }
+        public int ActualStoryPoints { get; set; }
 
-        public IEnumerable<DateTime> CalculateWorkDays()
+        public List<OfficialHoliday> OfficialHolidays { get; set; }
+
+        public IEnumerable<SprintDay> GetWorkDays()
         {
-            List<DateTime> officialFreeDays = OfficialFreeDays
+            return EnumerateAllDays()
+                .Where(x => x.IsWorkDay);
+        }
+
+        public IEnumerable<SprintDay> EnumerateAllDays()
+        {
+            List<DateTime> officialHolidays = OfficialHolidays
                 .Select(x => x.Date)
                 .ToList();
 
             int totalDaysCount = (int)(EndDate.Date - StartDate.Date).TotalDays + 1;
 
             return Enumerable.Range(0, totalDaysCount)
-                .Select(x => StartDate.AddDays(x))
-                .Where(x =>
+                .Select(x =>
                 {
-                    bool isWeekEnd = x.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
-                    if (isWeekEnd)
-                        return false;
-
-                    bool isOfficialFreeDay = officialFreeDays.Contains(x);
-                    if (isOfficialFreeDay)
-                        return false;
-
-                    return true;
+                    DateTime date = StartDate.AddDays(x);
+                    return new SprintDay
+                    {
+                        Date = date,
+                        IsWeekEnd = date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday,
+                        IsOfficialHoliday = officialHolidays.Contains(date)
+                    };
                 });
         }
     }

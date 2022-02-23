@@ -23,5 +23,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         Sprint Get(int sprintId);
         
         IEnumerable<Sprint> GetBefore(int sprintId, int count);
+        
+        IEnumerable<Sprint> GetPage(int index, int count);
     }
 }

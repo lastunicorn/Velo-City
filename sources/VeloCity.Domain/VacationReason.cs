@@ -14,18 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class VacationDay
+    public enum VacationReason
     {
-        public TeamMember TeamMember { get; set; }
-
-        public DateTime Date { get; set; }
-
-        public int? HourCount { get; set; }
-
-        public string Comments { get; set; }
+        None,
+        WeekEnd,
+        OfficialHoliday,
+        Vacation
     }
 }

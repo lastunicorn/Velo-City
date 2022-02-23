@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.UserControls
+namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
     internal class WorkDaysControl
     {

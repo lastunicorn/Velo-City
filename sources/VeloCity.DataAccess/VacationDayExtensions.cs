@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
-using VeloCity.DataAccess.Jsonfiles;
+using DustInTheWind.VeloCity.JsonFiles;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
@@ -34,7 +34,8 @@ namespace DustInTheWind.VeloCity.DataAccess
             return new JVacationDay
             {
                 Date = vacationDay.Date,
-                HourCount = vacationDay.HourCount
+                HourCount = vacationDay.HourCount,
+                Comments = vacationDay.Comments
             };
         }
 
@@ -49,7 +50,8 @@ namespace DustInTheWind.VeloCity.DataAccess
             return new VacationDay
             {
                 Date = vacationDay.Date,
-                HourCount = vacationDay.HourCount
+                HourCount = vacationDay.HourCount,
+                Comments = vacationDay.Comments
             };
         }
     }

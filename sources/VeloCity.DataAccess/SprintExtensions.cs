@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
-using VeloCity.DataAccess.Jsonfiles;
+using DustInTheWind.VeloCity.JsonFiles;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
@@ -38,7 +38,8 @@ namespace DustInTheWind.VeloCity.DataAccess
                 Name = sprint.Name,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
-                StoryPoints = sprint.StoryPoints,
+                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+                ActualStoryPoints = sprint.ActualStoryPoints,
             };
         }
 
@@ -56,7 +57,8 @@ namespace DustInTheWind.VeloCity.DataAccess
                 Name = sprint.Name,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
-                StoryPoints = sprint.StoryPoints,
+                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+                ActualStoryPoints = sprint.ActualStoryPoints,
             };
         }
     }

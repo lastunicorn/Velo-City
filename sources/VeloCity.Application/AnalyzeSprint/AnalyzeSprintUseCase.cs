@@ -19,48 +19,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.SprintVelocity;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.EstimateVelocity
+namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 {
-    public class EstimateVelocityUseCase : IRequestHandler<EstimateVelocityRequest, EstimateVelocityResponse>
+    internal class AnalyzeSprintUseCase : IRequestHandler<AnalyzeSprintRequest, AnalyzeSprintResponse>
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public EstimateVelocityUseCase(IUnitOfWork unitOfWork)
+        public AnalyzeSprintUseCase(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public Task<EstimateVelocityResponse> Handle(EstimateVelocityRequest request, CancellationToken cancellationToken)
+        public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
         {
+            Sprint currentSprint = unitOfWork.SprintRepository.Get(request.SprintId);
+
+            List<DateTime> workDays = currentSprint.GetWorkDays()
+                .Select(x => x.Date)
+                .ToList();
+
+            List<SprintMember> sprintMembers = unitOfWork.TeamMemberRepository.GetAll()
+                .Select(x => x.ToSprintMember(currentSprint))
+                .ToList();
+
+            int totalWorkHours = sprintMembers
+                .SelectMany(x => x.Days.Select(z => z.WorkHours))
+                .Sum();
+
+            float velocity = (float)currentSprint.ActualStoryPoints / totalWorkHours;
+
             float averageVelocity = unitOfWork.SprintRepository.GetBefore(request.SprintId, request.LookBack).ToList()
                 .Select(x =>
                 {
                     int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
-                        .Select(z => z.CalculateHoursFor(x))
+                        .Select(z => z.CalculateWorkHoursFor(x))
                         .Sum();
 
-                    return (float)x.StoryPoints / totalWorkHours;
+                    return (float)x.ActualStoryPoints / totalWorkHours;
                 })
                 .Average();
 
-            Sprint sprint = unitOfWork.SprintRepository.Get(request.SprintId);
-            
-            int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
-                .Select(z => z.CalculateHoursFor(sprint))
-                .Sum();
-
-            EstimateVelocityResponse response = new()
+            AnalyzeSprintResponse response = new()
             {
-                SprintName = sprint.Name,
-                WorkDays = sprint.CalculateWorkDays().ToList(),
-                StartDate = sprint.StartDate,
-                EndDate = sprint.EndDate,
+                SprintName = currentSprint.Name,
+                WorkDays = workDays,
+                StartDate = currentSprint.StartDate,
+                EndDate = currentSprint.EndDate,
+                SprintMembers = sprintMembers,
                 TotalWorkHours = totalWorkHours,
+                ActualStoryPoints = currentSprint.ActualStoryPoints,
+                ActualVelocity = velocity,
+                CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
                 EstimatedStoryPoints = totalWorkHours * averageVelocity,
                 EstimatedVelocity = averageVelocity
             };

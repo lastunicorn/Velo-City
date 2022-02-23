@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace VeloCity.DataAccess.Jsonfiles
+namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class DatabaseDocument
     {

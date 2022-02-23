@@ -23,43 +23,38 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.SprintVelocity
+namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 {
-    public class SprintVelocityUseCase : IRequestHandler<SprintVelocityRequest, SprintVelocityResponse>
+    internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalendarRequest, PresentSprintCalendarResponse>
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public SprintVelocityUseCase(IUnitOfWork unitOfWork)
+        public PresentSprintCalendarUseCase(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public Task<SprintVelocityResponse> Handle(SprintVelocityRequest request, CancellationToken cancellationToken)
+        public Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
         {
+            // retrieve sprint
             Sprint sprint = unitOfWork.SprintRepository.Get(request.SprintId);
 
-            List<DateTime> workDays = sprint.CalculateWorkDays().ToList();
+            // calculate list of days
+            IEnumerable<SprintDay> sprintDays = sprint.EnumerateAllDays();
 
-            List<SprintMember> sprintMembers = unitOfWork.TeamMemberRepository.GetAll()
-                .Select(x => x.ToSprintMember(sprint))
-                .ToList();
-
-            int totalWorkHours = sprintMembers
-                .SelectMany(x => x.DayInfo.Select(z => z.WorkHours))
-                .Sum();
-
-            float velocity = (float)sprint.StoryPoints / totalWorkHours;
-
-            SprintVelocityResponse response = new()
+            // for each day:
+            //      - is we?
+            //      - is holiday?
+            //      - for each tm:
+            //          - work hours
+            //          - vacation hours
+            
+            PresentSprintCalendarResponse response = new()
             {
                 SprintName = sprint.Name,
-                WorkDays = workDays,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
-                SprintMembers = sprintMembers,
-                TotalWorkHours = totalWorkHours,
-                TotalStoryPoints = sprint.StoryPoints,
-                Velocity = velocity
+                Days = sprintDays.ToList()
             };
 
             return Task.FromResult(response);

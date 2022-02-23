@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace VeloCity.DataAccess.Jsonfiles
+namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class DatabaseFile
     {
