@@ -22,19 +22,18 @@ namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class DatabaseFile
     {
-        private const string FileName = "database.json";
-        private readonly string rootDirectoryPath;
-
+        private readonly string filePath;
+        
         public DatabaseDocument Document { get; set; }
 
-        public DatabaseFile(string rootDirectoryPath)
+        public DatabaseFile(string filePath)
         {
-            this.rootDirectoryPath = rootDirectoryPath ?? throw new ArgumentNullException(nameof(rootDirectoryPath));
+            this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
         }
 
         public void Open()
         {
-            string json = File.ReadAllText(FileName);
+            string json = File.ReadAllText(filePath);
             Document = JsonConvert.DeserializeObject<DatabaseDocument>(json);
         }
 
@@ -47,7 +46,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
             };
 
             string json = JsonConvert.SerializeObject(Document, settings);
-            File.WriteAllText(FileName, json);
+            File.WriteAllText(filePath, json);
         }
     }
 }

@@ -14,22 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly Database database = new();
+        private readonly Database database;
 
         private OfficialFreeDayRepository officialFreeDayRepository;
         private SprintRepository sprintRepository;
         private TeamMemberRepository teamMemberRepository;
-
+        
         public IOfficialFreeDayRepository OfficialFreeDayRepository => officialFreeDayRepository ??= new OfficialFreeDayRepository(database);
 
         public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(database);
 
         public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(database);
+
+        public UnitOfWork(Database database)
+        {
+            this.database = database ?? throw new ArgumentNullException(nameof(database));
+        }
     }
 }

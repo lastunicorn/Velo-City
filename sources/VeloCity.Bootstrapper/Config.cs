@@ -45,6 +45,18 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             }
         }
 
+        public string DatabaseLocation
+        {
+            get
+            {
+                IConfigurationSection debugConfigurationSection = config.GetSection("DatabaseLocation");
+
+                return debugConfigurationSection.Exists()
+                    ? debugConfigurationSection.Value
+                    : "database.json";
+            }
+        }
+
         public Config()
         {
             config = new ConfigurationBuilder()

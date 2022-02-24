@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
@@ -21,15 +22,18 @@ using DustInTheWind.VeloCity.JsonFiles;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
-    internal class Database
+    public class Database
     {
+        private readonly DatabaseFile databaseFile;
         public readonly List<TeamMember> TeamMembers = new();
         public readonly List<OfficialHoliday> OfficialHolidays = new();
         public List<VacationDay> Vacations = new();
         public readonly List<Sprint> Sprints = new();
 
-        public  Database()
+        public  Database(DatabaseFile databaseFile)
         {
+            this.databaseFile = databaseFile ?? throw new ArgumentNullException(nameof(databaseFile));
+
             LoadAll();
 
             foreach (Sprint sprint in Sprints)
@@ -47,7 +51,6 @@ namespace DustInTheWind.VeloCity.DataAccess
             Vacations.Clear();
             Sprints.Clear();
             
-            DatabaseFile databaseFile = new(string.Empty);
             databaseFile.Open();
 
             IEnumerable<Sprint> sprints = databaseFile.Document.Sprints.ToEntities();

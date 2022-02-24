@@ -22,6 +22,7 @@ using DustInTheWind.ConsoleTools;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Presentation;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar;
@@ -119,6 +120,23 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
 
+            //containerBuilder.Register((c, p) =>
+            //{
+            //    Config config = new();
+            //    string databaseFilePath = config.DatabaseLocation;
+            //    DatabaseFile databaseFile = new(databaseFilePath);
+            //    Database database = new(databaseFile);
+            //    return new UnitOfWork(database);
+            //}).As<IUnitOfWork>();
+
+            containerBuilder.Register((c, p) =>
+            {
+                Config config = new();
+                string databaseFilePath = config.DatabaseLocation;
+                return new DatabaseFile(databaseFilePath);
+            }).AsSelf();
+
+            containerBuilder.RegisterType<Database>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
 
             containerBuilder.RegisterType<AnalyzeSprintCommand>().AsSelf();
