@@ -21,6 +21,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Directories.wxs" />
+    <Compile Include="EnvironmentComponents.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="HarvestedFiles.wxs" />
   </ItemGroup>
