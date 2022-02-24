@@ -119,16 +119,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         {
             Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
-
-            //containerBuilder.Register((c, p) =>
-            //{
-            //    Config config = new();
-            //    string databaseFilePath = config.DatabaseLocation;
-            //    DatabaseFile databaseFile = new(databaseFilePath);
-            //    Database database = new(databaseFile);
-            //    return new UnitOfWork(database);
-            //}).As<IUnitOfWork>();
-
+            
             containerBuilder.Register((c, p) =>
             {
                 Config config = new();
