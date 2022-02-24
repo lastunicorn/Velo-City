@@ -5,3 +5,5 @@ packages/
 *.user
 *.suo
 *.db
+
+VeloCity.Installer/HarvestedFiles.wxs
