@@ -20,15 +20,18 @@
     <DefineConstants>FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\Release\net5.0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DatabaseJsonDlg.wxs" />
     <Compile Include="Directories.wxs" />
     <Compile Include="EnvironmentComponents.wxs" />
+    <Compile Include="CustomActions.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="HarvestedFiles.wxs" />
+    <Compile Include="WixUI_InstallDir.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VeloCity.Bootstrapper\VeloCity.Bootstrapper.csproj">
-      <Name>VeloCity.Bootstrapper</Name>
-      <Project>{fed35de4-65e2-4777-9b52-a21b0669a680}</Project>
+    <ProjectReference Include="..\VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj">
+      <Name>VeloCity.Installer.CustomActions</Name>
+      <Project>{77bd3b4c-3c30-4e9e-b97c-d30b1a34209f}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
@@ -36,8 +39,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="license.rtf" />
     <Content Include="uninstall.bat" />
     <Content Include="install.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />

@@ -35,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
         <MediaTemplate />
 
+        <Property Id="DATABASE_JSON_LOCATION" />
+
         <Feature
             Id="ProductFeature"
             Title="Velo City"
@@ -43,6 +45,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ComponentGroupRef Id="VeloCityFiles" />
             <ComponentGroupRef Id="UpdateEnvironment" />
         </Feature>
+
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+        <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+        <UIRef Id="WixUI_InstallDir_Modified" />
+
+        <InstallExecuteSequence>
+            <!-- install, upgrade(install), downgrade -->
+            <Custom Action="UpdateConfigFile_SetData" Before="UpdateConfigFile">NOT Installed</Custom>
+            <Custom Action="UpdateConfigFile" After="InstallFiles">NOT Installed</Custom>
+        </InstallExecuteSequence>
+
     </Product>
 
 </Wix>

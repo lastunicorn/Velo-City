@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+
+        <UI>
+            <Dialog
+                Id="DatabaseJsonDlg"
+                Width="370"
+                Height="270"
+                Title="[ProductName] Setup"
+                NoMinimize="yes">
+
+                <!--
+                ====================================================================================================
+                Header
+                ====================================================================================================
+                -->
+
+                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+                    <Text>{\WixUI_Font_Title}Customer Information</Text>
+                </Control>
+
+                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+
+                <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+                    <Text>Please enter your customer information</Text>
+                </Control>
+
+                <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+
+                <!--
+                ====================================================================================================
+                Content
+                ====================================================================================================
+                -->
+
+                <Control
+                    Id="DatabaseFileLabel"
+                    Type="Text"
+                    X="45"
+                    Y="73"
+                    Width="100"
+                    Height="15"
+                    TabSkip="no"
+                    Text="&amp;Database JSON File:" />
+
+                <Control
+                    Id="DatabaseFileEdit"
+                    Type="Edit"
+                    X="45"
+                    Y="85"
+                    Width="250"
+                    Height="18" 
+                    Property="DATABASE_JSON_LOCATION" />
+
+                <Control
+                    Id="BrowseButton"
+                    Type="PushButton" 
+                    X="300"
+                    Y="85"
+                    Width="25"
+                    Height="18" 
+                    Text="..."/>
+
+                <!--
+                ====================================================================================================
+                Footer
+                ====================================================================================================
+                -->
+
+                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+
+                <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back"/>
+
+                <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Next"/>
+
+                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+                    <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+                </Control>
+                
+            </Dialog>
+        </UI>
+
+    </Fragment>
+</Wix>
