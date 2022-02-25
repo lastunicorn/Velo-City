@@ -33,7 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             InstallScope="perMachine" />
 
         <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-        <MediaTemplate />
+
+        <MediaTemplate EmbedCab="yes" />
 
         <Property Id="DATABASE_JSON_LOCATION" />
 
