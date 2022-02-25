@@ -36,11 +36,19 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
 
         public Task<PresentVacationsResponse> Handle(PresentVacationsRequest request, CancellationToken cancellationToken)
         {
+            if (request.TeamMemberName == null)
+                throw new Exception("Team member name was not provided.");
+
+            List<TeamMemberVacation> teamMemberVacations = unitOfWork.TeamMemberRepository.Find(request.TeamMemberName)
+                .Select(ToTeamMemberVacation)
+                .ToList();
+
+            if (teamMemberVacations.Count == 0)
+                throw new Exception($"No team member was found in the database with name '{request.TeamMemberName}'.");
+
             PresentVacationsResponse response = new()
             {
-                TeamMemberVacations = unitOfWork.TeamMemberRepository.Find(request.TeamMemberName)
-                    .Select(ToTeamMemberVacation)
-                    .ToList()
+                TeamMemberVacations = teamMemberVacations
             };
 
             return Task.FromResult(response);

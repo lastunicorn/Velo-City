@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
@@ -23,5 +24,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
         public int? SprintNumber { get; set; }
 
         public int LookBackCount { get; set; } = 6;
+
+        public List<int> ExcludedSprints { get; set; }
     }
 }

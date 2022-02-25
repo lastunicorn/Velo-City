@@ -63,7 +63,12 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             float velocity = (float)currentSprint.ActualStoryPoints / totalWorkHours;
 
-            IEnumerable<float> previousVelocities = unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackCount)
+            bool excludedSprintsExists = request.ExcludedSprints is { Count: > 0 };
+            IEnumerable<Sprint> previousSprints = excludedSprintsExists
+                ? unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackCount, request.ExcludedSprints)
+                : unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackCount);
+
+            IEnumerable<float> previousVelocities = previousSprints
                 .Select(x =>
                 {
                     int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
@@ -91,7 +96,6 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 EstimatedStoryPoints = totalWorkHours * averageVelocity,
                 EstimatedVelocity = averageVelocity
             };
-
             return Task.FromResult(response);
         }
     }

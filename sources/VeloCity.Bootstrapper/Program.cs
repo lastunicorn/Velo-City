@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
@@ -53,7 +55,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                     throw new Exception("No command was provided.");
 
                 ICliCommand command = CreateCommand(args);
-                await command.Execute();
+                await command.Execute(args);
 
             }
             catch (Exception ex)
@@ -72,35 +74,19 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             switch (commandName)
             {
                 case "sprint":
-                    AnalyzeSprintCommand analyzeSprintCommand = container.Resolve<AnalyzeSprintCommand>();
-                    analyzeSprintCommand.SprintNumber = args.Length > 1
-                        ? int.Parse(args[1])
-                        : null;
-                    return analyzeSprintCommand;
+                    return container.Resolve<AnalyzeSprintCommand>();
 
                 case "calendar":
                     return container.Resolve<PresentSprintCalendarCommand>();
 
                 case "sprints":
-                    PresentSprintsCommand presentSprintsCommand = container.Resolve<PresentSprintsCommand>();
-                    presentSprintsCommand.SprintCount = args.Length > 1
-                        ? int.Parse(args[1])
-                        : null;
-                    return presentSprintsCommand;
+                    return container.Resolve<PresentSprintsCommand>();
 
                 case "velocity":
-                    PresentVelocityCommand presentVelocityCommand = container.Resolve<PresentVelocityCommand>();
-                    presentVelocityCommand.SprintCount = args.Length > 1
-                        ? int.Parse(args[1])
-                        : null;
-                    return presentVelocityCommand;
+                    return container.Resolve<PresentVelocityCommand>();
 
                 case "vacations":
-                    VacationsCommand vacationsCommand = container.Resolve<VacationsCommand>();
-                    vacationsCommand.PersonName = args.Length > 1
-                        ? args[1]
-                        : null;
-                    return vacationsCommand;
+                    return container.Resolve<VacationsCommand>();
 
                 default:
                     throw new Exception("Invalid Command");
@@ -119,7 +105,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         {
             Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
-            
+
             containerBuilder.Register((c, p) =>
             {
                 Config config = new();

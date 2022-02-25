@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using MediatR;
@@ -26,24 +28,47 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         private readonly AnalyzeSprintView view;
         private readonly IMediator mediator;
 
-        public int? SprintNumber { get; set; }
-
         public AnalyzeSprintCommand(AnalyzeSprintView view, IMediator mediator)
         {
             this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute()
+        public async Task Execute(string[] args)
         {
             AnalyzeSprintRequest request = new()
             {
-                SprintNumber = SprintNumber
+                SprintNumber = GetSprintNumber(args),
+                ExcludedSprints = GetExcludedSprintsList(args)
             };
 
             AnalyzeSprintResponse response = await mediator.Send(request);
 
             view.Display(response);
+        }
+
+        private static int? GetSprintNumber(IReadOnlyList<string> args)
+        {
+            return args.Count > 1
+                ? int.Parse(args[1])
+                : null;
+        }
+
+        private List<int> GetExcludedSprintsList(IReadOnlyList<string> args)
+        {
+            if (args.Count > 2)
+            {
+                if (args[2] == "-exclude")
+                {
+                    string rawValue = args[3];
+                    List<int> excludedSprintNumbers = rawValue.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                        .Select(int.Parse)
+                        .ToList();
+                    return excludedSprintNumbers;
+                }
+            }
+
+            return null;
         }
     }
 }

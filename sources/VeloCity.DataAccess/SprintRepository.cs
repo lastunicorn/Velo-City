@@ -45,6 +45,18 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Take(count);
         }
 
+        public IEnumerable<Sprint> GetBefore(int sprintId, int count, IEnumerable<int> excludedSprints)
+        {
+            List<int> excludedSprintsList = excludedSprints.ToList();
+
+            return database.Sprints
+                .Where(x => !excludedSprintsList.Contains(x.Number))
+                .OrderByDescending(x => x.StartDate)
+                .SkipWhile(x => x.Number != sprintId)
+                .Skip(1)
+                .Take(count);
+        }
+
         public IEnumerable<Sprint> GetPage(int pageIndex, int count)
         {
             return database.Sprints

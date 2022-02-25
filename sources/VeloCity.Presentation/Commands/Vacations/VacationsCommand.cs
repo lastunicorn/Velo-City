@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentVacations;
 using MediatR;
@@ -31,19 +32,24 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
-
-        public string PersonName { get; set; }
-
-        public async Task Execute()
+        
+        public async Task Execute(string[] args)
         {
             PresentVacationsRequest request = new()
             {
-                TeamMemberName = PersonName
+                TeamMemberName = GetPersonName(args)
             };
 
             PresentVacationsResponse response = await mediator.Send(request);
 
             view.Display(response);
+        }
+
+        private static string GetPersonName(IReadOnlyList<string> args)
+        {
+            return args.Count > 1
+                ? args[1]
+                : null;
         }
     }
 }

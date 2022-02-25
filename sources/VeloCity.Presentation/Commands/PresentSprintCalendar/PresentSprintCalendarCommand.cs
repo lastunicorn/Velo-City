@@ -32,7 +32,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute()
+        public async Task Execute(string[] strings)
         {
             PresentSprintCalendarRequest request = new()
             {

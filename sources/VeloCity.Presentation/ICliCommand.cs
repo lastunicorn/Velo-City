@@ -20,6 +20,6 @@ namespace DustInTheWind.VeloCity.Presentation
 {
     public interface ICliCommand
     {
-        Task Execute();
+        Task Execute(string[] strings);
     }
 }
