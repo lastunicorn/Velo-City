@@ -35,17 +35,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 ====================================================================================================
                 -->
 
-                <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes">
+                <Control
+                    Id="Title"
+                    Type="Text"
+                    X="15"
+                    Y="6"
+                    Width="200"
+                    Height="15"
+                    Transparent="yes"
+                    NoPrefix="yes">
+
                     <Text>{\WixUI_Font_Title}Database</Text>
                 </Control>
 
-                <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="WixUI_Bmp_Banner" />
+                <Control
+                    Id="BannerBitmap"
+                    Type="Bitmap"
+                    X="0"
+                    Y="0"
+                    Width="370"
+                    Height="44"
+                    TabSkip="no"
+                    Text="WixUI_Bmp_Banner" />
 
-                <Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes">
+                <Control
+                    Id="Description"
+                    Type="Text"
+                    X="25"
+                    Y="23"
+                    Width="280"
+                    Height="15"
+                    Transparent="yes"
+                    NoPrefix="yes">
+
                     <Text>Please provide the location of the json database file.</Text>
                 </Control>
 
-                <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+                <Control
+                    Id="BannerLine"
+                    Type="Line"
+                    X="0"
+                    Y="44"
+                    Width="370"
+                    Height="0" />
 
                 <!--
                 ====================================================================================================
@@ -68,18 +100,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     X="20"
                     Y="100"
                     Width="270"
-                    Height="18" 
+                    Height="18"
                     Property="DATABASE_JSON_LOCATION"
-                    Text="{80}"/>
+                    Text="{80}" />
 
                 <Control
                     Id="BrowseButton"
-                    Type="PushButton" 
+                    Type="PushButton"
                     X="300"
                     Y="100"
                     Width="40"
-                    Height="18" 
-                    Text="..."/>
+                    Height="18"
+                    Text="..." />
 
                 <!--
                 ====================================================================================================
@@ -87,16 +119,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 ====================================================================================================
                 -->
 
-                <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+                <Control
+                    Id="BottomLine"
+                    Type="Line"
+                    X="0"
+                    Y="234"
+                    Width="370"
+                    Height="0" />
 
-                <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back"/>
+                <Control
+                    Id="Back"
+                    Type="PushButton"
+                    X="180"
+                    Y="243"
+                    Width="56"
+                    Height="17"
+                    Text="&amp;Back" />
 
-                <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Next"/>
+                <Control
+                    Id="Next"
+                    Type="PushButton"
+                    X="236"
+                    Y="243"
+                    Width="56"
+                    Height="17"
+                    Default="yes"
+                    Text="&amp;Next" />
 
-                <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
+                <Control
+                    Id="Cancel"
+                    Type="PushButton"
+                    X="304"
+                    Y="243"
+                    Width="56"
+                    Height="17"
+                    Cancel="yes"
+                    Text="Cancel">
+
                     <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
                 </Control>
-                
+
             </Dialog>
         </UI>
 

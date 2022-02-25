@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
     <Product
         Id="*"
         Name="Velo City"

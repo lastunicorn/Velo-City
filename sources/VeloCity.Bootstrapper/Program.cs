@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
@@ -39,6 +38,15 @@ namespace DustInTheWind.VeloCity.Bootstrapper
     internal class Program
     {
         private static IContainer container;
+
+        private static readonly Dictionary<string, Type> CommandTypes = new()
+        {
+            { "sprint", typeof(AnalyzeSprintCommand) },
+            { "calendar", typeof(PresentSprintCalendarCommand) },
+            { "sprints", typeof(PresentSprintsCommand) },
+            { "velocity", typeof(PresentVelocityCommand) },
+            { "vacations", typeof(VacationsCommand) }
+        };
 
         private static async Task Main(string[] args)
         {
@@ -71,26 +79,11 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         {
             string commandName = args[0];
 
-            switch (commandName)
-            {
-                case "sprint":
-                    return container.Resolve<AnalyzeSprintCommand>();
+            if (!CommandTypes.ContainsKey(commandName))
+                throw new Exception("Invalid Command");
 
-                case "calendar":
-                    return container.Resolve<PresentSprintCalendarCommand>();
-
-                case "sprints":
-                    return container.Resolve<PresentSprintsCommand>();
-
-                case "velocity":
-                    return container.Resolve<PresentVelocityCommand>();
-
-                case "vacations":
-                    return container.Resolve<VacationsCommand>();
-
-                default:
-                    throw new Exception("Invalid Command");
-            }
+            Type commandType = CommandTypes[commandName];
+            return (ICliCommand)container.Resolve(commandType);
         }
 
         private static IContainer BuildContainer()

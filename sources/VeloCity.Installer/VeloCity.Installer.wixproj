@@ -20,13 +20,13 @@
     <DefineConstants>FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\Release\net5.0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DatabaseJsonDlg.wxs" />
     <Compile Include="Directories.wxs" />
     <Compile Include="EnvironmentComponents.wxs" />
     <Compile Include="CustomActions.wxs" />
+    <Compile Include="GUI\DatabaseJsonDlg.wxs" />
+    <Compile Include="GUI\WixUI_InstallDir_Modified.wxs" />
     <Compile Include="Product.wxs" />
     <Compile Include="HarvestedFiles.wxs" />
-    <Compile Include="WixUI_InstallDir_Modified.wxs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj">
@@ -48,6 +48,9 @@
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GUI" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
