@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+
+        <ComponentGroup Id="InfoFilesComponentGroup" Directory="INSTALLFOLDER">
+
+            <Component Id="ReadmeFileComponent" Guid="6A084702-3EDF-43D2-B7DE-CDFAD9E08AF7">
+                <File
+                    Id="ReadmeFile"
+                    Source="$(var.SolutionDir)..\doc\readme.txt"
+                    KeyPath="yes" />
+            </Component>
+
+            <Component Id="ChangelogFileComponent" Guid="FC7AEFD7-59ED-4956-AA77-F251AEAC35C7">
+                <File
+                    Id="ChangelogFile"
+                    Source="$(var.SolutionDir)..\doc\changelog.txt"
+                    KeyPath="yes" />
+            </Component>
+
+            <Component Id="LicenseFileComponent" Guid="F124171F-D44E-434F-9F6A-0A97287DBD05">
+                <File
+                    Id="LicenseFile"
+                    Source="$(var.SolutionDir)..\LICENSE"
+                    Name="license.txt"
+                    KeyPath="yes" />
+            </Component>
+
+        </ComponentGroup>
+
+    </Fragment>
+</Wix>

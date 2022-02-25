@@ -44,8 +44,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Title="Velo City"
             Level="1">
 
-            <ComponentGroupRef Id="VeloCityFiles" />
-            <ComponentGroupRef Id="UpdateEnvironment" />
+            <ComponentGroupRef Id="ApplicationFiles" />
+            <ComponentGroupRef Id="EnvironmentComponentGroup" />
+            <ComponentGroupRef Id="InfoFilesComponentGroup" />
         </Feature>
 
         <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />

@@ -14,23 +14,37 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DustInTheWind.VeloCity.Installer.CustomActions.WinForms
 {
     public class ChooseJsonFile
     {
-        public static string GetFile()
+        private volatile string fileName;
+
+        public string FileName => fileName;
+
+        public void Run()
+        {
+            fileName = null;
+
+            Thread task = new Thread(GetFile);
+            task.SetApartmentState(ApartmentState.STA);
+            task.Start();
+            task.Join();
+        }
+
+        private void GetFile()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "JSON File (*.json)|*.json"
+                Filter = "JSON File (*.json)|*.json|All Files|*.*"
             };
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-                return openFileDialog.FileName;
-
-            return null;
+            fileName = openFileDialog.ShowDialog() == DialogResult.OK
+                ? openFileDialog.FileName
+                : null;
         }
     }
 }

@@ -7,4 +7,4 @@ packages/
 *.db
 publish/
 
-VeloCity.Installer/HarvestedFiles.wxs
+VeloCity.Installer/Components/ApplicationFiles.wxs

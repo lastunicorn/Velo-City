@@ -20,6 +20,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using DustInTheWind.ConsoleTools;
+using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain.DataAccess;
@@ -54,6 +55,9 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             try
             {
+                ApplicationHeader applicationHeader = new();
+                applicationHeader.Display();
+
                 Config config = new();
                 debugVerbose = config.DebugVerbose;
 

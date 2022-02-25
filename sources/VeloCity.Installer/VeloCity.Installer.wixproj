@@ -12,21 +12,22 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\Debug\net5.0</DefineConstants>
+    <DefineConstants>Debug;FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\$(Configuration)\net5.0</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\Release\net5.0</DefineConstants>
+    <DefineConstants>FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\$(Configuration)\net5.0</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Components\ApplicationFiles.wxs" />
+    <Compile Include="Components\EnvironmentComponents.wxs" />
+    <Compile Include="Components\InfoFilesComponents.wxs" />
     <Compile Include="Directories.wxs" />
-    <Compile Include="EnvironmentComponents.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="GUI\DatabaseJsonDlg.wxs" />
     <Compile Include="GUI\WixUI_InstallDir_Modified.wxs" />
     <Compile Include="Product.wxs" />
-    <Compile Include="HarvestedFiles.wxs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj">
@@ -51,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GUI" />
+    <Folder Include="Components" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
@@ -61,7 +63,7 @@
     <PostBuildEvent>xcopy /y "$(ProjectDir)%2a.bat" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Bootstrapper\$(OutDir)net5.0" -cg VeloCityFiles -gg -scom -srd -sfrag -sreg -dr INSTALLFOLDER -var var.FileSourceDirectory -template fragment -out ..\..\HarvestedFiles.wxs</PreBuildEvent>
+    <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Bootstrapper\$(OutDir)net5.0" -cg ApplicationFiles -gg -scom -srd -sfrag -sreg -dr INSTALLFOLDER -var var.FileSourceDirectory -template fragment -out ..\..\Components\ApplicationFiles.wxs</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

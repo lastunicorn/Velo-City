@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Threading;
 using DustInTheWind.VeloCity.Installer.CustomActions.WinForms;
 using Microsoft.Deployment.WindowsInstaller;
 
@@ -30,10 +29,11 @@ namespace DustInTheWind.VeloCity.Installer.CustomActions
             {
                 session.Log("Begin SelectDatabaseJsonFile Custom Action");
 
-                Thread task = new Thread(GetFile);
-                task.SetApartmentState(ApartmentState.STA);
-                task.Start(session);
-                task.Join();
+                ChooseJsonFile chooseJsonFile = new ChooseJsonFile();
+                chooseJsonFile.Run();
+
+                if (chooseJsonFile.FileName != null)
+                    session["DATABASE_JSON_LOCATION"] = chooseJsonFile.FileName;
 
                 return ActionResult.Success;
             }
@@ -45,17 +45,6 @@ namespace DustInTheWind.VeloCity.Installer.CustomActions
             finally
             {
                 session.Log("End SelectDatabaseJsonFile Custom Action");
-            }
-        }
-
-        private static void GetFile(object o)
-        {
-            if (o is Session session)
-            {
-                string filePath = ChooseJsonFile.GetFile();
-
-                if (filePath != null)
-                    session["DATABASE_JSON_LOCATION"] = filePath;
             }
         }
     }
