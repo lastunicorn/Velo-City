@@ -5,68 +5,40 @@
     xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     
     <PropertyGroup>
-        <WebSiteSource>..\DemoWebsite\</WebSiteSource>
-        <SetupF>..\Setup\</SetupF>
-        <PublishF>publish\</PublishF>
-        <Publish>$(SetupF)$(PublishF)</Publish>
-        <WebSiteContentCode>WebSiteContent.wxs</WebSiteContentCode>
-        <WebSiteContentObject>WebSiteContent.wixobj</WebSiteContentObject>
-        <MsiOut>bin\Release\DemoWebsite_Setup.msi</MsiOut>
+        <Publish>..\publish\</Publish>
     </PropertyGroup>
-    
-    <!-- Defining group of temporary files which is the content of the web site. -->
-    <ItemGroup>
-        <WebSiteContent Include="$(WebSiteContentCode)" />
-    </ItemGroup>
 
-    <!-- The list of WIX input files -->
-    <ItemGroup>
-        <WixCode Include="Product.wxs" />
-        <WixCode Include="$(WebSiteContentCode)" />
-    </ItemGroup>
-
-    <Target Name="Build">
-        <!-- Compile whole solution in release mode -->
-        <MSBuild
-            Projects="..\DemoWebsite.sln"
-            Targets="ReBuild"
-            Properties="Configuration=Release" />
-    </Target>
-
-    <Target Name="PublishWebsite">
-        <!-- Remove complete publish folder in order to be sure that evrything will be newly compiled -->
+    <Target Name="PublishApplication">
         <Message Text="Removing publish directory: $(SetupF)"/>
-        <RemoveDir Directories="$(SetupF)" ContinueOnError="false" />
-        <Message Text="Start to publish website" Importance="high" />
+
+        <RemoveDir Directories="$(Publish)" ContinueOnError="false" />
+        
+        <Message Text="Start to publish VeloCity application" Importance="high" />
+        
         <MSBuild
-            Projects="..\\DemoWebsite\DemoWebsite.csproj"
-            Targets="ResolveReferences;_CopyWebApplication"
-            Properties="OutDir=$(Publish)bin\;WebProjectOutputDir=$(Publish);Configuration=Release" />
+            Projects="..\VeloCity.Bootstrapper\VeloCity.Bootstrapper.csproj"
+            Targets="Publish"
+            Properties="Configuration=Release;Platform=AnyCPU" />
     </Target>
 
     <Target Name="Harvest">
-        <!-- Harvest all content of published result -->
-        <Exec
+        <!--<Exec
             Command='$(WixPath)heat dir $(Publish) -dr INSTALLFOLDER -ke -srd -cg MyWebWebComponents -var var.publishDir -gg -out $(WebSiteContentCode)'
+            ContinueOnError="false"
+            WorkingDirectory="." />-->
+
+        <Exec
             Command='"$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Bootstrapper\$(OutDir)net5.0" -cg VeloCityFiles -gg -scom -srd -sfrag -sreg -dr INSTALLFOLDER -var var.FileSourceDirectory -template fragment -out ..\..\HarvestedFiles.wxs'
             ContinueOnError="false"
             WorkingDirectory="." />
     </Target>
 
-    <Target Name="WIX">
-        <!-- At last create an installer -->
-        <Message Text="TEST: @(WixCode)"/>
-        <Exec
-            Command='"$(WixPath)candle" -dpublishDir=$(Publish) -dMyWebResourceDir=. @(WixCode, &apos; &apos;)'
-            ContinueOnError="false"
-            WorkingDirectory="." />
-        <Exec
-            Command='"$(WixPath)light" -out $(MsiOut) @(WixObject, &apos; &apos;)'
-            ContinueOnError="false"
-            WorkingDirectory="." />
-
-        <!-- A message at the end -->
-        <Message Text="Install package has been created." />
-    </Target>
+    <PropertyGroup>
+        <BuildDependsOn>
+            PublishApplication;
+            Harvest;
+            $(BuildDependsOn)
+        </BuildDependsOn>
+    </PropertyGroup>
 
 </Project>

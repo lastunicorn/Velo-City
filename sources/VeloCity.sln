@@ -16,6 +16,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Presentation", "VeloCity.Presentation\VeloCity.Presentation.csproj", "{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "VeloCity.Installer", "VeloCity.Installer\VeloCity.Installer.wixproj", "{74D86E62-8460-46E9-AEC2-126F8C2285F8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FED35DE4-65E2-4777-9B52-A21B0669A680} = {FED35DE4-65E2-4777-9B52-A21B0669A680}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Installer.CustomActions", "VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj", "{77BD3B4C-3C30-4E9E-B97C-D30B1A34209F}"
 EndProject
