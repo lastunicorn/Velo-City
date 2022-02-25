@@ -8,4 +8,4 @@ v1.0.0
 	- sprint - Displays an analysis for the specified sprint.
 	- velocity - Displays the velocity for the last n sprints.
 	- vacations - Displays the vacation days for a team member.
-- [feature] The database is storred as a json file whose location is specified in the configuration file.
+- [feature] The database is stored as a json file whose location is specified in the configuration file.
