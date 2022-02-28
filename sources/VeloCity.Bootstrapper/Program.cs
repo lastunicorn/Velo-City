@@ -28,6 +28,7 @@ using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Presentation;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
+using DustInTheWind.VeloCity.Presentation.Commands.Help;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
@@ -40,15 +41,6 @@ namespace DustInTheWind.VeloCity.Bootstrapper
     internal class Program
     {
         private static IContainer container;
-
-        private static readonly Dictionary<string, Type> CommandTypes = new()
-        {
-            { "sprint", typeof(AnalyzeSprintCommand) },
-            { "calendar", typeof(PresentSprintCalendarCommand) },
-            { "sprints", typeof(PresentSprintsCommand) },
-            { "velocity", typeof(PresentVelocityCommand) },
-            { "vacations", typeof(VacationsCommand) }
-        };
 
         private static async Task Main(string[] args)
         {
@@ -63,9 +55,6 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 debugVerbose = config.DebugVerbose;
 
                 container = BuildContainer();
-
-                if (args.Length == 0)
-                    throw new Exception("No command was provided.");
 
                 ICliCommand command = CreateCommand(args);
                 await command.Execute(args);
@@ -82,13 +71,18 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
         private static ICliCommand CreateCommand(IReadOnlyList<string> args)
         {
+            if (args == null || args.Count == 0)
+                return container.Resolve<HelpCommand>();
+
             string commandName = args[0];
 
-            if (!CommandTypes.ContainsKey(commandName))
+            AvailableCommands availableCommands = container.Resolve<AvailableCommands>();
+            CommandInfo commandInfo = availableCommands[commandName];
+
+            if (commandInfo == null)
                 throw new Exception("Invalid Command");
 
-            Type commandType = CommandTypes[commandName];
-            return (ICliCommand)container.Resolve(commandType);
+            return (ICliCommand)container.Resolve(commandInfo.Type);
         }
 
         private static IContainer BuildContainer()
@@ -103,6 +97,8 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         {
             Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
+
+            containerBuilder.RegisterType<AvailableCommands>().AsSelf().SingleInstance();
 
             containerBuilder.Register((c, p) =>
             {
@@ -135,6 +131,9 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             containerBuilder.RegisterType<VacationsCommand>().AsSelf();
             containerBuilder.RegisterType<VacationsView>().AsSelf();
+
+            containerBuilder.RegisterType<HelpCommand>().AsSelf();
+            containerBuilder.RegisterType<HelpView>().AsSelf();
         }
     }
 }

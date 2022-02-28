@@ -30,8 +30,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
     {
         public void Display(AnalyzeSprintResponse response)
         {
-            Console.WriteLine();
-
             DisplaySprintInformation(response);
 
             foreach (SprintMember sprintMember in response.SprintMembers)
@@ -65,11 +63,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             dataGrid.Rows.Add("Actual Velocity", $"{response.ActualVelocity} SP/h");
 
             dataGrid.Display();
-            
-            CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"The estimations were calculated based on previous {response.LookBackSprintCount} sprints.");
+
+            CustomConsole.WriteLine();
+            CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
+            CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - The estimations were calculated based on previous {response.LookBackSprintCount} sprints.");
 
             if (response.ExcludesSprints is { Count: > 0 })
-                CustomConsole.WriteLine($"The sprints {response.ExcludesSprints} sprints.");
+            {
+                string excludedSprints = string.Join(",", response.ExcludesSprints);
+                CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - Excluded sprints: {excludedSprints} (These sprints were excluded from the velocity calculation algorithm.)");
+            }
         }
 
         private static StringBuilder CalculateWorkDays(IReadOnlyList<DateTime> workDays)
