@@ -60,8 +60,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <Publish Dialog="DatabaseJsonDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg">1</Publish>
             <Publish Dialog="DatabaseJsonDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-            <Publish Dialog="DatabaseJsonDlg" Control="BrowseButton" Event="DoAction" Value="SelectDatabaseJsonFile" Order="1">1</Publish>
-            <Publish Dialog="DatabaseJsonDlg" Control="BrowseButton" Property="DATABASE_JSON_LOCATION" Value="[DATABASE_JSON_LOCATION]" Order="2">1</Publish>
 
             <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="DatabaseJsonDlg" Order="1">NOT Installed</Publish>
             <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>

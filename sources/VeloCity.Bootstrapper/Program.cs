@@ -23,6 +23,7 @@ using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.DataAccess;
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Presentation;
@@ -79,7 +80,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             }
         }
 
-        private static ICliCommand CreateCommand(string[] args)
+        private static ICliCommand CreateCommand(IReadOnlyList<string> args)
         {
             string commandName = args[0];
 
@@ -105,9 +106,16 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             containerBuilder.Register((c, p) =>
             {
-                Config config = new();
-                string databaseFilePath = config.DatabaseLocation;
-                return new DatabaseFile(databaseFilePath);
+                try
+                {
+                    Config config = new();
+                    string databaseFilePath = config.DatabaseLocation;
+                    return new DatabaseFile(databaseFilePath);
+                }
+                catch (Exception ex)
+                {
+                    throw new DatabaseNotFoundException(ex);
+                }
             }).AsSelf();
 
             containerBuilder.RegisterType<Database>().AsSelf();

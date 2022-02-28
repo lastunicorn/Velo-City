@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ConsoleTools" Version="0.5.5" />
+      <PackageReference Include="ConsoleTools" Version="1.0.0" />
       <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 

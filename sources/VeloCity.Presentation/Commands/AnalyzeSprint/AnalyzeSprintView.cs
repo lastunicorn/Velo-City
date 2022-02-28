@@ -15,12 +15,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DustInTheWind.ConsoleTools;
+using DustInTheWind.ConsoleTools.Controls;
+using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
@@ -28,44 +29,56 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
     {
         public void Display(AnalyzeSprintResponse response)
         {
-            Console.WriteLine($"{response.SprintName} ({response.StartDate:d} - {response.EndDate:d})");
-            Console.WriteLine(new string('=', 79));
-
-            WorkDaysControl workDaysControl = new()
-            {
-                Days = response.WorkDays
-            };
-            workDaysControl.Display();
-
-            CustomConsole.WriteEmphasized("Total Work Hours: ");
-            CustomConsole.WriteLine($"{response.TotalWorkHours}h");
-
-            CustomConsole.WriteLine();
-
-            CustomConsole.WriteEmphasized("Estimated Story Points: ");
-            CustomConsole.WriteLine($"{response.EstimatedStoryPoints} SP");
-
-            CustomConsole.WriteEmphasized("Estimated Velocity: ");
-            CustomConsole.WriteLine($"{response.EstimatedVelocity} SP/h");
-
-            CustomConsole.WriteEmphasized("Commitment Story Points: ");
-            CustomConsole.WriteLine($"{response.CommitmentStoryPoints} SP");
-
-            CustomConsole.WriteLine();
-
-            CustomConsole.WriteEmphasized("Actual Story Points: ");
-            CustomConsole.WriteLine($"{response.ActualStoryPoints} SP");
-
-            CustomConsole.WriteEmphasized("Actual Velocity: ");
-            CustomConsole.WriteLine($"{response.ActualVelocity} SP/h");
-
             Console.WriteLine();
-            Console.WriteLine(new string('-', 79));
+
+            DataGrid dataGrid = new()
+            {
+                Title = $"{response.SprintName} ({response.StartDate:d} - {response.EndDate:d})",
+                Border =
+                {
+                    DisplayBorderBetweenRows = true
+                },
+                TitleRow =
+                {
+                    ForegroundColor = ConsoleColor.Black,
+                    BackgroundColor = ConsoleColor.Gray
+                }
+            };
+
+            StringBuilder sb = CalculateWorkDays(response.WorkDays);
+            dataGrid.Rows.Add("Work Days", sb.ToString());
+
+            dataGrid.Rows.Add("Total Work Hours", $"{response.TotalWorkHours}h");
+            dataGrid.Rows.Add("Estimated Story Points", $"{response.EstimatedStoryPoints} SP");
+            dataGrid.Rows.Add("Estimated Velocity", $"{response.EstimatedVelocity} SP/h");
+            dataGrid.Rows.Add("Commitment Story Points", $"{response.CommitmentStoryPoints} SP");
+            dataGrid.Rows.Add("Actual Story Points", $"{response.ActualStoryPoints} SP");
+            dataGrid.Rows.Add("Actual Velocity", $"{response.ActualVelocity} SP/h");
+
+            dataGrid.Display();
 
             foreach (SprintMember sprintMember in response.SprintMembers)
-            {
                 DisplaySprintMemberDetails(sprintMember);
+        }
+
+        private static StringBuilder CalculateWorkDays(IReadOnlyList<DateTime> workDays)
+        {
+            StringBuilder sb = new();
+
+            for (int i = 0; i < workDays.Count; i++)
+            {
+                DateTime dateTime = workDays[i];
+                int dayIndex = i + 1;
+                string line = $"day {dayIndex:D2}: {dateTime:d} ({dateTime:dddd})";
+
+                bool isLastRow = i == workDays.Count - 1;
+                if (isLastRow)
+                    sb.Append(line);
+                else
+                    sb.AppendLine(line);
             }
+
+            return sb;
         }
 
         private static void DisplaySprintMemberDetails(SprintMember sprintMember)
@@ -73,51 +86,89 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             Console.WriteLine();
 
             int totalWorkHours = sprintMember.Days.Sum(x => x.WorkHours);
-            CustomConsole.WriteLineEmphasized($"{sprintMember.Name} - {totalWorkHours}h");
+            string titleText = $"{sprintMember.Name} - {totalWorkHours}h";
 
-            foreach (SprintMemberDay sprintMemberDay in sprintMember.Days)
+            DataGrid dataGrid = new()
             {
-                DisplaySprintMemberDayDetails(sprintMemberDay);
-            }
+                Title = titleText,
+                TitleRow =
+                {
+                    ForegroundColor = ConsoleColor.Black,
+                    BackgroundColor = ConsoleColor.Gray
+                }
+            };
+
+            dataGrid.Columns.Add("Date");
+
+            Column workColumn = new("Work")
+            {
+                CellHorizontalAlignment = HorizontalAlignment.Right
+            };
+            dataGrid.Columns.Add(workColumn);
+
+            Column vacationColumn = new("Vacation")
+            {
+                CellHorizontalAlignment = HorizontalAlignment.Right
+            };
+            dataGrid.Columns.Add(vacationColumn);
+
+            dataGrid.Columns.Add("Details");
+
+            IEnumerable<ContentRow> contentRowSelect = sprintMember.Days
+                .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd &&
+                            x.AbsenceReason != AbsenceReason.OfficialHoliday)
+                .Select(ToDataRow);
+
+            foreach (ContentRow contentRow in contentRowSelect)
+                dataGrid.Rows.Add(contentRow);
+
+            dataGrid.Display();
         }
 
-        private static void DisplaySprintMemberDayDetails(SprintMemberDay sprintMemberDay)
+        private static ContentRow ToDataRow(SprintMemberDay sprintMemberDay)
         {
-            StringBuilder sb = new();
+            ContentRow dataRow = new();
+
+            dataRow.AddCell($"{sprintMemberDay.Date:d} ({sprintMemberDay.Date:dddd})");
+
             string workHours = sprintMemberDay.WorkHours == 0
                 ? "-"
                 : sprintMemberDay.WorkHours.ToString();
+            dataRow.AddCell(workHours + " h");
+
             string vacationHours = sprintMemberDay.AbsenceHours == 0
                 ? "-"
                 : sprintMemberDay.AbsenceHours.ToString();
-            sb.Append($"  - {sprintMemberDay.Date:d}: {workHours}h / {vacationHours}h ({sprintMemberDay.Date:dddd})");
+            dataRow.AddCell(vacationHours + " h");
 
             if (sprintMemberDay.AbsenceReason != AbsenceReason.None)
             {
-                sb.Append($" - {sprintMemberDay.AbsenceReason}");
+                StringBuilder sb = new();
+
+                sb.Append(sprintMemberDay.AbsenceReason);
 
                 if (sprintMemberDay.AbsenceComments != null)
-                    sb.Append($" - {sprintMemberDay.AbsenceComments}");
+                    sb.Append($" ({sprintMemberDay.AbsenceComments})");
+
+                dataRow.AddCell(sb);
+            }
+            else
+            {
+                dataRow.AddCell(string.Empty);
             }
 
             switch (sprintMemberDay.AbsenceReason)
             {
                 case AbsenceReason.None:
-                    CustomConsole.WriteLineSuccess(sb.ToString());
-                    break;
-
-                case AbsenceReason.WeekEnd:
-                case AbsenceReason.OfficialHoliday:
+                    dataRow.ForegroundColor = ConsoleColor.Green;
                     break;
 
                 case AbsenceReason.Vacation:
-                    CustomConsole.WriteLineWarning(sb.ToString());
-                    break;
-
-                default:
-                    CustomConsole.WriteLine(sb.ToString());
+                    dataRow.ForegroundColor = ConsoleColor.Yellow;
                     break;
             }
+
+            return dataRow;
         }
     }
 }

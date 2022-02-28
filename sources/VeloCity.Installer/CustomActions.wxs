@@ -25,11 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Id="CustomActionsBinary"
             SourceFile="$(var.VeloCity.Installer.CustomActions.TargetDir)$(var.VeloCity.Installer.CustomActions.TargetName).CA.dll" />
 
-        <CustomAction
+        <!--<CustomAction
             Id="SelectDatabaseJsonFile"
             BinaryKey="CustomActionsBinary"
             DllEntry="SelectDatabaseJsonFile"
-            Execute="immediate" />
+            Execute="immediate" />-->
 
         <CustomAction
             Id="UpdateConfigFile_SetData"
@@ -41,7 +41,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             BinaryKey="CustomActionsBinary"
             DllEntry="UpdateConfigFile"
             Execute="deferred"
-            Impersonate="no"/>
+            Impersonate="no" />
+
+        <CustomAction
+            Id="ReadFromConfigFile"
+            BinaryKey="CustomActionsBinary"
+            DllEntry="ReadFromConfigFile"
+            Execute="firstSequence" />
 
     </Fragment>
 </Wix>

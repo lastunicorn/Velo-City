@@ -90,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Type="Text"
                     X="20"
                     Y="60"
-                    Width="120"
+                    Width="270"
                     Height="15"
                     Text="&amp;JSON Database File:" />
 
@@ -99,19 +99,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Type="Edit"
                     X="20"
                     Y="100"
-                    Width="270"
+                    Width="330"
                     Height="18"
                     Property="DATABASE_JSON_LOCATION"
                     Text="{80}" />
 
                 <Control
-                    Id="BrowseButton"
-                    Type="PushButton"
-                    X="300"
-                    Y="100"
-                    Width="40"
-                    Height="18"
-                    Text="..." />
+                    Id="DatabaseFileNote"
+                    Type="Text"
+                    X="20"
+                    Y="125"
+                    Width="330"
+                    Height="30"
+                    Text="This is the path to the json database file where all the data is stored. It is saved in the 'appsettings.json' file from the installation directory." />
 
                 <!--
                 ====================================================================================================

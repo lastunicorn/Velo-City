@@ -22,8 +22,6 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "VeloCity.Installer", "VeloC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Installer.CustomActions", "VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj", "{77BD3B4C-3C30-4E9E-B97C-D30B1A34209F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Installer.CustomActions.WinForms", "VeloCity.Installer.CustomActions.WinForms\VeloCity.Installer.CustomActions.WinForms.csproj", "{C741D70B-F96E-4888-8624-9B48C562A376}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{124DD8ED-0D48-48B5-8B59-0715B4152421}"
 	ProjectSection(SolutionItems) = preProject
 		AssemblyInfo.Shared.cs = AssemblyInfo.Shared.cs
@@ -83,11 +81,6 @@ Global
 		{77BD3B4C-3C30-4E9E-B97C-D30B1A34209F}.Debug-With-Installer|Any CPU.Build.0 = Debug|x86
 		{77BD3B4C-3C30-4E9E-B97C-D30B1A34209F}.Release|Any CPU.ActiveCfg = Release|x86
 		{77BD3B4C-3C30-4E9E-B97C-D30B1A34209F}.Release|Any CPU.Build.0 = Release|x86
-		{C741D70B-F96E-4888-8624-9B48C562A376}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{C741D70B-F96E-4888-8624-9B48C562A376}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|x86
-		{C741D70B-F96E-4888-8624-9B48C562A376}.Debug-With-Installer|Any CPU.Build.0 = Debug|x86
-		{C741D70B-F96E-4888-8624-9B48C562A376}.Release|Any CPU.ActiveCfg = Release|x86
-		{C741D70B-F96E-4888-8624-9B48C562A376}.Release|Any CPU.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
