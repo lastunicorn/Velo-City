@@ -65,8 +65,8 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             bool excludedSprintsExists = request.ExcludedSprints is { Count: > 0 };
             IEnumerable<Sprint> previousSprints = excludedSprintsExists
-                ? unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackCount, request.ExcludedSprints)
-                : unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackCount);
+                ? unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackSprintCount, request.ExcludedSprints)
+                : unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackSprintCount);
 
             IEnumerable<float> previousVelocities = previousSprints
                 .Select(x =>
@@ -94,8 +94,11 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 ActualVelocity = velocity,
                 CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
                 EstimatedStoryPoints = totalWorkHours * averageVelocity,
-                EstimatedVelocity = averageVelocity
+                EstimatedVelocity = averageVelocity,
+                LookBackSprintCount = request.LookBackSprintCount,
+                ExcludesSprints = request.ExcludedSprints?.ToList()
             };
+
             return Task.FromResult(response);
         }
     }

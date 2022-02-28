@@ -20,8 +20,6 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
     {
         public int SprintNumber { get; set; }
 
-        public string SprintName { get; set; }
-
         public float Velocity { get; set; }
     }
 }

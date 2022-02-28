@@ -15,8 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DustInTheWind.ConsoleTools;
+using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Application.PresentVacations;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
@@ -27,64 +30,61 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
         {
             foreach (TeamMemberVacation teamMemberVacation in response.TeamMemberVacations)
             {
-                Console.WriteLine();
-                Console.WriteLine(new string('-', 79));
-                Console.WriteLine(teamMemberVacation.PersonName);
-                Console.WriteLine(new string('-', 79));
+                CustomConsole.WriteLine();
 
-                //var groupedVacations = teamMemberVacation.Vacations
-                //    .GroupBy(x => new
-                //    {
-                //        Year = x.Date.Year,
-                //        Month = x.Date.Month
-                //    })
-                //    .OrderByDescending(x => x.Key.Year)
-                //    .ThenByDescending(x => x.Key.Month);
-
-                //foreach (var group in groupedVacations)
-                //{
-                //    Console.WriteLine($"{group.Key.Year}.{group.Key.Month}");
-
-                //    foreach (VacationInfo vacationInfo in group)
-                //    {
-                //        StringBuilder sb = new();
-                //        sb.Append($"  - {vacationInfo.Date:d}");
-
-                //        if (vacationInfo.HourCount != null)
-                //            sb.Append($" ({vacationInfo.HourCount}h)");
-
-                //        if (vacationInfo.Comments != null)
-                //            sb.Append($" - {vacationInfo.Comments}");
-
-                //        Console.WriteLine(sb);
-                //    }
-                //}
-
-
-                int currentYear = -1;
-                int currentMonth = -1;
-                foreach (VacationInfo vacationInfo in teamMemberVacation.Vacations)
+                DataGrid dataGrid = new()
                 {
-                    if (currentYear != vacationInfo.Date.Year || currentMonth != vacationInfo.Date.Month)
+                    Title = teamMemberVacation.PersonName,
+                    TitleRow =
                     {
-                        currentYear = vacationInfo.Date.Year;
-                        currentMonth = vacationInfo.Date.Month;
-
-                        Console.WriteLine($"{currentYear}.{currentMonth}");
+                        ForegroundColor = ConsoleColor.Black,
+                        BackgroundColor = ConsoleColor.DarkGray
+                    },
+                    Border =
+                    {
+                        DisplayBorderBetweenRows = true
                     }
+                };
 
-                    StringBuilder sb = new();
-                    sb.Append($"  - {vacationInfo.Date:d}");
-
-                    if (vacationInfo.HourCount != null)
-                        sb.Append($" ({vacationInfo.HourCount}h)");
-
-                    if (vacationInfo.Comments != null)
-                        sb.Append($" - {vacationInfo.Comments}");
-
-                    Console.WriteLine(sb);
+                foreach ((DateTime date, List<VacationInfo> vacationInfos) in teamMemberVacation.VacationsMyMonth)
+                {
+                    ContentRow row = ToRow(date, vacationInfos);
+                    dataGrid.Rows.Add(row);
                 }
+
+                dataGrid.Display();
             }
+        }
+
+        private static ContentRow ToRow(DateTime date, IEnumerable<VacationInfo> vacationInfos)
+        {
+            ContentRow row = new();
+
+            int currentYear = date.Year;
+            int currentMonth = date.Month;
+            row.AddCell($"{currentYear}.{currentMonth}");
+
+            List<string> lines = vacationInfos
+                .Select(ToString)
+                .ToList();
+
+            row.AddCell(lines);
+
+            return row;
+        }
+
+        private static string ToString(VacationInfo vacationInfo)
+        {
+            StringBuilder sb = new();
+            sb.Append($"{vacationInfo.Date:d}");
+
+            if (vacationInfo.HourCount != null)
+                sb.Append($" ({vacationInfo.HourCount}h)");
+
+            if (vacationInfo.Comments != null)
+                sb.Append($" - {vacationInfo.Comments}");
+
+            return sb.ToString();
         }
     }
 }

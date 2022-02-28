@@ -15,6 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Text;
+using DustInTheWind.ConsoleTools.Controls;
+using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Application.PresentSprints;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
@@ -23,21 +27,46 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
     {
         public void Display(PresentSprintsResponse response)
         {
-            foreach (SprintOverview sprintOverview in response.SprintOverviews)
+            DataGrid dataGrid = new()
             {
-                Console.WriteLine();
-                
-                Console.WriteLine(new string('=', 79));
-                Console.WriteLine($"{sprintOverview.Name} ({sprintOverview.StartDate:d} - {sprintOverview.EndDate:d})");
-                Console.WriteLine(new string('=', 79));
-                
-                Console.WriteLine();
-                
-                Console.WriteLine($"Total Work Hours: {sprintOverview.TotalWorkHours} h");
-                Console.WriteLine($"Actual Story Points: {sprintOverview.ActualStoryPoints} SP");
-                Console.WriteLine($"Actual Velocity: {sprintOverview.ActualVelocity} SP/h");
+                Title = $"The last {response.SprintOverviews?.Count} Sprints",
+                TitleRow =
+                {
+                    ForegroundColor = ConsoleColor.Black,
+                    BackgroundColor = ConsoleColor.DarkGray
+                },
+                Border =
+                {
+                    DisplayBorderBetweenRows = true
+                }
+            };
 
+            if (response.SprintOverviews != null)
+            {
+                foreach (SprintOverview sprintOverview in response.SprintOverviews)
+                {
+                    List<string> sprintNameLines = new()
+                    {
+                        sprintOverview.Name,
+                        $"({sprintOverview.StartDate:d} - {sprintOverview.EndDate:d})"
+                    };
+                    ContentCell sprintNameCell = new(sprintNameLines);
+
+
+                    List<string> sprintInfoLines = new()
+                    {
+                        $"Total Work Hours: {sprintOverview.TotalWorkHours} h",
+                        $"Actual Story Points: {sprintOverview.ActualStoryPoints} SP",
+                        $"Actual Velocity: {sprintOverview.ActualVelocity} SP/h"
+                    };
+
+                    ContentCell sprintInfoCell = new(sprintInfoLines);
+
+                    dataGrid.Rows.Add(sprintNameCell, sprintInfoCell);
+                }
             }
+
+            dataGrid.Display();
         }
     }
 }

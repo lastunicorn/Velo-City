@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DustInTheWind.VeloCity.Application.PresentVelocity;
@@ -25,18 +26,30 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
     {
         public void Display(PresentVelocityResponse response)
         {
-            Console.WriteLine("Velocity History:");
+            bool sprintsExist = response.SprintVelocities != null && response.SprintVelocities.Count > 0;
+            
+            if (sprintsExist)
+                DisplaySprints(response.SprintVelocities);
+            else
+                Console.WriteLine("There are no sprints.");
+        }
 
-            float maxValue = response.SprintVelocities.Max(x => x.Velocity);
-            int chartMaxValue = 30;
+        private static void DisplaySprints(IReadOnlyCollection<SprintVelocity> sprintVelocities)
+        {
+            int sprintCount = sprintVelocities.Count;
+            Console.WriteLine($"Velocity History ({sprintCount} Sprints):");
+            Console.WriteLine();
 
-            foreach (SprintVelocity sprintVelocity in response.SprintVelocities)
+            float maxValue = sprintVelocities.Max(x => x.Velocity);
+            const int chartMaxValue = 30;
+
+            foreach (SprintVelocity sprintVelocity in sprintVelocities)
             {
                 float value = sprintVelocity.Velocity;
                 int chartValue = (int)Math.Round(value * chartMaxValue / maxValue);
-                
+
                 StringBuilder sb = new();
-                sb.Append($"-  {sprintVelocity.SprintNumber} - {sprintVelocity.SprintName} - {sprintVelocity.Velocity:N4} SP/h - ");
+                sb.Append($"-  Sprint {sprintVelocity.SprintNumber} - {sprintVelocity.Velocity:N4} SP/h - ");
                 sb.Append(new string('*', chartValue));
                 Console.WriteLine(sb);
             }

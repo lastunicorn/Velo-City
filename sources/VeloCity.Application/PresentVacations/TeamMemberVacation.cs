@@ -14,7 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
@@ -23,5 +26,51 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
         public string PersonName { get; set; }
 
         public List<VacationInfo> Vacations { get; set; }
+
+        public SortedList<DateTime, List<VacationInfo>> VacationsMyMonth
+        {
+            get
+            {
+                Dictionary<DateTime, List<VacationInfo>> vacationByMonth = Vacations
+                    .GroupBy(x => new DateTime(x.Date.Year, x.Date.Month, 1))
+                    .OrderByDescending(x => x.Key)
+                    .ToDictionary(x => x.Key, x => x.ToList());
+
+                return new SortedList<DateTime, List<VacationInfo>>(vacationByMonth);
+            }
+        }
     }
+
+    //public class VacationCollection
+    //{
+    //    private readonly Dictionary<DateTime, List<VacationInfo>> vacationByMonth = new();
+
+    //    public void Add(VacationInfo item)
+    //    {
+    //        if (item == null) throw new ArgumentNullException(nameof(item));
+
+    //        DateTime key = new(item.Date.Year, item.Date.Month, 1);
+
+    //        List<VacationInfo> bucket;
+
+    //        if (vacationByMonth.ContainsKey(key))
+    //        {
+    //            bucket = vacationByMonth[key];
+    //        }
+    //        else
+    //        {
+    //            bucket = new List<VacationInfo>();
+    //            vacationByMonth.Add(key, bucket);
+    //        }
+
+    //        bucket.Add(item);
+    //    }
+
+    //    public IEnumerable<List<VacationInfo>> EnumerateByMonth()
+    //    {
+    //        return vacationByMonth
+    //            .OrderByDescending(x => x.Key)
+    //            .Select(x => x.Value);
+    //    }
+    //}
 }

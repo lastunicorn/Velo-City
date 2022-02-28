@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
@@ -31,6 +32,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         {
             Console.WriteLine();
 
+            DisplaySprintInformation(response);
+
+            foreach (SprintMember sprintMember in response.SprintMembers)
+                DisplaySprintMemberDetails(sprintMember);
+        }
+
+        private static void DisplaySprintInformation(AnalyzeSprintResponse response)
+        {
             DataGrid dataGrid = new()
             {
                 Title = $"{response.SprintName} ({response.StartDate:d} - {response.EndDate:d})",
@@ -41,14 +50,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
                 TitleRow =
                 {
                     ForegroundColor = ConsoleColor.Black,
-                    BackgroundColor = ConsoleColor.Gray
+                    BackgroundColor = ConsoleColor.DarkGray
                 }
             };
 
             StringBuilder sb = CalculateWorkDays(response.WorkDays);
             dataGrid.Rows.Add("Work Days", sb.ToString());
 
-            dataGrid.Rows.Add("Total Work Hours", $"{response.TotalWorkHours}h");
+            dataGrid.Rows.Add("Total Work Hours", $"{response.TotalWorkHours} h");
             dataGrid.Rows.Add("Estimated Story Points", $"{response.EstimatedStoryPoints} SP");
             dataGrid.Rows.Add("Estimated Velocity", $"{response.EstimatedVelocity} SP/h");
             dataGrid.Rows.Add("Commitment Story Points", $"{response.CommitmentStoryPoints} SP");
@@ -56,9 +65,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             dataGrid.Rows.Add("Actual Velocity", $"{response.ActualVelocity} SP/h");
 
             dataGrid.Display();
+            
+            CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"The estimations were calculated based on previous {response.LookBackSprintCount} sprints.");
 
-            foreach (SprintMember sprintMember in response.SprintMembers)
-                DisplaySprintMemberDetails(sprintMember);
+            if (response.ExcludesSprints is { Count: > 0 })
+                CustomConsole.WriteLine($"The sprints {response.ExcludesSprints} sprints.");
         }
 
         private static StringBuilder CalculateWorkDays(IReadOnlyList<DateTime> workDays)
@@ -94,7 +105,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
                 TitleRow =
                 {
                     ForegroundColor = ConsoleColor.Black,
-                    BackgroundColor = ConsoleColor.Gray
+                    BackgroundColor = ConsoleColor.DarkGray
                 }
             };
 

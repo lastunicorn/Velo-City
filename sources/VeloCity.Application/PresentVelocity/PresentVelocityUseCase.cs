@@ -44,7 +44,6 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
                 .Select(x => new SprintVelocity
                 {
                     SprintNumber = x.Number,
-                    SprintName = x.Name,
                     Velocity = CalculateVelocity(x)
                 })
                 .ToList();

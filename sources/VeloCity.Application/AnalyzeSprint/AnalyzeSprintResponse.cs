@@ -43,5 +43,9 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
         public int ActualStoryPoints { get; set; }
 
         public float ActualVelocity { get; set; }
+        
+        public int LookBackSprintCount { get; set; }
+        
+        public List<int> ExcludesSprints { get; set; }
     }
 }
