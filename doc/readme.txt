@@ -1,4 +1,4 @@
-Velo City 1.0.0
+Velo City 1.1.0
 ====================================================================================================
 
 This is a console application tool that calculates the velocity of a scrum team.
