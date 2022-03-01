@@ -1,4 +1,4 @@
-Velo City 1.1.0
+Velo City 1.2.0
 ====================================================================================================
 
 This is a console application tool that calculates the velocity of a scrum team.
@@ -16,3 +16,4 @@ The available commands:
 	- sprint - Displays an analysis for the specified sprint.
 	- velocity - Displays the velocity for the last n sprints.
 	- vacations - Displays the vacation days for a team member.
+	- db - Opens the database file in a text editor.

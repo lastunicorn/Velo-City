@@ -90,7 +90,7 @@ namespace DustInTheWind.VeloCity.Presentation
                     Name = "db",
                     DescriptionLines = new List<string>()
                     {
-                        "Opens the database in the default editor.",
+                        "Opens the database in a text editor.",
                         "usage:",
                         "  db",
                         ""
