@@ -18,8 +18,11 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public interface IConfig
     {
-        bool DebugVerbose { get; }
-
+        ErrorMessageLevel ErrorMessageLevel { get; }
+        
         string DatabaseLocation { get; }
+     
+        string DatabaseEditor { get; }
+        string DatabaseEditorArguments { get; }
     }
 }

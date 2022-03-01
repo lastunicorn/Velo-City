@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using DustInTheWind.VeloCity.Domain;
 using Microsoft.Extensions.Configuration;
 
@@ -22,27 +23,16 @@ namespace DustInTheWind.VeloCity.Bootstrapper
     internal class Config : IConfig
     {
         private readonly IConfiguration config;
-
-        public bool DebugVerbose
+        
+        public ErrorMessageLevel ErrorMessageLevel
         {
             get
             {
-                IConfigurationSection debugConfigurationSection = config.GetSection("Debug");
+                IConfigurationSection configurationSection = config.GetSection("ErrorMessageLevel");
 
-                if (debugConfigurationSection.Exists())
-                {
-                    IConfigurationSection verboseConfigurationSection = debugConfigurationSection.GetSection("Verbose");
-
-                    if (verboseConfigurationSection.Exists())
-                    {
-                        string rawValue = verboseConfigurationSection.Value;
-                        bool success = bool.TryParse(rawValue, out bool value);
-
-                        return success && value;
-                    }
-                }
-
-                return false;
+                return configurationSection.Exists()
+                    ? (ErrorMessageLevel)Enum.Parse(typeof(ErrorMessageLevel), configurationSection.Value, true)
+                    : Domain.ErrorMessageLevel.Simple;
             }
         }
 
@@ -50,11 +40,35 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         {
             get
             {
-                IConfigurationSection debugConfigurationSection = config.GetSection("DatabaseLocation");
+                IConfigurationSection configurationSection = config.GetSection("DatabaseLocation");
 
-                return debugConfigurationSection.Exists()
-                    ? debugConfigurationSection.Value
-                    : "database.json";
+                return configurationSection.Exists()
+                    ? configurationSection.Value
+                    : "velo-city-database.json";
+            }
+        }
+
+        public string DatabaseEditor
+        {
+            get
+            {
+                IConfigurationSection configurationSection = config.GetSection("DatabaseEditor");
+
+                return configurationSection.Exists()
+                    ? configurationSection.Value
+                    : null;
+            }
+        }
+
+        public string DatabaseEditorArguments
+        {
+            get
+            {
+                IConfigurationSection configurationSection = config.GetSection("DatabaseEditorArguments");
+
+                return configurationSection.Exists()
+                    ? configurationSection.Value
+                    : null;
             }
         }
 

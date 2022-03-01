@@ -14,10 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Application.OpenDatabase
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class OpenDatabaseResponse
+    public enum ErrorMessageLevel
     {
-        public string DatabaseFilePath { get; set; }
+        Verbose,
+        Simple
     }
 }

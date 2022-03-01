@@ -37,7 +37,7 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
         {
             string databaseFilePath = config.DatabaseLocation;
 
-            CheckFileExists(databaseFilePath);
+            CheckDatabaseFileExists(databaseFilePath);
             OpenDatabaseFile(databaseFilePath);
 
             OpenDatabaseResponse response = new()
@@ -48,13 +48,13 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
             return Task.FromResult(response);
         }
 
-        private static void CheckFileExists(string databaseFilePath)
+        private static void CheckDatabaseFileExists(string databaseFilePath)
         {
             if (!File.Exists(databaseFilePath))
                 throw new Exception($"Database file does not exist: '{databaseFilePath}'");
         }
 
-        private static void OpenDatabaseFile(string databaseFilePath)
+        private void OpenDatabaseFile(string databaseFilePath)
         {
             try
             {
@@ -62,7 +62,14 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
                 {
                     StartInfo = new()
                     {
-                        FileName = $@"""{databaseFilePath}""",
+                        FileName = string.IsNullOrEmpty(config.DatabaseEditor)
+                            ? $@"""{databaseFilePath}"""
+                            : config.DatabaseEditor,
+                        Arguments = string.IsNullOrEmpty(config.DatabaseEditor)
+                            ? string.Empty
+                            : string.IsNullOrEmpty(config.DatabaseEditorArguments)
+                                ? $@"""{databaseFilePath}"""
+                                : string.Format(config.DatabaseEditorArguments, databaseFilePath),
                         UseShellExecute = true,
                     }
                 };

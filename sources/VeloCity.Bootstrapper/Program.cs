@@ -45,7 +45,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
         private static async Task Main(string[] args)
         {
-            bool debugVerbose = true;
+            ErrorMessageLevel debugVerbose = ErrorMessageLevel.Verbose;
 
             try
             {
@@ -55,15 +55,15 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 container = BuildContainer();
 
                 IConfig config = container.Resolve<IConfig>();
-                debugVerbose = config.DebugVerbose;
+                debugVerbose = config.ErrorMessageLevel;
 
-                ICliCommand command = CreateCommand(args);  
+                ICliCommand command = CreateCommand(args);
                 await command.Execute(args);
 
             }
             catch (Exception ex)
             {
-                if (debugVerbose)
+                if (debugVerbose == ErrorMessageLevel.Verbose)
                     CustomConsole.WriteLineError(ex);
                 else
                     CustomConsole.WriteLineError(ex.Message);
