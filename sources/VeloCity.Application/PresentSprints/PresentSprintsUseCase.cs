@@ -63,9 +63,11 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
             return new SprintOverview
             {
                 Name = sprint.Name,
+                SprintNumber = sprint.Number,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
                 TotalWorkHours = totalWorkHours,
+                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
                 ActualVelocity = velocity
             };

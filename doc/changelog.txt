@@ -1,6 +1,12 @@
 Velo City
 ====================================================================================================
 
+next
+----------------------------------------------------------------------------------------------------
+- [feature] Added velocity chart on the sprints overview display.
+- [feature] Added commitment chart on the sprints overview display.
+- [feature] Added sprint size chart on the sprints overview display.
+
 v1.2.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Added the "db" command that opens the dtabase file in a text editor.

@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DustInTheWind.VeloCity.Application.PresentVelocity;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
@@ -26,7 +27,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
     {
         public void Display(PresentVelocityResponse response)
         {
-            bool sprintsExist = response.SprintVelocities != null && response.SprintVelocities.Count > 0;
+            bool sprintsExist = response.SprintVelocities is { Count: > 0 };
             
             if (sprintsExist)
                 DisplaySprints(response.SprintVelocities);
@@ -36,23 +37,20 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 
         private static void DisplaySprints(IReadOnlyCollection<SprintVelocity> sprintVelocities)
         {
-            int sprintCount = sprintVelocities.Count;
-            Console.WriteLine($"Velocity History ({sprintCount} Sprints):");
             Console.WriteLine();
 
-            float maxValue = sprintVelocities.Max(x => x.Velocity);
-            const int chartMaxValue = 30;
-
-            foreach (SprintVelocity sprintVelocity in sprintVelocities)
+            VelocityChart velocityChart = new()
             {
-                float value = sprintVelocity.Velocity;
-                int chartValue = (int)Math.Round(value * chartMaxValue / maxValue);
+                Items = sprintVelocities
+                    .Select(x => new VelocityChartItem
+                    {
+                        SprintNumber = x.SprintNumber,
+                        Velocity = x.Velocity
+                    })
+                    .ToList()
+            };
 
-                StringBuilder sb = new();
-                sb.Append($"-  Sprint {sprintVelocity.SprintNumber} - {sprintVelocity.Velocity:N4} SP/h - ");
-                sb.Append(new string('*', chartValue));
-                Console.WriteLine(sb);
-            }
+            velocityChart.Display();
         }
     }
 }

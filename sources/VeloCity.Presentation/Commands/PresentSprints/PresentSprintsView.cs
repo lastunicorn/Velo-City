@@ -16,10 +16,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using DustInTheWind.ConsoleTools.Controls;
-using DustInTheWind.ConsoleTools.Controls.Tables;
+using System.Linq;
 using DustInTheWind.VeloCity.Application.PresentSprints;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
@@ -27,46 +26,84 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
     {
         public void Display(PresentSprintsResponse response)
         {
-            DataGrid dataGrid = new()
+            bool sprintsExist = response.SprintOverviews is { Count: > 0 };
+
+            if (sprintsExist)
             {
-                Title = $"The last {response.SprintOverviews?.Count} Sprints",
-                TitleRow =
-                {
-                    ForegroundColor = ConsoleColor.Black,
-                    BackgroundColor = ConsoleColor.DarkGray
-                },
-                Border =
-                {
-                    DisplayBorderBetweenRows = true
-                }
+                DisplaySprints(response.SprintOverviews);
+                DisplayVelocityChart(response.SprintOverviews);
+                DisplayCommitmentChart(response.SprintOverviews);
+                DisplaySprintsDimensionChart(response.SprintOverviews);
+            }
+            else
+            {
+                Console.WriteLine("There are no sprints.");
+            }
+        }
+
+        private static void DisplaySprints(IEnumerable<SprintOverview> sprintOverviews)
+        {
+            SprintsOverview sprintsOverview = new()
+            {
+                Items = sprintOverviews.ToList()
             };
 
-            if (response.SprintOverviews != null)
+            sprintsOverview.Display();
+        }
+
+        private static void DisplayVelocityChart(IEnumerable<SprintOverview> sprintOverviews)
+        {
+            Console.WriteLine();
+
+            VelocityChart velocityChart = new()
             {
-                foreach (SprintOverview sprintOverview in response.SprintOverviews)
-                {
-                    List<string> sprintNameLines = new()
+                Items = sprintOverviews
+                    .Select(x => new VelocityChartItem
                     {
-                        sprintOverview.Name,
-                        $"({sprintOverview.StartDate:d} - {sprintOverview.EndDate:d})"
-                    };
-                    ContentCell sprintNameCell = new(sprintNameLines);
+                        SprintNumber = x.SprintNumber,
+                        Velocity = x.ActualVelocity
+                    })
+                    .ToList()
+            };
 
+            velocityChart.Display();
+        }
 
-                    List<string> sprintInfoLines = new()
+        private static void DisplaySprintsDimensionChart(IEnumerable<SprintOverview> sprintOverviews)
+        {
+            Console.WriteLine();
+
+            SprintsSizeChart sprintsSizeChart = new()
+            {
+                Items = sprintOverviews
+                    .Select(x => new SprintsSizeChartItem
                     {
-                        $"Total Work Hours: {sprintOverview.TotalWorkHours} h",
-                        $"Actual Story Points: {sprintOverview.ActualStoryPoints} SP",
-                        $"Actual Velocity: {sprintOverview.ActualVelocity} SP/h"
-                    };
+                        SprintNumber = x.SprintNumber,
+                        TotalWorkHours = x.TotalWorkHours
+                    })
+                    .ToList()
+            };
 
-                    ContentCell sprintInfoCell = new(sprintInfoLines);
+            sprintsSizeChart.Display();
+        }
 
-                    dataGrid.Rows.Add(sprintNameCell, sprintInfoCell);
-                }
-            }
+        private static void DisplayCommitmentChart(List<SprintOverview> sprintOverviews)
+        {
+            Console.WriteLine();
 
-            dataGrid.Display();
+            CommitmentChart commitmentChart = new()
+            {
+                Items = sprintOverviews
+                    .Select(x => new CommitmentChartItem
+                    {
+                        SprintNumber = x.SprintNumber,
+                        CommitmentStoryPoints = x.CommitmentStoryPoints,
+                        ActualStoryPoints = x.ActualStoryPoints
+                    })
+                    .ToList()
+            };
+
+            commitmentChart.Display();
         }
     }
 }
