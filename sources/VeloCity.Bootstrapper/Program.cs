@@ -29,6 +29,7 @@ using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Presentation;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
 using DustInTheWind.VeloCity.Presentation.Commands.Help;
+using DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
@@ -51,12 +52,12 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 ApplicationHeader applicationHeader = new();
                 applicationHeader.Display();
 
-                Config config = new();
-                debugVerbose = config.DebugVerbose;
-
                 container = BuildContainer();
 
-                ICliCommand command = CreateCommand(args);
+                IConfig config = container.Resolve<IConfig>();
+                debugVerbose = config.DebugVerbose;
+
+                ICliCommand command = CreateCommand(args);  
                 await command.Execute(args);
 
             }
@@ -98,13 +99,14 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
 
+            containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
             containerBuilder.RegisterType<AvailableCommands>().AsSelf().SingleInstance();
 
             containerBuilder.Register((c, p) =>
             {
                 try
                 {
-                    Config config = new();
+                    IConfig config = c.Resolve<IConfig>();
                     string databaseFilePath = config.DatabaseLocation;
                     return new DatabaseFile(databaseFilePath);
                 }
@@ -131,6 +133,9 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             containerBuilder.RegisterType<VacationsCommand>().AsSelf();
             containerBuilder.RegisterType<VacationsView>().AsSelf();
+
+            containerBuilder.RegisterType<OpenDatabaseCommand>().AsSelf();
+            containerBuilder.RegisterType<OpenDatabaseView>().AsSelf();
 
             containerBuilder.RegisterType<HelpCommand>().AsSelf();
             containerBuilder.RegisterType<HelpView>().AsSelf();

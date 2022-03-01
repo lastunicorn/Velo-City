@@ -18,6 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
+using DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
 using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
@@ -83,6 +84,18 @@ namespace DustInTheWind.VeloCity.Presentation
                         ""
                     },
                     Type = typeof(VacationsCommand)
+                },
+                new CommandInfo
+                {
+                    Name = "db",
+                    DescriptionLines = new List<string>()
+                    {
+                        "Opens the database in the default editor.",
+                        "usage:",
+                        "  db",
+                        ""
+                    },
+                    Type = typeof(OpenDatabaseCommand)
                 }
             };
         }

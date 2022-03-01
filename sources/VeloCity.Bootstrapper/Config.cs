@@ -14,11 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Domain;
 using Microsoft.Extensions.Configuration;
 
 namespace DustInTheWind.VeloCity.Bootstrapper
 {
-    internal class Config
+    internal class Config : IConfig
     {
         private readonly IConfiguration config;
 
