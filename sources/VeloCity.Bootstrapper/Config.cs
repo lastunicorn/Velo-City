@@ -23,16 +23,23 @@ namespace DustInTheWind.VeloCity.Bootstrapper
     internal class Config : IConfig
     {
         private readonly IConfiguration config;
-        
+
         public ErrorMessageLevel ErrorMessageLevel
         {
             get
             {
-                IConfigurationSection configurationSection = config.GetSection("ErrorMessageLevel");
+                try
+                {
+                    IConfigurationSection configurationSection = config.GetSection("ErrorMessageLevel");
 
-                return configurationSection.Exists()
-                    ? (ErrorMessageLevel)Enum.Parse(typeof(ErrorMessageLevel), configurationSection.Value, true)
-                    : Domain.ErrorMessageLevel.Simple;
+                    return configurationSection.Exists()
+                        ? (ErrorMessageLevel)Enum.Parse(typeof(ErrorMessageLevel), configurationSection.Value, true)
+                        : ErrorMessageLevel.Simple;
+                }
+                catch (Exception ex)
+                {
+                    throw new ConfigurationException("Error reading the ErrorMessageLevel value from the configuration file.", ex);
+                }
             }
         }
 
@@ -74,9 +81,16 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
         public Config()
         {
-            config = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+            try
+            {
+                config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+            }
+            catch (Exception ex)
+            {
+                throw new ConfigurationException("Could not open the configuration file.", ex);
+            }
         }
     }
 }
