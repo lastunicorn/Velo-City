@@ -14,6 +14,5 @@ configuration file from the installation directory.
 The available commands:
 	- sprints - Displays a list with the last n sprints.
 	- sprint - Displays an analysis for the specified sprint.
-	- velocity - Displays the velocity for the last n sprints.
 	- vacations - Displays the vacation days for a team member.
 	- db - Opens the database file in a text editor.

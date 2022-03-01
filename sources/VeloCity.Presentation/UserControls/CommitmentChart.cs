@@ -46,7 +46,8 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 
             if (onlyCommitmentCount > 0)
             {
-                string onlyCommitmentString = new('─', onlyCommitmentCount);
+                // ─ ═ » ·
+                string onlyCommitmentString = new('-', onlyCommitmentCount);
                 CustomConsole.Write(ConsoleColor.DarkRed, onlyCommitmentString);
             }
 

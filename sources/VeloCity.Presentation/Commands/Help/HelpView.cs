@@ -24,6 +24,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
     {
         public void Display(List<CommandInfo> commands)
         {
+            Console.WriteLine("usage: velo [command]");
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Available commands:");
             Console.WriteLine();
 

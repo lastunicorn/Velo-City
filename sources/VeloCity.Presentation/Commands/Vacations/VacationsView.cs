@@ -59,10 +59,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
         private static ContentRow ToRow(DateTime date, IEnumerable<VacationInfo> vacationInfos)
         {
             ContentRow row = new();
-
-            int currentYear = date.Year;
-            int currentMonth = date.Month;
-            row.AddCell($"{currentYear}.{currentMonth}");
+            row.AddCell($"{date:yyyy MM}");
 
             List<string> lines = vacationInfos
                 .Select(ToString)

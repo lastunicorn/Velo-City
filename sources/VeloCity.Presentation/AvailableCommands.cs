@@ -62,19 +62,6 @@ namespace DustInTheWind.VeloCity.Presentation
                 },
                 new CommandInfo
                 {
-                    Name = "velocity",
-                    DescriptionLines = new List<string>()
-                    {
-                        "Displays the velocity for the last n sprints.",
-                        "usage:",
-                        "  velocity",
-                        "  velocity [sprint-count]",
-                        ""
-                    },
-                    Type = typeof(PresentVelocityCommand)
-                },
-                new CommandInfo
-                {
                     Name = "vacations",
                     DescriptionLines = new List<string>()
                     {
