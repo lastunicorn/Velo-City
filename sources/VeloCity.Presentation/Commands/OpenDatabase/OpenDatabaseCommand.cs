@@ -35,9 +35,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase
         public async Task Execute(string[] strings)
         {
             OpenDatabaseRequest request = new();
-            await mediator.Send(request);
+            OpenDatabaseResponse response = await mediator.Send(request);
 
-            view.DisplaySuccess();
+            view.Display(response);
         }
     }
 }

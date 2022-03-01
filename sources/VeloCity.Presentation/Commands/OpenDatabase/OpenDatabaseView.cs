@@ -15,14 +15,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.ConsoleTools;
+using DustInTheWind.VeloCity.Application.OpenDatabase;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase
 {
     public class OpenDatabaseView
     {
-        public void DisplaySuccess()
+        public void Display(OpenDatabaseResponse response)
         {
-            CustomConsole.WriteLineSuccess("Database was successfully opened in the default editor.");
+            string editorTypeText = response.DatabaseEditorType == DatabaseEditorType.Custom
+                ? "custom"
+                : "default";
+
+            CustomConsole.WriteLineSuccess($"Database file '{response.DatabaseFilePath}' was successfully opened in the {editorTypeText} editor.");
         }
     }
 }

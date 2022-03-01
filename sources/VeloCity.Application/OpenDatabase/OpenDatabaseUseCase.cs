@@ -38,11 +38,12 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
             string databaseFilePath = config.DatabaseLocation;
 
             CheckDatabaseFileExists(databaseFilePath);
-            OpenDatabaseFile(databaseFilePath);
+            DatabaseEditorType databaseEditorType = OpenDatabaseFile(databaseFilePath);
 
             OpenDatabaseResponse response = new()
             {
-                DatabaseFilePath = databaseFilePath
+                DatabaseFilePath = databaseFilePath,
+                DatabaseEditorType = databaseEditorType
             };
 
             return Task.FromResult(response);
@@ -54,27 +55,44 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
                 throw new Exception($"Database file does not exist: '{databaseFilePath}'");
         }
 
-        private void OpenDatabaseFile(string databaseFilePath)
+        private DatabaseEditorType OpenDatabaseFile(string databaseFilePath)
         {
             try
             {
+                string fileName;
+                string arguments;
+
+                bool isCustomEditorProvided = !string.IsNullOrEmpty(config.DatabaseEditor);
+                if (isCustomEditorProvided)
+                {
+                    fileName = config.DatabaseEditor;
+
+                    bool areCustomArgumentsProvided = !string.IsNullOrEmpty(config.DatabaseEditorArguments);
+                    arguments = areCustomArgumentsProvided
+                        ? string.Format(config.DatabaseEditorArguments, databaseFilePath)
+                        : $@"""{databaseFilePath}""";
+                }
+                else
+                {
+                    fileName = $@"""{databaseFilePath}""";
+                    arguments = string.Empty;
+                }
+
                 Process process = new()
                 {
                     StartInfo = new()
                     {
-                        FileName = string.IsNullOrEmpty(config.DatabaseEditor)
-                            ? $@"""{databaseFilePath}"""
-                            : config.DatabaseEditor,
-                        Arguments = string.IsNullOrEmpty(config.DatabaseEditor)
-                            ? string.Empty
-                            : string.IsNullOrEmpty(config.DatabaseEditorArguments)
-                                ? $@"""{databaseFilePath}"""
-                                : string.Format(config.DatabaseEditorArguments, databaseFilePath),
+                        FileName = fileName,
+                        Arguments = arguments,
                         UseShellExecute = true,
                     }
                 };
 
                 process.Start();
+
+                return isCustomEditorProvided
+                    ? DatabaseEditorType.Custom
+                    : DatabaseEditorType.Default;
             }
             catch (Exception ex)
             {
