@@ -30,16 +30,6 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj">
-      <Name>VeloCity.Installer.CustomActions</Name>
-      <Project>{77bd3b4c-3c30-4e9e-b97c-d30b1a34209f}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="license.rtf" />
     <Content Include="uninstall.bat" />
     <Content Include="install.bat" />
@@ -53,6 +43,16 @@
   <ItemGroup>
     <Folder Include="GUI" />
     <Folder Include="Components" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj">
+      <Name>VeloCity.Installer.CustomActions</Name>
+      <Project>{5f8eb48d-91d4-40d1-af0d-bce84941dad3}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
