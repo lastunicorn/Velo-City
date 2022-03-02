@@ -101,8 +101,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Y="100"
                     Width="330"
                     Height="18"
-                    Property="DATABASE_JSON_LOCATION"
-                    Text="{80}" />
+                    Property="DATABASE_JSON_LOCATION" />
 
                 <Control
                     Id="DatabaseFileNote"

@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 
             int bothCount = Math.Min(actualSpChartValue, commitmentSpChartValue);
             string bothString = new('═', bothCount);
-            CustomConsole.Write(ConsoleColor.Green, bothString);
+            CustomConsole.Write(ConsoleColor.DarkGreen, bothString);
 
             int onlyCommitmentCount = actualSpChartValue < commitmentSpChartValue
                 ? commitmentSpChartValue - actualSpChartValue
