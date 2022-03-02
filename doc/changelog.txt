@@ -1,7 +1,7 @@
 Velo City
 ====================================================================================================
 
-next
+v1.3.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Added velocity chart on the sprints overview display.
 - [feature] Added commitment chart on the sprints overview display.
