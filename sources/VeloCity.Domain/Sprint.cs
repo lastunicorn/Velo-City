@@ -36,7 +36,16 @@ namespace DustInTheWind.VeloCity.Domain
 
         public List<OfficialHoliday> OfficialHolidays { get; set; }
 
-        public IEnumerable<SprintDay> GetWorkDays()
+        public SprintState State { get; set; }
+
+        public IEnumerable<DateTime> EnumerateWorkDates()
+        {
+            return EnumerateAllDays()
+                .Where(x => x.IsWorkDay)
+                .Select(x => x.Date);
+        }
+
+        public IEnumerable<SprintDay> EnumerateWorkDays()
         {
             return EnumerateAllDays()
                 .Where(x => x.IsWorkDay);

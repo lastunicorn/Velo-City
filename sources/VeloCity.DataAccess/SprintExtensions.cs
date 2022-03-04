@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
@@ -40,6 +41,18 @@ namespace DustInTheWind.VeloCity.DataAccess
                 EndDate = sprint.EndDate,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
+                State = sprint.State.ToJEntity()
+            };
+        }
+
+        public static JSprintState ToJEntity(this SprintState sprintState)
+        {
+            return sprintState switch
+            {
+                SprintState.New => JSprintState.New,
+                SprintState.InProgress => JSprintState.InProgress,
+                SprintState.Closed => JSprintState.Closed,
+                _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
             };
         }
 
@@ -59,6 +72,18 @@ namespace DustInTheWind.VeloCity.DataAccess
                 EndDate = sprint.EndDate,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
+                State = sprint.State.ToEntity()
+            };
+        }
+
+        public static SprintState ToEntity(this JSprintState sprintState)
+        {
+            return sprintState switch
+            {
+                JSprintState.New => SprintState.New,
+                JSprintState.InProgress => SprintState.InProgress,
+                JSprintState.Closed => SprintState.Closed,
+                _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
             };
         }
     }

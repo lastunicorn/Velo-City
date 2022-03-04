@@ -36,24 +36,26 @@ namespace DustInTheWind.VeloCity.DataAccess
             return database.Sprints.FirstOrDefault(x => x.Number == sprintId);
         }
 
-        public IEnumerable<Sprint> GetBefore(int sprintId, int count)
+        public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count)
         {
             return database.Sprints
                 .OrderByDescending(x => x.StartDate)
-                .SkipWhile(x => x.Number != sprintId)
+                .SkipWhile(x => x.Number != sprintNumber)
                 .Skip(1)
+                .Where(x => x.State == SprintState.Closed)
                 .Take(count);
         }
 
-        public IEnumerable<Sprint> GetBefore(int sprintId, int count, IEnumerable<int> excludedSprints)
+        public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints)
         {
             List<int> excludedSprintsList = excludedSprints.ToList();
 
             return database.Sprints
                 .Where(x => !excludedSprintsList.Contains(x.Number))
                 .OrderByDescending(x => x.StartDate)
-                .SkipWhile(x => x.Number != sprintId)
+                .SkipWhile(x => x.Number != sprintNumber)
                 .Skip(1)
+                .Where(x => x.State == SprintState.Closed)
                 .Take(count);
         }
 

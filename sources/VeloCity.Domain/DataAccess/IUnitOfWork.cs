@@ -18,12 +18,10 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public interface IUnitOfWork
     {
-        public IOfficialFreeDayRepository OfficialFreeDayRepository { get; }
+        public IOfficialHolidayRepository OfficialHolidayRepository { get; }
         
         public ISprintRepository SprintRepository { get; }
         
         public ITeamMemberRepository TeamMemberRepository { get; }
-        
-        //public IVacationRepository VacationRepository { get; }
     }
 }

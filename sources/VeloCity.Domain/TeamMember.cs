@@ -32,7 +32,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public int CalculateWorkHoursFor(Sprint sprint)
         {
-            return sprint.GetWorkDays()
+            return sprint.EnumerateWorkDays()
                 .Select(CalculateWorkHoursFor)
                 .Sum();
         }

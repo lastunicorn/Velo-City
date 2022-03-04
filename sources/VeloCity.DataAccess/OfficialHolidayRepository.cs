@@ -15,27 +15,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
-    public class UnitOfWork : IUnitOfWork
+    internal class OfficialHolidayRepository : IOfficialHolidayRepository
     {
         private readonly Database database;
 
-        private OfficialHolidayRepository officialHolidayRepository;
-        private SprintRepository sprintRepository;
-        private TeamMemberRepository teamMemberRepository;
-        
-        public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(database);
-        
-        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(database);
-
-        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(database);
-
-        public UnitOfWork(Database database)
+        public OfficialHolidayRepository(Database database)
         {
             this.database = database ?? throw new ArgumentNullException(nameof(database));
+        }
+
+        public IEnumerable<OfficialHoliday> GetAll()
+        {
+            return database.OfficialHolidays;
+        }
+
+        public IEnumerable<OfficialHoliday> GetAll(DateTime startDate, DateTime endDate)
+        {
+            return database.OfficialHolidays
+                .Where(x => x.Date >= startDate && x.Date <= endDate);
         }
     }
 }

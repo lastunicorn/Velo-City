@@ -36,42 +36,87 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = request.SprintNumber == null
-                ? unitOfWork.SprintRepository.GetLast()
-                : unitOfWork.SprintRepository.Get(request.SprintNumber.Value);
+            Sprint currentSprint = RetrieveSprintToAnalyze(request.SprintNumber);
+            List<SprintMember> sprintMembers = RetrieveSprintMembers(currentSprint);
 
-            if (currentSprint == null)
+            List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, request.LookBackSprintCount, request.ExcludedSprints);
+            float averageVelocity = CalculateAverageVelocity(previousSprints);
+
+            int totalWorkHours = CalculateTotalWorkHours(sprintMembers);
+
+            AnalyzeSprintResponse response = new()
             {
-                if (request.SprintNumber == null)
-                    throw new NoSprintException();
+                SprintName = currentSprint.Name,
+                WorkDays = currentSprint.EnumerateWorkDates().ToList(),
+                StartDate = currentSprint.StartDate,
+                EndDate = currentSprint.EndDate,
+                SprintMembers = sprintMembers,
+                TotalWorkHours = totalWorkHours,
+                ActualStoryPoints = currentSprint.ActualStoryPoints,
+                ActualVelocity = (float)currentSprint.ActualStoryPoints / totalWorkHours,
+                CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
+                EstimatedStoryPoints = totalWorkHours * averageVelocity,
+                EstimatedVelocity = averageVelocity,
+                LookBackSprintCount = request.LookBackSprintCount,
+                PreviousSprints = previousSprints.Select(x => x.Number).ToList(),
+                ExcludesSprints = request.ExcludedSprints?.ToList()
+            };
 
-                throw new SprintDoesNotExistException(request.SprintNumber.Value);
-            }
+            return Task.FromResult(response);
+        }
 
-            List<DateTime> workDays = currentSprint.GetWorkDays()
-                .Select(x => x.Date)
-                .ToList();
+        private static int CalculateTotalWorkHours(IEnumerable<SprintMember> sprintMembers)
+        {
+            return sprintMembers
+                .SelectMany(x => x.Days.Select(z => z.WorkHours))
+                .Sum();
+        }
 
+        private List<SprintMember> RetrieveSprintMembers(Sprint currentSprint)
+        {
             List<SprintMember> sprintMembers = unitOfWork.TeamMemberRepository.GetAll()
                 .Select(x => x.ToSprintMember(currentSprint))
                 .Where(x => x.IsEmployed)
                 .ToList();
+            return sprintMembers;
+        }
 
-            int totalWorkHours = sprintMembers
-                .SelectMany(x => x.Days.Select(z => z.WorkHours))
-                .Sum();
+        private Sprint RetrieveSprintToAnalyze(int? sprintNumber)
+        {
+            Sprint currentSprint = sprintNumber == null
+                ? unitOfWork.SprintRepository.GetLast()
+                : unitOfWork.SprintRepository.Get(sprintNumber.Value);
 
-            float velocity = (float)currentSprint.ActualStoryPoints / totalWorkHours;
+            if (currentSprint == null)
+            {
+                if (sprintNumber == null)
+                    throw new NoSprintException();
 
-            bool excludedSprintsExists = request.ExcludedSprints is { Count: > 0 };
-            IEnumerable<Sprint> previousSprints = excludedSprintsExists
-                ? unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackSprintCount, request.ExcludedSprints)
-                : unitOfWork.SprintRepository.GetBefore(currentSprint.Number, request.LookBackSprintCount);
+                throw new SprintDoesNotExistException(sprintNumber.Value);
+            }
+
+            return currentSprint;
+        }
+
+        private List<Sprint> RetrievePreviousSprints(int sprintNumber, int count, List<int> excludedSprints)
+        {
+            bool excludedSprintsExists = excludedSprints is { Count: > 0 };
+
+            IEnumerable<Sprint> sprints = excludedSprintsExists
+                ? unitOfWork.SprintRepository.GetClosedSprintsBefore(sprintNumber, count, excludedSprints)
+                : unitOfWork.SprintRepository.GetClosedSprintsBefore(sprintNumber, count);
+            
+            return sprints.ToList();
+        }
+
+        private float CalculateAverageVelocity(IEnumerable<Sprint> previousSprints)
+        {
+            List<TeamMember> allTeamMembers = unitOfWork.TeamMemberRepository.GetAll().ToList();
 
             IEnumerable<float> previousVelocities = previousSprints
                 .Select(x =>
                 {
-                    int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
+                    int totalWorkHours = allTeamMembers
                         .Select(z => z.CalculateWorkHoursFor(x))
                         .Sum();
 
@@ -82,24 +127,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 ? previousVelocities.Average()
                 : 0;
 
-            AnalyzeSprintResponse response = new()
-            {
-                SprintName = currentSprint.Name,
-                WorkDays = workDays,
-                StartDate = currentSprint.StartDate,
-                EndDate = currentSprint.EndDate,
-                SprintMembers = sprintMembers,
-                TotalWorkHours = totalWorkHours,
-                ActualStoryPoints = currentSprint.ActualStoryPoints,
-                ActualVelocity = velocity,
-                CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
-                EstimatedStoryPoints = totalWorkHours * averageVelocity,
-                EstimatedVelocity = averageVelocity,
-                LookBackSprintCount = request.LookBackSprintCount,
-                ExcludesSprints = request.ExcludedSprints?.ToList()
-            };
-
-            return Task.FromResult(response);
+            return averageVelocity;
         }
     }
 }

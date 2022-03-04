@@ -66,7 +66,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
             CustomConsole.WriteLine();
             CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
-            CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - The estimations were calculated based on previous {response.LookBackSprintCount} sprints.");
+
+            string previousSprints = string.Join(",", response.PreviousSprints);
+            CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - The estimations were calculated based on previous {response.LookBackSprintCount} closed sprints: {previousSprints}");
 
             if (response.ExcludesSprints is { Count: > 0 })
             {

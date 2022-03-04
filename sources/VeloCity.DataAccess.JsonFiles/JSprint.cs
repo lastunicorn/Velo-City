@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Newtonsoft.Json;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
@@ -31,5 +32,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
         public int CommitmentStoryPoints { get; set; }
 
         public int ActualStoryPoints { get; set; }
+
+        public JSprintState State { get; set; }
     }
 }

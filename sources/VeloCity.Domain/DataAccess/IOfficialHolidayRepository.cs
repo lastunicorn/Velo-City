@@ -16,25 +16,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DataAccess;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
-    internal class OfficialFreeDayRepository : IOfficialFreeDayRepository
+    public interface IOfficialHolidayRepository
     {
-        private readonly Database database;
-
-        public OfficialFreeDayRepository(Database database)
-        {
-            this.database = database ?? throw new ArgumentNullException(nameof(database));
-        }
-
-        public IEnumerable<OfficialHoliday> GetAll(DateTime startDate, DateTime endDate)
-        {
-            return database.OfficialHolidays
-                .Where(x => x.Date >= startDate && x.Date <= endDate);
-        }
+        IEnumerable<OfficialHoliday> GetAll();
+     
+        IEnumerable<OfficialHoliday> GetAll(DateTime startDate, DateTime endDate);
     }
 }

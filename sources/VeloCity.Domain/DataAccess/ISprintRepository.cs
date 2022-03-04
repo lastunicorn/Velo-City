@@ -22,9 +22,9 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
     {
         Sprint Get(int sprintId);
         
-        IEnumerable<Sprint> GetBefore(int sprintId, int count);
+        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count);
         
-        IEnumerable<Sprint> GetBefore(int sprintId, int count, IEnumerable<int> excludedSprints);
+        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints);
         
         IEnumerable<Sprint> GetPage(int pageIndex, int count);
         
