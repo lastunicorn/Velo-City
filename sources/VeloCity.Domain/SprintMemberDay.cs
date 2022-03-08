@@ -29,5 +29,47 @@ namespace DustInTheWind.VeloCity.Domain
         public AbsenceReason AbsenceReason { get; set; }
         
         public string AbsenceComments { get; set; }
+
+        public int OvertimeHours { get; set; }
+        
+        public string OvertimeComments { get; set; }
+
+        //public SprintMemberDay(SprintDay sprintDay, TeamMember teamMember)
+        //{
+        //    if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
+        //    if (teamMember == null) throw new ArgumentNullException(nameof(teamMember));
+
+        //    Date = sprintDay.Date;
+        
+        //    int workHours = 0;
+
+        //    Employment employment = teamMember.GetEmploymentFor(sprintDay.Date);
+
+        //    bool isEmployed = employment != null;
+        //    if (isEmployed && sprintDay.IsWorkDay)
+        //    {
+        //        workHours = employment.HoursPerDay;
+
+        //        VacationDay vacationDay = teamMember.GetVacationFor(sprintDay.Date);
+
+        //        bool hasVacation = vacationDay != null;
+        //        if (hasVacation)
+        //        {
+        //            bool isFullDayVacation = vacationDay.HourCount == null;
+
+        //            workHours -= isFullDayVacation
+        //                ? employment.HoursPerDay
+        //                : vacationDay.HourCount.Value;
+        //        }
+
+        //        OvertimeDay overtimeDay = teamMember.GetOvertimeFor(sprintDay.Date);
+
+        //        bool hasOvertime = overtimeDay != null;
+        //        if (hasOvertime)
+        //            workHours += overtimeDay.HourCount;
+        //    }
+
+        //    return workHours;
+        //}
     }
 }

@@ -14,20 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public class JTeamMember
+    public class JOvertimeDay
     {
-        public int Id { get; set; }
+        public DateTime Date { get; set; }
 
-        public string Name { get; set; }
-        
-        public List<JEmployment> Employments { get; set; }
+        public int HourCount { get; set; }
 
-        public List<JVacationDay> VacationDays { get; set; }
-
-        public List<JOvertimeDay> OvertimeDays { get; set; }
+        public string Comments { get; set; }
     }
 }
