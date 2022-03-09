@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
         {
             Console.WriteLine();
 
-            VelocityChart velocityChart = new()
+            VelocityChartControl velocityChartControl = new()
             {
                 Items = sprintOverviews
                     .Select(x => new VelocityChartItem
@@ -66,14 +66,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
                     .ToList()
             };
 
-            velocityChart.Display();
+            velocityChartControl.Display();
         }
 
         private static void DisplaySprintsDimensionChart(IEnumerable<SprintOverview> sprintOverviews)
         {
             Console.WriteLine();
 
-            SprintsSizeChart sprintsSizeChart = new()
+            SprintsSizeChartControl sprintsSizeChartControl = new()
             {
                 Items = sprintOverviews
                     .Select(x => new SprintsSizeChartItem
@@ -84,14 +84,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
                     .ToList()
             };
 
-            sprintsSizeChart.Display();
+            sprintsSizeChartControl.Display();
         }
 
         private static void DisplayCommitmentChart(List<SprintOverview> sprintOverviews)
         {
             Console.WriteLine();
 
-            CommitmentChart commitmentChart = new()
+            CommitmentChartControl commitmentChartControl = new()
             {
                 Items = sprintOverviews
                     .Select(x => new CommitmentChartItem
@@ -103,7 +103,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
                     .ToList()
             };
 
-            commitmentChart.Display();
+            commitmentChartControl.Display();
         }
     }
 }

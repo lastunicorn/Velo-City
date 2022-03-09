@@ -20,7 +20,6 @@ using System.Linq;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
 using DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
-using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
 using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
 
 namespace DustInTheWind.VeloCity.Presentation

@@ -18,6 +18,7 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public enum SprintState
     {
+        Unknown = 0,
         New,
         InProgress,
         Closed

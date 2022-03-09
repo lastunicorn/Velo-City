@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
         {
             Console.WriteLine();
 
-            VelocityChart velocityChart = new()
+            VelocityChartControl velocityChartControl = new()
             {
                 Items = sprintVelocities
                     .Select(x => new VelocityChartItem
@@ -50,7 +50,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
                     .ToList()
             };
 
-            velocityChart.Display();
+            velocityChartControl.Display();
         }
     }
 }

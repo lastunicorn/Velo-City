@@ -19,6 +19,7 @@ using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
@@ -44,15 +45,37 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
                 }
             };
 
-            dataGrid.Rows.Add("Work Days", Response.WorkDays?.Count);
+            dataGrid.Rows.Add("State", RenderState());
+            dataGrid.Rows.Add("Work Days", Response.WorkDays?.Count + " days");
             dataGrid.Rows.Add("Total Work Hours", $"{Response.TotalWorkHours} h");
-            dataGrid.Rows.Add("Estimated Story Points", $"{Response.EstimatedStoryPoints} SP");
-            dataGrid.Rows.Add("Estimated Velocity", $"{Response.EstimatedVelocity} SP/h");
+
+            string estimatedStoryPointsString = Response.EstimatedStoryPoints == null
+                ? "-"
+                : Response.EstimatedStoryPoints.ToString();
+            dataGrid.Rows.Add("Estimated Story Points", $"{estimatedStoryPointsString} SP");
+
+            string estimatedVelocityString = Response.EstimatedVelocity == null
+                ? "-"
+                : Response.EstimatedVelocity.ToString();
+            dataGrid.Rows.Add("Estimated Velocity", $"{estimatedVelocityString} SP/h");
             dataGrid.Rows.Add("Commitment Story Points", $"{Response.CommitmentStoryPoints} SP");
+
             dataGrid.Rows.Add("Actual Story Points", $"{Response.ActualStoryPoints} SP");
             dataGrid.Rows.Add("Actual Velocity", $"{Response.ActualVelocity} SP/h");
 
             dataGrid.Display();
+        }
+
+        private string RenderState()
+        {
+            return Response.SprintState switch
+            {
+                SprintState.Unknown => "unknown",
+                SprintState.New => "new",
+                SprintState.InProgress => "in progress",
+                SprintState.Closed => "closed",
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         private void DisplayNotes()
@@ -60,8 +83,17 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             CustomConsole.WriteLine();
             CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
 
-            string previousSprints = string.Join(",", Response.PreviousSprints);
-            CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - The estimations were calculated based on previous {Response.LookBackSprintCount} closed sprints: {previousSprints}");
+            bool previousSprintsExist = Response.PreviousSprints != null && Response.PreviousSprints.Count > 0;
+
+            if (previousSprintsExist)
+            {
+                string previousSprints = string.Join(", ", Response.PreviousSprints);
+                CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - The estimations were calculated based on previous {Response.PreviousSprints.Count} closed sprints: {previousSprints}");
+            }
+            else
+            {
+                CustomConsole.WriteLine(ConsoleColor.DarkYellow, "  - Could not calculate an estimation because no previous closed sprints exist.");
+            }
 
             if (Response.ExcludesSprints is { Count: > 0 })
             {

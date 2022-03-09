@@ -23,7 +23,9 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
     public class AnalyzeSprintResponse
     {
         public string SprintName { get; set; }
-        
+
+        public SprintState SprintState { get; set; }
+
         public List<DateTime> WorkDays { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -34,9 +36,9 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public int TotalWorkHours { get; set; }
 
-        public float EstimatedStoryPoints { get; set; }
+        public float? EstimatedStoryPoints { get; set; }
 
-        public float EstimatedVelocity { get; set; }
+        public float? EstimatedVelocity { get; set; }
 
         public int CommitmentStoryPoints { get; set; }
 

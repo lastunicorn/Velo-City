@@ -36,7 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
             DataGrid dataGrid = new()
             {
-                Title = $"Work Days ({WorkDays.Count} days) - Overview",
+                Title = "Work Days Overview",
                 TitleRow =
                 {
                     ForegroundColor = ConsoleColor.Black,
@@ -53,6 +53,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             };
             dataGrid.Columns.Add(workColumn);
 
+            dataGrid.Columns.Add(string.Empty);
+
             Column vacationColumn = new("Vacation")
             {
                 CellHorizontalAlignment = HorizontalAlignment.Right
@@ -61,72 +63,88 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
             foreach (DateTime date in WorkDays)
             {
-                ContentRow dataRow = new();
-
-                dataRow.AddCell($"{date:d} ({date:dddd})");
-
-                List<SprintMemberDay> sprintMemberDays;
-
-                if (SprintMembers != null)
-                {
-                    sprintMemberDays = SprintMembers
-                       .Select(x => x.Days?.FirstOrDefault(z => z.Date == date))
-                       .Where(x => x != null)
-                       .ToList();
-                }
-                else
-                {
-                    sprintMemberDays = new List<SprintMemberDay>();
-                }
-
-                ContentCell workHoursCell = CreateWorkHoursCell(sprintMemberDays);
-                dataRow.AddCell(workHoursCell);
-
-                ContentCell absenceCell = CreateAbsenceCell(sprintMemberDays);
-                dataRow.AddCell(absenceCell);
-
+                ContentRow dataRow = CreateContentRow(date);
                 dataGrid.Rows.Add(dataRow);
             }
 
             dataGrid.Display();
         }
 
-        private static ContentCell CreateWorkHoursCell(IEnumerable<SprintMemberDay> sprintMemberDays)
+        private ContentRow CreateContentRow(DateTime date)
         {
+            List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(date);
             int workHours = sprintMemberDays.Sum(x => x.WorkHours);
-
-            ContentCell workHoursCell = new();
-
-            if (workHours == 0)
-            {
-                workHoursCell.Content = "- h";
-            }
-            else
-            {
-                workHoursCell.Content = $"{workHours} h";
-                workHoursCell.ForegroundColor = ConsoleColor.Green;
-            }
-
-            return workHoursCell;
-        }
-
-        private static ContentCell CreateAbsenceCell(IEnumerable<SprintMemberDay> sprintMemberDays)
-        {
             int absenceHours = sprintMemberDays.Sum(x => x.AbsenceHours);
 
-            ContentCell absenceCell = new();
+            ContentRow dataRow = new();
 
+            dataRow.AddCell($"{date:d} ({date:dddd})");
+
+            ContentCell workHoursCell = CreateWorkHoursCell(workHours);
+            dataRow.AddCell(workHoursCell);
+
+            const int chartMaxValue = 25;
+
+            int value = workHours;
+            int maxValue = workHours + absenceHours;
+            int chartValue = (int)Math.Round((float)value * chartMaxValue / maxValue);
+
+            string chartBarString = new string('═', chartValue) + new string('-', chartMaxValue - chartValue);
+            ContentCell chartCell = new(chartBarString)
+            {
+                ForegroundColor = ConsoleColor.Green
+            };
+            dataRow.AddCell(chartCell);
+
+            ContentCell absenceCell = CreateAbsenceCell(absenceHours);
+            dataRow.AddCell(absenceCell);
+
+            return dataRow;
+        }
+
+        private List<SprintMemberDay> GetAllSprintMemberDays(DateTime date)
+        {
+            if (SprintMembers == null)
+                return new List<SprintMemberDay>();
+
+            return SprintMembers
+                .Select(x => x.Days?.FirstOrDefault(z => z.Date == date))
+                .Where(x => x != null)
+                .ToList();
+        }
+
+        private static ContentCell CreateWorkHoursCell(int workHours)
+        {
+            if (workHours == 0)
+            {
+                return new ContentCell
+                {
+                    Content = "- h"
+                };
+            }
+
+            return new ContentCell
+            {
+                Content = $"{workHours} h",
+                ForegroundColor = ConsoleColor.Green
+            };
+        }
+
+        private static ContentCell CreateAbsenceCell(int absenceHours)
+        {
             if (absenceHours == 0)
             {
-                absenceCell.Content = "- h";
-            }
-            else
-            {
-                absenceCell.Content = $"{absenceHours} h";
-                absenceCell.ForegroundColor = ConsoleColor.Yellow;
+                return new ContentCell
+                {
+                    Content = "- h"
+                };
             }
 
-            return absenceCell;
+            return new ContentCell
+            {
+                Content = $"{absenceHours} h",
+                ForegroundColor = ConsoleColor.Yellow
+            };
         }
     }
 }
