@@ -43,7 +43,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             float averageVelocity = CalculateAverageVelocity(previousSprints);
 
             int totalWorkHours = CalculateTotalWorkHours(sprintMembers);
-
+            
             AnalyzeSprintResponse response = new()
             {
                 SprintName = currentSprint.Name,

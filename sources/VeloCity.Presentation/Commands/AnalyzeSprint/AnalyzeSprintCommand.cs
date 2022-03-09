@@ -54,7 +54,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
                 : null;
         }
 
-        private List<int> GetExcludedSprintsList(IReadOnlyList<string> args)
+        private static List<int> GetExcludedSprintsList(IReadOnlyList<string> args)
         {
             if (args.Count > 2)
             {
