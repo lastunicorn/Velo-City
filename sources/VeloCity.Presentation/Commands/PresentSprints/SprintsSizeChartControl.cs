@@ -23,13 +23,13 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
-    internal class SprintsSizeChartControl : Control
+    internal class SprintsSizeChartControl : BlockControl
     {
         private const int ChartMaxValue = 30;
 
         public List<SprintsSizeChartItem> Items { get; set; }
 
-        protected override void DoDisplay()
+        protected override void DoDisplayContent(ControlDisplay display)
         {
             if (Items == null || Items.Count == 0)
                 return;

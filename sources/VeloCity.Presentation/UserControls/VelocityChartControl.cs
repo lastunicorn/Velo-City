@@ -18,10 +18,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools;
+using DustInTheWind.ConsoleTools.Controls;
 
 namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
-    internal class VelocityChartControl
+    internal class VelocityChartControl : BlockControl
     {
         private const int ChartMaxValue = 30;
 
@@ -29,7 +30,7 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 
         public List<VelocityChartItem> Items { get; set; }
 
-        public void Display()
+        protected override void DoDisplayContent(ControlDisplay display)
         {
             if (Items == null || Items.Count == 0)
                 return;

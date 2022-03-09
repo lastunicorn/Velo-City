@@ -23,7 +23,7 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
-    internal class CommitmentChartControl : Control
+    internal class CommitmentChartControl : BlockControl
     {
         private const int ChartMaxValue = 30;
 
@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 
         public List<CommitmentChartItem> Items { get; set; }
 
-        protected override void DoDisplay()
+        protected override void DoDisplayContent(ControlDisplay display)
         {
             if (Items == null || Items.Count == 0)
                 return;

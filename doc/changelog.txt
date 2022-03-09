@@ -1,6 +1,12 @@
 Velo City
 ====================================================================================================
 
+v1.4.0
+----------------------------------------------------------------------------------------------------
+- [feature] Added sprint state property.
+- [feature] Display "Work Days Overview" table with chart when analysing a sprint.
+
+
 v1.3.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Added velocity chart on the sprints overview display.
