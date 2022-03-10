@@ -23,9 +23,11 @@ namespace DustInTheWind.VeloCity.JsonFiles
         public int Id { get; set; }
 
         public string Name { get; set; }
-
-        public List<JVacationDay> VacationDays { get; set; }
         
         public List<JEmployment> Employments { get; set; }
+
+        public string Comments { get; set; }
+
+        public List<JVacationDay> VacationDays { get; set; }
     }
 }

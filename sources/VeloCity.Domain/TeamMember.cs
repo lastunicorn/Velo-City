@@ -26,9 +26,11 @@ namespace DustInTheWind.VeloCity.Domain
 
         public string Name { get; set; }
 
-        public List<VacationDay> VacationDays { get; set; }
-
         public List<Employment> Employments { get; set; }
+
+        public string Comments { get; set; }
+
+        public List<VacationDay> VacationDays { get; set; }
 
         public int CalculateWorkHoursFor(Sprint sprint)
         {
