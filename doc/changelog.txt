@@ -5,6 +5,7 @@ v1.4.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Added sprint state property.
 - [feature] Display "Work Days Overview" table with chart when analysing a sprint.
+- [feature] Display more detailed notes after the sprint overview.
 
 
 v1.3.0
