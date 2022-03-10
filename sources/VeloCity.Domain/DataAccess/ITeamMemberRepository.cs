@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.Domain.DataAccess
@@ -21,7 +22,11 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
     public interface ITeamMemberRepository
     {
         IEnumerable<TeamMember> GetAll();
-        
+
+        IEnumerable<TeamMember> GetByDate(DateTime date);
+
+        IEnumerable<TeamMember> GetByDateInterval(DateTime? startDate, DateTime? endDate);
+
         IEnumerable<TeamMember> Find(string text);
     }
 }

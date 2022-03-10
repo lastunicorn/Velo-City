@@ -28,13 +28,13 @@ namespace DustInTheWind.VeloCity.DataAccess
             return employments?
                 .Select(x => x.ToJEntity());
         }
-        
+
         public static JEmployment ToJEntity(this Employment employment)
         {
             return new JEmployment
             {
-                StartDate = employment.StartDate,
-                EndDate = employment.EndDate,
+                StartDate = employment.TimeInterval.StartDate,
+                EndDate = employment.TimeInterval.EndDate,
                 HoursPerDay = employment.HoursPerDay
             };
         }
@@ -44,13 +44,12 @@ namespace DustInTheWind.VeloCity.DataAccess
             return employments?
                 .Select(x => x.ToEntity());
         }
-        
+
         public static Employment ToEntity(this JEmployment employment)
         {
             return new Employment
             {
-                StartDate = employment.StartDate,
-                EndDate = employment.EndDate,
+                TimeInterval = new DateInterval(employment.StartDate, employment.EndDate),
                 HoursPerDay = employment.HoursPerDay
             };
         }

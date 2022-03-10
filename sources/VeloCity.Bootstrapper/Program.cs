@@ -32,6 +32,7 @@ using DustInTheWind.VeloCity.Presentation.Commands.Help;
 using DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
+using DustInTheWind.VeloCity.Presentation.Commands.PresentTeam;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
 using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
 using MediatR.Extensions.Autofac.DependencyInjection;
@@ -139,6 +140,9 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             containerBuilder.RegisterType<HelpCommand>().AsSelf();
             containerBuilder.RegisterType<HelpView>().AsSelf();
+
+            containerBuilder.RegisterType<PresentTeamCommand>().AsSelf();
+            containerBuilder.RegisterType<PresentTeamView>().AsSelf();
         }
     }
 }

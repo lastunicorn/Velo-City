@@ -20,6 +20,7 @@ using System.Linq;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
 using DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
+using DustInTheWind.VeloCity.Presentation.Commands.PresentTeam;
 using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
 
 namespace DustInTheWind.VeloCity.Presentation
@@ -70,6 +71,20 @@ namespace DustInTheWind.VeloCity.Presentation
                         ""
                     },
                     Type = typeof(VacationsCommand)
+                },
+                new CommandInfo
+                {
+                    Name = "team",
+                    DescriptionLines = new List<string>()
+                    {
+                        "Displays the list of team members.",
+                        "usage:",
+                        "  team",
+                        "  team -date [date]",
+                        "  team -start-date [date] -end-date [date]",
+                        ""
+                    },
+                    Type = typeof(PresentTeamCommand)
                 },
                 new CommandInfo
                 {

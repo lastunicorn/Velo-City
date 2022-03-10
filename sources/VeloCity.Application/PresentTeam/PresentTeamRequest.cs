@@ -15,18 +15,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Application.PresentTeam
 {
-    public class Employment
+    public class PresentTeamRequest : IRequest<PresentTeamResponse>
     {
-        public DateInterval TimeInterval { get; set; }
+        public DateTime? Date { get; set; }
 
-        public int HoursPerDay { get; set; }
-
-        public bool IsDateInRange(DateTime dateTime)
-        {
-            return TimeInterval.IsInRange(dateTime);
-        }
+        public DateTime? StartDate { get; set; }
+        
+        public DateTime? EndDate { get; set; }
     }
 }

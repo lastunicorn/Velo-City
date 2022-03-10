@@ -24,7 +24,7 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
     internal class VelocityChartControl : BlockControl
     {
-        private const int ChartMaxValue = 30;
+        private const int ChartMaxValue = 40;
 
         private float maxValue;
 
@@ -43,7 +43,7 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 
             foreach (VelocityChartItem item in Items)
             {
-                CustomConsole.Write($"- Sprint {item.SprintNumber} - {item.Velocity:N4} SP/h - ");
+                CustomConsole.Write($"- Sprint {item.SprintNumber:D2} - {item.Velocity:N4} SP/h - ");
 
                 string chartBar = CreateChartBar(item);
                 CustomConsole.WriteLine(ConsoleColor.DarkGreen, chartBar);

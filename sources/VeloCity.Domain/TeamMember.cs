@@ -110,8 +110,7 @@ namespace DustInTheWind.VeloCity.Domain
         private Employment GetEmploymentFor(DateTime date)
         {
             return Employments?
-                .FirstOrDefault(x => (x.StartDate == null || date >= x.StartDate) && (x.EndDate == null || date <= x.EndDate));
-
+                .FirstOrDefault(x => x.TimeInterval.IsInRange(date));
         }
 
         private AbsenceReason CalculateVacationReason(SprintDay sprintDay)
