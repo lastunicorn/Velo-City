@@ -77,7 +77,7 @@ namespace DustInTheWind.VeloCity.Presentation
                     Name = "team",
                     DescriptionLines = new List<string>()
                     {
-                        "Displays the list of team members.",
+                        "Displays the composition of the team (team members).",
                         "usage:",
                         "  team",
                         "  team -date [date]",
