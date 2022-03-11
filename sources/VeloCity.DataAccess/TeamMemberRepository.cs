@@ -36,6 +36,18 @@ namespace DustInTheWind.VeloCity.DataAccess
             return database.TeamMembers;
         }
 
+        public IEnumerable<TeamMember> GetByDate(DateTime date)
+        {
+            return database.TeamMembers
+                .Where(x => x.Employments?.Any(e => e.IsDateInRange(date)) ?? false);
+        }
+
+        public IEnumerable<TeamMember> GetByDateInterval(DateTime? startDate, DateTime? endDate)
+        {
+            return database.TeamMembers
+                .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(startDate, endDate)) ?? false);
+        }
+
         public IEnumerable<TeamMember> Find(string text)
         {
             return database.TeamMembers

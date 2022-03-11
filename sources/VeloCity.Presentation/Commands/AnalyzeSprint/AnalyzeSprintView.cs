@@ -19,34 +19,34 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
-    public class AnalyzeSprintView
+    public class AnalyzeSprintView : IView<AnalyzeSprintCommand>
     {
-        public void Display(AnalyzeSprintResponse response)
+        public void Display(AnalyzeSprintCommand command)
         {
-            DisplayOverview(response);
+            DisplayOverview(command);
 
-            if (response.WorkDays is { Count: > 0 })
-                DisplayWorkDays(response);
+            if (command.WorkDays is { Count: > 0 })
+                DisplayWorkDays(command);
 
-            foreach (SprintMember sprintMember in response.SprintMembers)
+            foreach (SprintMember sprintMember in command.SprintMembers)
                 DisplaySprintMemberDetails(sprintMember);
         }
 
-        private static void DisplayOverview(AnalyzeSprintResponse response)
+        private static void DisplayOverview(AnalyzeSprintCommand command)
         {
             SprintOverviewControl sprintOverviewControl = new()
             {
-                Response = response
+                Command = command
             };
             sprintOverviewControl.Display();
         }
 
-        private static void DisplayWorkDays(AnalyzeSprintResponse response)
+        private static void DisplayWorkDays(AnalyzeSprintCommand command)
         {
             WorkDaysControl workDaysControl = new()
             {
-                WorkDays = response.WorkDays,
-                SprintMembers = response.SprintMembers
+                WorkDays = command.WorkDays,
+                SprintMembers = command.SprintMembers
             };
 
             workDaysControl.Display();

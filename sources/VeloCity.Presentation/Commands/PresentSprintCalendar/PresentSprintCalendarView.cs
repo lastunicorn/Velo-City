@@ -16,23 +16,22 @@
 
 using System;
 using System.Text;
-using DustInTheWind.VeloCity.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
 {
-    public class PresentSprintCalendarView
+    public class PresentSprintCalendarView : IView<PresentSprintCalendarCommand>
     {
-        public void Display(PresentSprintCalendarResponse response)
+        public void Display(PresentSprintCalendarCommand command)
         {
-            Console.WriteLine($"{response.SprintName} ({response.StartDate:d} - {response.EndDate:d})");
+            Console.WriteLine($"{command.SprintName} ({command.StartDate:d} - {command.EndDate:d})");
             Console.WriteLine(new string('=', 79));
 
-            Console.WriteLine($"Sprint Days: {response.Days.Count} days");
+            Console.WriteLine($"Sprint Days: {command.Days.Count} days");
 
-            for (int i = 0; i < response.Days.Count; i++)
+            for (int i = 0; i < command.Days.Count; i++)
             {
-                SprintDay sprintDay = response.Days[i];
+                SprintDay sprintDay = command.Days[i];
                 int dayIndex = i + 1;
 
                 StringBuilder sb = new();

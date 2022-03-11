@@ -22,18 +22,18 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
-    public class PresentSprintsView
+    public class PresentSprintsView : IView<PresentSprintsCommand>
     {
-        public void Display(PresentSprintsResponse response)
+        public void Display(PresentSprintsCommand command)
         {
-            bool sprintsExist = response.SprintOverviews is { Count: > 0 };
+            bool sprintsExist = command.SprintOverviews is { Count: > 0 };
 
             if (sprintsExist)
             {
-                DisplaySprints(response.SprintOverviews);
-                DisplayVelocityChart(response.SprintOverviews);
-                DisplayCommitmentChart(response.SprintOverviews);
-                DisplaySprintsSizeChart(response.SprintOverviews);
+                DisplaySprints(command.SprintOverviews);
+                DisplayVelocityChart(command.SprintOverviews);
+                DisplayCommitmentChart(command.SprintOverviews);
+                DisplaySprintsSizeChart(command.SprintOverviews);
             }
             else
             {

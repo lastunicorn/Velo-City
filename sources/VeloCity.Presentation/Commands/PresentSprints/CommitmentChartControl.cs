@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
     internal class CommitmentChartControl : BlockControl
     {
-        private const int ChartMaxValue = 30;
+        private const int ChartMaxValue = 40;
 
         private int maxValue;
 
@@ -44,7 +44,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 
             foreach (CommitmentChartItem item in Items)
             {
-                Console.Write($"- Sprint {item.SprintNumber} - {item.ActualStoryPoints,2} SP / {item.CommitmentStoryPoints,2} SP - ");
+                Console.Write($"- Sprint {item.SprintNumber:D2} - {item.ActualStoryPoints,2} SP / {item.CommitmentStoryPoints,2} SP - ");
                 WriteChartLine(item);
             }
         }

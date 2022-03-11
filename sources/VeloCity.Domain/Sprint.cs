@@ -38,6 +38,11 @@ namespace DustInTheWind.VeloCity.Domain
 
         public SprintState State { get; set; }
 
+        public int CountWorkDays()
+        {
+            return EnumerateWorkDays().Count();
+        }
+
         public IEnumerable<DateTime> EnumerateWorkDates()
         {
             return EnumerateAllDays()

@@ -16,17 +16,19 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Presentation
 {
-    public class Employment
+    public class Arguments
     {
-        public DateInterval TimeInterval { get; set; }
+        private readonly string[] args;
 
-        public int HoursPerDay { get; set; }
+        public int Count => args.Length;
 
-        public bool IsDateInRange(DateTime dateTime)
+        public string this[int index] => args[index];
+
+        public Arguments(string[] args)
         {
-            return TimeInterval.IsInRange(dateTime);
+            this.args = args ?? throw new ArgumentNullException(nameof(args));
         }
     }
 }

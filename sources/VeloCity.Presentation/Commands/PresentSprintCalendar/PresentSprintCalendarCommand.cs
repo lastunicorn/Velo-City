@@ -15,24 +15,32 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentSprintCalendar;
+using DustInTheWind.VeloCity.Domain;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
 {
-    public class PresentSprintCalendarCommand : ICliCommand
+    public class PresentSprintCalendarCommand : ICommand
     {
-        private readonly PresentSprintCalendarView view;
         private readonly IMediator mediator;
 
-        public PresentSprintCalendarCommand(PresentSprintCalendarView view, IMediator mediator)
+        public string SprintName { get; private set; }
+
+        public DateTime StartDate { get; private set; }
+
+        public DateTime EndDate { get; private set; }
+
+        public List<SprintDay> Days { get; private set; }
+
+        public PresentSprintCalendarCommand(IMediator mediator)
         {
-            this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(string[] strings)
+        public async Task Execute(Arguments arguments)
         {
             PresentSprintCalendarRequest request = new()
             {
@@ -41,7 +49,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
 
             PresentSprintCalendarResponse response = await mediator.Send(request);
 
-            view.Display(response);
+            SprintName = response.SprintName;
+            StartDate = response.StartDate;
+            EndDate = response.EndDate;
+            Days = response.Days;
         }
     }
 }

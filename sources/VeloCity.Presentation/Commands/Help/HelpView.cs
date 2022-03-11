@@ -15,14 +15,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 {
-    public class HelpView
+    public class HelpView : IView<HelpCommand>
     {
-        public void Display(List<CommandInfo> commands)
+        public void Display(HelpCommand command)
         {
             Console.WriteLine("usage: velo [command]");
             Console.WriteLine();
@@ -35,13 +34,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
                 Border = { IsVisible = false }
             };
 
-            foreach (CommandInfo commandInfo in commands)
+            foreach (CommandInfo commandInfo in command.Commands)
             {
                 ContentRow row = new();
-                
+
                 row.AddCell(commandInfo.Name);
                 row.AddCell(commandInfo.DescriptionLines);
-                
+
                 dataGrid.Rows.Add(row);
             }
 

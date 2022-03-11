@@ -22,33 +22,33 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
-    public class VacationsCommand :ICliCommand
+    public class VacationsCommand : ICommand
     {
-        private readonly VacationsView view;
         private readonly IMediator mediator;
 
-        public VacationsCommand(VacationsView view, IMediator mediator)
+        public List<TeamMemberVacation> TeamMemberVacations { get; private set; }
+
+        public VacationsCommand(IMediator mediator)
         {
-            this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
-        
-        public async Task Execute(string[] args)
+
+        public async Task Execute(Arguments arguments)
         {
             PresentVacationsRequest request = new()
             {
-                TeamMemberName = GetPersonName(args)
+                TeamMemberName = GetPersonName(arguments)
             };
 
             PresentVacationsResponse response = await mediator.Send(request);
 
-            view.Display(response);
+            TeamMemberVacations = response.TeamMemberVacations;
         }
 
-        private static string GetPersonName(IReadOnlyList<string> args)
+        private static string GetPersonName(Arguments arguments)
         {
-            return args.Count > 1
-                ? args[1]
+            return arguments.Count > 1
+                ? arguments[1]
                 : null;
         }
     }

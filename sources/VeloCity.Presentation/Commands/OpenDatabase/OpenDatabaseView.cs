@@ -19,15 +19,15 @@ using DustInTheWind.VeloCity.Application.OpenDatabase;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase
 {
-    public class OpenDatabaseView
+    public class OpenDatabaseView : IView<OpenDatabaseCommand>
     {
-        public void Display(OpenDatabaseResponse response)
+        public void Display(OpenDatabaseCommand command)
         {
-            string editorTypeText = response.DatabaseEditorType == DatabaseEditorType.Custom
+            string editorTypeText = command.DatabaseEditorType == DatabaseEditorType.Custom
                 ? "custom"
                 : "default";
 
-            CustomConsole.WriteLineSuccess($"Database file '{response.DatabaseFilePath}' was successfully opened in the {editorTypeText} editor.");
+            CustomConsole.WriteLineSuccess($"Database file '{command.DatabaseFilePath}' was successfully opened in the {editorTypeText} editor.");
         }
     }
 }

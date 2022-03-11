@@ -24,11 +24,11 @@ using DustInTheWind.VeloCity.Application.PresentVacations;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
-    public class VacationsView
+    public class VacationsView : IView<VacationsCommand>
     {
-        public void Display(PresentVacationsResponse response)
+        public void Display(VacationsCommand command)
         {
-            foreach (TeamMemberVacation teamMemberVacation in response.TeamMemberVacations)
+            foreach (TeamMemberVacation teamMemberVacation in command.TeamMemberVacations)
             {
                 CustomConsole.WriteLine();
 

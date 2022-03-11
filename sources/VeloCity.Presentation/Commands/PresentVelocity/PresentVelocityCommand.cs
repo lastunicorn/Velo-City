@@ -22,33 +22,33 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
-    public class PresentVelocityCommand : ICliCommand
+    public class PresentVelocityCommand : ICommand
     {
-        private readonly PresentVelocityView view;
         private readonly IMediator mediator;
 
-        public PresentVelocityCommand(PresentVelocityView view, IMediator mediator)
+        public List<SprintVelocity> SprintVelocities { get; private set; }
+
+        public PresentVelocityCommand(IMediator mediator)
         {
-            this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
-        
-        public async Task Execute(string[] args)
+
+        public async Task Execute(Arguments arguments)
         {
             PresentVelocityRequest request = new()
             {
-                Count = GetSprintCount(args)
+                Count = GetSprintCount(arguments)
             };
 
             PresentVelocityResponse response = await mediator.Send(request);
 
-            view.Display(response);
+            SprintVelocities = response.SprintVelocities;
         }
 
-        private static int? GetSprintCount(IReadOnlyList<string> args)
+        private static int? GetSprintCount(Arguments arguments)
         {
-            return args.Count > 1
-                ? int.Parse(args[1])
+            return arguments.Count > 1
+                ? int.Parse(arguments[1])
                 : null;
         }
     }

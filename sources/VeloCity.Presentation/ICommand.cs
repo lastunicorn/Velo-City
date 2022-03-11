@@ -14,19 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Threading.Tasks;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Presentation
 {
-    public class Employment
+    public interface ICommand
     {
-        public DateInterval TimeInterval { get; set; }
-
-        public int HoursPerDay { get; set; }
-
-        public bool IsDateInRange(DateTime dateTime)
-        {
-            return TimeInterval.IsInRange(dateTime);
-        }
+        Task Execute(Arguments arguments);
     }
 }

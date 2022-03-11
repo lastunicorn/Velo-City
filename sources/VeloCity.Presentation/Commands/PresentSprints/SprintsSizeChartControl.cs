@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
     internal class SprintsSizeChartControl : BlockControl
     {
-        private const int ChartMaxValue = 30;
+        private const int ChartMaxValue = 40;
 
         public List<SprintsSizeChartItem> Items { get; set; }
 
@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 
             foreach (SprintsSizeChartItem item in Items)
             {
-                CustomConsole.Write($"- Sprint {item.SprintNumber} - {item.TotalWorkHours:D} h - ");
+                CustomConsole.Write($"- Sprint {item.SprintNumber:D2} - {item.TotalWorkHours:D} h - ");
 
                 string chartBar = CreateChartBar(item.TotalWorkHours, maxValue);
                 CustomConsole.WriteLine(ConsoleColor.DarkGreen, chartBar);

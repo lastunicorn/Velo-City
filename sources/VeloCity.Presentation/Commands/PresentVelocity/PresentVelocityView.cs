@@ -17,20 +17,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DustInTheWind.VeloCity.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
-    public class PresentVelocityView
+    public class PresentVelocityView : IView<PresentVelocityCommand>
     {
-        public void Display(PresentVelocityResponse response)
+        public void Display(PresentVelocityCommand command)
         {
-            bool sprintsExist = response.SprintVelocities is { Count: > 0 };
+            bool sprintsExist = command.SprintVelocities is { Count: > 0 };
             
             if (sprintsExist)
-                DisplaySprints(response.SprintVelocities);
+                DisplaySprints(command.SprintVelocities);
             else
                 Console.WriteLine("There are no sprints.");
         }

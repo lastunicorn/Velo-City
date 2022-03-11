@@ -21,23 +21,26 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase
 {
-    public class OpenDatabaseCommand : ICliCommand
+    public class OpenDatabaseCommand : ICommand
     {
-        private readonly OpenDatabaseView view;
         private readonly IMediator mediator;
 
-        public OpenDatabaseCommand(OpenDatabaseView view, IMediator mediator)
+        public string DatabaseFilePath { get; private set; }
+
+        public DatabaseEditorType DatabaseEditorType { get; private set; }
+
+        public OpenDatabaseCommand(IMediator mediator)
         {
-            this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(string[] strings)
+        public async Task Execute(Arguments arguments)
         {
             OpenDatabaseRequest request = new();
             OpenDatabaseResponse response = await mediator.Send(request);
 
-            view.Display(response);
+            DatabaseFilePath = response.DatabaseFilePath;
+            DatabaseEditorType = response.DatabaseEditorType;
         }
     }
 }
