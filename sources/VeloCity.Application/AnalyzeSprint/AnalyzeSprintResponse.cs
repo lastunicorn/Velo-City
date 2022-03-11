@@ -26,11 +26,11 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public SprintState SprintState { get; set; }
 
-        public List<DateTime> WorkDays { get; set; }
-
         public DateTime StartDate { get; set; }
         
         public DateTime EndDate { get; set; }
+
+        public List<DateTime> WorkDays { get; set; }
 
         public List<SprintMember> SprintMembers { get; set; }
 

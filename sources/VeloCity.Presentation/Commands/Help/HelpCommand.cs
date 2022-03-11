@@ -21,21 +21,20 @@ using System.Threading.Tasks;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 {
-    public class HelpCommand : ICliCommand
+    public class HelpCommand : ICommand
     {
-        private readonly HelpView view;
         private readonly AvailableCommands availableCommands;
 
-        public HelpCommand(HelpView view, AvailableCommands availableCommands)
+        public List<CommandInfo> Commands { get; private set; }
+
+        public HelpCommand(AvailableCommands availableCommands)
         {
-            this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.availableCommands = availableCommands ?? throw new ArgumentNullException(nameof(availableCommands));
         }
 
-        public Task Execute(string[] args)
+        public Task Execute(Arguments arguments)
         {
-            List<CommandInfo> commands = availableCommands.ToList();
-            view.Display(commands);
+            Commands = availableCommands.ToList();
 
             return Task.CompletedTask;
         }

@@ -23,11 +23,11 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
 {
-    public class PresentTeamView
+    public class PresentTeamView : IView<PresentTeamCommand>
     {
-        public void Display(PresentTeamResponse response)
+        public void Display(PresentTeamCommand command)
         {
-            foreach (TeamMember teamMember in response.TeamMembers)
+            foreach (TeamMember teamMember in command.TeamMembers)
             {
                 DataGrid dataGrid = new()
                 {

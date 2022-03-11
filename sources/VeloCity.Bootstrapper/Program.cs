@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
@@ -27,16 +28,8 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Presentation;
-using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
 using DustInTheWind.VeloCity.Presentation.Commands.Help;
-using DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase;
-using DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar;
-using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
-using DustInTheWind.VeloCity.Presentation.Commands.PresentTeam;
-using DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity;
-using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
 using MediatR.Extensions.Autofac.DependencyInjection;
-
 
 namespace DustInTheWind.VeloCity.Bootstrapper
 {
@@ -58,9 +51,12 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 IConfig config = container.Resolve<IConfig>();
                 debugVerbose = config.ErrorMessageLevel;
 
-                ICliCommand command = CreateCommand(args);
-                await command.Execute(args);
+                Arguments arguments = new(args);
+                ICommand command = CreateCommand(arguments);
 
+                await command.Execute(arguments);
+
+                CallView(command);
             }
             catch (Exception ex)
             {
@@ -71,12 +67,48 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             }
         }
 
-        private static ICliCommand CreateCommand(IReadOnlyList<string> args)
+        private static void CallView(ICommand command)
         {
-            if (args == null || args.Count == 0)
+            Type commandType = command.GetType();
+
+            IEnumerable<Type> viewTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(IsViewType)
+                .Where(x =>
+                {
+                    IEnumerable<Type> interfaceTypes = x.GetInterfaces();
+
+                    foreach (Type interfaceType in interfaceTypes)
+                    {
+                        Type[] genericArgumentTypes = interfaceType.GetGenericArguments();
+
+                        if (genericArgumentTypes.Length != 1)
+                            continue;
+
+                        if (genericArgumentTypes[0] != commandType)
+                            continue;
+
+                        return true;
+                    }
+
+                    return false;
+                });
+
+            foreach (Type viewType in viewTypes)
+            {
+                object view = container.Resolve(viewType);
+
+                MethodInfo displayMethodInfo = viewType.GetMethod("Display");
+                displayMethodInfo?.Invoke(view, new object[] { command });
+            }
+        }
+
+        private static ICommand CreateCommand(Arguments arguments)
+        {
+            if (arguments.Count == 0)
                 return container.Resolve<HelpCommand>();
 
-            string commandName = args[0];
+            string commandName = arguments[0];
 
             AvailableCommands availableCommands = container.Resolve<AvailableCommands>();
             CommandInfo commandInfo = availableCommands[commandName];
@@ -84,7 +116,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             if (commandInfo == null)
                 throw new Exception("Invalid Command");
 
-            return (ICliCommand)container.Resolve(commandInfo.Type);
+            return (ICommand)container.Resolve(commandInfo.Type);
         }
 
         private static IContainer BuildContainer()
@@ -120,29 +152,36 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             containerBuilder.RegisterType<Database>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
 
-            containerBuilder.RegisterType<AnalyzeSprintCommand>().AsSelf();
-            containerBuilder.RegisterType<AnalyzeSprintView>().AsSelf();
+            IEnumerable<Type> commandAndViewTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => IsCommandType(x) || IsViewType(x));
 
-            containerBuilder.RegisterType<PresentSprintCalendarCommand>().AsSelf();
-            containerBuilder.RegisterType<PresentSprintCalendarView>().AsSelf();
+            foreach (Type type in commandAndViewTypes)
+                containerBuilder.RegisterType(type).AsSelf();
+        }
 
-            containerBuilder.RegisterType<PresentSprintsCommand>().AsSelf();
-            containerBuilder.RegisterType<PresentSprintsView>().AsSelf();
+        private static bool IsCommandType(Type type)
+        {
+            return type != typeof(ICommand) && typeof(ICommand).IsAssignableFrom(type);
+        }
 
-            containerBuilder.RegisterType<PresentVelocityCommand>().AsSelf();
-            containerBuilder.RegisterType<PresentVelocityView>().AsSelf();
+        private static bool IsViewType(Type type)
+        {
+            Type[] interfaceTypes = type.GetInterfaces();
 
-            containerBuilder.RegisterType<VacationsCommand>().AsSelf();
-            containerBuilder.RegisterType<VacationsView>().AsSelf();
+            foreach (Type interfaceType in interfaceTypes)
+            {
+                bool isGenericType = interfaceType.IsGenericType;
 
-            containerBuilder.RegisterType<OpenDatabaseCommand>().AsSelf();
-            containerBuilder.RegisterType<OpenDatabaseView>().AsSelf();
+                if (!isGenericType)
+                    continue;
 
-            containerBuilder.RegisterType<HelpCommand>().AsSelf();
-            containerBuilder.RegisterType<HelpView>().AsSelf();
+                Type genericTypeDefinition = interfaceType.GetGenericTypeDefinition();
 
-            containerBuilder.RegisterType<PresentTeamCommand>().AsSelf();
-            containerBuilder.RegisterType<PresentTeamView>().AsSelf();
+                return genericTypeDefinition == typeof(IView<>);
+            }
+
+            return false;
         }
     }
 }

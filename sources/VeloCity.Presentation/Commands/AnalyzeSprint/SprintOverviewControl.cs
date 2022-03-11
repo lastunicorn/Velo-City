@@ -18,14 +18,13 @@ using System;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
     internal class SprintOverviewControl : Control
     {
-        public AnalyzeSprintResponse Response { get; set; }
+        public AnalyzeSprintCommand Command { get; set; }
 
         protected override void DoDisplay()
         {
@@ -37,7 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         {
             DataGrid dataGrid = new()
             {
-                Title = $"{Response.SprintName} ({Response.StartDate:d} - {Response.EndDate:d})",
+                Title = $"{Command.SprintName} ({Command.StartDate:d} - {Command.EndDate:d})",
                 TitleRow =
                 {
                     ForegroundColor = ConsoleColor.Black,
@@ -46,29 +45,29 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             };
 
             dataGrid.Rows.Add("State", RenderState());
-            dataGrid.Rows.Add("Work Days", Response.WorkDays?.Count + " days");
-            dataGrid.Rows.Add("Total Work Hours", $"{Response.TotalWorkHours} h");
+            dataGrid.Rows.Add("Work Days", Command.WorkDays?.Count + " days");
+            dataGrid.Rows.Add("Total Work Hours", $"{Command.TotalWorkHours} h");
 
-            string estimatedStoryPointsString = Response.EstimatedStoryPoints == null
+            string estimatedStoryPointsString = Command.EstimatedStoryPoints == null
                 ? "-"
-                : Response.EstimatedStoryPoints.ToString();
+                : Command.EstimatedStoryPoints.ToString();
             dataGrid.Rows.Add("Estimated Story Points", $"{estimatedStoryPointsString} SP");
 
-            string estimatedVelocityString = Response.EstimatedVelocity == null
+            string estimatedVelocityString = Command.EstimatedVelocity == null
                 ? "-"
-                : Response.EstimatedVelocity.ToString();
+                : Command.EstimatedVelocity.ToString();
             dataGrid.Rows.Add("Estimated Velocity", $"{estimatedVelocityString} SP/h");
-            dataGrid.Rows.Add("Commitment Story Points", $"{Response.CommitmentStoryPoints} SP");
+            dataGrid.Rows.Add("Commitment Story Points", $"{Command.CommitmentStoryPoints} SP");
 
-            dataGrid.Rows.Add("Actual Story Points", $"{Response.ActualStoryPoints} SP");
-            dataGrid.Rows.Add("Actual Velocity", $"{Response.ActualVelocity} SP/h");
+            dataGrid.Rows.Add("Actual Story Points", $"{Command.ActualStoryPoints} SP");
+            dataGrid.Rows.Add("Actual Velocity", $"{Command.ActualVelocity} SP/h");
 
             dataGrid.Display();
         }
 
         private string RenderState()
         {
-            return Response.SprintState switch
+            return Command.SprintState switch
             {
                 SprintState.Unknown => "unknown",
                 SprintState.New => "new",
@@ -83,21 +82,21 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             CustomConsole.WriteLine();
             CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
 
-            bool previousSprintsExist = Response.PreviousSprints != null && Response.PreviousSprints.Count > 0;
+            bool previousSprintsExist = Command.PreviousSprints != null && Command.PreviousSprints.Count > 0;
 
             if (previousSprintsExist)
             {
-                string previousSprints = string.Join(", ", Response.PreviousSprints);
-                CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - The estimations were calculated based on previous {Response.PreviousSprints.Count} closed sprints: {previousSprints}");
+                string previousSprints = string.Join(", ", Command.PreviousSprints);
+                CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - The estimations were calculated based on previous {Command.PreviousSprints.Count} closed sprints: {previousSprints}");
             }
             else
             {
                 CustomConsole.WriteLine(ConsoleColor.DarkYellow, "  - Could not calculate an estimation because no previous closed sprints exist.");
             }
 
-            if (Response.ExcludesSprints is { Count: > 0 })
+            if (Command.ExcludesSprints is { Count: > 0 })
             {
-                string excludedSprints = string.Join(",", Response.ExcludesSprints);
+                string excludedSprints = string.Join(",", Command.ExcludesSprints);
                 CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - Excluded sprints: {excludedSprints} (These sprints were excluded from the velocity calculation algorithm.)");
             }
         }

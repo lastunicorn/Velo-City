@@ -18,45 +18,46 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentTeam;
+using DustInTheWind.VeloCity.Domain;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
 {
-    public class PresentTeamCommand : ICliCommand
+    public class PresentTeamCommand : ICommand
     {
-        private readonly PresentTeamView view;
         private readonly IMediator mediator;
 
-        public PresentTeamCommand(PresentTeamView view, IMediator mediator)
+        public List<TeamMember> TeamMembers { get; set; }
+
+        public PresentTeamCommand(IMediator mediator)
         {
-            this.view = view ?? throw new ArgumentNullException(nameof(view));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(string[] args)
+        public async Task Execute(Arguments arguments)
         {
             PresentTeamRequest request = new()
             {
-                Date = GetDate(args),
-                StartDate = GetStartDate(args),
-                EndDate = GetEndDate(args)
+                Date = GetDate(arguments),
+                StartDate = GetStartDate(arguments),
+                EndDate = GetEndDate(arguments)
             };
             PresentTeamResponse response = await mediator.Send(request);
 
-            view.Display(response);
+            TeamMembers = response.TeamMembers;
         }
 
-        private static DateTime? GetDate(IReadOnlyList<string> args)
+        private static DateTime? GetDate(Arguments arguments)
         {
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < arguments.Count; i++)
             {
-                if (args[i] != "-date")
+                if (arguments[i] != "-date")
                     continue;
 
-                if (args.Count == i + 1)
+                if (arguments.Count == i + 1)
                     return null;
 
-                string rawValue = args[i + 1];
+                string rawValue = arguments[i + 1];
 
                 bool isSuccess = DateTime.TryParse(rawValue, out DateTime value);
 
@@ -66,17 +67,17 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
             return null;
         }
 
-        private static DateTime? GetStartDate(IReadOnlyList<string> args)
+        private static DateTime? GetStartDate(Arguments arguments)
         {
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < arguments.Count; i++)
             {
-                if (args[i] != "-start-date")
+                if (arguments[i] != "-start-date")
                     continue;
 
-                if (args.Count == i + 1)
+                if (arguments.Count == i + 1)
                     return null;
 
-                string rawValue = args[i + 1];
+                string rawValue = arguments[i + 1];
 
                 bool isSuccess = DateTime.TryParse(rawValue, out DateTime value);
 
@@ -86,17 +87,17 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
             return null;
         }
 
-        private static DateTime? GetEndDate(IReadOnlyList<string> args)
+        private static DateTime? GetEndDate(Arguments arguments)
         {
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < arguments.Count; i++)
             {
-                if (args[i] != "-end-date")
+                if (arguments[i] != "-end-date")
                     continue;
 
-                if (args.Count == i + 1)
+                if (arguments.Count == i + 1)
                     return null;
 
-                string rawValue = args[i + 1];
+                string rawValue = arguments[i + 1];
 
                 bool isSuccess = DateTime.TryParse(rawValue, out DateTime value);
 
