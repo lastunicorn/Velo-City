@@ -7,6 +7,7 @@ v1.4.0
 - [feature] Display "Work Days Overview" table with chart when analysing a sprint.
 - [feature] Display more detailed notes after the sprint overview.
 - [feature] Added the "team" command that displays the team members.
+- [bugfix] Fixed app crush when user had no vacation in the database.
 
 v1.3.0
 ----------------------------------------------------------------------------------------------------

@@ -36,7 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
             DataGrid dataGrid = new()
             {
-                Title = "Work Days Overview",
+                Title = "Sprint Calendar",
                 TitleRow =
                 {
                     ForegroundColor = ConsoleColor.Black,

@@ -72,7 +72,7 @@ namespace DustInTheWind.VeloCity.Domain
             if (sprintDay.IsFreeDay)
                 return 0;
 
-            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
+            VacationDay vacationDay = VacationDays?.FirstOrDefault(x => x.Date == sprintDay.Date);
 
             if (vacationDay == null)
                 return employment.HoursPerDay;
@@ -93,7 +93,7 @@ namespace DustInTheWind.VeloCity.Domain
             if (sprintDay.IsFreeDay)
                 return employment.HoursPerDay;
 
-            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
+            VacationDay vacationDay = VacationDays?.FirstOrDefault(x => x.Date == sprintDay.Date);
 
             if (vacationDay == null)
                 return 0;
@@ -125,7 +125,7 @@ namespace DustInTheWind.VeloCity.Domain
             if (sprintDay.IsOfficialHoliday)
                 return AbsenceReason.OfficialHoliday;
 
-            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
+            VacationDay vacationDay = VacationDays?.FirstOrDefault(x => x.Date == sprintDay.Date);
 
             return vacationDay != null
                 ? AbsenceReason.Vacation
@@ -134,7 +134,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         private string GetVacationComments(SprintDay sprintDay)
         {
-            VacationDay vacationDay = VacationDays.FirstOrDefault(x => x.Date == sprintDay.Date);
+            VacationDay vacationDay = VacationDays?.FirstOrDefault(x => x.Date == sprintDay.Date);
 
             return vacationDay?.Comments;
         }

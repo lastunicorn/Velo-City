@@ -36,32 +36,24 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
 
         public Task<PresentTeamResponse> Handle(PresentTeamRequest request, CancellationToken cancellationToken)
         {
-            List<TeamMember> teamMembers = RetrieveTeamMembers(request);
-
             PresentTeamResponse response = new()
             {
-                TeamMembers = teamMembers
+                TeamMembers = RetrieveTeamMembers(request).ToList()
             };
 
             return Task.FromResult(response);
         }
 
-        private List<TeamMember> RetrieveTeamMembers(PresentTeamRequest request)
+        private IEnumerable<TeamMember> RetrieveTeamMembers(PresentTeamRequest request)
         {
             if (request.Date != null)
-            {
-                return unitOfWork.TeamMemberRepository.GetByDate(request.Date.Value)
-                    .ToList();
-            }
+                return unitOfWork.TeamMemberRepository.GetByDate(request.Date.Value);
 
             if (request.StartDate != null || request.EndDate != null)
-            {
-                return unitOfWork.TeamMemberRepository.GetByDateInterval(request.StartDate, request.EndDate)
-                    .ToList();
-            }
+                return unitOfWork.TeamMemberRepository.GetByDateInterval(request.StartDate, request.EndDate);
 
-            return unitOfWork.TeamMemberRepository.GetAll()
-                .ToList();
+            Sprint currentSprint = unitOfWork.SprintRepository.GetLast();
+            return unitOfWork.TeamMemberRepository.GetByDateInterval(currentSprint.StartDate, currentSprint.EndDate);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
 
                 IEnumerable<string> employmentsAsString = teamMember.Employments
                     .Select(x => $"{x.HoursPerDay} h/day | {x.TimeInterval}");
-                dataGrid.Rows.Add("Employments", string.Join(Environment.NewLine, employmentsAsString));
+                dataGrid.Rows.Add("Employment", string.Join(Environment.NewLine, employmentsAsString));
 
                 if (!string.IsNullOrEmpty(teamMember.Comments))
                     dataGrid.Rows.Add("Comments", teamMember.Comments);
