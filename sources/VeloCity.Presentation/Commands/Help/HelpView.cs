@@ -16,6 +16,7 @@
 
 using System;
 using DustInTheWind.ConsoleTools.Controls.Tables;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 {

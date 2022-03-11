@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Application.PresentVelocity;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity

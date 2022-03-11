@@ -29,6 +29,7 @@ using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Presentation;
 using DustInTheWind.VeloCity.Presentation.Commands.Help;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
 namespace DustInTheWind.VeloCity.Bootstrapper
@@ -108,7 +109,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             if (arguments.Count == 0)
                 return container.Resolve<HelpCommand>();
 
-            string commandName = arguments[0];
+            string commandName = arguments[0].Value;
 
             AvailableCommands availableCommands = container.Resolve<AvailableCommands>();
             CommandInfo commandInfo = availableCommands[commandName];

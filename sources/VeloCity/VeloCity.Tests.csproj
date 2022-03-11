@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 Velo City
 Copyright (C) 2022 Dust in the Wind
 
@@ -19,29 +19,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>velo</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Bootstrapper</RootNamespace>
+        <AssemblyName>DustInTheWind.VeloCity.Tests</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Tests</RootNamespace>
+
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac" Version="6.3.0" />
-        <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="8.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="coverlet.collector" Version="3.0.2">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VeloCity.Application\VeloCity.Application.csproj" />
-        <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" />
         <ProjectReference Include="..\VeloCity.Presentation\VeloCity.Presentation.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Update="appsettings.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
 </Project>

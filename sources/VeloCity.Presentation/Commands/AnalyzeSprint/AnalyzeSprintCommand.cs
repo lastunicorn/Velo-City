@@ -20,6 +20,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
@@ -92,26 +93,21 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         private static int? GetSprintNumber(Arguments arguments)
         {
-            return arguments.Count > 1
-                ? int.Parse(arguments[1])
-                : null;
+            Argument argument = arguments.GetOrdinal(1);
+            string rawValue = argument?.Value;
+
+            return rawValue == null
+                ? null
+                : int.Parse(rawValue);
         }
 
         private static List<int> GetExcludedSprintsList(Arguments arguments)
         {
-            if (arguments.Count > 2)
-            {
-                if (arguments[2] == "-exclude")
-                {
-                    string rawValue = arguments[3];
-                    List<int> excludedSprintNumbers = rawValue.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                        .Select(int.Parse)
-                        .ToList();
-                    return excludedSprintNumbers;
-                }
-            }
+            Argument argument = arguments["exclude"];
 
-            return null;
+            return argument?.Value.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToList();
         }
     }
 }

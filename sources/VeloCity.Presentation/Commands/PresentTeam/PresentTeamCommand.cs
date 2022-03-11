@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentTeam;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
@@ -49,62 +50,35 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
 
         private static DateTime? GetDate(Arguments arguments)
         {
-            for (int i = 0; i < arguments.Count; i++)
-            {
-                if (arguments[i] != "-date")
-                    continue;
+            Argument argument = arguments["date"];
 
-                if (arguments.Count == i + 1)
-                    return null;
+            if (argument == null)
+                return null;
 
-                string rawValue = arguments[i + 1];
-
-                bool isSuccess = DateTime.TryParse(rawValue, out DateTime value);
-
-                return isSuccess ? value : null;
-            }
-
-            return null;
+            bool isSuccess = DateTime.TryParse(argument.Value, out DateTime value);
+            return isSuccess ? value : null;
         }
 
         private static DateTime? GetStartDate(Arguments arguments)
         {
-            for (int i = 0; i < arguments.Count; i++)
-            {
-                if (arguments[i] != "-start-date")
-                    continue;
+            Argument argument = arguments["start-date"];
 
-                if (arguments.Count == i + 1)
-                    return null;
+            if (argument == null)
+                return null;
 
-                string rawValue = arguments[i + 1];
-
-                bool isSuccess = DateTime.TryParse(rawValue, out DateTime value);
-
-                return isSuccess ? value : null;
-            }
-
-            return null;
+            bool isSuccess = DateTime.TryParse(argument.Value, out DateTime value);
+            return isSuccess ? value : null;
         }
 
         private static DateTime? GetEndDate(Arguments arguments)
         {
-            for (int i = 0; i < arguments.Count; i++)
-            {
-                if (arguments[i] != "-end-date")
-                    continue;
+            Argument argument = arguments["end-date"];
 
-                if (arguments.Count == i + 1)
-                    return null;
+            if (argument == null)
+                return null;
 
-                string rawValue = arguments[i + 1];
-
-                bool isSuccess = DateTime.TryParse(rawValue, out DateTime value);
-
-                return isSuccess ? value : null;
-            }
-
-            return null;
+            bool isSuccess = DateTime.TryParse(argument.Value, out DateTime value);
+            return isSuccess ? value : null;
         }
     }
 }

@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar

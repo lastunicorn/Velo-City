@@ -21,6 +21,7 @@ using System.Text;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Application.PresentVacations;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {

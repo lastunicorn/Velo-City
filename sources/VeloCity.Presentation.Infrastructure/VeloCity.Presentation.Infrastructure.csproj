@@ -20,17 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>DustInTheWind.VeloCity.Application</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Application</RootNamespace>
+        <AssemblyName>DustInTheWind.VeloCity.Presentation.Infrastructure</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Presentation.Infrastructure</RootNamespace>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="MediatR" Version="10.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\VeloCity.DataAccess.Jsonfiles\VeloCity.DataAccess.JsonFiles.csproj" />
-        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
-    </ItemGroup>
 
 </Project>

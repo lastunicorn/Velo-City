@@ -17,6 +17,7 @@
 using System;
 using System.Text;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
 {

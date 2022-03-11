@@ -17,6 +17,7 @@
 using System;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.OpenDatabase;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase

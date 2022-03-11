@@ -14,21 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.ConsoleTools;
-using DustInTheWind.VeloCity.Application.OpenDatabase;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
-
-namespace DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
-    public class OpenDatabaseView : IView<OpenDatabaseCommand>
+    internal class Arg
     {
-        public void Display(OpenDatabaseCommand command)
-        {
-            string editorTypeText = command.DatabaseEditorType == DatabaseEditorType.Custom
-                ? "custom"
-                : "default";
+        public bool HasNameMarker { get; }
 
-            CustomConsole.WriteLineSuccess($"Database file '{command.DatabaseFilePath}' was successfully opened in the {editorTypeText} editor.");
+        public string Value { get; }
+
+        public Arg(string value)
+        {
+            HasNameMarker = value?.StartsWith('-') ?? false;
+            Value = value?.TrimStart('-');
         }
     }
 }

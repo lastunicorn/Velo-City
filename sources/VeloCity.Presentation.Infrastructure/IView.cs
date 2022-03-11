@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Threading.Tasks;
-
-namespace DustInTheWind.VeloCity.Presentation
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
-    public interface ICommand
+    public interface IView<in TCommand>
+        where TCommand : ICommand
     {
-        Task Execute(Arguments arguments);
+        void Display(TCommand command);
     }
 }

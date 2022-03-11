@@ -14,17 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-
-namespace DustInTheWind.VeloCity.Presentation
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
-    public class CommandInfo
+    public enum ArgumentType
     {
-        public string Name { get; set; }
-
-        public List<string> DescriptionLines { get; set; }
-        
-        public Type Type { get; set; }
+        Ordinal,
+        Named
     }
 }

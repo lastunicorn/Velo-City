@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentSprints;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
@@ -47,9 +48,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 
         private static int? GetSprintCount(Arguments arguments)
         {
-            return arguments.Count > 1
-                ? int.Parse(arguments[1])
-                : null;
+            Argument argument = arguments[1];
+
+            return argument == null
+                ? null
+                : int.Parse(argument.Value);
         }
     }
 }

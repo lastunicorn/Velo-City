@@ -14,21 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace DustInTheWind.VeloCity.Presentation
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
-    public class Arguments
+    public class Argument
     {
-        private readonly string[] args;
+        public string Name { get; set; }
 
-        public int Count => args.Length;
+        public string Value { get; set; }
 
-        public string this[int index] => args[index];
-
-        public Arguments(string[] args)
-        {
-            this.args = args ?? throw new ArgumentNullException(nameof(args));
-        }
+        public ArgumentType Type { get; set; }
     }
 }

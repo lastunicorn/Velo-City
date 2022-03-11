@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentVacations;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
@@ -47,9 +48,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         private static string GetPersonName(Arguments arguments)
         {
-            return arguments.Count > 1
-                ? arguments[1]
-                : null;
+            Argument argument = arguments.GetOrdinal(1);
+            return argument?.Value;
         }
     }
 }
