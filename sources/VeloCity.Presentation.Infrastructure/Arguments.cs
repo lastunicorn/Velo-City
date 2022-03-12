@@ -44,6 +44,12 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
 
+            IEnumerable<Argument> newArguments = Parse(args);
+            arguments.AddRange(newArguments);
+        }
+
+        private static IEnumerable<Argument> Parse(IEnumerable<string> args)
+        {
             Argument argument = null;
 
             foreach (Arg arg in args.Select(x => new Arg(x)))
@@ -51,7 +57,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                 if (arg.HasNameMarker)
                 {
                     if (argument != null)
-                        arguments.Add(argument);
+                        yield return argument;
 
                     argument = new Argument
                     {
@@ -68,7 +74,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
                     argument.Value = arg.Value;
 
-                    arguments.Add(argument);
+                    yield return argument;
                     argument = null;
                 }
             }

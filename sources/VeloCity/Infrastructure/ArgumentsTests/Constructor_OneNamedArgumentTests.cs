@@ -15,15 +15,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
+using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.ArgumentsTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.ArgumentsTests
 {
-    public class OneNamedArgumentTests
+    public class Constructor_OneNamedArgumentTests
     {
         private readonly Arguments arguments;
 
-        public OneNamedArgumentTests()
+        public Constructor_OneNamedArgumentTests()
         {
             string[] args = { "-param1", "value1" };
 
@@ -31,27 +32,27 @@ namespace DustInTheWind.VeloCity.Tests.ArgumentsTests
         }
 
         [Fact]
-        public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentsContainsOneArgument()
+        public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentsContainsOneItem()
         {
-            Assert.Equal(1, arguments.Count);
+            arguments.Count.Should().Be(1);
         }
 
         [Fact]
         public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentHasTypeNamed()
         {
-            Assert.Equal(ArgumentType.Named, arguments[0].Type);
+            arguments[0].Type.Should().Be(ArgumentType.Named);
         }
 
         [Fact]
         public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentHasCorrectName()
         {
-            Assert.Equal("param1", arguments[0].Name);
+            arguments[0].Name.Should().Be("param1");
         }
 
         [Fact]
         public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentHasCorrectValue()
         {
-            Assert.Equal("value1", arguments[0].Value);
+            arguments[0].Value.Should().Be("value1");
         }
     }
 }

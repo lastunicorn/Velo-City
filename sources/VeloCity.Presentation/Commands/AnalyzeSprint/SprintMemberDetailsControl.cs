@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         protected override void DoDisplay()
         {
             int totalWorkHours = SprintMember.Days.Sum(x => x.WorkHours);
-            string titleText = $"{SprintMember.Name} - {totalWorkHours}h";
+            string titleText = $"{SprintMember.Name} - {totalWorkHours} h";
 
             DataGrid dataGrid = new()
             {
