@@ -15,18 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class Employment
+    public class VacationMonthly : Vacation
     {
-        public DateInterval TimeInterval { get; set; }
+        public List<int> MonthDays { get; set; }
 
-        public int HoursPerDay { get; set; }
+        public DateInterval DateInterval { get; set; }
 
-        public bool IsDateInRange(DateTime dateTime)
+        public override bool Match(DateTime date)
         {
-            return TimeInterval.ContainsDate(dateTime);
+            if (!DateInterval.ContainsDate(date))
+                return false;
+
+            return MonthDays?.Contains(date.Day) ?? false;
         }
     }
 }

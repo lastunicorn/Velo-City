@@ -18,15 +18,13 @@ using System;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class Employment
+    public class VacationOnce : Vacation
     {
-        public DateInterval TimeInterval { get; set; }
+        public DateTime Date { get; set; }
 
-        public int HoursPerDay { get; set; }
-
-        public bool IsDateInRange(DateTime dateTime)
+        public override bool Match(DateTime date)
         {
-            return TimeInterval.ContainsDate(dateTime);
+            return date.Date == Date.Date;
         }
     }
 }

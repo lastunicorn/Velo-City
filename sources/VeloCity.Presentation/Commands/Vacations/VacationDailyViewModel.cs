@@ -14,19 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
-    public class Employment
+    public class VacationDailyViewModel : VacationViewModel
     {
-        public DateInterval TimeInterval { get; set; }
+        public DateInterval DateInterval { get; set; }
 
-        public int HoursPerDay { get; set; }
-
-        public bool IsDateInRange(DateTime dateTime)
+        public override string ToString()
         {
-            return TimeInterval.ContainsDate(dateTime);
+            string startDate = DateInterval.StartDate == null
+                ? "<<<"
+                : DateInterval.StartDate.Value.ToString("d");
+
+            string endDate = DateInterval.EndDate == null
+                ? ">>>"
+                : DateInterval.EndDate.Value.ToString("d");
+
+            return $"[{startDate} - {endDate}]";
         }
     }
 }

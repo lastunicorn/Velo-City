@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
@@ -23,36 +24,127 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     internal static class VacationDayExtensions
     {
-        public static IEnumerable<JVacationDay> ToJEntities(this IEnumerable<VacationDay> vacationDays)
+        public static IEnumerable<JVacationDay> ToJEntities(this IEnumerable<Vacation> vacationDays)
         {
             return vacationDays?
                 .Select(x => x.ToJEntity());
         }
-        
-        public static JVacationDay ToJEntity(this VacationDay vacationDay)
+
+        public static JVacationDay ToJEntity(this Vacation vacation)
         {
-            return new JVacationDay
+            switch (vacation)
             {
-                Date = vacationDay.Date,
-                HourCount = vacationDay.HourCount,
-                Comments = vacationDay.Comments
-            };
+                case VacationOnce vacationOnce:
+                    return new JVacationDay
+                    {
+                        Date = vacationOnce.Date,
+                        HourCount = vacationOnce.HourCount,
+                        Comments = vacationOnce.Comments
+                    };
+
+                case VacationDaily vacationDaily:
+                    return new JVacationDay
+                    {
+                        StartDate = vacationDaily.DateInterval.StartDate,
+                        EndDate = vacationDaily.DateInterval.EndDate,
+                        HourCount = vacationDaily.HourCount,
+                        Comments = vacationDaily.Comments
+                    };
+
+                case VacationMonthly vacationMonthly:
+                    return new JVacationDay
+                    {
+                        StartDate = vacationMonthly.DateInterval.StartDate,
+                        EndDate = vacationMonthly.DateInterval.EndDate,
+                        MonthDays = vacationMonthly.MonthDays,
+                        HourCount = vacationMonthly.HourCount,
+                        Comments = vacationMonthly.Comments
+                    };
+
+                case VacationWeekly vacationWeekly:
+                    return new JVacationDay
+                    {
+                        StartDate = vacationWeekly.DateInterval.StartDate,
+                        EndDate = vacationWeekly.DateInterval.EndDate,
+                        WeekDays = vacationWeekly.WeekDays,
+                        HourCount = vacationWeekly.HourCount,
+                        Comments = vacationWeekly.Comments
+                    };
+
+                case VacationYearly vacationYearly:
+                    return new JVacationDay
+                    {
+                        StartDate = vacationYearly.DateInterval.StartDate,
+                        EndDate = vacationYearly.DateInterval.EndDate,
+                        Dates = vacationYearly.Dates,
+                        HourCount = vacationYearly.HourCount,
+                        Comments = vacationYearly.Comments
+                    };
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(vacation));
+            }
         }
 
-        public static IEnumerable<VacationDay> ToEntities(this IEnumerable<JVacationDay> vacationDays)
+        public static IEnumerable<Vacation> ToEntities(this IEnumerable<JVacationDay> vacationDays)
         {
             return vacationDays?
                 .Select(x => x.ToEntity());
         }
-        
-        public static VacationDay ToEntity(this JVacationDay vacationDay)
+
+        public static Vacation ToEntity(this JVacationDay vacationDay)
         {
-            return new VacationDay
+            switch (vacationDay.Recurrence)
             {
-                Date = vacationDay.Date,
-                HourCount = vacationDay.HourCount,
-                Comments = vacationDay.Comments
-            };
+                case JVacationRecurrence.Once:
+                    if (vacationDay.Date == null)
+                        throw new DataAccessException("Missing date for the vacation with recurrence 'once'.");
+
+                    return new VacationOnce
+                    {
+                        Date = vacationDay.Date.Value,
+                        HourCount = vacationDay.HourCount,
+                        Comments = vacationDay.Comments
+                    };
+
+                case JVacationRecurrence.Daily:
+                    return new VacationDaily
+                    {
+                        DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
+                        HourCount = vacationDay.HourCount,
+                        Comments = vacationDay.Comments
+                    };
+
+                case JVacationRecurrence.Weekly:
+                    return new VacationWeekly
+                    {
+                        DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
+                        WeekDays = vacationDay.WeekDays,
+                        HourCount = vacationDay.HourCount,
+                        Comments = vacationDay.Comments
+                    };
+
+                case JVacationRecurrence.Monthly:
+                    return new VacationMonthly
+                    {
+                        DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
+                        MonthDays = vacationDay.MonthDays,
+                        HourCount = vacationDay.HourCount,
+                        Comments = vacationDay.Comments
+                    };
+
+                case JVacationRecurrence.Yearly:
+                    return new VacationYearly
+                    {
+                        DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
+                        Dates = vacationDay.Dates,
+                        HourCount = vacationDay.HourCount,
+                        Comments = vacationDay.Comments
+                    };
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

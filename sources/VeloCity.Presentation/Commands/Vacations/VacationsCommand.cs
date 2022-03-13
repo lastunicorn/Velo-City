@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.PresentVacations;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
@@ -27,7 +28,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
     {
         private readonly IMediator mediator;
 
-        public List<TeamMemberVacation> TeamMemberVacations { get; private set; }
+        public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }
 
         public VacationsCommand(IMediator mediator)
         {
@@ -43,7 +44,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
             PresentVacationsResponse response = await mediator.Send(request);
 
-            TeamMemberVacations = response.TeamMemberVacations;
+            TeamMemberVacations = response.TeamMemberVacations
+                .Select(x=> new TeamMemberVacationViewModel(x))
+                .ToList();
         }
 
         private static string GetPersonName(Arguments arguments)

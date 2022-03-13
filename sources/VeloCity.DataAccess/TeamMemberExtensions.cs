@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                     .ToJEntities()
                     .ToList(),
                 Comments = teamMember.Comments,
-                VacationDays = teamMember.VacationDays?
+                VacationDays = teamMember.Vacations?
                     .ToJEntities()
                     .ToList()
             };
@@ -61,7 +61,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                     .ToEntities()
                     .ToList(),
                 Comments = teamMember.Comments,
-                VacationDays = teamMember.VacationDays?
+                Vacations = teamMember.VacationDays?
                     .ToEntities()
                     .ToList()
             };

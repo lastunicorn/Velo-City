@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         private readonly DatabaseFile databaseFile;
         public readonly List<TeamMember> TeamMembers = new();
         public readonly List<OfficialHoliday> OfficialHolidays = new();
-        public List<VacationDay> Vacations = new();
+        public List<Vacation> Vacations = new();
         public readonly List<Sprint> Sprints = new();
 
         public  Database(DatabaseFile databaseFile)
@@ -71,7 +71,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 TeamMembers = TeamMembers
                     .Select(x =>
                     {
-                        x.VacationDays = Vacations
+                        x.Vacations = Vacations
                             .Where(z => z.TeamMember == x)
                             .ToList();
 

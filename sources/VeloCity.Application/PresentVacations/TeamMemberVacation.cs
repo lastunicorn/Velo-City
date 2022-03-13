@@ -16,8 +16,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
@@ -25,52 +25,47 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
     {
         public string PersonName { get; set; }
 
-        public List<VacationInfo> Vacations { get; set; }
+        public List<Vacation> Vacations { get; set; }
 
-        public SortedList<DateTime, List<VacationInfo>> VacationsMyMonth
+        public SortedList<DateTime, List<Vacation>> VacationsMyMonth
         {
             get
             {
-                Dictionary<DateTime, List<VacationInfo>> vacationByMonth = Vacations
-                    .GroupBy(x => new DateTime(x.Date.Year, x.Date.Month, 1))
+                Dictionary<DateTime, List<Vacation>> vacationByMonth = Vacations
+                    .GroupBy(x =>
+                    {
+                        DateTime? dateTime = CalculateSignificantDateFor(x);
+                        return new DateTime(dateTime?.Year ?? 1, dateTime?.Month ?? 1, 1);
+                    })
                     .OrderByDescending(x => x.Key)
                     .ToDictionary(x => x.Key, x => x.ToList());
 
-                return new SortedList<DateTime, List<VacationInfo>>(vacationByMonth);
+                return new SortedList<DateTime, List<Vacation>>(vacationByMonth);
+            }
+        }
+
+        private static DateTime? CalculateSignificantDateFor(Vacation vacation)
+        {
+            switch (vacation)
+            {
+                case VacationOnce vacationOnce:
+                    return vacationOnce.Date;
+                
+                case VacationDaily vacationDaily:
+                    return vacationDaily.DateInterval.StartDate;
+                
+                case VacationWeekly vacationWeekly:
+                    return vacationWeekly.DateInterval.StartDate;
+                
+                case VacationMonthly vacationMonthly:
+                    return vacationMonthly.DateInterval.StartDate;
+                
+                case VacationYearly vacationYearly:
+                    return vacationYearly.DateInterval.StartDate;
+                
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(vacation));
             }
         }
     }
-
-    //public class VacationCollection
-    //{
-    //    private readonly Dictionary<DateTime, List<VacationInfo>> vacationByMonth = new();
-
-    //    public void Add(VacationInfo item)
-    //    {
-    //        if (item == null) throw new ArgumentNullException(nameof(item));
-
-    //        DateTime key = new(item.Date.Year, item.Date.Month, 1);
-
-    //        List<VacationInfo> bucket;
-
-    //        if (vacationByMonth.ContainsKey(key))
-    //        {
-    //            bucket = vacationByMonth[key];
-    //        }
-    //        else
-    //        {
-    //            bucket = new List<VacationInfo>();
-    //            vacationByMonth.Add(key, bucket);
-    //        }
-
-    //        bucket.Add(item);
-    //    }
-
-    //    public IEnumerable<List<VacationInfo>> EnumerateByMonth()
-    //    {
-    //        return vacationByMonth
-    //            .OrderByDescending(x => x.Key)
-    //            .Select(x => x.Value);
-    //    }
-    //}
 }

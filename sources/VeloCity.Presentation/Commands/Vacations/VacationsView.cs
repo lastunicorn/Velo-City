@@ -20,7 +20,6 @@ using System.Linq;
 using System.Text;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Application.PresentVacations;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
@@ -29,7 +28,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
     {
         public void Display(VacationsCommand command)
         {
-            foreach (TeamMemberVacation teamMemberVacation in command.TeamMemberVacations)
+            foreach (TeamMemberVacationViewModel teamMemberVacation in command.TeamMemberVacations)
             {
                 CustomConsole.WriteLine();
 
@@ -47,9 +46,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
                     }
                 };
 
-                foreach ((DateTime date, List<VacationInfo> vacationInfos) in teamMemberVacation.VacationsMyMonth)
+                foreach ((DateTime date, List<VacationViewModel> vacationViewModels) in teamMemberVacation.VacationsMyMonth)
                 {
-                    ContentRow row = ToRow(date, vacationInfos);
+                    ContentRow row = ToRow(date, vacationViewModels);
                     dataGrid.Rows.Add(row);
                 }
 
@@ -57,12 +56,12 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             }
         }
 
-        private static ContentRow ToRow(DateTime date, IEnumerable<VacationInfo> vacationInfos)
+        private static ContentRow ToRow(DateTime date, IEnumerable<VacationViewModel> vacationResponses)
         {
             ContentRow row = new();
             row.AddCell($"{date:yyyy MM}");
 
-            List<string> lines = vacationInfos
+            List<string> lines = vacationResponses
                 .Select(ToString)
                 .ToList();
 
@@ -71,16 +70,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             return row;
         }
 
-        private static string ToString(VacationInfo vacationInfo)
+        private static string ToString(VacationViewModel vacationViewModel)
         {
             StringBuilder sb = new();
-            sb.Append($"{vacationInfo.Date:d}");
+            sb.Append($"{vacationViewModel}");
 
-            if (vacationInfo.HourCount != null)
-                sb.Append($" ({vacationInfo.HourCount}h)");
+            if (vacationViewModel.HourCount != null)
+                sb.Append($" ({vacationViewModel.HourCount}h)");
 
-            if (vacationInfo.Comments != null)
-                sb.Append($" - {vacationInfo.Comments}");
+            if (vacationViewModel.Comments != null)
+                sb.Append($" - {vacationViewModel.Comments}");
 
             return sb.ToString();
         }

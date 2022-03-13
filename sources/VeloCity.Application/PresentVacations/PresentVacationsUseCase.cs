@@ -59,19 +59,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
             return new TeamMemberVacation
             {
                 PersonName = teamMember.Name,
-                Vacations = teamMember.VacationDays
-                    .Select(ToVacationInfo)
-                    .ToList()
-            };
-        }
-
-        private static VacationInfo ToVacationInfo(VacationDay vacationDay)
-        {
-            return new VacationInfo
-            {
-                Date = vacationDay.Date,
-                HourCount = vacationDay.HourCount,
-                Comments = vacationDay.Comments
+                Vacations = teamMember.Vacations
             };
         }
     }

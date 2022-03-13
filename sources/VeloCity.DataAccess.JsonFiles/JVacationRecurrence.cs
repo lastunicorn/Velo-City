@@ -14,19 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public class Employment
+    public enum JVacationRecurrence
     {
-        public DateInterval TimeInterval { get; set; }
+        [EnumMember(Value = "once")]
+        Once = 0,
 
-        public int HoursPerDay { get; set; }
+        [EnumMember(Value = "daily")]
+        Daily = 1,
 
-        public bool IsDateInRange(DateTime dateTime)
-        {
-            return TimeInterval.ContainsDate(dateTime);
-        }
+        [EnumMember(Value = "weekly")]
+        Weekly = 2,
+
+        [EnumMember(Value = "monthly")]
+        Monthly = 3,
+
+        [EnumMember(Value = "yearly")]
+        Yearly = 4
     }
 }

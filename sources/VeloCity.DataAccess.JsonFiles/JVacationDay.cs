@@ -15,12 +15,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class JVacationDay
     {
-        public DateTime Date { get; set; }
+        public JVacationRecurrence Recurrence { get; set; }
+
+        public DateTime? Date { get; set; }
+
+        public List<DayOfWeek> WeekDays { get; set; }
+        
+        public List<int> MonthDays { get; set; }
+        
+        public List<DateTime> Dates { get; set; }
+
+        public DateTime? StartDate { get; set; }
+        
+        public DateTime? EndDate { get; set; }
 
         public int? HourCount { get; set; }
 

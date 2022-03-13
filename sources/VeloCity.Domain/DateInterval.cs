@@ -24,9 +24,9 @@ namespace DustInTheWind.VeloCity.Domain
 
         public DateTime? EndDate { get; }
 
-        public bool IsAllTime => StartDate == null && EndDate == null;
+        public bool IsEver => StartDate == null && EndDate == null;
 
-        public DateInterval(DateTime? startDate, DateTime? endDate)
+        public DateInterval(DateTime? startDate = null, DateTime? endDate = null)
         {
             StartDate = startDate?.Date;
             EndDate = endDate?.Date;
@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool IsIntersecting(DateInterval dateInterval)
         {
-            if (dateInterval.IsAllTime)
+            if (dateInterval.IsEver)
                 return true;
 
             if (dateInterval.StartDate == null)
@@ -43,7 +43,7 @@ namespace DustInTheWind.VeloCity.Domain
             if (dateInterval.EndDate == null)
                 return EndDate == null || dateInterval.StartDate <= EndDate;
 
-            return IsInRange(dateInterval.EndDate.Value) || ((EndDate == null || dateInterval.EndDate > EndDate) && dateInterval.StartDate <= EndDate);
+            return ContainsDate(dateInterval.EndDate.Value) || ((EndDate == null || dateInterval.EndDate > EndDate) && dateInterval.StartDate <= EndDate);
         }
 
         public bool IsIntersecting(DateTime? startDate, DateTime? endDate)
@@ -52,7 +52,7 @@ namespace DustInTheWind.VeloCity.Domain
             return IsIntersecting(dateInterval);
         }
 
-        public bool IsInRange(DateTime dateTime)
+        public bool ContainsDate(DateTime dateTime)
         {
             DateTime date = dateTime.Date;
 
