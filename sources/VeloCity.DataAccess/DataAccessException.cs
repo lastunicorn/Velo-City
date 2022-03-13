@@ -16,14 +16,13 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Application.PresentVacations
+namespace DustInTheWind.VeloCity.DataAccess
 {
-    public class VacationInfo
+    internal class DataAccessException : Exception
     {
-        public DateTime Date { get; set; }
-
-        public int? HourCount { get; set; }
-
-        public string Comments { get; set; }
+        public DataAccessException(string message)
+            : base(message)
+        {
+        }
     }
 }

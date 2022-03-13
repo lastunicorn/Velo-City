@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public string Comments { get; set; }
 
-        public List<VacationDay> VacationDays { get; set; }
+        public List<Vacation> Vacations { get; set; }
 
         public int CalculateWorkHoursFor(Sprint sprint)
         {
@@ -51,13 +51,33 @@ namespace DustInTheWind.VeloCity.Domain
         private IEnumerable<SprintMemberDay> CalculateDays(Sprint sprint)
         {
             return sprint.EnumerateAllDays()
-                .Select(x => new SprintMemberDay
+                .Select(x =>
                 {
-                    Date = x.Date,
-                    WorkHours = CalculateWorkHoursFor(x),
-                    AbsenceHours = CalculateVacationHoursFor(x),
-                    AbsenceReason = CalculateVacationReason(x),
-                    AbsenceComments = GetVacationComments(x)
+                    MemberDayAnalysis memberDayAnalysis = new()
+                    {
+                        SprintDay = x,
+                        Employments = Employments,
+                        Vacations = Vacations
+                    };
+                    memberDayAnalysis.Analyze();
+
+                    return new SprintMemberDay
+                    {
+                        Date = x.Date,
+                        WorkHours = memberDayAnalysis.WorkHours,
+                        AbsenceHours = memberDayAnalysis.AbsenceHours,
+                        AbsenceReason = memberDayAnalysis.AbsenceReason,
+                        AbsenceComments = memberDayAnalysis.AbsenceComments
+                    };
+
+                    //return new SprintMemberDay
+                    //{
+                    //    Date = x.Date,
+                    //    WorkHours = CalculateWorkHoursFor(x),
+                    //    AbsenceHours = CalculateVacationHoursFor(x),
+                    //    AbsenceReason = CalculateVacationReason(x),
+                    //    AbsenceComments = GetVacationComments(x)
+                    //};
                 });
         }
 
@@ -72,14 +92,33 @@ namespace DustInTheWind.VeloCity.Domain
             if (sprintDay.IsFreeDay)
                 return 0;
 
-            VacationDay vacationDay = VacationDays?.FirstOrDefault(x => x.Date == sprintDay.Date);
+            Vacation[] vacations = GetVacationsFor(sprintDay.Date);
 
-            if (vacationDay == null)
+            bool vacationsExist = vacations is { Length: > 0 };
+            
+            if (!vacationsExist)
                 return employment.HoursPerDay;
 
-            return vacationDay.HourCount == null
-                ? 0
-                : employment.HoursPerDay - vacationDay.HourCount.Value;
+            bool isWholeDayVacation = vacations.Any(x=>x.HourCount == null);
+
+            if (isWholeDayVacation)
+                return 0;
+
+            int vacationHours = vacations
+                .Where(x => x.HourCount != null)
+                .Sum(x => x.HourCount.Value);
+
+            if (vacationHours > employment.HoursPerDay)
+                return 0;
+
+            return employment.HoursPerDay - vacationHours;
+        }
+
+        private Vacation[] GetVacationsFor(DateTime date)
+        {
+            return Vacations?
+                .Where(x => x.Match(date))
+                .ToArray();
         }
 
         private int CalculateVacationHoursFor(SprintDay sprintDay)
@@ -93,12 +132,12 @@ namespace DustInTheWind.VeloCity.Domain
             if (sprintDay.IsFreeDay)
                 return employment.HoursPerDay;
 
-            VacationDay vacationDay = VacationDays?.FirstOrDefault(x => x.Date == sprintDay.Date);
+            Vacation vacation = Vacations?.FirstOrDefault(x => x.Match(sprintDay.Date));
 
-            if (vacationDay == null)
+            if (vacation == null)
                 return 0;
 
-            return vacationDay.HourCount ?? employment.HoursPerDay;
+            return vacation.HourCount ?? employment.HoursPerDay;
         }
 
         private bool IsEmployed(DateTime date)
@@ -110,7 +149,7 @@ namespace DustInTheWind.VeloCity.Domain
         private Employment GetEmploymentFor(DateTime date)
         {
             return Employments?
-                .FirstOrDefault(x => x.TimeInterval.IsInRange(date));
+                .FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
         }
 
         private AbsenceReason CalculateVacationReason(SprintDay sprintDay)
@@ -125,18 +164,18 @@ namespace DustInTheWind.VeloCity.Domain
             if (sprintDay.IsOfficialHoliday)
                 return AbsenceReason.OfficialHoliday;
 
-            VacationDay vacationDay = VacationDays?.FirstOrDefault(x => x.Date == sprintDay.Date);
+            Vacation vacation = Vacations?.FirstOrDefault(x => x.Match(sprintDay.Date));
 
-            return vacationDay != null
+            return vacation != null
                 ? AbsenceReason.Vacation
                 : AbsenceReason.None;
         }
 
         private string GetVacationComments(SprintDay sprintDay)
         {
-            VacationDay vacationDay = VacationDays?.FirstOrDefault(x => x.Date == sprintDay.Date);
+            Vacation vacation = Vacations?.FirstOrDefault(x => x.Match(sprintDay.Date));
 
-            return vacationDay?.Comments;
+            return vacation?.Comments;
         }
     }
 }

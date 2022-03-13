@@ -18,14 +18,14 @@ using System;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class VacationDay
+    public abstract class Vacation
     {
         public TeamMember TeamMember { get; set; }
-
-        public DateTime Date { get; set; }
 
         public int? HourCount { get; set; }
 
         public string Comments { get; set; }
+
+        public abstract bool Match(DateTime date);
     }
 }

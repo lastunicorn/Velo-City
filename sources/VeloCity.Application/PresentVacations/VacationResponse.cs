@@ -16,17 +16,14 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
-    public class Employment
+    public class VacationResponse
     {
-        public DateInterval TimeInterval { get; set; }
+        public DateTime Date { get; set; }
 
-        public int HoursPerDay { get; set; }
+        public int? HourCount { get; set; }
 
-        public bool IsDateInRange(DateTime dateTime)
-        {
-            return TimeInterval.ContainsDate(dateTime);
-        }
+        public string Comments { get; set; }
     }
 }

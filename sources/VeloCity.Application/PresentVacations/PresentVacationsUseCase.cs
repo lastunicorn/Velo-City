@@ -59,20 +59,43 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
             return new TeamMemberVacation
             {
                 PersonName = teamMember.Name,
-                Vacations = teamMember.VacationDays
+                Vacations = teamMember.Vacations
                     .Select(ToVacationInfo)
                     .ToList()
             };
         }
 
-        private static VacationInfo ToVacationInfo(VacationDay vacationDay)
+        private static VacationResponse ToVacationInfo(Vacation vacation)
         {
-            return new VacationInfo
+            switch (vacation)
             {
-                Date = vacationDay.Date,
-                HourCount = vacationDay.HourCount,
-                Comments = vacationDay.Comments
-            };
+                case VacationOnce vacationOnce:
+                    return new VacationResponse
+                    {
+                        Date = vacationOnce.Date,
+                        HourCount = vacationOnce.HourCount,
+                        Comments = vacationOnce.Comments
+                    };
+
+                case VacationDaily vacationDaily:
+                    return new VacationResponse();
+
+                case VacationWeekly vacationWeekly:
+                    return new VacationResponse
+                    {
+                        Date = DateTime.MaxValue,
+                        Comments = vacationWeekly.Comments
+                    };
+
+                case VacationMonthly vacationMonthly:
+                    return new VacationResponse();
+
+                case VacationYearly vacationYearly:
+                    return new VacationResponse();
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(vacation));
+            }
         }
     }
 }

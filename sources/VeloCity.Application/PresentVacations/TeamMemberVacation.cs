@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace DustInTheWind.VeloCity.Application.PresentVacations
@@ -25,18 +24,18 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
     {
         public string PersonName { get; set; }
 
-        public List<VacationInfo> Vacations { get; set; }
+        public List<VacationResponse> Vacations { get; set; }
 
-        public SortedList<DateTime, List<VacationInfo>> VacationsMyMonth
+        public SortedList<DateTime, List<VacationResponse>> VacationsMyMonth
         {
             get
             {
-                Dictionary<DateTime, List<VacationInfo>> vacationByMonth = Vacations
+                Dictionary<DateTime, List<VacationResponse>> vacationByMonth = Vacations
                     .GroupBy(x => new DateTime(x.Date.Year, x.Date.Month, 1))
                     .OrderByDescending(x => x.Key)
                     .ToDictionary(x => x.Key, x => x.ToList());
 
-                return new SortedList<DateTime, List<VacationInfo>>(vacationByMonth);
+                return new SortedList<DateTime, List<VacationResponse>>(vacationByMonth);
             }
         }
     }

@@ -47,7 +47,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
                     }
                 };
 
-                foreach ((DateTime date, List<VacationInfo> vacationInfos) in teamMemberVacation.VacationsMyMonth)
+                foreach ((DateTime date, List<VacationResponse> vacationInfos) in teamMemberVacation.VacationsMyMonth)
                 {
                     ContentRow row = ToRow(date, vacationInfos);
                     dataGrid.Rows.Add(row);
@@ -57,7 +57,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             }
         }
 
-        private static ContentRow ToRow(DateTime date, IEnumerable<VacationInfo> vacationInfos)
+        private static ContentRow ToRow(DateTime date, IEnumerable<VacationResponse> vacationInfos)
         {
             ContentRow row = new();
             row.AddCell($"{date:yyyy MM}");
@@ -71,16 +71,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             return row;
         }
 
-        private static string ToString(VacationInfo vacationInfo)
+        private static string ToString(VacationResponse vacationResponse)
         {
             StringBuilder sb = new();
-            sb.Append($"{vacationInfo.Date:d}");
+            sb.Append($"{vacationResponse.Date:d}");
 
-            if (vacationInfo.HourCount != null)
-                sb.Append($" ({vacationInfo.HourCount}h)");
+            if (vacationResponse.HourCount != null)
+                sb.Append($" ({vacationResponse.HourCount}h)");
 
-            if (vacationInfo.Comments != null)
-                sb.Append($" - {vacationInfo.Comments}");
+            if (vacationResponse.Comments != null)
+                sb.Append($" - {vacationResponse.Comments}");
 
             return sb.ToString();
         }

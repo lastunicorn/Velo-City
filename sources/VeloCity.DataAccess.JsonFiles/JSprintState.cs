@@ -5,12 +5,12 @@ namespace DustInTheWind.VeloCity.JsonFiles
     public enum JSprintState
     {
         [EnumMember(Value = "new")]
-        New,
+        New = 0,
 
         [EnumMember(Value = "in-progress")]
-        InProgress,
+        InProgress = 1,
 
         [EnumMember(Value = "closed")]
-        Closed
+        Closed = 2
     }
 }
