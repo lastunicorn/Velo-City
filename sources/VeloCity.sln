@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Installer.CustomActions", "VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj", "{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests", "VeloCity\VeloCity.Tests.csproj", "{6E96C113-31C2-4065-B876-023BAF251B74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests", "VeloCity.Tests\VeloCity.Tests.csproj", "{6E96C113-31C2-4065-B876-023BAF251B74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Presentation.Infrastructure", "VeloCity.Presentation.Infrastructure\VeloCity.Presentation.Infrastructure.csproj", "{C8D6ED03-A4BD-4D12-AEBB-F9BBA4EC20E9}"
 EndProject
