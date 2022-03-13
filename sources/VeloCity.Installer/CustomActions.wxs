@@ -22,14 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Fragment>
 
         <Binary
-            Id="CustomActionsBinary"
+            Id="CaBinary"
             SourceFile="$(var.VeloCity.Installer.CustomActions.TargetDir)$(var.VeloCity.Installer.CustomActions.TargetName).CA.dll" />
-
-        <!--<CustomAction
-            Id="SelectDatabaseJsonFile"
-            BinaryKey="CustomActionsBinary"
-            DllEntry="SelectDatabaseJsonFile"
-            Execute="immediate" />-->
 
         <CustomAction
             Id="UpdateConfigFile_SetData"
@@ -38,14 +32,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <CustomAction
             Id="UpdateConfigFile"
-            BinaryKey="CustomActionsBinary"
+            BinaryKey="CaBinary"
             DllEntry="UpdateConfigFile"
             Execute="deferred"
             Impersonate="no" />
 
         <CustomAction
             Id="ReadFromConfigFile"
-            BinaryKey="CustomActionsBinary"
+            BinaryKey="CaBinary"
             DllEntry="ReadFromConfigFile"
             Execute="firstSequence" />
 

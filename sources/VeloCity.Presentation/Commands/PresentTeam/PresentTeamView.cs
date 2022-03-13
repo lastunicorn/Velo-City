@@ -38,7 +38,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
                         ForegroundColor = ConsoleColor.Black,
                         BackgroundColor = ConsoleColor.DarkGray
                     },
-                    DisplayBorderBetweenRows = true,
+                    Border =
+                    {
+                        DisplayBorderBetweenRows = true
+                    },
                     Margin = "0 1 0 0"
                 };
 

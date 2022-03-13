@@ -12,12 +12,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\$(Configuration)\net5.0</DefineConstants>
+    <DefineConstants>Debug;FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\$(Configuration)\net5.0;Version=$(Version)</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\$(Configuration)\net5.0</DefineConstants>
+    <DefineConstants>FileSourceDirectory=$(SolutionDir)VeloCity.Bootstrapper\bin\$(Configuration)\net5.0;Version=$(Version)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components\ApplicationFiles.wxs" />

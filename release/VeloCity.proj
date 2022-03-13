@@ -1,0 +1,68 @@
+<Project
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+	DefaultTargets="Build">
+
+	<PropertyGroup>
+		<OutputPath>output\</OutputPath>
+		<TempPath>temp\</TempPath>
+		<Version>1.5.0</Version>
+		<OutputFileName>VeloCity-$(Version).zip</OutputFileName>
+		<RepositoryRoot>..\</RepositoryRoot>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\**\*.dll" />
+		<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\**\*.xml" />
+		<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\**\*.json" />
+	</ItemGroup>
+
+	<Target Name="Build">
+		<MSBuild
+			Projects="..\sources\VeloCity.sln"
+			Properties="Configuration=Release;Platform=Any CPU;Version=$(Version)"/>
+		
+		<MakeDir
+			Directories="$(TempPath)zip\VeloCity\"
+			Condition="!Exists('$(TempPath)zip\VeloCity\')" />
+		
+        <Copy
+            SourceFiles="@(CoreFile)"
+            DestinationFiles="$(TempPath)zip\VeloCity\%(RecursiveDir)%(Filename)%(Extension)" />
+        <Copy
+            SourceFiles="$(RepositoryRoot)LICENSE"
+            DestinationFolder="$(TempPath)zip\VeloCity\" />
+        <Copy
+            SourceFiles="$(RepositoryRoot)doc\readme.txt"
+            DestinationFolder="$(TempPath)zip\VeloCity\" />
+        <Copy
+            SourceFiles="$(RepositoryRoot)doc\changelog.txt"
+            DestinationFolder="$(TempPath)zip\VeloCity\" />
+		
+		<!-- Create the zip file. -->
+		
+		<MakeDir
+			Directories="$(OutputPath)"
+			Condition="!Exists('$(OutputPath)')" />
+		
+		<ZipDirectory
+            SourceDirectory="$(TempPath)zip\"
+            DestinationFile="$(OutputPath)$(OutputFileName)" />
+        
+		<!-- Publish the installer file. -->
+		
+		<Copy
+            SourceFiles="$(RepositoryRoot)sources\VeloCity.Installer\bin\Release\VeloCity.msi"
+            DestinationFiles="$(OutputPath)VeloCity-$(Version).msi" />
+	</Target>
+
+	<Target Name="PrepareForBuild" BeforeTargets="Build">
+		<RemoveDir Directories="$(TempPath)" />
+		<RemoveDir Directories="$(OutputPath)" />
+		<Delete Files="$(OutputFileName)" />
+	</Target>
+
+	<Target Name="FinalCleanup" AfterTargets="Build">
+		<RemoveDir Directories="$(TempPath)" />
+	</Target>
+
+</Project>
