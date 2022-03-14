@@ -16,16 +16,10 @@
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public interface IConfig
+    public enum DataGridStyle
     {
-        ErrorMessageLevel ErrorMessageLevel { get; }
-        
-        string DatabaseLocation { get; }
-     
-        string DatabaseEditor { get; }
-
-        string DatabaseEditorArguments { get; }
-
-        DataGridStyle DataGridStyle { get; }
+        PlusMinus,
+        SingleLine,
+        DoubleLine
     }
 }

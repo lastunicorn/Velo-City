@@ -159,6 +159,8 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             foreach (Type type in commandAndViewTypes)
                 containerBuilder.RegisterType(type).AsSelf();
+
+            containerBuilder.RegisterType<DataGridFactory>().AsSelf();
         }
 
         private static bool IsCommandType(Type type)

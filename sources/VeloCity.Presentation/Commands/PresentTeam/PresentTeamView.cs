@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Application.PresentTeam;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
@@ -26,24 +25,20 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
 {
     public class PresentTeamView : IView<PresentTeamCommand>
     {
+        private readonly DataGridFactory dataGridFactory;
+
+        public PresentTeamView(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+        }
+
         public void Display(PresentTeamCommand command)
         {
             foreach (TeamMember teamMember in command.TeamMembers)
             {
-                DataGrid dataGrid = new()
-                {
-                    Title = teamMember.Name,
-                    TitleRow =
-                    {
-                        ForegroundColor = ConsoleColor.Black,
-                        BackgroundColor = ConsoleColor.DarkGray
-                    },
-                    Border =
-                    {
-                        DisplayBorderBetweenRows = true
-                    },
-                    Margin = "0 1 0 0"
-                };
+                DataGrid dataGrid = dataGridFactory.Create();
+                dataGrid.Title = teamMember.Name;
+                dataGrid.Border.DisplayBorderBetweenRows = true;
 
                 IEnumerable<string> employmentsAsString = teamMember.Employments
                     .Select(x => $"{x.HoursPerDay} h/day | {x.TimeInterval}");

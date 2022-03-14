@@ -26,23 +26,21 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
     internal class SprintMemberDetailsControl : Control
     {
+        private readonly DataGridFactory dataGridFactory;
+
         public SprintMember SprintMember { get; set; }
+
+        public SprintMemberDetailsControl(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory;
+        }
 
         protected override void DoDisplay()
         {
             int totalWorkHours = SprintMember.Days.Sum(x => x.WorkHours);
-            string titleText = $"{SprintMember.Name} - {totalWorkHours} h";
 
-            DataGrid dataGrid = new()
-            {
-                Title = titleText,
-                TitleRow =
-                {
-                    ForegroundColor = ConsoleColor.Black,
-                    BackgroundColor = ConsoleColor.DarkGray
-                },
-                Margin = "0 1 0 0"
-            };
+            DataGrid dataGrid = dataGridFactory.Create();
+            dataGrid.Title = $"{SprintMember.Name} - {totalWorkHours} h";
 
             dataGrid.Columns.Add("Date");
 

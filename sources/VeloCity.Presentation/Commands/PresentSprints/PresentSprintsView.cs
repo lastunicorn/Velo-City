@@ -25,6 +25,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
     public class PresentSprintsView : IView<PresentSprintsCommand>
     {
+        private readonly DataGridFactory dataGridFactory;
+
+        public PresentSprintsView(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+        }
+
         public void Display(PresentSprintsCommand command)
         {
             bool sprintsExist = command.SprintOverviews is { Count: > 0 };
@@ -42,9 +49,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
             }
         }
 
-        private static void DisplaySprints(IEnumerable<SprintOverview> sprintOverviews)
+        private void DisplaySprints(IEnumerable<SprintOverview> sprintOverviews)
         {
-            SprintsOverview sprintsOverview = new()
+            SprintsOverview sprintsOverview = new(dataGridFactory)
             {
                 Items = sprintOverviews.ToList()
             };

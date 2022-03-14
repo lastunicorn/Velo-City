@@ -79,6 +79,25 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             }
         }
 
+        public DataGridStyle DataGridStyle
+        {
+            get
+            {
+                try
+                {
+                    IConfigurationSection configurationSection = config.GetSection("DataGridStyle");
+
+                    return configurationSection.Exists()
+                        ? (DataGridStyle)Enum.Parse(typeof(DataGridStyle), configurationSection.Value, true)
+                        : DataGridStyle.PlusMinus;
+                }
+                catch (Exception ex)
+                {
+                    throw new ConfigurationException("Error reading the ErrorMessageLevel value from the configuration file.", ex);
+                }
+            }
+        }
+
         public Config()
         {
             try

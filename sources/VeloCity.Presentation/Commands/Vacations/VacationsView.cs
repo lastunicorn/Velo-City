@@ -18,7 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
@@ -26,25 +25,20 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
     public class VacationsView : IView<VacationsCommand>
     {
+        private readonly DataGridFactory dataGridFactory;
+
+        public VacationsView(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+        }
+
         public void Display(VacationsCommand command)
         {
             foreach (TeamMemberVacationViewModel teamMemberVacation in command.TeamMemberVacations)
             {
-                CustomConsole.WriteLine();
-
-                DataGrid dataGrid = new()
-                {
-                    Title = teamMemberVacation.PersonName,
-                    TitleRow =
-                    {
-                        ForegroundColor = ConsoleColor.Black,
-                        BackgroundColor = ConsoleColor.DarkGray
-                    },
-                    Border =
-                    {
-                        DisplayBorderBetweenRows = true
-                    }
-                };
+                DataGrid dataGrid = dataGridFactory.Create();
+                dataGrid.Title = teamMemberVacation.PersonName;
+                dataGrid.Border.DisplayBorderBetweenRows = true;
 
                 foreach ((DateTime date, List<VacationViewModel> vacationViewModels) in teamMemberVacation.VacationsMyMonth)
                 {
