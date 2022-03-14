@@ -4,6 +4,7 @@ Velo City
 v1.5.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Added handling for recurrent vacations.
+- [feature] Added configurable data grid border style. It can be set from hthe config file.
 
 
 v1.4.0
