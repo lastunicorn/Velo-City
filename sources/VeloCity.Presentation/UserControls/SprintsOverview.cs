@@ -24,26 +24,23 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
     internal class SprintsOverview
     {
+        private readonly DataGridFactory dataGridFactory;
+
         public List<SprintOverview> Items { get; set; }
+
+        public SprintsOverview(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+        }
 
         public void Display()
         {
             if (Items == null || Items.Count == 0)
                 return;
 
-            DataGrid dataGrid = new()
-            {
-                Title = $"The last {Items.Count} Sprints",
-                TitleRow =
-                {
-                    ForegroundColor = ConsoleColor.Black,
-                    BackgroundColor = ConsoleColor.DarkGray
-                },
-                Border =
-                {
-                    DisplayBorderBetweenRows = true
-                }
-            };
+            DataGrid dataGrid = dataGridFactory.Create();
+            dataGrid.Title = $"The last {Items.Count} Sprints";
+            dataGrid.Border.DisplayBorderBetweenRows = true;
 
             IEnumerable<ContentRow> rows = Items
                 .Select(CreateRow);

@@ -20,30 +20,30 @@ using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
     internal class WorkDaysControl : Control
     {
+        private readonly DataGridFactory dataGridFactory;
+
         public List<DateTime> WorkDays { get; set; }
 
         public List<SprintMember> SprintMembers { get; set; }
+
+        public WorkDaysControl(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+        }
 
         protected override void DoDisplay()
         {
             if (WorkDays == null || WorkDays.Count == 0)
                 return;
 
-            DataGrid dataGrid = new()
-            {
-                Title = "Sprint Calendar",
-                TitleRow =
-                {
-                    ForegroundColor = ConsoleColor.Black,
-                    BackgroundColor = ConsoleColor.DarkGray
-                },
-                Margin = "0 1 0 0"
-            };
+            DataGrid dataGrid = dataGridFactory.Create();
+            dataGrid.Title = "Sprint Calendar";
 
             dataGrid.Columns.Add("Date");
 

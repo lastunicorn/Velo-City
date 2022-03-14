@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
@@ -21,6 +22,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
     public class AnalyzeSprintView : IView<AnalyzeSprintCommand>
     {
+        private readonly DataGridFactory dataGridFactory;
+
+        public AnalyzeSprintView(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+        }
+
         public void Display(AnalyzeSprintCommand command)
         {
             DisplayOverview(command);
@@ -32,18 +40,18 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
                 DisplaySprintMemberDetails(sprintMember);
         }
 
-        private static void DisplayOverview(AnalyzeSprintCommand command)
+        private void DisplayOverview(AnalyzeSprintCommand command)
         {
-            SprintOverviewControl sprintOverviewControl = new()
+            SprintOverviewControl sprintOverviewControl = new(dataGridFactory)
             {
                 Command = command
             };
             sprintOverviewControl.Display();
         }
 
-        private static void DisplayWorkDays(AnalyzeSprintCommand command)
+        private void DisplayWorkDays(AnalyzeSprintCommand command)
         {
-            WorkDaysControl workDaysControl = new()
+            WorkDaysControl workDaysControl = new(dataGridFactory)
             {
                 WorkDays = command.WorkDays,
                 SprintMembers = command.SprintMembers
@@ -52,9 +60,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             workDaysControl.Display();
         }
 
-        private static void DisplaySprintMemberDetails(SprintMember sprintMember)
+        private void DisplaySprintMemberDetails(SprintMember sprintMember)
         {
-            SprintMemberDetailsControl sprintMemberDetailsControl = new()
+            SprintMemberDetailsControl sprintMemberDetailsControl = new(dataGridFactory)
             {
                 SprintMember = sprintMember
             };

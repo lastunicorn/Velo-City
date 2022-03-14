@@ -24,7 +24,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
     internal class SprintOverviewControl : Control
     {
+        private readonly DataGridFactory dataGridFactory;
+
         public AnalyzeSprintCommand Command { get; set; }
+
+        public SprintOverviewControl(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+        }
 
         protected override void DoDisplay()
         {
@@ -34,15 +41,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         private void DisplayOverviewTable()
         {
-            DataGrid dataGrid = new()
-            {
-                Title = $"{Command.SprintName} ({Command.StartDate:d} - {Command.EndDate:d})",
-                TitleRow =
-                {
-                    ForegroundColor = ConsoleColor.Black,
-                    BackgroundColor = ConsoleColor.DarkGray
-                }
-            };
+            DataGrid dataGrid = dataGridFactory.Create();
+            dataGrid.Title = $"{Command.SprintName} ({Command.StartDate:d} - {Command.EndDate:d})";
 
             dataGrid.Rows.Add("State", RenderState());
             dataGrid.Rows.Add("Work Days", Command.WorkDays?.Count + " days");
