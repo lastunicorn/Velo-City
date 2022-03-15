@@ -34,6 +34,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
 
         public void Display(PresentTeamCommand command)
         {
+            Console.WriteLine(command.TeamResponseType);
+
             foreach (TeamMember teamMember in command.TeamMembers)
             {
                 DataGrid dataGrid = dataGridFactory.Create();

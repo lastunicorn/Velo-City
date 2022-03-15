@@ -88,7 +88,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
         {
             Sprint currentSprint = sprintNumber == null
                 ? unitOfWork.SprintRepository.GetLast()
-                : unitOfWork.SprintRepository.Get(sprintNumber.Value);
+                : unitOfWork.SprintRepository.GetByNumber(sprintNumber.Value);
 
             if (currentSprint == null)
             {

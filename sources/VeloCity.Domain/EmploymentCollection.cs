@@ -16,20 +16,20 @@
 
 using System;
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Domain;
+using System.Linq;
 
-namespace DustInTheWind.VeloCity.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class PresentTeamResponse
+    public class EmploymentCollection : List<Employment>
     {
-        public List<TeamMember> TeamMembers { get; set; }
+        public EmploymentCollection(IEnumerable<Employment> employments)
+            : base(employments)
+        {
+        }
 
-        public TeamResponseType ResponseType { get; set; }
-
-        public DateTime Date { get; set; }
-        
-        public DateInterval DateInterval { get; set; }
-
-        public int SprintNumber { get; set; }
+        public Employment GetEmploymentFor(DateTime date)
+        {
+            return this.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
+        }
     }
 }

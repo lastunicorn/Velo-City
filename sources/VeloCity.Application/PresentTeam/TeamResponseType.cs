@@ -14,22 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using DustInTheWind.VeloCity.Domain;
-
 namespace DustInTheWind.VeloCity.Application.PresentTeam
 {
-    public class PresentTeamResponse
+    public enum TeamResponseType
     {
-        public List<TeamMember> TeamMembers { get; set; }
-
-        public TeamResponseType ResponseType { get; set; }
-
-        public DateTime Date { get; set; }
-        
-        public DateInterval DateInterval { get; set; }
-
-        public int SprintNumber { get; set; }
+        Date,
+        DateInterval,
+        Sprint
     }
 }
