@@ -31,16 +31,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             string weekDaysString = WeekDays == null || WeekDays.Count == 0
                 ? "<none>"
                 : string.Join(", ", WeekDays);
-
-            string startDate = DateInterval.StartDate == null
-                ? "<<<"
-                : DateInterval.StartDate.Value.ToString("d");
-
-            string endDate = DateInterval.EndDate == null
-                ? ">>>"
-                : DateInterval.EndDate.Value.ToString("d");
-
-            return $"Each {weekDaysString} between [{startDate} - {endDate}]";
+            
+            return $"Each {weekDaysString} between [{DateInterval}]";
         }
     }
 }

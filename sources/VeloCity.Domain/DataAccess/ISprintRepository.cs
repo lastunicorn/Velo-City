@@ -20,7 +20,9 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public interface ISprintRepository
     {
-        Sprint Get(int sprintId);
+        Sprint Get(int id);
+
+        Sprint GetByNumber(int number);
         
         IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count);
         

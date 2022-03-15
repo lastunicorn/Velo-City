@@ -24,15 +24,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         public override string ToString()
         {
-            string startDate = DateInterval.StartDate == null
-                ? "<<<"
-                : DateInterval.StartDate.Value.ToString("d");
-
-            string endDate = DateInterval.EndDate == null
-                ? ">>>"
-                : DateInterval.EndDate.Value.ToString("d");
-
-            return $"[{startDate} - {endDate}]";
+            return DateInterval.ToString();
         }
     }
 }

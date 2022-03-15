@@ -57,9 +57,7 @@ namespace DustInTheWind.VeloCity.DataAccess
             {
                 Id = teamMember.Id,
                 Name = teamMember.Name,
-                Employments = teamMember.Employments?
-                    .ToEntities()
-                    .ToList(),
+                Employments = new EmploymentCollection(teamMember.Employments?.ToEntities()),
                 Comments = teamMember.Comments,
                 Vacations = teamMember.VacationDays?
                     .ToEntities()

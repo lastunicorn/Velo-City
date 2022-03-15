@@ -48,6 +48,12 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(startDate, endDate)) ?? false);
         }
 
+        public IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval)
+        {
+            return database.TeamMembers
+                .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(dateInterval)) ?? false);
+        }
+
         public IEnumerable<TeamMember> Find(string text)
         {
             return database.TeamMembers

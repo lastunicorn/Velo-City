@@ -26,6 +26,8 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         IEnumerable<TeamMember> GetByDate(DateTime date);
 
         IEnumerable<TeamMember> GetByDateInterval(DateTime? startDate, DateTime? endDate);
+        
+        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval);
 
         IEnumerable<TeamMember> Find(string text);
     }

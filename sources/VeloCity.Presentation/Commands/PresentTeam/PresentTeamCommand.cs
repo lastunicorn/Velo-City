@@ -28,7 +28,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
     {
         private readonly IMediator mediator;
 
-        public List<TeamMember> TeamMembers { get; set; }
+        public List<TeamMember> TeamMembers { get; private set; }
+
+        public TeamResponseTypeViewModel TeamResponseType { get; private set; }
 
         public PresentTeamCommand(IMediator mediator)
         {
@@ -41,11 +43,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
             {
                 Date = GetDate(arguments),
                 StartDate = GetStartDate(arguments),
-                EndDate = GetEndDate(arguments)
+                EndDate = GetEndDate(arguments),
+                SprintNumber = GetSprint(arguments)
             };
             PresentTeamResponse response = await mediator.Send(request);
 
             TeamMembers = response.TeamMembers;
+            TeamResponseType = new TeamResponseTypeViewModel(response);
         }
 
         private static DateTime? GetDate(Arguments arguments)
@@ -78,6 +82,17 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
                 return null;
 
             bool isSuccess = DateTime.TryParse(argument.Value, out DateTime value);
+            return isSuccess ? value : null;
+        }
+
+        private static int? GetSprint(Arguments arguments)
+        {
+            Argument argument = arguments["sprint"];
+
+            if (argument == null)
+                return null;
+
+            bool isSuccess = int.TryParse(argument.Value, out int value);
             return isSuccess ? value : null;
         }
     }

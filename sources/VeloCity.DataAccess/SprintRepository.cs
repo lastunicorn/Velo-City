@@ -31,9 +31,14 @@ namespace DustInTheWind.VeloCity.DataAccess
             this.database = database ?? throw new ArgumentNullException(nameof(database));
         }
 
-        public Sprint Get(int sprintId)
+        public Sprint Get(int id)
         {
-            return database.Sprints.FirstOrDefault(x => x.Number == sprintId);
+            return database.Sprints.FirstOrDefault(x => x.Id == id);
+        }
+
+        public Sprint GetByNumber(int number)
+        {
+            return database.Sprints.FirstOrDefault(x => x.Number == number);
         }
 
         public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count)
