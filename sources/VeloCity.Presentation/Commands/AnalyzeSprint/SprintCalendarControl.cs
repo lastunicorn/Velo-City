@@ -17,9 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
@@ -27,9 +27,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
     {
         private readonly DataGridFactory dataGridFactory;
 
-        public List<DateTime> WorkDays { get; set; }
-
-        public List<SprintMember> SprintMembers { get; set; }
+        public SprintCalendarViewModel ViewModel { get; set; }
 
         public SprintCalendarControl(DataGridFactory dataGridFactory)
         {
@@ -38,9 +36,15 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         protected override void DoDisplay()
         {
-            if (WorkDays == null || WorkDays.Count == 0)
+            if (ViewModel.IsVisible)
                 return;
 
+            DisplayTable();
+            DisplayNotes();
+        }
+
+        private void DisplayTable()
+        {
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = "Sprint Calendar";
 
@@ -60,76 +64,65 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             };
             dataGrid.Columns.Add(vacationColumn);
 
-            dataGrid.Columns.Add("Details");
+            dataGrid.Columns.Add("Vacation Details");
 
-            foreach (DateTime date in WorkDays)
+            foreach (CalendarItemViewModel calendarItem in ViewModel.CalendarItems)
             {
-                ContentRow dataRow = CreateContentRow(date);
+                ContentRow dataRow = CreateContentRow(calendarItem);
                 dataGrid.Rows.Add(dataRow);
             }
 
             dataGrid.Display();
         }
 
-        private ContentRow CreateContentRow(DateTime date)
+        private void DisplayNotes()
         {
-            List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(date);
-            int workHours = sprintMemberDays.Sum(x => x.WorkHours);
-            int absenceHours = sprintMemberDays.Sum(x => x.AbsenceHours);
+            if (ViewModel.IsPartialVacationNoteVisible)
+            {
+                CustomConsole.WriteLine();
+                CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
+                CustomConsole.WriteLine(ConsoleColor.DarkYellow, "  - (*) = partial day vacation");
+            }
+        }
 
+        private static ContentRow CreateContentRow(CalendarItemViewModel calendarItem)
+        {
             ContentRow dataRow = new();
 
-            dataRow.AddCell($"{date:d} ({date:dddd})");
+            dataRow.AddCell($"{calendarItem.Date}");
 
-            ContentCell workHoursCell = CreateWorkHoursCell(workHours);
+            ContentCell workHoursCell = CreateWorkHoursCell(calendarItem);
             dataRow.AddCell(workHoursCell);
 
-            ContentCell chartCell = CreateChartCell(workHours, absenceHours);
+            ContentCell chartCell = CreateChartCell(calendarItem);
             dataRow.AddCell(chartCell);
 
-            ContentCell absenceCell = CreateAbsenceCell(absenceHours);
+            ContentCell absenceCell = CreateAbsenceCell(calendarItem);
             dataRow.AddCell(absenceCell);
 
-            ContentCell detailsCell = CreateDetailsCell(sprintMemberDays);
+            ContentCell detailsCell = CreateDetailsCell(calendarItem);
             dataRow.AddCell(detailsCell);
 
             return dataRow;
         }
 
-        private List<SprintMemberDay> GetAllSprintMemberDays(DateTime date)
+        private static ContentCell CreateWorkHoursCell(CalendarItemViewModel calendarItem)
         {
-            if (SprintMembers == null)
-                return new List<SprintMemberDay>();
-
-            return SprintMembers
-                .Select(x => x.Days?.FirstOrDefault(z => z.Date == date))
-                .Where(x => x != null)
-                .ToList();
-        }
-
-        private static ContentCell CreateWorkHoursCell(int workHours)
-        {
-            if (workHours == 0)
-            {
-                return new ContentCell
-                {
-                    Content = "- h"
-                };
-            }
-
             return new ContentCell
             {
-                Content = $"{workHours} h",
-                ForegroundColor = ConsoleColor.Green
+                Content = calendarItem.WorkHours.ToString(),
+                ForegroundColor = calendarItem.WorkHours > 0
+                    ? ConsoleColor.Green
+                    : null
             };
         }
 
-        private static ContentCell CreateChartCell(int workHours, int absenceHours)
+        private static ContentCell CreateChartCell(CalendarItemViewModel calendarItem)
         {
             ChartBar chartBar = new()
             {
-                MaxValue = workHours + absenceHours,
-                Value = workHours
+                MaxValue = calendarItem.ChartItem.MaxValue,
+                Value = calendarItem.ChartItem.Value
             };
 
             return new ContentCell
@@ -139,39 +132,28 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             };
         }
 
-        private static ContentCell CreateAbsenceCell(int absenceHours)
+        private static ContentCell CreateAbsenceCell(CalendarItemViewModel calendarItem)
         {
-            if (absenceHours == 0)
-            {
-                return new ContentCell
-                {
-                    Content = "- h"
-                };
-            }
-
             return new ContentCell
             {
-                Content = $"{absenceHours} h",
-                ForegroundColor = ConsoleColor.Yellow
+                Content = calendarItem.AbsenceHours.ToString(),
+                ForegroundColor = calendarItem.AbsenceHours > 0
+                    ? ConsoleColor.Yellow
+                    : null
             };
         }
 
-        private ContentCell CreateDetailsCell(IEnumerable<SprintMemberDay> sprintMemberDays)
+        private static ContentCell CreateDetailsCell(CalendarItemViewModel calendarItem)
         {
-            List<string> absentTeamMemberNames = sprintMemberDays
-                .Where(x => x.AbsenceHours > 0)
-                .Select(x => x.WorkHours == 0
-                    ? x.TeamMember.Name
-                    : x.TeamMember.Name + "*")
+            List<string> absentTeamMemberNames = calendarItem.VacationDetails
+                .Select(x => x.IsPartialVacation
+                    ? x.Name + "(*)"
+                    : x.Name)
                 .ToList();
-
-            string cellContent = absentTeamMemberNames.Count == SprintMembers.Count
-                ? "All"
-                : string.Join(", ", absentTeamMemberNames);
 
             return new ContentCell
             {
-                Content = cellContent,
+                Content = string.Join(", ", absentTeamMemberNames),
                 ForegroundColor = ConsoleColor.Yellow
             };
         }

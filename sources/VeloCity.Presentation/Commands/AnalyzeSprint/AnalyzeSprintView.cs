@@ -44,7 +44,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         {
             SprintOverviewControl sprintOverviewControl = new(dataGridFactory)
             {
-                Command = command
+                ViewModel = command.SprintOverviewViewModel
             };
             sprintOverviewControl.Display();
         }
@@ -53,8 +53,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         {
             SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
             {
-                WorkDays = command.WorkDays,
-                SprintMembers = command.SprintMembers
+                ViewModel = command.SprintCalendarViewModel
             };
 
             sprintCalendarControl.Display();
