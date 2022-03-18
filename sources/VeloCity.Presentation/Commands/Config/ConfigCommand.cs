@@ -37,10 +37,19 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Config
 
         public async Task Execute(Arguments arguments)
         {
-            PresentConfigRequest request = new();
+            PresentConfigRequest request = new()
+            {
+                ConfigItemName = GetConfigItemName(arguments)
+            };
             PresentConfigResponse response = await mediator.Send(request);
 
             ConfigValues = response.ConfigValues;
+        }
+
+        private static string GetConfigItemName(Arguments arguments)
+        {
+            Argument argument = arguments.GetOrdinal(1) ?? arguments["get"];
+            return argument?.Value;
         }
     }
 }

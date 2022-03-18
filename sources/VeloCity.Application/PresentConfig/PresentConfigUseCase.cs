@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
@@ -35,6 +36,13 @@ namespace DustInTheWind.VeloCity.Application.PresentConfig
         public Task<PresentConfigResponse> Handle(PresentConfigRequest request, CancellationToken cancellationToken)
         {
             List<ConfigItem> values = config.GetAllValuesRaw();
+
+            if (request.ConfigItemName != null)
+            {
+                values = values
+                    .Where(x => x.Name == request.ConfigItemName)
+                    .ToList();
+            }
 
             PresentConfigResponse response = new()
             {
