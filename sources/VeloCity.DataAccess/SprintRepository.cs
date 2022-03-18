@@ -78,5 +78,13 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .OrderByDescending(x => x.StartDate)
                 .FirstOrDefault();
         }
+
+        public Sprint GetLastInProgress()
+        {
+            return database.Sprints
+                .Where(x => x.State == SprintState.InProgress)
+                .OrderByDescending(x => x.StartDate)
+                .FirstOrDefault();
+        }
     }
 }

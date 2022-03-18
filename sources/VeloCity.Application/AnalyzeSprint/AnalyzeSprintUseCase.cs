@@ -36,7 +36,10 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = RetrieveSprintToAnalyze(request.SprintNumber);
+            Sprint currentSprint = request.SprintNumber == null
+                ? RetrieveDefaultSprintToAnalyze()
+                : RetrieveSprintToAnalyze(request.SprintNumber.Value);
+
             List<SprintMember> sprintMembers = RetrieveSprintMembers(currentSprint);
 
             List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, request.LookBackSprintCount, request.ExcludedSprints);
@@ -45,7 +48,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 : CalculateAverageVelocity(previousSprints);
 
             int totalWorkHours = CalculateTotalWorkHours(sprintMembers);
-            
+
             AnalyzeSprintResponse response = new()
             {
                 SprintName = currentSprint.Name,
@@ -84,19 +87,25 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             return sprintMembers;
         }
 
-        private Sprint RetrieveSprintToAnalyze(int? sprintNumber)
+        private Sprint RetrieveDefaultSprintToAnalyze()
         {
-            Sprint currentSprint = sprintNumber == null
-                ? unitOfWork.SprintRepository.GetLast()
-                : unitOfWork.SprintRepository.GetByNumber(sprintNumber.Value);
+            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
 
             if (currentSprint == null)
-            {
-                if (sprintNumber == null)
-                    throw new NoSprintException();
+                currentSprint = unitOfWork.SprintRepository.GetLast();
 
-                throw new SprintDoesNotExistException(sprintNumber.Value);
-            }
+            if (currentSprint == null)
+                throw new NoSprintException();
+
+            return currentSprint;
+        }
+
+        private Sprint RetrieveSprintToAnalyze(int sprintNumber)
+        {
+            Sprint currentSprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+
+            if (currentSprint == null)
+                throw new SprintDoesNotExistException(sprintNumber);
 
             return currentSprint;
         }
@@ -108,7 +117,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             IEnumerable<Sprint> sprints = excludedSprintsExists
                 ? unitOfWork.SprintRepository.GetClosedSprintsBefore(sprintNumber, count, excludedSprints)
                 : unitOfWork.SprintRepository.GetClosedSprintsBefore(sprintNumber, count);
-            
+
             return sprints.ToList();
         }
 
