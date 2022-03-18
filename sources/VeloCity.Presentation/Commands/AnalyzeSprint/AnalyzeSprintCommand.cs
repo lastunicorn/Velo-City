@@ -59,6 +59,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         public List<int> ExcludesSprints { get; private set; }
 
+        public SprintOverviewViewModel SprintOverviewViewModel { get; set; }
+        
+        public SprintCalendarViewModel SprintCalendarViewModel { get; set; }
+
         public AnalyzeSprintCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -73,6 +77,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             };
 
             AnalyzeSprintResponse response = await mediator.Send(request);
+
+            SprintOverviewViewModel = new SprintOverviewViewModel(response);
+            SprintCalendarViewModel = new SprintCalendarViewModel(response);
 
             SprintName = response.SprintName;
             SprintState = response.SprintState;
