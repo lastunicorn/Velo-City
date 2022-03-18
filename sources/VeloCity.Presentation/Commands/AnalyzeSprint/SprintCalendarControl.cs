@@ -20,11 +20,10 @@ using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
-    internal class WorkDaysControl : Control
+    internal class SprintCalendarControl : Control
     {
         private readonly DataGridFactory dataGridFactory;
 
@@ -32,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         public List<SprintMember> SprintMembers { get; set; }
 
-        public WorkDaysControl(DataGridFactory dataGridFactory)
+        public SprintCalendarControl(DataGridFactory dataGridFactory)
         {
             this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
         }
@@ -61,6 +60,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             };
             dataGrid.Columns.Add(vacationColumn);
 
+            dataGrid.Columns.Add("Details");
+
             foreach (DateTime date in WorkDays)
             {
                 ContentRow dataRow = CreateContentRow(date);
@@ -83,21 +84,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             ContentCell workHoursCell = CreateWorkHoursCell(workHours);
             dataRow.AddCell(workHoursCell);
 
-            const int chartMaxValue = 25;
-
-            int value = workHours;
-            int maxValue = workHours + absenceHours;
-            int chartValue = (int)Math.Round((float)value * chartMaxValue / maxValue);
-
-            string chartBarString = new string('═', chartValue) + new string('-', chartMaxValue - chartValue);
-            ContentCell chartCell = new(chartBarString)
-            {
-                ForegroundColor = ConsoleColor.Green
-            };
+            ContentCell chartCell = CreateChartCell(workHours, absenceHours);
             dataRow.AddCell(chartCell);
 
             ContentCell absenceCell = CreateAbsenceCell(absenceHours);
             dataRow.AddCell(absenceCell);
+
+            ContentCell detailsCell = CreateDetailsCell(sprintMemberDays);
+            dataRow.AddCell(detailsCell);
 
             return dataRow;
         }
@@ -130,6 +124,21 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             };
         }
 
+        private static ContentCell CreateChartCell(int workHours, int absenceHours)
+        {
+            ChartBar chartBar = new()
+            {
+                MaxValue = workHours + absenceHours,
+                Value = workHours
+            };
+
+            return new ContentCell
+            {
+                Content = chartBar.ToString(),
+                ForegroundColor = ConsoleColor.Green
+            };
+        }
+
         private static ContentCell CreateAbsenceCell(int absenceHours)
         {
             if (absenceHours == 0)
@@ -143,6 +152,26 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             return new ContentCell
             {
                 Content = $"{absenceHours} h",
+                ForegroundColor = ConsoleColor.Yellow
+            };
+        }
+
+        private ContentCell CreateDetailsCell(IEnumerable<SprintMemberDay> sprintMemberDays)
+        {
+            List<string> absentTeamMemberNames = sprintMemberDays
+                .Where(x => x.AbsenceHours > 0)
+                .Select(x => x.WorkHours == 0
+                    ? x.TeamMember.Name
+                    : x.TeamMember.Name + "*")
+                .ToList();
+
+            string cellContent = absentTeamMemberNames.Count == SprintMembers.Count
+                ? "All"
+                : string.Join(", ", absentTeamMemberNames);
+
+            return new ContentCell
+            {
+                Content = cellContent,
                 ForegroundColor = ConsoleColor.Yellow
             };
         }

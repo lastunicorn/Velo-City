@@ -64,6 +64,7 @@ namespace DustInTheWind.VeloCity.Domain
                     return new SprintMemberDay
                     {
                         Date = x.Date,
+                        TeamMember = this,
                         WorkHours = memberDayAnalysis.WorkHours,
                         AbsenceHours = memberDayAnalysis.AbsenceHours,
                         AbsenceReason = memberDayAnalysis.AbsenceReason,

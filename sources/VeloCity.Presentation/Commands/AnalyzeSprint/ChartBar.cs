@@ -16,20 +16,20 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
-    public class SprintMemberDay
+    internal class ChartBar
     {
-        public DateTime Date { get; set; }
+        private const int MaxDisplayLength = 25;
 
-        public TeamMember TeamMember { get; set; }
+        public int MaxValue { get; set; }
 
-        public int WorkHours { get; set; }
-        
-        public int AbsenceHours { get; set; }
-        
-        public AbsenceReason AbsenceReason { get; set; }
-        
-        public string AbsenceComments { get; set; }
+        public int Value { get; set; }
+
+        public override string ToString()
+        {
+            int chartValue = (int)Math.Round((float)Value * MaxDisplayLength / MaxValue);
+            return new string('═', chartValue) + new string('-', MaxDisplayLength - chartValue);
+        }
     }
 }

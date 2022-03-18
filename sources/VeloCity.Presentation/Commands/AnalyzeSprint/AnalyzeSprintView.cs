@@ -51,13 +51,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         private void DisplayWorkDays(AnalyzeSprintCommand command)
         {
-            WorkDaysControl workDaysControl = new(dataGridFactory)
+            SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
             {
                 WorkDays = command.WorkDays,
                 SprintMembers = command.SprintMembers
             };
 
-            workDaysControl.Display();
+            sprintCalendarControl.Display();
         }
 
         private void DisplaySprintMemberDetails(SprintMember sprintMember)
