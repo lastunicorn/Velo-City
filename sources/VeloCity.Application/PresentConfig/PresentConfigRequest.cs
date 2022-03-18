@@ -14,22 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Application.PresentConfig
 {
-    public interface IConfig
+    public class PresentConfigRequest : IRequest<PresentConfigResponse>
     {
-        ErrorMessageLevel ErrorMessageLevel { get; }
-        
-        string DatabaseLocation { get; }
-     
-        string DatabaseEditor { get; }
-
-        string DatabaseEditorArguments { get; }
-
-        DataGridStyle DataGridStyle { get; }
-
-        List<ConfigItem> GetAllValuesRaw();
     }
 }

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using Microsoft.Extensions.Configuration;
 
@@ -22,6 +23,12 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 {
     internal class Config : IConfig
     {
+        private const string ErrorMessageLevelPropertyName = "ErrorMessageLevel";
+        private const string DatabaseLocationPropertyName = "DatabaseLocation";
+        private const string DatabaseEditorPropertyName = "DatabaseEditor";
+        private const string DatabaseEditorArgumentsPropertyName = "DatabaseEditorArguments";
+        private const string DataGridStylePropertyName = "DataGridStyle";
+
         private readonly IConfiguration config;
 
         public ErrorMessageLevel ErrorMessageLevel
@@ -30,7 +37,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             {
                 try
                 {
-                    IConfigurationSection configurationSection = config.GetSection("ErrorMessageLevel");
+                    IConfigurationSection configurationSection = config.GetSection(ErrorMessageLevelPropertyName);
 
                     return configurationSection.Exists()
                         ? (ErrorMessageLevel)Enum.Parse(typeof(ErrorMessageLevel), configurationSection.Value, true)
@@ -47,7 +54,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         {
             get
             {
-                IConfigurationSection configurationSection = config.GetSection("DatabaseLocation");
+                IConfigurationSection configurationSection = config.GetSection(DatabaseLocationPropertyName);
 
                 return configurationSection.Exists()
                     ? configurationSection.Value
@@ -59,7 +66,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         {
             get
             {
-                IConfigurationSection configurationSection = config.GetSection("DatabaseEditor");
+                IConfigurationSection configurationSection = config.GetSection(DatabaseEditorPropertyName);
 
                 return configurationSection.Exists()
                     ? configurationSection.Value
@@ -71,7 +78,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         {
             get
             {
-                IConfigurationSection configurationSection = config.GetSection("DatabaseEditorArguments");
+                IConfigurationSection configurationSection = config.GetSection(DatabaseEditorArgumentsPropertyName);
 
                 return configurationSection.Exists()
                     ? configurationSection.Value
@@ -85,7 +92,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             {
                 try
                 {
-                    IConfigurationSection configurationSection = config.GetSection("DataGridStyle");
+                    IConfigurationSection configurationSection = config.GetSection(DataGridStylePropertyName);
 
                     return configurationSection.Exists()
                         ? (DataGridStyle)Enum.Parse(typeof(DataGridStyle), configurationSection.Value, true)
@@ -96,6 +103,38 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                     throw new ConfigurationException("Error reading the ErrorMessageLevel value from the configuration file.", ex);
                 }
             }
+        }
+
+        public List<ConfigItem> GetAllValuesRaw()
+        {
+            return new List<ConfigItem>
+            {
+                new()
+                {
+                    Name = ErrorMessageLevelPropertyName,
+                    Value = ErrorMessageLevel.ToString()
+                },
+                new()
+                {
+                    Name = DatabaseLocationPropertyName,
+                    Value = DatabaseLocation
+                },
+                new()
+                {
+                    Name = DatabaseEditorPropertyName,
+                    Value = DatabaseEditor
+                },
+                new()
+                {
+                    Name = DatabaseEditorArgumentsPropertyName,
+                    Value = DatabaseEditorArguments
+                },
+                new()
+                {
+                    Name = DataGridStylePropertyName,
+                    Value = DataGridStyle.ToString()
+                }
+            };
         }
 
         public Config()

@@ -18,6 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
+using DustInTheWind.VeloCity.Presentation.Commands.Config;
 using DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
 using DustInTheWind.VeloCity.Presentation.Commands.PresentTeam;
@@ -98,6 +99,18 @@ namespace DustInTheWind.VeloCity.Presentation
                         ""
                     },
                     Type = typeof(OpenDatabaseCommand)
+                },
+                new CommandInfo
+                {
+                    Name = "config",
+                    DescriptionLines = new List<string>()
+                    {
+                        "Displays the configuration values.",
+                        "usage:",
+                        "  config",
+                        ""
+                    },
+                    Type = typeof(ConfigCommand)
                 }
             };
         }
