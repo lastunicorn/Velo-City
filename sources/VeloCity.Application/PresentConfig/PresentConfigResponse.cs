@@ -15,21 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Application.PresentConfig
 {
-    public interface IConfig
+    public class PresentConfigResponse
     {
-        ErrorMessageLevel ErrorMessageLevel { get; }
-        
-        string DatabaseLocation { get; }
-     
-        string DatabaseEditor { get; }
-
-        string DatabaseEditorArguments { get; }
-
-        DataGridStyle DataGridStyle { get; }
-
-        List<ConfigItem> GetAllValuesRaw();
+        public List<ConfigItem> ConfigValues { get; set; }
     }
 }

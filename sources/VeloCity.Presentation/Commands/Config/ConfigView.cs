@@ -14,22 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
+using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Presentation.Commands.Config
 {
-    public interface IConfig
+    public class ConfigView : IView<ConfigCommand>
     {
-        ErrorMessageLevel ErrorMessageLevel { get; }
-        
-        string DatabaseLocation { get; }
-     
-        string DatabaseEditor { get; }
+        public void Display(ConfigCommand command)
+        {
+            Console.WriteLine("Configuration values:");
+            Console.WriteLine();
 
-        string DatabaseEditorArguments { get; }
-
-        DataGridStyle DataGridStyle { get; }
-
-        List<ConfigItem> GetAllValuesRaw();
+            foreach (ConfigItem configItem in command.ConfigValues)
+            {
+                Console.WriteLine($"  - {configItem.Name} = {configItem.Value}");
+            }
+        }
     }
 }
