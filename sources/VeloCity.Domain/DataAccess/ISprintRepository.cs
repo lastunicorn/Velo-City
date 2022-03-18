@@ -31,5 +31,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         IEnumerable<Sprint> GetPage(int pageIndex, int count);
         
         Sprint GetLast();
+
+        Sprint GetLastInProgress();
     }
 }
