@@ -25,42 +25,18 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 {
+    [Command("sprint", ShortDescription = "Makes an analysis of the sprint and displays the result.", Order = 1)]
+    [CommandUsage("sprint")]
+    [CommandUsage("sprint [sprint-number]")]
+    [CommandUsage("sprint [sprint-number] -exclude [sprint-number[,sprint-number[...]]]")]
     public class AnalyzeSprintCommand : ICommand
     {
         private readonly IMediator mediator;
-
-        public string SprintName { get; private set; }
-
-        public SprintState SprintState { get; private set; }
-
-        public DateTime StartDate { get; private set; }
-
-        public DateTime EndDate { get; private set; }
-
-        public List<DateTime> WorkDays { get; private set; }
-
-        public List<SprintMember> SprintMembers { get; private set; }
-
-        public int TotalWorkHours { get; private set; }
-
-        public float? EstimatedStoryPoints { get; private set; }
-
-        public float? EstimatedVelocity { get; private set; }
-
-        public int CommitmentStoryPoints { get; private set; }
-
-        public int ActualStoryPoints { get; private set; }
-
-        public float ActualVelocity { get; private set; }
-
-        public int LookBackSprintCount { get; private set; }
-
-        public List<int> PreviousSprints { get; private set; }
-
-        public List<int> ExcludesSprints { get; private set; }
-
-        public SprintOverviewViewModel SprintOverviewViewModel { get; set; }
         
+        public List<SprintMember> SprintMembers { get; private set; }
+        
+        public SprintOverviewViewModel SprintOverviewViewModel { get; set; }
+
         public SprintCalendarViewModel SprintCalendarViewModel { get; set; }
 
         public AnalyzeSprintCommand(IMediator mediator)
@@ -80,22 +56,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
             SprintOverviewViewModel = new SprintOverviewViewModel(response);
             SprintCalendarViewModel = new SprintCalendarViewModel(response);
-
-            SprintName = response.SprintName;
-            SprintState = response.SprintState;
-            StartDate = response.StartDate;
-            EndDate = response.EndDate;
-            WorkDays = response.WorkDays;
+            
             SprintMembers = response.SprintMembers;
-            TotalWorkHours = response.TotalWorkHours;
-            EstimatedStoryPoints = response.EstimatedStoryPoints;
-            EstimatedVelocity = response.EstimatedVelocity;
-            CommitmentStoryPoints = response.CommitmentStoryPoints;
-            ActualStoryPoints = response.ActualStoryPoints;
-            ActualVelocity = response.ActualVelocity;
-            LookBackSprintCount = response.LookBackSprintCount;
-            PreviousSprints = response.PreviousSprints;
-            ExcludesSprints = response.ExcludesSprints;
         }
 
         private static int? GetSprintNumber(Arguments arguments)

@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 
@@ -36,7 +35,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         protected override void DoDisplay()
         {
-            if (ViewModel.IsVisible)
+            if (!ViewModel.IsVisible)
                 return;
 
             DisplayTable();
@@ -73,16 +72,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             }
 
             dataGrid.Display();
-        }
-
-        private void DisplayNotes()
-        {
-            if (ViewModel.IsPartialVacationNoteVisible)
-            {
-                CustomConsole.WriteLine();
-                CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
-                CustomConsole.WriteLine(ConsoleColor.DarkYellow, "  - (*) = partial day vacation");
-            }
         }
 
         private static ContentRow CreateContentRow(CalendarItemViewModel calendarItem)
@@ -156,6 +145,18 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
                 Content = string.Join(", ", absentTeamMemberNames),
                 ForegroundColor = ConsoleColor.Yellow
             };
+        }
+
+        private void DisplayNotes()
+        {
+            if (ViewModel.IsPartialVacationNoteVisible)
+            {
+                NotesControl notesControl = new()
+                {
+                    Notes = new List<INote> { new PartialDayVacationNote() }
+                };
+                notesControl.Display();
+            }
         }
     }
 }

@@ -23,6 +23,9 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
 {
+    [Command("sprints", ShortDescription = "Displays an overview of the last sprints.", Order = 2)]
+    [CommandUsage("sprints")]
+    [CommandUsage("sprints [sprint-count]")]
     public class PresentSprintsCommand : ICommand
     {
         private readonly IMediator mediator;

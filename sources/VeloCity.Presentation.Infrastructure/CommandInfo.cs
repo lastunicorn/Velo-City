@@ -16,15 +16,78 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
     public class CommandInfo
     {
-        public string Name { get; set; }
+        private readonly Type commandType;
+        private CommandAttribute commandAttribute;
+        private List<CommandUsageAttribute> commandUsageAttributes;
+        private readonly List<string> descriptionLines;
 
-        public List<string> DescriptionLines { get; set; }
+        public string Name { get; }
+
+        public IReadOnlyList<string> DescriptionLines => descriptionLines;
+
+        public Type Type { get; }
+
+        public int Order => commandAttribute.Order;
         
-        public Type Type { get; set; }
+        public bool IsEnabled => commandAttribute.Enabled;
+
+        public CommandInfo(Type commandType)
+        {
+            this.commandType = commandType ?? throw new ArgumentNullException(nameof(commandType));
+
+            RetrieveAttributes();
+
+            Name = CalculateCommandName();
+            descriptionLines = CalculateDescription();
+            Type = commandType;
+        }
+
+        private void RetrieveAttributes()
+        {
+            commandAttribute = commandType.GetCustomAttributes(typeof(CommandAttribute), false)
+                .Cast<CommandAttribute>()
+                .SingleOrDefault();
+
+            commandUsageAttributes = commandType.GetCustomAttributes(typeof(CommandUsageAttribute), false)
+                .Cast<CommandUsageAttribute>()
+                .ToList();
+        }
+
+        private string CalculateCommandName()
+        {
+            if (commandAttribute != null && !string.IsNullOrEmpty(commandAttribute.CommandName))
+                return commandAttribute.CommandName;
+
+            if (commandType.Name.EndsWith("Command"))
+                return commandType.Name[..^"Command".Length].ToLower();
+
+            return commandType.Name.ToLower();
+        }
+
+        private List<string> CalculateDescription()
+        {
+            List<string> lines = new();
+
+            if (commandAttribute != null && !string.IsNullOrEmpty(commandAttribute.ShortDescription))
+                lines.Add(commandAttribute.ShortDescription);
+
+            if (commandUsageAttributes.Count > 0)
+            {
+                lines.Add("usage:");
+
+                IEnumerable<string> usageExamples = commandUsageAttributes
+                    .Select(x => "  " + x.UsageExample);
+
+                lines.AddRange(usageExamples);
+            }
+
+            return lines;
+        }
     }
 }

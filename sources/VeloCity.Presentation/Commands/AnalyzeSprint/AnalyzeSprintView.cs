@@ -32,9 +32,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         public void Display(AnalyzeSprintCommand command)
         {
             DisplayOverview(command);
-
-            if (command.WorkDays is { Count: > 0 })
-                DisplayWorkDays(command);
+            DisplayWorkDays(command);
 
             foreach (SprintMember sprintMember in command.SprintMembers)
                 DisplaySprintMemberDetails(sprintMember);

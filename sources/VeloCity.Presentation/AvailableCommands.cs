@@ -14,117 +14,106 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint;
-using DustInTheWind.VeloCity.Presentation.Commands.Config;
-using DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase;
-using DustInTheWind.VeloCity.Presentation.Commands.PresentSprints;
-using DustInTheWind.VeloCity.Presentation.Commands.PresentTeam;
-using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation
 {
-    public class AvailableCommands : IEnumerable<CommandInfo>
+    public class AvailableCommands
     {
-        private readonly List<CommandInfo> commandInfos;
+        private readonly List<CommandInfo> commandInfos = new();
+        private readonly List<Type> viewTypes = new();
 
-        public AvailableCommands()
+        public void SearchInCurrentAppDomain()
         {
-            commandInfos = new List<CommandInfo>()
+            IEnumerable<Type> allTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes());
+
+            foreach (Type type in allTypes)
             {
-                new CommandInfo
+                if (IsCommandType(type))
                 {
-                    Name = "sprint",
-                    DescriptionLines = new List<string>()
-                    {
-                        "Makes an analysis of the sprint and displays the result.",
-                        "usage:",
-                        "  sprint",
-                        "  sprint [sprint-number]",
-                        "  sprint [sprint-number] -exclude [sprint-number[,sprint-number[...]]]",
-                        ""
-                    },
-                    Type = typeof(AnalyzeSprintCommand)
-                },
-                new CommandInfo
-                {
-                    Name = "sprints",
-                    DescriptionLines = new List<string>()
-                    {
-                        "Displays an overview of the last sprints.",
-                        "usage:",
-                        "  sprints",
-                        "  sprints [sprint-count]",
-                        ""
-                    },
-                    Type = typeof(PresentSprintsCommand)
-                },
-                new CommandInfo
-                {
-                    Name = "vacations",
-                    DescriptionLines = new List<string>()
-                    {
-                        "Displays the vacation days for the specified team member.",
-                        "usage:",
-                        "  vacations [person-name]",
-                        ""
-                    },
-                    Type = typeof(VacationsCommand)
-                },
-                new CommandInfo
-                {
-                    Name = "team",
-                    DescriptionLines = new List<string>()
-                    {
-                        "Displays the composition of the team (team members).",
-                        "usage:",
-                        "  team",
-                        "  team -date [date]",
-                        "  team -start-date [date] -end-date [date]",
-                        ""
-                    },
-                    Type = typeof(PresentTeamCommand)
-                },
-                new CommandInfo
-                {
-                    Name = "db",
-                    DescriptionLines = new List<string>()
-                    {
-                        "Opens the database in a text editor.",
-                        "usage:",
-                        "  db",
-                        ""
-                    },
-                    Type = typeof(OpenDatabaseCommand)
-                },
-                new CommandInfo
-                {
-                    Name = "config",
-                    DescriptionLines = new List<string>()
-                    {
-                        "Displays the configuration values.",
-                        "usage:",
-                        "  config",
-                        ""
-                    },
-                    Type = typeof(ConfigCommand)
+                    CommandInfo commandInfo = new(type);
+                    commandInfos.Add(commandInfo);
                 }
-            };
+
+                if (IsViewType(type))
+                    viewTypes.Add(type);
+            }
         }
 
-        public CommandInfo this[string commandName] => commandInfos.FirstOrDefault(x => x.Name == commandName);
-
-        public IEnumerator<CommandInfo> GetEnumerator()
+        private static bool IsCommandType(Type type)
         {
-            return commandInfos.GetEnumerator();
+            return type != typeof(ICommand) && typeof(ICommand).IsAssignableFrom(type);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        private static bool IsViewType(Type type)
         {
-            return GetEnumerator();
+            Type[] interfaceTypes = type.GetInterfaces();
+
+            foreach (Type interfaceType in interfaceTypes)
+            {
+                bool isGenericType = interfaceType.IsGenericType;
+
+                if (!isGenericType)
+                    continue;
+
+                Type genericTypeDefinition = interfaceType.GetGenericTypeDefinition();
+
+                return genericTypeDefinition == typeof(IView<>);
+            }
+
+            return false;
+        }
+
+        public IEnumerable<Type> GetCommandTypes()
+        {
+            return commandInfos
+                .Select(x => x.Type);
+        }
+
+        public IEnumerable<Type> GetViewTypes()
+        {
+            return viewTypes;
+        }
+
+        public IEnumerable<Type> GetViewTypesForCommand(Type commandType)
+        {
+            return viewTypes
+                .Where(x =>
+                {
+                    IEnumerable<Type> interfaceTypes = x.GetInterfaces();
+
+                    foreach (Type interfaceType in interfaceTypes)
+                    {
+                        Type[] genericArgumentTypes = interfaceType.GetGenericArguments();
+
+                        if (genericArgumentTypes.Length != 1)
+                            continue;
+
+                        if (genericArgumentTypes[0] != commandType)
+                            continue;
+
+                        return true;
+                    }
+
+                    return false;
+                });
+        }
+
+        public List<CommandInfo> GetOrderedCommandInfos()
+        {
+            return commandInfos
+                .OrderBy(x => x.Order)
+                .ThenBy(x => x.Name)
+                .ToList();
+        }
+
+        public CommandInfo GetCommandInfo(string commandName)
+        {
+            return commandInfos.FirstOrDefault(x => x.Name == commandName);
         }
     }
 }

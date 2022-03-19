@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
@@ -37,15 +39,24 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 
             foreach (CommandInfo commandInfo in command.Commands)
             {
-                ContentRow row = new();
-
-                row.AddCell(commandInfo.Name);
-                row.AddCell(commandInfo.DescriptionLines);
-
+                ContentRow row = CreateContentRow(commandInfo);
                 dataGrid.Rows.Add(row);
+
+                ContentRow emptyRow = new(" ", " ");
+                dataGrid.Rows.Add(emptyRow);
             }
 
             dataGrid.Display();
+        }
+
+        private static ContentRow CreateContentRow(CommandInfo commandInfo)
+        {
+            ContentRow row = new();
+
+            row.AddCell(commandInfo.Name);
+            row.AddCell(commandInfo.DescriptionLines.ToList());
+
+            return row;
         }
     }
 }

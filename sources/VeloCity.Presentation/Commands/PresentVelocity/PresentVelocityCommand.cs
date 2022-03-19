@@ -23,6 +23,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
+    [Command("velocity", Enabled = false)]
     public class PresentVelocityCommand : ICommand
     {
         private readonly IMediator mediator;

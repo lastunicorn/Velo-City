@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         private readonly DataGridFactory dataGridFactory;
 
         public SprintMember SprintMember { get; set; }
-
+        
         public SprintMemberDetailsControl(DataGridFactory dataGridFactory)
         {
             this.dataGridFactory = dataGridFactory;
@@ -37,10 +37,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         protected override void DoDisplay()
         {
-            int totalWorkHours = SprintMember.Days.Sum(x => x.WorkHours);
+            HoursValue totalWorkHours = SprintMember.Days.Sum(x => x.WorkHours);
 
             DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = $"{SprintMember.Name} - {totalWorkHours} h";
+            dataGrid.Title = $"{SprintMember.Name} - {totalWorkHours}";
 
             dataGrid.Columns.Add("Date");
 
@@ -75,15 +75,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
             dataRow.AddCell($"{sprintMemberDay.Date:d} ({sprintMemberDay.Date:dddd})");
 
-            string workHours = sprintMemberDay.WorkHours == 0
-                ? "-"
-                : sprintMemberDay.WorkHours.ToString();
-            dataRow.AddCell(workHours + " h");
+            HoursValue workHours = sprintMemberDay.WorkHours;
+            dataRow.AddCell(workHours);
 
-            string absenceHours = sprintMemberDay.AbsenceHours == 0
-                ? "-"
-                : sprintMemberDay.AbsenceHours.ToString();
-            dataRow.AddCell(absenceHours + " h");
+            HoursValue absenceHours = sprintMemberDay.AbsenceHours;
+            dataRow.AddCell(absenceHours);
 
             if (sprintMemberDay.AbsenceReason != AbsenceReason.None)
             {
