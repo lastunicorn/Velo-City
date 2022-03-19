@@ -14,29 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using DustInTheWind.ConsoleTools;
-using DustInTheWind.ConsoleTools.Controls;
-
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar
 {
-    internal class NotesControl : BlockControl
+    public class ChartItem
     {
-        public List<INote> Notes { get; set; }
+        public int MaxValue { get; set; }
 
-        public NotesControl()
-        {
-            Margin = "0 1 0 0";
-            ForegroundColor = ConsoleColor.DarkYellow;
-        }
-
-        protected override void DoDisplayContent(ControlDisplay display)
-        {
-            CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
-
-            foreach (INote note in Notes)
-                CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - {note}");
-        }
+        public int Value { get; set; }
     }
 }

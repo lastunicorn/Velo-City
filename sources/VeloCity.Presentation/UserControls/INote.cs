@@ -14,13 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
-    internal class PartialDayVacationNote : INote
+    public interface INote
     {
-        public override string ToString()
-        {
-            return "(*) partial day vacation";
-        }
+        string ToString();
     }
 }

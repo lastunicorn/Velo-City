@@ -15,21 +15,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using DustInTheWind.ConsoleTools;
+using DustInTheWind.ConsoleTools.Controls;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
-    internal class ChartBar
+    internal class NotesControl : BlockControl
     {
-        private const int MaxDisplayLength = 25;
+        public List<INote> Notes { get; set; }
 
-        public int MaxValue { get; set; }
-
-        public int Value { get; set; }
-
-        public override string ToString()
+        public NotesControl()
         {
-            int chartValue = (int)Math.Round((float)Value * MaxDisplayLength / MaxValue);
-            return new string('═', chartValue) + new string('-', MaxDisplayLength - chartValue);
+            Margin = "0 1 0 0";
+            ForegroundColor = ConsoleColor.DarkYellow;
+        }
+
+        protected override void DoDisplayContent(ControlDisplay display)
+        {
+            CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
+
+            foreach (INote note in Notes)
+                CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - {note}");
         }
     }
 }

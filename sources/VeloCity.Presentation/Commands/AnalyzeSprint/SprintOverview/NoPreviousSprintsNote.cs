@@ -14,12 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
-{
-    public class ChartItem
-    {
-        public int MaxValue { get; set; }
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
-        public int Value { get; set; }
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview
+{
+    internal class NoPreviousSprintsNote : INote
+    {
+        public override string ToString()
+        {
+            return "Could not calculate an estimation because no previous closed sprints exist.";
+        }
     }
 }

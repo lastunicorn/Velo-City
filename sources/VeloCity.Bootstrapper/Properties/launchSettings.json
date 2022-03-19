@@ -2,7 +2,7 @@
   "profiles": {
     "VeloCity.Bootstrapper": {
       "commandName": "Project",
-      "commandLineArgs": "sprint -exclude 1,2,3"
+      "commandLineArgs": "sprint 26"
     }
   }
 }

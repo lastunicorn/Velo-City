@@ -53,7 +53,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             {
                 SprintName = currentSprint.Name,
                 SprintState = currentSprint.State,
-                WorkDays = currentSprint.EnumerateWorkDates().ToList(),
+                WorkDays = currentSprint.EnumerateWorkDays().ToList(),
                 StartDate = currentSprint.StartDate,
                 EndDate = currentSprint.EndDate,
                 SprintMembers = sprintMembers,

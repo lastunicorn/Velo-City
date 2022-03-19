@@ -22,14 +22,14 @@ using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintMembers
 {
     internal class SprintMemberDetailsControl : Control
     {
         private readonly DataGridFactory dataGridFactory;
 
         public SprintMember SprintMember { get; set; }
-        
+
         public SprintMemberDetailsControl(DataGridFactory dataGridFactory)
         {
             this.dataGridFactory = dataGridFactory;
@@ -38,6 +38,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         protected override void DoDisplay()
         {
             HoursValue totalWorkHours = SprintMember.Days.Sum(x => x.WorkHours);
+            totalWorkHours.ZeroCharacter = '0';
 
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = $"{SprintMember.Name} - {totalWorkHours}";
@@ -59,8 +60,20 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             dataGrid.Columns.Add("Details");
 
             IEnumerable<ContentRow> contentRowSelect = SprintMember.Days
-                .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd &&
-                            x.AbsenceReason != AbsenceReason.OfficialHoliday)
+                .Where(x =>
+                {
+                    bool isWeekDay = x.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
+                    if (isWeekDay)
+                        return true;
+
+                    bool hasWorkHoursInWeekEnd = x.WorkHours > 0;
+                    if (hasWorkHoursInWeekEnd)
+                        return true;
+
+                    bool isOfficialHoliday = x.AbsenceReason == AbsenceReason.OfficialHoliday;
+                    return isOfficialHoliday;
+                })
+                .Where(x => x.AbsenceReason != AbsenceReason.OfficialHoliday)
                 .Select(ToDataRow);
 
             foreach (ContentRow contentRow in contentRowSelect)

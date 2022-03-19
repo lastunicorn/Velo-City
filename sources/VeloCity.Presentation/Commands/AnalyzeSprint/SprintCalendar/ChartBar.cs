@@ -14,18 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar
 {
-    internal class ExcludedSprintsNote : INote
+    internal class ChartBar
     {
-        public List<int> ExcludesSprintNumbers { get; set; }
+        private const int MaxDisplayLength = 25;
+
+        public int MaxValue { get; set; }
+
+        public int Value { get; set; }
 
         public override string ToString()
         {
-            string excludedSprints = string.Join(",", ExcludesSprintNumbers);
-            return $"Excluded sprints: {excludedSprints} (These sprints were excluded from the velocity calculation algorithm.)";
+            if (MaxValue == 0)
+                return string.Empty;
+
+            int chartValue = (int)Math.Round((float)Value * MaxDisplayLength / MaxValue);
+            return new string('═', chartValue) + new string('-', MaxDisplayLength - chartValue);
         }
     }
 }

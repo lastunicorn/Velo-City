@@ -45,28 +45,22 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public void SetValue(ICommand command, string value)
         {
-            object valueAsObject;
-
-            if (propertyInfo.PropertyType.IsGenericType)
-            {
-                if (propertyInfo.PropertyType == typeof(List<int>))
-                {
-                    valueAsObject = value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                        .Select(int.Parse)
-                        .ToList();
-                }
-                else
-                {
-                    throw new Exception($"Cannot convert value {value} to type {propertyInfo.PropertyType.FullName}.");
-                }
-            }
-            else
-            {
-                TypeConverter typeConverter = TypeDescriptor.GetConverter(propertyInfo.PropertyType);
-                valueAsObject = typeConverter.ConvertFromString(value);
-            }
-
+            object valueAsObject = ParseValue(value);
             propertyInfo.SetValue(command, valueAsObject);
+        }
+
+        private object ParseValue(string value)
+        {
+            bool isListOfNumbers = propertyInfo.PropertyType.IsGenericType && propertyInfo.PropertyType == typeof(List<int>);
+            if (isListOfNumbers)
+            {
+                return value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Select(int.Parse)
+                    .ToList();
+            }
+
+            TypeConverter typeConverter = TypeDescriptor.GetConverter(propertyInfo.PropertyType);
+            return typeConverter.ConvertFromString(value);
         }
     }
 }

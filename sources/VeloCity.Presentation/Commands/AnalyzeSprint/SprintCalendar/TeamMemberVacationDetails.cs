@@ -14,10 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar
 {
-    public interface INote
+    public class TeamMemberVacationDetails
     {
-        string ToString();
+        public string Name { get; set; }
+
+        public bool IsPartialVacation { get; set; }
     }
 }

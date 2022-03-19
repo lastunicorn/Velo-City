@@ -16,6 +16,9 @@
 
 using System;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar;
+using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintMembers;
+using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
