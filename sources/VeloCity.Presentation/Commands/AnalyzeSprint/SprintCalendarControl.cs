@@ -36,7 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         protected override void DoDisplay()
         {
-            if (ViewModel.IsVisible)
+            if (!ViewModel.IsVisible)
                 return;
 
             DisplayTable();

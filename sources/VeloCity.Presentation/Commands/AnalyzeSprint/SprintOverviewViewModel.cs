@@ -59,28 +59,32 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         public float ActualVelocity => response.ActualVelocity;
 
-        public List<string> Notes
+        public List<INote> Notes
         {
             get
             {
-                List<string> notes = new();
+                List<INote> notes = new();
 
                 bool previousSprintsExist = response.PreviousSprints is { Count: > 0 };
 
                 if (previousSprintsExist)
                 {
-                    string previousSprints = string.Join(", ", response.PreviousSprints);
-                    notes.Add($"The estimations were calculated based on previous {response.PreviousSprints.Count} closed sprints: {previousSprints}");
+                    notes.Add(new PreviousSprintsCalculationNote
+                    {
+                        PreviousSprintNumbers = response.PreviousSprints
+                    });
                 }
                 else
                 {
-                    notes.Add("Could not calculate an estimation because no previous closed sprints exist.");
+                    notes.Add(new NoPreviousSprintsNote());
                 }
 
                 if (response.ExcludesSprints is { Count: > 0 })
                 {
-                    string excludedSprints = string.Join(",", response.ExcludesSprints);
-                    notes.Add($"Excluded sprints: {excludedSprints} (These sprints were excluded from the velocity calculation algorithm.)");
+                    notes.Add(new ExcludedSprintsNote
+                    {
+                        ExcludesSprintNumbers = response.ExcludesSprints
+                    });
                 }
 
                 return notes;

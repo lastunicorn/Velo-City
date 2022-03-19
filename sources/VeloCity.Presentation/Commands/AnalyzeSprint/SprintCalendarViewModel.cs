@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         public List<CalendarItemViewModel> CalendarItems { get; }
 
-        public bool IsVisible => response.WorkDays == null || response.WorkDays.Count == 0;
+        public bool IsVisible => response.WorkDays is { Count: > 0 };
 
         public bool IsPartialVacationNoteVisible => CalendarItems
             .SelectMany(x => x.VacationDetails)

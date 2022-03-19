@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 
@@ -57,11 +56,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         private void DisplayNotes()
         {
-            CustomConsole.WriteLine();
-            CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
-
-            foreach (string note in ViewModel.Notes)
-                CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - {note}");
+            NotesControl notesControl = new()
+            {
+                Notes = ViewModel.Notes
+            };
+            notesControl.Display();
         }
     }
 }
