@@ -24,6 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
 {
+    [Command("calendar", Enabled = false)]
     public class PresentSprintCalendarCommand : ICommand
     {
         private readonly IMediator mediator;

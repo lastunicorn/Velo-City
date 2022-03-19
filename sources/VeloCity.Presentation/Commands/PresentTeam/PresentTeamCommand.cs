@@ -24,6 +24,10 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
 {
+    [Command("team", ShortDescription = "Displays the composition of the team (team members).", Order = 4)]
+    [CommandUsage("team")]
+    [CommandUsage("team -date [date]")]
+    [CommandUsage("team -start-date [date] -end-date [date]")]
     public class PresentTeamCommand : ICommand
     {
         private readonly IMediator mediator;

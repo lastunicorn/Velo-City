@@ -22,6 +22,8 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase
 {
+    [Command("db", ShortDescription = "Opens the database in a text editor.", Order = 100)]
+    [CommandUsage("db")]
     public class OpenDatabaseCommand : ICommand
     {
         private readonly IMediator mediator;

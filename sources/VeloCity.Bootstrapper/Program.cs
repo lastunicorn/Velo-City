@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
@@ -57,7 +56,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
                 await command.Execute(arguments);
 
-                CallView(command);
+                ExecuteViewsFor(command);
             }
             catch (Exception ex)
             {
@@ -66,58 +65,6 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 else
                     CustomConsole.WriteLineError(ex.Message);
             }
-        }
-
-        private static void CallView(ICommand command)
-        {
-            Type commandType = command.GetType();
-
-            IEnumerable<Type> viewTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(IsViewType)
-                .Where(x =>
-                {
-                    IEnumerable<Type> interfaceTypes = x.GetInterfaces();
-
-                    foreach (Type interfaceType in interfaceTypes)
-                    {
-                        Type[] genericArgumentTypes = interfaceType.GetGenericArguments();
-
-                        if (genericArgumentTypes.Length != 1)
-                            continue;
-
-                        if (genericArgumentTypes[0] != commandType)
-                            continue;
-
-                        return true;
-                    }
-
-                    return false;
-                });
-
-            foreach (Type viewType in viewTypes)
-            {
-                object view = container.Resolve(viewType);
-
-                MethodInfo displayMethodInfo = viewType.GetMethod("Display");
-                displayMethodInfo?.Invoke(view, new object[] { command });
-            }
-        }
-
-        private static ICommand CreateCommand(Arguments arguments)
-        {
-            if (arguments.Count == 0)
-                return container.Resolve<HelpCommand>();
-
-            string commandName = arguments[0].Value;
-
-            AvailableCommands availableCommands = container.Resolve<AvailableCommands>();
-            CommandInfo commandInfo = availableCommands[commandName];
-
-            if (commandInfo == null)
-                throw new Exception("Invalid Command");
-
-            return (ICommand)container.Resolve(commandInfo.Type);
         }
 
         private static IContainer BuildContainer()
@@ -134,57 +81,70 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             containerBuilder.RegisterMediatR(assembly);
 
             containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
-            containerBuilder.RegisterType<AvailableCommands>().AsSelf().SingleInstance();
+            
+            AvailableCommands availableCommands = new();
+            availableCommands.SearchInCurrentAppDomain();
 
-            containerBuilder.Register((c, p) =>
-            {
-                try
+            containerBuilder.RegisterInstance(availableCommands).AsSelf();
+
+            containerBuilder
+                .Register((c, p) =>
                 {
-                    IConfig config = c.Resolve<IConfig>();
-                    string databaseFilePath = config.DatabaseLocation;
-                    return new DatabaseFile(databaseFilePath);
-                }
-                catch (Exception ex)
-                {
-                    throw new DatabaseNotFoundException(ex);
-                }
-            }).AsSelf();
+                    try
+                    {
+                        IConfig config = c.Resolve<IConfig>();
+                        string databaseFilePath = config.DatabaseLocation;
+                        return new DatabaseFile(databaseFilePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new DatabaseNotFoundException(ex);
+                    }
+                })
+                .AsSelf();
 
             containerBuilder.RegisterType<Database>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
 
-            IEnumerable<Type> commandAndViewTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => IsCommandType(x) || IsViewType(x));
+            foreach (Type type in availableCommands.GetCommandTypes())
+                containerBuilder.RegisterType(type).AsSelf();
 
-            foreach (Type type in commandAndViewTypes)
+            foreach (Type type in availableCommands.GetViewTypes())
                 containerBuilder.RegisterType(type).AsSelf();
 
             containerBuilder.RegisterType<DataGridFactory>().AsSelf();
         }
 
-        private static bool IsCommandType(Type type)
+        private static ICommand CreateCommand(Arguments arguments)
         {
-            return type != typeof(ICommand) && typeof(ICommand).IsAssignableFrom(type);
+            if (arguments.Count == 0)
+                return container.Resolve<HelpCommand>();
+
+            string commandName = arguments[0].Value;
+
+            AvailableCommands availableCommands = container.Resolve<AvailableCommands>();
+            CommandInfo commandInfo = availableCommands.GetCommandInfo(commandName);
+
+            if (commandInfo == null)
+                throw new Exception("Invalid Command");
+
+            return (ICommand)container.Resolve(commandInfo.Type);
         }
 
-        private static bool IsViewType(Type type)
+        private static void ExecuteViewsFor(ICommand command)
         {
-            Type[] interfaceTypes = type.GetInterfaces();
+            Type commandType = command.GetType();
 
-            foreach (Type interfaceType in interfaceTypes)
+            AvailableCommands availableCommands = container.Resolve<AvailableCommands>();
+            IEnumerable<Type> viewTypes = availableCommands.GetViewTypesForCommand(commandType);
+
+            foreach (Type viewType in viewTypes)
             {
-                bool isGenericType = interfaceType.IsGenericType;
+                object view = container.Resolve(viewType);
 
-                if (!isGenericType)
-                    continue;
-
-                Type genericTypeDefinition = interfaceType.GetGenericTypeDefinition();
-
-                return genericTypeDefinition == typeof(IView<>);
+                MethodInfo displayMethodInfo = viewType.GetMethod(nameof(IView<ICommand>.Display));
+                displayMethodInfo?.Invoke(view, new object[] { command });
             }
-
-            return false;
         }
     }
 }

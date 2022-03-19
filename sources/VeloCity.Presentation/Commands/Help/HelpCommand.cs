@@ -22,6 +22,8 @@ using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 {
+    [Command("help", ShortDescription = "Displays a list with all the available commands.", Order = 1000)]
+    [CommandUsage("help")]
     public class HelpCommand : ICommand
     {
         private readonly AvailableCommands availableCommands;
@@ -35,7 +37,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 
         public Task Execute(Arguments arguments)
         {
-            Commands = availableCommands.ToList();
+            Commands = availableCommands.GetOrderedCommandInfos()
+                .Where(x => x.IsEnabled)
+                .ToList();
 
             return Task.CompletedTask;
         }

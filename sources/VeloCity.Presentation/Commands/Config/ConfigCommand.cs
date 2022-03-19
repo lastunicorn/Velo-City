@@ -24,11 +24,17 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Config
 {
+    [Command("config", ShortDescription = "Displays the configuration values.", Order = 5)]
+    [CommandUsage("config")]
+    //[CommandUsage("config [property-name]")]
     public class ConfigCommand : ICommand
     {
         private readonly IMediator mediator;
 
         public List<ConfigItem> ConfigValues { get; private set; }
+
+        [Parameter(Name = "get", Order = 1, IsMandatory = false)]
+        public string ConfigProperty { get; set; }
 
         public ConfigCommand(IMediator mediator)
         {
