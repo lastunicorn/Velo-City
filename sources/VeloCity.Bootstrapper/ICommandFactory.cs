@@ -15,16 +15,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Infrastructure
+namespace DustInTheWind.VeloCity.Bootstrapper
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public class ParameterAttribute : Attribute
+    internal interface ICommandFactory
     {
-        public string Name { get; set; }
+        TCommand Create<TCommand>()
+            where TCommand : ICommand;
 
-        public int Order { get; set; }
-
-        public bool IsMandatory { get; set; }
+        ICommand Create(Type commandType);
     }
 }

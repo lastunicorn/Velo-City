@@ -37,7 +37,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.OpenDatabase
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(Arguments arguments)
+        public async Task Execute()
         {
             OpenDatabaseRequest request = new();
             OpenDatabaseResponse response = await mediator.Send(request);

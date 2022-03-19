@@ -9,6 +9,7 @@ v1.5.0
 - [feature] Defined the default sprint for the "sprint" command as being the last "in-progress" sprint.
 - [feature] Added the "config" command that displays the values from the config file.
 - [feature] Display in the Sprint's Clendar the team members that have vacation.
+- [breaking change] Json database file changed. More compact way of describing vacations.
 
 
 v1.4.0

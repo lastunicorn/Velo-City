@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
@@ -34,8 +35,27 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
         public Type Type { get; }
 
         public int Order => commandAttribute.Order;
-        
+
         public bool IsEnabled => commandAttribute.Enabled;
+
+        public IEnumerable<CommandParameterInfo> ParameterInfos
+        {
+            get
+            {
+                return commandType.GetProperties()
+                    .Select(x =>
+                    {
+                        CommandParameterAttribute customAttribute = x.GetCustomAttributes<CommandParameterAttribute>()
+                            .SingleOrDefault();
+                        
+                        return customAttribute == null
+                            ? null
+                            : new CommandParameterInfo(x, customAttribute);
+                    })
+                    .Where(x => x != null)
+                    .ToArray();
+            }
+        }
 
         public CommandInfo(Type commandType)
         {

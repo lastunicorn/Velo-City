@@ -15,26 +15,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
-    public class EmploymentCollection : List<Employment>
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class CommandParameterAttribute : Attribute
     {
-        public EmploymentCollection(IEnumerable<Employment> employments)
-            : base(employments)
-        {
-        }
+        public string Name { get; set; }
+        
+        public string DisplayName { get; set; }
 
-        public Employment GetEmploymentFor(DateTime date)
-        {
-            return this.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
-        }
+        public int Order { get; set; }
 
-        public Employment GetEmploymentFor(DateInterval dateInterval)
-        {
-            return this.FirstOrDefault(x => x.TimeInterval.IsIntersecting(dateInterval));
-        }
+        public bool IsOptional { get; set; }
     }
 }

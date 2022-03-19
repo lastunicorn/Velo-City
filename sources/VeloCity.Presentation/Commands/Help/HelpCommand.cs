@@ -35,7 +35,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
             this.availableCommands = availableCommands ?? throw new ArgumentNullException(nameof(availableCommands));
         }
 
-        public Task Execute(Arguments arguments)
+        public Task Execute()
         {
             Commands = availableCommands.GetOrderedCommandInfos()
                 .Where(x => x.IsEnabled)

@@ -30,6 +30,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
     {
         private readonly IMediator mediator;
 
+        [CommandParameter(Order = 1, IsOptional = true)]
+        public int? SprintCount { get; set; }
+
         public List<SprintOverview> SprintOverviews { get; private set; }
 
         public PresentSprintsCommand(IMediator mediator)
@@ -37,25 +40,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprints
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(Arguments arguments)
+        public async Task Execute()
         {
             PresentSprintsRequest request = new()
             {
-                Count = GetSprintCount(arguments)
+                Count = SprintCount
             };
 
             PresentSprintsResponse response = await mediator.Send(request);
 
             SprintOverviews = response.SprintOverviews;
-        }
-
-        private static int? GetSprintCount(Arguments arguments)
-        {
-            Argument argument = arguments[1];
-
-            return argument == null
-                ? null
-                : int.Parse(argument.Value);
         }
     }
 }

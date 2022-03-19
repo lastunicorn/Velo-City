@@ -20,6 +20,6 @@ namespace DustInTheWind.VeloCity.Application.PresentConfig
 {
     public class PresentConfigRequest : IRequest<PresentConfigResponse>
     {
-        public string ConfigItemName { get; set; }
+        public string ConfigPropertyName { get; set; }
     }
 }

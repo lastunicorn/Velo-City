@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Application.PresentConfig
 {
-    public class PresentConfigUseCase : IRequestHandler<PresentConfigRequest, PresentConfigResponse>
+    internal class PresentConfigUseCase : IRequestHandler<PresentConfigRequest, PresentConfigResponse>
     {
         private readonly IConfig config;
 
@@ -37,11 +37,14 @@ namespace DustInTheWind.VeloCity.Application.PresentConfig
         {
             List<ConfigItem> values = config.GetAllValuesRaw();
 
-            if (request.ConfigItemName != null)
+            if (request.ConfigPropertyName != null)
             {
                 values = values
-                    .Where(x => x.Name == request.ConfigItemName)
+                    .Where(x => x.Name == request.ConfigPropertyName)
                     .ToList();
+
+                if (values.Count == 0)
+                    throw new Exception($"There is no property with the name {request.ConfigPropertyName}.");
             }
 
             PresentConfigResponse response = new()

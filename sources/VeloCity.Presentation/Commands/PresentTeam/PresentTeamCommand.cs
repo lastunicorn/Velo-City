@@ -32,6 +32,18 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
     {
         private readonly IMediator mediator;
 
+        [CommandParameter(Name = "date", IsOptional = true)]
+        public DateTime? Date { get; set; }
+
+        [CommandParameter(Name = "start-date", IsOptional = true)]
+        public DateTime? StartDate { get; set; }
+
+        [CommandParameter(Name = "end-date", IsOptional = true)]
+        public DateTime? EndDate { get; set; }
+
+        [CommandParameter(Name = "sprint", IsOptional = true)]
+        public int? Sprint { get; set; }
+
         public List<TeamMember> TeamMembers { get; private set; }
 
         public TeamResponseTypeViewModel TeamResponseType { get; private set; }
@@ -41,63 +53,19 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(Arguments arguments)
+        public async Task Execute()
         {
             PresentTeamRequest request = new()
             {
-                Date = GetDate(arguments),
-                StartDate = GetStartDate(arguments),
-                EndDate = GetEndDate(arguments),
-                SprintNumber = GetSprint(arguments)
+                Date = Date,
+                StartDate = StartDate,
+                EndDate = EndDate,
+                SprintNumber = Sprint
             };
             PresentTeamResponse response = await mediator.Send(request);
 
             TeamMembers = response.TeamMembers;
             TeamResponseType = new TeamResponseTypeViewModel(response);
-        }
-
-        private static DateTime? GetDate(Arguments arguments)
-        {
-            Argument argument = arguments["date"];
-
-            if (argument == null)
-                return null;
-
-            bool isSuccess = DateTime.TryParse(argument.Value, out DateTime value);
-            return isSuccess ? value : null;
-        }
-
-        private static DateTime? GetStartDate(Arguments arguments)
-        {
-            Argument argument = arguments["start-date"];
-
-            if (argument == null)
-                return null;
-
-            bool isSuccess = DateTime.TryParse(argument.Value, out DateTime value);
-            return isSuccess ? value : null;
-        }
-
-        private static DateTime? GetEndDate(Arguments arguments)
-        {
-            Argument argument = arguments["end-date"];
-
-            if (argument == null)
-                return null;
-
-            bool isSuccess = DateTime.TryParse(argument.Value, out DateTime value);
-            return isSuccess ? value : null;
-        }
-
-        private static int? GetSprint(Arguments arguments)
-        {
-            Argument argument = arguments["sprint"];
-
-            if (argument == null)
-                return null;
-
-            bool isSuccess = int.TryParse(argument.Value, out int value);
-            return isSuccess ? value : null;
         }
     }
 }
