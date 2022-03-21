@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Text;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
@@ -24,6 +25,23 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
         public int? HourCount { get; set; }
 
         public string Comments { get; set; }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+            string dateAsString = RenderDate();
+            sb.Append($"{dateAsString}");
+
+            if (HourCount != null)
+                sb.Append($" ({HourCount}h)");
+
+            if (Comments != null)
+                sb.Append($" - {Comments}");
+
+            return sb.ToString();
+        }
+
+        protected abstract string RenderDate();
 
         public static VacationViewModel From(Vacation vacation)
         {

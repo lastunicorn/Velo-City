@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalen
         private readonly int workHours;
         private readonly int absenceHours;
 
-        public string Date => $"{sprintDay.Date:d} ({sprintDay.Date:dddd})";
+        public DateTime Date => sprintDay.Date;
 
         public HoursValue WorkHours => workHours;
 

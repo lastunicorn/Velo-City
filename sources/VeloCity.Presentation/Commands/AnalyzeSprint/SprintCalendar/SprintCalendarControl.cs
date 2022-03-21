@@ -78,7 +78,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalen
         {
             ContentRow dataRow = new();
 
-            dataRow.AddCell($"{calendarItem.Date}");
+            dataRow.AddCell($"{calendarItem.Date:d} ({calendarItem.Date:ddd})");
 
             ContentCell workHoursCell = CreateWorkHoursCell(calendarItem);
             dataRow.AddCell(workHoursCell);

@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
@@ -56,26 +55,12 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             row.AddCell($"{date:yyyy MM}");
 
             List<string> lines = vacationResponses
-                .Select(ToString)
+                .Select(x => x.ToString())
                 .ToList();
 
             row.AddCell(lines);
 
             return row;
-        }
-
-        private static string ToString(VacationViewModel vacationViewModel)
-        {
-            StringBuilder sb = new();
-            sb.Append($"{vacationViewModel}");
-
-            if (vacationViewModel.HourCount != null)
-                sb.Append($" ({vacationViewModel.HourCount}h)");
-
-            if (vacationViewModel.Comments != null)
-                sb.Append($" - {vacationViewModel.Comments}");
-
-            return sb.ToString();
         }
     }
 }

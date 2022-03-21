@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
     {
         public DateTime Date { get; set; }
 
-        public override string ToString()
+        protected override string RenderDate()
         {
             return $"{Date:d}";
         }

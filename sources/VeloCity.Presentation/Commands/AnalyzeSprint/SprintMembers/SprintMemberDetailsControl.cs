@@ -86,7 +86,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintMembe
         {
             ContentRow dataRow = new();
 
-            dataRow.AddCell($"{sprintMemberDay.Date:d} ({sprintMemberDay.Date:dddd})");
+            dataRow.AddCell($"{sprintMemberDay.Date:d} ({sprintMemberDay.Date:ddd})");
 
             HoursValue workHours = sprintMemberDay.WorkHours;
             dataRow.AddCell(workHours);
