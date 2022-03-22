@@ -14,13 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+using System;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
+
+namespace DustInTheWind.VeloCity.Bootstrapper
 {
-    internal class PartialDayVacationNote : INote
+    internal interface ICommandFactory
     {
-        public override string ToString()
-        {
-            return "(*) partial day vacation";
-        }
+        TCommand Create<TCommand>()
+            where TCommand : ICommand;
+
+        ICommand Create(Type commandType);
     }
 }

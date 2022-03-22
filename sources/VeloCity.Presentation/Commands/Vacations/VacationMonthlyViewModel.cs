@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         public DateInterval DateInterval { get; set; }
 
-        public override string ToString()
+        protected override string RenderDate()
         {
             string monthDaysString = MonthDays == null || MonthDays.Count == 0
                 ? "<none>"

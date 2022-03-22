@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
@@ -23,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Application.PresentConfig
 {
-    public class PresentConfigUseCase : IRequestHandler<PresentConfigRequest, PresentConfigResponse>
+    internal class PresentConfigUseCase : IRequestHandler<PresentConfigRequest, PresentConfigResponse>
     {
         private readonly IConfig config;
 
@@ -35,6 +36,16 @@ namespace DustInTheWind.VeloCity.Application.PresentConfig
         public Task<PresentConfigResponse> Handle(PresentConfigRequest request, CancellationToken cancellationToken)
         {
             List<ConfigItem> values = config.GetAllValuesRaw();
+
+            if (request.ConfigPropertyName != null)
+            {
+                values = values
+                    .Where(x => x.Name == request.ConfigPropertyName)
+                    .ToList();
+
+                if (values.Count == 0)
+                    throw new Exception($"There is no property with the name {request.ConfigPropertyName}.");
+            }
 
             PresentConfigResponse response = new()
             {

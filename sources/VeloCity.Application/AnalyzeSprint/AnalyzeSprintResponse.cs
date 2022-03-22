@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
         
         public DateTime EndDate { get; set; }
 
-        public List<DateTime> WorkDays { get; set; }
+        public List<SprintDay> WorkDays { get; set; }
 
         public List<SprintMember> SprintMembers { get; set; }
 

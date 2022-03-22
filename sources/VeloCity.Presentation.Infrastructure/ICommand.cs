@@ -20,6 +20,6 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
     public interface ICommand
     {
-        Task Execute(Arguments arguments);
+        Task Execute();
     }
 }

@@ -14,12 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
-{
-    public class TeamMemberVacationDetails
-    {
-        public string Name { get; set; }
+using System.Collections.Generic;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
-        public bool IsPartialVacation { get; set; }
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview
+{
+    internal class ExcludedSprintsNote : INote
+    {
+        public List<int> ExcludesSprintNumbers { get; set; }
+
+        public override string ToString()
+        {
+            string excludedSprints = string.Join(",", ExcludesSprintNumbers);
+            return $"Estimations excluded sprints: {excludedSprints}";
+        }
     }
 }

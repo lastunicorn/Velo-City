@@ -16,11 +16,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar
 {
     internal class SprintCalendarControl : Control
     {
@@ -78,7 +78,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         {
             ContentRow dataRow = new();
 
-            dataRow.AddCell($"{calendarItem.Date}");
+            dataRow.AddCell($"{calendarItem.Date:d} ({calendarItem.Date:ddd})");
 
             ContentCell workHoursCell = CreateWorkHoursCell(calendarItem);
             dataRow.AddCell(workHoursCell);
@@ -134,15 +134,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         private static ContentCell CreateDetailsCell(CalendarItemViewModel calendarItem)
         {
-            List<string> absentTeamMemberNames = calendarItem.VacationDetails
-                .Select(x => x.IsPartialVacation
-                    ? x.Name + "(*)"
-                    : x.Name)
-                .ToList();
-
             return new ContentCell
             {
-                Content = string.Join(", ", absentTeamMemberNames),
+                Content = calendarItem.VacationDetails.ToString(),
                 ForegroundColor = ConsoleColor.Yellow
             };
         }

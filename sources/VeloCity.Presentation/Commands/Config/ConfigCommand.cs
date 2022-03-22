@@ -26,24 +26,28 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Config
 {
     [Command("config", ShortDescription = "Displays the configuration values.", Order = 5)]
     [CommandUsage("config")]
-    //[CommandUsage("config [property-name]")]
+    [CommandUsage("config [property-name]")]
+    [CommandUsage("config -get [property-name]")]
     public class ConfigCommand : ICommand
     {
         private readonly IMediator mediator;
 
-        public List<ConfigItem> ConfigValues { get; private set; }
+        [CommandParameter(Name = "get", Order = 1, IsOptional = true)]
+        public string PropertyName { get; set; }
 
-        [Parameter(Name = "get", Order = 1, IsMandatory = false)]
-        public string ConfigProperty { get; set; }
+        public List<ConfigItem> ConfigValues { get; private set; }
 
         public ConfigCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(Arguments arguments)
+        public async Task Execute()
         {
-            PresentConfigRequest request = new();
+            PresentConfigRequest request = new()
+            {
+                ConfigPropertyName = PropertyName
+            };
             PresentConfigResponse response = await mediator.Send(request);
 
             ConfigValues = response.ConfigValues;

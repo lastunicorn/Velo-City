@@ -14,16 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation
 {
     public struct HoursValue
     {
+        public static char DefaultZeroCharacter { get; set; } = '-';
+
+        public char? ZeroCharacter { get; set; }
+
         public int Value { get; set; }
 
         public override string ToString()
         {
             return Value == 0
-                ? "- h"
+                ? $"{ZeroCharacter ?? DefaultZeroCharacter} h"
                 : $"{Value} h";
         }
 

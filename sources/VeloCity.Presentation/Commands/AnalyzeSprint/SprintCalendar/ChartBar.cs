@@ -16,15 +16,23 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Presentation.Infrastructure
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = true)]
-    public class ParameterAttribute : Attribute
+    internal class ChartBar
     {
-        public string Name { get; set; }
+        private const int MaxDisplayLength = 25;
 
-        public int Order { get; set; }
+        public int MaxValue { get; set; }
 
-        public bool IsMandatory { get; set; }
+        public int Value { get; set; }
+
+        public override string ToString()
+        {
+            if (MaxValue == 0)
+                return string.Empty;
+
+            int chartValue = (int)Math.Round((float)Value * MaxDisplayLength / MaxValue);
+            return new string('═', chartValue) + new string('-', MaxDisplayLength - chartValue);
+        }
     }
 }

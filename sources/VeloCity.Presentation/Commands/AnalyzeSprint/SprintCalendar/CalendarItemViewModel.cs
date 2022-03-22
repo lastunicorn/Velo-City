@@ -19,16 +19,16 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar
 {
     public class CalendarItemViewModel
     {
         private readonly List<SprintMemberDay> sprintMemberDays;
-        private readonly DateTime date;
+        private readonly SprintDay sprintDay;
         private readonly int workHours;
         private readonly int absenceHours;
 
-        public string Date => $"{date:d} ({date:dddd})";
+        public DateTime Date => sprintDay.Date;
 
         public HoursValue WorkHours => workHours;
 
@@ -40,28 +40,50 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
         public HoursValue AbsenceHours => absenceHours;
 
-        public List<TeamMemberVacationDetails> VacationDetails
+        public VacationDetails VacationDetails
         {
             get
             {
-                return sprintMemberDays
-                    .Where(x => x.AbsenceHours > 0)
-                    .Select(x => new TeamMemberVacationDetails
+                if (sprintDay.IsWeekEnd)
+                {
+                    return new VacationDetails
                     {
-                        Name = x.TeamMember.Name,
-                        IsPartialVacation = x.WorkHours > 0
-                    })
-                    .ToList();
+                        AllTeamAbsenceReason = AbsenceReason.WeekEnd
+                    };
+                }
+                else if (sprintDay.IsOfficialHoliday)
+                {
+                    return new VacationDetails
+                    {
+                        AllTeamAbsenceReason = AbsenceReason.OfficialHoliday
+                    };
+                }
+                else
+                {
+                    return new VacationDetails
+                    {
+                        TeamMembers = sprintMemberDays
+                            .Where(x => x.AbsenceHours > 0)
+                            .Select(x => new TeamMemberVacationDetails
+                            {
+                                Name = x.TeamMember.Name,
+                                IsPartialVacation = x.WorkHours > 0
+                            })
+                            .ToList()
+                    };
+                }
             }
         }
 
-        public CalendarItemViewModel(List<SprintMemberDay> sprintMemberDays, DateTime date)
+        public CalendarItemViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
         {
             this.sprintMemberDays = sprintMemberDays ?? throw new ArgumentNullException(nameof(sprintMemberDays));
-            this.date = date;
+            this.sprintDay = sprintDay;
 
             workHours = sprintMemberDays.Sum(x => x.WorkHours);
-            absenceHours = sprintMemberDays.Sum(x => x.AbsenceHours);
+            absenceHours = sprintDay.IsWeekEnd || sprintDay.IsOfficialHoliday
+                ? 0
+                : sprintMemberDays.Sum(x => x.AbsenceHours);
         }
     }
 }

@@ -14,18 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview
 {
-    internal class PreviousSprintsCalculationNote : INote
+    internal class NoPreviousSprintsNote : INote
     {
-        public List<int> PreviousSprintNumbers { get; set; }
-
         public override string ToString()
         {
-            string previousSprints = string.Join(", ", PreviousSprintNumbers);
-            return $"The estimations were calculated based on previous {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
+            return "Could not calculate an estimation because no previous closed sprints exist.";
         }
     }
 }

@@ -16,20 +16,17 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
-    internal class ChartBar
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class CommandParameterAttribute : Attribute
     {
-        private const int MaxDisplayLength = 25;
+        public string Name { get; set; }
+        
+        public string DisplayName { get; set; }
 
-        public int MaxValue { get; set; }
+        public int Order { get; set; }
 
-        public int Value { get; set; }
-
-        public override string ToString()
-        {
-            int chartValue = (int)Math.Round((float)Value * MaxDisplayLength / MaxValue);
-            return new string('═', chartValue) + new string('-', MaxDisplayLength - chartValue);
-        }
+        public bool IsOptional { get; set; }
     }
 }

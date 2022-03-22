@@ -20,6 +20,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar;
+using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
@@ -32,9 +34,15 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
     public class AnalyzeSprintCommand : ICommand
     {
         private readonly IMediator mediator;
-        
+
+        [CommandParameter(DisplayName = "Sprint Number", Order = 1, IsOptional = true)]
+        public int? SprintNumber { get; set; }
+
+        [CommandParameter(DisplayName = "Excluded Sprints", Name = "exclude", IsOptional = true)]
+        public List<int> ExcludedSprints { get; set; }
+
         public List<SprintMember> SprintMembers { get; private set; }
-        
+
         public SprintOverviewViewModel SprintOverviewViewModel { get; set; }
 
         public SprintCalendarViewModel SprintCalendarViewModel { get; set; }
@@ -44,39 +52,20 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(Arguments arguments)
+        public async Task Execute()
         {
             AnalyzeSprintRequest request = new()
             {
-                SprintNumber = GetSprintNumber(arguments),
-                ExcludedSprints = GetExcludedSprintsList(arguments)
+                SprintNumber = SprintNumber,
+                ExcludedSprints = ExcludedSprints
             };
 
             AnalyzeSprintResponse response = await mediator.Send(request);
 
             SprintOverviewViewModel = new SprintOverviewViewModel(response);
             SprintCalendarViewModel = new SprintCalendarViewModel(response);
-            
+
             SprintMembers = response.SprintMembers;
-        }
-
-        private static int? GetSprintNumber(Arguments arguments)
-        {
-            Argument argument = arguments.GetOrdinal(1);
-            string rawValue = argument?.Value;
-
-            return rawValue == null
-                ? null
-                : int.Parse(rawValue);
-        }
-
-        private static List<int> GetExcludedSprintsList(Arguments arguments)
-        {
-            Argument argument = arguments["exclude"];
-
-            return argument?.Value.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse)
-                .ToList();
         }
     }
 }

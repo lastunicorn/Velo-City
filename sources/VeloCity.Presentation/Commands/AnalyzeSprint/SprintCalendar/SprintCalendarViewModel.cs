@@ -20,7 +20,7 @@ using System.Linq;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar
 {
     public class SprintCalendarViewModel
     {
@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         public bool IsVisible => response.WorkDays is { Count: > 0 };
 
         public bool IsPartialVacationNoteVisible => CalendarItems
-            .SelectMany(x => x.VacationDetails)
+            .SelectMany(x => x.VacationDetails.TeamMembers)
             .Any(x => x.IsPartialVacation);
 
         public SprintCalendarViewModel(AnalyzeSprintResponse response)
@@ -48,10 +48,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
                 .ToList();
         }
 
-        private CalendarItemViewModel CreateCalendarItem(DateTime date)
+        private CalendarItemViewModel CreateCalendarItem(SprintDay sprintDay)
         {
-            List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(date);
-            return new CalendarItemViewModel(sprintMemberDays, date);
+            List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(sprintDay.Date);
+            return new CalendarItemViewModel(sprintMemberDays, sprintDay);
         }
 
         private List<SprintMemberDay> GetAllSprintMemberDays(DateTime date)

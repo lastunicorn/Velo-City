@@ -30,6 +30,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
     {
         private readonly IMediator mediator;
 
+        [CommandParameter(DisplayName = "Person Name", Order = 1)]
+        public string PersonName { get; set; }
+
         public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }
 
         public VacationsCommand(IMediator mediator)
@@ -37,24 +40,18 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public async Task Execute(Arguments arguments)
+        public async Task Execute()
         {
             PresentVacationsRequest request = new()
             {
-                TeamMemberName = GetPersonName(arguments)
+                TeamMemberName = PersonName
             };
 
             PresentVacationsResponse response = await mediator.Send(request);
 
             TeamMemberVacations = response.TeamMemberVacations
-                .Select(x=> new TeamMemberVacationViewModel(x))
+                .Select(x => new TeamMemberVacationViewModel(x))
                 .ToList();
-        }
-
-        private static string GetPersonName(Arguments arguments)
-        {
-            Argument argument = arguments.GetOrdinal(1);
-            return argument?.Value;
         }
     }
 }

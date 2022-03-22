@@ -27,7 +27,6 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Presentation;
-using DustInTheWind.VeloCity.Presentation.Commands.Help;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
@@ -54,7 +53,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 Arguments arguments = new(args);
                 ICommand command = CreateCommand(arguments);
 
-                await command.Execute(arguments);
+                await command.Execute();
 
                 ExecuteViewsFor(command);
             }
@@ -81,7 +80,9 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             containerBuilder.RegisterMediatR(assembly);
 
             containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
-            
+            containerBuilder.RegisterType<CommandRouter>().AsSelf();
+            containerBuilder.RegisterType<CommandFactory>().As<ICommandFactory>();
+
             AvailableCommands availableCommands = new();
             availableCommands.SearchInCurrentAppDomain();
 
@@ -117,18 +118,8 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
         private static ICommand CreateCommand(Arguments arguments)
         {
-            if (arguments.Count == 0)
-                return container.Resolve<HelpCommand>();
-
-            string commandName = arguments[0].Value;
-
-            AvailableCommands availableCommands = container.Resolve<AvailableCommands>();
-            CommandInfo commandInfo = availableCommands.GetCommandInfo(commandName);
-
-            if (commandInfo == null)
-                throw new Exception("Invalid Command");
-
-            return (ICommand)container.Resolve(commandInfo.Type);
+            CommandRouter commandRouter = container.Resolve<CommandRouter>();
+            return commandRouter.CreateCommand(arguments);
         }
 
         private static void ExecuteViewsFor(ICommand command)

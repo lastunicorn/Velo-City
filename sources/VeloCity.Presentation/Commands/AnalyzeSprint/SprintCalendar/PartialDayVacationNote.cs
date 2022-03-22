@@ -14,25 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar
 {
-    public class VacationYearlyViewModel : VacationViewModel
+    internal class PartialDayVacationNote : INote
     {
-        public List<DateTime> Dates { get; set; }
-
-        public DateInterval DateInterval { get; set; }
-
-        protected override string RenderDate()
+        public override string ToString()
         {
-            string datesString = Dates == null || Dates.Count == 0
-                ? "<none>"
-                : string.Join(", ", Dates);
-            
-            return $"Each {datesString} between [{DateInterval}]";
+            return "(*) partial day vacation";
         }
     }
 }

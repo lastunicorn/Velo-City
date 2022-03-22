@@ -90,7 +90,8 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
                         if (dateInterval.StartDate == null)
                             return null;
 
-                        return x.Employments.GetEmploymentFor(dateInterval.StartDate.Value).TimeInterval.StartDate;
+                        Employment employment = x.Employments.GetEmploymentFor(dateInterval);
+                        return employment.TimeInterval.StartDate;
                     })
                     .ToList(),
                 ResponseType = TeamResponseType.DateInterval,

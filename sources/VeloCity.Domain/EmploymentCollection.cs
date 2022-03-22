@@ -31,5 +31,10 @@ namespace DustInTheWind.VeloCity.Domain
         {
             return this.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
         }
+
+        public Employment GetEmploymentFor(DateInterval dateInterval)
+        {
+            return this.FirstOrDefault(x => x.TimeInterval.IsIntersecting(dateInterval));
+        }
     }
 }
