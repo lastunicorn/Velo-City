@@ -1,6 +1,10 @@
 Velo City
 ====================================================================================================
 
+v1.6.0
+----------------------------------------------------------------------------------------------------
+
+
 v1.5.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Added handling for recurrent vacations.
@@ -8,7 +12,7 @@ v1.5.0
 - [feature] Improved the "team" command.
 - [feature] Defined the default sprint for the "sprint" command as being the last "in-progress" sprint.
 - [feature] Added the "config" command that displays the values from the config file.
-- [feature] Display in the Sprint's Clendar the team members that have vacation.
+- [feature] Display in the Sprint's Calendar the team members that have vacation.
 - [breaking change] Json database file changed. More compact way of describing vacations.
 
 
