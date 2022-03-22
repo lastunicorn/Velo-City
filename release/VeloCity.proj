@@ -11,9 +11,12 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
+		<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\**\*.exe" />
 		<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\**\*.dll" />
 		<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\**\*.xml" />
 		<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\**\*.json" />
+		<CoreFile Remove="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\velo.runtimeconfig.dev.json" />
+		<CoreFile Remove="$(RepositoryRoot)sources\VeloCity.Bootstrapper\bin\Release\net5.0\ref\**" />
 	</ItemGroup>
 
 	<Target Name="Build">
