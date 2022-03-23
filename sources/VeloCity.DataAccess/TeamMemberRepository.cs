@@ -57,7 +57,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         public IEnumerable<TeamMember> Find(string text)
         {
             return database.TeamMembers
-                .Where(x => x.Name.Contains(text, StringComparison.InvariantCultureIgnoreCase));
+                .Where(x => x.Name.Contains(text));
         }
     }
 }

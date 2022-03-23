@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentTeam
             foreach (TeamMember teamMember in command.TeamMembers)
             {
                 DataGrid dataGrid = dataGridFactory.Create();
-                dataGrid.Title = teamMember.Name;
+                dataGrid.Title = teamMember.Name.ToString();
                 dataGrid.Border.DisplayBorderBetweenRows = true;
 
                 IEnumerable<string> employmentsAsString = teamMember.Employments

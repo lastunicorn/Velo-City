@@ -34,7 +34,10 @@ namespace DustInTheWind.VeloCity.DataAccess
             return new JTeamMember
             {
                 Id = teamMember.Id,
-                Name = teamMember.Name,
+                FirstName = teamMember.Name.FirstName,
+                MiddleName = teamMember.Name.MiddleName,
+                LastName = teamMember.Name.LastName,
+                Nickname = teamMember.Name.Nickname,
                 Employments = teamMember.Employments?
                     .ToJEntities()
                     .ToList(),
@@ -53,16 +56,38 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public static TeamMember ToEntity(this JTeamMember teamMember)
         {
+            PersonName personName = GetPersonName(teamMember);
+
             return new TeamMember
             {
                 Id = teamMember.Id,
-                Name = teamMember.Name,
+                Name = personName,
                 Employments = new EmploymentCollection(teamMember.Employments?.ToEntities()),
                 Comments = teamMember.Comments,
                 Vacations = teamMember.VacationDays?
                     .ToEntities()
                     .ToList()
             };
+        }
+
+        private static PersonName GetPersonName(JTeamMember teamMember)
+        {
+            bool hasDetailedName = teamMember.FirstName != null ||
+                                   teamMember.MiddleName != null ||
+                                   teamMember.LastName != null ||
+                                   teamMember.Nickname != null;
+
+            if (!hasDetailedName)
+                return PersonName.Parse(teamMember.Name);
+
+            return new PersonName
+            {
+                FirstName = teamMember.FirstName,
+                MiddleName = teamMember.MiddleName,
+                LastName = teamMember.LastName,
+                Nickname = teamMember.Nickname
+            };
+
         }
     }
 }

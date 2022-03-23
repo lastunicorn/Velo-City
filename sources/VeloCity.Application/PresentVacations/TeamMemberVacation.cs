@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
     public class TeamMemberVacation
     {
-        public string PersonName { get; set; }
+        public PersonName PersonName { get; set; }
 
         public List<Vacation> Vacations { get; set; }
 
