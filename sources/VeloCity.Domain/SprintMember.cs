@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class SprintMember
     {
-        public string Name { get; set; }
+        public PersonName Name { get; set; }
 
         public List<SprintMemberDay> Days { get; set; }
 

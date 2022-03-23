@@ -32,8 +32,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalen
             {
                 List<string> absentTeamMemberNames = TeamMembers
                     .Select(x => x.IsPartialVacation
-                        ? x.Name + "(*)"
-                        : x.Name)
+                        ? x.Name.ShortName + "(*)"
+                        : x.Name.ShortName)
                     .ToList();
 
                 return string.Join(", ", absentTeamMemberNames);

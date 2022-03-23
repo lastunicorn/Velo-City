@@ -23,8 +23,8 @@ namespace DustInTheWind.VeloCity.Domain
     public class TeamMember
     {
         public int Id { get; set; }
-
-        public string Name { get; set; }
+        
+        public PersonName Name { get; set; }
 
         public EmploymentCollection Employments { get; set; }
 

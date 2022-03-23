@@ -36,7 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             foreach (TeamMemberVacationViewModel teamMemberVacation in command.TeamMemberVacations)
             {
                 DataGrid dataGrid = dataGridFactory.Create();
-                dataGrid.Title = teamMemberVacation.PersonName;
+                dataGrid.Title = teamMemberVacation.PersonName.ToString();
                 dataGrid.Border.DisplayBorderBetweenRows = true;
 
                 foreach ((DateTime date, List<VacationViewModel> vacationViewModels) in teamMemberVacation.VacationsMyMonth)

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.JsonFiles
@@ -22,7 +23,16 @@ namespace DustInTheWind.VeloCity.JsonFiles
     {
         public int Id { get; set; }
 
+        [Obsolete("Use FirstName, MiddleName, LastName and Nickname instead.")]
         public string Name { get; set; }
+        
+        public string FirstName { get; set; }
+        
+        public string MiddleName { get; set; }
+        
+        public string LastName { get; set; }
+        
+        public string Nickname { get; set; }
         
         public List<JEmployment> Employments { get; set; }
 

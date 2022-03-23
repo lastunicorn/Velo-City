@@ -18,12 +18,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Application.PresentVacations;
+using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
     public class TeamMemberVacationViewModel
     {
-        public string PersonName { get; }
+        public PersonName PersonName { get; }
 
         public List<VacationViewModel> Vacations { get; }
 
