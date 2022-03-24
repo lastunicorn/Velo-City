@@ -28,9 +28,44 @@ namespace DustInTheWind.VeloCity.Domain
 
         public TeamMember TeamMember { get; set; }
 
-        public List<SprintMemberDay> Days => CalculateDays().ToList();
+        public List<SprintMemberDay> Days => CalculateDays()
+            .ToList();
 
-        public bool IsEmployed => Days.Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
+        public bool IsEmployed => Days
+            .Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
+
+        public int WorkHours => Days
+            .Select(z => z.WorkHours)
+            .Sum();
+
+        public int WorkHoursWithVelocityPenalties
+        {
+            get
+            {
+                int availabilityPercentage = 100 - VelocityPenalty;
+                return WorkHours * availabilityPercentage / 100;
+            }
+        }
+
+        public int VelocityPenalty
+        {
+            get
+            {
+                if (TeamMember.VelocityPenalties == null)
+                    return 0;
+
+                return TeamMember.VelocityPenalties
+                    .Where(x => Sprint.Number >= x.Sprint.Number && Sprint.Number < x.Sprint.Number + x.Duration)
+                    .Sum(x =>
+                    {
+                        int penaltyDuration = x.Duration;
+                        int sprintCountFromPenaltyStart = Sprint.Number - x.Sprint.Number;
+                        int sprintCountUntilNormal = penaltyDuration - sprintCountFromPenaltyStart;
+
+                        return x.Value * sprintCountUntilNormal / penaltyDuration;
+                    });
+            }
+        }
 
         private IEnumerable<SprintMemberDay> CalculateDays()
         {

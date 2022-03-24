@@ -14,16 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain
+using DustInTheWind.VeloCity.Domain;
+
+namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 {
-    public class VelocityPenalty
+    public class VelocityPenaltyInfo
     {
-        public Sprint Sprint { get; set; }
-
-        public int Value { get; set; }
-
-        public int Duration { get; set; }
-
-        public string Comments { get; set; }
+        public PersonName PersonName { get; set; }
+        
+        public int PenaltyValue { get; set; }
     }
 }

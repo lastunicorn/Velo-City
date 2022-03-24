@@ -50,6 +50,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
             ? "-"
             : response.EstimatedStoryPoints.ToString();
 
+        public string EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties == null
+            ? "-"
+            : response.EstimatedStoryPointsWithVelocityPenalties.ToString();
+
         public string EstimatedVelocity => response.EstimatedVelocity == null
             ? "-"
             : response.EstimatedVelocity.ToString();
@@ -85,6 +89,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
                     notes.Add(new ExcludedSprintsNote
                     {
                         ExcludesSprintNumbers = response.ExcludesSprints
+                    });
+                }
+
+                if (response.EstimatedStoryPointsWithVelocityPenalties != null)
+                {
+                    notes.Add(new VelocityPenaltiesNote
+                    {
+                        VelocityPenalties = response.VelocityPenalties
                     });
                 }
 

@@ -20,9 +20,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
     {
         public int SprintId { get; set; }
 
-        public int StartValue { get; set; }
-
-        public int? EndDate { get; set; }
+        public int Value { get; set; }
 
         public int? Duration { get; set; }
 

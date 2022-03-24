@@ -47,6 +47,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
             dataGrid.Rows.Add("Work Days", ViewModel.WorkDays + " days");
             dataGrid.Rows.Add("Total Work Hours", $"{ViewModel.TotalWorkHours} h");
             dataGrid.Rows.Add("Estimated Story Points", $"{ViewModel.EstimatedStoryPoints} SP");
+            dataGrid.Rows.Add("Estimated Story Points (*)", $"{ViewModel.EstimatedStoryPointsWithVelocityPenalties} SP");
             dataGrid.Rows.Add("Estimated Velocity", $"{ViewModel.EstimatedVelocity} SP/h");
             dataGrid.Rows.Add("Commitment Story Points", $"{ViewModel.CommitmentStoryPoints} SP");
             dataGrid.Rows.Add("Actual Story Points", $"{ViewModel.ActualStoryPoints} SP");

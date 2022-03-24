@@ -35,9 +35,10 @@ namespace DustInTheWind.VeloCity.DataAccess
             return new JVelocityPenalty
             {
                 SprintId = velocityPenalty.Sprint.Id,
-                StartValue = velocityPenalty.StartValue,
-                EndDate = velocityPenalty.EndDate,
-                Duration = velocityPenalty.Duration,
+                Value = velocityPenalty.Value,
+                Duration = velocityPenalty.Duration <= 1
+                    ? null
+                    : velocityPenalty.Duration,
                 Comments = velocityPenalty.Comments
             };
         }
@@ -53,9 +54,8 @@ namespace DustInTheWind.VeloCity.DataAccess
             return new VelocityPenalty
             {
                 Sprint = database.Sprints.FirstOrDefault(x => x.Id == velocityPenalty.SprintId),
-                StartValue = velocityPenalty.StartValue,
-                EndDate = velocityPenalty.EndDate,
-                Duration = velocityPenalty.Duration,
+                Value = velocityPenalty.Value,
+                Duration = velocityPenalty.Duration ?? 1,
                 Comments = velocityPenalty.Comments
             };
         }
