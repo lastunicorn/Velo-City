@@ -49,10 +49,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
         public string EstimatedStoryPoints => response.EstimatedStoryPoints == null
             ? "-"
             : response.EstimatedStoryPoints.ToString();
-
-        public string EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties == null
-            ? "-"
-            : response.EstimatedStoryPointsWithVelocityPenalties.ToString();
+        
+        public string EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties?.ToString();
 
         public string EstimatedVelocity => response.EstimatedVelocity == null
             ? "-"

@@ -22,11 +22,11 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class SprintMember
     {
-        public PersonName Name { get; set; }
+        public PersonName Name => TeamMember.Name;
 
-        public Sprint Sprint { get; set; }
+        public Sprint Sprint { get; }
 
-        public TeamMember TeamMember { get; set; }
+        public TeamMember TeamMember { get; }
 
         public List<SprintMemberDay> Days => CalculateDays()
             .ToList();
@@ -42,20 +42,29 @@ namespace DustInTheWind.VeloCity.Domain
         {
             get
             {
-                int availabilityPercentage = 100 - VelocityPenalty;
+                int availabilityPercentage = 100 - VelocityPenaltyPercentage;
                 return WorkHours * availabilityPercentage / 100;
             }
         }
 
-        public int VelocityPenalty
+        public List<VelocityPenalty> VelocityPenalties
         {
             get
             {
                 if (TeamMember.VelocityPenalties == null)
-                    return 0;
+                    return new List<VelocityPenalty>();
 
                 return TeamMember.VelocityPenalties
                     .Where(x => Sprint.Number >= x.Sprint.Number && Sprint.Number < x.Sprint.Number + x.Duration)
+                    .ToList();
+            }
+        }
+
+        public int VelocityPenaltyPercentage
+        {
+            get
+            {
+                return VelocityPenalties
                     .Sum(x =>
                     {
                         int penaltyDuration = x.Duration;
@@ -65,6 +74,12 @@ namespace DustInTheWind.VeloCity.Domain
                         return x.Value * sprintCountUntilNormal / penaltyDuration;
                     });
             }
+        }
+
+        public SprintMember(TeamMember teamMember, Sprint sprint)
+        {
+            TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
+            Sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
         }
 
         private IEnumerable<SprintMemberDay> CalculateDays()

@@ -48,16 +48,24 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 : CalculateAverageVelocity(previousSprints);
 
             int totalWorkHours = CalculateTotalWorkHours(sprintMembers);
-            int totalWorkHoursWithVelocityPenalties = CalculateTotalWorkHoursWithVelocityPenalties(sprintMembers); ;
-
+            
             List<VelocityPenaltyInfo> teamMembersWithVelocityPenalties = sprintMembers
-                .Where(x => x.TeamMember?.VelocityPenalties?.Count > 0)
+                .SelectMany(x => x.VelocityPenalties
+                    .Select(z => new
+                    {
+                        SprintMember = x,
+                        VelocityPenalty = z
+                    }))
                 .Select(x => new VelocityPenaltyInfo
                 {
-                    PersonName = x.TeamMember?.Name,
-                    PenaltyValue = x.VelocityPenalty
+                    PersonName = x.SprintMember.Name,
+                    PenaltyValue = x.SprintMember.VelocityPenaltyPercentage
                 })
                 .ToList();
+
+            int? totalWorkHoursWithVelocityPenalties = teamMembersWithVelocityPenalties.Any()
+                ? CalculateTotalWorkHoursWithVelocityPenalties(sprintMembers)
+                : null;
 
             AnalyzeSprintResponse response = new()
             {

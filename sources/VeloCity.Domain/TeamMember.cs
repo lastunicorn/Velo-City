@@ -20,6 +20,7 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class TeamMember
     {
+        private List<VelocityPenalty> velocityPenalties;
         public int Id { get; set; }
 
         public PersonName Name { get; set; }
@@ -30,16 +31,30 @@ namespace DustInTheWind.VeloCity.Domain
 
         public List<Vacation> Vacations { get; set; }
 
-        public List<VelocityPenalty> VelocityPenalties { get; set; }
+        public List<VelocityPenalty> VelocityPenalties
+        {
+            get => velocityPenalties;
+            set
+            {
+                if (velocityPenalties != null)
+                {
+                    foreach (VelocityPenalty velocityPenalty in velocityPenalties)
+                        velocityPenalty.TeamMember = null;
+                }
+
+                velocityPenalties = value;
+
+                if (velocityPenalties != null)
+                {
+                    foreach (VelocityPenalty velocityPenalty in velocityPenalties)
+                        velocityPenalty.TeamMember = this;
+                }
+            }
+        }
 
         public SprintMember ToSprintMember(Sprint sprint)
         {
-            return new SprintMember
-            {
-                Name = Name,
-                Sprint = sprint,
-                TeamMember = this
-            };
+            return new SprintMember(this, sprint);
         }
     }
 }
