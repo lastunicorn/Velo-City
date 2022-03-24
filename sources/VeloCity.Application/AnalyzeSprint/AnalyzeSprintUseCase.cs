@@ -129,7 +129,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 .Select(x =>
                 {
                     int totalWorkHours = allTeamMembers
-                        .Select(z => z.CalculateWorkHoursFor(x))
+                        .Select(z => z.ToSprintMember(x).CalculateWorkHours())
                         .Sum();
 
                     return (float)x.ActualStoryPoints / totalWorkHours;

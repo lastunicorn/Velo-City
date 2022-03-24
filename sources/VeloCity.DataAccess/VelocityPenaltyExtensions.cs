@@ -1,0 +1,63 @@
+﻿// Velo City
+// Copyright (C) 2022 Dust in the Wind
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.JsonFiles;
+
+namespace DustInTheWind.VeloCity.DataAccess
+{
+    internal static class VelocityPenaltyExtensions
+    {
+        public static IEnumerable<JVelocityPenalty> ToJEntities(this IEnumerable<VelocityPenalty> velocityPenalties)
+        {
+            return velocityPenalties?
+                .Select(x => x.ToJEntity());
+        }
+
+        public static JVelocityPenalty ToJEntity(this VelocityPenalty velocityPenalty)
+        {
+            return new JVelocityPenalty
+            {
+                SprintId = velocityPenalty.Sprint.Id,
+                StartValue = velocityPenalty.StartValue,
+                EndDate = velocityPenalty.EndDate,
+                Duration = velocityPenalty.Duration,
+                Comments = velocityPenalty.Comments
+            };
+        }
+
+        public static IEnumerable<VelocityPenalty> ToEntities(this IEnumerable<JVelocityPenalty> velocityPenalties, Database database)
+        {
+            return velocityPenalties?
+                .Select(x => x.ToEntity(database));
+        }
+
+        public static VelocityPenalty ToEntity(this JVelocityPenalty velocityPenalty, Database database)
+        {
+            return new VelocityPenalty
+            {
+                Sprint = database.Sprints.FirstOrDefault(x => x.Id == velocityPenalty.SprintId),
+                StartValue = velocityPenalty.StartValue,
+                EndDate = velocityPenalty.EndDate,
+                Duration = velocityPenalty.Duration,
+                Comments = velocityPenalty.Comments
+            };
+        }
+    }
+}

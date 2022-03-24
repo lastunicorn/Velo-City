@@ -48,13 +48,13 @@ namespace DustInTheWind.VeloCity.DataAccess
             };
         }
 
-        public static IEnumerable<TeamMember> ToEntities(this IEnumerable<JTeamMember> teamMembers)
+        public static IEnumerable<TeamMember> ToEntities(this IEnumerable<JTeamMember> teamMembers, Database database)
         {
             return teamMembers
-                .Select(x => x.ToEntity());
+                .Select(x => x.ToEntity(database));
         }
 
-        public static TeamMember ToEntity(this JTeamMember teamMember)
+        public static TeamMember ToEntity(this JTeamMember teamMember, Database database)
         {
             PersonName personName = GetPersonName(teamMember);
 
@@ -66,6 +66,9 @@ namespace DustInTheWind.VeloCity.DataAccess
                 Comments = teamMember.Comments,
                 Vacations = teamMember.VacationDays?
                     .ToEntities()
+                    .ToList(),
+                VelocityPenalties = teamMember.VelocityPenalties?
+                    .ToEntities(database)
                     .ToList()
             };
         }

@@ -14,32 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class TeamMember
+    public class VelocityPenalty
     {
-        public int Id { get; set; }
+        public Sprint Sprint { get; set; }
 
-        public PersonName Name { get; set; }
+        public int StartValue { get; set; }
 
-        public EmploymentCollection Employments { get; set; }
+        public int? EndDate { get; set; }
+
+        public int? Duration { get; set; }
 
         public string Comments { get; set; }
-
-        public List<Vacation> Vacations { get; set; }
-
-        public List<VelocityPenalty> VelocityPenalties { get; set; }
-
-        public SprintMember ToSprintMember(Sprint sprint)
-        {
-            return new SprintMember
-            {
-                Name = Name,
-                Sprint = sprint,
-                TeamMember = this
-            };
-        }
     }
 }

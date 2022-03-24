@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
         private SprintOverview CreateSprintOverview(Sprint sprint)
         {
             int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
-                .Select(x => x.CalculateWorkHoursFor(sprint))
+                .Select(x => x.ToSprintMember(sprint).CalculateWorkHours())
                 .Sum();
 
             float velocity = (float)sprint.ActualStoryPoints / totalWorkHours;

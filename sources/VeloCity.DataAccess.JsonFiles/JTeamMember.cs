@@ -39,5 +39,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
         public string Comments { get; set; }
 
         public List<JVacationDay> VacationDays { get; set; }
+        
+        public List<JVelocityPenalty> VelocityPenalties { get; set; }
     }
 }

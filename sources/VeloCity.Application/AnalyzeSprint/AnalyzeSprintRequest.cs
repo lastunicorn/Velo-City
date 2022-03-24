@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
     {
         public int? SprintNumber { get; set; }
 
-        public int LookBackSprintCount { get; set; } = 6;
+        public int LookBackSprintCount { get; set; } = 3;
 
         public List<int> ExcludedSprints { get; set; }
     }
