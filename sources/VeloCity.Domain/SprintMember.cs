@@ -37,11 +37,7 @@ namespace DustInTheWind.VeloCity.Domain
         public int WorkHours => Days
             .Select(x => x.WorkHours)
             .Sum();
-
-        public int AbsenceHours => Days
-            .Select(x => x.AbsenceHours)
-            .Sum();
-
+        
         public int WorkHoursWithVelocityPenalties
         {
             get

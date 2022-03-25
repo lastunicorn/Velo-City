@@ -46,9 +46,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             else
             {
                 DisplayTeamOverview(command);
-
-                Console.WriteLine();
-                Console.WriteLine("Use 'velo sprint -show-team' to display more details about the team.");
             }
         }
 

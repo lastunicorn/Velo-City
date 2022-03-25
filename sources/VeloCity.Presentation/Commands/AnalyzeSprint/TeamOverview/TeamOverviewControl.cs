@@ -15,8 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOverview
 {
@@ -34,6 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOvervie
         protected override void DoDisplay()
         {
             DisplayOverviewTable();
+            DisplayNotes();
         }
 
         private void DisplayOverviewTable()
@@ -61,16 +64,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOvervie
         private static ContentRow CreateContentRow(TeamMemberViewModel teamMember)
         {
             ContentRow dataRow = new();
-            
+
             ContentCell nameCell = CreateNameCell(teamMember);
             dataRow.AddCell(nameCell);
-            
+
             ContentCell workHoursCell = CreateWorkHoursCell(teamMember);
             dataRow.AddCell(workHoursCell);
-            
+
             ContentCell absenceCell = CreateAbsenceCell(teamMember);
             dataRow.AddCell(absenceCell);
-            
+
             return dataRow;
         }
 
@@ -102,6 +105,15 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOvervie
                     ? ConsoleColor.Yellow
                     : null
             };
+        }
+
+        private static void DisplayNotes()
+        {
+            NotesControl notesControl = new()
+            {
+                Notes = new List<INote> { new TeamDetailsNote() }
+            };
+            notesControl.Display();
         }
     }
 }

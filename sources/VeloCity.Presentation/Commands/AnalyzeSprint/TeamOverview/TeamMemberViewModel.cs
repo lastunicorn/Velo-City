@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOverview
@@ -27,7 +28,22 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOvervie
 
         public HoursValue WorkHours => sprintMember.WorkHours;
 
-        public HoursValue AbsenceHours => sprintMember.AbsenceHours;
+        public HoursValue AbsenceHours => sprintMember.Days
+            .Where(x =>
+            {
+                bool isWeekDay = x.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
+                if (isWeekDay)
+                    return true;
+
+                bool hasWorkHoursInWeekEnd = x.WorkHours > 0;
+                if (hasWorkHoursInWeekEnd)
+                    return true;
+
+                bool isOfficialHoliday = x.AbsenceReason == AbsenceReason.OfficialHoliday;
+                return isOfficialHoliday;
+            })
+            .Where(x => x.AbsenceReason != AbsenceReason.OfficialHoliday)
+            .Sum(x => x.AbsenceHours);
 
         public TeamMemberViewModel(SprintMember sprintMember)
         {
