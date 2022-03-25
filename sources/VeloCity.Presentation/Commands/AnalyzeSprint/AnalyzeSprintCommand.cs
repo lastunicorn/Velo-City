@@ -22,6 +22,7 @@ using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview;
+using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOverview;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
@@ -49,6 +50,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         public SprintOverviewViewModel SprintOverviewViewModel { get; set; }
 
         public SprintCalendarViewModel SprintCalendarViewModel { get; set; }
+        
+        public TeamOverviewViewModel TeamOverviewViewModel { get; set; }
 
         public AnalyzeSprintCommand(IMediator mediator)
         {
@@ -68,6 +71,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
 
             SprintOverviewViewModel = new SprintOverviewViewModel(response);
             SprintCalendarViewModel = new SprintCalendarViewModel(response);
+            TeamOverviewViewModel = new TeamOverviewViewModel(response);
 
             SprintMembers = response.SprintMembers;
         }

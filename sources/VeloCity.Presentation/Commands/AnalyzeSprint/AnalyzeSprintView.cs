@@ -19,6 +19,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintMembers;
 using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview;
+using DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOverview;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
@@ -35,7 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         public void Display(AnalyzeSprintCommand command)
         {
             DisplayOverview(command);
-            DisplayWorkDays(command);
+            DisplaySprintCalendar(command);
 
             if (command.ShowTeam)
             {
@@ -44,8 +45,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             }
             else
             {
-                Console.WriteLine();
-                Console.WriteLine("Use 'velo sprint -show-team' to display more details about the team.");
+                DisplayTeamOverview(command);
             }
         }
 
@@ -58,7 +58,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             sprintOverviewControl.Display();
         }
 
-        private void DisplayWorkDays(AnalyzeSprintCommand command)
+        private void DisplaySprintCalendar(AnalyzeSprintCommand command)
         {
             SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
             {
@@ -75,6 +75,15 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
                 SprintMember = sprintMember
             };
             sprintMemberDetailsControl.Display();
+        }
+
+        private void DisplayTeamOverview(AnalyzeSprintCommand command)
+        {
+            TeamOverviewControl teamOverviewControl = new(dataGridFactory)
+            {
+                ViewModel = command.TeamOverviewViewModel
+            };
+            teamOverviewControl.Display();
         }
     }
 }
