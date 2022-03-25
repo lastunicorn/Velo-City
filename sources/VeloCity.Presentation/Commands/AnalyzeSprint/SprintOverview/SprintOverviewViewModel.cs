@@ -27,11 +27,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
     {
         private readonly AnalyzeSprintResponse response;
 
-        public SprintOverviewViewModel(AnalyzeSprintResponse response)
-        {
-            this.response = response ?? throw new ArgumentNullException(nameof(response));
-        }
-
         public string Title => $"{response.SprintName} ({response.StartDate:d} - {response.EndDate:d})";
 
         public string State => response.SprintState switch
@@ -102,5 +97,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
                 return notes;
             }
         }
+        public SprintOverviewViewModel(AnalyzeSprintResponse response)
+        {
+            this.response = response ?? throw new ArgumentNullException(nameof(response));
+        }
+
     }
 }
