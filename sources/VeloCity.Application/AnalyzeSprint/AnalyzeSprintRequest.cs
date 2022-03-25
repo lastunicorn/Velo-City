@@ -22,9 +22,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
     public class AnalyzeSprintRequest : IRequest<AnalyzeSprintResponse>
     {
         public int? SprintNumber { get; set; }
-
-        public int? LookBackSprintCount { get; set; }
-
+        
         public List<int> ExcludedSprints { get; set; }
         
         public bool ShowTeam { get; set; }

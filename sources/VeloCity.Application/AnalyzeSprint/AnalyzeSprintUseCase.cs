@@ -28,10 +28,12 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
     internal class AnalyzeSprintUseCase : IRequestHandler<AnalyzeSprintRequest, AnalyzeSprintResponse>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IConfig config;
 
-        public AnalyzeSprintUseCase(IUnitOfWork unitOfWork)
+        public AnalyzeSprintUseCase(IUnitOfWork unitOfWork, IConfig config)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
@@ -42,8 +44,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             List<SprintMember> sprintMembers = RetrieveSprintMembers(currentSprint);
 
-            int previousSprintCount = request.LookBackSprintCount ?? 3;
-            List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, previousSprintCount, request.ExcludedSprints);
+            List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, config.AnalysisLookBack, request.ExcludedSprints);
             float? estimatedVelocity = previousSprints.Count == 0
                 ? null
                 : CalculateAverageVelocity(previousSprints);
@@ -84,7 +85,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
                 ActualStoryPoints = currentSprint.ActualStoryPoints,
                 ActualVelocity = (float)currentSprint.ActualStoryPoints / totalWorkHours,
-                LookBackSprintCount = previousSprintCount,
+                LookBackSprintCount = config.AnalysisLookBack,
                 PreviousSprints = previousSprints
                     .Select(x => x.Number)
                     .ToList(),
