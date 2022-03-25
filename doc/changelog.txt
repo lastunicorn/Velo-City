@@ -5,6 +5,8 @@ v1.6.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Included a velocity penalty for each team member used in the estimation calculation
             algorithm.
+- [feature] Added the "show-team" parameter to the sprint analysis and compacted the team's
+            information.
 
 v1.5.0
 ----------------------------------------------------------------------------------------------------
