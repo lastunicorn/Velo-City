@@ -18,9 +18,9 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview
 {
-    internal class NoPreviousSprintsNote : INote
+    internal class NoPreviousSprintsNote : NoteBase
     {
-        public override string ToString()
+        protected override string BuildMessage()
         {
             return "Could not calculate an estimation because no previous closed sprints exist.";
         }

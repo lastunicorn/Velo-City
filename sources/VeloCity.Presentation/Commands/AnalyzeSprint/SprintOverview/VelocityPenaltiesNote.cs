@@ -21,11 +21,11 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview
 {
-    public class VelocityPenaltiesNote : INote
+    public class VelocityPenaltiesNote : NoteBase
     {
         public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
 
-        public override string ToString()
+        protected override string BuildMessage()
         {
             if (VelocityPenalties == null)
                 return "(*) The sprint includes velocity penalties.";

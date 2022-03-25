@@ -147,7 +147,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintCalen
             {
                 NotesControl notesControl = new()
                 {
-                    Notes = new List<INote> { new PartialDayVacationNote() }
+                    Notes = new List<NoteBase> { new PartialDayVacationNote() }
                 };
                 notesControl.Display();
             }

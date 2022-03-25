@@ -19,11 +19,11 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview
 {
-    internal class ExcludedSprintsNote : INote
+    internal class ExcludedSprintsNote : NoteBase
     {
         public List<int> ExcludesSprintNumbers { get; set; }
 
-        public override string ToString()
+        protected override string BuildMessage()
         {
             string excludedSprints = string.Join(",", ExcludesSprintNumbers);
             return $"Estimations excluded sprints: {excludedSprints}";

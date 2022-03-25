@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
     internal class NotesControl : BlockControl
     {
-        public List<INote> Notes { get; set; }
+        public List<NoteBase> Notes { get; set; }
 
         public NotesControl()
         {
@@ -35,8 +35,18 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
         {
             CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
 
-            foreach (INote note in Notes)
+            foreach (NoteBase note in Notes)
                 CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - {note}");
+
+            //display.WriteRow("Notes:");
+
+            //foreach (NoteBase note in Notes)
+            //{
+            //    display.StartRow();
+            //    display.Write("  - ");
+            //    note.Display();
+            //    display.EndRow();
+            //}
         }
     }
 }

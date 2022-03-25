@@ -14,10 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using DustInTheWind.ConsoleTools.Controls;
+
 namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
-    public interface INote
+    public abstract class NoteBase : InlineControl
     {
-        string ToString();
+        protected override void DoDisplayContent()
+        {
+            string message = BuildMessage();
+            Console.Write(message);
+        }
+
+        public override string ToString()
+        {
+            return BuildMessage();
+        }
+
+        protected abstract string BuildMessage();
     }
 }

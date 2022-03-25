@@ -111,7 +111,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOvervie
         {
             NotesControl notesControl = new()
             {
-                Notes = new List<INote> { new TeamDetailsNote() }
+                Notes = new List<NoteBase> { new TeamDetailsNote() }
             };
             notesControl.Display();
         }

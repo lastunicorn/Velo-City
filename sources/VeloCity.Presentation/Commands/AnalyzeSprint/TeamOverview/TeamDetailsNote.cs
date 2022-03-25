@@ -18,9 +18,9 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.TeamOverview
 {
-    internal class TeamDetailsNote : INote
+    internal class TeamDetailsNote : NoteBase
     {
-        public override string ToString()
+        protected override string BuildMessage()
         {
             return "Use 'velo sprint -show-team' to display more details about the team.";
         }

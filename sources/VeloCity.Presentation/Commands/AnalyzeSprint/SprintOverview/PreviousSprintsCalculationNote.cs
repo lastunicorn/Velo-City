@@ -19,11 +19,11 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview
 {
-    internal class PreviousSprintsCalculationNote : INote
+    internal class PreviousSprintsCalculationNote : NoteBase
     {
         public List<int> PreviousSprintNumbers { get; set; }
 
-        public override string ToString()
+        protected override string BuildMessage()
         {
             string previousSprints = string.Join(", ", PreviousSprintNumbers);
             return $"Estimations are based on previous {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";

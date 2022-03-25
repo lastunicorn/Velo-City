@@ -58,11 +58,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
 
         public float ActualVelocity => response.ActualVelocity;
 
-        public List<INote> Notes
+        public List<NoteBase> Notes
         {
             get
             {
-                List<INote> notes = new();
+                List<NoteBase> notes = new();
 
                 bool previousSprintsExist = response.PreviousSprints is { Count: > 0 };
 
