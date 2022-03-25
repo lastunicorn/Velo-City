@@ -14,16 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
 {
     public class TeamMember
     {
+        private List<VelocityPenalty> velocityPenalties;
         public int Id { get; set; }
-        
+
         public PersonName Name { get; set; }
 
         public EmploymentCollection Employments { get; set; }
@@ -32,85 +31,30 @@ namespace DustInTheWind.VeloCity.Domain
 
         public List<Vacation> Vacations { get; set; }
 
-        public int CalculateWorkHoursFor(Sprint sprint)
+        public List<VelocityPenalty> VelocityPenalties
         {
-            return sprint.EnumerateWorkDays()
-                .Select(CalculateWorkHoursFor)
-                .Sum();
+            get => velocityPenalties;
+            set
+            {
+                if (velocityPenalties != null)
+                {
+                    foreach (VelocityPenalty velocityPenalty in velocityPenalties)
+                        velocityPenalty.TeamMember = null;
+                }
+
+                velocityPenalties = value;
+
+                if (velocityPenalties != null)
+                {
+                    foreach (VelocityPenalty velocityPenalty in velocityPenalties)
+                        velocityPenalty.TeamMember = this;
+                }
+            }
         }
 
         public SprintMember ToSprintMember(Sprint sprint)
         {
-            return new SprintMember
-            {
-                Name = Name,
-                Days = CalculateDays(sprint).ToList()
-            };
-        }
-
-        private IEnumerable<SprintMemberDay> CalculateDays(Sprint sprint)
-        {
-            return sprint.EnumerateAllDays()
-                .Select(x =>
-                {
-                    MemberDayAnalysis memberDayAnalysis = new()
-                    {
-                        SprintDay = x,
-                        Employments = Employments,
-                        Vacations = Vacations
-                    };
-                    memberDayAnalysis.Analyze();
-
-                    return new SprintMemberDay
-                    {
-                        Date = x.Date,
-                        TeamMember = this,
-                        WorkHours = memberDayAnalysis.WorkHours,
-                        AbsenceHours = memberDayAnalysis.AbsenceHours,
-                        AbsenceReason = memberDayAnalysis.AbsenceReason,
-                        AbsenceComments = memberDayAnalysis.AbsenceComments
-                    };
-                });
-        }
-
-        public int CalculateWorkHoursFor(SprintDay sprintDay)
-        {
-            Employment employment = Employments?.GetEmploymentFor(sprintDay.Date);
-
-            bool isEmployed = employment != null;
-            if (!isEmployed)
-                return 0;
-
-            if (sprintDay.IsFreeDay)
-                return 0;
-
-            Vacation[] vacations = GetVacationsFor(sprintDay.Date);
-
-            bool vacationsExist = vacations is { Length: > 0 };
-
-            if (!vacationsExist)
-                return employment.HoursPerDay;
-
-            bool isWholeDayVacation = vacations.Any(x => x.HourCount == null);
-
-            if (isWholeDayVacation)
-                return 0;
-
-            int vacationHours = vacations
-                .Where(x => x.HourCount != null)
-                .Sum(x => x.HourCount.Value);
-
-            if (vacationHours > employment.HoursPerDay)
-                return 0;
-
-            return employment.HoursPerDay - vacationHours;
-        }
-
-        private Vacation[] GetVacationsFor(DateTime date)
-        {
-            return Vacations?
-                .Where(x => x.Match(date))
-                .ToArray();
+            return new SprintMember(this, sprint);
         }
     }
 }

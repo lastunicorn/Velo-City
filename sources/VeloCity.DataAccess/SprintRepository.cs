@@ -67,6 +67,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         public IEnumerable<Sprint> GetPage(int pageIndex, int count)
         {
             return database.Sprints
+                .Where(x => x.State is SprintState.InProgress or SprintState.Closed)
                 .OrderByDescending(x => x.StartDate)
                 .Skip(pageIndex * count)
                 .Take(count);

@@ -14,30 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using DustInTheWind.VeloCity.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.Infrastructure
+namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverview
 {
-    public class Argument
+    public class VelocityPenaltiesNote : INote
     {
-        public string Name { get; set; }
-
-        public string Value { get; set; }
-
-        public ArgumentType Type { get; set; }
+        public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
 
         public override string ToString()
         {
-            if (Name != null && Value != null)
-                return $"{Name} = {Value} [{Type}]";
+            if (VelocityPenalties == null)
+                return "(*) The sprint includes velocity penalties.";
 
-            if (Name != null)
-                return $"{Name} [{Type}]";
-
-            if (Value != null)
-                return $"{Value} [{Type}]";
-
-            return $"null [{Type}]";
+            IEnumerable<string> items = VelocityPenalties
+                .Select(x => $"{x.PersonName.ShortName} ({x.PenaltyValue}%)");
+            string allItems = string.Join(", ", items);
+            return $"(*) The sprint includes velocity penalties for: {allItems}.";
         }
     }
 }

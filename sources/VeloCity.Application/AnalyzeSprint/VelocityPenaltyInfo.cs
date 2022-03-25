@@ -14,30 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Text;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Infrastructure
+namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 {
-    public class Argument
+    public class VelocityPenaltyInfo
     {
-        public string Name { get; set; }
-
-        public string Value { get; set; }
-
-        public ArgumentType Type { get; set; }
-
-        public override string ToString()
-        {
-            if (Name != null && Value != null)
-                return $"{Name} = {Value} [{Type}]";
-
-            if (Name != null)
-                return $"{Name} [{Type}]";
-
-            if (Value != null)
-                return $"{Value} [{Type}]";
-
-            return $"null [{Type}]";
-        }
+        public PersonName PersonName { get; set; }
+        
+        public int PenaltyValue { get; set; }
     }
 }

@@ -52,6 +52,9 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 
         private string CreateChartBar(VelocityChartItem item)
         {
+            if (maxValue == 0)
+                return string.Empty;
+
             float value = item.Velocity;
             int chartValue = (int)Math.Round(value * ChartMaxValue / maxValue);
 

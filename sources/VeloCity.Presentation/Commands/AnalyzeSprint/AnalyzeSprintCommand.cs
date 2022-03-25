@@ -41,6 +41,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
         [CommandParameter(DisplayName = "Excluded Sprints", Name = "exclude", IsOptional = true)]
         public List<int> ExcludedSprints { get; set; }
 
+        [CommandParameter(DisplayName = "Show Team", Name = "show-team", IsOptional = true)]
+        public bool ShowTeam { get; set; }
+
         public List<SprintMember> SprintMembers { get; private set; }
 
         public SprintOverviewViewModel SprintOverviewViewModel { get; set; }
@@ -57,7 +60,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             AnalyzeSprintRequest request = new()
             {
                 SprintNumber = SprintNumber,
-                ExcludedSprints = ExcludedSprints
+                ExcludedSprints = ExcludedSprints,
+                ShowTeam = ShowTeam
             };
 
             AnalyzeSprintResponse response = await mediator.Send(request);

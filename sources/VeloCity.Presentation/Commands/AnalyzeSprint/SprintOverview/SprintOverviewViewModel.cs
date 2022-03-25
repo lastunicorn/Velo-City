@@ -1,4 +1,5 @@
-﻿// Velo City
+﻿
+// Velo City
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -49,6 +50,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
         public string EstimatedStoryPoints => response.EstimatedStoryPoints == null
             ? "-"
             : response.EstimatedStoryPoints.ToString();
+        
+        public string EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties?.ToString();
 
         public string EstimatedVelocity => response.EstimatedVelocity == null
             ? "-"
@@ -80,11 +83,19 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint.SprintOverv
                     notes.Add(new NoPreviousSprintsNote());
                 }
 
-                if (response.ExcludesSprints is { Count: > 0 })
+                if (response.ExcludedSprints is { Count: > 0 })
                 {
                     notes.Add(new ExcludedSprintsNote
                     {
-                        ExcludesSprintNumbers = response.ExcludesSprints
+                        ExcludesSprintNumbers = response.ExcludedSprints
+                    });
+                }
+
+                if (response.EstimatedStoryPointsWithVelocityPenalties != null)
+                {
+                    notes.Add(new VelocityPenaltiesNote
+                    {
+                        VelocityPenalties = response.VelocityPenalties
                     });
                 }
 

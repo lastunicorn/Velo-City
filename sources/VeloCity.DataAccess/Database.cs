@@ -56,7 +56,7 @@ namespace DustInTheWind.VeloCity.DataAccess
             IEnumerable<Sprint> sprints = databaseFile.Document.Sprints.ToEntities();
             Sprints.AddRange(sprints);
 
-            IEnumerable<TeamMember> teamMembers = databaseFile.Document.TeamMembers.ToEntities();
+            IEnumerable<TeamMember> teamMembers = databaseFile.Document.TeamMembers.ToEntities(this);
             TeamMembers.AddRange(teamMembers);
 
             IEnumerable<OfficialHoliday> officialHolidays = databaseFile.Document.OfficialHolidays.ToEntities();

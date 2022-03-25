@@ -40,6 +40,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public SprintState State { get; set; }
 
+        public List<VelocityPenalty> VelocityPenalties { get; } = new();
+
         public int CountWorkDays()
         {
             return EnumerateWorkDays().Count();

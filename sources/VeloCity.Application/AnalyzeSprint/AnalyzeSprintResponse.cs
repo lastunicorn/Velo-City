@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
         public SprintState SprintState { get; set; }
 
         public DateTime StartDate { get; set; }
-        
+
         public DateTime EndDate { get; set; }
 
         public List<SprintDay> WorkDays { get; set; }
@@ -38,18 +38,24 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public float? EstimatedStoryPoints { get; set; }
 
+        public float? EstimatedStoryPointsWithVelocityPenalties { get; set; }
+
         public float? EstimatedVelocity { get; set; }
+
+        public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
 
         public int CommitmentStoryPoints { get; set; }
 
         public int ActualStoryPoints { get; set; }
 
         public float ActualVelocity { get; set; }
-        
+
         public int LookBackSprintCount { get; set; }
-        
+
         public List<int> PreviousSprints { get; set; }
 
-        public List<int> ExcludesSprints { get; set; }
+        public List<int> ExcludedSprints { get; set; }
+        
+        public bool ShowTeam { get; set; }
     }
 }
