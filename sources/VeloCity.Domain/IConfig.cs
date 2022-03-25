@@ -29,6 +29,8 @@ namespace DustInTheWind.VeloCity.Domain
         string DatabaseEditorArguments { get; }
 
         DataGridStyle DataGridStyle { get; }
+        
+        int AnalysisLookBack { get; }
 
         List<ConfigItem> GetAllValuesRaw();
     }

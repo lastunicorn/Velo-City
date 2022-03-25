@@ -28,6 +28,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
         private const string DatabaseEditorPropertyName = "DatabaseEditor";
         private const string DatabaseEditorArgumentsPropertyName = "DatabaseEditorArguments";
         private const string DataGridStylePropertyName = "DataGridStyle";
+        private const string AnalysisLookBackPropertyName = "AnalysisLookBack";
 
         private readonly IConfiguration config;
 
@@ -105,6 +106,39 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             }
         }
 
+        public int AnalysisLookBack
+        {
+            get
+            {
+                try
+                {
+                    IConfigurationSection configurationSection = config.GetSection(AnalysisLookBackPropertyName);
+
+                    return configurationSection.Exists()
+                        ? int.Parse(configurationSection.Value)
+                        : 3;
+                }
+                catch (Exception ex)
+                {
+                    throw new ConfigurationException("Error reading the ErrorMessageLevel value from the configuration file.", ex);
+                }
+            }
+        }
+
+        public Config()
+        {
+            try
+            {
+                config = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+            }
+            catch (Exception ex)
+            {
+                throw new ConfigurationException("Could not open the configuration file.", ex);
+            }
+        }
+
         public List<ConfigItem> GetAllValuesRaw()
         {
             return new List<ConfigItem>
@@ -135,20 +169,6 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                     Value = DataGridStyle.ToString()
                 }
             };
-        }
-
-        public Config()
-        {
-            try
-            {
-                config = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-            }
-            catch (Exception ex)
-            {
-                throw new ConfigurationException("Could not open the configuration file.", ex);
-            }
         }
     }
 }
