@@ -45,7 +45,10 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public void SetValue(ICommand command, string value)
         {
-            object valueAsObject = ParseValue(value);
+            object valueAsObject = propertyInfo.PropertyType == typeof(bool) && value == null
+                ? true
+                : ParseValue(value);
+
             propertyInfo.SetValue(command, valueAsObject);
         }
 

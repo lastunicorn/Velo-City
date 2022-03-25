@@ -78,6 +78,9 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                     argument = null;
                 }
             }
+
+            if (argument != null)
+                yield return argument;
         }
 
         public Argument GetOrdinal(int index)

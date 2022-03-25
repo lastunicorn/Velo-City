@@ -42,7 +42,8 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             List<SprintMember> sprintMembers = RetrieveSprintMembers(currentSprint);
 
-            List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, request.LookBackSprintCount, request.ExcludedSprints);
+            int previousSprintCount = request.LookBackSprintCount ?? 3;
+            List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, previousSprintCount, request.ExcludedSprints);
             float? estimatedVelocity = previousSprints.Count == 0
                 ? null
                 : CalculateAverageVelocity(previousSprints);
@@ -71,21 +72,24 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             {
                 SprintName = currentSprint.Name,
                 SprintState = currentSprint.State,
-                WorkDays = currentSprint.EnumerateWorkDays().ToList(),
                 StartDate = currentSprint.StartDate,
                 EndDate = currentSprint.EndDate,
+                WorkDays = currentSprint.EnumerateWorkDays().ToList(),
                 SprintMembers = sprintMembers,
                 TotalWorkHours = totalWorkHours,
-                ActualStoryPoints = currentSprint.ActualStoryPoints,
-                ActualVelocity = (float)currentSprint.ActualStoryPoints / totalWorkHours,
-                CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
                 EstimatedStoryPoints = totalWorkHours * estimatedVelocity,
                 EstimatedStoryPointsWithVelocityPenalties = totalWorkHoursWithVelocityPenalties * estimatedVelocity,
                 EstimatedVelocity = estimatedVelocity,
                 VelocityPenalties = teamMembersWithVelocityPenalties,
-                LookBackSprintCount = request.LookBackSprintCount,
-                PreviousSprints = previousSprints.Select(x => x.Number).ToList(),
-                ExcludesSprints = request.ExcludedSprints?.ToList()
+                CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
+                ActualStoryPoints = currentSprint.ActualStoryPoints,
+                ActualVelocity = (float)currentSprint.ActualStoryPoints / totalWorkHours,
+                LookBackSprintCount = previousSprintCount,
+                PreviousSprints = previousSprints
+                    .Select(x => x.Number)
+                    .ToList(),
+                ExcludedSprints = request.ExcludedSprints?.ToList(),
+                ShowTeam = request.ShowTeam
             };
 
             return Task.FromResult(response);

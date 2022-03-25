@@ -37,8 +37,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.AnalyzeSprint
             DisplayOverview(command);
             DisplayWorkDays(command);
 
-            foreach (SprintMember sprintMember in command.SprintMembers)
-                DisplaySprintMemberDetails(sprintMember);
+            if (command.ShowTeam)
+            {
+                foreach (SprintMember sprintMember in command.SprintMembers)
+                    DisplaySprintMemberDetails(sprintMember);
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("Use 'velo sprint -show-team' to display more details about the team.");
+            }
         }
 
         private void DisplayOverview(AnalyzeSprintCommand command)

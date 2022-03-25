@@ -54,6 +54,8 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public List<int> PreviousSprints { get; set; }
 
-        public List<int> ExcludesSprints { get; set; }
+        public List<int> ExcludedSprints { get; set; }
+        
+        public bool ShowTeam { get; set; }
     }
 }
