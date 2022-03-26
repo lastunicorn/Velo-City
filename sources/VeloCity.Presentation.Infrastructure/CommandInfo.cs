@@ -38,6 +38,8 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public bool IsEnabled => commandAttribute.Enabled;
 
+        public bool IsHelpCommand { get; private set; }
+
         public IEnumerable<CommandParameterInfo> ParameterInfos
         {
             get
@@ -47,7 +49,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                     {
                         CommandParameterAttribute customAttribute = x.GetCustomAttributes<CommandParameterAttribute>()
                             .SingleOrDefault();
-                        
+
                         return customAttribute == null
                             ? null
                             : new CommandParameterInfo(x, customAttribute);
@@ -73,6 +75,8 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             commandAttribute = commandType.GetCustomAttributes(typeof(CommandAttribute), false)
                 .Cast<CommandAttribute>()
                 .SingleOrDefault();
+
+            IsHelpCommand = commandAttribute is HelpCommandAttribute;
 
             commandUsageAttributes = commandType.GetCustomAttributes(typeof(CommandUsageAttribute), false)
                 .Cast<CommandUsageAttribute>()

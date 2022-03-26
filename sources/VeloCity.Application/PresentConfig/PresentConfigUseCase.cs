@@ -44,7 +44,7 @@ namespace DustInTheWind.VeloCity.Application.PresentConfig
                     .ToList();
 
                 if (values.Count == 0)
-                    throw new Exception($"There is no property with the name {request.ConfigPropertyName}.");
+                    throw new ConfigPropertyNotFoundException(request.ConfigPropertyName);
             }
 
             PresentConfigResponse response = new()

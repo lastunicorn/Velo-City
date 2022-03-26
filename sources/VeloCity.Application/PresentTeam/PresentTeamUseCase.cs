@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
                 Sprint sprint = unitOfWork.SprintRepository.GetByNumber(request.SprintNumber.Value);
 
                 if (sprint == null)
-                    throw new Exception($"The sprint with number {request.SprintNumber} does not exist in the database.");
+                    throw new SprintNotFoundException(request.SprintNumber.Value);
 
                 return CreateResponseForSprint(sprint);
             }
@@ -63,7 +63,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
             Sprint currentSprint = unitOfWork.SprintRepository.GetLast();
 
             if (currentSprint == null)
-                throw new Exception("There is no sprint in the database.");
+                throw new NoSprintInDatabaseException();
 
             return CreateResponseForSprint(currentSprint);
         }
@@ -101,7 +101,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
 
         private PresentTeamResponse CreateResponseForSprint(Sprint sprint)
         {
-            return new PresentTeamResponse()
+            return new PresentTeamResponse
             {
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.StartDate, sprint.EndDate)
                     .OrderBy(x => x.Employments.GetEmploymentFor(sprint.StartDate).TimeInterval.StartDate)

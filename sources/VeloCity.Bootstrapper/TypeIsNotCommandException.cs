@@ -15,35 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Autofac;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Bootstrapper
 {
-    internal class CommandFactory : ICommandFactory
+    internal class TypeIsNotCommandException : Exception
     {
-        private readonly IComponentContext context;
+        private const string DefaultMessage = "Type {0} does not represent command. A command must implement the {1} interface.";
 
-        public CommandFactory(IComponentContext context)
+        public TypeIsNotCommandException(Type type)
+            : base(string.Format(DefaultMessage, type.FullName, typeof(ICommand).FullName))
         {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-
-        public TCommand Create<TCommand>()
-            where TCommand : ICommand
-        {
-            return context.Resolve<TCommand>();
-        }
-
-        public ICommand Create(Type commandType)
-        {
-            if (commandType == null) throw new ArgumentNullException(nameof(commandType));
-
-            bool isCommandType = typeof(ICommand).IsAssignableFrom(commandType);
-            if (!isCommandType)
-                throw new TypeIsNotCommandException(commandType);
-
-            return (ICommand)context.Resolve(commandType);
         }
     }
 }

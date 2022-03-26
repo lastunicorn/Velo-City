@@ -52,7 +52,7 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
         private static void CheckDatabaseFileExists(string databaseFilePath)
         {
             if (!File.Exists(databaseFilePath))
-                throw new Exception($"Database file does not exist: '{databaseFilePath}'");
+                throw new DatabaseFileNotFoundException(databaseFilePath);
         }
 
         private DatabaseEditorType OpenDatabaseFile(string databaseFilePath)
@@ -96,7 +96,7 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
             }
             catch (Exception ex)
             {
-                throw new Exception("Failed to open the database file.", ex);
+                throw new DatabaseOpenException(ex);
             }
         }
     }

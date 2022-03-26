@@ -1,8 +1,7 @@
 {
   "profiles": {
     "VeloCity.Bootstrapper": {
-      "commandName": "Project",
-      "commandLineArgs": "sprint -show-team"
+      "commandName": "Project"
     }
   }
 }

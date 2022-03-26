@@ -37,13 +37,13 @@ namespace DustInTheWind.VeloCity.Installer.CustomActions
                 string configFilePath = Path.Combine(installFolder, configFileName);
 
                 if (!File.Exists(configFilePath))
-                    throw new Exception($"Configuration file could not be found: '{configFilePath}'.");
+                    throw new MissingConfigurationFileException(configFilePath);
 
                 string inputJson = File.ReadAllText(configFilePath);
-                
+
                 dynamic jsonObj = JsonConvert.DeserializeObject(inputJson);
                 jsonObj["DatabaseLocation"] = databaseJsonLocation;
-                
+
                 string outputJson = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
                 File.WriteAllText(configFilePath, outputJson);
 
