@@ -22,7 +22,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Database
 {
-    [Command("db", ShortDescription = "Opens the database in a text editor.", Order = 100)]
+    [Command("db", ShortDescription = "Opens the database in a text editor.", Order = 101)]
     [CommandUsage("db")]
     public class OpenDatabaseCommand : ICommand
     {

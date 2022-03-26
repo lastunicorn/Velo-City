@@ -34,8 +34,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ProjectReference Include="..\VeloCity.Presentation.Infrastructure\VeloCity.Presentation.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Commands\Holidays\" />
-    </ItemGroup>
-
 </Project>

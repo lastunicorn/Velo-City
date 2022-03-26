@@ -17,40 +17,47 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentConfig;
+using DustInTheWind.VeloCity.Application.PresentOfficialHolidays;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Config
+namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 {
-    [Command("config", ShortDescription = "Displays the configuration values.", Order = 100)]
-    [CommandUsage("config")]
-    [CommandUsage("config [property-name]")]
-    [CommandUsage("config -get [property-name]")]
-    public class ConfigCommand : ICommand
+    [Command("holidays", ShortDescription = "Displays the holidays for a specific year or sprint.", Order = 5)]
+    [CommandUsage("holidays")]
+    [CommandUsage("holidays [year]")]
+    [CommandUsage("holidays -year [year]")]
+    public class PresentHolidaysCommand : ICommand
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(Name = "get", Order = 1, IsOptional = true)]
-        public string PropertyName { get; set; }
+        [CommandParameter(Name = "year", Order = 1, IsOptional = true)]
+        public int? Year { get; set; }
 
-        public List<ConfigItem> ConfigValues { get; private set; }
+        [CommandParameter(Name = "sprint", IsOptional = true)]
+        public int? Sprint { get; set; }
 
-        public ConfigCommand(IMediator mediator)
+        public List<OfficialHoliday> OfficialHolidays { get; private set; }
+
+        public RequestTypeViewModel RequestType { get; private set; }
+
+        public PresentHolidaysCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task Execute()
         {
-            PresentConfigRequest request = new()
+            PresentOfficialHolidaysRequest request = new()
             {
-                ConfigPropertyName = PropertyName
+                Year = Year,
+                SprintNumber = Sprint
             };
-            PresentConfigResponse response = await mediator.Send(request);
+            PresentOfficialHolidaysResponse response = await mediator.Send(request);
 
-            ConfigValues = response.ConfigValues;
+            OfficialHolidays = response.OfficialHolidays;
+            RequestType = new RequestTypeViewModel(response);
         }
     }
 }
