@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             string monthDaysString = MonthDays == null || MonthDays.Count == 0
                 ? "<none>"
                 : string.Join(", ", MonthDays);
-            
+
             return $"Each {monthDaysString} of the month between [{DateInterval}]";
         }
     }

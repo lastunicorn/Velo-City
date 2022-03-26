@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             string datesString = Dates == null || Dates.Count == 0
                 ? "<none>"
                 : string.Join(", ", Dates);
-            
+
             return $"Each {datesString} between [{DateInterval}]";
         }
     }

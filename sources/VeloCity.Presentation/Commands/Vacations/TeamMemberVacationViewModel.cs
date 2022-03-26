@@ -61,19 +61,19 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             {
                 case VacationOnceViewModel vacationOnceViewModel:
                     return vacationOnceViewModel.Date;
-                
+
                 case VacationDailyViewModel vacationDailyViewModel:
                     return vacationDailyViewModel.DateInterval.StartDate;
-                
+
                 case VacationWeeklyViewModel vacationWeeklyViewModel:
                     return vacationWeeklyViewModel.DateInterval.StartDate;
-                
+
                 case VacationMonthlyViewModel vacationMonthlyViewModel:
                     return vacationMonthlyViewModel.DateInterval.StartDate;
-                
+
                 case VacationYearlyViewModel vacationYearlyViewModel:
                     return vacationYearlyViewModel.DateInterval.StartDate;
-                
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(vacationViewModel));
             }

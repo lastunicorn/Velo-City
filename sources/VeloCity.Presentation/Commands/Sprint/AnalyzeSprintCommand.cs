@@ -49,7 +49,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
         public SprintOverviewViewModel SprintOverviewViewModel { get; set; }
 
         public SprintCalendarViewModel SprintCalendarViewModel { get; set; }
-        
+
         public TeamOverviewViewModel TeamOverviewViewModel { get; set; }
 
         public AnalyzeSprintCommand(IMediator mediator)

@@ -1,5 +1,4 @@
-﻿
-// Velo City
+﻿// Velo City
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -45,7 +44,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
         public string EstimatedStoryPoints => response.EstimatedStoryPoints == null
             ? "-"
             : response.EstimatedStoryPoints.ToString();
-        
+
         public string EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties?.ToString();
 
         public string EstimatedVelocity => response.EstimatedVelocity == null
@@ -97,10 +96,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
                 return notes;
             }
         }
+
         public SprintOverviewViewModel(AnalyzeSprintResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
         }
-
     }
 }
