@@ -26,13 +26,13 @@ namespace DustInTheWind.VeloCity.JsonFiles
         public DateTime? Date { get; set; }
 
         public List<DayOfWeek> WeekDays { get; set; }
-        
+
         public List<int> MonthDays { get; set; }
-        
+
         public List<DateTime> Dates { get; set; }
 
         public DateTime? StartDate { get; set; }
-        
+
         public DateTime? EndDate { get; set; }
 
         public int? HourCount { get; set; }

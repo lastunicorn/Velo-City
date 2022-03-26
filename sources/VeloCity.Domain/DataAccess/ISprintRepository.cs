@@ -23,13 +23,13 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         Sprint Get(int id);
 
         Sprint GetByNumber(int number);
-        
+
         IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count);
-        
+
         IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints);
-        
+
         IEnumerable<Sprint> GetPage(int pageIndex, int count);
-        
+
         Sprint GetLast();
 
         Sprint GetLastInProgress();

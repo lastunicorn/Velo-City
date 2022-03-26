@@ -19,7 +19,7 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
     public class OpenDatabaseResponse
     {
         public string DatabaseFilePath { get; set; }
-        
+
         public DatabaseEditorType DatabaseEditorType { get; set; }
     }
 }

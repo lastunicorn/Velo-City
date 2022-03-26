@@ -26,9 +26,9 @@ namespace DustInTheWind.VeloCity.DataAccess
         private OfficialHolidayRepository officialHolidayRepository;
         private SprintRepository sprintRepository;
         private TeamMemberRepository teamMemberRepository;
-        
+
         public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(database);
-        
+
         public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(database);
 
         public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(database);

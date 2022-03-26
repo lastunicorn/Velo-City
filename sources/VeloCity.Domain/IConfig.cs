@@ -21,15 +21,15 @@ namespace DustInTheWind.VeloCity.Domain
     public interface IConfig
     {
         ErrorMessageLevel ErrorMessageLevel { get; }
-        
+
         string DatabaseLocation { get; }
-     
+
         string DatabaseEditor { get; }
 
         string DatabaseEditorArguments { get; }
 
         DataGridStyle DataGridStyle { get; }
-        
+
         int AnalysisLookBack { get; }
 
         List<ConfigItem> GetAllValuesRaw();

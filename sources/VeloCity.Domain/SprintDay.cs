@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.Domain
         public bool IsOfficialHoliday { get; set; }
 
         public bool IsWorkDay => !IsWeekEnd && !IsOfficialHoliday;
-        
+
         public bool IsFreeDay => IsWeekEnd || IsOfficialHoliday;
     }
 }

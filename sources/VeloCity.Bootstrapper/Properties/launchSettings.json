@@ -1,7 +1,7 @@
 {
-  "profiles": {
-    "VeloCity.Bootstrapper": {
-      "commandName": "Project"
+    "profiles": {
+        "VeloCity.Bootstrapper": {
+            "commandName": "Project"
+        }
     }
-  }
 }

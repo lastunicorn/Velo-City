@@ -25,11 +25,11 @@ namespace DustInTheWind.VeloCity.Domain
         public TeamMember TeamMember { get; set; }
 
         public int WorkHours { get; set; }
-        
+
         public int AbsenceHours { get; set; }
-        
+
         public AbsenceReason AbsenceReason { get; set; }
-        
+
         public string AbsenceComments { get; set; }
     }
 }

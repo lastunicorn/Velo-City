@@ -25,21 +25,21 @@ namespace DustInTheWind.VeloCity.JsonFiles
 
         [Obsolete("Use FirstName, MiddleName, LastName and Nickname instead.")]
         public string Name { get; set; }
-        
+
         public string FirstName { get; set; }
-        
+
         public string MiddleName { get; set; }
-        
+
         public string LastName { get; set; }
-        
+
         public string Nickname { get; set; }
-        
+
         public List<JEmployment> Employments { get; set; }
 
         public string Comments { get; set; }
 
         public List<JVacationDay> VacationDays { get; set; }
-        
+
         public List<JVelocityPenalty> VelocityPenalties { get; set; }
     }
 }

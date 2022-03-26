@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         public List<Vacation> Vacations = new();
         public readonly List<Sprint> Sprints = new();
 
-        public  Database(DatabaseFile databaseFile)
+        public Database(DatabaseFile databaseFile)
         {
             this.databaseFile = databaseFile ?? throw new ArgumentNullException(nameof(databaseFile));
 
@@ -50,7 +50,7 @@ namespace DustInTheWind.VeloCity.DataAccess
             OfficialHolidays.Clear();
             Vacations.Clear();
             Sprints.Clear();
-            
+
             databaseFile.Open();
 
             IEnumerable<Sprint> sprints = databaseFile.Document.Sprints.ToEntities();

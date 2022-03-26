@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
     public class VelocityPenaltyInfo
     {
         public PersonName PersonName { get; set; }
-        
+
         public int PenaltyValue { get; set; }
     }
 }

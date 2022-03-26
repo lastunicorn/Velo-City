@@ -15,14 +15,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Newtonsoft.Json;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class JSprint
     {
         public int Id { get; set; }
-        
+
         public int Number { get; set; }
 
         public string Name { get; set; }

@@ -90,7 +90,6 @@ namespace DustInTheWind.VeloCity.DataAccess
                 LastName = teamMember.LastName,
                 Nickname = teamMember.Nickname
             };
-
         }
     }
 }

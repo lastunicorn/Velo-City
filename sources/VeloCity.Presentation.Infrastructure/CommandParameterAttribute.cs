@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
     public class CommandParameterAttribute : Attribute
     {
         public string Name { get; set; }
-        
+
         public string DisplayName { get; set; }
 
         public int Order { get; set; }

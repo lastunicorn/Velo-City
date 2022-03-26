@@ -37,7 +37,7 @@ namespace DustInTheWind.VeloCity.Domain
         public int WorkHours => Days
             .Select(x => x.WorkHours)
             .Sum();
-        
+
         public int WorkHoursWithVelocityPenalties
         {
             get
@@ -106,6 +106,7 @@ namespace DustInTheWind.VeloCity.Domain
                     };
                 });
         }
+
         public int CalculateWorkHours()
         {
             return Sprint?.EnumerateWorkDays()

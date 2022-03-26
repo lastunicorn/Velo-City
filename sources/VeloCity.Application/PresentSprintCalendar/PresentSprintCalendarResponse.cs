@@ -23,11 +23,11 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
     public class PresentSprintCalendarResponse
     {
         public string SprintName { get; set; }
-        
+
         public DateTime StartDate { get; set; }
-        
+
         public DateTime EndDate { get; set; }
-        
+
         public List<SprintDay> Days { get; set; }
     }
 }

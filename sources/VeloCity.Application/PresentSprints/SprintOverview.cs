@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
     public class SprintOverview
     {
         public string Name { get; set; }
-        
+
         public int SprintNumber { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
         public DateTime EndDate { get; set; }
 
         public int TotalWorkHours { get; set; }
-        
+
         public int CommitmentStoryPoints { get; set; }
 
         public int ActualStoryPoints { get; set; }

@@ -97,7 +97,7 @@ namespace DustInTheWind.VeloCity.Domain
         }
 
         public string NickNameOrFullName => Nickname ?? FullName;
-        
+
         public string ShortName => Nickname ?? FirstName ?? MiddleName ?? LastName;
 
         public static PersonName Parse(string text)

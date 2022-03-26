@@ -50,7 +50,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 : CalculateAverageVelocity(previousSprints);
 
             int totalWorkHours = CalculateTotalWorkHours(sprintMembers);
-            
+
             List<VelocityPenaltyInfo> teamMembersWithVelocityPenalties = sprintMembers
                 .SelectMany(x => x.VelocityPenalties
                     .Select(z => new

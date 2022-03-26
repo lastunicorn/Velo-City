@@ -50,19 +50,19 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
             {
                 case VacationOnce vacationOnce:
                     return vacationOnce.Date;
-                
+
                 case VacationDaily vacationDaily:
                     return vacationDaily.DateInterval.StartDate;
-                
+
                 case VacationWeekly vacationWeekly:
                     return vacationWeekly.DateInterval.StartDate;
-                
+
                 case VacationMonthly vacationMonthly:
                     return vacationMonthly.DateInterval.StartDate;
-                
+
                 case VacationYearly vacationYearly:
                     return vacationYearly.DateInterval.StartDate;
-                
+
                 default:
                     throw new ArgumentOutOfRangeException(nameof(vacation));
             }

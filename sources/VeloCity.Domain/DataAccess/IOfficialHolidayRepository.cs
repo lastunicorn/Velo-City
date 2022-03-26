@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
     public interface IOfficialHolidayRepository
     {
         IEnumerable<OfficialHoliday> GetAll();
-     
+
         IEnumerable<OfficialHoliday> GetAll(DateTime startDate, DateTime endDate);
     }
 }

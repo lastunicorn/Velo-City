@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
         public TeamResponseType ResponseType { get; set; }
 
         public DateTime Date { get; set; }
-        
+
         public DateInterval DateInterval { get; set; }
 
         public int SprintNumber { get; set; }

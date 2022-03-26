@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
         public void Display(PresentVelocityCommand command)
         {
             bool sprintsExist = command.SprintVelocities is { Count: > 0 };
-            
+
             if (sprintsExist)
                 DisplaySprints(command.SprintVelocities);
             else

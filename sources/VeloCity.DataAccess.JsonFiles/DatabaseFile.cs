@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
     public class DatabaseFile
     {
         private readonly string filePath;
-        
+
         public DatabaseDocument Document { get; set; }
 
         public DatabaseFile(string filePath)

@@ -48,7 +48,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
             //      - for each tm:
             //          - work hours
             //          - vacation hours
-            
+
             PresentSprintCalendarResponse response = new()
             {
                 SprintName = sprint.Name,
