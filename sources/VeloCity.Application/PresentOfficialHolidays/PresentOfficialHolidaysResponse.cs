@@ -14,17 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
 {
-    public interface IOfficialHolidayRepository
+    public class PresentOfficialHolidaysResponse
     {
-        IEnumerable<OfficialHoliday> GetAll();
+        public List<OfficialHoliday> OfficialHolidays { get; set; }
 
-        IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate);
-        
-        IEnumerable<OfficialHoliday> GetByYear(int year);
+        public int? Year { get; set; }
+
+        public int? SprintNumber { get; set; }
+
+        public RequestType RequestType { get; set; }
     }
 }

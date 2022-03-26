@@ -22,7 +22,7 @@ using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 {
-    [HelpCommand("help", ShortDescription = "Displays a list with all the available commands.", Order = 1000)]
+    [HelpCommand("help", ShortDescription = "Displays a list with all the available commands.", Order = int.MaxValue)]
     [CommandUsage("help")]
     public class HelpCommand : ICommand
     {
