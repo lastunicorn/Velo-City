@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 
 namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
@@ -64,6 +65,29 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
             TypeConverter typeConverter = TypeDescriptor.GetConverter(propertyInfo.PropertyType);
             return typeConverter.ConvertFromString(value);
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new();
+
+            if (Name != null)
+                sb.Append($"Name = {Name}");
+
+            if (Order != null)
+            {
+                if (sb.Length > 0)
+                    sb.Append("; ");
+
+                sb.Append($"Order = {Order}");
+            }
+
+            if (sb.Length > 0)
+                sb.Append("; ");
+
+            sb.Append($"Optional = {IsOptional}");
+
+            return sb.ToString();
         }
     }
 }

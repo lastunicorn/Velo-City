@@ -73,10 +73,20 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
         private static Argument FindArgumentFor(Arguments arguments, CommandParameterInfo parameterInfo)
         {
             if (parameterInfo.Name != null)
-                return arguments[parameterInfo.Name];
+            {
+                Argument argument = arguments[parameterInfo.Name];
+
+                if (argument != null)
+                    return argument;
+            }
 
             if (parameterInfo.Order != null)
-                return arguments.GetOrdinal(parameterInfo.Order.Value);
+            {
+                Argument argument = arguments.GetOrdinal(parameterInfo.Order.Value);
+
+                if (argument != null)
+                    return argument;
+            }
 
             return null;
         }
