@@ -22,32 +22,35 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
 {
     public class TeamMemberViewModel
     {
-        private readonly SprintMember sprintMember;
+        public PersonName Name { get; }
 
-        public PersonName Name => sprintMember.Name;
+        public HoursValue WorkHours { get; }
 
-        public HoursValue WorkHours => sprintMember.WorkHours;
-
-        public HoursValue AbsenceHours => sprintMember.Days
-            .Where(x =>
-            {
-                bool isWeekDay = x.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
-                if (isWeekDay)
-                    return true;
-
-                bool hasWorkHoursInWeekEnd = x.WorkHours > 0;
-                if (hasWorkHoursInWeekEnd)
-                    return true;
-
-                bool isOfficialHoliday = x.AbsenceReason == AbsenceReason.OfficialHoliday;
-                return isOfficialHoliday;
-            })
-            .Where(x => x.AbsenceReason != AbsenceReason.OfficialHoliday)
-            .Sum(x => x.AbsenceHours);
+        public HoursValue AbsenceHours { get; }
 
         public TeamMemberViewModel(SprintMember sprintMember)
         {
-            this.sprintMember = sprintMember ?? throw new ArgumentNullException(nameof(sprintMember));
+            if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
+
+            Name = sprintMember.Name;
+            WorkHours = sprintMember.WorkHours;
+            AbsenceHours = sprintMember.Days
+                .Where(IsAbsenceDay)
+                .Sum(x => x.AbsenceHours);
+        }
+
+        private static bool IsAbsenceDay(SprintMemberDay sprintMemberDay)
+        {
+            bool isWeekEnd = sprintMemberDay.SprintDay.Date.DayOfWeek is (DayOfWeek.Saturday or DayOfWeek.Sunday);
+            if (!isWeekEnd)
+                return true;
+
+            bool hasWorkHoursInWeekEnd = sprintMemberDay.WorkHours > 0;
+            if (hasWorkHoursInWeekEnd)
+                return true;
+
+            bool isOfficialHolidayInWeekEnd = sprintMemberDay.AbsenceReason == AbsenceReason.OfficialHoliday;
+            return isOfficialHolidayInWeekEnd;
         }
     }
 }

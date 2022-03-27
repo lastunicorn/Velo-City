@@ -70,7 +70,8 @@ namespace DustInTheWind.VeloCity.Domain
             return new OfficialHolidayInstance
             {
                 Date = new DateTime(year, Date.Month, Date.Day),
-                Name = Name
+                Name = Name,
+                Country = Country
             };
         }
     }

@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 {
@@ -26,24 +27,23 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
     {
         private readonly AnalyzeSprintResponse response;
 
+        public bool IsVisible => response.SprintDays is { Count: > 0 };
+
         public List<CalendarItemViewModel> CalendarItems { get; }
 
-        public bool IsVisible => response.WorkDays is { Count: > 0 };
-
-        public bool IsPartialVacationNoteVisible => CalendarItems
-            .SelectMany(x => x.VacationDetails.TeamMembers ?? Enumerable.Empty<TeamMemberVacationDetails>())
-            .Any(x => x.IsPartialVacation);
+        public List<NoteBase> Notes { get; }
 
         public SprintCalendarViewModel(AnalyzeSprintResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
 
             CalendarItems = CreateCalendarItems();
+            Notes = CreateNotes();
         }
 
         private List<CalendarItemViewModel> CreateCalendarItems()
         {
-            return response.WorkDays
+            return response.SprintDays
                 .Where(x => !x.IsWeekEnd)
                 .Select(CreateCalendarItem)
                 .ToList();
@@ -61,9 +61,23 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
                 return new List<SprintMemberDay>();
 
             return response.SprintMembers
-                .Select(x => x.Days?.FirstOrDefault(z => z.Date == date))
+                .Select(x => x.Days?.FirstOrDefault(z => z.SprintDay.Date == date))
                 .Where(x => x != null)
                 .ToList();
+        }
+
+        private List<NoteBase> CreateNotes()
+        {
+            List<NoteBase> notes = new();
+
+            bool isPartialVacationNoteVisible = CalendarItems
+                .SelectMany(x => x.AbsenceDetails.TeamMemberVacationDetails ?? Enumerable.Empty<TeamMemberAbsenceDetailsViewModel>())
+                .Any(x => x.IsPartialVacation);
+
+            if (isPartialVacationNoteVisible)
+                notes.Add(new PartialDayVacationNote());
+
+            return notes;
         }
     }
 }

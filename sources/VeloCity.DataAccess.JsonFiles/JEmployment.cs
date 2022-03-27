@@ -25,5 +25,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
         public DateTime? EndDate { get; set; }
 
         public int HoursPerDay { get; set; }
+        
+        public string Country { get; set; }
     }
 }

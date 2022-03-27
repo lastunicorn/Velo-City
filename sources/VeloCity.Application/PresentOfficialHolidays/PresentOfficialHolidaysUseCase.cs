@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,24 +43,28 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
         private PresentOfficialHolidaysResponse GetOfficialHolidays(PresentOfficialHolidaysRequest request)
         {
             if (request.SprintNumber != null)
-                return GetOfficialHolidaysBySprint(request.SprintNumber.Value);
+                return GetOfficialHolidaysBySprint(request.SprintNumber.Value, request.Country);
 
             if (request.Year != null)
-                return GetOfficialHolidaysByYear(request.Year.Value);
+                return GetOfficialHolidaysByYear(request.Year.Value, request.Country);
 
-            return GetOfficialHolidaysForCurrentYear();
+            return GetOfficialHolidaysForCurrentYear(request.Country);
         }
 
-        private PresentOfficialHolidaysResponse GetOfficialHolidaysBySprint(int sprintNumber)
+        private PresentOfficialHolidaysResponse GetOfficialHolidaysBySprint(int sprintNumber, string country)
         {
             Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
 
             if (sprint == null)
                 throw new SprintDoesNotExistException(sprintNumber);
 
+            IEnumerable<OfficialHoliday> officialHolidays = country == null
+                ? unitOfWork.OfficialHolidayRepository.Get(sprint.StartDate, sprint.EndDate)
+                : unitOfWork.OfficialHolidayRepository.Get(sprint.StartDate, sprint.EndDate, country);
+
             return new PresentOfficialHolidaysResponse
             {
-                OfficialHolidays = unitOfWork.OfficialHolidayRepository.Get(sprint.StartDate, sprint.EndDate)
+                OfficialHolidays = officialHolidays
                     .SelectMany(x => x.GetInstancesFor(sprint.StartDate, sprint.EndDate))
                     .OrderBy(x => x.Date)
                     .ToList(),
@@ -68,11 +73,15 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
             };
         }
 
-        private PresentOfficialHolidaysResponse GetOfficialHolidaysByYear(int year)
+        private PresentOfficialHolidaysResponse GetOfficialHolidaysByYear(int year, string country)
         {
-            return new PresentOfficialHolidaysResponse()
+            IEnumerable<OfficialHoliday> officialHolidays = country == null
+                ? unitOfWork.OfficialHolidayRepository.GetByYear(year)
+                : unitOfWork.OfficialHolidayRepository.GetByYear(year, country);
+
+            return new PresentOfficialHolidaysResponse
             {
-                OfficialHolidays = unitOfWork.OfficialHolidayRepository.GetByYear(year)
+                OfficialHolidays = officialHolidays
                     .Select(x => x.GetInstanceFor(year))
                     .OrderBy(x => x.Date)
                     .ToList(),
@@ -81,13 +90,17 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
             };
         }
 
-        private PresentOfficialHolidaysResponse GetOfficialHolidaysForCurrentYear()
+        private PresentOfficialHolidaysResponse GetOfficialHolidaysForCurrentYear(string country)
         {
             int currentYear = DateTime.Now.Year;
 
+            IEnumerable<OfficialHoliday> officialHolidays = country == null
+                ? unitOfWork.OfficialHolidayRepository.GetByYear(currentYear)
+                : unitOfWork.OfficialHolidayRepository.GetByYear(currentYear, country);
+
             return new PresentOfficialHolidaysResponse
             {
-                OfficialHolidays = unitOfWork.OfficialHolidayRepository.GetByYear(currentYear)
+                OfficialHolidays = officialHolidays
                     .Select(x => x.GetInstanceFor(currentYear))
                     .OrderBy(x => x.Date)
                     .ToList(),

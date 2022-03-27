@@ -14,14 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 {
-    public class TeamMemberVacationDetails
+    public class TeamMemberAbsenceDetailsViewModel
     {
-        public PersonName Name { get; set; }
+        private readonly SprintMemberDay sprintMemberDay;
 
-        public bool IsPartialVacation { get; set; }
+        public bool IsPartialVacation { get; }
+
+        public TeamMemberAbsenceDetailsViewModel(SprintMemberDay sprintMemberDay)
+        {
+            this.sprintMemberDay = sprintMemberDay ?? throw new ArgumentNullException(nameof(sprintMemberDay));
+
+            IsPartialVacation = sprintMemberDay.WorkHours > 0;
+        }
+
+        public override string ToString()
+        {
+            PersonName name = sprintMemberDay.TeamMember.Name;
+
+            return IsPartialVacation
+                ? name.ShortName + " (*)"
+                : name.ShortName;
+        }
     }
 }

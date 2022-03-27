@@ -39,7 +39,10 @@ namespace DustInTheWind.VeloCity.Domain
             return new SprintDay
             {
                 Date = date,
-                OfficialHoliday = officialHolidays.FirstOrDefault(x => x.Match(date))?.GetInstanceFor(date.Year)
+                OfficialHolidays = officialHolidays
+                    .Where(x => x.Match(date))
+                    .Select(x => x.GetInstanceFor(date.Year))
+                    .ToList()
             };
         }
 

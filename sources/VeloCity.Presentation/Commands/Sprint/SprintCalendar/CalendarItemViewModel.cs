@@ -23,61 +23,26 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 {
     public class CalendarItemViewModel
     {
-        private readonly List<SprintMemberDay> sprintMemberDays;
-        private readonly SprintDay sprintDay;
-        private readonly int workHours;
-        private readonly int absenceHours;
+        public DateTime Date { get; }
 
-        public DateTime Date => sprintDay.Date;
+        public HoursValue WorkHours { get; }
 
-        public HoursValue WorkHours => workHours;
-        
-        public HoursValue AbsenceHours => absenceHours;
+        public HoursValue AbsenceHours { get; }
 
-        public VacationDetails VacationDetails
-        {
-            get
-            {
-                if (sprintDay.IsWeekEnd)
-                {
-                    return new VacationDetails
-                    {
-                        AllTeamAbsenceReason = AbsenceReason.WeekEnd
-                    };
-                }
-
-                if (sprintDay.IsOfficialHoliday)
-                {
-                    return new VacationDetails
-                    {
-                        OfficialHoliday = sprintDay.OfficialHoliday,
-                        AllTeamAbsenceReason = AbsenceReason.OfficialHoliday
-                    };
-                }
-
-                return new VacationDetails
-                {
-                    TeamMembers = sprintMemberDays
-                        .Where(x => x.AbsenceHours > 0)
-                        .Select(x => new TeamMemberVacationDetails
-                        {
-                            Name = x.TeamMember.Name,
-                            IsPartialVacation = x.WorkHours > 0
-                        })
-                        .ToList()
-                };
-            }
-        }
+        public AbsenceDetailsViewModel AbsenceDetails { get; }
 
         public CalendarItemViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
         {
-            this.sprintMemberDays = sprintMemberDays ?? throw new ArgumentNullException(nameof(sprintMemberDays));
-            this.sprintDay = sprintDay;
+            if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
+            if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
 
-            workHours = sprintMemberDays.Sum(x => x.WorkHours);
-            absenceHours = sprintDay.IsWeekEnd || sprintDay.IsOfficialHoliday
-                ? 0
-                : sprintMemberDays.Sum(x => x.AbsenceHours);
+            Date = sprintDay.Date;
+            WorkHours = sprintMemberDays.Sum(x => x.WorkHours);
+            AbsenceHours = sprintMemberDays
+                .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
+                .Sum(x => x.AbsenceHours);
+
+            AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
         }
     }
 }

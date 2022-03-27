@@ -23,5 +23,7 @@ namespace DustInTheWind.VeloCity.Domain
         public DateTime Date { get; set; }
 
         public string Name { get; set; }
+        
+        public string Country { get; set; }
     }
 }

@@ -80,6 +80,14 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                     return argument;
             }
 
+            if (parameterInfo.ShortName != 0)
+            {
+                Argument argument = arguments[parameterInfo.ShortName.ToString()];
+
+                if (argument != null)
+                    return argument;
+            }
+
             if (parameterInfo.Order != null)
             {
                 Argument argument = arguments.GetOrdinal(parameterInfo.Order.Value);

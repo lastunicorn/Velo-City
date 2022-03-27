@@ -25,6 +25,10 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 
         IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate);
         
+        IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country);
+        
         IEnumerable<OfficialHoliday> GetByYear(int year);
+        
+        IEnumerable<OfficialHoliday> GetByYear(int year, string country);
     }
 }

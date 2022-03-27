@@ -32,11 +32,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(Name = "year", Order = 1, IsOptional = true)]
+        [CommandParameter(Name = "year", ShortName = 'y', Order = 1, IsOptional = true)]
         public int? Year { get; set; }
 
-        [CommandParameter(Name = "sprint", IsOptional = true)]
+        [CommandParameter(Name = "sprint", ShortName = 's', IsOptional = true)]
         public int? Sprint { get; set; }
+
+        [CommandParameter(Name = "country", ShortName = 'c', IsOptional = true)]
+        public string Country { get; set; }
 
         public List<OfficialHolidayInstance> OfficialHolidays { get; private set; }
 
@@ -52,7 +55,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
             PresentOfficialHolidaysRequest request = new()
             {
                 Year = Year,
-                SprintNumber = Sprint
+                SprintNumber = Sprint,
+                Country = Country
             };
             PresentOfficialHolidaysResponse response = await mediator.Send(request);
 

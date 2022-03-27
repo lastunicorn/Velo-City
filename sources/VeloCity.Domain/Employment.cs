@@ -23,6 +23,8 @@ namespace DustInTheWind.VeloCity.Domain
         public DateInterval TimeInterval { get; set; }
 
         public int HoursPerDay { get; set; }
+        
+        public string Country { get; set; }
 
         public bool IsDateInRange(DateTime dateTime)
         {
