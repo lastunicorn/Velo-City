@@ -56,5 +56,10 @@ namespace DustInTheWind.VeloCity.Domain
         {
             return new SprintMember(this, sprint);
         }
+
+        public override string ToString()
+        {
+            return Name.FullName;
+        }
     }
 }

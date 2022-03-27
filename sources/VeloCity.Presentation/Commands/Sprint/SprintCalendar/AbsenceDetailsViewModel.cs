@@ -14,16 +14,47 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 {
     public class AbsenceDetailsViewModel
     {
-        public List<TeamMemberAbsenceDetailsViewModel> TeamMemberVacationDetails { get; set; }
+        public List<TeamMemberAbsenceDetailsViewModel> TeamMemberVacationDetails { get; }
 
-        public List<OfficialHolidayAbsenceDetailsViewModel> OfficialHolidays { get; set; }
+        public List<OfficialHolidayAbsenceDetailsViewModel> OfficialHolidays { get; }
+
+        public AbsenceDetailsViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
+        {
+            if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
+            if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
+
+            if (!sprintDay.IsWeekEnd)
+            {
+                TeamMemberVacationDetails = sprintMemberDays
+                    .Where(x => x.AbsenceHours > 0)
+                    .Select(x => new TeamMemberAbsenceDetailsViewModel(x))
+                    .ToList();
+
+                string[] countries = sprintMemberDays
+                    .Select(x =>
+                    {
+                        Employment employment = x.TeamMember.Employments?.GetEmploymentFor(x.SprintDay.Date);
+                        return employment?.Country;
+                    })
+                    .Where(x => x != null)
+                    .Distinct()
+                    .ToArray();
+
+                OfficialHolidays = sprintDay.OfficialHolidays
+                    .Where(x => countries.Contains(x.Country))
+                    .Select(x => new OfficialHolidayAbsenceDetailsViewModel(x))
+                    .ToList();
+            }
+        }
 
         public override string ToString()
         {

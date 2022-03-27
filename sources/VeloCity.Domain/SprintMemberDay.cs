@@ -150,5 +150,10 @@ namespace DustInTheWind.VeloCity.Domain
                 .Where(x => x.Match(date))
                 .ToArray();
         }
+
+        public override string ToString()
+        {
+            return $"{SprintDay.Date} - {TeamMember.Name.FullName}";
+        }
     }
 }
