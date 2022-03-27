@@ -4,6 +4,10 @@ Velo City
 v1.7.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Added AnalysisLookBack value in the config file.
+- [breaking change] Json database file changed. More compact way of describing official holidays.
+- [feature] Added the "holidays" command to display the official holidays.
+- [feature] Added in the config file the number of sprints used for velocity estimations.
+- [feature] Sprint Analysis: Added a chart in the team grid to represent the work and amsence hours.
 
 v1.6.0
 ----------------------------------------------------------------------------------------------------
@@ -21,7 +25,6 @@ v1.5.0
 - [feature] Added the "config" command that displays the values from the config file.
 - [feature] Display in the Sprint's Calendar the team members that have vacation.
 - [breaking change] Json database file changed. More compact way of describing vacations.
-
 
 v1.4.0
 ----------------------------------------------------------------------------------------------------
