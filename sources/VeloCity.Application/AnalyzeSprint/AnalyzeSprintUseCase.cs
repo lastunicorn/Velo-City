@@ -45,9 +45,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             List<SprintMember> sprintMembers = RetrieveSprintMembers(currentSprint);
 
             List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, config.AnalysisLookBack, request.ExcludedSprints);
-            float? estimatedVelocity = previousSprints.Count == 0
-                ? null
-                : CalculateAverageVelocity(previousSprints);
+            Velocity estimatedVelocity = CalculateAverageVelocity(previousSprints);
 
             int totalWorkHours = CalculateTotalWorkHours(sprintMembers);
 
@@ -78,13 +76,17 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 WorkDays = currentSprint.EnumerateAllDays().ToList(),
                 SprintMembers = sprintMembers,
                 TotalWorkHours = totalWorkHours,
-                EstimatedStoryPoints = totalWorkHours * estimatedVelocity,
-                EstimatedStoryPointsWithVelocityPenalties = totalWorkHoursWithVelocityPenalties * estimatedVelocity,
+                EstimatedStoryPoints = estimatedVelocity.IsNull
+                    ? StoryPoints.Null
+                    : totalWorkHours * estimatedVelocity,
+                EstimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull
+                    ? StoryPoints.Null
+                    : totalWorkHoursWithVelocityPenalties * estimatedVelocity,
                 EstimatedVelocity = estimatedVelocity,
                 VelocityPenalties = teamMembersWithVelocityPenalties,
                 CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
                 ActualStoryPoints = currentSprint.ActualStoryPoints,
-                ActualVelocity = (float)currentSprint.ActualStoryPoints / totalWorkHours,
+                ActualVelocity = currentSprint.ActualStoryPoints / totalWorkHours,
                 LookBackSprintCount = config.AnalysisLookBack,
                 PreviousSprints = previousSprints
                     .Select(x => x.Number)
@@ -152,28 +154,27 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             return sprints.ToList();
         }
 
-        private float CalculateAverageVelocity(IEnumerable<Sprint> previousSprints)
+        private Velocity CalculateAverageVelocity(IEnumerable<Sprint> previousSprints)
         {
             List<TeamMember> allTeamMembers = unitOfWork.TeamMemberRepository.GetAll()
-                .ToList();
+                   .ToList();
 
-            IEnumerable<float> previousVelocities = previousSprints
+            IEnumerable<Velocity> previousVelocities = previousSprints
                 .Select(x => CalculateAverageVelocity(x, allTeamMembers));
 
-            float averageVelocity = previousVelocities.Any()
-                ? previousVelocities.Average()
-                : 0;
+            if (!previousVelocities.Any())
+                return Velocity.Null;
 
-            return averageVelocity;
+            return previousVelocities.Select(x => x.Value).Average();
         }
 
-        private static float CalculateAverageVelocity(Sprint sprint, IEnumerable<TeamMember> allTeamMembers)
+        private static Velocity CalculateAverageVelocity(Sprint sprint, IEnumerable<TeamMember> allTeamMembers)
         {
             int totalWorkHours = allTeamMembers
                 .Select(x => x.ToSprintMember(sprint).CalculateWorkHours())
                 .Sum();
 
-            return (float)sprint.ActualStoryPoints / totalWorkHours;
+            return sprint.ActualStoryPoints / totalWorkHours;
         }
     }
 }

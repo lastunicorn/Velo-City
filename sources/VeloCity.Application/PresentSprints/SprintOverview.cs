@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Application.PresentSprints
 {
@@ -30,10 +31,10 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
 
         public int TotalWorkHours { get; set; }
 
-        public int CommitmentStoryPoints { get; set; }
+        public StoryPoints CommitmentStoryPoints { get; set; }
 
-        public int ActualStoryPoints { get; set; }
+        public StoryPoints ActualStoryPoints { get; set; }
 
-        public float ActualVelocity { get; set; }
+        public Velocity ActualVelocity { get; set; }
     }
 }

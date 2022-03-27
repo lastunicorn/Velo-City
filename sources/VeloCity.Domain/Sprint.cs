@@ -32,9 +32,9 @@ namespace DustInTheWind.VeloCity.Domain
 
         public DateTime EndDate { get; set; }
 
-        public int CommitmentStoryPoints { get; set; }
+        public StoryPoints CommitmentStoryPoints { get; set; }
 
-        public int ActualStoryPoints { get; set; }
+        public StoryPoints ActualStoryPoints { get; set; }
 
         public List<OfficialHoliday> OfficialHolidays { get; set; }
 

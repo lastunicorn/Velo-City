@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Domain;
+
 namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
     internal class VelocityChartItem
     {
         public int SprintNumber { get; set; }
 
-        public float Velocity { get; set; }
+        public Velocity Velocity { get; set; }
     }
 }

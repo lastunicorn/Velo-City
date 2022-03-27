@@ -56,7 +56,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
             return Task.FromResult(response);
         }
 
-        private float CalculateVelocity(Sprint sprint)
+        private Velocity CalculateVelocity(Sprint sprint)
         {
             List<SprintMember> sprintMembers = unitOfWork.TeamMemberRepository.GetAll()
                 .Select(x => x.ToSprintMember(sprint))
@@ -66,7 +66,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
                 .SelectMany(x => x.Days.Select(z => z.WorkHours))
                 .Sum();
 
-            return (float)sprint.ActualStoryPoints / totalWorkHours;
+            return sprint.ActualStoryPoints / totalWorkHours;
         }
     }
 }

@@ -48,21 +48,17 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
 
         public int TotalWorkHours => response.TotalWorkHours;
 
-        public string EstimatedStoryPoints => response.EstimatedStoryPoints == null
-            ? "-"
-            : response.EstimatedStoryPoints.ToString();
+        public StoryPoints EstimatedStoryPoints => response.EstimatedStoryPoints;
 
-        public string EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties?.ToString();
+        public StoryPoints EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties;
 
-        public string EstimatedVelocity => response.EstimatedVelocity == null
-            ? "-"
-            : response.EstimatedVelocity.ToString();
+        public Velocity EstimatedVelocity => response.EstimatedVelocity;
 
-        public int CommitmentStoryPoints => response.CommitmentStoryPoints;
+        public StoryPoints CommitmentStoryPoints => response.CommitmentStoryPoints;
 
-        public int ActualStoryPoints => response.ActualStoryPoints;
+        public StoryPoints ActualStoryPoints => response.ActualStoryPoints;
 
-        public float ActualVelocity => response.ActualVelocity;
+        public Velocity ActualVelocity => response.ActualVelocity;
 
         public List<NoteBase> Notes
         {

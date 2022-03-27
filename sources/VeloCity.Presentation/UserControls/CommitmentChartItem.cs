@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Domain;
+
 namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
     internal class CommitmentChartItem
     {
         public int SprintNumber { get; set; }
 
-        public int CommitmentStoryPoints { get; set; }
+        public StoryPoints CommitmentStoryPoints { get; set; }
 
-        public int ActualStoryPoints { get; set; }
+        public StoryPoints ActualStoryPoints { get; set; }
     }
 }

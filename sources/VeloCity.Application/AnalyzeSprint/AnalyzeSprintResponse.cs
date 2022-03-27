@@ -36,19 +36,19 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public int TotalWorkHours { get; set; }
 
-        public float? EstimatedStoryPoints { get; set; }
+        public StoryPoints EstimatedStoryPoints { get; set; }
 
-        public float? EstimatedStoryPointsWithVelocityPenalties { get; set; }
+        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
 
-        public float? EstimatedVelocity { get; set; }
+        public Velocity EstimatedVelocity { get; set; }
 
         public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
 
-        public int CommitmentStoryPoints { get; set; }
+        public StoryPoints CommitmentStoryPoints { get; set; }
 
-        public int ActualStoryPoints { get; set; }
+        public StoryPoints ActualStoryPoints { get; set; }
 
-        public float ActualVelocity { get; set; }
+        public Velocity ActualVelocity { get; set; }
 
         public int LookBackSprintCount { get; set; }
 

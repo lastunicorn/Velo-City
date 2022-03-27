@@ -20,7 +20,7 @@ using System.Linq;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Application.PresentSprints;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls
+namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
 {
     internal class SprintsOverview
     {
@@ -75,8 +75,8 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
             List<string> sprintInfoLines = new()
             {
                 $"Total Work Hours: {sprintOverview.TotalWorkHours} h",
-                $"Actual Story Points: {sprintOverview.ActualStoryPoints} SP",
-                $"Actual Velocity: {sprintOverview.ActualVelocity} SP/h"
+                $"Actual Story Points: {sprintOverview.ActualStoryPoints}",
+                $"Actual Velocity: {sprintOverview.ActualVelocity.ToStandardDigitsString()}"
             };
 
             return new ContentCell(sprintInfoLines);

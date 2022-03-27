@@ -30,9 +30,9 @@ namespace DustInTheWind.VeloCity.JsonFiles
 
         public DateTime EndDate { get; set; }
 
-        public int CommitmentStoryPoints { get; set; }
+        public float CommitmentStoryPoints { get; set; }
 
-        public int ActualStoryPoints { get; set; }
+        public float ActualStoryPoints { get; set; }
 
         public JSprintState State { get; set; }
     }

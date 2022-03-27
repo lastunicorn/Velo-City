@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
     {
         private const int ChartMaxValue = 40;
 
-        private int maxValue;
+        private float maxValue;
 
         public List<CommitmentChartItem> Items { get; set; }
 
@@ -44,7 +44,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
 
             foreach (CommitmentChartItem item in Items)
             {
-                Console.Write($"- Sprint {item.SprintNumber:D2} - {item.ActualStoryPoints,2} SP / {item.CommitmentStoryPoints,2} SP - ");
+                string title = $"- Sprint {item.SprintNumber:D2} - {item.ActualStoryPoints.ToString("00")} / {item.CommitmentStoryPoints.ToString("00")} - ";
+                Console.Write(title);
+
                 WriteChartLine(item);
             }
         }
@@ -82,9 +84,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
             CustomConsole.WriteLine();
         }
 
-        private int CalculateChartValue(int value)
+        private int CalculateChartValue(float value)
         {
-            return (int)Math.Round((float)value * ChartMaxValue / maxValue);
+            return (int)Math.Round(value * ChartMaxValue / maxValue);
         }
     }
 }

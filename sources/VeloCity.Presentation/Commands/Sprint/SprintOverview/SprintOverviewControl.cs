@@ -50,16 +50,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
             dataGrid.Rows.Add("Work Days", ViewModel.WorkDays + " days");
             dataGrid.Rows.Add("Total Work Hours", $"{ViewModel.TotalWorkHours} h");
             dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Estimated Story Points", $"{ViewModel.EstimatedStoryPoints} SP");
+            dataGrid.Rows.Add("Estimated Story Points", $"{ViewModel.EstimatedStoryPoints.ToStandardDigitsString()}");
 
-            if (ViewModel.EstimatedStoryPointsWithVelocityPenalties != null)
-                dataGrid.Rows.Add("Estimated Story Points (*)", $"{ViewModel.EstimatedStoryPointsWithVelocityPenalties} SP");
+            if (!ViewModel.EstimatedStoryPointsWithVelocityPenalties.IsNull)
+                dataGrid.Rows.Add("Estimated Story Points (*)", $"{ViewModel.EstimatedStoryPointsWithVelocityPenalties}");
 
-            dataGrid.Rows.Add("Estimated Velocity", $"{ViewModel.EstimatedVelocity} SP/h");
-            dataGrid.Rows.Add("Commitment Story Points", $"{ViewModel.CommitmentStoryPoints} SP");
+            dataGrid.Rows.Add("Estimated Velocity", $"{ViewModel.EstimatedVelocity.ToStandardDigitsString()}");
+            dataGrid.Rows.Add("Commitment Story Points", $"{ViewModel.CommitmentStoryPoints}");
             dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Actual Story Points", $"{ViewModel.ActualStoryPoints} SP");
-            dataGrid.Rows.Add("Actual Velocity", $"{ViewModel.ActualVelocity} SP/h");
+            dataGrid.Rows.Add("Actual Story Points", $"{ViewModel.ActualStoryPoints}");
+            dataGrid.Rows.Add("Actual Velocity", $"{ViewModel.ActualVelocity.ToStandardDigitsString()}");
 
             dataGrid.Display();
         }
