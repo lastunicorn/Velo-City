@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Presentation.UserControls;
@@ -57,24 +58,53 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
             dataGrid.Columns.Add(string.Empty);
 
-            Column vacationColumn = new("Vacation")
+            Column vacationColumn = new("Absence")
             {
                 CellHorizontalAlignment = HorizontalAlignment.Right
             };
             dataGrid.Columns.Add(vacationColumn);
 
-            dataGrid.Columns.Add("Vacation Details");
+            dataGrid.Columns.Add("Absence Details");
 
-            foreach (CalendarItemViewModel calendarItem in ViewModel.CalendarItems)
-            {
-                ContentRow dataRow = CreateContentRow(calendarItem);
+            Chart chart = CreateChart();
+            using IEnumerator<ChartBar> chartBarEnumerator = chart.GetEnumerator();
+
+            IEnumerable<ContentRow> rows = ViewModel.CalendarItems
+                .Select(x =>
+                {
+                    bool success = chartBarEnumerator.MoveNext();
+
+                    ChartBar chartBar = success
+                        ? chartBarEnumerator.Current
+                        : new ChartBar();
+
+                    return CreateContentRow(x, chartBar);
+                });
+
+            foreach (ContentRow dataRow in rows) 
                 dataGrid.Rows.Add(dataRow);
-            }
 
             dataGrid.Display();
         }
 
-        private static ContentRow CreateContentRow(CalendarItemViewModel calendarItem)
+        private Chart CreateChart()
+        {
+            Chart chart = new();
+
+            IEnumerable<ChartBar> chartBars = ViewModel.CalendarItems
+                .Select(x => new ChartBar
+                {
+                    MaxValue = x.WorkHours + x.AbsenceHours,
+                    Value = x.WorkHours
+                });
+
+            foreach (ChartBar chartBar in chartBars)
+                chart.Add(chartBar);
+
+            return chart;
+        }
+
+        private static ContentRow CreateContentRow(CalendarItemViewModel calendarItem, ChartBar chartBar)
         {
             ContentRow dataRow = new();
 
@@ -83,7 +113,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             ContentCell workHoursCell = CreateWorkHoursCell(calendarItem);
             dataRow.AddCell(workHoursCell);
 
-            ContentCell chartCell = CreateChartCell(calendarItem);
+            ContentCell chartCell = CreateChartCell(chartBar);
             dataRow.AddCell(chartCell);
 
             ContentCell absenceCell = CreateAbsenceCell(calendarItem);
@@ -106,14 +136,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             };
         }
 
-        private static ContentCell CreateChartCell(CalendarItemViewModel calendarItem)
+        private static ContentCell CreateChartCell(ChartBar chartBar)
         {
-            ChartBar chartBar = new()
-            {
-                MaxValue = calendarItem.ChartItem.MaxValue,
-                Value = calendarItem.ChartItem.Value
-            };
-
             return new ContentCell
             {
                 Content = chartBar.ToString(),

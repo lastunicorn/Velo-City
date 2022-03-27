@@ -31,13 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         public DateTime Date => sprintDay.Date;
 
         public HoursValue WorkHours => workHours;
-
-        public ChartItem ChartItem => new()
-        {
-            MaxValue = workHours + absenceHours,
-            Value = workHours
-        };
-
+        
         public HoursValue AbsenceHours => absenceHours;
 
         public VacationDetails VacationDetails

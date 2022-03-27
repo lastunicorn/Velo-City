@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.UserControls;
@@ -27,11 +28,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
         private readonly AnalyzeSprintResponse response;
 
         public string SprintName => response.SprintName;
-        
+
         public DateTime StartDate => response.StartDate;
-        
+
         public DateTime EndDate => response.EndDate;
-        
+
         public string State => response.SprintState switch
         {
             SprintState.Unknown => "unknown",
@@ -41,7 +42,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        public int? WorkDays => response.WorkDays?.Count;
+        public int? WorkDays => response.WorkDays?
+            .Where(x => x.IsWorkDay)
+            .Count();
 
         public int TotalWorkHours => response.TotalWorkHours;
 

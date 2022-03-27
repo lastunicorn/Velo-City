@@ -16,8 +16,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
+using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar;
 using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
@@ -49,19 +51,50 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
             Column workHoursColumn = new("Work", HorizontalAlignment.Right);
             dataGrid.Columns.Add(workHoursColumn);
 
-            Column absenceHoursColumn = new("Vacation", HorizontalAlignment.Right);
+            dataGrid.Columns.Add(string.Empty);
+
+            Column absenceHoursColumn = new("Absence", HorizontalAlignment.Right);
             dataGrid.Columns.Add(absenceHoursColumn);
 
-            foreach (TeamMemberViewModel teamMember in ViewModel.TeamMembers)
-            {
-                ContentRow row = CreateContentRow(teamMember);
+            Chart chart = CreateChart();
+            using IEnumerator<ChartBar> chartBarEnumerator = chart.GetEnumerator();
+
+            IEnumerable<ContentRow> rows = ViewModel.TeamMembers
+                .Select(x =>
+                {
+                    bool success = chartBarEnumerator.MoveNext();
+
+                    ChartBar chartBar = success
+                        ? chartBarEnumerator.Current
+                        : new ChartBar();
+
+                    return CreateContentRow(x, chartBar);
+                });
+
+            foreach (ContentRow row in rows)
                 dataGrid.Rows.Add(row);
-            }
 
             dataGrid.Display();
         }
 
-        private static ContentRow CreateContentRow(TeamMemberViewModel teamMember)
+        private Chart CreateChart()
+        {
+            Chart chart = new();
+
+            IEnumerable<ChartBar> chartBars = ViewModel.TeamMembers
+                .Select(x => new ChartBar
+                {
+                    MaxValue = x.WorkHours + x.AbsenceHours,
+                    Value = x.WorkHours
+                });
+
+            foreach (ChartBar chartBar in chartBars)
+                chart.Add(chartBar);
+
+            return chart;
+        }
+
+        private static ContentRow CreateContentRow(TeamMemberViewModel teamMember, ChartBar chartBar)
         {
             ContentRow dataRow = new();
 
@@ -70,6 +103,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
 
             ContentCell workHoursCell = CreateWorkHoursCell(teamMember);
             dataRow.AddCell(workHoursCell);
+
+            ContentCell chartCell = CreateChartCell(chartBar);
+            dataRow.AddCell(chartCell);
 
             ContentCell absenceCell = CreateAbsenceCell(teamMember);
             dataRow.AddCell(absenceCell);
@@ -93,6 +129,15 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
                 ForegroundColor = teamMember.WorkHours > 0
                     ? ConsoleColor.Green
                     : null
+            };
+        }
+
+        private static ContentCell CreateChartCell(ChartBar chartBar)
+        {
+            return new ContentCell
+            {
+                Content = chartBar.ToString(),
+                ForegroundColor = ConsoleColor.Green
             };
         }
 
