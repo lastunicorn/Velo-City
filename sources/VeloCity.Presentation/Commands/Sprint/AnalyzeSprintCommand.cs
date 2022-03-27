@@ -35,13 +35,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(DisplayName = "Sprint Number", Order = 1, IsOptional = true)]
+        [CommandParameter(DisplayName = "Sprint Number", Name = "number", ShortName = 'n', Order = 1, IsOptional = true)]
         public int? SprintNumber { get; set; }
 
-        [CommandParameter(DisplayName = "Excluded Sprints", Name = "exclude", IsOptional = true)]
+        [CommandParameter(DisplayName = "Excluded Sprints", Name = "exclude", ShortName = 'x', IsOptional = true)]
         public List<int> ExcludedSprints { get; set; }
 
-        [CommandParameter(DisplayName = "Show Team", Name = "show-team", IsOptional = true)]
+        [CommandParameter(DisplayName = "Show Team", Name = "show-team", ShortName = 't', IsOptional = true)]
         public bool ShowTeam { get; set; }
 
         public List<SprintMember> SprintMembers { get; private set; }

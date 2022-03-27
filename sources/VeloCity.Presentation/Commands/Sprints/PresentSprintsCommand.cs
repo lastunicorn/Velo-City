@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(Order = 1, IsOptional = true)]
+        [CommandParameter(Name = "count", ShortName = 'c', Order = 1, IsOptional = true)]
         public int? SprintCount { get; set; }
 
         public List<SprintOverview> SprintOverviews { get; private set; }

@@ -32,16 +32,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(Name = "date", IsOptional = true)]
+        [CommandParameter(Name = "date", ShortName = 'd', IsOptional = true)]
         public DateTime? Date { get; set; }
 
-        [CommandParameter(Name = "start-date", IsOptional = true)]
+        [CommandParameter(Name = "start-date", ShortName = 'a', IsOptional = true)]
         public DateTime? StartDate { get; set; }
 
-        [CommandParameter(Name = "end-date", IsOptional = true)]
+        [CommandParameter(Name = "end-date", ShortName = 'z', IsOptional = true)]
         public DateTime? EndDate { get; set; }
 
-        [CommandParameter(Name = "sprint", IsOptional = true)]
+        [CommandParameter(Name = "sprint", ShortName = 's', IsOptional = true)]
         public int? Sprint { get; set; }
 
         public List<TeamMember> TeamMembers { get; private set; }
