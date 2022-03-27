@@ -18,6 +18,8 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public readonly struct Velocity
     {
+        private const string MeasurementUnit = "SP/h";
+
         public float Value { get; init; }
 
         public bool IsNull { get; private init; }
@@ -34,22 +36,24 @@ namespace DustInTheWind.VeloCity.Domain
         public override string ToString()
         {
             return IsNull
-                ? "- SP"
-                : $"{Value} SP/h";
+                ? $"- {MeasurementUnit}"
+                : $"{Value} {MeasurementUnit}";
         }
 
         public string ToString(string format)
         {
             return IsNull
-                ? "- SP"
-                : Value.ToString(format) + " SP/h";
+                ? $"- {MeasurementUnit}"
+                : $"{Value.ToString(format)} {MeasurementUnit}";
         }
 
         public string ToStandardDigitsString()
         {
             return IsNull
-                ? "- SP"
-                : Value.ToString("0.0000") + " SP/h";
+                ? $"- {MeasurementUnit}"
+                : IsEmpty
+                    ? $"0 {MeasurementUnit}"
+                    : $"{Value:0.0000} {MeasurementUnit}";
         }
 
         public static implicit operator float(Velocity velocity)

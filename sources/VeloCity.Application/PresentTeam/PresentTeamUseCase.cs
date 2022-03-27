@@ -60,7 +60,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
                 return CreateResponseForSprint(sprint);
             }
 
-            Sprint currentSprint = unitOfWork.SprintRepository.GetLast();
+            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
 
             if (currentSprint == null)
                 throw new NoSprintInDatabaseException();
