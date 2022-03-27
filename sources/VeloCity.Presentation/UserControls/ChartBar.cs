@@ -14,12 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
+using System;
+
+namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
-    public class ChartItem
+    internal class ChartBar
     {
+        public int DefaultMaxDisplayLength { get; set; } = 24;
+
+        public Chart Parent { get; set; }
+
         public int MaxValue { get; set; }
 
         public int Value { get; set; }
+
+        public override string ToString()
+        {
+            if (MaxValue == 0)
+                return string.Empty;
+
+            int chartBarMaxDisplayLength = Parent == null
+                ? DefaultMaxDisplayLength
+                : (int)Math.Round((double)Parent.MaxDisplayLength * MaxValue / Parent.MaxValue);
+
+            int chartBarValue = (int)Math.Round((float)Value * chartBarMaxDisplayLength / MaxValue);
+            return new string('═', chartBarValue) + new string('-', chartBarMaxDisplayLength - chartBarValue);
+        }
     }
 }
