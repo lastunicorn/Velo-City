@@ -23,6 +23,8 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
     {
         public string Name { get; set; }
 
+        public char ShortName { get; set; }
+
         public string DisplayName { get; set; }
 
         public int Order { get; set; }

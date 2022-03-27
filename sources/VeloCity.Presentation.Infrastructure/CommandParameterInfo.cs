@@ -30,6 +30,8 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public string Name => customAttribute.Name;
 
+        public char ShortName => customAttribute.ShortName;
+
         public string DisplayName => customAttribute.DisplayName;
 
         public int? Order => customAttribute.Order == 0

@@ -25,6 +25,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public string Name { get; set; }
 
+        public string Country { get; set; }
+
         public string Description { get; set; }
 
         public abstract bool Match(int year);

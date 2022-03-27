@@ -38,16 +38,29 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate)
         {
-            IEnumerable<OfficialHoliday> officialHolidays = database.OfficialHolidays
+            return database.OfficialHolidays
                 .Where(x => x.Match(startDate, endDate))
                 .ToList();
+        }
 
-            return officialHolidays;
+        public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country)
+        {
+            return database.OfficialHolidays
+                .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
+                .Where(x => x.Match(startDate, endDate))
+                .ToList();
         }
 
         public IEnumerable<OfficialHoliday> GetByYear(int year)
         {
             return database.OfficialHolidays
+                .Where(x => x.Match(year));
+        }
+
+        public IEnumerable<OfficialHoliday> GetByYear(int year, string country)
+        {
+            return database.OfficialHolidays
+                .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
                 .Where(x => x.Match(year));
         }
     }

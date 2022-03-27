@@ -37,8 +37,18 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = "Official Holidays";
 
+            dataGrid.Columns.Add("Date");
+            dataGrid.Columns.Add("Country");
+            dataGrid.Columns.Add("Name");
+
             foreach (OfficialHolidayInstance officialHolidayInstance in command.OfficialHolidays)
-                dataGrid.Rows.Add(officialHolidayInstance.Date.ToString("d"), officialHolidayInstance.Name);
+            {
+                string dateCellContent = officialHolidayInstance.Date.ToString("d");
+                string countryCellContent = officialHolidayInstance.Country;
+                string nameCellContent = officialHolidayInstance.Name;
+
+                dataGrid.Rows.Add(dateCellContent, countryCellContent, nameCellContent);
+            }
 
             dataGrid.Display();
         }
