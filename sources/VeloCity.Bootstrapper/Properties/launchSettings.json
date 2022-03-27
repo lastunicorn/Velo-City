@@ -2,7 +2,7 @@
   "profiles": {
     "VeloCity.Bootstrapper": {
       "commandName": "Project",
-      "commandLineArgs": "holidays 2021"
+      "commandLineArgs": "sprint 19"
     }
   }
 }

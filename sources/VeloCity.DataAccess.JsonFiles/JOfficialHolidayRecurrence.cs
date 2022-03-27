@@ -14,22 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Runtime.Serialization;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public class JOfficialHoliday
+    public enum JOfficialHolidayRecurrence
     {
-        public JOfficialHolidayRecurrence Recurrence { get; set; }
+        [EnumMember(Value = "once")]
+        Once = 0,
 
-        public DateTime Date { get; set; }
-
-        public string Name { get; set; }
-
-        public int? StartYear { get; set; }
-
-        public int? EndYear { get; set; }
-        
-        public string Description { get; set; }
+        [EnumMember(Value = "yearly")]
+        Yearly = 1
     }
 }

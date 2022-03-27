@@ -26,8 +26,12 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
     {
         private readonly AnalyzeSprintResponse response;
 
-        public string Title => $"{response.SprintName} ({response.StartDate:d} - {response.EndDate:d})";
-
+        public string SprintName => response.SprintName;
+        
+        public DateTime StartDate => response.StartDate;
+        
+        public DateTime EndDate => response.EndDate;
+        
         public string State => response.SprintState switch
         {
             SprintState.Unknown => "unknown",

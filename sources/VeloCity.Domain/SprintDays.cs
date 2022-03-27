@@ -24,23 +24,23 @@ namespace DustInTheWind.VeloCity.Domain
 
         public IEnumerable<SprintDay> EnumerateAllDays()
         {
-            List<DateTime> officialHolidayDates = officialHolidays
-                .Select(x => x.Date)
-                .ToList();
-
             int totalDaysCount = (int)(sprint.EndDate.Date - sprint.StartDate.Date).TotalDays + 1;
 
             return Enumerable.Range(0, totalDaysCount)
                 .Select(x =>
                 {
                     DateTime date = sprint.StartDate.AddDays(x);
-
-                    return new SprintDay
-                    {
-                        Date = date,
-                        IsOfficialHoliday = officialHolidayDates.Contains(date)
-                    };
+                    return ToSprintDay(date);
                 });
+        }
+
+        private SprintDay ToSprintDay(DateTime date)
+        {
+            return new SprintDay
+            {
+                Date = date,
+                OfficialHoliday = officialHolidays.FirstOrDefault(x => x.Match(date))?.GetInstanceFor(date.Year)
+            };
         }
 
         public IEnumerable<DateTime> EnumerateWorkDates()

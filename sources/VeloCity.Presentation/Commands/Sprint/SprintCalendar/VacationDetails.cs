@@ -26,6 +26,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         public AbsenceReason AllTeamAbsenceReason { get; set; }
 
+        public OfficialHolidayInstance OfficialHoliday { get; set; }
+
         public override string ToString()
         {
             if (TeamMembers is { Count: > 0 })
@@ -40,7 +42,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             }
 
             if (AllTeamAbsenceReason == AbsenceReason.OfficialHoliday)
-                return "Official Holiday";
+                return $"Official Holiday ({OfficialHoliday.Name})";
 
             return null;
         }

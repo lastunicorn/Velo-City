@@ -15,13 +15,40 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class OfficialHoliday
+    public abstract class OfficialHoliday
     {
         public DateTime Date { get; set; }
 
         public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public abstract bool Match(int year);
+
+        public abstract bool Match(DateTime date);
+
+        public abstract bool Match(DateTime startDate, DateTime endDate);
+
+        public abstract OfficialHolidayInstance GetInstanceFor(int year); 
+        
+        public IEnumerable<OfficialHolidayInstance> GetInstancesFor(DateTime startDate, DateTime endDate)
+        {
+            for (int year = startDate.Year; year <= endDate.Year; year++)
+            {
+                OfficialHolidayInstance officialHolidayInstance = GetInstanceFor(year);
+
+                if (officialHolidayInstance.Date >= startDate && officialHolidayInstance.Date <= endDate)
+                    yield return officialHolidayInstance;
+            }
+        }
+
+        public override string ToString()
+        {
+            return $"{Date:d} - {Name}";
+        }
     }
 }

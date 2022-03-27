@@ -51,27 +51,27 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
                         AllTeamAbsenceReason = AbsenceReason.WeekEnd
                     };
                 }
-                else if (sprintDay.IsOfficialHoliday)
+
+                if (sprintDay.IsOfficialHoliday)
                 {
                     return new VacationDetails
                     {
+                        OfficialHoliday = sprintDay.OfficialHoliday,
                         AllTeamAbsenceReason = AbsenceReason.OfficialHoliday
                     };
                 }
-                else
+
+                return new VacationDetails
                 {
-                    return new VacationDetails
-                    {
-                        TeamMembers = sprintMemberDays
-                            .Where(x => x.AbsenceHours > 0)
-                            .Select(x => new TeamMemberVacationDetails
-                            {
-                                Name = x.TeamMember.Name,
-                                IsPartialVacation = x.WorkHours > 0
-                            })
-                            .ToList()
-                    };
-                }
+                    TeamMembers = sprintMemberDays
+                        .Where(x => x.AbsenceHours > 0)
+                        .Select(x => new TeamMemberVacationDetails
+                        {
+                            Name = x.TeamMember.Name,
+                            IsPartialVacation = x.WorkHours > 0
+                        })
+                        .ToList()
+                };
             }
         }
 

@@ -41,8 +41,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
         private void DisplayOverviewTable()
         {
             DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = ViewModel.Title;
+            dataGrid.Title = ViewModel.SprintName;
 
+            dataGrid.Rows.Add("Start Date", ViewModel.StartDate.ToString("d"));
+            dataGrid.Rows.Add("End Date", ViewModel.EndDate.ToString("d"));
             dataGrid.Rows.Add("State", ViewModel.State);
             dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Work Days", ViewModel.WorkDays + " days");

@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
 {
     public class PresentOfficialHolidaysResponse
     {
-        public List<OfficialHoliday> OfficialHolidays { get; set; }
+        public List<OfficialHolidayInstance> OfficialHolidays { get; set; }
 
         public int? Year { get; set; }
 

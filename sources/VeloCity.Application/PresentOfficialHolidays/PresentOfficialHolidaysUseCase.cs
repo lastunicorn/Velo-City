@@ -59,7 +59,10 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
 
             return new PresentOfficialHolidaysResponse
             {
-                OfficialHolidays = unitOfWork.OfficialHolidayRepository.Get(sprint.StartDate, sprint.EndDate).ToList(),
+                OfficialHolidays = unitOfWork.OfficialHolidayRepository.Get(sprint.StartDate, sprint.EndDate)
+                    .SelectMany(x => x.GetInstancesFor(sprint.StartDate, sprint.EndDate))
+                    .OrderBy(x => x.Date)
+                    .ToList(),
                 RequestType = RequestType.BySprint,
                 SprintNumber = sprint.Number
             };
@@ -69,7 +72,10 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
         {
             return new PresentOfficialHolidaysResponse()
             {
-                OfficialHolidays = unitOfWork.OfficialHolidayRepository.GetByYear(year).ToList(),
+                OfficialHolidays = unitOfWork.OfficialHolidayRepository.GetByYear(year)
+                    .Select(x => x.GetInstanceFor(year))
+                    .OrderBy(x => x.Date)
+                    .ToList(),
                 RequestType = RequestType.ByYear,
                 Year = year
             };
@@ -81,7 +87,10 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
 
             return new PresentOfficialHolidaysResponse
             {
-                OfficialHolidays = unitOfWork.OfficialHolidayRepository.GetByYear(currentYear).ToList(),
+                OfficialHolidays = unitOfWork.OfficialHolidayRepository.GetByYear(currentYear)
+                    .Select(x => x.GetInstanceFor(currentYear))
+                    .OrderBy(x => x.Date)
+                    .ToList(),
                 RequestType = RequestType.ByCurrentYear,
                 Year = currentYear
             };
