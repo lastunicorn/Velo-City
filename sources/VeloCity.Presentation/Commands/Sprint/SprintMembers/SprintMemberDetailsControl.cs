@@ -62,7 +62,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
             IEnumerable<ContentRow> contentRowSelect = SprintMember.Days
                 .Where(x =>
                 {
-                    bool isWeekDay = x.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
+                    bool isWeekDay = x.SprintDay.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
                     if (isWeekDay)
                         return true;
 
@@ -86,7 +86,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
         {
             ContentRow dataRow = new();
 
-            dataRow.AddCell($"{sprintMemberDay.Date:d} ({sprintMemberDay.Date:ddd})");
+            dataRow.AddCell($"{sprintMemberDay.SprintDay.Date:d} ({sprintMemberDay.SprintDay.Date:ddd})");
 
             HoursValue workHours = sprintMemberDay.WorkHours;
             dataRow.AddCell(workHours);

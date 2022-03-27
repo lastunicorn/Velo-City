@@ -33,6 +33,9 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 
         protected override void DoDisplayContent(ControlDisplay display)
         {
+            if (Notes.Count == 0)
+                return;
+
             CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
 
             foreach (NoteBase note in Notes)

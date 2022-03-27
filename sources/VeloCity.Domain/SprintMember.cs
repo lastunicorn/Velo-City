@@ -85,26 +85,7 @@ namespace DustInTheWind.VeloCity.Domain
         private IEnumerable<SprintMemberDay> CalculateDays()
         {
             return Sprint?.EnumerateAllDays()
-                .Select(x =>
-                {
-                    MemberDayAnalysis memberDayAnalysis = new()
-                    {
-                        SprintDay = x,
-                        Employments = TeamMember?.Employments,
-                        Vacations = TeamMember?.Vacations
-                    };
-                    memberDayAnalysis.Analyze();
-
-                    return new SprintMemberDay
-                    {
-                        Date = x.Date,
-                        TeamMember = TeamMember,
-                        WorkHours = memberDayAnalysis.WorkHours,
-                        AbsenceHours = memberDayAnalysis.AbsenceHours,
-                        AbsenceReason = memberDayAnalysis.AbsenceReason,
-                        AbsenceComments = memberDayAnalysis.AbsenceComments
-                    };
-                });
+                .Select(x => new SprintMemberDay(TeamMember, x));
         }
 
         public int CalculateWorkHours()

@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
 {
@@ -22,11 +24,11 @@ namespace DustInTheWind.VeloCity.Domain
     {
         public DateTime Date { get; set; }
 
+        public List<OfficialHolidayInstance> OfficialHolidays { get; set; }
+
         public bool IsWeekEnd => Date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
 
-        public bool IsOfficialHoliday => OfficialHoliday != null;
-        
-        public OfficialHolidayInstance OfficialHoliday { get; set; }
+        public bool IsOfficialHoliday => OfficialHolidays.Any();
 
         public bool IsWorkDay => !IsWeekEnd && !IsOfficialHoliday;
 

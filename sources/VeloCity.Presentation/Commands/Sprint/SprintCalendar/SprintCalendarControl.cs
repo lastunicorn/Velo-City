@@ -81,7 +81,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
                     return CreateContentRow(x, chartBar);
                 });
 
-            foreach (ContentRow dataRow in rows) 
+            foreach (ContentRow dataRow in rows)
                 dataGrid.Rows.Add(dataRow);
 
             dataGrid.Display();
@@ -160,21 +160,18 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         {
             return new ContentCell
             {
-                Content = calendarItem.VacationDetails.ToString(),
+                Content = calendarItem.AbsenceDetails.ToString(),
                 ForegroundColor = ConsoleColor.Yellow
             };
         }
 
         private void DisplayNotes()
         {
-            if (ViewModel.IsPartialVacationNoteVisible)
+            NotesControl notesControl = new()
             {
-                NotesControl notesControl = new()
-                {
-                    Notes = new List<NoteBase> { new PartialDayVacationNote() }
-                };
-                notesControl.Display();
-            }
+                Notes = ViewModel.Notes
+            };
+            notesControl.Display();
         }
     }
 }

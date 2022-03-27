@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        public int? WorkDays => response.WorkDays?
+        public int? WorkDays => response.SprintDays?
             .Where(x => x.IsWorkDay)
             .Count();
 

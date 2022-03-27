@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
         public HoursValue AbsenceHours => sprintMember.Days
             .Where(x =>
             {
-                bool isWeekDay = x.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
+                bool isWeekDay = x.SprintDay.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
                 if (isWeekDay)
                     return true;
 

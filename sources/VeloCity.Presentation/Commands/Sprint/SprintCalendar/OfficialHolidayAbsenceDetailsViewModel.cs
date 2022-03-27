@@ -14,37 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 {
-    public class VacationDetails
+    public class OfficialHolidayAbsenceDetailsViewModel
     {
-        public List<TeamMemberVacationDetails> TeamMembers { get; set; }
+        private readonly OfficialHolidayInstance officialHolidayInstance;
 
-        public AbsenceReason AllTeamAbsenceReason { get; set; }
-
-        public OfficialHolidayInstance OfficialHoliday { get; set; }
+        public OfficialHolidayAbsenceDetailsViewModel(OfficialHolidayInstance officialHolidayInstance)
+        {
+            this.officialHolidayInstance = officialHolidayInstance ?? throw new ArgumentNullException(nameof(officialHolidayInstance));
+        }
 
         public override string ToString()
         {
-            if (TeamMembers is { Count: > 0 })
-            {
-                List<string> absentTeamMemberNames = TeamMembers
-                    .Select(x => x.IsPartialVacation
-                        ? x.Name.ShortName + "(*)"
-                        : x.Name.ShortName)
-                    .ToList();
-
-                return string.Join(", ", absentTeamMemberNames);
-            }
-
-            if (AllTeamAbsenceReason == AbsenceReason.OfficialHoliday)
-                return $"Official Holiday ({OfficialHoliday.Name})";
-
-            return null;
+            return $"{officialHolidayInstance.Name} ({officialHolidayInstance.Country})";
         }
     }
 }

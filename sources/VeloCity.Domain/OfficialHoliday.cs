@@ -35,8 +35,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public abstract bool Match(DateTime startDate, DateTime endDate);
 
-        public abstract OfficialHolidayInstance GetInstanceFor(int year); 
-        
+        public abstract OfficialHolidayInstance GetInstanceFor(int year);
+
         public IEnumerable<OfficialHolidayInstance> GetInstancesFor(DateTime startDate, DateTime endDate)
         {
             for (int year = startDate.Year; year <= endDate.Year; year++)

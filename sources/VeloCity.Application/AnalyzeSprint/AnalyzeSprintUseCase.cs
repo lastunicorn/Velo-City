@@ -51,16 +51,11 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             List<VelocityPenaltyInfo> teamMembersWithVelocityPenalties = sprintMembers
                 .SelectMany(x => x.VelocityPenalties
-                    .Select(z => new
+                    .Select(z => new VelocityPenaltyInfo
                     {
-                        SprintMember = x,
-                        VelocityPenalty = z
+                        PersonName = x.Name,
+                        PenaltyValue = z.Value
                     }))
-                .Select(x => new VelocityPenaltyInfo
-                {
-                    PersonName = x.SprintMember.Name,
-                    PenaltyValue = x.SprintMember.VelocityPenaltyPercentage
-                })
                 .ToList();
 
             int? totalWorkHoursWithVelocityPenalties = teamMembersWithVelocityPenalties.Any()
@@ -73,7 +68,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 SprintState = currentSprint.State,
                 StartDate = currentSprint.StartDate,
                 EndDate = currentSprint.EndDate,
-                WorkDays = currentSprint.EnumerateAllDays().ToList(),
+                SprintDays = currentSprint.EnumerateAllDays().ToList(),
                 SprintMembers = sprintMembers,
                 TotalWorkHours = totalWorkHours,
                 EstimatedStoryPoints = estimatedVelocity.IsNull
