@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
@@ -31,11 +32,29 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public static JOfficialHoliday ToJEntity(this OfficialHoliday officialHoliday)
         {
-            return new JOfficialHoliday
+            switch (officialHoliday)
             {
-                Date = officialHoliday.Date,
-                Name = officialHoliday.Name
-            };
+                case OfficialHolidayOnce officialHolidayOnce:
+                    return new JOfficialHoliday
+                    {
+                        Date = officialHolidayOnce.Date,
+                        Name = officialHolidayOnce.Name,
+                        Description = officialHolidayOnce.Description
+                    };
+
+                case OfficialHolidayYearly officialHolidayYearly:
+                    return new JOfficialHoliday
+                    {
+                        Date = officialHolidayYearly.Date,
+                        Name = officialHolidayYearly.Name,
+                        StartYear = officialHolidayYearly.StartYear,
+                        EndYear = officialHolidayYearly.EndYear,
+                        Description = officialHolidayYearly.Description
+                    };
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(officialHoliday));
+            }
         }
 
         public static IEnumerable<OfficialHoliday> ToEntities(this IEnumerable<JOfficialHoliday> officialHolidays)
@@ -46,11 +65,29 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public static OfficialHoliday ToEntity(this JOfficialHoliday officialHoliday)
         {
-            return new OfficialHoliday
+            switch (officialHoliday.Recurrence)
             {
-                Date = officialHoliday.Date,
-                Name = officialHoliday.Name
-            };
+                case JOfficialHolidayRecurrence.Once:
+                    return new OfficialHolidayOnce
+                    {
+                        Date = officialHoliday.Date,
+                        Name = officialHoliday.Name,
+                        Description = officialHoliday.Description
+                    };
+
+                case JOfficialHolidayRecurrence.Yearly:
+                    return new OfficialHolidayYearly
+                    {
+                        Date = officialHoliday.Date,
+                        Name = officialHoliday.Name,
+                        StartYear = officialHoliday.StartYear,
+                        EndYear = officialHoliday.EndYear,
+                        Description = officialHoliday.Description
+                    };
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

@@ -60,25 +60,36 @@ namespace DustInTheWind.VeloCity.Domain
                 .Where(x => x.IsWorkDay);
         }
 
+        public IEnumerable<SprintDay> EnumerateDaysWithoutWeekend()
+        {
+            return EnumerateAllDays()
+                .Where(x => !x.IsWeekEnd);
+        }
+
         public IEnumerable<SprintDay> EnumerateAllDays()
         {
-            List<DateTime> officialHolidays = OfficialHolidays
-                .Select(x => x.Date)
-                .ToList();
-
             int totalDaysCount = (int)(EndDate.Date - StartDate.Date).TotalDays + 1;
 
             return Enumerable.Range(0, totalDaysCount)
                 .Select(x =>
                 {
                     DateTime date = StartDate.AddDays(x);
-                    return new SprintDay
-                    {
-                        Date = date,
-                        IsWeekEnd = date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday,
-                        IsOfficialHoliday = officialHolidays.Contains(date)
-                    };
+                    return ToSprintDay(date);
                 });
+        }
+
+        private SprintDay ToSprintDay(DateTime date)
+        {
+            return new SprintDay
+            {
+                Date = date,
+                OfficialHoliday = OfficialHolidays.FirstOrDefault(x => x.Match(date))?.GetInstanceFor(date.Year)
+            };
+        }
+
+        public override string ToString()
+        {
+            return $"{Number}: {Name}";
         }
     }
 }

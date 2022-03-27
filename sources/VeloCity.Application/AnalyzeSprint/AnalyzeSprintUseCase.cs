@@ -75,7 +75,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 SprintState = currentSprint.State,
                 StartDate = currentSprint.StartDate,
                 EndDate = currentSprint.EndDate,
-                WorkDays = currentSprint.EnumerateWorkDays().ToList(),
+                WorkDays = currentSprint.EnumerateAllDays().ToList(),
                 SprintMembers = sprintMembers,
                 TotalWorkHours = totalWorkHours,
                 EstimatedStoryPoints = totalWorkHours * estimatedVelocity,

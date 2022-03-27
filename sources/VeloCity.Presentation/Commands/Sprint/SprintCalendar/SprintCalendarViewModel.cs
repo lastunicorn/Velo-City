@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         public bool IsVisible => response.WorkDays is { Count: > 0 };
 
         public bool IsPartialVacationNoteVisible => CalendarItems
-            .SelectMany(x => x.VacationDetails.TeamMembers)
+            .SelectMany(x => x.VacationDetails.TeamMembers ?? Enumerable.Empty<TeamMemberVacationDetails>())
             .Any(x => x.IsPartialVacation);
 
         public SprintCalendarViewModel(AnalyzeSprintResponse response)
@@ -44,6 +44,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         private List<CalendarItemViewModel> CreateCalendarItems()
         {
             return response.WorkDays
+                .Where(x => !x.IsWeekEnd)
                 .Select(CreateCalendarItem)
                 .ToList();
         }

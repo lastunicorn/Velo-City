@@ -22,9 +22,11 @@ namespace DustInTheWind.VeloCity.Domain
     {
         public DateTime Date { get; set; }
 
-        public bool IsWeekEnd { get; set; }
+        public bool IsWeekEnd => Date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
 
-        public bool IsOfficialHoliday { get; set; }
+        public bool IsOfficialHoliday => OfficialHoliday != null;
+        
+        public OfficialHolidayInstance OfficialHoliday { get; set; }
 
         public bool IsWorkDay => !IsWeekEnd && !IsOfficialHoliday;
 

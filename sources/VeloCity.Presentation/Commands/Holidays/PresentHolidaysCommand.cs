@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
         [CommandParameter(Name = "sprint", IsOptional = true)]
         public int? Sprint { get; set; }
 
-        public List<OfficialHoliday> OfficialHolidays { get; private set; }
+        public List<OfficialHolidayInstance> OfficialHolidays { get; private set; }
 
         public RequestTypeViewModel RequestType { get; private set; }
 

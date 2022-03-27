@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.DataAccess
             foreach (Sprint sprint in Sprints)
             {
                 sprint.OfficialHolidays = OfficialHolidays
-                    .Where(x => x.Date >= sprint.StartDate && x.Date <= sprint.EndDate)
+                    .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
                     .ToList();
             }
         }

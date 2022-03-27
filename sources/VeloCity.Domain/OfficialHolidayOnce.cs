@@ -16,20 +16,32 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class JOfficialHoliday
+    public class OfficialHolidayOnce : OfficialHoliday
     {
-        public JOfficialHolidayRecurrence Recurrence { get; set; }
+        public override bool Match(int year)
+        {
+            return Date.Year == year;
+        }
 
-        public DateTime Date { get; set; }
+        public override bool Match(DateTime date)
+        {
+            return Date.Date == date.Date;
+        }
 
-        public string Name { get; set; }
+        public override bool Match(DateTime startDate, DateTime endDate)
+        {
+            return Date >= startDate && Date <= endDate;
+        }
 
-        public int? StartYear { get; set; }
-
-        public int? EndYear { get; set; }
-        
-        public string Description { get; set; }
+        public override OfficialHolidayInstance GetInstanceFor(int year)
+        {
+            return new OfficialHolidayInstance
+            {
+                Date = Date,
+                Name = Name
+            };
+        }
     }
 }
