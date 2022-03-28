@@ -43,7 +43,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 
         public List<OfficialHolidayInstance> OfficialHolidays { get; private set; }
 
-        public RequestTypeViewModel RequestType { get; private set; }
+        public InformationViewModel Information { get; private set; }
 
         public PresentHolidaysCommand(IMediator mediator)
         {
@@ -61,7 +61,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
             PresentOfficialHolidaysResponse response = await mediator.Send(request);
 
             OfficialHolidays = response.OfficialHolidays;
-            RequestType = new RequestTypeViewModel(response);
+            Information = new InformationViewModel(response);
         }
     }
 }

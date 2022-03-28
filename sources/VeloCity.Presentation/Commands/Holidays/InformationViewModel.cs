@@ -19,11 +19,11 @@ using DustInTheWind.VeloCity.Application.PresentOfficialHolidays;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 {
-    public class RequestTypeViewModel
+    public class InformationViewModel
     {
         private readonly PresentOfficialHolidaysResponse response;
 
-        public RequestTypeViewModel(PresentOfficialHolidaysResponse response)
+        public InformationViewModel(PresentOfficialHolidaysResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
         }
@@ -32,7 +32,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
         {
             return response.RequestType switch
             {
-                RequestType.BySprint => $"The official holidays for the sprint {response.SprintNumber}:",
+                RequestType.BySprint => $"The official holidays for the sprint {response.SprintNumber} ({response.SprintTimeInterval}):",
                 RequestType.ByYear => $"The official holidays for the year {response.Year}:",
                 RequestType.ByCurrentYear => $"The official holidays for the current year {response.Year}:",
                 _ => throw new ArgumentOutOfRangeException()
