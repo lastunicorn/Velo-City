@@ -109,8 +109,12 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         private List<SprintMember> RetrieveSprintMembers(Sprint currentSprint, IReadOnlyCollection<string> excludedTeamMembers)
         {
-            return unitOfWork.TeamMemberRepository.GetAll()
-                .Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)))
+            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetAll();
+
+            if (excludedTeamMembers is { Count: > 0 })
+                teamMembers = teamMembers.Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)));
+
+            return teamMembers
                 .Select(x => x.ToSprintMember(currentSprint))
                 .Where(x => x.IsEmployed)
                 .ToList();
@@ -152,12 +156,12 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         private Velocity CalculateAverageVelocity(IEnumerable<Sprint> previousSprints, IReadOnlyCollection<string> excludedTeamMembers)
         {
-            List<TeamMember> allTeamMembers = unitOfWork.TeamMemberRepository.GetAll()
-                .Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)))
-                .ToList();
-
             IEnumerable<Velocity> previousVelocities = previousSprints
-                .Select(x => CalculateAverageVelocity(x, allTeamMembers));
+                .Select(x =>
+                {
+                    List<SprintMember> sprintMembers = RetrieveSprintMembers(x, excludedTeamMembers);
+                    return CalculateAverageVelocity(x, sprintMembers);
+                });
 
             if (!previousVelocities.Any())
                 return Velocity.Null;
@@ -167,10 +171,10 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 .Average();
         }
 
-        private static Velocity CalculateAverageVelocity(Sprint sprint, IEnumerable<TeamMember> teamMembers)
+        private static Velocity CalculateAverageVelocity(Sprint sprint, IEnumerable<SprintMember> sprintMembers)
         {
-            int totalWorkHours = teamMembers
-                .Select(x => x.ToSprintMember(sprint).WorkHours)
+            int totalWorkHours = sprintMembers
+                .Select(x => x.WorkHours)
                 .Sum();
 
             return sprint.ActualStoryPoints / totalWorkHours;
