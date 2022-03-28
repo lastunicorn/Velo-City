@@ -25,8 +25,11 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
         private readonly List<CommandInfo> commandInfos = new();
         private readonly List<Type> viewTypes = new();
 
-        public void SearchInCurrentAppDomain()
+        public void LoadFromCurrentAppDomain()
         {
+            commandInfos.Clear();
+            viewTypes.Clear();
+
             IEnumerable<Type> allTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(x => x.GetTypes());
 

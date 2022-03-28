@@ -45,5 +45,10 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             return (ICommand)context.Resolve(commandType);
         }
+
+        public object CreateView(Type viewType)
+        {
+            return context.Resolve(viewType);
+        }
     }
 }

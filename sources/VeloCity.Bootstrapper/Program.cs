@@ -15,27 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
-using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DataAccess;
-using DustInTheWind.VeloCity.JsonFiles;
-using DustInTheWind.VeloCity.Presentation;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using MediatR.Extensions.Autofac.DependencyInjection;
 
 namespace DustInTheWind.VeloCity.Bootstrapper
 {
     internal class Program
     {
-        private static IContainer container;
-
         private static async Task Main(string[] args)
         {
             ErrorMessageLevel debugVerbose = ErrorMessageLevel.Verbose;
@@ -45,17 +35,15 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 ApplicationHeader applicationHeader = new();
                 applicationHeader.Display();
 
-                container = BuildContainer();
+                IContainer container = SetupServices.BuildContainer();
 
                 IConfig config = container.Resolve<IConfig>();
                 debugVerbose = config.ErrorMessageLevel;
 
+                CommandRouter commandRouter = container.Resolve<CommandRouter>();
+
                 Arguments arguments = new(args);
-                ICommand command = CreateCommand(arguments);
-
-                await command.Execute();
-
-                ExecuteViewsFor(command);
+                await commandRouter.Execute(arguments);
             }
             catch (Exception ex)
             {
@@ -63,78 +51,6 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                     CustomConsole.WriteLineError(ex);
                 else
                     CustomConsole.WriteLineError(ex.Message);
-            }
-        }
-
-        private static IContainer BuildContainer()
-        {
-            ContainerBuilder containerBuilder = new();
-            ConfigureServices(containerBuilder);
-
-            return containerBuilder.Build();
-        }
-
-        private static void ConfigureServices(ContainerBuilder containerBuilder)
-        {
-            Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
-            containerBuilder.RegisterMediatR(assembly);
-
-            containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
-            containerBuilder.RegisterType<CommandRouter>().AsSelf();
-            containerBuilder.RegisterType<CommandFactory>().As<ICommandFactory>();
-
-            AvailableCommands availableCommands = new();
-            availableCommands.SearchInCurrentAppDomain();
-
-            containerBuilder.RegisterInstance(availableCommands).AsSelf();
-
-            containerBuilder
-                .Register((c, p) =>
-                {
-                    try
-                    {
-                        IConfig config = c.Resolve<IConfig>();
-                        string databaseFilePath = config.DatabaseLocation;
-                        return new DatabaseFile(databaseFilePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new DatabaseNotFoundException(ex);
-                    }
-                })
-                .AsSelf();
-
-            containerBuilder.RegisterType<Database>().AsSelf();
-            containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
-
-            foreach (Type type in availableCommands.GetCommandTypes())
-                containerBuilder.RegisterType(type).AsSelf();
-
-            foreach (Type type in availableCommands.GetViewTypes())
-                containerBuilder.RegisterType(type).AsSelf();
-
-            containerBuilder.RegisterType<DataGridFactory>().AsSelf();
-        }
-
-        private static ICommand CreateCommand(Arguments arguments)
-        {
-            CommandRouter commandRouter = container.Resolve<CommandRouter>();
-            return commandRouter.CreateCommand(arguments);
-        }
-
-        private static void ExecuteViewsFor(ICommand command)
-        {
-            Type commandType = command.GetType();
-
-            AvailableCommands availableCommands = container.Resolve<AvailableCommands>();
-            IEnumerable<Type> viewTypes = availableCommands.GetViewTypesForCommand(commandType);
-
-            foreach (Type viewType in viewTypes)
-            {
-                object view = container.Resolve(viewType);
-
-                MethodInfo displayMethodInfo = viewType.GetMethod(nameof(IView<ICommand>.Display));
-                displayMethodInfo?.Invoke(view, new object[] { command });
             }
         }
     }

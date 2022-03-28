@@ -24,5 +24,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             where TCommand : ICommand;
 
         ICommand Create(Type commandType);
+        
+        object CreateView(Type viewType);
     }
 }

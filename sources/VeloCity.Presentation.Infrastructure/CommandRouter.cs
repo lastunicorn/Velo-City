@@ -15,6 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
@@ -29,7 +32,16 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             this.commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
         }
 
-        public ICommand CreateCommand(Arguments arguments)
+        public async Task Execute(Arguments arguments)
+        {
+            ICommand command = CreateCommand(arguments);
+
+            await command.Execute();
+
+            ExecuteViewsFor(command);
+        }
+
+        private ICommand CreateCommand(Arguments arguments)
         {
             if (arguments.Count == 0)
             {
@@ -97,6 +109,21 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             }
 
             return null;
+        }
+
+        private void ExecuteViewsFor(ICommand command)
+        {
+            Type commandType = command.GetType();
+
+            IEnumerable<Type> viewTypes = availableCommands.GetViewTypesForCommand(commandType);
+
+            foreach (Type viewType in viewTypes)
+            {
+                object view = commandFactory.CreateView(viewType);
+
+                MethodInfo displayMethodInfo = viewType.GetMethod(nameof(IView<ICommand>.Display));
+                displayMethodInfo?.Invoke(view, new object[] { command });
+            }
         }
     }
 }
