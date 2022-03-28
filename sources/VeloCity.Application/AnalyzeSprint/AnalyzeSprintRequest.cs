@@ -26,5 +26,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
         public List<int> ExcludedSprints { get; set; }
 
         public bool ShowTeam { get; set; }
+        
+        public List<string> ExcludedTeamMembers { get; set; }
     }
 }

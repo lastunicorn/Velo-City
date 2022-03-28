@@ -60,8 +60,15 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             bool isListOfNumbers = propertyInfo.PropertyType.IsGenericType && propertyInfo.PropertyType == typeof(List<int>);
             if (isListOfNumbers)
             {
-                return value.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                return value.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                     .Select(int.Parse)
+                    .ToList();
+            }
+
+            bool isListOfStrings = propertyInfo.PropertyType.IsGenericType && propertyInfo.PropertyType == typeof(List<string>);
+            if (isListOfStrings)
+            {
+                return value.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                     .ToList();
             }
 

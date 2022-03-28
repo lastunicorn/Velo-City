@@ -42,10 +42,10 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 ? RetrieveDefaultSprintToAnalyze()
                 : RetrieveSprintToAnalyze(request.SprintNumber.Value);
 
-            List<SprintMember> sprintMembers = RetrieveSprintMembers(currentSprint);
+            List<SprintMember> sprintMembers = RetrieveSprintMembers(currentSprint, request.ExcludedTeamMembers);
 
             List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, config.AnalysisLookBack, request.ExcludedSprints);
-            Velocity estimatedVelocity = CalculateAverageVelocity(previousSprints);
+            Velocity estimatedVelocity = CalculateAverageVelocity(previousSprints, request.ExcludedTeamMembers);
 
             int totalWorkHours = CalculateTotalWorkHours(sprintMembers);
 
@@ -107,9 +107,10 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 .Sum();
         }
 
-        private List<SprintMember> RetrieveSprintMembers(Sprint currentSprint)
+        private List<SprintMember> RetrieveSprintMembers(Sprint currentSprint, IReadOnlyCollection<string> excludedTeamMembers)
         {
             return unitOfWork.TeamMemberRepository.GetAll()
+                .Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)))
                 .Select(x => x.ToSprintMember(currentSprint))
                 .Where(x => x.IsEmployed)
                 .ToList();
@@ -149,10 +150,11 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             return sprints.ToList();
         }
 
-        private Velocity CalculateAverageVelocity(IEnumerable<Sprint> previousSprints)
+        private Velocity CalculateAverageVelocity(IEnumerable<Sprint> previousSprints, IReadOnlyCollection<string> excludedTeamMembers)
         {
             List<TeamMember> allTeamMembers = unitOfWork.TeamMemberRepository.GetAll()
-                   .ToList();
+                .Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)))
+                .ToList();
 
             IEnumerable<Velocity> previousVelocities = previousSprints
                 .Select(x => CalculateAverageVelocity(x, allTeamMembers));
@@ -165,9 +167,9 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 .Average();
         }
 
-        private static Velocity CalculateAverageVelocity(Sprint sprint, IEnumerable<TeamMember> allTeamMembers)
+        private static Velocity CalculateAverageVelocity(Sprint sprint, IEnumerable<TeamMember> teamMembers)
         {
-            int totalWorkHours = allTeamMembers
+            int totalWorkHours = teamMembers
                 .Select(x => x.ToSprintMember(sprint).WorkHours)
                 .Sum();
 
