@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
@@ -32,8 +33,22 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 
         public void Display(PresentHolidaysCommand command)
         {
-            Console.WriteLine(command.RequestType);
+            Console.WriteLine(command.Information);
 
+            if (command.OfficialHolidays == null || command.OfficialHolidays.Count == 0)
+                DisplayEmptyInformation();
+            else
+                DisplayTable(command);
+        }
+
+        private static void DisplayEmptyInformation()
+        {
+            CustomConsole.WriteLine();
+            CustomConsole.WriteLineWarning("There are no holidays in the requested time interval.");
+        }
+
+        private void DisplayTable(PresentHolidaysCommand command)
+        {
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = "Official Holidays";
 

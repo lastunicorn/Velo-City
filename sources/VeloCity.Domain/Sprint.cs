@@ -32,6 +32,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public DateTime EndDate { get; set; }
 
+        public DateInterval DateInterval => new(StartDate, EndDate);
+
         public StoryPoints CommitmentStoryPoints { get; set; }
 
         public StoryPoints ActualStoryPoints { get; set; }

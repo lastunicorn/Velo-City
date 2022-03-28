@@ -69,7 +69,8 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
                     .OrderBy(x => x.Date)
                     .ToList(),
                 RequestType = RequestType.BySprint,
-                SprintNumber = sprint.Number
+                SprintNumber = sprint.Number,
+                SprintTimeInterval = sprint.DateInterval
             };
         }
 
