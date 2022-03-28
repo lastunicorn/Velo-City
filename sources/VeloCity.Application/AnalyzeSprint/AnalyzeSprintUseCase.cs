@@ -50,12 +50,12 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             int totalWorkHours = CalculateTotalWorkHours(sprintMembers);
 
             List<VelocityPenaltyInfo> teamMembersWithVelocityPenalties = sprintMembers
-                .SelectMany(x => x.VelocityPenalties
-                    .Select(z => new VelocityPenaltyInfo
-                    {
-                        PersonName = x.Name,
-                        PenaltyValue = z.Value
-                    }))
+                .Select(x => new VelocityPenaltyInfo
+                {
+                    PersonName = x.Name,
+                    PenaltyValue = x.VelocityPenaltyPercentage
+                })
+                .Where(x => x.PenaltyValue > 0)
                 .ToList();
 
             int? totalWorkHoursWithVelocityPenalties = teamMembersWithVelocityPenalties.Any()
