@@ -16,19 +16,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Domain
 {
-    public interface ITeamMemberRepository
+    public class VacationCollection : Collection<Vacation>
     {
-        IEnumerable<TeamMember> GetAll();
+        public VacationCollection(IEnumerable<Vacation> vacations)
+        {
+            foreach (Vacation vacation in vacations)
+                Items.Add(vacation);
+        }
 
-        IEnumerable<TeamMember> GetByDate(DateTime date);
-
-        IEnumerable<TeamMember> GetByDateInterval(DateTime? startDate, DateTime? endDate);
-
-        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval);
-        
-        IEnumerable<TeamMember> Find(string text);
+        public IEnumerable<Vacation> GetVacationsFor(DateTime date)
+        {
+            return Items.Where(x => x.Match(date));
+        }
     }
 }

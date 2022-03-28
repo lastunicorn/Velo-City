@@ -24,6 +24,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool IsNull { get; private init; }
 
+        public bool IsNotNull => !IsNull;
+
         public bool IsEmpty => Value == 0;
 
         public static StoryPoints Null { get; } = new()

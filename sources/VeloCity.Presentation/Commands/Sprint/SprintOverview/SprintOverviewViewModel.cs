@@ -33,18 +33,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
 
         public DateTime EndDate => response.EndDate;
 
-        public string State => response.SprintState switch
-        {
-            SprintState.Unknown => "unknown",
-            SprintState.New => "new",
-            SprintState.InProgress => "in progress",
-            SprintState.Closed => "closed",
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        public SprintStateViewModel State { get; }
 
-        public int? WorkDays => response.SprintDays?
-            .Where(x => x.IsWorkDay)
-            .Count();
+        public int? WorkDaysCount { get; }
 
         public int TotalWorkHours => response.TotalWorkHours;
 
@@ -60,49 +51,79 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
 
         public Velocity ActualVelocity => response.ActualVelocity;
 
-        public List<NoteBase> Notes
-        {
-            get
-            {
-                List<NoteBase> notes = new();
-
-                bool previousSprintsExist = response.PreviousSprints is { Count: > 0 };
-
-                if (previousSprintsExist)
-                {
-                    notes.Add(new PreviousSprintsCalculationNote
-                    {
-                        PreviousSprintNumbers = response.PreviousSprints
-                    });
-                }
-                else
-                {
-                    notes.Add(new NoPreviousSprintsNote());
-                }
-
-                if (response.ExcludedSprints is { Count: > 0 })
-                {
-                    notes.Add(new ExcludedSprintsNote
-                    {
-                        ExcludesSprintNumbers = response.ExcludedSprints
-                    });
-                }
-
-                if (response.EstimatedStoryPointsWithVelocityPenalties != null)
-                {
-                    notes.Add(new VelocityPenaltiesNote
-                    {
-                        VelocityPenalties = response.VelocityPenalties
-                    });
-                }
-
-                return notes;
-            }
-        }
+        public List<NoteBase> Notes { get; }
 
         public SprintOverviewViewModel(AnalyzeSprintResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
+
+            State = new SprintStateViewModel(response.SprintState);
+            WorkDaysCount = CountWorkDays();
+            Notes = CreateNotes().ToList();
+        }
+
+        private int? CountWorkDays()
+        {
+            return response.SprintDays?
+                .Where(IsWorkDay)
+                .Count();
+        }
+
+        private bool IsWorkDay(SprintDay sprintDay)
+        {
+            if (sprintDay.IsWeekEnd)
+                return false;
+
+            if (sprintDay.IsOfficialHoliday)
+            {
+                List<SprintMemberDay> sprintMemberDays = response.SprintMembers
+                    .SelectMany(z => z.Days)
+                    .Where(z => z.SprintDay.Date == sprintDay.Date)
+                    .Where(z =>
+                    {
+                        Employment employment = z.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
+                        return !sprintDay.OfficialHolidays.Select(x => x.Country).Contains(employment?.Country);
+                    })
+                    .ToList();
+
+                if (sprintMemberDays.Count == 0)
+                    return false;
+            }
+
+            return true;
+        }
+
+        private IEnumerable<NoteBase> CreateNotes()
+        {
+            bool previousSprintsExist = response.PreviousSprints is { Count: > 0 };
+
+            if (previousSprintsExist)
+            {
+                yield return new PreviousSprintsCalculationNote
+                {
+                    PreviousSprintNumbers = response.PreviousSprints
+                };
+            }
+            else
+            {
+                yield return new NoPreviousSprintsNote();
+            }
+
+            if (response.ExcludedSprints is { Count: > 0 })
+            {
+                yield return new ExcludedSprintsNote
+                {
+                    ExcludesSprintNumbers = response.ExcludedSprints
+                };
+            }
+
+            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotNull)
+            {
+                yield return new VelocityPenaltiesNote
+                {
+                    VelocityPenalties = response.VelocityPenalties
+                };
+            }
         }
     }
 }

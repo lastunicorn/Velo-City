@@ -160,13 +160,15 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             if (!previousVelocities.Any())
                 return Velocity.Null;
 
-            return previousVelocities.Select(x => x.Value).Average();
+            return previousVelocities
+                .Select(x => x.Value)
+                .Average();
         }
 
         private static Velocity CalculateAverageVelocity(Sprint sprint, IEnumerable<TeamMember> allTeamMembers)
         {
             int totalWorkHours = allTeamMembers
-                .Select(x => x.ToSprintMember(sprint).CalculateWorkHours())
+                .Select(x => x.ToSprintMember(sprint).WorkHours)
                 .Sum();
 
             return sprint.ActualStoryPoints / totalWorkHours;

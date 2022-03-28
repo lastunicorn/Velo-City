@@ -21,6 +21,7 @@ namespace DustInTheWind.VeloCity.Domain
     public class TeamMember
     {
         private List<VelocityPenalty> velocityPenalties;
+
         public int Id { get; set; }
 
         public PersonName Name { get; set; }
@@ -29,7 +30,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public string Comments { get; set; }
 
-        public List<Vacation> Vacations { get; set; }
+        public VacationCollection Vacations { get; set; }
 
         public List<VelocityPenalty> VelocityPenalties
         {

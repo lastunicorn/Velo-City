@@ -54,11 +54,9 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
 
         private SprintOverview CreateSprintOverview(Sprint sprint)
         {
-            int totalWorkHours = unitOfWork.TeamMemberRepository.GetAll()
-                .Select(x => x.ToSprintMember(sprint).CalculateWorkHours())
+            int totalWorkHours = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.StartDate, sprint.EndDate)
+                .Select(x => x.ToSprintMember(sprint).WorkHours)
                 .Sum();
-
-            float velocity = (float)sprint.ActualStoryPoints / totalWorkHours;
 
             return new SprintOverview
             {
@@ -69,7 +67,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
                 TotalWorkHours = totalWorkHours,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
-                ActualVelocity = velocity
+                ActualVelocity = sprint.ActualStoryPoints / totalWorkHours
             };
         }
     }

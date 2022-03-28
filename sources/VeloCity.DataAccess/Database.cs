@@ -62,31 +62,5 @@ namespace DustInTheWind.VeloCity.DataAccess
             IEnumerable<OfficialHoliday> officialHolidays = databaseFile.Document.OfficialHolidays.ToEntities();
             OfficialHolidays.AddRange(officialHolidays);
         }
-
-        private void SaveAll()
-        {
-            DatabaseDocument databaseDocument = new()
-            {
-                Sprints = Sprints.ToJEntities().ToList(),
-                TeamMembers = TeamMembers
-                    .Select(x =>
-                    {
-                        x.Vacations = Vacations
-                            .Where(z => z.TeamMember == x)
-                            .ToList();
-
-                        return x;
-                    })
-                    .ToJEntities()
-                    .ToList(),
-                OfficialHolidays = OfficialHolidays
-                    .ToJEntities()
-                    .ToList()
-            };
-
-            DatabaseFile databaseFile = new(string.Empty);
-            databaseFile.Document = databaseDocument;
-            databaseFile.Save();
-        }
     }
 }

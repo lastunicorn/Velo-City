@@ -56,17 +56,13 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public static TeamMember ToEntity(this JTeamMember teamMember, Database database)
         {
-            PersonName personName = GetPersonName(teamMember);
-
             return new TeamMember
             {
                 Id = teamMember.Id,
-                Name = personName,
+                Name = GetPersonName(teamMember),
                 Employments = new EmploymentCollection(teamMember.Employments?.ToEntities()),
                 Comments = teamMember.Comments,
-                Vacations = teamMember.VacationDays?
-                    .ToEntities()
-                    .ToList(),
+                Vacations = new VacationCollection(teamMember.VacationDays?.ToEntities()),
                 VelocityPenalties = teamMember.VelocityPenalties?
                     .ToEntities(database)
                     .ToList()

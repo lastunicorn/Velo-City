@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
             dataGrid.Rows.Add("Time Interval", $"{ViewModel.StartDate:d} - {ViewModel.EndDate:d}");
             dataGrid.Rows.Add("State", ViewModel.State);
             dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Work Days", ViewModel.WorkDays + " days");
+            dataGrid.Rows.Add("Work Days", ViewModel.WorkDaysCount + " days");
             dataGrid.Rows.Add("Total Work Hours", $"{ViewModel.TotalWorkHours} h");
             dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Estimated Story Points", $"{ViewModel.EstimatedStoryPoints.ToStandardDigitsString()}");

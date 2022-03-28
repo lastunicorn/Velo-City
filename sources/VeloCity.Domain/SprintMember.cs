@@ -28,7 +28,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public TeamMember TeamMember { get; }
 
-        public List<SprintMemberDay> Days => CalculateDays()
+        public List<SprintMemberDay> Days => Sprint?.EnumerateAllDays()
+            .Select(x => new SprintMemberDay(TeamMember, x))
             .ToList();
 
         public bool IsEmployed => Days
@@ -80,59 +81,6 @@ namespace DustInTheWind.VeloCity.Domain
         {
             TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
             Sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
-        }
-
-        private IEnumerable<SprintMemberDay> CalculateDays()
-        {
-            return Sprint?.EnumerateAllDays()
-                .Select(x => new SprintMemberDay(TeamMember, x));
-        }
-
-        public int CalculateWorkHours()
-        {
-            return Sprint?.EnumerateWorkDays()
-                .Select(CalculateWorkHoursFor)
-                .Sum() ?? 0;
-        }
-
-        private int CalculateWorkHoursFor(SprintDay sprintDay)
-        {
-            Employment employment = TeamMember?.Employments?.GetEmploymentFor(sprintDay.Date);
-
-            bool isEmployed = employment != null;
-            if (!isEmployed)
-                return 0;
-
-            if (sprintDay.IsFreeDay)
-                return 0;
-
-            Vacation[] vacations = GetVacationsFor(sprintDay.Date);
-
-            bool vacationsExist = vacations is { Length: > 0 };
-
-            if (!vacationsExist)
-                return employment.HoursPerDay;
-
-            bool isWholeDayVacation = vacations.Any(x => x.HourCount == null);
-
-            if (isWholeDayVacation)
-                return 0;
-
-            int vacationHours = vacations
-                .Where(x => x.HourCount != null)
-                .Sum(x => x.HourCount.Value);
-
-            if (vacationHours > employment.HoursPerDay)
-                return 0;
-
-            return employment.HoursPerDay - vacationHours;
-        }
-
-        private Vacation[] GetVacationsFor(DateTime date)
-        {
-            return TeamMember?.Vacations?
-                .Where(x => x.Match(date))
-                .ToArray();
         }
     }
 }

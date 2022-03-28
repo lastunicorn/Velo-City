@@ -18,18 +18,7 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class VelocityPenalty
     {
-        private Sprint sprint;
-
-        public Sprint Sprint
-        {
-            get => sprint;
-            set
-            {
-                sprint?.VelocityPenalties.Remove(this);
-                sprint = value;
-                sprint?.VelocityPenalties.Add(this);
-            }
-        }
+        public Sprint Sprint { get; set; }
 
         public TeamMember TeamMember { get; set; }
 

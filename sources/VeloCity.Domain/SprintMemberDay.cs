@@ -52,7 +52,7 @@ namespace DustInTheWind.VeloCity.Domain
             if (SprintDay == null)
                 return;
 
-            Employment employment = GetEmploymentFor(SprintDay.Date);
+            Employment employment = TeamMember.Employments?.GetEmploymentFor(SprintDay.Date);
 
             bool isEmployed = employment != null;
             if (!isEmployed)
@@ -82,7 +82,8 @@ namespace DustInTheWind.VeloCity.Domain
                 return;
             }
 
-            Vacation[] vacations = GetVacationsFor(SprintDay.Date);
+            Vacation[] vacations = TeamMember.Vacations?.GetVacationsFor(SprintDay.Date)
+                .ToArray();
 
             bool vacationsExist = vacations is { Length: > 0 };
 
@@ -92,7 +93,8 @@ namespace DustInTheWind.VeloCity.Domain
                     .Where(x => x.HourCount == null)
                     .ToArray();
 
-                if (wholeDayVacations.Length > 0)
+                bool isWholeDayVacation = wholeDayVacations.Length > 0;
+                if (isWholeDayVacation)
                 {
                     AbsenceHours = employment.HoursPerDay;
                     AbsenceReason = AbsenceReason.Vacation;
@@ -136,19 +138,6 @@ namespace DustInTheWind.VeloCity.Domain
             return vacationComments.Length > 0
                 ? string.Join("; ", vacationComments)
                 : null;
-        }
-
-        private Employment GetEmploymentFor(DateTime date)
-        {
-            return TeamMember.Employments?
-                .FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
-        }
-
-        private Vacation[] GetVacationsFor(DateTime date)
-        {
-            return TeamMember.Vacations?
-                .Where(x => x.Match(date))
-                .ToArray();
         }
 
         public override string ToString()

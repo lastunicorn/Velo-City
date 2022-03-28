@@ -16,15 +16,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class EmploymentCollection : List<Employment>
+    public class EmploymentCollection : Collection<Employment>
     {
         public EmploymentCollection(IEnumerable<Employment> employments)
-            : base(employments)
         {
+            foreach (Employment employment in employments)
+                Items.Add(employment);
         }
 
         public Employment GetEmploymentFor(DateTime date)
