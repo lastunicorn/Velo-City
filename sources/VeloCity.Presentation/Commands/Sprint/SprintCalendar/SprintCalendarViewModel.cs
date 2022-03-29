@@ -61,7 +61,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
                 return new List<SprintMemberDay>();
 
             return response.SprintMembers
-                .Select(x => x.Days?.FirstOrDefault(z => z.SprintDay.Date == date))
+                .Select(x => x.Days[date])
                 .Where(x => x != null)
                 .ToList();
         }

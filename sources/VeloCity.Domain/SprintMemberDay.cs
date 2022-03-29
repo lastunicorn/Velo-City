@@ -62,6 +62,15 @@ namespace DustInTheWind.VeloCity.Domain
                 return;
             }
 
+            bool matchDayOfWeek = employment.ContainsDayOfWeek(SprintDay.Date.DayOfWeek);
+            if (!matchDayOfWeek)
+            {
+                AbsenceHours = employment.HoursPerDay;
+                AbsenceReason = AbsenceReason.Contract;
+
+                return;
+            }
+
             if (SprintDay.IsWeekEnd)
             {
                 AbsenceHours = employment.HoursPerDay;

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.Domain
 {
@@ -23,12 +24,19 @@ namespace DustInTheWind.VeloCity.Domain
         public DateInterval TimeInterval { get; set; }
 
         public int HoursPerDay { get; set; }
-        
+
+        public List<DayOfWeek> WeekDays { get; set; }
+
         public string Country { get; set; }
 
         public bool IsDateInRange(DateTime dateTime)
         {
             return TimeInterval.ContainsDate(dateTime);
+        }
+
+        public bool ContainsDayOfWeek(DayOfWeek dayOfWeek)
+        {
+            return WeekDays == null || WeekDays.Count == 0 || WeekDays.Contains(dayOfWeek);
         }
     }
 }

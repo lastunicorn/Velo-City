@@ -7,7 +7,8 @@ v1.7.0
 - [breaking change] Json database file changed. More compact way of describing official holidays.
 - [feature] Added the "holidays" command to display the official holidays.
 - [feature] Added in the config file the number of sprints used for velocity estimations.
-- [feature] Sprint Analysis: Added a chart in the team grid to represent the work and amsence hours.
+- [feature] Sprint Analysis: Added a chart in the team grid to represent the work and absence hours.
+- [feature] The work week days can be specified in the employment object.
 
 v1.6.0
 ----------------------------------------------------------------------------------------------------

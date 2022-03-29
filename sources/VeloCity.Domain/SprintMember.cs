@@ -28,9 +28,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public TeamMember TeamMember { get; }
 
-        public List<SprintMemberDay> Days => Sprint?.EnumerateAllDays()
-            .Select(x => new SprintMemberDay(TeamMember, x))
-            .ToList();
+        public SprintMemberDayCollection Days { get; }
 
         public bool IsEmployed => Days
             .Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
@@ -81,6 +79,11 @@ namespace DustInTheWind.VeloCity.Domain
         {
             TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
             Sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
+
+            IEnumerable<SprintMemberDay> sprintMemberDays = Sprint.EnumerateAllDays()
+                .Select(x => new SprintMemberDay(TeamMember, x));
+
+            Days = new SprintMemberDayCollection(sprintMemberDays);
         }
     }
 }
