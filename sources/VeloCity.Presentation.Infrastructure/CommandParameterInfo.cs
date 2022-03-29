@@ -48,7 +48,9 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public void SetValue(ICommand command, string value)
         {
-            object valueAsObject = propertyInfo.PropertyType == typeof(bool) && value == null
+            bool isFlag = propertyInfo.PropertyType == typeof(bool) && value == null;
+
+            object valueAsObject = isFlag
                 ? true
                 : ParseValue(value);
 
@@ -71,6 +73,23 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                 return value.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                     .ToList();
             }
+
+            //bool isList = propertyInfo.PropertyType.IsGenericType && propertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(List<>);
+            //if (isList)
+            //{
+            //    Type itemType = propertyInfo.PropertyType.GetGenericArguments()[0];
+
+            //    object list = value.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            //        .Select(x => Convert.ChangeType(x, itemType, formatProvider))
+            //        .ToList();
+
+            //    //Type listType = propertyInfo.PropertyType.GetGenericTypeDefinition();
+            //    //return Convert.ChangeType(list, listType);
+
+
+            //    TypeConverter typeConverter2 = TypeDescriptor.GetConverter(propertyInfo.PropertyType);
+            //    return typeConverter2.ConvertFrom(list);
+            //}
 
             TypeConverter typeConverter = TypeDescriptor.GetConverter(propertyInfo.PropertyType);
             return typeConverter.ConvertFromString(value);

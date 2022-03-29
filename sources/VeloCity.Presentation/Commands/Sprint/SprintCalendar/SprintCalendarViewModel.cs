@@ -33,12 +33,15 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         public List<NoteBase> Notes { get; }
 
+        public bool IsCurrentSprint { get; }
+
         public SprintCalendarViewModel(AnalyzeSprintResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
 
             CalendarItems = CreateCalendarItems();
             Notes = CreateNotes();
+            IsCurrentSprint = CalendarItems.Any(x => x.IsToday);
         }
 
         private List<CalendarItemViewModel> CreateCalendarItems()

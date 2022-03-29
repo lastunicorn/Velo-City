@@ -18,7 +18,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
     public enum ArgumentType
     {
-        Unknown,
+        Unknown = 0,
         Ordinal,
         Named
     }
