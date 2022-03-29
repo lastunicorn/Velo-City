@@ -58,7 +58,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 
             foreach (OfficialHolidayInstance officialHolidayInstance in command.OfficialHolidays)
             {
-                string dateCellContent = officialHolidayInstance.Date.ToString("d");
+                string dateCellContent = $"{officialHolidayInstance.Date:d} ({ officialHolidayInstance.Date:ddd})";
                 string countryCellContent = officialHolidayInstance.Country;
                 string nameCellContent = officialHolidayInstance.Name;
 

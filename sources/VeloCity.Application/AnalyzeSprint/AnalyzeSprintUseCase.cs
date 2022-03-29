@@ -44,7 +44,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, config.AnalysisLookBack, request.ExcludedSprints, request.ExcludedTeamMembers);
             Velocity estimatedVelocity = CalculateAverageVelocity(previousSprints);
-            
+
             int totalWorkHours = currentSprint.CalculateTotalWorkHours();
             List<VelocityPenaltyInstance> velocityPenalties = currentSprint.GetVelocityPenalties();
             int? totalWorkHoursWithVelocityPenalties = currentSprint.CalculateTotalWorkHoursWithVelocityPenalties();
@@ -56,7 +56,14 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 StartDate = currentSprint.StartDate,
                 EndDate = currentSprint.EndDate,
                 SprintDays = currentSprint.EnumerateAllDays().ToList(),
-                SprintMembers = currentSprint.SprintMembers,
+                SprintMembers = currentSprint.SprintMembers
+                    .OrderBy(x =>
+                    {
+                        Employment employment = x.TeamMember.Employments.GetLastEmployment();
+                        return employment.TimeInterval.StartDate;
+                    })
+                    .ThenBy(x => x.Name)
+                    .ToList(),
                 TotalWorkHours = totalWorkHours,
                 EstimatedStoryPoints = estimatedVelocity.IsNull
                     ? StoryPoints.Null

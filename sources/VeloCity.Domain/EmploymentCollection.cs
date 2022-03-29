@@ -31,12 +31,19 @@ namespace DustInTheWind.VeloCity.Domain
 
         public Employment GetEmploymentFor(DateTime date)
         {
-            return this.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
+            return Items.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
         }
 
         public Employment GetEmploymentFor(DateInterval dateInterval)
         {
-            return this.FirstOrDefault(x => x.TimeInterval.IsIntersecting(dateInterval));
+            return Items.FirstOrDefault(x => x.TimeInterval.IsIntersecting(dateInterval));
+        }
+
+        public Employment GetLastEmployment()
+        {
+            return Items
+                .OrderByDescending(x => x.TimeInterval.StartDate)
+                .FirstOrDefault();
         }
     }
 }
