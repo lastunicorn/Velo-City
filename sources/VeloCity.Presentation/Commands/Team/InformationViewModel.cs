@@ -19,11 +19,11 @@ using DustInTheWind.VeloCity.Application.PresentTeam;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Team
 {
-    public class TeamResponseTypeViewModel
+    public class InformationViewModel
     {
         private readonly PresentTeamResponse response;
 
-        public TeamResponseTypeViewModel(PresentTeamResponse response)
+        public InformationViewModel(PresentTeamResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
         }
@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
             {
                 TeamResponseType.Date => $"Team composition for date {response.Date:d}:",
                 TeamResponseType.DateInterval => $"Team composition for date interval {response.DateInterval}:",
-                TeamResponseType.Sprint => $"Team composition for sprint {response.SprintNumber}:",
+                TeamResponseType.Sprint => $"Team composition for the sprint {response.SprintNumber} ({response.DateInterval}):",
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

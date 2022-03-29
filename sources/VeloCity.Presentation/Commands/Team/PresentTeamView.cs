@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
@@ -34,23 +35,43 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
 
         public void Display(PresentTeamCommand command)
         {
-            Console.WriteLine(command.TeamResponseType);
+            Console.WriteLine(command.Information);
+
+            DataGrid dataGrid = dataGridFactory.Create();
+            dataGrid.Title = "Team";
 
             foreach (TeamMember teamMember in command.TeamMembers)
             {
-                DataGrid dataGrid = dataGridFactory.Create();
-                dataGrid.Title = teamMember.Name.ToString();
-                dataGrid.Border.DisplayBorderBetweenRows = true;
-
                 IEnumerable<string> employmentsAsString = teamMember.Employments
-                    .Select(x => $"{x.HoursPerDay} h/day | {x.TimeInterval}");
-                dataGrid.Rows.Add("Employment", string.Join(Environment.NewLine, employmentsAsString));
+                    .Select(RenderEmployment);
 
-                if (!string.IsNullOrEmpty(teamMember.Comments))
-                    dataGrid.Rows.Add("Comments", teamMember.Comments);
-
-                dataGrid.Display();
+                string employmentsCellContent = string.Join(Environment.NewLine, employmentsAsString);
+                dataGrid.Rows.Add(teamMember.Name.FullNameWithNickname, employmentsCellContent);
             }
+
+            dataGrid.Display();
+        }
+
+        private static string RenderEmployment(Employment employment)
+        {
+            StringBuilder sb = new();
+
+            sb.Append($"{employment.HoursPerDay} h/day");
+
+            if (employment.WeekDays is { Count: > 0 })
+            {
+                if (sb.Length > 0)
+                    sb.Append(" | ");
+
+                sb.Append(string.Join(", ", employment.WeekDays));
+            }
+
+            if (sb.Length > 0)
+                sb.Append(" | ");
+
+            sb.Append(employment.TimeInterval.ToString());
+
+            return sb.ToString();
         }
     }
 }

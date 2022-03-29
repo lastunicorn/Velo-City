@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
 
         public List<TeamMember> TeamMembers { get; private set; }
 
-        public TeamResponseTypeViewModel TeamResponseType { get; private set; }
+        public InformationViewModel Information { get; private set; }
 
         public PresentTeamCommand(IMediator mediator)
         {
@@ -64,8 +64,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
             };
             PresentTeamResponse response = await mediator.Send(request);
 
+            Information = new InformationViewModel(response);
             TeamMembers = response.TeamMembers;
-            TeamResponseType = new TeamResponseTypeViewModel(response);
         }
     }
 }

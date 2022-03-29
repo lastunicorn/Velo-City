@@ -2,7 +2,7 @@
   "profiles": {
     "VeloCity.Bootstrapper": {
       "commandName": "Project",
-      "commandLineArgs": "sprint"
+      "commandLineArgs": "team -end-date 2021-01-01"
     }
   }
 }

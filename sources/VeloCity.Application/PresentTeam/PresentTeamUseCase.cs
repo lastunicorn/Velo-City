@@ -73,7 +73,12 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
             return new PresentTeamResponse()
             {
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDate(date)
-                    .OrderBy(x => x.Employments.GetEmploymentFor(date).TimeInterval.StartDate)
+                    .OrderBy(x =>
+                    {
+                        Employment employment = x.Employments.GetEmploymentFor(date);
+                        return employment.TimeInterval.StartDate;
+                    })
+                    .ThenBy(x => x.Name)
                     .ToList(),
                 ResponseType = TeamResponseType.Date,
                 Date = date
@@ -82,17 +87,15 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
 
         private PresentTeamResponse CreateResponseForDateInterval(DateInterval dateInterval)
         {
-            return new PresentTeamResponse()
+            return new PresentTeamResponse
             {
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval)
                     .OrderBy(x =>
                     {
-                        if (dateInterval.StartDate == null)
-                            return null;
-
                         Employment employment = x.Employments.GetEmploymentFor(dateInterval);
                         return employment.TimeInterval.StartDate;
                     })
+                    .ThenBy(x => x.Name)
                     .ToList(),
                 ResponseType = TeamResponseType.DateInterval,
                 DateInterval = dateInterval
@@ -104,10 +107,16 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
             return new PresentTeamResponse
             {
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.StartDate, sprint.EndDate)
-                    .OrderBy(x => x.Employments.GetEmploymentFor(sprint.StartDate).TimeInterval.StartDate)
+                    .OrderBy(x =>
+                    {
+                        Employment employment = x.Employments.GetEmploymentFor(sprint.StartDate);
+                        return employment.TimeInterval.StartDate;
+                    })
+                    .ThenBy(x => x.Name)
                     .ToList(),
                 ResponseType = TeamResponseType.Sprint,
-                SprintNumber = sprint.Number
+                SprintNumber = sprint.Number,
+                DateInterval = sprint.DateInterval
             };
         }
     }
