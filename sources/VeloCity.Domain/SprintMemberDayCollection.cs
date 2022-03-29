@@ -14,15 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+
 namespace DustInTheWind.VeloCity.Domain
 {
-    public enum AbsenceReason
+    public class SprintMemberDayCollection : Collection<SprintMemberDay>
     {
-        None,
-        WeekEnd,
-        OfficialHoliday,
-        Vacation,
-        Unemployed,
-        Contract
+        public SprintMemberDay this[DateTime date] => Items.FirstOrDefault(x => x.SprintDay.Date == date);
+
+        public SprintMemberDayCollection(IEnumerable<SprintMemberDay> sprintMemberDays)
+        {
+            foreach (SprintMemberDay sprintMemberDay in sprintMemberDays)
+                Add(sprintMemberDay);
+        }
     }
 }

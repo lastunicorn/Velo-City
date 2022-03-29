@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
@@ -25,7 +26,9 @@ namespace DustInTheWind.VeloCity.JsonFiles
         public DateTime? EndDate { get; set; }
 
         public int HoursPerDay { get; set; }
-        
+
+        public List<DayOfWeek> WeekDays { get; set; }
+
         public string Country { get; set; }
     }
 }

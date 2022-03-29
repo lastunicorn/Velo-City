@@ -41,7 +41,17 @@ namespace DustInTheWind.VeloCity.Domain
         public List<OfficialHoliday> OfficialHolidays { get; set; }
 
         public SprintState State { get; set; }
-        
+
+        public List<SprintMember> SprintMembers { get; } = new();
+
+        public void AddSprintMember(TeamMember teamMember)
+        {
+            SprintMember sprintMember = teamMember.ToSprintMember(this);
+
+            if (sprintMember.IsEmployed)
+                SprintMembers.Add(sprintMember);
+        }
+
         public int CountWorkDays()
         {
             return EnumerateWorkDays().Count();
@@ -76,6 +86,41 @@ namespace DustInTheWind.VeloCity.Domain
                     DateTime date = StartDate.AddDays(x);
                     return ToSprintDay(date);
                 });
+        }
+        public Velocity CalculateVelocity()
+        {
+            int totalWorkHours = SprintMembers
+                .Select(x => x.WorkHours)
+                .Sum();
+
+            return ActualStoryPoints / totalWorkHours;
+        }
+
+        public int CalculateTotalWorkHours()
+        {
+            return SprintMembers
+                .Select(x => x.WorkHours)
+                .Sum();
+        }
+
+        public int CalculateTotalWorkHoursWithVelocityPenalties()
+        {
+            return SprintMembers
+                .Select(x => x.WorkHoursWithVelocityPenalties)
+                .Sum();
+        }
+
+        public List<VelocityPenaltyInstance> GetVelocityPenalties()
+        {
+            return SprintMembers
+                .Select(x => new VelocityPenaltyInstance
+                {
+                    Sprint = x.Sprint,
+                    TeamMember = x.TeamMember,
+                    Value = x.VelocityPenaltyPercentage
+                })
+                .Where(x => x.Value > 0)
+                .ToList();
         }
 
         private SprintDay ToSprintDay(DateTime date)

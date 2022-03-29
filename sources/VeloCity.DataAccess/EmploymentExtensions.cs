@@ -36,6 +36,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 StartDate = employment.TimeInterval.StartDate,
                 EndDate = employment.TimeInterval.EndDate,
                 HoursPerDay = employment.HoursPerDay,
+                WeekDays = employment.WeekDays,
                 Country = employment.Country
             };
         }
@@ -52,6 +53,7 @@ namespace DustInTheWind.VeloCity.DataAccess
             {
                 TimeInterval = new DateInterval(employment.StartDate, employment.EndDate),
                 HoursPerDay = employment.HoursPerDay,
+                WeekDays = employment.WeekDays,
                 Country = employment.Country
             };
         }
