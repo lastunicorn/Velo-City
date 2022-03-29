@@ -43,10 +43,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         private List<CalendarItemViewModel> CreateCalendarItems()
         {
-            return response.SprintDays
-                .Where(x => !x.IsWeekEnd)
+            List<CalendarItemViewModel> calendarItemViewModels = response.SprintDays
                 .Select(CreateCalendarItem)
                 .ToList();
+
+            foreach (CalendarItemViewModel calendarItemViewModel in calendarItemViewModels)
+                calendarItemViewModel.IsToday = calendarItemViewModel.Date == response.Today;
+
+            return calendarItemViewModels;
         }
 
         private CalendarItemViewModel CreateCalendarItem(SprintDay sprintDay)

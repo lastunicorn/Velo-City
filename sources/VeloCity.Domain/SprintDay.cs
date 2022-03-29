@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
@@ -30,8 +31,9 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool IsOfficialHoliday => OfficialHolidays.Any();
 
-        public bool IsWorkDay => !IsWeekEnd && !IsOfficialHoliday;
-
-        public bool IsFreeDay => IsWeekEnd || IsOfficialHoliday;
+        public override string ToString()
+        {
+            return Date.ToString(CultureInfo.CurrentCulture);
+        }
     }
 }

@@ -58,10 +58,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         public override string ToString()
         {
-            IEnumerable<string> teamMembersAbsenceInfos = TeamMemberVacationDetails
-                .Select(x => x.ToString());
+            IEnumerable<string> teamMembersAbsenceInfos = TeamMemberVacationDetails == null
+                ? Enumerable.Empty<string>()
+                : TeamMemberVacationDetails
+                    .Select(x => x.ToString());
 
-            IEnumerable<string> officialHolidaysAbsenceInfos = OfficialHolidays
+            IEnumerable<string> officialHolidaysAbsenceInfos = OfficialHolidays == null
+                ? Enumerable.Empty<string>()
+                : OfficialHolidays
                     .Select(x => x.ToString());
 
             IEnumerable<string> items = teamMembersAbsenceInfos

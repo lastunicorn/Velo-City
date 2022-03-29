@@ -30,6 +30,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         public HoursValue AbsenceHours { get; }
 
         public AbsenceDetailsViewModel AbsenceDetails { get; }
+        
+        public bool IsToday { get; set; }
 
         public CalendarItemViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
         {

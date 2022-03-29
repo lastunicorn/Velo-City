@@ -87,7 +87,8 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                     .Select(x => x.Number)
                     .ToList(),
                 ExcludedSprints = request.ExcludedSprints?.ToList(),
-                ShowTeam = request.ShowTeam
+                ShowTeam = request.ShowTeam,
+                Today = DateTime.Today
             };
 
             return Task.FromResult(response);

@@ -45,19 +45,5 @@ namespace DustInTheWind.VeloCity.Domain
                     .ToList()
             };
         }
-
-        public IEnumerable<DateTime> EnumerateWorkDates()
-        {
-            return EnumerateAllDays()
-                .Where(x => x.IsWorkDay)
-                .Select(x => x.Date)
-                .ToList();
-        }
-
-        public IEnumerable<SprintDay> EnumerateWorkDays()
-        {
-            return EnumerateAllDays()
-                .Where(x => x.IsWorkDay);
-        }
     }
 }

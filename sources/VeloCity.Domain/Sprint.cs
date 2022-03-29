@@ -52,30 +52,6 @@ namespace DustInTheWind.VeloCity.Domain
                 SprintMembers.Add(sprintMember);
         }
 
-        public int CountWorkDays()
-        {
-            return EnumerateWorkDays().Count();
-        }
-
-        public IEnumerable<DateTime> EnumerateWorkDates()
-        {
-            return EnumerateAllDays()
-                .Where(x => x.IsWorkDay)
-                .Select(x => x.Date);
-        }
-
-        public IEnumerable<SprintDay> EnumerateWorkDays()
-        {
-            return EnumerateAllDays()
-                .Where(x => x.IsWorkDay);
-        }
-
-        public IEnumerable<SprintDay> EnumerateDaysWithoutWeekend()
-        {
-            return EnumerateAllDays()
-                .Where(x => !x.IsWeekEnd);
-        }
-
         public IEnumerable<SprintDay> EnumerateAllDays()
         {
             int totalDaysCount = (int)(EndDate.Date - StartDate.Date).TotalDays + 1;

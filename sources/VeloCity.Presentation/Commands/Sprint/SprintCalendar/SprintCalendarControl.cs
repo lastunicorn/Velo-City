@@ -48,8 +48,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = "Sprint Calendar";
 
-            dataGrid.Columns.Add("Date");
-
+            Column dateColumn = dataGrid.Columns.Add("Date");
+            dateColumn.HeaderCell.PaddingLeft = 3;
+            
             Column workColumn = new("Work")
             {
                 CellHorizontalAlignment = HorizontalAlignment.Right
@@ -108,7 +109,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         {
             ContentRow dataRow = new();
 
-            dataRow.AddCell($"{calendarItem.Date:d} ({calendarItem.Date:ddd})");
+            string arrow = calendarItem.IsToday ? "»" : " ";
+            dataRow.AddCell($"{arrow} {calendarItem.Date:d} ({calendarItem.Date:ddd})");
 
             ContentCell workHoursCell = CreateWorkHoursCell(calendarItem);
             dataRow.AddCell(workHoursCell);
