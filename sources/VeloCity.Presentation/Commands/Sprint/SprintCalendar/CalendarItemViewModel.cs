@@ -25,12 +25,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
     {
         public DateTime Date { get; }
 
+        public bool IsWorkDay { get; set; }
+
         public HoursValue WorkHours { get; }
 
         public HoursValue AbsenceHours { get; }
 
         public AbsenceDetailsViewModel AbsenceDetails { get; }
-        
+
         public bool IsToday { get; set; }
 
         public CalendarItemViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
@@ -39,11 +41,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
 
             Date = sprintDay.Date;
+            IsWorkDay = sprintMemberDays.Any(x => x.AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday);
             WorkHours = sprintMemberDays.Sum(x => x.WorkHours);
             AbsenceHours = sprintMemberDays
                 .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
                 .Sum(x => x.AbsenceHours);
-
             AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
         }
     }

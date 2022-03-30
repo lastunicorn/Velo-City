@@ -111,15 +111,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         {
             ContentRow dataRow = new();
 
-            if (ViewModel.IsCurrentSprint)
-            {
-                string arrow = calendarItem.IsToday ? "»" : " ";
-                dataRow.AddCell($"{arrow} {calendarItem.Date:d} ({calendarItem.Date:ddd})");
-            }
-            else
-            {
-                dataRow.AddCell($"{calendarItem.Date:d} ({calendarItem.Date:ddd})");
-            }
+            ContentCell dateCell = CreateDateCell(calendarItem);
+            dataRow.AddCell(dateCell);
 
             ContentCell workHoursCell = CreateWorkHoursCell(calendarItem);
             dataRow.AddCell(workHoursCell);
@@ -136,14 +129,38 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             return dataRow;
         }
 
+        private ContentCell CreateDateCell(CalendarItemViewModel calendarItem)
+        {
+            ContentCell cell = new();
+
+            if (ViewModel.IsCurrentSprint)
+            {
+                string arrow = calendarItem.IsToday ? "»" : " ";
+                cell.Content = $"{arrow} {calendarItem.Date:d} ({calendarItem.Date:ddd})";
+            }
+            else
+            {
+                cell.Content = $"{calendarItem.Date:d} ({calendarItem.Date:ddd})";
+            }
+
+            if (!calendarItem.IsWorkDay)
+                cell.ForegroundColor = ConsoleColor.DarkGray;
+
+            return cell;
+        }
+
         private static ContentCell CreateWorkHoursCell(CalendarItemViewModel calendarItem)
         {
             return new ContentCell
             {
-                Content = calendarItem.WorkHours.ToString(),
+                Content = calendarItem.IsWorkDay
+                    ? calendarItem.WorkHours.ToString()
+                    : string.Empty,
                 ForegroundColor = calendarItem.WorkHours > 0
                     ? ConsoleColor.Green
-                    : null
+                    : !calendarItem.IsWorkDay
+                        ? ConsoleColor.DarkGray
+                        : null
             };
         }
 
@@ -160,10 +177,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         {
             return new ContentCell
             {
-                Content = calendarItem.AbsenceHours.ToString(),
+                Content = calendarItem.IsWorkDay
+                    ? calendarItem.AbsenceHours.ToString()
+                    : string.Empty,
                 ForegroundColor = calendarItem.AbsenceHours > 0
                     ? ConsoleColor.Yellow
-                    : null
+                    : !calendarItem.IsWorkDay
+                        ? ConsoleColor.DarkGray
+                        : null
             };
         }
 
