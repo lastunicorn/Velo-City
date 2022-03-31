@@ -14,10 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+
 namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public interface IUnitOfWork
     {
+        public Warning DatabaseWarning { get; }
+        
+        public Exception DatabaseError { get; }
+
         public IOfficialHolidayRepository OfficialHolidayRepository { get; }
 
         public ISprintRepository SprintRepository { get; }

@@ -18,41 +18,91 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.JsonFiles;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
     public class Database
     {
-        private readonly DatabaseFile databaseFile;
-        public readonly List<TeamMember> TeamMembers = new();
-        public readonly List<OfficialHoliday> OfficialHolidays = new();
-        public List<Vacation> Vacations = new();
-        public readonly List<Sprint> Sprints = new();
+        private readonly IConfig config;
+        private DatabaseFile databaseFile;
 
-        public Database(DatabaseFile databaseFile)
+        public DatabaseState State { get; private set; }
+
+        public DataAccessException LastError { get; private set; }
+
+        public Warning LastWarning { get; private set; }
+
+        public List<TeamMember> TeamMembers { get; } = new();
+
+        public List<OfficialHoliday> OfficialHolidays { get; } = new();
+
+        public List<Vacation> Vacations { get; } = new();
+
+        public List<Sprint> Sprints { get; } = new();
+
+        public Database(IConfig config)
         {
-            this.databaseFile = databaseFile ?? throw new ArgumentNullException(nameof(databaseFile));
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
+        }
 
-            LoadAll();
+        public void Open()
+        {
+            if (State == DatabaseState.Opened)
+                return;
 
-            foreach (Sprint sprint in Sprints)
+            try
             {
-                sprint.OfficialHolidays = OfficialHolidays
-                    .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
-                    .ToList();
+                State = DatabaseState.Closed;
+                ClearAllData();
+                LastError = null;
+                LastWarning = null;
+
+                databaseFile = new DatabaseFile(config.DatabaseLocation);
+                databaseFile.Open();
+
+                LoadAllData();
+
+                foreach (Sprint sprint in Sprints)
+                {
+                    sprint.OfficialHolidays = OfficialHolidays
+                        .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
+                        .ToList();
+                }
+
+                State = DatabaseState.Opened;
+            }
+            catch (DataAccessException ex)
+            {
+                LastError = ex;
+                State = DatabaseState.Error;
+                throw;
+            }
+            catch (Exception ex)
+            {
+                DataAccessException dataAccessException = new(ex);
+                LastError = dataAccessException;
+                State = DatabaseState.Error;
+
+                throw dataAccessException;
+            }
+            finally
+            {
+                LastWarning = databaseFile.LastWarning;
             }
         }
 
-        private void LoadAll()
+        private void ClearAllData()
         {
             TeamMembers.Clear();
             OfficialHolidays.Clear();
             Vacations.Clear();
             Sprints.Clear();
+        }
 
-            databaseFile.Open();
-
+        private void LoadAllData()
+        {
             IEnumerable<Sprint> sprints = databaseFile.Document.Sprints.ToEntities();
             Sprints.AddRange(sprints);
 

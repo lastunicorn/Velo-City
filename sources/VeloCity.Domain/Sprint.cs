@@ -44,6 +44,14 @@ namespace DustInTheWind.VeloCity.Domain
 
         public List<SprintMember> SprintMembers { get; } = new();
 
+        public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembers
+            .OrderBy(x =>
+            {
+                Employment employment = x.TeamMember.Employments.GetLastEmployment();
+                return employment.TimeInterval.StartDate;
+            })
+            .ThenBy(x => x.Name);
+
         public void AddSprintMember(TeamMember teamMember)
         {
             SprintMember sprintMember = teamMember.ToSprintMember(this);

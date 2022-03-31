@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
+using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public class DatabaseDocument
+    public class TooSmallDatabaseVersionException : DataAccessException
     {
-        public JDatabaseInfo DatabaseInfo { get; set; }
+        private const string DefaultMessage = "The database json file has an old format. Please upgrade the database format. Actual database version: {0}. Expected database version: {1}.";
 
-        public List<JSprint> Sprints { get; set; }
-
-        public List<JTeamMember> TeamMembers { get; set; }
-
-        public List<JOfficialHoliday> OfficialHolidays { get; set; }
+        public TooSmallDatabaseVersionException(Version actualVersion, Version expectedVersion)
+            : base(string.Format(DefaultMessage, actualVersion, expectedVersion))
+        {
+        }
     }
 }

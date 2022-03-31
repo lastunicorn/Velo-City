@@ -28,4 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

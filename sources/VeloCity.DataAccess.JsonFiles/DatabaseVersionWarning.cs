@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
+using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public class DatabaseDocument
+    internal class DatabaseVersionWarning : Warning
     {
-        public JDatabaseInfo DatabaseInfo { get; set; }
+        private const string DefaultMessage = "The version of the json file is unexpected. The parsed data may be incomplete. Actual file version: {0}. Expected file version: {1}.";
 
-        public List<JSprint> Sprints { get; set; }
-
-        public List<JTeamMember> TeamMembers { get; set; }
-
-        public List<JOfficialHoliday> OfficialHolidays { get; set; }
+        public DatabaseVersionWarning(Version actualDatabaseVersion, Version expectedDatabaseVersion)
+            : base(string.Format(DefaultMessage, actualDatabaseVersion, expectedDatabaseVersion))
+        {
+        }
     }
 }

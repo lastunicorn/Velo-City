@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.DataAccess
@@ -23,15 +24,30 @@ namespace DustInTheWind.VeloCity.DataAccess
     {
         private readonly Database database;
 
+        private Database Database
+        {
+            get
+            {
+                if (database.State != DatabaseState.Opened)
+                    database.Open();
+
+                return database;
+            }
+        }
+
         private OfficialHolidayRepository officialHolidayRepository;
         private SprintRepository sprintRepository;
         private TeamMemberRepository teamMemberRepository;
 
-        public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(database);
+        public Exception DatabaseError => database.LastError;
 
-        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(database);
+        public Warning DatabaseWarning => database.LastWarning;
 
-        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(database);
+        public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(Database);
+
+        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(Database);
+
+        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(Database);
 
         public UnitOfWork(Database database)
         {

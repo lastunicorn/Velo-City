@@ -28,30 +28,43 @@ namespace DustInTheWind.VeloCity.Bootstrapper
     {
         private static async Task Main(string[] args)
         {
-            ErrorMessageLevel debugVerbose = ErrorMessageLevel.Verbose;
+            ErrorMessageLevel errorMessageLevel = ErrorMessageLevel.Verbose;
 
             try
             {
-                ApplicationHeader applicationHeader = new();
-                applicationHeader.Display();
-
+                DisplayApplicationHeader();
                 IContainer container = SetupServices.BuildContainer();
-
-                IConfig config = container.Resolve<IConfig>();
-                debugVerbose = config.ErrorMessageLevel;
-
-                CommandRouter commandRouter = container.Resolve<CommandRouter>();
-
-                Arguments arguments = new(args);
-                await commandRouter.Execute(arguments);
+                await using ILifetimeScope lifetimeScope = container.BeginLifetimeScope();
+                errorMessageLevel = GetErrorMessageLevel(lifetimeScope);
+                await ProcessRequest(args, lifetimeScope);
             }
             catch (Exception ex)
             {
-                if (debugVerbose == ErrorMessageLevel.Verbose)
+                if (errorMessageLevel == ErrorMessageLevel.Verbose)
                     CustomConsole.WriteLineError(ex);
                 else
                     CustomConsole.WriteLineError(ex.Message);
             }
+        }
+
+        private static void DisplayApplicationHeader()
+        {
+            ApplicationHeader applicationHeader = new();
+            applicationHeader.Display();
+        }
+
+        private static ErrorMessageLevel GetErrorMessageLevel(IComponentContext container)
+        {
+            IConfig config = container.Resolve<IConfig>();
+            return config.ErrorMessageLevel;
+        }
+        
+        private static async Task ProcessRequest(string[] args, IComponentContext container)
+        {
+            CommandRouter commandRouter = container.Resolve<CommandRouter>();
+
+            Arguments arguments = new(args);
+            await commandRouter.Execute(arguments);
         }
     }
 }
