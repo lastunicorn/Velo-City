@@ -46,8 +46,16 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             Velocity estimatedVelocity = CalculateAverageVelocity(previousSprints);
 
             int totalWorkHours = currentSprint.CalculateTotalWorkHours();
-            List<VelocityPenaltyInstance> velocityPenalties = currentSprint.GetVelocityPenalties();
+            List<VelocityPenaltyInfo> velocityPenalties = RetrieveVelocityPenalties(currentSprint);
             int? totalWorkHoursWithVelocityPenalties = currentSprint.CalculateTotalWorkHoursWithVelocityPenalties();
+
+            StoryPoints estimatedStoryPoints = estimatedVelocity.IsNull
+                ? StoryPoints.Null
+                : totalWorkHours * estimatedVelocity;
+
+            StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !velocityPenalties.Any()
+                ? StoryPoints.Null
+                : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
 
             AnalyzeSprintResponse response = new()
             {
@@ -56,29 +64,12 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 StartDate = currentSprint.StartDate,
                 EndDate = currentSprint.EndDate,
                 SprintDays = currentSprint.EnumerateAllDays().ToList(),
-                SprintMembers = currentSprint.SprintMembers
-                    .OrderBy(x =>
-                    {
-                        Employment employment = x.TeamMember.Employments.GetLastEmployment();
-                        return employment.TimeInterval.StartDate;
-                    })
-                    .ThenBy(x => x.Name)
-                    .ToList(),
+                SprintMembers = currentSprint.SprintMembersOrderedByEmployment.ToList(),
                 TotalWorkHours = totalWorkHours,
-                EstimatedStoryPoints = estimatedVelocity.IsNull
-                    ? StoryPoints.Null
-                    : totalWorkHours * estimatedVelocity,
-                EstimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !velocityPenalties.Any()
-                    ? StoryPoints.Null
-                    : totalWorkHoursWithVelocityPenalties * estimatedVelocity,
+                EstimatedStoryPoints = estimatedStoryPoints,
+                EstimatedStoryPointsWithVelocityPenalties = estimatedStoryPointsWithVelocityPenalties,
                 EstimatedVelocity = estimatedVelocity,
-                VelocityPenalties = velocityPenalties
-                    .Select(x => new VelocityPenaltyInfo
-                    {
-                        PersonName = x.TeamMember?.Name,
-                        PenaltyValue = x.Value
-                    })
-                    .ToList(),
+                VelocityPenalties = velocityPenalties,
                 CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
                 ActualStoryPoints = currentSprint.ActualStoryPoints,
                 ActualVelocity = currentSprint.ActualStoryPoints / totalWorkHours,
@@ -157,6 +148,17 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             return previousVelocities
                 .Select(x => x.Value)
                 .Average();
+        }
+
+        private static List<VelocityPenaltyInfo> RetrieveVelocityPenalties(Sprint sprint)
+        {
+            return sprint.GetVelocityPenalties()
+                .Select(x => new VelocityPenaltyInfo
+                {
+                    PersonName = x.TeamMember?.Name,
+                    PenaltyValue = x.Value
+                })
+                .ToList();
         }
     }
 }

@@ -14,18 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
-    public class DatabaseDocument
+    public class DatabaseNotFoundException : DataAccessException
     {
-        public JDatabaseInfo DatabaseInfo { get; set; }
+        private const string DefaultMessage = "Database was not found. Connection String: {0}";
 
-        public List<JSprint> Sprints { get; set; }
+        public DatabaseNotFoundException(string connectionString)
+            : base(string.Format(DefaultMessage, connectionString))
+        {
+        }
 
-        public List<JTeamMember> TeamMembers { get; set; }
-
-        public List<JOfficialHoliday> OfficialHolidays { get; set; }
+        public DatabaseNotFoundException(Exception innerException)
+            : base(DefaultMessage, innerException)
+        {
+        }
     }
 }

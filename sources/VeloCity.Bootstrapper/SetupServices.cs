@@ -51,25 +51,9 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             availableCommands.LoadFromCurrentAppDomain();
 
             containerBuilder.RegisterInstance(availableCommands).AsSelf();
-
-            containerBuilder
-                .Register((c, p) =>
-                {
-                    try
-                    {
-                        IConfig config = c.Resolve<IConfig>();
-                        string databaseFilePath = config.DatabaseLocation;
-                        return new DatabaseFile(databaseFilePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new DatabaseNotFoundException(ex);
-                    }
-                })
-                .AsSelf();
-
+            
             containerBuilder.RegisterType<Database>().AsSelf();
-            containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+            containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
             foreach (Type type in availableCommands.GetCommandTypes())
                 containerBuilder.RegisterType(type).AsSelf();

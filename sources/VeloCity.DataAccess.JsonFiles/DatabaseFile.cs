@@ -16,6 +16,8 @@
 
 using System;
 using System.IO;
+using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.DataAccess;
 using Newtonsoft.Json;
 
 namespace DustInTheWind.VeloCity.JsonFiles
@@ -26,6 +28,8 @@ namespace DustInTheWind.VeloCity.JsonFiles
 
         public DatabaseDocument Document { get; set; }
 
+        public Warning LastWarning { get; private set; }
+
         public DatabaseFile(string filePath)
         {
             this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
@@ -33,8 +37,24 @@ namespace DustInTheWind.VeloCity.JsonFiles
 
         public void Open()
         {
+            LastWarning = null;
+
+            if (!File.Exists(filePath))
+                throw new DatabaseNotFoundException(filePath);
+
             string json = File.ReadAllText(filePath);
             Document = JsonConvert.DeserializeObject<DatabaseDocument>(json);
+
+            DatabaseVersionValidator databaseVersionValidator = new();
+
+            try
+            {
+                databaseVersionValidator.CheckDatabaseVersion(Document?.DatabaseInfo?.DatabaseVersion);
+            }
+            finally
+            {
+                LastWarning = databaseVersionValidator.Warning;
+            }
         }
 
         public void Save()

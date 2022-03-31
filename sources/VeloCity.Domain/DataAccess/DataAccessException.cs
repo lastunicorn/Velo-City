@@ -14,18 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
-    public class DatabaseDocument
+    public class DataAccessException : Exception
     {
-        public JDatabaseInfo DatabaseInfo { get; set; }
+        private const string DefaultMessage = "Error reading the database.";
 
-        public List<JSprint> Sprints { get; set; }
+        public DataAccessException()
+            : base(DefaultMessage)
+        {
+        }
 
-        public List<JTeamMember> TeamMembers { get; set; }
+        public DataAccessException(string message)
+            : base(message)
+        {
+        }
 
-        public List<JOfficialHoliday> OfficialHolidays { get; set; }
+        public DataAccessException(Exception innerException)
+            : base(DefaultMessage, innerException)
+        {
+        }
+
+        public DataAccessException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }

@@ -16,12 +16,17 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.Domain
 {
-    internal class DataAccessException : Exception
+    public class Warning : Exception
     {
-        public DataAccessException(string message)
+        public Warning(string message)
             : base(message)
+        {
+        }
+
+        public Warning(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
     }
