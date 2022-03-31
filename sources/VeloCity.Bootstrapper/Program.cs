@@ -58,10 +58,21 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             IConfig config = container.Resolve<IConfig>();
             return config.ErrorMessageLevel;
         }
-        
+
         private static async Task ProcessRequest(string[] args, IComponentContext container)
         {
             CommandRouter commandRouter = container.Resolve<CommandRouter>();
+            commandRouter.CommandCreated += (sender, e) =>
+            {
+                if (e.UnusedArguments.Count > 0)
+                {
+                    foreach (Argument unusedArgument in e.UnusedArguments)
+                    {
+                        string argumentInfo = unusedArgument.Name ?? unusedArgument.Value;
+                        CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"Unknown argument: {argumentInfo}");
+                    }
+                }
+            };
 
             Arguments arguments = new(args);
             await commandRouter.Execute(arguments);

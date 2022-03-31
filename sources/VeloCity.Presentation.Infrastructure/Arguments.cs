@@ -15,12 +15,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
-    public class Arguments
+    public class Arguments : IEnumerable<Argument>
     {
         private readonly List<Argument> arguments = new();
 
@@ -89,6 +90,16 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                 .Where(x => x.Type == ArgumentType.Ordinal)
                 .Skip(index)
                 .FirstOrDefault();
+        }
+
+        public IEnumerator<Argument> GetEnumerator()
+        {
+            return arguments.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

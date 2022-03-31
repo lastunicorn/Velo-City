@@ -9,6 +9,8 @@ v1.7.0
 - [feature] Added in the config file the number of sprints used for velocity estimations.
 - [feature] Sprint Analysis: Added a chart in the team grid to represent the work and absence hours.
 - [feature] The work week days can be specified in the employment object.
+- [feature] Added versioning to the json database file.
+- [feature] Display a warning if unknown arguments are provided.
 
 v1.6.0
 ----------------------------------------------------------------------------------------------------

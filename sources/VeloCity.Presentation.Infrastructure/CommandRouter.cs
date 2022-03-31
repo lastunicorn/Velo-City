@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -25,6 +26,8 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
     {
         private readonly AvailableCommands availableCommands;
         private readonly ICommandFactory commandFactory;
+
+        public event EventHandler<CommandCreatedEventArgs> CommandCreated;
 
         public CommandRouter(AvailableCommands availableCommands, ICommandFactory commandFactory)
         {
@@ -43,29 +46,44 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         private ICommand CreateCommand(Arguments arguments)
         {
-            if (arguments.Count == 0)
+            ArgumentsLens argumentsLens = new(arguments);
+
+            ICommand command = CreateCommand(argumentsLens);
+
+            CommandCreatedEventArgs args = new()
+            {
+                UnusedArguments = argumentsLens.EnumerateUnusedArguments().ToList()
+            };
+            OnCommandCreated(args);
+
+            return command;
+        }
+
+        private ICommand CreateCommand(ArgumentsLens argumentsLens)
+        {
+            if (!argumentsLens.HasUnusedArguments)
             {
                 CommandInfo helpCommandInfo = availableCommands.GetHelpCommand();
                 return commandFactory.Create(helpCommandInfo.Type);
             }
 
-            string commandName = arguments[0].Value;
-            CommandInfo commandInfo = availableCommands.GetCommandInfo(commandName);
+            Argument commandArgument = argumentsLens.GetCommand();
+            CommandInfo commandInfo = availableCommands.GetCommandInfo(commandArgument.Value);
 
             if (commandInfo == null)
                 throw new InvalidCommandException();
 
             ICommand command = commandFactory.Create(commandInfo.Type);
-            SetParameters(command, commandInfo, arguments);
+            SetParameters(command, commandInfo, argumentsLens);
 
             return command;
         }
 
-        private static void SetParameters(ICommand command, CommandInfo commandInfo, Arguments arguments)
+        private static void SetParameters(ICommand command, CommandInfo commandInfo, ArgumentsLens argumentsLens)
         {
             foreach (CommandParameterInfo parameterInfo in commandInfo.ParameterInfos)
             {
-                Argument argument = FindArgumentFor(arguments, parameterInfo);
+                Argument argument = FindArgumentFor(argumentsLens, parameterInfo);
 
                 if (argument == null)
                 {
@@ -82,11 +100,11 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             }
         }
 
-        private static Argument FindArgumentFor(Arguments arguments, CommandParameterInfo parameterInfo)
+        private static Argument FindArgumentFor(ArgumentsLens argumentsLens, CommandParameterInfo parameterInfo)
         {
             if (parameterInfo.Name != null)
             {
-                Argument argument = arguments[parameterInfo.Name];
+                Argument argument = argumentsLens.GetArgument(parameterInfo.Name);
 
                 if (argument != null)
                     return argument;
@@ -94,7 +112,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
             if (parameterInfo.ShortName != 0)
             {
-                Argument argument = arguments[parameterInfo.ShortName.ToString()];
+                Argument argument = argumentsLens.GetArgument(parameterInfo.ShortName.ToString());
 
                 if (argument != null)
                     return argument;
@@ -102,7 +120,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
             if (parameterInfo.Order != null)
             {
-                Argument argument = arguments.GetOrdinal(parameterInfo.Order.Value);
+                Argument argument = argumentsLens.GetArgument(parameterInfo.Order.Value);
 
                 if (argument != null)
                     return argument;
@@ -124,6 +142,11 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                 MethodInfo displayMethodInfo = viewType.GetMethod(nameof(IView<ICommand>.Display));
                 displayMethodInfo?.Invoke(view, new object[] { command });
             }
+        }
+
+        protected virtual void OnCommandCreated(CommandCreatedEventArgs e)
+        {
+            CommandCreated?.Invoke(this, e);
         }
     }
 }
