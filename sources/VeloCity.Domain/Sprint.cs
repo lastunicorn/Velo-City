@@ -71,20 +71,21 @@ namespace DustInTheWind.VeloCity.Domain
                     return ToSprintDay(date);
                 });
         }
+
         public Velocity CalculateVelocity()
         {
             int totalWorkHours = SprintMembers
                 .Select(x => x.WorkHours)
-                .Sum();
+                .Sum(x => x.Value);
 
             return ActualStoryPoints / totalWorkHours;
         }
 
-        public int CalculateTotalWorkHours()
+        public HoursValue CalculateTotalWorkHours()
         {
             return SprintMembers
                 .Select(x => x.WorkHours)
-                .Sum();
+                .Sum(x => x.Value);
         }
 
         public int CalculateTotalWorkHoursWithVelocityPenalties()

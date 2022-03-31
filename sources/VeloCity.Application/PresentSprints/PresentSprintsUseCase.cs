@@ -54,9 +54,9 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
 
         private SprintOverview CreateSprintOverview(Sprint sprint)
         {
-            int totalWorkHours = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.StartDate, sprint.EndDate)
+            HoursValue totalWorkHours = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.StartDate, sprint.EndDate)
                 .Select(x => x.ToSprintMember(sprint).WorkHours)
-                .Sum();
+                .Sum(x => x.Value);
 
             return new SprintOverview
             {

@@ -62,9 +62,9 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
                 .Select(x => x.ToSprintMember(sprint))
                 .ToList();
 
-            int totalWorkHours = sprintMembers
+            HoursValue totalWorkHours = sprintMembers
                 .SelectMany(x => x.Days.Select(z => z.WorkHours))
-                .Sum();
+                .Sum(x => x.Value);
 
             return sprint.ActualStoryPoints / totalWorkHours;
         }

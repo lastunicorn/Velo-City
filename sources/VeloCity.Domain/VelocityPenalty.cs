@@ -28,13 +28,4 @@ namespace DustInTheWind.VeloCity.Domain
 
         public string Comments { get; set; }
     }
-
-    public class VelocityPenaltyInstance
-    {
-        public Sprint Sprint { get; set; }
-
-        public TeamMember TeamMember { get; set; }
-
-        public int Value { get; set; }
-    }
 }

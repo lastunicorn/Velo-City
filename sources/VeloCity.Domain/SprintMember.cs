@@ -33,9 +33,9 @@ namespace DustInTheWind.VeloCity.Domain
         public bool IsEmployed => Days
             .Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
 
-        public int WorkHours => Days
+        public HoursValue WorkHours => Days
             .Select(x => x.WorkHours)
-            .Sum();
+            .Sum(x=>x.Value);
 
         public int WorkHoursWithVelocityPenalties
         {
@@ -54,7 +54,7 @@ namespace DustInTheWind.VeloCity.Domain
                     return new List<VelocityPenalty>();
 
                 return TeamMember.VelocityPenalties
-                    .Where(x => Sprint.Number >= x.Sprint.Number && Sprint.Number < x.Sprint.Number + x.Duration)
+                    .Where(x => Sprint.Number >= x.Sprint?.Number && Sprint.Number < x.Sprint?.Number + x.Duration)
                     .ToList();
             }
         }

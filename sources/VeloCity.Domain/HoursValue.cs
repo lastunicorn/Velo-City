@@ -14,20 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Presentation
+using System;
+
+namespace DustInTheWind.VeloCity.Domain
 {
-    public struct HoursValue
+    public readonly struct HoursValue : IFormattable
     {
         public static char DefaultZeroCharacter { get; set; } = '-';
 
-        public char? ZeroCharacter { get; set; }
+        public int Value { get; private init; }
 
-        public int Value { get; set; }
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return Value == 0
+                ? format == null
+                    ? $"{DefaultZeroCharacter} h"
+                    : $"{format} h"
+                : $"{Value} h";
+        }
 
         public override string ToString()
         {
             return Value == 0
-                ? $"{ZeroCharacter ?? DefaultZeroCharacter} h"
+                ? $"{DefaultZeroCharacter} h"
                 : $"{Value} h";
         }
 
@@ -57,6 +66,22 @@ namespace DustInTheWind.VeloCity.Presentation
             return hoursValue.Value == 0
                 ? null
                 : hoursValue.Value;
+        }
+
+        public static HoursValue operator +(HoursValue hoursValue1, HoursValue hoursValue2)
+        {
+            return new HoursValue
+            {
+                Value = hoursValue1.Value + hoursValue2.Value
+            };
+        }
+
+        public static HoursValue operator -(HoursValue hoursValue1, HoursValue hoursValue2)
+        {
+            return new HoursValue
+            {
+                Value = hoursValue1.Value - hoursValue2.Value
+            };
         }
     }
 }

@@ -14,27 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using DustInTheWind.VeloCity.Domain;
-
-namespace DustInTheWind.VeloCity.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class SprintOverview
+    public class VelocityPenaltyInstance
     {
-        public string Name { get; set; }
+        public Sprint Sprint { get; set; }
 
-        public int SprintNumber { get; set; }
+        public TeamMember TeamMember { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
-        public HoursValue TotalWorkHours { get; set; }
-
-        public StoryPoints CommitmentStoryPoints { get; set; }
-
-        public StoryPoints ActualStoryPoints { get; set; }
-
-        public Velocity ActualVelocity { get; set; }
+        public int Value { get; set; }
     }
 }

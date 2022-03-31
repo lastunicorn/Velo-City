@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
@@ -37,11 +36,24 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
 
         protected override void DoDisplay()
         {
-            HoursValue totalWorkHours = SprintMember.Days.Sum(x => x.WorkHours);
-            totalWorkHours.ZeroCharacter = '0';
+            DataGrid dataGrid = CreateEmptyDataGrid();
 
+            IEnumerable<SprintMemberDataGridRow> contentRowSelect = CreateRows();
+
+            foreach (SprintMemberDataGridRow contentRow in contentRowSelect)
+                dataGrid.Rows.Add(contentRow);
+
+            dataGrid.Display();
+        }
+
+        private DataGrid CreateEmptyDataGrid()
+        {
             DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = $"{SprintMember.Name} - {totalWorkHours}";
+
+            HoursValue totalWorkHours = SprintMember.Days
+                .Sum(x => x.WorkHours);
+
+            dataGrid.Title = $"{SprintMember.Name} - {totalWorkHours:0}";
 
             dataGrid.Columns.Add("Date");
 
@@ -51,77 +63,35 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
             };
             dataGrid.Columns.Add(workColumn);
 
-            Column vacationColumn = new("Vacation")
+            Column absenceColumn = new("Absence")
             {
                 CellHorizontalAlignment = HorizontalAlignment.Right
             };
-            dataGrid.Columns.Add(vacationColumn);
+            dataGrid.Columns.Add(absenceColumn);
 
             dataGrid.Columns.Add("Details");
 
-            IEnumerable<ContentRow> contentRowSelect = SprintMember.Days
-                .Where(x =>
-                {
-                    bool isWeekDay = x.SprintDay.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
-                    if (isWeekDay)
-                        return true;
-
-                    bool hasWorkHoursInWeekEnd = x.WorkHours > 0;
-                    if (hasWorkHoursInWeekEnd)
-                        return true;
-
-                    bool isOfficialHoliday = x.AbsenceReason == AbsenceReason.OfficialHoliday;
-                    return isOfficialHoliday;
-                })
-                .Where(x => x.AbsenceReason != AbsenceReason.OfficialHoliday)
-                .Select(ToDataRow);
-
-            foreach (ContentRow contentRow in contentRowSelect)
-                dataGrid.Rows.Add(contentRow);
-
-            dataGrid.Display();
+            return dataGrid;
         }
 
-        private static ContentRow ToDataRow(SprintMemberDay sprintMemberDay)
+        private IEnumerable<SprintMemberDataGridRow> CreateRows()
         {
-            ContentRow dataRow = new();
+            return SprintMember.Days
+                //.Where(x =>
+                //{
+                //    bool isWeekDay = x.SprintDay.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
+                //    if (isWeekDay)
+                //        return true;
 
-            dataRow.AddCell($"{sprintMemberDay.SprintDay.Date:d} ({sprintMemberDay.SprintDay.Date:ddd})");
+                //    bool hasWorkHoursInWeekEnd = x.WorkHours > 0;
+                //    if (hasWorkHoursInWeekEnd)
+                //        return true;
 
-            HoursValue workHours = sprintMemberDay.WorkHours;
-            dataRow.AddCell(workHours);
-
-            HoursValue absenceHours = sprintMemberDay.AbsenceHours;
-            dataRow.AddCell(absenceHours);
-
-            if (sprintMemberDay.AbsenceReason != AbsenceReason.None)
-            {
-                StringBuilder sb = new();
-
-                sb.Append(sprintMemberDay.AbsenceReason);
-
-                if (sprintMemberDay.AbsenceComments != null)
-                    sb.Append($" ({sprintMemberDay.AbsenceComments})");
-
-                dataRow.AddCell(sb);
-            }
-            else
-            {
-                dataRow.AddCell(string.Empty);
-            }
-
-            switch (sprintMemberDay.AbsenceReason)
-            {
-                case AbsenceReason.None:
-                    dataRow.ForegroundColor = ConsoleColor.Green;
-                    break;
-
-                case AbsenceReason.Vacation:
-                    dataRow.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-            }
-
-            return dataRow;
+                //    bool isOfficialHoliday = x.AbsenceReason == AbsenceReason.OfficialHoliday;
+                //    return isOfficialHoliday;
+                //})
+                //.Where(x => x.AbsenceReason != AbsenceReason.OfficialHoliday)
+                .Select(x => new SprintMemberDataGridRow(x));
         }
     }
 }
