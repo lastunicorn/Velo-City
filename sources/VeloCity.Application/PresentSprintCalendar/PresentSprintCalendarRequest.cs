@@ -14,12 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 {
     public class PresentSprintCalendarRequest : IRequest<PresentSprintCalendarResponse>
     {
-        public int SprintNumber { get; set; }
+        public int? SprintNumber { get; set; }
+
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
     }
 }

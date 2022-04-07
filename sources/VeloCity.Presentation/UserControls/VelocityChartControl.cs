@@ -36,17 +36,17 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
                 return;
 
             int sprintCount = Items.Count;
-            CustomConsole.WriteLineEmphasized($"Velocity ({sprintCount} Sprints):");
-            Console.WriteLine();
+            display.WriteRow(CustomConsole.EmphasizedColor, CustomConsole.EmphasizedBackgroundColor, $"Velocity ({sprintCount} Sprints):");
+            display.WriteRow();
 
             maxValue = Items.Max(x => x.Velocity.Value);
 
             foreach (VelocityChartItem item in Items)
             {
-                CustomConsole.Write($"- Sprint {item.SprintNumber:D2} - {item.Velocity.ToString("0.0000")} - ");
+                display.Write($"- Sprint {item.SprintNumber:D2} - {item.Velocity.ToString("0.0000")} - ");
 
                 string chartBar = CreateChartBar(item);
-                CustomConsole.WriteLine(ConsoleColor.DarkGreen, chartBar);
+                display.WriteRow(ConsoleColor.DarkGreen, null, chartBar);
             }
         }
 

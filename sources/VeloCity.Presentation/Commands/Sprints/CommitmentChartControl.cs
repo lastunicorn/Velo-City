@@ -37,28 +37,28 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
                 return;
 
             int sprintCount = Items.Count;
-            CustomConsole.WriteLineEmphasized($"Commitment ({sprintCount} Sprints):");
-            Console.WriteLine();
+            display.WriteRow(CustomConsole.EmphasizedColor, CustomConsole.EmphasizedBackgroundColor, $"Commitment ({sprintCount} Sprints):");
+            display.WriteRow();
 
             maxValue = Items.Max(x => Math.Max(x.CommitmentStoryPoints, x.ActualStoryPoints));
 
             foreach (CommitmentChartItem item in Items)
             {
                 string title = $"- Sprint {item.SprintNumber:D2} - {item.ActualStoryPoints.ToString("00")} / {item.CommitmentStoryPoints.ToString("00")} - ";
-                Console.Write(title);
+                display.Write(title);
 
-                WriteChartLine(item);
+                WriteChartLine(item, display);
             }
         }
 
-        private void WriteChartLine(CommitmentChartItem item)
+        private void WriteChartLine(CommitmentChartItem item, ControlDisplay display)
         {
             int commitmentSpChartValue = CalculateChartValue(item.CommitmentStoryPoints);
             int actualSpChartValue = CalculateChartValue(item.ActualStoryPoints);
 
             int bothCount = Math.Min(actualSpChartValue, commitmentSpChartValue);
             string bothString = new('═', bothCount);
-            CustomConsole.Write(ConsoleColor.DarkGreen, bothString);
+            display.Write(ConsoleColor.DarkGreen, null, bothString);
 
             int onlyCommitmentCount = actualSpChartValue < commitmentSpChartValue
                 ? commitmentSpChartValue - actualSpChartValue
@@ -68,7 +68,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
             {
                 // ─ ═ » ·
                 string onlyCommitmentString = new('-', onlyCommitmentCount);
-                CustomConsole.Write(ConsoleColor.DarkRed, onlyCommitmentString);
+                display.Write(ConsoleColor.DarkRed, null, onlyCommitmentString);
             }
 
             int onlyActualCount = actualSpChartValue > commitmentSpChartValue
@@ -78,10 +78,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
             if (onlyActualCount > 0)
             {
                 string onlyActualString = new('═', onlyActualCount);
-                CustomConsole.Write(ConsoleColor.DarkRed, onlyActualString);
+                display.Write(ConsoleColor.DarkRed, null, onlyActualString);
             }
 
-            CustomConsole.WriteLine();
+            display.WriteRow();
         }
 
         private int CalculateChartValue(float value)

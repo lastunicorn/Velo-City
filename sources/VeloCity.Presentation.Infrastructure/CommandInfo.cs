@@ -101,15 +101,15 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             if (commandAttribute != null && !string.IsNullOrEmpty(commandAttribute.ShortDescription))
                 lines.Add(commandAttribute.ShortDescription);
 
-            if (commandUsageAttributes.Count > 0)
-            {
-                lines.Add("usage:");
+            //if (commandUsageAttributes.Count > 0)
+            //{
+            //    lines.Add("usage:");
 
-                IEnumerable<string> usageExamples = commandUsageAttributes
-                    .Select(x => "  " + x.UsageExample);
+            //    IEnumerable<string> usageExamples = commandUsageAttributes
+            //        .Select(x => "  " + x.UsageExample);
 
-                lines.AddRange(usageExamples);
-            }
+            //    lines.AddRange(usageExamples);
+            //}
 
             return lines;
         }

@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Config
 {
-    [Command("config", ShortDescription = "Displays the configuration values.", Order = 100)]
+    [Command("config", ShortDescription = "Inspect and change the application's configuration values.", Order = 100)]
     [CommandUsage("config")]
     [CommandUsage("config [property-name]")]
     [CommandUsage("config -get [property-name]")]
