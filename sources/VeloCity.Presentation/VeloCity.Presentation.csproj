@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ConsoleTools" Version="1.0.0" />
+        <PackageReference Include="ConsoleTools" Version="1.1.1" />
         <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 

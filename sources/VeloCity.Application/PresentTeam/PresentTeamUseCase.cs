@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
                 Sprint sprint = unitOfWork.SprintRepository.GetByNumber(request.SprintNumber.Value);
 
                 if (sprint == null)
-                    throw new SprintNotFoundException(request.SprintNumber.Value);
+                    throw new SprintDoesNotExistException(request.SprintNumber.Value);
 
                 return CreateResponseForSprint(sprint);
             }
@@ -63,7 +63,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
             Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
 
             if (currentSprint == null)
-                throw new NoSprintInDatabaseException();
+                throw new NoSprintException();
 
             return CreateResponseForSprint(currentSprint);
         }

@@ -33,9 +33,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         public AbsenceDetailsViewModel AbsenceDetails { get; }
 
-        public bool IsToday { get; set; }
+        public bool IsHighlighted { get; set; }
 
-        public CalendarItemViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
+        public CalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
         {
             if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
             if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));

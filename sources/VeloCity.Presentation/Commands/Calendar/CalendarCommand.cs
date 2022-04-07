@@ -22,22 +22,29 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
 {
-    [Command("calendar", Enabled = false)]
-    public class PresentSprintCalendarCommand : ICommand
+    [Command("calendar", ShortDescription = "The calendar details for a sprint.", Order = 6)]
+    public class CalendarCommand : ICommand
     {
         private readonly IMediator mediator;
 
+        [CommandParameter(Name = "sprint", ShortName = 's', Order = 1, IsOptional = true)]
+        public int? SprintNumber { get; set; }
+
+        [CommandParameter(Name = "start-date", ShortName = 'a', IsOptional = true)]
+        public DateTime StartDate { get; set; }
+
+        [CommandParameter(Name = "end-date", ShortName = 'z', IsOptional = true)]
+        public DateTime EndDate { get; set; }
+
         public string SprintName { get; private set; }
-
-        public DateTime StartDate { get; private set; }
-
-        public DateTime EndDate { get; private set; }
 
         public List<SprintDay> Days { get; private set; }
 
-        public PresentSprintCalendarCommand(IMediator mediator)
+        public List<SprintMember> SprintMembers { get; private set; }
+
+        public CalendarCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
@@ -46,7 +53,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
         {
             PresentSprintCalendarRequest request = new()
             {
-                SprintNumber = 24
+                SprintNumber = SprintNumber,
+                StartDate = StartDate,
+                EndDate = EndDate
             };
 
             PresentSprintCalendarResponse response = await mediator.Send(request);
@@ -55,6 +64,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
             StartDate = response.StartDate;
             EndDate = response.EndDate;
             Days = response.Days;
+            SprintMembers = response.SprintMembers;
         }
     }
 }

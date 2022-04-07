@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         private void DisplayTable()
         {
             DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = "Sprint Calendar";
+            dataGrid.Title = ViewModel.Title;
 
             Column dateColumn = dataGrid.Columns.Add("Date");
 
@@ -86,6 +86,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
             foreach (ContentRow dataRow in rows)
                 dataGrid.Rows.Add(dataRow);
+
+            NotesControl notesControl = new()
+            {
+                Notes = ViewModel.Notes
+            };
+            dataGrid.FooterRow.FooterCell.Content = notesControl.ToString();
+            dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
 
             dataGrid.Display();
         }
@@ -135,7 +142,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
             if (ViewModel.IsCurrentSprint)
             {
-                string arrow = calendarItem.IsToday ? "»" : " ";
+                string arrow = calendarItem.IsHighlighted ? "»" : " ";
                 cell.Content = $"{arrow} {calendarItem.Date:d} ({calendarItem.Date:ddd})";
             }
             else

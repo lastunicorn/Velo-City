@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
-    [Command("vacations", ShortDescription = "Displays the vacation days for the specified team member.", Order = 3)]
+    [Command("vacations", ShortDescription = "The vacation days for the specified team member.", Order = 3)]
     [CommandUsage("vacations [person-name]")]
     public class VacationsCommand : ICommand
     {

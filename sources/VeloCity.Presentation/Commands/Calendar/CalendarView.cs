@@ -16,14 +16,23 @@
 
 using System;
 using System.Text;
+using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
 {
-    public class PresentSprintCalendarView : IView<PresentSprintCalendarCommand>
+    public class CalendarView : IView<CalendarCommand>
     {
-        public void Display(PresentSprintCalendarCommand command)
+        private readonly DataGridFactory dataGridFactory;
+
+        public CalendarView(DataGridFactory dataGridFactory)
+        {
+            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+        }
+
+        public void Display(CalendarCommand command)
         {
             Console.WriteLine($"{command.SprintName} ({command.StartDate:d} - {command.EndDate:d})");
             Console.WriteLine(new string('=', 79));
@@ -46,6 +55,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentSprintCalendar
 
                 Console.WriteLine(sb);
             }
+
+            SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
+            {
+                ViewModel = new SprintCalendarViewModel(command.Days, command.SprintMembers)
+                {
+                    Title = $"{command.SprintName} ({command.StartDate:d} - {command.EndDate:d})"
+                }
+            };
+
+            sprintCalendarControl.Display();
         }
     }
 }

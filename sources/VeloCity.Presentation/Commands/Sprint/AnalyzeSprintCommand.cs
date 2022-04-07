@@ -27,7 +27,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
 {
-    [Command("sprint", ShortDescription = "Makes an analysis of the sprint and displays the result.", Order = 1)]
+    [Command("sprint", ShortDescription = "The analysis of a sprint.", Order = 1)]
     [CommandUsage("sprint")]
     [CommandUsage("sprint [sprint-number]")]
     [CommandUsage("sprint [sprint-number] -exclude [sprint-number[,sprint-number[...]]]")]
@@ -73,7 +73,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
             AnalyzeSprintResponse response = await mediator.Send(request);
 
             SprintOverviewViewModel = new SprintOverviewViewModel(response);
-            SprintCalendarViewModel = new SprintCalendarViewModel(response);
+            SprintCalendarViewModel = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers)
+            {
+                Today = response.Today
+            };
             TeamOverviewViewModel = new TeamOverviewViewModel(response);
 
             SprintMembers = response.SprintMembers;

@@ -29,5 +29,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
         public DateTime EndDate { get; set; }
 
         public List<SprintDay> Days { get; set; }
+        
+        public List<SprintMember> SprintMembers { get; set; }
     }
 }

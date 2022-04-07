@@ -36,28 +36,55 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 
         public Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
         {
-            // retrieve sprint
-            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(request.SprintNumber);
-
-            // calculate list of days
-            IEnumerable<SprintDay> sprintDays = sprint.EnumerateAllDays();
-
-            // for each day:
-            //      - is we?
-            //      - is holiday?
-            //      - for each tm:
-            //          - work hours
-            //          - vacation hours
+            Sprint sprint = RetrieveSprint(request.SprintNumber);
 
             PresentSprintCalendarResponse response = new()
             {
                 SprintName = sprint.Name,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
-                Days = sprintDays.ToList()
+                Days = sprint.EnumerateAllDays().ToList(),
+                SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList()
             };
 
             return Task.FromResult(response);
+        }
+
+        private Sprint RetrieveSprint(int? sprintNumber)
+        {
+            if (sprintNumber == null)
+            {
+                Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+
+                if (sprint == null)
+                    throw new NoSprintException();
+
+                RetrieveSprintMembersFor(sprint, null);
+
+                return sprint;
+            }
+            else
+            {
+                Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber.Value);
+
+                if (sprint == null)
+                    throw new SprintDoesNotExistException(sprintNumber.Value);
+
+                RetrieveSprintMembersFor(sprint, null);
+
+                return sprint;
+            }
+        }
+
+        private void RetrieveSprintMembersFor(Sprint sprint, IReadOnlyCollection<string> excludedTeamMembers)
+        {
+            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetAll();
+
+            if (excludedTeamMembers is { Count: > 0 })
+                teamMembers = teamMembers.Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)));
+
+            foreach (TeamMember teamMember in teamMembers)
+                sprint.AddSprintMember(teamMember);
         }
     }
 }

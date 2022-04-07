@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 
 namespace DustInTheWind.VeloCity.Presentation.UserControls
@@ -24,6 +23,8 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
     internal class NotesControl : BlockControl
     {
         public List<NoteBase> Notes { get; set; }
+
+        public bool ShowTitle { get; set; } = true;
 
         public NotesControl()
         {
@@ -36,20 +37,11 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
             if (Notes.Count == 0)
                 return;
 
-            CustomConsole.WriteLine(ConsoleColor.DarkYellow, "Notes:");
+            if (ShowTitle)
+                display.WriteRow("Notes:");
 
             foreach (NoteBase note in Notes)
-                CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"  - {note}");
-
-            //display.WriteRow("Notes:");
-
-            //foreach (NoteBase note in Notes)
-            //{
-            //    display.StartRow();
-            //    display.Write("  - ");
-            //    note.Display();
-            //    display.EndRow();
-            //}
+                display.WriteRow($"  - {note}");
         }
     }
 }

@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.UserControls;
 
@@ -25,9 +24,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 {
     public class SprintCalendarViewModel
     {
-        private readonly AnalyzeSprintResponse response;
+        private DateTime? today;
 
-        public bool IsVisible => response.SprintDays is { Count: > 0 };
+        public string Title { get; set; } = "Sprint Calendar";
+
+        public bool IsVisible => CalendarItems is { Count: > 0 };
 
         public List<CalendarItemViewModel> CalendarItems { get; }
 
@@ -35,39 +36,52 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         public bool IsCurrentSprint { get; }
 
-        public SprintCalendarViewModel(AnalyzeSprintResponse response)
+        public DateTime? Today
         {
-            this.response = response ?? throw new ArgumentNullException(nameof(response));
+            get => today;
+            set
+            {
+                today = value;
 
-            CalendarItems = CreateCalendarItems();
+                if (today == null)
+                {
+                    foreach (CalendarItemViewModel calendarItemViewModel in CalendarItems)
+                        calendarItemViewModel.IsHighlighted = false;
+                }
+                else
+                {
+                    foreach (CalendarItemViewModel calendarItemViewModel in CalendarItems)
+                        calendarItemViewModel.IsHighlighted = calendarItemViewModel.Date == today.Value;
+                }
+            }
+        }
+
+        public SprintCalendarViewModel(List<SprintDay> sprintDays, List<SprintMember> sprintMembers)
+        {
+            if (sprintDays == null) throw new ArgumentNullException(nameof(sprintDays));
+
+            CalendarItems = CreateCalendarItems(sprintDays, sprintMembers);
             Notes = CreateNotes();
-            IsCurrentSprint = CalendarItems.Any(x => x.IsToday);
+            IsCurrentSprint = CalendarItems.Any(x => x.IsHighlighted);
         }
 
-        private List<CalendarItemViewModel> CreateCalendarItems()
+        private static List<CalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IReadOnlyCollection<SprintMember> sprintMembers)
         {
-            List<CalendarItemViewModel> calendarItemViewModels = response.SprintDays
-                .Select(CreateCalendarItem)
+            return sprintDays
+                .Select(x =>
+                {
+                    List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(x.Date, sprintMembers);
+                    return new CalendarItemViewModel(x, sprintMemberDays);
+                })
                 .ToList();
-
-            foreach (CalendarItemViewModel calendarItemViewModel in calendarItemViewModels)
-                calendarItemViewModel.IsToday = calendarItemViewModel.Date == response.Today;
-
-            return calendarItemViewModels;
         }
 
-        private CalendarItemViewModel CreateCalendarItem(SprintDay sprintDay)
+        private static List<SprintMemberDay> GetAllSprintMemberDays(DateTime date, IReadOnlyCollection<SprintMember> sprintMembers)
         {
-            List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(sprintDay.Date);
-            return new CalendarItemViewModel(sprintMemberDays, sprintDay);
-        }
-
-        private List<SprintMemberDay> GetAllSprintMemberDays(DateTime date)
-        {
-            if (response.SprintMembers == null)
+            if (sprintMembers == null)
                 return new List<SprintMemberDay>();
 
-            return response.SprintMembers
+            return sprintMembers
                 .Select(x => x.Days[date])
                 .Where(x => x != null)
                 .ToList();

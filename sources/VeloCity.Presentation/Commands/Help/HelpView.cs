@@ -33,16 +33,16 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 
             DataGrid dataGrid = new()
             {
-                Border = { IsVisible = false }
+                Border = { IsVisible = false },
             };
+
+            Column column = dataGrid.Columns.Add(new Column());
+            column.CellPaddingLeft = 0;
 
             foreach (CommandInfo commandInfo in command.Commands)
             {
                 ContentRow row = CreateContentRow(commandInfo);
                 dataGrid.Rows.Add(row);
-
-                ContentRow emptyRow = new(" ", " ");
-                dataGrid.Rows.Add(emptyRow);
             }
 
             dataGrid.Display();
