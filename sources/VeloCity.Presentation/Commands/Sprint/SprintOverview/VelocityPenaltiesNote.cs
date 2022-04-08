@@ -30,11 +30,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
         protected override IEnumerable<string> BuildMessage()
         {
             if (VelocityPenalties == null)
+            {
                 yield return "(*) The sprint includes velocity penalties.";
+            }
             else
             {
                 IEnumerable<string> items = VelocityPenalties
                     .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");
+
                 string allItems = string.Join(Environment.NewLine, items);
                 string message = $"(*) The sprint includes velocity penalties for:{Environment.NewLine}{allItems}.";
 

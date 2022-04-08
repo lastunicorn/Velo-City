@@ -24,16 +24,16 @@ using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
 {
-    public class AnalyzeSprintView : IView<AnalyzeSprintCommand>
+    public class SprintView : IView<SprintCommand>
     {
         private readonly DataGridFactory dataGridFactory;
 
-        public AnalyzeSprintView(DataGridFactory dataGridFactory)
+        public SprintView(DataGridFactory dataGridFactory)
         {
             this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
         }
 
-        public void Display(AnalyzeSprintCommand command)
+        public void Display(SprintCommand command)
         {
             DisplayOverview(command);
             DisplaySprintCalendar(command);
@@ -49,7 +49,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
             }
         }
 
-        private void DisplayOverview(AnalyzeSprintCommand command)
+        private void DisplayOverview(SprintCommand command)
         {
             SprintOverviewControl sprintOverviewControl = new(dataGridFactory)
             {
@@ -58,7 +58,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
             sprintOverviewControl.Display();
         }
 
-        private void DisplaySprintCalendar(AnalyzeSprintCommand command)
+        private void DisplaySprintCalendar(SprintCommand command)
         {
             SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
             {
@@ -77,7 +77,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
             sprintMemberDetailsControl.Display();
         }
 
-        private void DisplayTeamOverview(AnalyzeSprintCommand command)
+        private void DisplayTeamOverview(SprintCommand command)
         {
             TeamOverviewControl teamOverviewControl = new(dataGridFactory)
             {

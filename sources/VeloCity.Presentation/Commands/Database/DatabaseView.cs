@@ -20,9 +20,9 @@ using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Database
 {
-    public class OpenDatabaseView : IView<OpenDatabaseCommand>
+    public class DatabaseView : IView<DatabaseCommand>
     {
-        public void Display(OpenDatabaseCommand command)
+        public void Display(DatabaseCommand command)
         {
             string editorTypeText = command.DatabaseEditorType == DatabaseEditorType.Custom
                 ? "custom"

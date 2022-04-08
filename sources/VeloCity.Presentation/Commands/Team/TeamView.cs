@@ -24,16 +24,16 @@ using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Team
 {
-    public class PresentTeamView : IView<PresentTeamCommand>
+    public class TeamView : IView<TeamCommand>
     {
         private readonly DataGridFactory dataGridFactory;
 
-        public PresentTeamView(DataGridFactory dataGridFactory)
+        public TeamView(DataGridFactory dataGridFactory)
         {
             this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
         }
 
-        public void Display(PresentTeamCommand command)
+        public void Display(TeamCommand command)
         {
             Console.WriteLine(command.Information);
 

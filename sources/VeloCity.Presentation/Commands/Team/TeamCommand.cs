@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
     [CommandUsage("team")]
     [CommandUsage("team -date [date]")]
     [CommandUsage("team -start-date [date] -end-date [date]")]
-    public class PresentTeamCommand : ICommand
+    public class TeamCommand : ICommand
     {
         private readonly IMediator mediator;
 
@@ -48,7 +48,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
 
         public InformationViewModel Information { get; private set; }
 
-        public PresentTeamCommand(IMediator mediator)
+        public TeamCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
