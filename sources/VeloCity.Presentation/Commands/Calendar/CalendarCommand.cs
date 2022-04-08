@@ -33,16 +33,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
         public int? SprintNumber { get; set; }
 
         [CommandParameter(Name = "start-date", ShortName = 'a', IsOptional = true)]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [CommandParameter(Name = "end-date", ShortName = 'z', IsOptional = true)]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        
+        public SprintCalendar SprintCalendar { get; set; }
 
-        public string SprintName { get; private set; }
-
-        public List<SprintDay> Days { get; private set; }
-
-        public List<SprintMember> SprintMembers { get; private set; }
+        public List<MonthCalendar> MonthCalendars { get; set; }
 
         public CalendarCommand(IMediator mediator)
         {
@@ -60,11 +58,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
 
             PresentSprintCalendarResponse response = await mediator.Send(request);
 
-            SprintName = response.SprintName;
-            StartDate = response.StartDate;
-            EndDate = response.EndDate;
-            Days = response.Days;
-            SprintMembers = response.SprintMembers;
+            SprintCalendar = response.SprintCalendar;
+            MonthCalendars = response.MonthCalendars;
         }
     }
 }

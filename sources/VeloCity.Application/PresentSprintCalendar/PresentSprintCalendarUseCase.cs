@@ -36,44 +36,138 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 
         public Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
         {
-            Sprint sprint = RetrieveSprint(request.SprintNumber);
-
-            PresentSprintCalendarResponse response = new()
-            {
-                SprintName = sprint.Name,
-                StartDate = sprint.StartDate,
-                EndDate = sprint.EndDate,
-                Days = sprint.EnumerateAllDays().ToList(),
-                SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList()
-            };
-
+            PresentSprintCalendarResponse response = CreateResponse(request);
             return Task.FromResult(response);
         }
 
-        private Sprint RetrieveSprint(int? sprintNumber)
+        private PresentSprintCalendarResponse CreateResponse(PresentSprintCalendarRequest request)
         {
-            if (sprintNumber == null)
+            if (request.SprintNumber != null)
+                return CreateSprintCalendarResponse(request.SprintNumber.Value);
+
+            if (request.StartDate != null)
+                return CreateMonthCalendarResponse(request.StartDate.Value, request.EndDate);
+
+            return CreateSprintCalendarResponse();
+        }
+
+        private PresentSprintCalendarResponse CreateSprintCalendarResponse(int sprintNumber)
+        {
+            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+
+            if (sprint == null)
+                throw new SprintDoesNotExistException(sprintNumber);
+
+            RetrieveSprintMembersFor(sprint, null);
+
+            return new PresentSprintCalendarResponse
             {
-                Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+                SprintCalendar = new SprintCalendar
+                {
+                    SprintName = sprint.Name,
+                    StartDate = sprint.StartDate,
+                    EndDate = sprint.EndDate,
+                    Days = sprint.EnumerateAllDays().ToList(),
+                    SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList()
+                }
+            };
+        }
 
-                if (sprint == null)
-                    throw new NoSprintException();
+        private PresentSprintCalendarResponse CreateMonthCalendarResponse(DateTime startDate, DateTime? endDate)
+        {
+            return new PresentSprintCalendarResponse
+            {
+                MonthCalendars = SplitInMonthIntervals(startDate, endDate)
+                    .Select(x => new MonthCalendar
+                    {
+                        Year = x.StartDate.Value.Year,
+                        Month = x.StartDate.Value.Month,
+                        Days = EnumerateAllDays(x.StartDate.Value, x.EndDate.Value).ToList()
+                    })
+                    .ToList()
+            };
+        }
 
-                RetrieveSprintMembersFor(sprint, null);
-
-                return sprint;
+        private static IEnumerable<DateInterval> SplitInMonthIntervals(DateTime startDate, DateTime? endDate)
+        {
+            if (endDate == null)
+            {
+                yield return CreateNextMonthInterval(startDate, endDate);
             }
             else
             {
-                Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber.Value);
+                DateTime date = startDate;
 
-                if (sprint == null)
-                    throw new SprintDoesNotExistException(sprintNumber.Value);
+                while (date <= endDate)
+                {
+                    DateInterval monthInterval = CreateNextMonthInterval(date, endDate);
+                    yield return monthInterval;
 
-                RetrieveSprintMembersFor(sprint, null);
-
-                return sprint;
+                    date = monthInterval.EndDate.Value.AddDays(1);
+                }
             }
+        }
+
+        private static DateInterval CreateNextMonthInterval(DateTime startDate, DateTime? endDate)
+        {
+            DateTime calculatedStartDate = startDate;
+
+            int daysInMonth = DateTime.DaysInMonth(calculatedStartDate.Year, calculatedStartDate.Month);
+            DateTime calculatedEndDate = new(calculatedStartDate.Year, calculatedStartDate.Month, daysInMonth);
+
+            if (calculatedEndDate > endDate)
+                calculatedEndDate = endDate.Value;
+
+            return new DateInterval(calculatedStartDate, calculatedEndDate);
+        }
+
+        private IEnumerable<SprintDay> EnumerateAllDays(DateTime startDate, DateTime endDate)
+        {
+            int totalDaysCount = (int)(endDate.Date - startDate.Date).TotalDays + 1;
+
+            return Enumerable.Range(0, totalDaysCount)
+                .Select(x =>
+                {
+                    DateTime date = startDate.AddDays(x);
+                    return ToSprintDay(date);
+                });
+        }
+
+        private SprintDay ToSprintDay(DateTime date)
+        {
+            List<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll()
+                .ToList();
+
+            return new SprintDay
+            {
+                Date = date,
+                OfficialHolidays = officialHolidays
+                    .Where(x => x.Match(date))
+                    .Select(x => x.GetInstanceFor(date.Year))
+                    .ToList()
+            };
+        }
+
+        private PresentSprintCalendarResponse CreateSprintCalendarResponse()
+        {
+            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+
+            if (sprint == null)
+                throw new NoSprintException();
+
+            RetrieveSprintMembersFor(sprint, null);
+
+            return new PresentSprintCalendarResponse
+            {
+                SprintCalendar = new SprintCalendar
+                {
+                    SprintName = sprint.Name,
+                    StartDate = sprint.StartDate,
+                    EndDate = sprint.EndDate,
+                    Days = sprint.EnumerateAllDays().ToList(),
+                    SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList()
+                }
+            };
         }
 
         private void RetrieveSprintMembersFor(Sprint sprint, IReadOnlyCollection<string> excludedTeamMembers)

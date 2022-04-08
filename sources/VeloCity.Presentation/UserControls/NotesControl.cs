@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 
 namespace DustInTheWind.VeloCity.Presentation.UserControls
@@ -42,6 +43,20 @@ namespace DustInTheWind.VeloCity.Presentation.UserControls
 
             foreach (NoteBase note in Notes)
                 display.WriteRow($"  - {note}");
+        }
+
+        public IEnumerable<string> ToLines()
+        {
+            return Notes
+                .SelectMany(x => x.ToLines());
+        }
+
+        public override string ToString()
+        {
+            if (Notes.Count == 0)
+                return string.Empty;
+
+            return string.Join(Environment.NewLine, Notes);
         }
     }
 }

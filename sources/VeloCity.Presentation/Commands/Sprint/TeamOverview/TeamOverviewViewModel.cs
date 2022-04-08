@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
 {
@@ -29,9 +30,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
             .Select(x => new TeamMemberViewModel(x))
             .ToList();
 
+        public List<NoteBase> Notes { get; set; }
+
         public TeamOverviewViewModel(AnalyzeSprintResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
+            
+            Notes = new List<NoteBase> { new TeamDetailsNote() };
         }
     }
 }

@@ -15,14 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class PresentSprintCalendarResponse
+    public class MonthCalendar
     {
-        public SprintCalendar SprintCalendar { get; set; }
+        public int Year { get; set; }
 
-        public List<MonthCalendar> MonthCalendars { get; set; }
+        public int Month { get; set; }
+
+        public List<SprintDay> Days { get; set; }
+
+        public List<SprintMember> SprintMembers { get; set; }
     }
 }

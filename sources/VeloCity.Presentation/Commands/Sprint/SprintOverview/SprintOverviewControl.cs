@@ -35,7 +35,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
         protected override void DoDisplay()
         {
             DisplayOverviewTable();
-            DisplayNotes();
         }
 
         private void DisplayOverviewTable()
@@ -43,6 +42,18 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = ViewModel.SprintName;
 
+            dataGrid.Columns.Add("q");
+            dataGrid.Columns.Add("a").CellHorizontalAlignment = HorizontalAlignment.Stretch;
+            dataGrid.HeaderRow.IsVisible = false;
+
+            AddContent(dataGrid);
+            AddFooter(dataGrid);
+
+            dataGrid.Display();
+        }
+
+        private void AddContent(DataGrid dataGrid)
+        {
             dataGrid.Rows.Add("Time Interval", $"{ViewModel.StartDate:d} - {ViewModel.EndDate:d}");
             dataGrid.Rows.Add("State", ViewModel.State);
             dataGrid.Rows.Add(" ", " ");
@@ -59,17 +70,19 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
             dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Actual Story Points", $"{ViewModel.ActualStoryPoints}");
             dataGrid.Rows.Add("Actual Velocity", $"{ViewModel.ActualVelocity.ToStandardDigitsString()}");
-
-            dataGrid.Display();
         }
 
-        private void DisplayNotes()
+        private void AddFooter(DataGrid dataGrid)
         {
-            NotesControl notesControl = new()
+            if (ViewModel.Notes is { Count: > 0 })
             {
-                Notes = ViewModel.Notes
-            };
-            notesControl.Display();
+                NotesControl notesControl = new()
+                {
+                    Notes = ViewModel.Notes
+                };
+                dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
+                dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
     }
 }
