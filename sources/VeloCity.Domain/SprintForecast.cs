@@ -15,30 +15,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Domain
 {
-    public interface ISprintRepository
+    public class SprintForecast
     {
-        Sprint Get(int id);
+        public int Number { get; set; }
 
-        Sprint GetByNumber(int number);
+        public bool IsRealSprint { get; set; }
 
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count);
+        public DateTime StartDate { get; set; }
 
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints);
-
-        Sprint GetLast();
-
-        IEnumerable<Sprint> GetLast(int count);
-
-        Sprint GetLastInProgress();
-
-        IEnumerable<Sprint> GetLastClosed(int count, IEnumerable<int> excludedSprints);
-
-        IEnumerable<Sprint> GetLastClosed(int count);
-
-        IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
+        public DateTime EndDate { get; set; }
+        
+        public HoursValue TotalWorkHours { get; set; }
+        
+        public StoryPoints EstimatedStoryPoints { get; set; }
+        
+        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
     }
 }

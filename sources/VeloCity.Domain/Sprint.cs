@@ -22,15 +22,38 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class Sprint
     {
+        private DateTime startDate;
+        private DateTime endDate;
+
         public int Id { get; set; }
 
         public int Number { get; set; }
 
         public string Name { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate
+        {
+            get => startDate;
+            set
+            {
+                if (value > EndDate)
+                    throw new ArgumentException("StartDate cannot be grater than EndDate.", nameof(value));
 
-        public DateTime EndDate { get; set; }
+                startDate = value;
+            }
+        }
+
+        public DateTime EndDate
+        {
+            get => endDate;
+            set
+            {
+                if (value < StartDate)
+                    throw new ArgumentException("EndDate cannot be less than StartDate.", nameof(value));
+
+                endDate = value;
+            }
+        }
 
         public DateInterval DateInterval => new(StartDate, EndDate);
 
@@ -38,7 +61,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public StoryPoints ActualStoryPoints { get; set; }
 
-        public List<OfficialHoliday> OfficialHolidays { get; set; }
+        public List<OfficialHoliday> OfficialHolidays { get; } = new();
 
         public SprintState State { get; set; }
 
@@ -98,13 +121,13 @@ namespace DustInTheWind.VeloCity.Domain
         public List<VelocityPenaltyInstance> GetVelocityPenalties()
         {
             return SprintMembers
+                .Where(x => x.VelocityPenaltyPercentage > 0)
                 .Select(x => new VelocityPenaltyInstance
                 {
                     Sprint = x.Sprint,
                     TeamMember = x.TeamMember,
                     Value = x.VelocityPenaltyPercentage
                 })
-                .Where(x => x.Value > 0)
                 .ToList();
         }
 

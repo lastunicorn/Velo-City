@@ -37,7 +37,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
 
         public int? WorkDaysCount { get; }
 
-        public int TotalWorkHours => response.TotalWorkHours;
+        public HoursValue TotalWorkHours => response.TotalWorkHours;
 
         public StoryPoints EstimatedStoryPoints => response.EstimatedStoryPoints;
 

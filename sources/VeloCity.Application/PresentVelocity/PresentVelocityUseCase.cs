@@ -40,7 +40,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
                 ? 10
                 : request.Count.Value;
 
-            List<SprintVelocity> sprintVelocities = unitOfWork.SprintRepository.GetPage(0, sprintCount)
+            List<SprintVelocity> sprintVelocities = unitOfWork.SprintRepository.GetLast(sprintCount)
                 .Select(x => new SprintVelocity
                 {
                     SprintNumber = x.Number,

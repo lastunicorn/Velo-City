@@ -15,25 +15,34 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
-using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class VelocityPenaltiesNote : NoteBase
+    public class SprintList : Collection<Sprint>
     {
-        public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
+        public Sprint Last => Items
+            .OrderByDescending(x => x.StartDate)
+            .FirstOrDefault();
 
-        protected override string BuildMessage()
+        public SprintList(IEnumerable<Sprint> sprints)
         {
-            if (VelocityPenalties == null)
-                return "(*) The estimations include velocity penalties.";
+            foreach (Sprint sprint in sprints)
+                Items.Add(sprint);
+        }
 
-            IEnumerable<string> items = VelocityPenalties
-                .Select(x => $"{x.PersonName.ShortName} ({x.PenaltyValue}%)");
-            string allItems = string.Join(", ", items);
-            return $"(*) The estimations include velocity penalties for: {allItems}.";
+        public Velocity CalculateAverageVelocity()
+        {
+            IEnumerable<Velocity> previousVelocities = Items
+                .Select(x => x.CalculateVelocity());
+
+            if (!previousVelocities.Any())
+                return Velocity.Null;
+
+            return previousVelocities
+                .Select(x => x.Value)
+                .Average();
         }
     }
 }
