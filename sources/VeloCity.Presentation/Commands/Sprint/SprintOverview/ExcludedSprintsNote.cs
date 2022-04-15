@@ -23,10 +23,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
     {
         public List<int> ExcludesSprintNumbers { get; set; }
 
-        protected override string BuildMessage()
+        protected override IEnumerable<string> BuildMessage()
         {
             string excludedSprints = string.Join(",", ExcludesSprintNumbers);
-            return $"Estimations excluded sprints: {excludedSprints}";
+            yield return $"Estimations excluded sprints: {excludedSprints}";
         }
     }
 }

@@ -15,39 +15,35 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentVelocity;
+using DustInTheWind.VeloCity.Application.OpenDatabase;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
+namespace DustInTheWind.VeloCity.Presentation.Commands.Database
 {
-    [Command("velocity", Enabled = false)]
-    public class PresentVelocityCommand : ICommand
+    [Command("db", ShortDescription = "Opens the database in a text editor.", Order = 101)]
+    [CommandUsage("db")]
+    public class DatabaseCommand : ICommand
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(DisplayName = "Sprint Count", Order = 1, IsOptional = true)]
-        public int? SprintCount { get; set; }
+        public string DatabaseFilePath { get; private set; }
 
-        public List<SprintVelocity> SprintVelocities { get; private set; }
+        public DatabaseEditorType DatabaseEditorType { get; private set; }
 
-        public PresentVelocityCommand(IMediator mediator)
+        public DatabaseCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task Execute()
         {
-            PresentVelocityRequest request = new()
-            {
-                Count = SprintCount
-            };
+            OpenDatabaseRequest request = new();
+            OpenDatabaseResponse response = await mediator.Send(request);
 
-            PresentVelocityResponse response = await mediator.Send(request);
-
-            SprintVelocities = response.SprintVelocities;
+            DatabaseFilePath = response.DatabaseFilePath;
+            DatabaseEditorType = response.DatabaseEditorType;
         }
     }
 }

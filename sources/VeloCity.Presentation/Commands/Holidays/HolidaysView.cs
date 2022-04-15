@@ -22,16 +22,16 @@ using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 {
-    public class PresentHolidaysView : IView<PresentHolidaysCommand>
+    public class HolidaysView : IView<HolidaysCommand>
     {
         private readonly DataGridFactory dataGridFactory;
 
-        public PresentHolidaysView(DataGridFactory dataGridFactory)
+        public HolidaysView(DataGridFactory dataGridFactory)
         {
             this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
         }
 
-        public void Display(PresentHolidaysCommand command)
+        public void Display(HolidaysCommand command)
         {
             Console.WriteLine(command.Information);
 
@@ -47,7 +47,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
             CustomConsole.WriteLineWarning("There are no holidays in the requested time interval.");
         }
 
-        private void DisplayTable(PresentHolidaysCommand command)
+        private void DisplayTable(HolidaysCommand command)
         {
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = "Official Holidays";

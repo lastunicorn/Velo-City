@@ -16,42 +16,38 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentVacations;
+using DustInTheWind.VeloCity.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
-    [Command("vacations", ShortDescription = "The vacation days for the specified team member.", Order = 4)]
-    [CommandUsage("vacations [person-name]")]
-    public class VacationsCommand : ICommand
+    [Command("velocity", Enabled = false)]
+    public class VelocityCommand : ICommand
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(DisplayName = "Person Name", Name = "name", ShortName = 'n', Order = 1)]
-        public string PersonName { get; set; }
+        [CommandParameter(DisplayName = "Sprint Count", Order = 1, IsOptional = true)]
+        public int? SprintCount { get; set; }
 
-        public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }
+        public List<SprintVelocity> SprintVelocities { get; private set; }
 
-        public VacationsCommand(IMediator mediator)
+        public VelocityCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         public async Task Execute()
         {
-            PresentVacationsRequest request = new()
+            PresentVelocityRequest request = new()
             {
-                TeamMemberName = PersonName
+                Count = SprintCount
             };
 
-            PresentVacationsResponse response = await mediator.Send(request);
+            PresentVelocityResponse response = await mediator.Send(request);
 
-            TeamMemberVacations = response.TeamMemberVacations
-                .Select(x => new TeamMemberVacationViewModel(x))
-                .ToList();
+            SprintVelocities = response.SprintVelocities;
         }
     }
 }

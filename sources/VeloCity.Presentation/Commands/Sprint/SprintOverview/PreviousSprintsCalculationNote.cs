@@ -23,10 +23,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
     {
         public List<int> PreviousSprintNumbers { get; set; }
 
-        protected override string BuildMessage()
+        protected override IEnumerable<string> BuildMessage()
         {
             string previousSprints = string.Join(", ", PreviousSprintNumbers);
-            return $"Estimations are based on previous {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
+            yield return $"Estimations are based on previous {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
         }
     }
 }

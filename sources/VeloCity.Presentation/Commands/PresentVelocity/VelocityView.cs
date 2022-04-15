@@ -23,9 +23,9 @@ using DustInTheWind.VeloCity.Presentation.UserControls;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
-    public class PresentVelocityView : IView<PresentVelocityCommand>
+    public class VelocityView : IView<VelocityCommand>
     {
-        public void Display(PresentVelocityCommand command)
+        public void Display(VelocityCommand command)
         {
             bool sprintsExist = command.SprintVelocities is { Count: > 0 };
 

@@ -14,21 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.ConsoleTools;
-using DustInTheWind.VeloCity.Application.OpenDatabase;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
+using System;
+using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Database
+namespace DustInTheWind.VeloCity.Domain
 {
-    public class OpenDatabaseView : IView<OpenDatabaseCommand>
+    public class SprintCalendar
     {
-        public void Display(OpenDatabaseCommand command)
-        {
-            string editorTypeText = command.DatabaseEditorType == DatabaseEditorType.Custom
-                ? "custom"
-                : "default";
+        public string SprintName { get; set; }
 
-            CustomConsole.WriteLineSuccess($"Database file '{command.DatabaseFilePath}' was successfully opened in the {editorTypeText} editor.");
-        }
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
+        public List<SprintDay> Days { get; set; }
+
+        public List<SprintMember> SprintMembers { get; set; }
     }
 }

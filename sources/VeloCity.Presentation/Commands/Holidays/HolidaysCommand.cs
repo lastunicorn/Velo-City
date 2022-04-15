@@ -24,11 +24,11 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 {
-    [Command("holidays", ShortDescription = "The holidays for a specific year or sprint.", Order = 5)]
+    [Command("holidays", ShortDescription = "The holidays for a specific year or sprint.", Order = 6)]
     [CommandUsage("holidays")]
     [CommandUsage("holidays [year]")]
     [CommandUsage("holidays -year [year]")]
-    public class PresentHolidaysCommand : ICommand
+    public class HolidaysCommand : ICommand
     {
         private readonly IMediator mediator;
 
@@ -45,7 +45,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 
         public InformationViewModel Information { get; private set; }
 
-        public PresentHolidaysCommand(IMediator mediator)
+        public HolidaysCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }

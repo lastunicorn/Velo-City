@@ -40,14 +40,23 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
                 return;
 
             DisplayTable();
-            DisplayNotes();
         }
 
         private void DisplayTable()
         {
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = ViewModel.Title;
+            dataGrid.MaxWidth = 120;
 
+            AddColumns(dataGrid);
+            AddContentData(dataGrid);
+            AddFooter(dataGrid);
+
+            dataGrid.Display();
+        }
+
+        private void AddColumns(DataGrid dataGrid)
+        {
             Column dateColumn = dataGrid.Columns.Add("Date");
 
             if (ViewModel.IsCurrentSprint)
@@ -68,7 +77,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             dataGrid.Columns.Add(vacationColumn);
 
             dataGrid.Columns.Add("Absence Details");
+        }
 
+        private void AddContentData(DataGrid dataGrid)
+        {
             Chart chart = CreateChart();
             using IEnumerator<ChartBar> chartBarEnumerator = chart.GetEnumerator();
 
@@ -86,15 +98,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
             foreach (ContentRow dataRow in rows)
                 dataGrid.Rows.Add(dataRow);
-
-            NotesControl notesControl = new()
-            {
-                Notes = ViewModel.Notes
-            };
-            dataGrid.FooterRow.FooterCell.Content = notesControl.ToString();
-            dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
-
-            dataGrid.Display();
         }
 
         private Chart CreateChart()
@@ -204,13 +207,17 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             };
         }
 
-        private void DisplayNotes()
+        private void AddFooter(DataGrid dataGrid)
         {
-            NotesControl notesControl = new()
+            if (ViewModel.Notes is { Count: > 0 })
             {
-                Notes = ViewModel.Notes
-            };
-            notesControl.Display();
+                NotesControl notesControl = new()
+                {
+                    Notes = ViewModel.Notes
+                };
+                dataGrid.FooterRow.FooterCell.Content = notesControl.ToString();
+                dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
     }
 }

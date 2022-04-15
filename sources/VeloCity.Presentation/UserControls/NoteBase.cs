@@ -14,15 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
+
 namespace DustInTheWind.VeloCity.Presentation.UserControls
 {
     public abstract class NoteBase
     {
-        public override string ToString()
+        public IEnumerable<string> ToLines()
         {
             return BuildMessage();
         }
 
-        protected abstract string BuildMessage();
+        public override string ToString()
+        {
+            IEnumerable<string> lines = BuildMessage();
+            return string.Join(string.Empty, lines);
+        }
+
+        protected abstract IEnumerable<string> BuildMessage();
     }
 }

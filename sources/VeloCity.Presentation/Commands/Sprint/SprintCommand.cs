@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
     [CommandUsage("sprint")]
     [CommandUsage("sprint [sprint-number]")]
     [CommandUsage("sprint [sprint-number] -exclude [sprint-number[,sprint-number[...]]]")]
-    public class AnalyzeSprintCommand : ICommand
+    public class SprintCommand : ICommand
     {
         private readonly IMediator mediator;
 
@@ -49,13 +49,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
 
         public List<SprintMember> SprintMembers { get; private set; }
 
-        public SprintOverviewViewModel SprintOverviewViewModel { get; set; }
+        public SprintOverviewViewModel SprintOverviewViewModel { get; private set; }
 
-        public SprintCalendarViewModel SprintCalendarViewModel { get; set; }
+        public SprintCalendarViewModel SprintCalendarViewModel { get; private set; }
 
-        public TeamOverviewViewModel TeamOverviewViewModel { get; set; }
+        public TeamOverviewViewModel TeamOverviewViewModel { get; private set; }
 
-        public AnalyzeSprintCommand(IMediator mediator)
+        public SprintCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }

@@ -56,7 +56,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             }
         }
 
-        public SprintCalendarViewModel(List<SprintDay> sprintDays, List<SprintMember> sprintMembers)
+        public SprintCalendarViewModel(List<SprintDay> sprintDays, IReadOnlyCollection<SprintMember> sprintMembers)
         {
             if (sprintDays == null) throw new ArgumentNullException(nameof(sprintDays));
 

@@ -14,36 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading.Tasks;
+using DustInTheWind.ConsoleTools;
 using DustInTheWind.VeloCity.Application.OpenDatabase;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Database
 {
-    [Command("db", ShortDescription = "Opens the database in a text editor.", Order = 101)]
-    [CommandUsage("db")]
-    public class OpenDatabaseCommand : ICommand
+    public class DatabaseView : IView<DatabaseCommand>
     {
-        private readonly IMediator mediator;
-
-        public string DatabaseFilePath { get; private set; }
-
-        public DatabaseEditorType DatabaseEditorType { get; private set; }
-
-        public OpenDatabaseCommand(IMediator mediator)
+        public void Display(DatabaseCommand command)
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+            string editorTypeText = command.DatabaseEditorType == DatabaseEditorType.Custom
+                ? "custom"
+                : "default";
 
-        public async Task Execute()
-        {
-            OpenDatabaseRequest request = new();
-            OpenDatabaseResponse response = await mediator.Send(request);
-
-            DatabaseFilePath = response.DatabaseFilePath;
-            DatabaseEditorType = response.DatabaseEditorType;
+            CustomConsole.WriteLineSuccess($"Database file '{command.DatabaseFilePath}' was successfully opened in the {editorTypeText} editor.");
         }
     }
 }

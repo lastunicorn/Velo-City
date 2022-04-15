@@ -14,8 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Presentation.UserControls;
 
@@ -25,15 +27,26 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
     {
         public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
 
-        protected override string BuildMessage()
+        protected override IEnumerable<string> BuildMessage()
         {
             if (VelocityPenalties == null)
-                return "(*) The estimations include velocity penalties.";
+            {
+                yield return "(*) The estimations include velocity penalties.";
+            }
+            else
+            {
+                IEnumerable<string> items = VelocityPenalties
+                    .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");
 
-            IEnumerable<string> items = VelocityPenalties
-                .Select(x => $"{x.PersonName.ShortName} ({x.PenaltyValue}%)");
-            string allItems = string.Join(", ", items);
-            return $"(*) The estimations include velocity penalties for: {allItems}.";
+                string allItems = string.Join(Environment.NewLine, items);
+                string message = $"(*) The estimations include velocity penalties for:{Environment.NewLine}{allItems}.";
+
+                MultilineText multilineText = message;
+                IEnumerable<string> lines = multilineText.GetLines(120);
+
+                foreach (string line in lines)
+                    yield return line;
+            }
         }
     }
 }

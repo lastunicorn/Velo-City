@@ -15,8 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Text;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
+using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
@@ -34,36 +33,41 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
 
         public void Display(CalendarCommand command)
         {
-            Console.WriteLine($"{command.SprintName} ({command.StartDate:d} - {command.EndDate:d})");
-            Console.WriteLine(new string('=', 79));
+            if (command.SprintCalendar != null)
+                DisplaySprintCalendar(command.SprintCalendar);
 
-            Console.WriteLine($"Sprint Days: {command.Days.Count} days");
+            if (command.MonthCalendars != null)
+                DisplayMonthCalendars(command.MonthCalendars);
+        }
 
-            for (int i = 0; i < command.Days.Count; i++)
-            {
-                SprintDay sprintDay = command.Days[i];
-                int dayIndex = i + 1;
-
-                StringBuilder sb = new();
-                sb.Append($"  - day {dayIndex:D2}: {sprintDay.Date:d} ({sprintDay.Date:dddd})");
-
-                if (sprintDay.IsWeekEnd)
-                    sb.Append(", week-end");
-
-                if (sprintDay.IsOfficialHoliday)
-                    sb.Append(", official holiday");
-
-                Console.WriteLine(sb);
-            }
-
+        private void DisplaySprintCalendar(SprintCalendar sprintCalendar)
+        {
             SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
             {
-                ViewModel = new SprintCalendarViewModel(command.Days, command.SprintMembers)
+                ViewModel = new SprintCalendarViewModel(sprintCalendar.Days, sprintCalendar.SprintMembers)
                 {
-                    Title = $"{command.SprintName} ({command.StartDate:d} - {command.EndDate:d})"
+                    Title = $"{sprintCalendar.SprintName} ({sprintCalendar.StartDate:d} - {sprintCalendar.EndDate:d})"
                 }
             };
 
+            sprintCalendarControl.Display();
+        }
+
+        private void DisplayMonthCalendars(List<MonthCalendar> monthCalendars)
+        {
+            foreach (MonthCalendar monthCalendar in monthCalendars)
+                DisplayMonthCalendar(monthCalendar);
+        }
+
+        private void DisplayMonthCalendar(MonthCalendar monthCalendar)
+        {
+            SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
+            {
+                ViewModel = new SprintCalendarViewModel(monthCalendar.Days, null)
+                {
+                    Title = $"{monthCalendar.Year:D4} {monthCalendar.Month:D2}"
+                }
+            };
             sprintCalendarControl.Display();
         }
     }
