@@ -70,8 +70,8 @@ namespace DustInTheWind.VeloCity.DataAccess
                 Id = sprint.Id,
                 Number = sprint.Number,
                 Name = sprint.Name,
-                StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
+                StartDate = sprint.StartDate,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
                 State = sprint.State.ToEntity()

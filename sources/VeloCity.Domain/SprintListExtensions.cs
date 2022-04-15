@@ -14,31 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Domain
 {
-    public interface ISprintRepository
+    public static class SprintListExtensions
     {
-        Sprint Get(int id);
-
-        Sprint GetByNumber(int number);
-
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count);
-
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints);
-
-        Sprint GetLast();
-
-        IEnumerable<Sprint> GetLast(int count);
-
-        Sprint GetLastInProgress();
-
-        IEnumerable<Sprint> GetLastClosed(int count, IEnumerable<int> excludedSprints);
-
-        IEnumerable<Sprint> GetLastClosed(int count);
-
-        IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
+        public static SprintList ToSprintList(this IEnumerable<Sprint> sprints)
+        {
+            return new SprintList(sprints);
+        }
     }
 }

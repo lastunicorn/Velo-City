@@ -66,9 +66,10 @@ namespace DustInTheWind.VeloCity.DataAccess
 
                 foreach (Sprint sprint in Sprints)
                 {
-                    sprint.OfficialHolidays = OfficialHolidays
+                    List<OfficialHoliday> officialHolidays = OfficialHolidays
                         .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
                         .ToList();
+                    sprint.OfficialHolidays.AddRange(officialHolidays);
                 }
 
                 State = DatabaseState.Opened;

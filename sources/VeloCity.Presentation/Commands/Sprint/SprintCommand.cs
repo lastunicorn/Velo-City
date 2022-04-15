@@ -75,7 +75,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
             SprintOverviewViewModel = new SprintOverviewViewModel(response);
             SprintCalendarViewModel = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers)
             {
-                Today = response.Today
+                Today = response.CurrentDay
             };
             TeamOverviewViewModel = new TeamOverviewViewModel(response);
 

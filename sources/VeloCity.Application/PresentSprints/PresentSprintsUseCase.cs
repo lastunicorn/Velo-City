@@ -40,7 +40,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
                 ? 6
                 : request.Count.Value;
 
-            List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetPage(0, sprintCount)
+            List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetLast(sprintCount)
                 .Select(CreateSprintOverview)
                 .ToList();
 

@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
         {
             if (VelocityPenalties == null)
             {
-                yield return "(*) The sprint includes velocity penalties.";
+                yield return "(*) The estimations include velocity penalties.";
             }
             else
             {
@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
                     .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");
 
                 string allItems = string.Join(Environment.NewLine, items);
-                string message = $"(*) The sprint includes velocity penalties for:{Environment.NewLine}{allItems}.";
+                string message = $"(*) The estimations include velocity penalties for:{Environment.NewLine}{allItems}.";
 
                 MultilineText multilineText = message;
                 IEnumerable<string> lines = multilineText.GetLines(120);

@@ -15,30 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Bootstrapper
 {
-    public interface ISprintRepository
+    internal class TypeNotCommandException : Exception
     {
-        Sprint Get(int id);
+        private const string DefaultMessage = "Type {0} does not represent command. A command must implement the {1} interface.";
 
-        Sprint GetByNumber(int number);
-
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count);
-
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints);
-
-        Sprint GetLast();
-
-        IEnumerable<Sprint> GetLast(int count);
-
-        Sprint GetLastInProgress();
-
-        IEnumerable<Sprint> GetLastClosed(int count, IEnumerable<int> excludedSprints);
-
-        IEnumerable<Sprint> GetLastClosed(int count);
-
-        IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
+        public TypeNotCommandException(Type type)
+            : base(string.Format(DefaultMessage, type.FullName, typeof(ICommand).FullName))
+        {
+        }
     }
 }
