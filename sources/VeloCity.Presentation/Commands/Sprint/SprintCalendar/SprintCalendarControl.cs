@@ -59,7 +59,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         {
             Column dateColumn = dataGrid.Columns.Add("Date");
 
-            if (ViewModel.IsCurrentSprint)
+            if (ViewModel.ContainsHighlightedItems)
                 dateColumn.HeaderCell.PaddingLeft = 3;
 
             Column workColumn = new("Work")
@@ -143,7 +143,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         {
             ContentCell cell = new();
 
-            if (ViewModel.IsCurrentSprint)
+            if (ViewModel.ContainsHighlightedItems)
             {
                 string arrow = calendarItem.IsHighlighted ? "»" : " ";
                 cell.Content = $"{arrow} {calendarItem.Date:d} ({calendarItem.Date:ddd})";

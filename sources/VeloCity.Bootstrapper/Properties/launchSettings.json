@@ -2,7 +2,7 @@
   "profiles": {
     "VeloCity.Bootstrapper": {
       "commandName": "Project",
-      "commandLineArgs": "calendar -a 2022-01-07 -z 2022-03-30"
+      "commandLineArgs": "sprint"
     }
   }
 }

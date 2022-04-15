@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         public List<NoteBase> Notes { get; }
 
-        public bool IsCurrentSprint { get; }
+        public bool ContainsHighlightedItems => CalendarItems.Any(x => x.IsHighlighted);
 
         public DateTime? Today
         {
@@ -62,7 +62,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
             CalendarItems = CreateCalendarItems(sprintDays, sprintMembers);
             Notes = CreateNotes();
-            IsCurrentSprint = CalendarItems.Any(x => x.IsHighlighted);
         }
 
         private static List<CalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IReadOnlyCollection<SprintMember> sprintMembers)
