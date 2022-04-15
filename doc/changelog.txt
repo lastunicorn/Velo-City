@@ -3,6 +3,9 @@ Velo City
 
 v1.8.0
 ----------------------------------------------------------------------------------------------------
+- [feature] Added the "calendar" command to display the calendar for a specific sprint.
+- [feature] Added the "forecast" command to display a forecast for the specified interval of time.
+- [feature] Moved the notes inside the footer of the tables.
 
 v1.7.0
 ----------------------------------------------------------------------------------------------------
