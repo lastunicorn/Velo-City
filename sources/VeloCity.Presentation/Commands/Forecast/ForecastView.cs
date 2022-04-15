@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview;
@@ -46,6 +47,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
             dataGrid.Title = "Forecast Overview";
 
             dataGrid.Rows.Add("Time Interval", $"{command.StartDate:d} - {command.EndDate:d}");
+            dataGrid.Rows.Add("Total Work Days", command.Sprints.Sum(x => x.Days.Count) + " days");
             dataGrid.Rows.Add("Total Work Hours", $"{command.TotalWorkHours}");
             dataGrid.Rows.Add("Estimated Velocity", $"{command.EstimatedVelocity.ToStandardDigitsString()}");
             dataGrid.Rows.Add("Estimated Story Points", $"{command.EstimatedStoryPoints.ToStandardDigitsString()}");
@@ -89,6 +91,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
                 : "Presumed Sprint";
 
             dataGrid.Rows.Add("Time Interval", $"{sprint.StartDate:d} - {sprint.EndDate:d}");
+            dataGrid.Rows.Add("Work Days", sprint.Days.Count + " days");
             dataGrid.Rows.Add("Work Hours", $"{sprint.TotalWorkHours}");
             dataGrid.Rows.Add("Estimated Story Points", $"{sprint.EstimatedStoryPoints.ToStandardDigitsString()}");
 

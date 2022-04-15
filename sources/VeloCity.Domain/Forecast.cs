@@ -88,6 +88,7 @@ namespace DustInTheWind.VeloCity.Domain
                 IsRealSprint = sprint.Number > 0,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
+                Days = sprint.EnumerateAllDays().ToList(),
                 TotalWorkHours = totalWorkHours,
                 EstimatedStoryPoints = estimatedStoryPoints,
                 EstimatedStoryPointsWithVelocityPenalties = estimatedStoryPointsWithVelocityPenalties

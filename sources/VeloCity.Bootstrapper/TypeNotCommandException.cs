@@ -15,26 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Bootstrapper
 {
-    public class SprintForecast
+    internal class TypeNotCommandException : Exception
     {
-        public int Number { get; set; }
+        private const string DefaultMessage = "Type {0} does not represent command. A command must implement the {1} interface.";
 
-        public bool IsRealSprint { get; set; }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-        
-        public List<SprintDay> Days { get; set; }
-
-        public HoursValue TotalWorkHours { get; set; }
-        
-        public StoryPoints EstimatedStoryPoints { get; set; }
-        
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
+        public TypeNotCommandException(Type type)
+            : base(string.Format(DefaultMessage, type.FullName, typeof(ICommand).FullName))
+        {
+        }
     }
 }
