@@ -32,6 +32,8 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public List<SprintDay> SprintDays { get; set; }
 
+        public int WorkDaysCount { get; set; }
+
         public List<SprintMember> SprintMembers { get; set; }
 
         public HoursValue TotalWorkHours { get; set; }

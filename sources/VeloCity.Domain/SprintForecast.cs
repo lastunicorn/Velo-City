@@ -28,13 +28,15 @@ namespace DustInTheWind.VeloCity.Domain
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-        
+
         public List<SprintDay> Days { get; set; }
 
+        public int WorkDaysCount { get; set; }
+
         public HoursValue TotalWorkHours { get; set; }
-        
+
         public StoryPoints EstimatedStoryPoints { get; set; }
-        
+
         public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
     }
 }

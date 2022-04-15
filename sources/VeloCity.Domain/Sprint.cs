@@ -75,6 +75,10 @@ namespace DustInTheWind.VeloCity.Domain
             })
             .ThenBy(x => x.Name);
 
+        public int WorkDaysCount => EnumerateAllDays()
+            .Where(IsWorkDay)
+            .Count();
+
         public void AddSprintMember(TeamMember teamMember)
         {
             SprintMember sprintMember = teamMember.ToSprintMember(this);
@@ -141,6 +145,30 @@ namespace DustInTheWind.VeloCity.Domain
                     .Select(x => x.GetInstanceFor(date.Year))
                     .ToList()
             };
+        }
+
+        private bool IsWorkDay(SprintDay sprintDay)
+        {
+            if (sprintDay.IsWeekEnd)
+                return false;
+
+            if (sprintDay.IsOfficialHoliday)
+            {
+                List<SprintMemberDay> sprintMemberDays = SprintMembers
+                    .SelectMany(z => z.Days)
+                    .Where(z => z.SprintDay.Date == sprintDay.Date)
+                    .Where(z =>
+                    {
+                        Employment employment = z.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
+                        return !sprintDay.OfficialHolidays.Select(x => x.Country).Contains(employment?.Country);
+                    })
+                    .ToList();
+
+                if (sprintMemberDays.Count == 0)
+                    return false;
+            }
+
+            return true;
         }
 
         public override string ToString()

@@ -58,39 +58,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
             this.response = response ?? throw new ArgumentNullException(nameof(response));
 
             State = new SprintStateViewModel(response.SprintState);
-            WorkDaysCount = CountWorkDays();
+            WorkDaysCount = response.WorkDaysCount;
             Notes = CreateNotes().ToList();
-        }
-
-        private int? CountWorkDays()
-        {
-            return response.SprintDays?
-                .Where(IsWorkDay)
-                .Count();
-        }
-
-        private bool IsWorkDay(SprintDay sprintDay)
-        {
-            if (sprintDay.IsWeekEnd)
-                return false;
-
-            if (sprintDay.IsOfficialHoliday)
-            {
-                List<SprintMemberDay> sprintMemberDays = response.SprintMembers
-                    .SelectMany(z => z.Days)
-                    .Where(z => z.SprintDay.Date == sprintDay.Date)
-                    .Where(z =>
-                    {
-                        Employment employment = z.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
-                        return !sprintDay.OfficialHolidays.Select(x => x.Country).Contains(employment?.Country);
-                    })
-                    .ToList();
-
-                if (sprintMemberDays.Count == 0)
-                    return false;
-            }
-
-            return true;
         }
 
         private IEnumerable<NoteBase> CreateNotes()
