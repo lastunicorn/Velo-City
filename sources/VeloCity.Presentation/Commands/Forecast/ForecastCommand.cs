@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
 {
-    [Command("forecast", ShortDescription = "Calculates a forecast for a specific time.")]
+    [Command("forecast", ShortDescription = "Calculates a forecast for a specific time.", Order = 3)]
     public class ForecastCommand : ICommand
     {
         private readonly IMediator mediator;
