@@ -26,6 +26,10 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool IsEver => StartDate == null && EndDate == null;
 
+        public bool IsInfiniteInAnyDirection => StartDate == null || EndDate == null;
+        
+        public bool IsZero => StartDate != null && EndDate != null && StartDate == EndDate;
+
         public DateInterval(DateTime? startDate = null, DateTime? endDate = null)
         {
             StartDate = startDate?.Date;

@@ -28,6 +28,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
     {
         private readonly AvailableCommands availableCommands;
 
+        [CommandParameter(DisplayName = "Command Name", Order = 1, IsOptional = true)]
+        public string CommandName { get; set; }
+
         public List<CommandInfo> Commands { get; private set; }
 
         public HelpCommand(AvailableCommands availableCommands)

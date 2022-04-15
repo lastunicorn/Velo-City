@@ -64,20 +64,19 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Take(count);
         }
 
-        public IEnumerable<Sprint> GetPage(int pageIndex, int count)
-        {
-            return database.Sprints
-                .Where(x => x.State is SprintState.InProgress or SprintState.Closed)
-                .OrderByDescending(x => x.StartDate)
-                .Skip(pageIndex * count)
-                .Take(count);
-        }
-
         public Sprint GetLast()
         {
             return database.Sprints
                 .OrderByDescending(x => x.StartDate)
                 .FirstOrDefault();
+        }
+
+        public IEnumerable<Sprint> GetLast(int count)
+        {
+            return database.Sprints
+                .Where(x => x.State is SprintState.InProgress or SprintState.Closed)
+                .OrderByDescending(x => x.StartDate)
+                .Take(count);
         }
 
         public Sprint GetLastInProgress()
@@ -86,6 +85,32 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Where(x => x.State == SprintState.InProgress)
                 .OrderByDescending(x => x.StartDate)
                 .FirstOrDefault();
+        }
+
+        public IEnumerable<Sprint> GetLastClosed(int count, IEnumerable<int> excludedSprints)
+        {
+            List<int> excludedSprintsList = excludedSprints.ToList();
+
+            return database.Sprints
+                .Where(x => !excludedSprintsList.Contains(x.Number))
+                .OrderByDescending(x => x.StartDate)
+                .Where(x => x.State == SprintState.Closed)
+                .Take(count);
+        }
+
+        public IEnumerable<Sprint> GetLastClosed(int count)
+        {
+            return database.Sprints
+                .OrderByDescending(x => x.StartDate)
+                .Where(x => x.State == SprintState.Closed)
+                .Take(count);
+        }
+
+        public IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate)
+        {
+            return database.Sprints
+                .OrderByDescending(x => x.StartDate)
+                .Where(x => x.EndDate >= startDate && x.StartDate <= endDate);
         }
     }
 }

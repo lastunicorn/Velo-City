@@ -42,16 +42,18 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 ? RetrieveDefaultSprintToAnalyze(request.ExcludedTeamMembers)
                 : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value, request.ExcludedTeamMembers);
 
-            List<Sprint> previousSprints = RetrievePreviousSprints(currentSprint.Number, config.AnalysisLookBack, request.ExcludedSprints, request.ExcludedTeamMembers);
-            Velocity estimatedVelocity = CalculateAverageVelocity(previousSprints);
+            SprintList historySprints = RetrievePreviousSprints(currentSprint.Number, config.AnalysisLookBack, request.ExcludedSprints, request.ExcludedTeamMembers)
+                .ToSprintList();
+            Velocity estimatedVelocity = historySprints.CalculateAverageVelocity();
 
-            int totalWorkHours = currentSprint.CalculateTotalWorkHours();
-            List<VelocityPenaltyInfo> velocityPenalties = RetrieveVelocityPenalties(currentSprint);
-            int? totalWorkHoursWithVelocityPenalties = currentSprint.CalculateTotalWorkHoursWithVelocityPenalties();
+            HoursValue totalWorkHours = currentSprint.CalculateTotalWorkHours();
 
             StoryPoints estimatedStoryPoints = estimatedVelocity.IsNull
                 ? StoryPoints.Null
                 : totalWorkHours * estimatedVelocity;
+
+            List<VelocityPenaltyInfo> velocityPenalties = RetrieveVelocityPenalties(currentSprint);
+            int? totalWorkHoursWithVelocityPenalties = currentSprint.CalculateTotalWorkHoursWithVelocityPenalties();
 
             StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !velocityPenalties.Any()
                 ? StoryPoints.Null
@@ -74,12 +76,12 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 ActualStoryPoints = currentSprint.ActualStoryPoints,
                 ActualVelocity = currentSprint.ActualStoryPoints / totalWorkHours,
                 LookBackSprintCount = config.AnalysisLookBack,
-                PreviousSprints = previousSprints
+                PreviousSprints = historySprints
                     .Select(x => x.Number)
                     .ToList(),
                 ExcludedSprints = request.ExcludedSprints?.ToList(),
                 ShowTeam = request.ShowTeam,
-                Today = DateTime.Today
+                CurrentDay = DateTime.Today
             };
 
             return Task.FromResult(response);
@@ -135,19 +137,6 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
             foreach (TeamMember teamMember in teamMembers)
                 sprint.AddSprintMember(teamMember);
-        }
-
-        private static Velocity CalculateAverageVelocity(IEnumerable<Sprint> previousSprints)
-        {
-            IEnumerable<Velocity> previousVelocities = previousSprints
-                .Select(x => x.CalculateVelocity());
-
-            if (!previousVelocities.Any())
-                return Velocity.Null;
-
-            return previousVelocities
-                .Select(x => x.Value)
-                .Average();
         }
 
         private static List<VelocityPenaltyInfo> RetrieveVelocityPenalties(Sprint sprint)

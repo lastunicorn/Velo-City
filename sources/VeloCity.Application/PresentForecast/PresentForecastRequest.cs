@@ -16,29 +16,16 @@
 
 using System;
 using System.Collections.Generic;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Application.PresentForecast
 {
-    public interface ISprintRepository
+    public class PresentForecastRequest : IRequest<PresentForecastResponse>
     {
-        Sprint Get(int id);
+        public DateTime? Date { get; set; }
 
-        Sprint GetByNumber(int number);
+        public List<int> ExcludedSprints { get; set; }
 
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count);
-
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints);
-
-        Sprint GetLast();
-
-        IEnumerable<Sprint> GetLast(int count);
-
-        Sprint GetLastInProgress();
-
-        IEnumerable<Sprint> GetLastClosed(int count, IEnumerable<int> excludedSprints);
-
-        IEnumerable<Sprint> GetLastClosed(int count);
-
-        IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
+        public List<string> ExcludedTeamMembers { get; set; }
     }
 }
