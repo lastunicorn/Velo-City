@@ -14,29 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
+using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 {
-    public class Employment
+    internal class MissingMyContractNote : NoteBase
     {
-        public DateInterval TimeInterval { get; set; }
-
-        public int HoursPerDay { get; set; }
-
-        public List<DayOfWeek> WeekDays { get; set; }
-
-        public string Country { get; set; }
-
-        public bool IsDateInRange(DateTime dateTime)
+        protected override IEnumerable<string> BuildMessage()
         {
-            return TimeInterval.ContainsDate(dateTime);
-        }
-
-        public bool MatchDayOfWeek(DayOfWeek dayOfWeek)
-        {
-            return WeekDays == null || WeekDays.Count == 0 || WeekDays.Contains(dayOfWeek);
+            yield return "(c) missing by contract";
         }
     }
 }

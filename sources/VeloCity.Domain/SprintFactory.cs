@@ -36,8 +36,7 @@ namespace DustInTheWind.VeloCity.Domain
         {
             Sprint sprint = new()
             {
-                EndDate = endDate,
-                StartDate = startDate
+                DateInterval = new DateInterval(startDate, endDate)
             };
 
             IEnumerable<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll();

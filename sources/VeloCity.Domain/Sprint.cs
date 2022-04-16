@@ -22,40 +22,28 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class Sprint
     {
-        private DateTime startDate;
-        private DateTime endDate;
-
         public int Id { get; set; }
 
         public int Number { get; set; }
 
         public string Name { get; set; }
 
-        public DateTime StartDate
+        public DateTime StartDate { get; private set; } = DateTime.Today;
+
+        public DateTime EndDate { get; private set; } = DateTime.Today;
+
+        public DateInterval DateInterval
         {
-            get => startDate;
+            get => new(StartDate, EndDate);
             set
             {
-                if (value > EndDate)
-                    throw new ArgumentException("StartDate cannot be grater than EndDate.", nameof(value));
+                if (value.StartDate == null || value.EndDate == null)
+                    throw new ArgumentException("The date interval cannot be infinite.", nameof(value));
 
-                startDate = value;
+                StartDate = value.StartDate.Value;
+                EndDate = value.EndDate.Value;
             }
         }
-
-        public DateTime EndDate
-        {
-            get => endDate;
-            set
-            {
-                if (value < StartDate)
-                    throw new ArgumentException("EndDate cannot be less than StartDate.", nameof(value));
-
-                endDate = value;
-            }
-        }
-
-        public DateInterval DateInterval => new(StartDate, EndDate);
 
         public StoryPoints CommitmentStoryPoints { get; set; }
 
@@ -75,18 +63,6 @@ namespace DustInTheWind.VeloCity.Domain
             })
             .ThenBy(x => x.Name);
 
-        public int WorkDaysCount => EnumerateAllDays()
-            .Where(IsWorkDay)
-            .Count();
-
-        public void AddSprintMember(TeamMember teamMember)
-        {
-            SprintMember sprintMember = teamMember.ToSprintMember(this);
-
-            if (sprintMember.IsEmployed)
-                SprintMembers.Add(sprintMember);
-        }
-
         public IEnumerable<SprintDay> EnumerateAllDays()
         {
             int totalDaysCount = (int)(EndDate.Date - StartDate.Date).TotalDays + 1;
@@ -97,6 +73,57 @@ namespace DustInTheWind.VeloCity.Domain
                     DateTime date = StartDate.AddDays(x);
                     return ToSprintDay(date);
                 });
+        }
+
+        private SprintDay ToSprintDay(DateTime date)
+        {
+            return new SprintDay
+            {
+                Date = date,
+                OfficialHolidays = OfficialHolidays
+                    .Where(x => x.Match(date))
+                    .Select(x => x.GetInstanceFor(date.Year))
+                    .ToList()
+            };
+        }
+
+        public int CountWorkDays()
+        {
+            return EnumerateAllDays()
+                .Where(IsWorkDay)
+                .Count();
+        }
+
+        private bool IsWorkDay(SprintDay sprintDay)
+        {
+            if (sprintDay.IsWeekEnd)
+                return false;
+
+            if (sprintDay.IsOfficialHoliday)
+            {
+                List<SprintMemberDay> sprintMemberDays = SprintMembers
+                    .SelectMany(z => z.Days)
+                    .Where(z => z.SprintDay.Date == sprintDay.Date)
+                    .Where(z =>
+                    {
+                        Employment employment = z.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
+                        return !sprintDay.OfficialHolidays.Select(x => x.Country).Contains(employment?.Country);
+                    })
+                    .ToList();
+
+                if (sprintMemberDays.Count == 0)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public void AddSprintMember(TeamMember teamMember)
+        {
+            SprintMember sprintMember = teamMember.ToSprintMember(this);
+
+            if (sprintMember.IsEmployed)
+                SprintMembers.Add(sprintMember);
         }
 
         public Velocity CalculateVelocity()
@@ -133,42 +160,6 @@ namespace DustInTheWind.VeloCity.Domain
                     Value = x.VelocityPenaltyPercentage
                 })
                 .ToList();
-        }
-
-        private SprintDay ToSprintDay(DateTime date)
-        {
-            return new SprintDay
-            {
-                Date = date,
-                OfficialHolidays = OfficialHolidays
-                    .Where(x => x.Match(date))
-                    .Select(x => x.GetInstanceFor(date.Year))
-                    .ToList()
-            };
-        }
-
-        private bool IsWorkDay(SprintDay sprintDay)
-        {
-            if (sprintDay.IsWeekEnd)
-                return false;
-
-            if (sprintDay.IsOfficialHoliday)
-            {
-                List<SprintMemberDay> sprintMemberDays = SprintMembers
-                    .SelectMany(z => z.Days)
-                    .Where(z => z.SprintDay.Date == sprintDay.Date)
-                    .Where(z =>
-                    {
-                        Employment employment = z.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
-                        return !sprintDay.OfficialHolidays.Select(x => x.Country).Contains(employment?.Country);
-                    })
-                    .ToList();
-
-                if (sprintMemberDays.Count == 0)
-                    return false;
-            }
-
-            return true;
         }
 
         public override string ToString()

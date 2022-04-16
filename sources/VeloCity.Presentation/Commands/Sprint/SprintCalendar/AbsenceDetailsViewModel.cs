@@ -35,7 +35,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             if (!sprintDay.IsWeekEnd)
             {
                 TeamMemberVacationDetails = sprintMemberDays
-                    .Where(x => x.AbsenceHours > 0)
+                    .Where(x => x.AbsenceHours > 0 || x.AbsenceReason == AbsenceReason.Contract)
                     .Select(x => new TeamMemberAbsenceDetailsViewModel(x))
                     .ToList();
 

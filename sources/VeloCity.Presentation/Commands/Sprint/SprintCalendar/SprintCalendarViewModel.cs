@@ -90,12 +90,26 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         {
             List<NoteBase> notes = new();
 
-            bool isPartialVacationNoteVisible = CalendarItems
-                .SelectMany(x => x.AbsenceDetails.TeamMemberVacationDetails ?? Enumerable.Empty<TeamMemberAbsenceDetailsViewModel>())
-                .Any(x => x.IsPartialVacation);
+            IEnumerable<TeamMemberAbsenceDetailsViewModel> memberAbsenceDetailsViewModels = CalendarItems
+                .SelectMany(x => x.AbsenceDetails.TeamMemberVacationDetails ?? Enumerable.Empty<TeamMemberAbsenceDetailsViewModel>());
+
+            bool isPartialVacationNoteVisible = false;
+            bool isMissingByContractNoteVisible = false;
+
+            foreach (TeamMemberAbsenceDetailsViewModel teamMemberAbsenceDetailsViewModel in memberAbsenceDetailsViewModels)
+            {
+                if (teamMemberAbsenceDetailsViewModel.IsPartialVacation)
+                    isPartialVacationNoteVisible = true;
+
+                if (teamMemberAbsenceDetailsViewModel.IsMissingByContract)
+                    isMissingByContractNoteVisible = true;
+            }
 
             if (isPartialVacationNoteVisible)
                 notes.Add(new PartialDayVacationNote());
+
+            if (isMissingByContractNoteVisible)
+                notes.Add(new MissingMyContractNote());
 
             return notes;
         }

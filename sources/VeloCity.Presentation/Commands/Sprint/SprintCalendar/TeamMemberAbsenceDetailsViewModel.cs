@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Text;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
@@ -25,20 +27,33 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         public bool IsPartialVacation { get; }
 
+        public bool IsMissingByContract { get; }
+
         public TeamMemberAbsenceDetailsViewModel(SprintMemberDay sprintMemberDay)
         {
             this.sprintMemberDay = sprintMemberDay ?? throw new ArgumentNullException(nameof(sprintMemberDay));
 
             IsPartialVacation = sprintMemberDay.WorkHours > 0;
+            IsMissingByContract = sprintMemberDay.AbsenceReason == AbsenceReason.Contract;
         }
 
         public override string ToString()
         {
-            PersonName name = sprintMemberDay.TeamMember.Name;
+            List<char> notes = new(2);
+            if (IsMissingByContract)
+                notes.Add('c');
 
-            return IsPartialVacation
-                ? name.ShortName + " (*)"
-                : name.ShortName;
+            if (IsPartialVacation)
+                notes.Add('*');
+
+            PersonName name = sprintMemberDay.TeamMember.Name;
+            string shortName = name.ShortName;
+
+            if (notes.Count <= 0)
+                return shortName;
+
+            string notesAsString = string.Join(string.Empty, notes);
+            return $"{shortName} ({notesAsString})";
         }
     }
 }

@@ -64,16 +64,14 @@ namespace DustInTheWind.VeloCity.Domain
 
             if (SprintDay.IsWeekEnd)
             {
-                AbsenceHours = employment.HoursPerDay;
                 AbsenceReason = AbsenceReason.WeekEnd;
 
                 return;
             }
 
-            bool matchDayOfWeek = employment.ContainsDayOfWeek(SprintDay.Date.DayOfWeek);
+            bool matchDayOfWeek = employment.MatchDayOfWeek(SprintDay.Date.DayOfWeek);
             if (!matchDayOfWeek)
             {
-                AbsenceHours = employment.HoursPerDay;
                 AbsenceReason = AbsenceReason.Contract;
 
                 return;
