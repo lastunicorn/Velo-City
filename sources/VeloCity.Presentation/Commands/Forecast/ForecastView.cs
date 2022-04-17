@@ -46,9 +46,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
             DataGrid dataGrid = dataGridFactory.Create();
             dataGrid.Title = "Forecast Overview";
 
-            dataGrid.Rows.Add("Time Interval", $"{command.StartDate:d} - {command.EndDate:d}");
+            dataGrid.Rows.Add("Date Interval", $"{command.StartDate:d} - {command.EndDate:d}");
+            dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Total Work Days", command.Sprints.Sum(x => x.WorkDaysCount) + " days");
             dataGrid.Rows.Add("Total Work Hours", $"{command.TotalWorkHours}");
+            dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Estimated Velocity", $"{command.EstimatedVelocity.ToStandardDigitsString()}");
             dataGrid.Rows.Add("Estimated Story Points", $"{command.EstimatedStoryPoints.ToStandardDigitsString()}");
 
@@ -90,9 +92,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
                 ? $"Sprint {sprint.Number}"
                 : "Presumed Sprint";
 
-            dataGrid.Rows.Add("Time Interval", $"{sprint.StartDate:d} - {sprint.EndDate:d}");
+            dataGrid.Rows.Add("Date Interval", $"{sprint.StartDate:d} - {sprint.EndDate:d}");
+            dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Work Days", sprint.WorkDaysCount + " days");
             dataGrid.Rows.Add("Work Hours", $"{sprint.TotalWorkHours}");
+            dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Estimated Story Points", $"{sprint.EstimatedStoryPoints.ToStandardDigitsString()}");
 
             if (!sprint.EstimatedStoryPointsWithVelocityPenalties.IsNull)
