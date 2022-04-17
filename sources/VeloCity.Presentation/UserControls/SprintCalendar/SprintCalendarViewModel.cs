@@ -18,9 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.UserControls;
+using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar
 {
     public class SprintCalendarViewModel
     {
@@ -90,13 +90,13 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
         {
             List<NoteBase> notes = new();
 
-            IEnumerable<TeamMemberAbsenceDetailsViewModel> memberAbsenceDetailsViewModels = CalendarItems
-                .SelectMany(x => x.AbsenceDetails.TeamMemberVacationDetails ?? Enumerable.Empty<TeamMemberAbsenceDetailsViewModel>());
+            IEnumerable<TeamMemberAbsenceDetails> memberAbsenceDetailsViewModels = CalendarItems
+                .SelectMany(x => x.AbsenceDetails.TeamMemberVacationDetails ?? Enumerable.Empty<TeamMemberAbsenceDetails>());
 
             bool isPartialVacationNoteVisible = false;
             bool isMissingByContractNoteVisible = false;
 
-            foreach (TeamMemberAbsenceDetailsViewModel teamMemberAbsenceDetailsViewModel in memberAbsenceDetailsViewModels)
+            foreach (TeamMemberAbsenceDetails teamMemberAbsenceDetailsViewModel in memberAbsenceDetailsViewModels)
             {
                 if (teamMemberAbsenceDetailsViewModel.IsPartialVacation)
                     isPartialVacationNoteVisible = true;
@@ -109,7 +109,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
                 notes.Add(new PartialDayVacationNote());
 
             if (isMissingByContractNoteVisible)
-                notes.Add(new MissingMyContractNote());
+                notes.Add(new AbsentMyContractNote());
 
             return notes;
         }

@@ -20,6 +20,7 @@ using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Presentation.UserControls;
+using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
 {

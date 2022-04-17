@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
+using DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
 {

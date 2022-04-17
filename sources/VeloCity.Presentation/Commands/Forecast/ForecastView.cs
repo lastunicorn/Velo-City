@@ -17,11 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using DustInTheWind.VeloCity.Presentation.UserControls;
+using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
 {
@@ -37,7 +38,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
         public void Display(ForecastCommand command)
         {
             DisplayOverviewTable(command);
-            DisplayOverviewNotes(command);
             DisplaySprintDetails(command.Sprints);
         }
 
@@ -55,10 +55,12 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
             if (!command.EstimatedStoryPointsWithVelocityPenalties.IsNull)
                 dataGrid.Rows.Add("Estimated Story Points (*)", $"{command.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
 
+            AddFooter(dataGrid, command);
+
             dataGrid.Display();
         }
 
-        private static void DisplayOverviewNotes(ForecastCommand command)
+        private static void AddFooter(DataGrid dataGrid, ForecastCommand command)
         {
             bool velocityPenaltiesExist = !command.EstimatedStoryPointsWithVelocityPenalties.IsNull;
             if (!velocityPenaltiesExist)
@@ -71,16 +73,14 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
                     new VelocityPenaltiesNote()
                 }
             };
-            notesControl.Display();
+            dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
+            dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
         }
 
         private void DisplaySprintDetails(List<SprintForecast> sprints)
         {
             foreach (SprintForecast sprint in sprints)
-            {
                 DisplaySprintDetails(sprint);
-                DisplaySprintNotes(sprint);
-            }
         }
 
         private void DisplaySprintDetails(SprintForecast sprint)
@@ -98,10 +98,12 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
             if (!sprint.EstimatedStoryPointsWithVelocityPenalties.IsNull)
                 dataGrid.Rows.Add("Estimated Story Points (*)", $"{sprint.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
 
+            AddFooter(dataGrid, sprint);
+
             dataGrid.Display();
         }
 
-        private static void DisplaySprintNotes(SprintForecast sprint)
+        private static void AddFooter(DataGrid dataGrid, SprintForecast sprint)
         {
             bool velocityPenaltiesExist = !sprint.EstimatedStoryPointsWithVelocityPenalties.IsNull;
             if (!velocityPenaltiesExist)
@@ -114,7 +116,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
                     new VelocityPenaltiesNote()
                 }
             };
-            notesControl.Display();
+            dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
+            dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
         }
     }
 }

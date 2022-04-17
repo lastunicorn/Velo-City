@@ -16,12 +16,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar
 {
-    public class TeamMemberAbsenceDetailsViewModel
+    public class TeamMemberAbsenceDetails
     {
         private readonly SprintMemberDay sprintMemberDay;
 
@@ -29,7 +28,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
         public bool IsMissingByContract { get; }
 
-        public TeamMemberAbsenceDetailsViewModel(SprintMemberDay sprintMemberDay)
+        public TeamMemberAbsenceDetails(SprintMemberDay sprintMemberDay)
         {
             this.sprintMemberDay = sprintMemberDay ?? throw new ArgumentNullException(nameof(sprintMemberDay));
 

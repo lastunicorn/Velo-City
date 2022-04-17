@@ -19,13 +19,13 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar
 {
     public class AbsenceDetailsViewModel
     {
-        public List<TeamMemberAbsenceDetailsViewModel> TeamMemberVacationDetails { get; }
+        public List<TeamMemberAbsenceDetails> TeamMemberVacationDetails { get; }
 
-        public List<OfficialHolidayAbsenceDetailsViewModel> OfficialHolidays { get; }
+        public List<OfficialHolidayAbsenceDetails> OfficialHolidays { get; }
 
         public AbsenceDetailsViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
         {
@@ -36,7 +36,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
             {
                 TeamMemberVacationDetails = sprintMemberDays
                     .Where(x => x.AbsenceHours > 0 || x.AbsenceReason == AbsenceReason.Contract)
-                    .Select(x => new TeamMemberAbsenceDetailsViewModel(x))
+                    .Select(x => new TeamMemberAbsenceDetails(x))
                     .ToList();
 
                 string[] countries = sprintMemberDays
@@ -51,7 +51,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
 
                 OfficialHolidays = sprintDay.OfficialHolidays
                     .Where(x => countries.Contains(x.Country))
-                    .Select(x => new OfficialHolidayAbsenceDetailsViewModel(x))
+                    .Select(x => new OfficialHolidayAbsenceDetails(x))
                     .ToList();
             }
         }

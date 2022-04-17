@@ -14,23 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using DustInTheWind.VeloCity.Domain;
+using System.Collections.Generic;
+using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintCalendar
+namespace DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar
 {
-    public class OfficialHolidayAbsenceDetailsViewModel
+    internal class AbsentMyContractNote : NoteBase
     {
-        private readonly OfficialHolidayInstance officialHolidayInstance;
-
-        public OfficialHolidayAbsenceDetailsViewModel(OfficialHolidayInstance officialHolidayInstance)
+        protected override IEnumerable<string> BuildMessage()
         {
-            this.officialHolidayInstance = officialHolidayInstance ?? throw new ArgumentNullException(nameof(officialHolidayInstance));
-        }
-
-        public override string ToString()
-        {
-            return $"{officialHolidayInstance.Name} ({officialHolidayInstance.Country})";
+            yield return "(c) absent by contract";
         }
     }
 }

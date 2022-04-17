@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Presentation.UserControls;
+using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
 {
