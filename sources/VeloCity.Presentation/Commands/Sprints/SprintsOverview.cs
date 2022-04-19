@@ -63,8 +63,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
         {
             List<string> sprintNameLines = new()
             {
-                sprintOverview.Name,
-                $"({sprintOverview.StartDate:d} - {sprintOverview.EndDate:d})"
+                sprintOverview.Name
             };
 
             return new ContentCell(sprintNameLines);
@@ -74,9 +73,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
         {
             List<string> sprintInfoLines = new()
             {
-                $"Total Work Hours: {sprintOverview.TotalWorkHours} h",
-                $"Actual Story Points: {sprintOverview.ActualStoryPoints}",
-                $"Actual Velocity: {sprintOverview.ActualVelocity.ToStandardDigitsString()}"
+                $"{sprintOverview.StartDate:d} - {sprintOverview.EndDate:d}"
             };
 
             return new ContentCell(sprintInfoLines);

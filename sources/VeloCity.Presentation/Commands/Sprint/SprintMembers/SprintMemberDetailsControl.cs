@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
@@ -77,20 +76,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
         private IEnumerable<SprintMemberDataGridRow> CreateRows()
         {
             return SprintMember.Days
-                //.Where(x =>
-                //{
-                //    bool isWeekDay = x.SprintDay.Date.DayOfWeek is not (DayOfWeek.Saturday or DayOfWeek.Sunday);
-                //    if (isWeekDay)
-                //        return true;
-
-                //    bool hasWorkHoursInWeekEnd = x.WorkHours > 0;
-                //    if (hasWorkHoursInWeekEnd)
-                //        return true;
-
-                //    bool isOfficialHoliday = x.AbsenceReason == AbsenceReason.OfficialHoliday;
-                //    return isOfficialHoliday;
-                //})
-                //.Where(x => x.AbsenceReason != AbsenceReason.OfficialHoliday)
                 .Select(x => new SprintMemberDataGridRow(x));
         }
     }

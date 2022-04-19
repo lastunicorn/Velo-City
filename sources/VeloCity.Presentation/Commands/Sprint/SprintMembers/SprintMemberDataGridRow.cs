@@ -70,6 +70,15 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
 
         private static ContentCell CreateAbsenceReasonCell(SprintMemberDay sprintMemberDay)
         {
+            return new ContentCell
+            {
+                Content = CreateAbsenceReasonCellContent(sprintMemberDay)
+            };
+
+
+
+
+
             if (sprintMemberDay.AbsenceReason is AbsenceReason.None or AbsenceReason.WeekEnd)
             {
                 return new ContentCell
@@ -80,7 +89,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
 
             StringBuilder sb = new();
 
-            sb.Append(sprintMemberDay.AbsenceReason);
+            string absenceReason = ToString(sprintMemberDay.AbsenceReason);
+            sb.Append(absenceReason);
 
             if (sprintMemberDay.AbsenceComments != null)
                 sb.Append($" ({sprintMemberDay.AbsenceComments})");
@@ -88,6 +98,64 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
             return new ContentCell
             {
                 Content = sb.ToString()
+            };
+        }
+
+        private static string CreateAbsenceReasonCellContent(SprintMemberDay sprintMemberDay)
+        {
+            switch (sprintMemberDay.AbsenceReason)
+            {
+                case AbsenceReason.None:
+                case AbsenceReason.WeekEnd:
+                    return string.Empty;
+
+                case AbsenceReason.OfficialHoliday:
+                    {
+                        StringBuilder sb = new();
+
+                        if (sprintMemberDay.AbsenceComments != null)
+                            sb.Append(sprintMemberDay.AbsenceComments);
+
+                        return new ContentCell
+                        {
+                            Content = sb.ToString()
+                        };
+                    }
+
+                case AbsenceReason.Vacation:
+                case AbsenceReason.Unemployed:
+                case AbsenceReason.Contract:
+                    {
+                        StringBuilder sb = new();
+
+                        string absenceReason = ToString(sprintMemberDay.AbsenceReason);
+                        sb.Append(absenceReason);
+
+                        if (sprintMemberDay.AbsenceComments != null)
+                            sb.Append($" ({sprintMemberDay.AbsenceComments})");
+
+                        return new ContentCell
+                        {
+                            Content = sb.ToString()
+                        };
+                    }
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private static string ToString(AbsenceReason absenceReason)
+        {
+            return absenceReason switch
+            {
+                AbsenceReason.None => string.Empty,
+                AbsenceReason.WeekEnd => "Week-end",
+                AbsenceReason.OfficialHoliday => "Official Holiday",
+                AbsenceReason.Vacation => "Vacation",
+                AbsenceReason.Unemployed => "Unemployed",
+                AbsenceReason.Contract => "Contract",
+                _ => throw new ArgumentOutOfRangeException()
             };
         }
 

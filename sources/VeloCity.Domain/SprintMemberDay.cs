@@ -86,6 +86,9 @@ namespace DustInTheWind.VeloCity.Domain
                 AbsenceHours = employment.HoursPerDay;
                 AbsenceReason = AbsenceReason.OfficialHoliday;
 
+                IEnumerable<string> officialHolidayNames = officialHolidays.Select(x => x.Name);
+                AbsenceComments = string.Join(", ", officialHolidayNames);
+
                 return;
             }
 
