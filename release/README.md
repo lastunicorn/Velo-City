@@ -2,6 +2,7 @@
 
 ## Before Starting
 
+- Checkout the master branch.
 - Verify the content of the `doc\readme.txt` file.
 - Verify the content of the `doc\changelog.txt` file.
 - Verify the version to be consistent in all files:

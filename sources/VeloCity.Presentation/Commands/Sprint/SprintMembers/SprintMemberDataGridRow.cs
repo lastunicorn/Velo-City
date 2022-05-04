@@ -74,31 +74,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
             {
                 Content = CreateAbsenceReasonCellContent(sprintMemberDay)
             };
-
-
-
-
-
-            if (sprintMemberDay.AbsenceReason is AbsenceReason.None or AbsenceReason.WeekEnd)
-            {
-                return new ContentCell
-                {
-                    Content = string.Empty
-                };
-            }
-
-            StringBuilder sb = new();
-
-            string absenceReason = ToString(sprintMemberDay.AbsenceReason);
-            sb.Append(absenceReason);
-
-            if (sprintMemberDay.AbsenceComments != null)
-                sb.Append($" ({sprintMemberDay.AbsenceComments})");
-
-            return new ContentCell
-            {
-                Content = sb.ToString()
-            };
         }
 
         private static string CreateAbsenceReasonCellContent(SprintMemberDay sprintMemberDay)
