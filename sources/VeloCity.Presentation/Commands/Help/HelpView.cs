@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
@@ -43,7 +42,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 
             DataGrid dataGrid = new()
             {
-                Border = { IsVisible = false }
+                Border = { IsVisible = false },
+                Margin = "4 0 0 0"
             };
 
             Column column = dataGrid.Columns.Add(new Column());
@@ -71,7 +71,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
             Console.WriteLine(commandDetails.Usage);
 
             Console.WriteLine();
-            Console.WriteLine($"Description: {commandDetails.Description}");
+            Console.WriteLine(commandDetails.Description);
         }
     }
 }

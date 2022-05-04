@@ -22,8 +22,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Database
 {
-    [Command("db", ShortDescription = "Opens the database in a text editor.", Order = 101)]
-    [CommandUsage("db")]
+    [Command("db", ShortDescription = "Opens the database for editing.", Order = 101)]
     public class DatabaseCommand : ICommand
     {
         private readonly IMediator mediator;

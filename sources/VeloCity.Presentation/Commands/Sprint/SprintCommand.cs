@@ -27,10 +27,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
 {
-    [Command("sprint", ShortDescription = "The analysis of a sprint.", Order = 1)]
-    [CommandUsage("sprint")]
-    [CommandUsage("sprint [sprint-number]")]
-    [CommandUsage("sprint [sprint-number] -exclude [sprint-number[,sprint-number[...]]]")]
+    [Command("sprint", ShortDescription = "Analyze a sprint.", Order = 1)]
     public class SprintCommand : ICommand
     {
         private readonly IMediator mediator;

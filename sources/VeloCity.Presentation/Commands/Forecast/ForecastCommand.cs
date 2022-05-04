@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
 {
-    [Command("forecast", ShortDescription = "Calculates a forecast for a specific time.", Order = 3)]
+    [Command("forecast", ShortDescription = "Calculates the forecast for a specific time.", Order = 3)]
     public class ForecastCommand : ICommand
     {
         private readonly IMediator mediator;
@@ -32,19 +32,19 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
         [CommandParameter(Name = "date", ShortName = 'd', IsOptional = true)]
         public DateTime? Date { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate { get; private set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; private set; }
 
-        public HoursValue TotalWorkHours { get; set; }
+        public HoursValue TotalWorkHours { get; private set; }
 
-        public Velocity EstimatedVelocity { get; set; }
+        public Velocity EstimatedVelocity { get; private set; }
 
-        public StoryPoints EstimatedStoryPoints { get; set; }
+        public StoryPoints EstimatedStoryPoints { get; private set; }
 
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
+        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; private set; }
 
-        public List<SprintForecast> Sprints { get; set; }
+        public List<SprintForecast> Sprints { get; private set; }
 
         public ForecastCommand(IMediator mediator)
         {

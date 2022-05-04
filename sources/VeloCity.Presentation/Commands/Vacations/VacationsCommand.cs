@@ -24,13 +24,12 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
-    [Command("vacations", ShortDescription = "The vacation days for the specified team member.", Order = 4)]
-    [CommandUsage("vacations [person-name]")]
+    [Command("vacations", ShortDescription = "The team member's vacation days.", Order = 4)]
     public class VacationsCommand : ICommand
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(DisplayName = "Person Name", Name = "name", ShortName = 'n', Order = 1)]
+        [CommandParameter(DisplayName = "person name", Name = "name", ShortName = 'n', Order = 1)]
         public string PersonName { get; set; }
 
         public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }

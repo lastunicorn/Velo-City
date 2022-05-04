@@ -14,16 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
+using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 {
     public class CommandFullInfo
     {
-        public string Name { get; set; }
+        public MultilineText Description { get; }
 
-        public MultilineText Description { get; set; }
+        public CommandUsageViewModel Usage { get; }
 
-        public string Usage { get; set; }
+        public CommandFullInfo(CommandInfo commandInfo)
+        {
+            Description = commandInfo.DescriptionLines.ToList();
+            Usage = new CommandUsageViewModel(commandInfo);
+        }
     }
 }
