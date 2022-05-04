@@ -105,12 +105,21 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                 });
         }
 
-        public List<CommandInfo> GetOrderedCommandInfos()
+        public CommandInfo GetByName(string commandName)
         {
             return commandInfos
                 .OrderBy(x => x.Order)
                 .ThenBy(x => x.Name)
-                .ToList();
+                .Where(x => x.IsEnabled && x.Name == commandName)
+                .FirstOrDefault();
+        }
+
+        public IEnumerable<CommandInfo> GetAllEnabled()
+        {
+            return commandInfos
+                .OrderBy(x => x.Order)
+                .ThenBy(x => x.Name)
+                .Where(x => x.IsEnabled);
         }
 
         public CommandInfo GetCommandInfo(string commandName)

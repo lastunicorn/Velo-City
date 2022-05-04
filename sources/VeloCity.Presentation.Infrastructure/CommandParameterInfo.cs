@@ -40,6 +40,8 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public bool IsOptional => customAttribute.IsOptional;
 
+        public Type ParameterType => propertyInfo.PropertyType;
+
         public CommandParameterInfo(PropertyInfo propertyInfo, CommandParameterAttribute customAttribute)
         {
             this.propertyInfo = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));

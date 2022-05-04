@@ -25,7 +25,6 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
     {
         private readonly Type commandType;
         private CommandAttribute commandAttribute;
-        private List<CommandUsageAttribute> commandUsageAttributes;
         private readonly List<string> descriptionLines;
 
         public string Name { get; }
@@ -77,10 +76,6 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
                 .SingleOrDefault();
 
             IsHelpCommand = commandAttribute is HelpCommandAttribute;
-
-            commandUsageAttributes = commandType.GetCustomAttributes(typeof(CommandUsageAttribute), false)
-                .Cast<CommandUsageAttribute>()
-                .ToList();
         }
 
         private string CalculateCommandName()
@@ -101,17 +96,12 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             if (commandAttribute != null && !string.IsNullOrEmpty(commandAttribute.ShortDescription))
                 lines.Add(commandAttribute.ShortDescription);
 
-            //if (commandUsageAttributes.Count > 0)
-            //{
-            //    lines.Add("usage:");
-
-            //    IEnumerable<string> usageExamples = commandUsageAttributes
-            //        .Select(x => "  " + x.UsageExample);
-
-            //    lines.AddRange(usageExamples);
-            //}
-
             return lines;
+        }
+
+        public override string ToString()
+        {
+            return Name ?? ("param" + Order);
         }
     }
 }

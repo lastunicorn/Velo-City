@@ -25,14 +25,11 @@ using MediatR;
 namespace DustInTheWind.VeloCity.Presentation.Commands.Config
 {
     [Command("config", ShortDescription = "Inspect and change the application's configuration values.", Order = 100)]
-    [CommandUsage("config")]
-    [CommandUsage("config [property-name]")]
-    [CommandUsage("config -get [property-name]")]
     public class ConfigCommand : ICommand
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(Name = "get", Order = 1, IsOptional = true)]
+        [CommandParameter(DisplayName = "property name", Name = "get", Order = 1, IsOptional = true)]
         public string PropertyName { get; set; }
 
         public List<ConfigItem> ConfigValues { get; private set; }

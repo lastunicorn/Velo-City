@@ -27,24 +27,21 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
 {
-    [Command("sprint", ShortDescription = "The analysis of a sprint.", Order = 1)]
-    [CommandUsage("sprint")]
-    [CommandUsage("sprint [sprint-number]")]
-    [CommandUsage("sprint [sprint-number] -exclude [sprint-number[,sprint-number[...]]]")]
+    [Command("sprint", ShortDescription = "Analyze a sprint.", Order = 1)]
     public class SprintCommand : ICommand
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(DisplayName = "Sprint Number", Name = "number", ShortName = 'n', Order = 1, IsOptional = true)]
+        [CommandParameter(DisplayName = "sprint number", Order = 1, IsOptional = true)]
         public int? SprintNumber { get; set; }
 
-        [CommandParameter(DisplayName = "Excluded Sprints", Name = "exclude", ShortName = 'x', IsOptional = true)]
+        [CommandParameter(DisplayName = "excluded sprints", Name = "exclude", ShortName = 'x', IsOptional = true)]
         public List<int> ExcludedSprints { get; set; }
 
-        [CommandParameter(DisplayName = "Show Team", Name = "show-team", ShortName = 't', IsOptional = true)]
+        [CommandParameter(DisplayName = "show team", Name = "show-team", ShortName = 't', IsOptional = true)]
         public bool ShowTeam { get; set; }
 
-        [CommandParameter(DisplayName = "Excluded Team Members", Name = "exclude-team", ShortName = 'z', IsOptional = true)]
+        [CommandParameter(DisplayName = "excluded team members", Name = "exclude-team", ShortName = 'z', IsOptional = true)]
         public List<string> ExcludedTeamMembers { get; set; }
 
         public List<SprintMember> SprintMembers { get; private set; }

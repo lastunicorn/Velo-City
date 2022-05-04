@@ -16,16 +16,15 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Presentation.Infrastructure
+namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class CommandUsageAttribute : Attribute
+    public class CommandNotFoundException : Exception
     {
-        public string UsageExample { get; }
+        private const string DefaultMessage = "The command '{0}' does not exist.";
 
-        public CommandUsageAttribute(string usageExample)
+        public CommandNotFoundException(string commandName)
+            : base(string.Format(DefaultMessage, commandName))
         {
-            UsageExample = usageExample ?? throw new ArgumentNullException(nameof(usageExample));
         }
     }
 }

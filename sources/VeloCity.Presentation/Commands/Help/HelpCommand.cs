@@ -22,16 +22,17 @@ using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 {
-    [HelpCommand("help", ShortDescription = "A list with all the available commands.", Order = int.MaxValue)]
-    [CommandUsage("help")]
+    [HelpCommand("help", ShortDescription = "Obtain more details and explanation about the available commands.", Order = int.MaxValue)]
     public class HelpCommand : ICommand
     {
         private readonly AvailableCommands availableCommands;
 
-        [CommandParameter(DisplayName = "Command Name", Order = 1, IsOptional = true)]
+        [CommandParameter(DisplayName = "command name", Order = 1, IsOptional = true)]
         public string CommandName { get; set; }
 
-        public List<CommandInfo> Commands { get; private set; }
+        public List<CommandShortInfo> Commands { get; private set; }
+
+        public CommandFullInfo CommandDetails { get; private set; }
 
         public HelpCommand(AvailableCommands availableCommands)
         {
@@ -40,11 +41,33 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Help
 
         public Task Execute()
         {
-            Commands = availableCommands.GetOrderedCommandInfos()
-                .Where(x => x.IsEnabled)
-                .ToList();
+            if (CommandName != null)
+                CommandDetails = GetCommandDetails(CommandName);
+            else
+                Commands = GetAllCommandDetails();
 
             return Task.CompletedTask;
+        }
+
+        private CommandFullInfo GetCommandDetails(string commandName)
+        {
+            CommandInfo commandInfo = availableCommands.GetByName(commandName);
+
+            if (commandInfo == null)
+                throw new CommandNotFoundException(commandName);
+
+            return new CommandFullInfo(commandInfo);
+        }
+
+        private List<CommandShortInfo> GetAllCommandDetails()
+        {
+            return availableCommands.GetAllEnabled()
+                .Select(x => new CommandShortInfo
+                {
+                    Name = x.Name,
+                    Description = x.DescriptionLines.ToList()
+                })
+                .ToList();
         }
     }
 }
