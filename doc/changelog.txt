@@ -8,6 +8,8 @@ v1.8.0
 - [feature] Moved the notes inside the footer of the tables.
 - [feature] Generate usage informations for the help command.
 - [feature] Vacation command displays the vacations for the currently active team members by default.
+- [feature] Added the velocity command that displays a chart with the velocities calculated for the
+            last n sprints.
 
 v1.7.0
 ----------------------------------------------------------------------------------------------------

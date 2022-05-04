@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
 {
-    [Command("calendar", ShortDescription = "Inspect the calendar of a specific sprint.", Order = 7)]
+    [Command("calendar", ShortDescription = "Inspect the calendar of a specific sprint.", Order = 8)]
     public class CalendarCommand : ICommand
     {
         private readonly IMediator mediator;

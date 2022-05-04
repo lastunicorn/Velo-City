@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Team
 {
-    [Command("team", ShortDescription = "The composition of the team (team members).", Order = 5)]
+    [Command("team", ShortDescription = "The composition of the team (team members).", Order = 6)]
     public class TeamCommand : ICommand
     {
         private readonly IMediator mediator;

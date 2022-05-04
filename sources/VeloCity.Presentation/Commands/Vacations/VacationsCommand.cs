@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
-    [Command("vacations", ShortDescription = "The team member's vacation days.", Order = 4)]
+    [Command("vacations", ShortDescription = "The team member's vacation days.", Order = 5)]
     public class VacationsCommand : ICommand
     {
         private readonly IMediator mediator;

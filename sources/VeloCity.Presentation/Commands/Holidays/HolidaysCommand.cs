@@ -24,7 +24,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
 {
-    [Command("holidays", ShortDescription = "The holidays for a specific year or sprint.", Order = 6)]
+    [Command("holidays", ShortDescription = "The holidays for a specific year or sprint.", Order = 7)]
     public class HolidaysCommand : ICommand
     {
         private readonly IMediator mediator;

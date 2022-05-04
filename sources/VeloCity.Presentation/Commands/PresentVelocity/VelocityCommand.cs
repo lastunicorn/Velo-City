@@ -23,7 +23,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
-    [Command("velocity")]
+    [Command("velocity", ShortDescription = "A chart with the velocity per sprints.", Order = 3)]
     public class VelocityCommand : ICommand
     {
         private readonly IMediator mediator;
