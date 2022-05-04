@@ -26,6 +26,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         public string Comments { get; set; }
 
+        public abstract DateTime? SignificantDate { get; }
+
         public override string ToString()
         {
             StringBuilder sb = new();

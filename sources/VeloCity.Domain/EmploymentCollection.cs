@@ -41,9 +41,41 @@ namespace DustInTheWind.VeloCity.Domain
 
         public Employment GetLastEmployment()
         {
-            return Items
-                .OrderByDescending(x => x.TimeInterval.StartDate)
-                .FirstOrDefault();
+            //return Items
+            //    .OrderByDescending(x => x.TimeInterval.StartDate)
+            //    .FirstOrDefault();
+
+            IEnumerable<Employment> employments = Items
+                .OrderByDescending(x => x.TimeInterval.StartDate);
+
+            Employment lastEmployment = null;
+
+            foreach (Employment employment in employments)
+            {
+                bool isCandidate = lastEmployment == null ||
+                                   employment.TimeInterval.StartDate == null ||
+                                   employment.TimeInterval.EndDate == null ||
+                                   employment.TimeInterval.EndDate.Value.AddDays(1) >= lastEmployment.TimeInterval.StartDate.Value;
+
+                if (!isCandidate)
+                    break;
+
+                lastEmployment = employment;
+
+                if (lastEmployment.TimeInterval.StartDate == null)
+                    break;
+            }
+
+            return lastEmployment;
+        }
+
+        public DateTime? GetLastEmploymentDate()
+        {
+            Employment lastEmployment = GetLastEmployment();
+
+            return lastEmployment == null
+                ? null
+                : lastEmployment.TimeInterval.StartDate ?? DateTime.MinValue;
         }
     }
 }

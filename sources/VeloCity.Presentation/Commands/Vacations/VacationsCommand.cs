@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(DisplayName = "person name", Name = "name", ShortName = 'n', Order = 1)]
+        [CommandParameter(DisplayName = "person name", Name = "name", ShortName = 'n', Order = 1, IsOptional = true)]
         public string PersonName { get; set; }
 
         public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }

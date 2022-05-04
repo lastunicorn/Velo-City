@@ -36,14 +36,9 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
 
         public Task<PresentVacationsResponse> Handle(PresentVacationsRequest request, CancellationToken cancellationToken)
         {
-            if (request.TeamMemberName == null)
-                throw new TeamMemberNameRequiredException();
+            List<TeamMemberVacations> teamMemberVacations = GetTeamMemberVacations(request.TeamMemberName);
 
-            List<TeamMemberVacation> teamMemberVacations = unitOfWork.TeamMemberRepository.Find(request.TeamMemberName)
-                .Select(ToTeamMemberVacation)
-                .ToList();
-
-            if (teamMemberVacations.Count == 0)
+            if (request.TeamMemberName != null && teamMemberVacations.Count == 0)
                 throw new TeamMemberNotFoundException(request.TeamMemberName);
 
             PresentVacationsResponse response = new()
@@ -54,13 +49,17 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
             return Task.FromResult(response);
         }
 
-        private static TeamMemberVacation ToTeamMemberVacation(TeamMember teamMember)
+        private List<TeamMemberVacations> GetTeamMemberVacations(string teamMemberName)
         {
-            return new TeamMemberVacation
-            {
-                PersonName = teamMember.Name,
-                Vacations = teamMember.Vacations.ToList()
-            };
+            IEnumerable<TeamMember> teamMembers = teamMemberName == null
+                ? unitOfWork.TeamMemberRepository.GetByDate(DateTime.Today)
+                : unitOfWork.TeamMemberRepository.Find(teamMemberName);
+
+            return teamMembers
+                .OrderBy(x => x.Employments.GetLastEmploymentDate())
+                .ThenBy(x => x.Name)
+                .Select(x => new TeamMemberVacations(x))
+                .ToList();
         }
     }
 }

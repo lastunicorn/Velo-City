@@ -6,6 +6,8 @@ v1.8.0
 - [feature] Added the "calendar" command to display the calendar for a specific sprint.
 - [feature] Added the "forecast" command to display a forecast for the specified interval of time.
 - [feature] Moved the notes inside the footer of the tables.
+- [feature] Generate usage informations for the help command.
+- [feature] Vacation command displays the vacations for the currently active team members by default.
 
 v1.7.0
 ----------------------------------------------------------------------------------------------------

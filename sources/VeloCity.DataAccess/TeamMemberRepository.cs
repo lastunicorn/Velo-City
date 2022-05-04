@@ -35,7 +35,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             return database.TeamMembers;
         }
-
+        
         public IEnumerable<TeamMember> GetByDate(DateTime date)
         {
             return database.TeamMembers

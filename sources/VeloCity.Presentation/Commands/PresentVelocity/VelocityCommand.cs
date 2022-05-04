@@ -23,12 +23,12 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
 {
-    [Command("velocity", Enabled = false)]
+    [Command("velocity")]
     public class VelocityCommand : ICommand
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(DisplayName = "Sprint Count", Order = 1, IsOptional = true)]
+        [CommandParameter(Order = 1, IsOptional = true)]
         public int? SprintCount { get; set; }
 
         public List<SprintVelocity> SprintVelocities { get; private set; }

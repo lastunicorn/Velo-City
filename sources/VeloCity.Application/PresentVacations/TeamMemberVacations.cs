@@ -14,17 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
-    internal class TeamMemberNameRequiredException : Exception
+    public class TeamMemberVacations
     {
-        private const string DefaultMessage = "Team member name was not provided.";
+        public PersonName PersonName { get; }
 
-        public TeamMemberNameRequiredException()
-            : base(DefaultMessage)
+        public List<Vacation> Vacations { get; }
+
+        public TeamMemberVacations(TeamMember teamMember)
         {
+            PersonName = teamMember.Name;
+            Vacations = teamMember.Vacations.ToList();
         }
     }
 }

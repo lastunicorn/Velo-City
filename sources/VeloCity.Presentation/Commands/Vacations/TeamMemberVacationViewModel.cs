@@ -28,55 +28,35 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         public List<VacationViewModel> Vacations { get; }
 
-        public SortedList<DateTime, List<VacationViewModel>> VacationsMyMonth
+        public SortedList<DateTime, List<VacationViewModel>> VacationsMyMonth { get; }
+
+        public TeamMemberVacationViewModel(TeamMemberVacations teamMemberVacations)
         {
-            get
-            {
-                Dictionary<DateTime, List<VacationViewModel>> vacationByMonth = Vacations
-                    .GroupBy(x =>
-                    {
-                        DateTime? dateTime = CalculateSignificantDateFor(x);
-                        return new DateTime(dateTime?.Year ?? 1, dateTime?.Month ?? 1, 1);
-                    })
-                    .OrderByDescending(x => x.Key)
-                    .ToDictionary(x => x.Key, x => x.ToList());
+            if (teamMemberVacations == null) throw new ArgumentNullException(nameof(teamMemberVacations));
 
-                return new SortedList<DateTime, List<VacationViewModel>>(vacationByMonth);
-            }
-        }
-
-        public TeamMemberVacationViewModel(TeamMemberVacation teamMemberVacation)
-        {
-            if (teamMemberVacation == null) throw new ArgumentNullException(nameof(teamMemberVacation));
-
-            PersonName = teamMemberVacation.PersonName;
-            Vacations = teamMemberVacation.Vacations
+            PersonName = teamMemberVacations.PersonName;
+            Vacations = teamMemberVacations.Vacations
                 .Select(VacationViewModel.From)
                 .ToList();
+            VacationsMyMonth = GroupVacationsByMonth();
         }
 
-        private static DateTime? CalculateSignificantDateFor(VacationViewModel vacationViewModel)
+        private SortedList<DateTime, List<VacationViewModel>> GroupVacationsByMonth()
         {
-            switch (vacationViewModel)
-            {
-                case VacationOnceViewModel vacationOnceViewModel:
-                    return vacationOnceViewModel.Date;
+            Dictionary<DateTime, List<VacationViewModel>> vacationByMonth = Vacations
+                .GroupBy(x =>
+                {
+                    DateTime? dateTime = x.SignificantDate;
 
-                case VacationDailyViewModel vacationDailyViewModel:
-                    return vacationDailyViewModel.DateInterval.StartDate;
+                    int year = dateTime?.Year ?? 1;
+                    int month = dateTime?.Month ?? 1;
 
-                case VacationWeeklyViewModel vacationWeeklyViewModel:
-                    return vacationWeeklyViewModel.DateInterval.StartDate;
+                    return new DateTime(year, month, 1);
+                })
+                .OrderByDescending(x => x.Key)
+                .ToDictionary(x => x.Key, x => x.ToList());
 
-                case VacationMonthlyViewModel vacationMonthlyViewModel:
-                    return vacationMonthlyViewModel.DateInterval.StartDate;
-
-                case VacationYearlyViewModel vacationYearlyViewModel:
-                    return vacationYearlyViewModel.DateInterval.StartDate;
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(vacationViewModel));
-            }
+            return new SortedList<DateTime, List<VacationViewModel>>(vacationByMonth);
         }
     }
 }
