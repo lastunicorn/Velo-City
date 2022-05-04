@@ -26,6 +26,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         public DateInterval DateInterval { get; set; }
 
+        public override DateTime? SignificantDate => DateInterval.StartDate;
+
         protected override string RenderDate()
         {
             string datesString = Dates == null || Dates.Count == 0

@@ -20,6 +20,6 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
     public class PresentVacationsResponse
     {
-        public List<TeamMemberVacation> TeamMemberVacations { get; set; }
+        public List<TeamMemberVacations> TeamMemberVacations { get; set; }
     }
 }

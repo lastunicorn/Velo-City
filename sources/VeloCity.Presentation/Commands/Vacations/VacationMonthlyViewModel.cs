@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 
@@ -24,6 +25,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
         public List<int> MonthDays { get; set; }
 
         public DateInterval DateInterval { get; set; }
+
+        public override DateTime? SignificantDate => DateInterval.StartDate;
 
         protected override string RenderDate()
         {

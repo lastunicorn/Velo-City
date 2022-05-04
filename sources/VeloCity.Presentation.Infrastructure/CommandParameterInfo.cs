@@ -32,7 +32,20 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public char ShortName => customAttribute.ShortName;
 
-        public string DisplayName => customAttribute.DisplayName;
+        public string DisplayName
+        {
+            get
+            {
+                string displayName = customAttribute.DisplayName;
+                if (displayName != null)
+                {
+                    return displayName;
+                }
+
+                IEnumerable<string> words = propertyInfo.Name.ToLowerCaseWords();
+                return string.Join(' ', words);
+            }
+        }
 
         public int? Order => customAttribute.Order == 0
             ? null
