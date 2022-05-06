@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
@@ -37,10 +38,19 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
         {
             Console.WriteLine(command.Information);
 
-            DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = "Team";
+            if (command.TeamMembers == null || command.TeamMembers.Count == 0)
+                CustomConsole.WriteLineWarning("There are no team members.");
+            else
+                DisplayTeamMembersGrid(command.TeamMembers);
+        }
 
-            foreach (TeamMember teamMember in command.TeamMembers)
+        private void DisplayTeamMembersGrid(List<TeamMember> teamMembers)
+        {
+            DataGrid dataGrid = dataGridFactory.Create();
+            dataGrid.Title = $"Team ({teamMembers.Count} members)";
+            dataGrid.DisplayBorderBetweenRows = true;
+
+            foreach (TeamMember teamMember in teamMembers)
             {
                 IEnumerable<string> employmentsAsString = teamMember.Employments
                     .Select(RenderEmployment);
