@@ -25,9 +25,9 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 
         Sprint GetByNumber(int number);
 
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count);
+        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count);
 
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints);
+        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count, IEnumerable<int> excludedSprints);
 
         Sprint GetLast();
 
@@ -35,9 +35,9 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 
         Sprint GetLastInProgress();
 
-        IEnumerable<Sprint> GetLastClosed(int count, IEnumerable<int> excludedSprints);
+        IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints);
 
-        IEnumerable<Sprint> GetLastClosed(int count);
+        IEnumerable<Sprint> GetLastClosed(uint count);
 
         IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
     }

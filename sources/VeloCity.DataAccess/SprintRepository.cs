@@ -41,17 +41,17 @@ namespace DustInTheWind.VeloCity.DataAccess
             return database.Sprints.FirstOrDefault(x => x.Number == number);
         }
 
-        public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count)
+        public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count)
         {
             return database.Sprints
                 .OrderByDescending(x => x.StartDate)
                 .SkipWhile(x => x.Number != sprintNumber)
                 .Skip(1)
                 .Where(x => x.State == SprintState.Closed)
-                .Take(count);
+                .Take((int)count);
         }
 
-        public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, int count, IEnumerable<int> excludedSprints)
+        public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count, IEnumerable<int> excludedSprints)
         {
             List<int> excludedSprintsList = excludedSprints.ToList();
 
@@ -61,7 +61,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .SkipWhile(x => x.Number != sprintNumber)
                 .Skip(1)
                 .Where(x => x.State == SprintState.Closed)
-                .Take(count);
+                .Take((int)count);
         }
 
         public Sprint GetLast()
@@ -87,7 +87,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .FirstOrDefault();
         }
 
-        public IEnumerable<Sprint> GetLastClosed(int count, IEnumerable<int> excludedSprints)
+        public IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints)
         {
             List<int> excludedSprintsList = excludedSprints.ToList();
 
@@ -95,15 +95,15 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Where(x => !excludedSprintsList.Contains(x.Number))
                 .OrderByDescending(x => x.StartDate)
                 .Where(x => x.State == SprintState.Closed)
-                .Take(count);
+                .Take((int)count);
         }
 
-        public IEnumerable<Sprint> GetLastClosed(int count)
+        public IEnumerable<Sprint> GetLastClosed(uint count)
         {
             return database.Sprints
                 .OrderByDescending(x => x.StartDate)
                 .Where(x => x.State == SprintState.Closed)
-                .Take(count);
+                .Take((int)count);
         }
 
         public IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate)

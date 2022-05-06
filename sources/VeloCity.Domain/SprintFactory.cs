@@ -77,7 +77,7 @@ namespace DustInTheWind.VeloCity.Domain
             return currentSprint;
         }
 
-        public List<Sprint> GetLastClosed(int count, List<int> excludedSprints)
+        public List<Sprint> GetLastClosed(uint count, List<int> excludedSprints)
         {
             bool excludedSprintsExists = excludedSprints is { Count: > 0 };
 

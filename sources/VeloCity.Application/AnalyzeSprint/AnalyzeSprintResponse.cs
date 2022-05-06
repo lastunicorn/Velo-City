@@ -52,7 +52,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public Velocity ActualVelocity { get; set; }
 
-        public int LookBackSprintCount { get; set; }
+        public uint LookBackSprintCount { get; set; }
 
         public List<int> PreviousSprints { get; set; }
 

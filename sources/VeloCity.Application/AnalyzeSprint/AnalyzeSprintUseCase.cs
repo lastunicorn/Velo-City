@@ -42,7 +42,8 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 ? RetrieveDefaultSprintToAnalyze(request.ExcludedTeamMembers)
                 : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value, request.ExcludedTeamMembers);
 
-            SprintList historySprints = RetrievePreviousSprints(currentSprint.Number, config.AnalysisLookBack, request.ExcludedSprints, request.ExcludedTeamMembers)
+            uint analysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack;
+            SprintList historySprints = RetrievePreviousSprints(currentSprint.Number, analysisLookBack, request.ExcludedSprints, request.ExcludedTeamMembers)
                 .ToSprintList();
             Velocity estimatedVelocity = historySprints.CalculateAverageVelocity();
 
@@ -76,7 +77,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
                 ActualStoryPoints = currentSprint.ActualStoryPoints,
                 ActualVelocity = currentSprint.ActualStoryPoints / totalWorkHours,
-                LookBackSprintCount = config.AnalysisLookBack,
+                LookBackSprintCount = analysisLookBack,
                 PreviousSprints = historySprints
                     .Select(x => x.Number)
                     .ToList(),
@@ -115,7 +116,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             return currentSprint;
         }
 
-        private List<Sprint> RetrievePreviousSprints(int sprintNumber, int count, List<int> excludedSprints, IReadOnlyCollection<string> excludedTeamMembers)
+        private List<Sprint> RetrievePreviousSprints(int sprintNumber, uint count, List<int> excludedSprints, IReadOnlyCollection<string> excludedTeamMembers)
         {
             bool excludedSprintsExists = excludedSprints is { Count: > 0 };
 
