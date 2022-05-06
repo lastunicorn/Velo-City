@@ -56,11 +56,7 @@ namespace DustInTheWind.VeloCity.Domain
         public List<SprintMember> SprintMembers { get; } = new();
 
         public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembers
-            .OrderBy(x =>
-            {
-                Employment employment = x.TeamMember.Employments.GetLastEmployment();
-                return employment.TimeInterval.StartDate;
-            })
+            .OrderBy(x => x.TeamMember.Employments.GetStartDateForLastEmploymentBatch())
             .ThenBy(x => x.Name);
 
         public IEnumerable<SprintDay> EnumerateAllDays()
@@ -102,12 +98,12 @@ namespace DustInTheWind.VeloCity.Domain
             if (sprintDay.IsOfficialHoliday)
             {
                 List<SprintMemberDay> sprintMemberDays = SprintMembers
-                    .SelectMany(z => z.Days)
-                    .Where(z => z.SprintDay.Date == sprintDay.Date)
-                    .Where(z =>
+                    .SelectMany(x => x.Days)
+                    .Where(x => x.SprintDay.Date == sprintDay.Date)
+                    .Where(x =>
                     {
-                        Employment employment = z.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
-                        return !sprintDay.OfficialHolidays.Select(x => x.Country).Contains(employment?.Country);
+                        Employment employment = x.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
+                        return !sprintDay.OfficialHolidays.Select(z => z.Country).Contains(employment?.Country);
                     })
                     .ToList();
 

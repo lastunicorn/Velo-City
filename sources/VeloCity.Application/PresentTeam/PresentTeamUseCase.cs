@@ -75,8 +75,8 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDate(date)
                     .OrderBy(x =>
                     {
-                        Employment employment = x.Employments.GetEmploymentFor(date);
-                        return employment.TimeInterval.StartDate;
+                        Employment employment = x.Employments.GetEmploymentBatchFor(date).LastOrDefault();
+                        return employment?.TimeInterval.StartDate;
                     })
                     .ThenBy(x => x.Name)
                     .ToList(),
@@ -92,8 +92,11 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval)
                     .OrderBy(x =>
                     {
-                        Employment employment = x.Employments.GetEmploymentFor(dateInterval);
-                        return employment.TimeInterval.StartDate;
+                        Employment employment = dateInterval.StartDate == null
+                            ? x.Employments.GetFirstEmployment()
+                            : x.Employments.GetEmploymentBatchFor(dateInterval.StartDate.Value).LastOrDefault();
+
+                        return employment?.TimeInterval.StartDate;
                     })
                     .ThenBy(x => x.Name)
                     .ToList(),
@@ -109,8 +112,8 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.StartDate, sprint.EndDate)
                     .OrderBy(x =>
                     {
-                        Employment employment = x.Employments.GetEmploymentFor(sprint.StartDate);
-                        return employment.TimeInterval.StartDate;
+                        Employment employment = x.Employments.GetEmploymentBatchFor(sprint.StartDate).LastOrDefault();
+                        return employment?.TimeInterval.StartDate;
                     })
                     .ThenBy(x => x.Name)
                     .ToList(),

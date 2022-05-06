@@ -56,7 +56,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
                 : unitOfWork.TeamMemberRepository.Find(teamMemberName);
 
             return teamMembers
-                .OrderBy(x => x.Employments.GetLastEmploymentDate())
+                .OrderBy(x => x.Employments.GetStartDateForLastEmploymentBatch())
                 .ThenBy(x => x.Name)
                 .Select(x => new TeamMemberVacations(x))
                 .ToList();

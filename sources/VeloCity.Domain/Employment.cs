@@ -38,5 +38,15 @@ namespace DustInTheWind.VeloCity.Domain
         {
             return WeekDays == null || WeekDays.Count == 0 || WeekDays.Contains(dayOfWeek);
         }
+
+        public bool ContinuesWith(Employment employment)
+        {
+            if (employment == null) throw new ArgumentNullException(nameof(employment));
+
+            if (TimeInterval.EndDate == null || TimeInterval.EndDate == DateTime.MaxValue.Date || employment.TimeInterval.StartDate == null)
+                return false;
+
+            return TimeInterval.EndDate.Value.Date.AddDays(1) == employment.TimeInterval.StartDate.Value;
+        }
     }
 }
