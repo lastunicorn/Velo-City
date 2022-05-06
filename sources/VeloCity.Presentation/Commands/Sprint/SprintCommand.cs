@@ -32,17 +32,20 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
     {
         private readonly IMediator mediator;
 
-        [CommandParameter(DisplayName = "sprint number", Order = 1, IsOptional = true)]
+        [CommandParameter(Order = 1, IsOptional = true)]
         public int? SprintNumber { get; set; }
 
-        [CommandParameter(DisplayName = "excluded sprints", Name = "exclude", ShortName = 'x', IsOptional = true)]
+        [CommandParameter(Name = "exclude", ShortName = 'x', IsOptional = true)]
         public List<int> ExcludedSprints { get; set; }
 
-        [CommandParameter(DisplayName = "show team", Name = "show-team", ShortName = 't', IsOptional = true)]
+        [CommandParameter(Name = "show-team", ShortName = 't', IsOptional = true)]
         public bool ShowTeam { get; set; }
 
-        [CommandParameter(DisplayName = "excluded team members", Name = "exclude-team", ShortName = 'z', IsOptional = true)]
+        [CommandParameter(Name = "exclude-team", ShortName = 'z', IsOptional = true)]
         public List<string> ExcludedTeamMembers { get; set; }
+
+        [CommandParameter(Name = "analysis-look-back", ShortName = 'l', IsOptional = true)]
+        public uint? AnalysisLookBack { get; set; }
 
         public List<SprintMember> SprintMembers { get; private set; }
 
@@ -64,7 +67,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
                 SprintNumber = SprintNumber,
                 ExcludedSprints = ExcludedSprints,
                 ShowTeam = ShowTeam,
-                ExcludedTeamMembers = ExcludedTeamMembers
+                ExcludedTeamMembers = ExcludedTeamMembers,
+                AnalysisLookBack = AnalysisLookBack
             };
 
             AnalyzeSprintResponse response = await mediator.Send(request);

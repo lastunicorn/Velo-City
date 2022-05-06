@@ -106,7 +106,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             }
         }
 
-        public int AnalysisLookBack
+        public uint AnalysisLookBack
         {
             get
             {
@@ -115,7 +115,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                     IConfigurationSection configurationSection = config.GetSection(AnalysisLookBackPropertyName);
 
                     return configurationSection.Exists()
-                        ? int.Parse(configurationSection.Value)
+                        ? uint.Parse(configurationSection.Value)
                         : 3;
                 }
                 catch (Exception ex)

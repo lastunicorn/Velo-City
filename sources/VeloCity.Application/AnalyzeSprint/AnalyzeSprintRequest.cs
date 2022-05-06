@@ -28,5 +28,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
         public bool ShowTeam { get; set; }
         
         public List<string> ExcludedTeamMembers { get; set; }
+        
+        public uint? AnalysisLookBack { get; set; }
     }
 }

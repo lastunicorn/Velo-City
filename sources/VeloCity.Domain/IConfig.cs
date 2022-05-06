@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         DataGridStyle DataGridStyle { get; }
 
-        int AnalysisLookBack { get; }
+        uint AnalysisLookBack { get; }
 
         List<ConfigItem> GetAllValuesRaw();
     }
