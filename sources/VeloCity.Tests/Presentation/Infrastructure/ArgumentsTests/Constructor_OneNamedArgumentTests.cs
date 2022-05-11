@@ -1,4 +1,4 @@
-﻿// Velo City
+// Velo City
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,45 +14,45 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.ArgumentsTests
+namespace DustInTheWind.VeloCity.Tests.Presentation.Infrastructure.ArgumentsTests
 {
-    public class CountTests
+    public class Constructor_OneNamedArgumentTests
     {
-        [Fact]
-        public void HavingArgumentsInstanceWithNoArgument_ThenCountIs0()
-        {
-            Arguments arguments = new(Array.Empty<string>());
+        private readonly Arguments arguments;
 
-            arguments.Count.Should().Be(0);
+        public Constructor_OneNamedArgumentTests()
+        {
+            string[] args = { "-param1", "value1" };
+
+            arguments = new Arguments(args);
         }
 
         [Fact]
-        public void HavingArgumentsInstanceWithOneArgument_ThenCountIs1()
+        public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentsContainsOneItem()
         {
-            Arguments arguments = new(new[] { "argument1" });
-
             arguments.Count.Should().Be(1);
         }
 
         [Fact]
-        public void HavingArgumentsInstanceWithTwoArguments_ThenCountIs2()
+        public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentHasTypeNamed()
         {
-            Arguments arguments = new(new[] { "argument1", "argument2" });
-
-            arguments.Count.Should().Be(2);
+            arguments[0].Type.Should().Be(ArgumentType.Named);
         }
 
         [Fact]
-        public void HavingArgumentsInstanceWithThreeArguments_ThenCountIs3()
+        public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentHasCorrectName()
         {
-            Arguments arguments = new(new[] { "argument1", "argument2", "argument3" });
+            arguments[0].Name.Should().Be("param1");
+        }
 
-            arguments.Count.Should().Be(3);
+        [Fact]
+        public void HavingArgsStringWithOneNamedArgument_WhenParsed_ThenArgumentHasCorrectValue()
+        {
+            arguments[0].Value.Should().Be("value1");
         }
     }
 }

@@ -18,7 +18,7 @@ using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.ArgumentsTests
+namespace DustInTheWind.VeloCity.Tests.Presentation.Infrastructure.ArgumentsTests
 {
     public class Constructor_OneOrdinalArgumentTests
     {

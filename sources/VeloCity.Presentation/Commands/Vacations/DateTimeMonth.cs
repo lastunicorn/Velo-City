@@ -27,6 +27,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         public DateTimeMonth(int year, int month)
         {
+            if (month is <= 0 or > 12) throw new ArgumentOutOfRangeException(nameof(month));
+
             Year = year;
             Month = month;
         }
@@ -48,6 +50,25 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             int yearComparison = Year.CompareTo(other.Year);
             if (yearComparison != 0) return yearComparison;
             return Month.CompareTo(other.Month);
+        }
+
+        public DateTimeMonth AddMonths(int count)
+        {
+            if (count == 0)
+                return new DateTimeMonth(Year, Month);
+
+            int totalMonthsToAdd = (Month - 1) + count;
+
+            int newYear = Year + (totalMonthsToAdd / 12);
+            int newMonth = totalMonthsToAdd % 12;
+
+            if (totalMonthsToAdd < 0)
+            {
+                newYear -= 1;
+                newMonth += 12;
+            }
+
+            return new DateTimeMonth(newYear, newMonth + 1);
         }
 
         public override string ToString()
@@ -137,19 +158,6 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
             int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
             return monthComparison <= 0;
-        }
-
-        public DateTimeMonth AddMonths(int count)
-        {
-            if (count == 0)
-                return new DateTimeMonth(Year, Month);
-
-            int totalMonths = (Month - 1) + count;
-
-            int newYear = Year + (totalMonths / 12);
-            int newMonth = (totalMonths % 12) + 1;
-
-            return new DateTimeMonth(newYear, newMonth);
         }
     }
 }
