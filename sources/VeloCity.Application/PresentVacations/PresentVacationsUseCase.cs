@@ -51,15 +51,18 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
 
         private List<TeamMemberVacations> GetTeamMemberVacations(string teamMemberName)
         {
-            IEnumerable<TeamMember> teamMembers = teamMemberName == null
-                ? unitOfWork.TeamMemberRepository.GetByDate(DateTime.Today)
-                : unitOfWork.TeamMemberRepository.Find(teamMemberName);
-
-            return teamMembers
-                .OrderBy(x => x.Employments.GetStartDateForLastEmploymentBatch())
+            return RetrieveTeamMembers(teamMemberName)
+                .OrderBy(x => x.Employments.GetLastEmploymentBatch()?.StartDate)
                 .ThenBy(x => x.Name)
                 .Select(x => new TeamMemberVacations(x))
                 .ToList();
+        }
+
+        private IEnumerable<TeamMember> RetrieveTeamMembers(string teamMemberName)
+        {
+            return teamMemberName == null
+                ? unitOfWork.TeamMemberRepository.GetByDate(DateTime.Today)
+                : unitOfWork.TeamMemberRepository.Find(teamMemberName);
         }
     }
 }

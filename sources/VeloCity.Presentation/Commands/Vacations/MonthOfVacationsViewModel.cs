@@ -14,31 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
-    public class VacationMonthlyViewModel : VacationViewModel
+    public class MonthOfVacationsViewModel
     {
-        public List<int> MonthDays { get; set; }
-
-        public DateInterval DateInterval { get; set; }
-
-        public override DateTime? SignificantDate => DateInterval.StartDate;
+        public DateTimeMonth DateTimeMonth { get; }
         
-        public override DateTime? StartDate => DateInterval.StartDate;
+        public List<VacationViewModel> Vacations { get; }
 
-        public override DateTime? EndDate => DateInterval.EndDate;
-
-        protected override string RenderDate()
+        public MonthOfVacationsViewModel(DateTimeMonth dateTimeMonth)
         {
-            string monthDaysString = MonthDays == null || MonthDays.Count == 0
-                ? "<none>"
-                : string.Join(", ", MonthDays);
-
-            return $"Each {monthDaysString} of the month between [{DateInterval}]";
+            DateTimeMonth = dateTimeMonth;
+            Vacations = new List<VacationViewModel>();
         }
     }
 }

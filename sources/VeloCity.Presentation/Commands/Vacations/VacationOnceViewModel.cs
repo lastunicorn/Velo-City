@@ -23,6 +23,10 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
         public DateTime Date { get; set; }
 
         public override DateTime? SignificantDate => Date;
+        
+        public override DateTime? StartDate => Date;
+
+        public override DateTime? EndDate => Date;
 
         protected override string RenderDate()
         {

@@ -62,59 +62,36 @@ namespace DustInTheWind.VeloCity.Domain
 
         public IEnumerable<Employment> GetEmploymentBatchFor(DateTime date)
         {
-            List<Employment> matchingBatch = GetEmploymentBatches()
-                .Where(x =>
-                {
-                    Employment firstEmployment = x[^1];
-                    DateTime? batchStartDate = firstEmployment.TimeInterval.StartDate;
-
-                    Employment lastEmployment = x[0];
-                    DateTime? batchEndDate = lastEmployment.TimeInterval.EndDate;
-
-                    DateInterval batchTimeInterval = new(batchStartDate, batchEndDate);
-
-                    return batchTimeInterval.ContainsDate(date);
-                })
-                .FirstOrDefault();
+            EmploymentBatch matchingBatch = GetEmploymentBatches()
+                .FirstOrDefault(x => x.ContainsDate(date));
 
             return matchingBatch ?? Enumerable.Empty<Employment>();
         }
 
-        public DateTime? GetStartDateForLastEmploymentBatch()
+        public EmploymentBatch GetLastEmploymentBatch()
         {
-            Employment lastEmployment = GetLastEmploymentBatch().LastOrDefault();
-
-            return lastEmployment == null
-                ? null
-                : lastEmployment.TimeInterval.StartDate ?? DateTime.MinValue;
+            EmploymentBatch lastEmploymentBatch = GetEmploymentBatches().FirstOrDefault();
+            return lastEmploymentBatch ?? new EmploymentBatch();
         }
 
-        public IEnumerable<Employment> GetLastEmploymentBatch()
+        private IEnumerable<EmploymentBatch> GetEmploymentBatches()
         {
-            return GetEmploymentBatches().FirstOrDefault() ?? Enumerable.Empty<Employment>();
-        }
-
-        private IEnumerable<List<Employment>> GetEmploymentBatches()
-        {
-            List<Employment> batch = null;
+            EmploymentBatch batch = null;
 
             foreach (Employment employment in employments.Values)
             {
                 if (batch == null)
                 {
-                    batch = new List<Employment> { employment };
+                    batch = new EmploymentBatch(employment);
                 }
                 else
                 {
-                    Employment lastEmployment = batch[^1];
-                    if (employment.ContinuesWith(lastEmployment))
-                    {
-                        batch.Add(employment);
-                    }
-                    else
+                    bool success = batch.TryAdd(employment);
+
+                    if (!success)
                     {
                         yield return batch;
-                        batch = new List<Employment> { employment };
+                        batch = new EmploymentBatch(employment);
                     }
                 }
             }

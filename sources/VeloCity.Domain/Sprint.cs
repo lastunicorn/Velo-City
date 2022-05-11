@@ -56,7 +56,7 @@ namespace DustInTheWind.VeloCity.Domain
         public List<SprintMember> SprintMembers { get; } = new();
 
         public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembers
-            .OrderBy(x => x.TeamMember.Employments.GetStartDateForLastEmploymentBatch())
+            .OrderBy(x => x.TeamMember.Employments.GetLastEmploymentBatch()?.StartDate)
             .ThenBy(x => x.Name);
 
         public IEnumerable<SprintDay> EnumerateAllDays()

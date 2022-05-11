@@ -24,39 +24,68 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 {
     public class TeamMemberVacationViewModel
     {
+        readonly SortedList<DateTimeMonth, MonthOfVacationsViewModel> groupedVacations = new();
+
         public PersonName PersonName { get; }
 
-        public List<VacationViewModel> Vacations { get; }
-
-        public SortedList<DateTime, List<VacationViewModel>> VacationsMyMonth { get; }
+        public List<MonthOfVacationsViewModel> MonthsOfVacations { get; }
 
         public TeamMemberVacationViewModel(TeamMemberVacations teamMemberVacations)
         {
             if (teamMemberVacations == null) throw new ArgumentNullException(nameof(teamMemberVacations));
 
             PersonName = teamMemberVacations.PersonName;
-            Vacations = teamMemberVacations.Vacations
-                .Select(VacationViewModel.From)
-                .ToList();
-            VacationsMyMonth = GroupVacationsByMonth();
+            MonthsOfVacations = GroupVacationsByMonth(teamMemberVacations.Vacations);
         }
 
-        private SortedList<DateTime, List<VacationViewModel>> GroupVacationsByMonth()
+        private List<MonthOfVacationsViewModel> GroupVacationsByMonth(IEnumerable<Vacation> vacations)
         {
-            Dictionary<DateTime, List<VacationViewModel>> vacationByMonth = Vacations
-                .GroupBy(x =>
+            IEnumerable<VacationViewModel> vacationViewModels = vacations
+                .Select(VacationViewModel.From);
+
+            foreach (VacationViewModel vacationViewModel in vacationViewModels)
+            {
+                if (vacationViewModel.StartDate == null || vacationViewModel.EndDate == null)
                 {
-                    DateTime? dateTime = x.SignificantDate;
+                    DateTime? date = vacationViewModel.SignificantDate;
+                    if (date != null)
+                    {
+                        DateTimeMonth dateTimeMonth = new(date.Value);
+                        AddVacation(dateTimeMonth, vacationViewModel);
+                    }
+                }
+                else
+                {
+                    DateTime date = vacationViewModel.StartDate.Value;
+                    DateTimeMonth dateTimeMonth = new(date);
 
-                    int year = dateTime?.Year ?? 1;
-                    int month = dateTime?.Month ?? 1;
+                    while (dateTimeMonth <= vacationViewModel.EndDate.Value)
+                    {
+                        AddVacation(dateTimeMonth, vacationViewModel);
 
-                    return new DateTime(year, month, 1);
-                })
-                .OrderByDescending(x => x.Key)
-                .ToDictionary(x => x.Key, x => x.ToList());
+                        dateTimeMonth = dateTimeMonth.AddMonths(1);
+                    }
+                }
+            }
 
-            return new SortedList<DateTime, List<VacationViewModel>>(vacationByMonth);
+            return groupedVacations.Values.ToList();
+        }
+
+        private void AddVacation(DateTimeMonth dateTimeMonth, VacationViewModel vacationViewModel)
+        {
+            MonthOfVacationsViewModel monthOfVacationsViewModel;
+
+            if (groupedVacations.ContainsKey(dateTimeMonth))
+            {
+                monthOfVacationsViewModel = groupedVacations[dateTimeMonth];
+            }
+            else
+            {
+                monthOfVacationsViewModel = new MonthOfVacationsViewModel(dateTimeMonth);
+                groupedVacations.Add(dateTimeMonth, monthOfVacationsViewModel);
+            }
+
+            monthOfVacationsViewModel.Vacations.Add(vacationViewModel);
         }
     }
 }

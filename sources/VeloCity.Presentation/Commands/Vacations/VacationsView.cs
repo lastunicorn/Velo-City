@@ -39,22 +39,21 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
                 dataGrid.Title = teamMemberVacation.PersonName.ToString();
                 dataGrid.Border.DisplayBorderBetweenRows = true;
 
-                foreach ((DateTime date, List<VacationViewModel> vacationViewModels) in teamMemberVacation.VacationsMyMonth)
-                {
-                    ContentRow row = ToRow(date, vacationViewModels);
+                IEnumerable<ContentRow> rows = teamMemberVacation.MonthsOfVacations.Select(ToRow);
+
+                foreach (ContentRow row in rows) 
                     dataGrid.Rows.Add(row);
-                }
 
                 dataGrid.Display();
             }
         }
 
-        private static ContentRow ToRow(DateTime date, IEnumerable<VacationViewModel> vacationResponses)
+        private static ContentRow ToRow(MonthOfVacationsViewModel monthOfVacations)
         {
             ContentRow row = new();
-            row.AddCell($"{date:yyyy MM}");
+            row.AddCell($"{monthOfVacations.DateTimeMonth:short-name}");
 
-            List<string> lines = vacationResponses
+            List<string> lines = monthOfVacations.Vacations
                 .Select(x => x.ToString())
                 .ToList();
 
