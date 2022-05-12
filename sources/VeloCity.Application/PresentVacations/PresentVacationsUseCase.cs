@@ -52,7 +52,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
         private List<TeamMemberVacations> GetTeamMemberVacations(string teamMemberName)
         {
             return RetrieveTeamMembers(teamMemberName)
-                .OrderBy(x => x.Employments.GetLastEmploymentBatch()?.StartDate)
+                .OrderBy(x => x.Employments?.GetLastEmploymentBatch()?.StartDate)
                 .ThenBy(x => x.Name)
                 .Select(x => new TeamMemberVacations(x))
                 .ToList();

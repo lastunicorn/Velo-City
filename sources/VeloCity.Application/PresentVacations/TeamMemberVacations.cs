@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
         public TeamMemberVacations(TeamMember teamMember)
         {
             PersonName = teamMember.Name;
-            Vacations = teamMember.Vacations.ToList();
+            Vacations = teamMember.Vacations?.ToList();
         }
     }
 }

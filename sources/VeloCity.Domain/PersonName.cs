@@ -19,7 +19,7 @@ using System.Text;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class PersonName : IComparable<PersonName>
+    public class PersonName : IComparable<PersonName>, IEquatable<PersonName>
     {
         public string FirstName { get; set; }
 
@@ -171,6 +171,26 @@ namespace DustInTheWind.VeloCity.Domain
                 return lastNameComparison;
 
             return string.Compare(Nickname, other.Nickname, StringComparison.Ordinal);
+        }
+
+        public bool Equals(PersonName other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return FirstName == other.FirstName && MiddleName == other.MiddleName && LastName == other.LastName && Nickname == other.Nickname;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((PersonName)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(FirstName, MiddleName, LastName, Nickname);
         }
     }
 }

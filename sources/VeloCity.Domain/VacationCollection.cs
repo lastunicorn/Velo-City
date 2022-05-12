@@ -23,6 +23,10 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class VacationCollection : Collection<Vacation>
     {
+        public VacationCollection()
+        {
+        }
+
         public VacationCollection(IEnumerable<Vacation> vacations)
         {
             foreach (Vacation vacation in vacations)
