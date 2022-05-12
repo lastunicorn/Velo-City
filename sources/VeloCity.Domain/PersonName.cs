@@ -15,19 +15,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using System.Text;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class PersonName : IComparable<PersonName>, IEquatable<PersonName>
+    public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonName>
     {
-        public string FirstName { get; set; }
+        public string FirstName { get; init; }
 
-        public string MiddleName { get; set; }
+        public string MiddleName { get; init; }
 
-        public string LastName { get; set; }
+        public string LastName { get; init; }
 
-        public string Nickname { get; set; }
+        public string Nickname { get; init; }
 
         public string FullName
         {
@@ -95,36 +96,53 @@ namespace DustInTheWind.VeloCity.Domain
                 return sb.ToString();
             }
         }
-
-        public string NickNameOrFullName => Nickname ?? FullName;
-
+        
         public string ShortName => Nickname ?? FirstName ?? MiddleName ?? LastName;
 
         public static PersonName Parse(string text)
         {
             if (text == null) throw new ArgumentNullException(nameof(text));
 
-            string[] parts = text.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
-            PersonName personName = new();
+            string[] parts = text.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
             if (parts.Length == 1)
             {
-                personName.FirstName = parts[0];
-            }
-            else if (parts.Length == 2)
-            {
-                personName.FirstName = parts[0];
-                personName.LastName = parts[1];
-            }
-            else if (parts.Length == 3)
-            {
-                personName.FirstName = parts[0];
-                personName.MiddleName = parts[1];
-                personName.LastName = parts[2];
+                return new PersonName
+                {
+                    FirstName = parts[0]
+                };
             }
 
-            return personName;
+            if (parts.Length == 2)
+            {
+                return new PersonName
+                {
+                    FirstName = parts[0],
+                    LastName = parts[1]
+                };
+            }
+
+            if (parts.Length == 3)
+            {
+                return new PersonName
+                {
+                    FirstName = parts[0],
+                    MiddleName = parts[1],
+                    LastName = parts[2]
+                };
+            }
+
+            if (parts.Length > 3)
+            {
+                return new PersonName
+                {
+                    FirstName = parts[0],
+                    MiddleName = string.Join(" ", parts.Skip(1).Take(parts.Length - 2)),
+                    LastName = parts[^1]
+                };
+            }
+
+            return new PersonName();
         }
 
         public bool Contains(string text)
@@ -152,12 +170,6 @@ namespace DustInTheWind.VeloCity.Domain
 
         public int CompareTo(PersonName other)
         {
-            if (ReferenceEquals(this, other))
-                return 0;
-
-            if (ReferenceEquals(null, other))
-                return 1;
-
             int firstNameComparison = string.Compare(FirstName, other.FirstName, StringComparison.Ordinal);
             if (firstNameComparison != 0)
                 return firstNameComparison;
@@ -175,17 +187,12 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool Equals(PersonName other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
             return FirstName == other.FirstName && MiddleName == other.MiddleName && LastName == other.LastName && Nickname == other.Nickname;
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((PersonName)obj);
+            return obj is PersonName other && Equals(other);
         }
 
         public override int GetHashCode()

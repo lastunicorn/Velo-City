@@ -146,7 +146,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             return sprint.GetVelocityPenalties()
                 .Select(x => new VelocityPenaltyInfo
                 {
-                    PersonName = x.TeamMember?.Name,
+                    PersonName = x.TeamMember.Name,
                     PenaltyValue = x.Value
                 })
                 .ToList();
