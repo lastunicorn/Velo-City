@@ -94,10 +94,24 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
                     return $"{Year:D4} {Month:D2}";
 
                 case "short-name":
-                    return Year.ToString("D4", formatProvider) + " " + CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Month);
+                    {
+                        DateTimeFormatInfo dateTimeFormatInfo = formatProvider.GetFormat(typeof(DateTimeFormatInfo)) as DateTimeFormatInfo;
+
+                        if (dateTimeFormatInfo == null)
+                            dateTimeFormatInfo = DateTimeFormatInfo.CurrentInfo;
+
+                        return Year.ToString("D4", formatProvider) + " " + dateTimeFormatInfo.GetAbbreviatedMonthName(Month);
+                    }
 
                 case "long-name":
-                    return Year.ToString("D4", formatProvider) + " " + CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(Month);
+                    {
+                        DateTimeFormatInfo dateTimeFormatInfo = formatProvider.GetFormat(typeof(DateTimeFormatInfo)) as DateTimeFormatInfo;
+
+                        if (dateTimeFormatInfo == null)
+                            dateTimeFormatInfo = DateTimeFormatInfo.CurrentInfo;
+
+                        return Year.ToString("D4", formatProvider) + " " + dateTimeFormatInfo.GetMonthName(Month);
+                    }
 
                 default:
                     throw new FormatException($"The {format} format string is not supported.");

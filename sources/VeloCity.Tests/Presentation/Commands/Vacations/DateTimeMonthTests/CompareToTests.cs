@@ -23,6 +23,16 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
     public class CompareToTests
     {
         [Fact]
+        public void HavingOneInstance_WhenComparedToItself_ReturnsZero()
+        {
+            DateTimeMonth dateTimeMonth = new(2022, 01);
+
+            int actual = dateTimeMonth.CompareTo(dateTimeMonth);
+
+            actual.Should().Be(0);
+        }
+
+        [Fact]
         public void HavingTwoInstancesRepresentingSameMonth_WhenCompared_ReturnsZero()
         {
             DateTimeMonth dateTimeMonth1 = new(2022, 01);
