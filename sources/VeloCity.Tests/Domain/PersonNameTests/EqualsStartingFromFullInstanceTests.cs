@@ -20,29 +20,24 @@ using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
 {
-    public class EqualsStartingFromEmptyTests
+    public class EqualsStartingFromFullInstanceTests
     {
         [Fact]
-        public void HavingTwoEmptyPersonNames_WhenCompared_ThenReturnsTrue()
-        {
-            PersonName personName1 = new();
-            PersonName personName2 = new();
-
-            bool actual = personName1.Equals(personName2);
-
-            actual.Should().BeTrue();
-        }
-
-        [Fact]
-        public void HavingTwoPersonNamesContainingSameFirstName_WhenCompared_ThenReturnsTrue()
+        public void HavingTwoPersonNamesWithIdenticalParts_WhenCompared_ThenReturnsTrue()
         {
             PersonName personName1 = new()
             {
-                FirstName = "first-name"
+                FirstName = "first-name",
+                MiddleName = "middle-name",
+                LastName = "last-name",
+                Nickname = "nickname"
             };
             PersonName personName2 = new()
             {
-                FirstName = "first-name"
+                FirstName = "first-name",
+                MiddleName = "middle-name",
+                LastName = "last-name",
+                Nickname = "nickname"
             };
 
             bool actual = personName1.Equals(personName2);
@@ -55,33 +50,22 @@ namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
         {
             PersonName personName1 = new()
             {
-                FirstName = "first-name-1"
+                FirstName = "first-name-1",
+                MiddleName = "middle-name",
+                LastName = "last-name",
+                Nickname = "nickname"
             };
             PersonName personName2 = new()
             {
-                FirstName = "first-name-2"
+                FirstName = "first-name-2",
+                MiddleName = "middle-name",
+                LastName = "last-name",
+                Nickname = "nickname"
             };
 
             bool actual = personName1.Equals(personName2);
 
             actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingTwoPersonNamesContainingSameMiddleName_WhenCompared_ThenReturnsTrue()
-        {
-            PersonName personName1 = new()
-            {
-                MiddleName = "middle-name"
-            };
-            PersonName personName2 = new()
-            {
-                MiddleName = "middle-name"
-            };
-
-            bool actual = personName1.Equals(personName2);
-
-            actual.Should().BeTrue();
         }
 
         [Fact]
@@ -89,33 +73,22 @@ namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
         {
             PersonName personName1 = new()
             {
-                MiddleName = "middle-name-1"
+                FirstName = "first-name",
+                MiddleName = "middle-name-1",
+                LastName = "last-name",
+                Nickname = "nickname"
             };
             PersonName personName2 = new()
             {
-                MiddleName = "middle-name-2"
+                FirstName = "first-name",
+                MiddleName = "middle-name-2",
+                LastName = "last-name",
+                Nickname = "nickname"
             };
 
             bool actual = personName1.Equals(personName2);
 
             actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingTwoPersonNamesContainingSameLastName_WhenCompared_ThenReturnsTrue()
-        {
-            PersonName personName1 = new()
-            {
-                LastName = "last-name"
-            };
-            PersonName personName2 = new()
-            {
-                LastName = "last-name"
-            };
-
-            bool actual = personName1.Equals(personName2);
-
-            actual.Should().BeTrue();
         }
 
         [Fact]
@@ -123,11 +96,17 @@ namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
         {
             PersonName personName1 = new()
             {
-                LastName = "last-name-1"
+                FirstName = "first-name",
+                MiddleName = "middle-name",
+                LastName = "last-name-1",
+                Nickname = "nickname"
             };
             PersonName personName2 = new()
             {
-                LastName = "last-name-2"
+                FirstName = "first-name",
+                MiddleName = "middle-name",
+                LastName = "last-name-2",
+                Nickname = "nickname"
             };
 
             bool actual = personName1.Equals(personName2);
@@ -136,31 +115,20 @@ namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
         }
 
         [Fact]
-        public void HavingTwoPersonNamesContainingSameNickname_WhenCompared_ThenReturnsTrue()
-        {
-            PersonName personName1 = new()
-            {
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                Nickname = "nickname"
-            };
-
-            bool actual = personName1.Equals(personName2);
-
-            actual.Should().BeTrue();
-        }
-
-        [Fact]
         public void HavingTwoPersonNamesContainingDifferentNickname_WhenCompared_ThenReturnsFalse()
         {
             PersonName personName1 = new()
             {
+                FirstName = "first-name",
+                MiddleName = "middle-name",
+                LastName = "last-name",
                 Nickname = "nickname-1"
             };
             PersonName personName2 = new()
             {
+                FirstName = "first-name",
+                MiddleName = "middle-name",
+                LastName = "last-name",
                 Nickname = "nickname-2"
             };
 
