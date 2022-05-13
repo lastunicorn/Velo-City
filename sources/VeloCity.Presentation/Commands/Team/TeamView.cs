@@ -68,12 +68,17 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
 
             sb.Append($"{employment.HoursPerDay} h/day");
 
-            if (employment.WeekDays is { Count: > 0 })
+            if (employment.EmploymentWeek is { IsDefault: false })
             {
                 if (sb.Length > 0)
                     sb.Append(" | ");
 
-                sb.Append(string.Join(", ", employment.WeekDays));
+                string workingDaysAsString = string.Join(", ", employment.EmploymentWeek);
+
+                if (string.IsNullOrEmpty(workingDaysAsString))
+                    workingDaysAsString = "<none>";
+
+                sb.Append(workingDaysAsString);
             }
 
             if (sb.Length > 0)

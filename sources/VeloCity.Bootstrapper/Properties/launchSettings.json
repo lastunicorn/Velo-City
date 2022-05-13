@@ -2,7 +2,7 @@
   "profiles": {
     "VeloCity.Bootstrapper": {
       "commandName": "Project",
-      "commandLineArgs": "vacations"
+      "commandLineArgs": "team"
     }
   }
 }

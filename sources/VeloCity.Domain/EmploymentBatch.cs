@@ -62,7 +62,7 @@ namespace DustInTheWind.VeloCity.Domain
 
             Employment lastEmployment = employments[^1];
 
-            if (employment.ContinuesWith(lastEmployment))
+            if (employment.DoesContinueWith(lastEmployment))
             {
                 employments.Add(employment);
                 return true;

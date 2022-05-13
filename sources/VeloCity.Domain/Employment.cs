@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.Domain
 {
@@ -36,29 +35,26 @@ namespace DustInTheWind.VeloCity.Domain
         public DateInterval TimeInterval { get; set; }
 
         public int HoursPerDay { get; set; }
-
-        public List<DayOfWeek> WeekDays { get; set; }
+        
+        public EmploymentWeek EmploymentWeek { get; set; }
 
         public string Country { get; set; }
 
-        public bool IsDateInRange(DateTime dateTime)
+        public bool ContainsDate(DateTime dateTime)
         {
             return TimeInterval.ContainsDate(dateTime);
         }
 
-        public bool MatchDayOfWeek(DayOfWeek dayOfWeek)
+        public bool IsWorkDay(DayOfWeek dayOfWeek)
         {
-            return WeekDays == null || WeekDays.Count == 0 || WeekDays.Contains(dayOfWeek);
+            return EmploymentWeek?.IsWorkDay(dayOfWeek) ?? true;
         }
 
-        public bool ContinuesWith(Employment employment)
+        public bool DoesContinueWith(Employment employment)
         {
             if (employment == null) throw new ArgumentNullException(nameof(employment));
 
-            if (TimeInterval.EndDate == null || TimeInterval.EndDate == DateTime.MaxValue.Date || employment.TimeInterval.StartDate == null)
-                return false;
-
-            return TimeInterval.EndDate.Value.Date.AddDays(1) == employment.TimeInterval.StartDate.Value;
+            return TimeInterval.DoesContinueWith(employment.TimeInterval);
         }
     }
 }

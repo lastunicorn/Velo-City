@@ -64,6 +64,14 @@ namespace DustInTheWind.VeloCity.Domain
                    (EndDate == null || date <= EndDate);
         }
 
+        public bool DoesContinueWith(DateInterval dateInterval)
+        {
+            if (EndDate == null || EndDate == DateTime.MaxValue.Date || dateInterval.StartDate == null)
+                return false;
+
+            return EndDate.Value.Date.AddDays(1) == dateInterval.StartDate.Value;
+        }
+
         public override string ToString()
         {
             string startDateString = StartDate?.ToString("d") ?? "<<<";

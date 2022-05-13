@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         public IEnumerable<TeamMember> GetByDate(DateTime date)
         {
             return database.TeamMembers
-                .Where(x => x.Employments?.Any(e => e.IsDateInRange(date)) ?? false);
+                .Where(x => x.Employments?.Any(e => e.ContainsDate(date)) ?? false);
         }
 
         public IEnumerable<TeamMember> GetByDateInterval(DateTime? startDate, DateTime? endDate)

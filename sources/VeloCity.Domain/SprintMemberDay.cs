@@ -69,8 +69,8 @@ namespace DustInTheWind.VeloCity.Domain
                 return;
             }
 
-            bool matchDayOfWeek = employment.MatchDayOfWeek(SprintDay.Date.DayOfWeek);
-            if (!matchDayOfWeek)
+            bool isWorkDay = employment.IsWorkDay(SprintDay.Date.DayOfWeek);
+            if (!isWorkDay)
             {
                 AbsenceReason = AbsenceReason.Contract;
 
