@@ -26,7 +26,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
 
         public ConstructorEmptyTests()
         {
-            storyPoints = new();
+            storyPoints = new StoryPoints();
         }
 
         [Fact]

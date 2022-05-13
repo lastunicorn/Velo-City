@@ -50,7 +50,7 @@ namespace DustInTheWind.VeloCity.Domain
             employments.Add(employment);
         }
 
-        public bool TryAdd(Employment employment)
+        public bool TryAddBeforeOldest(Employment employment)
         {
             if (employment == null) throw new ArgumentNullException(nameof(employment));
 

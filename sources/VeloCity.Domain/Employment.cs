@@ -21,6 +21,18 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class Employment
     {
+        public DateTime? StartDate
+        {
+            get => TimeInterval.StartDate;
+            set => TimeInterval = new DateInterval(value, TimeInterval.EndDate);
+        }
+
+        public DateTime? EndDate
+        {
+            get => TimeInterval.EndDate;
+            set => TimeInterval = new DateInterval(TimeInterval.StartDate, value);
+        }
+
         public DateInterval TimeInterval { get; set; }
 
         public int HoursPerDay { get; set; }

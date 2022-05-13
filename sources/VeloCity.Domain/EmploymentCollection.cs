@@ -86,7 +86,7 @@ namespace DustInTheWind.VeloCity.Domain
                 }
                 else
                 {
-                    bool success = batch.TryAdd(employment);
+                    bool success = batch.TryAddBeforeOldest(employment);
 
                     if (!success)
                     {
