@@ -24,21 +24,24 @@ namespace DustInTheWind.VeloCity.Domain
 
         public DateTime? EndDate { get; }
 
-        public bool IsEver => StartDate == null && EndDate == null;
+        public bool IsFullInfinite => StartDate == null && EndDate == null;
 
-        public bool IsInfiniteInAnyDirection => StartDate == null || EndDate == null;
-        
+        public bool IsHalfInfinite => StartDate == null || EndDate == null;
+
         public bool IsZero => StartDate != null && EndDate != null && StartDate == EndDate;
 
         public DateInterval(DateTime? startDate = null, DateTime? endDate = null)
         {
             StartDate = startDate?.Date;
             EndDate = endDate?.Date;
+
+            if (StartDate > EndDate)
+                throw new ArgumentException("End date must be after start date.", nameof(endDate));
         }
 
         public bool IsIntersecting(DateInterval dateInterval)
         {
-            if (dateInterval.IsEver)
+            if (dateInterval.IsFullInfinite)
                 return true;
 
             if (dateInterval.StartDate == null)

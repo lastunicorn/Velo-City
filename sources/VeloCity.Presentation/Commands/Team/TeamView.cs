@@ -16,10 +16,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using DustInTheWind.ConsoleTools;
-using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
@@ -46,47 +43,11 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
 
         private void DisplayTeamMembersGrid(List<TeamMember> teamMembers)
         {
-            DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = $"Team ({teamMembers.Count} members)";
-            dataGrid.DisplayBorderBetweenRows = true;
-
-            foreach (TeamMember teamMember in teamMembers)
+            TeamMembersControl teamMembersControl = new(dataGridFactory)
             {
-                IEnumerable<string> employmentsAsString = teamMember.Employments
-                    .Select(RenderEmployment);
-
-                string employmentsCellContent = string.Join(Environment.NewLine, employmentsAsString);
-                dataGrid.Rows.Add(teamMember.Name.FullNameWithNickname, employmentsCellContent);
-            }
-
-            dataGrid.Display();
-        }
-
-        private static string RenderEmployment(Employment employment)
-        {
-            StringBuilder sb = new();
-
-            sb.Append($"{employment.HoursPerDay} h/day");
-
-            if (employment.EmploymentWeek is { IsDefault: false })
-            {
-                if (sb.Length > 0)
-                    sb.Append(" | ");
-
-                string workingDaysAsString = string.Join(", ", employment.EmploymentWeek);
-
-                if (string.IsNullOrEmpty(workingDaysAsString))
-                    workingDaysAsString = "<none>";
-
-                sb.Append(workingDaysAsString);
-            }
-
-            if (sb.Length > 0)
-                sb.Append(" | ");
-
-            sb.Append(employment.TimeInterval.ToString());
-
-            return sb.ToString();
+                TeamMembers = teamMembers
+            };
+            teamMembersControl.Display();
         }
     }
 }
