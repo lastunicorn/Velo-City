@@ -47,7 +47,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool IsWorkDay(DayOfWeek dayOfWeek)
         {
-            return EmploymentWeek?.IsWorkDay(dayOfWeek) ?? true;
+            return EmploymentWeek?.IsWorkDay(dayOfWeek) ?? false;
         }
 
         public bool DoesContinueWith(Employment employment)

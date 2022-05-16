@@ -72,7 +72,7 @@ namespace DustInTheWind.VeloCity.Domain
             if (EndDate == null || EndDate == DateTime.MaxValue.Date || dateInterval.StartDate == null)
                 return false;
 
-            return EndDate.Value.Date.AddDays(1) == dateInterval.StartDate.Value;
+            return EndDate.Value.AddDays(1) == dateInterval.StartDate.Value;
         }
 
         public override string ToString()

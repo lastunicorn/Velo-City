@@ -51,6 +51,19 @@ namespace DustInTheWind.VeloCity.Tests.Domain.EmploymentWeekTests
         }
 
         [Theory]
+        [InlineData((DayOfWeek)489)]
+        [InlineData((DayOfWeek)34645)]
+        [InlineData((DayOfWeek)(-3548))]
+        public void HavingDefaultEmploymentWeek_WhenVerifyingNonexistentDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
+        {
+            EmploymentWeek employmentWeek = new();
+
+            bool actual = employmentWeek.IsWorkDay(dayOfWeek);
+
+            actual.Should().BeFalse();
+        }
+
+        [Theory]
         [InlineData(DayOfWeek.Monday)]
         [InlineData(DayOfWeek.Tuesday)]
         [InlineData(DayOfWeek.Wednesday)]
@@ -73,6 +86,19 @@ namespace DustInTheWind.VeloCity.Tests.Domain.EmploymentWeekTests
             EmploymentWeek employmentWeek = new(new[] { DayOfWeek.Wednesday });
 
             bool actual = employmentWeek.IsWorkDay(DayOfWeek.Monday);
+
+            actual.Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData((DayOfWeek)489)]
+        [InlineData((DayOfWeek)34645)]
+        [InlineData((DayOfWeek)(-3548))]
+        public void HavingEmploymentWeekWithOneDay_WhenVerifyingNonexistentDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
+        {
+            EmploymentWeek employmentWeek = new();
+
+            bool actual = employmentWeek.IsWorkDay(dayOfWeek);
 
             actual.Should().BeFalse();
         }

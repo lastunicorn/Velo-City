@@ -27,6 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Domain\EmploymentTests\DoesContinueWithTests.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="6.6.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.2.0" />
         <PackageReference Include="Moq" Version="4.18.0" />
@@ -43,10 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ItemGroup>
         <ProjectReference Include="..\VeloCity.Presentation\VeloCity.Presentation.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Domain\EmploymentTests\" />
     </ItemGroup>
 
 </Project>
