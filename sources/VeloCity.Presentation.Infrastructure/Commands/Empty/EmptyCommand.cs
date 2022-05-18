@@ -14,17 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Threading.Tasks;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Help
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure.Commands.Empty
 {
-    public class CommandNotFoundException : Exception
+    [Command(Enabled = false)]
+    internal class EmptyCommand : ICommand
     {
-        private const string DefaultMessage = "The command '{0}' does not exist.";
-
-        public CommandNotFoundException(string commandName)
-            : base(string.Format(DefaultMessage, commandName))
+        public Task Execute()
         {
+            return Task.CompletedTask;
         }
     }
 }

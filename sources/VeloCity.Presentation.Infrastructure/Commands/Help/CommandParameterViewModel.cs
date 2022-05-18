@@ -15,9 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Text;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Help
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure.Commands.Help
 {
     internal class CommandParameterViewModel
     {

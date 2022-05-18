@@ -110,8 +110,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
             return commandInfos
                 .OrderBy(x => x.Order)
                 .ThenBy(x => x.Name)
-                .Where(x => x.IsEnabled && x.Name == commandName)
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.IsEnabled && x.Name == commandName);
         }
 
         public IEnumerable<CommandInfo> GetAllEnabled()
@@ -124,7 +123,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public CommandInfo GetCommandInfo(string commandName)
         {
-            return commandInfos.FirstOrDefault(x => x.Name == commandName);
+            return commandInfos.FirstOrDefault(x => x.IsEnabled && x.Name == commandName);
         }
 
         public CommandInfo GetHelpCommand()

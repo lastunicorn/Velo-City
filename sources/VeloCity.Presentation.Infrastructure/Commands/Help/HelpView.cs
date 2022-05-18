@@ -18,9 +18,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Help
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure.Commands.Help
 {
     public class HelpView : IView<HelpCommand>
     {

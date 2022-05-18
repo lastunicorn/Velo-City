@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Presentation.Infrastructure.Commands.Empty;
 
 namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
@@ -61,22 +62,25 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         private ICommand CreateCommand(ArgumentsLens argumentsLens)
         {
-            if (!argumentsLens.HasUnusedArguments)
+            if (argumentsLens.HasUnusedArguments)
             {
-                CommandInfo helpCommandInfo = availableCommands.GetHelpCommand();
-                return commandFactory.Create(helpCommandInfo.Type);
+                Argument commandArgument = argumentsLens.GetCommand();
+                CommandInfo commandInfo = availableCommands.GetCommandInfo(commandArgument.Value);
+
+                if (commandInfo == null)
+                    throw new InvalidCommandException();
+
+                ICommand command = commandFactory.Create(commandInfo.Type);
+                SetParameters(command, commandInfo, argumentsLens);
+
+                return command;
             }
 
-            Argument commandArgument = argumentsLens.GetCommand();
-            CommandInfo commandInfo = availableCommands.GetCommandInfo(commandArgument.Value);
+            CommandInfo helpCommandInfo = availableCommands.GetHelpCommand();
 
-            if (commandInfo == null)
-                throw new InvalidCommandException();
-
-            ICommand command = commandFactory.Create(commandInfo.Type);
-            SetParameters(command, commandInfo, argumentsLens);
-
-            return command;
+            return helpCommandInfo == null
+                ? new EmptyCommand()
+                : commandFactory.Create(helpCommandInfo.Type);
         }
 
         private static void SetParameters(ICommand command, CommandInfo commandInfo, ArgumentsLens argumentsLens)

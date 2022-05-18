@@ -33,9 +33,9 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public Type Type { get; }
 
-        public int Order => commandAttribute.Order;
+        public int Order => commandAttribute?.Order ?? int.MaxValue;
 
-        public bool IsEnabled => commandAttribute.Enabled;
+        public bool IsEnabled => commandAttribute?.Enabled ?? true;
 
         public bool IsHelpCommand { get; private set; }
 

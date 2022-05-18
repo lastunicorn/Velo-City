@@ -24,4 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <RootNamespace>DustInTheWind.VeloCity.Presentation.Infrastructure</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="ConsoleTools.Controls.Menus" Version="1.1.0" />
+      <PackageReference Include="ConsoleTools.Controls.Tables" Version="1.1.0" />
+    </ItemGroup>
+
 </Project>

@@ -14,14 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.ConsoleTools.Controls;
+using System;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Help
+namespace DustInTheWind.VeloCity.Presentation.Infrastructure.Commands.Help
 {
-    public class CommandShortInfo
+    public class CommandNotFoundException : Exception
     {
-        public string Name { get; set; }
+        private const string DefaultMessage = "The command '{0}' does not exist.";
 
-        public MultilineText Description { get; set; }
+        public CommandNotFoundException(string commandName)
+            : base(string.Format(DefaultMessage, commandName))
+        {
+        }
     }
 }
