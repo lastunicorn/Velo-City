@@ -22,16 +22,16 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly Database database;
+        private readonly VeloCityDbContext dbContext;
 
-        private Database Database
+        private VeloCityDbContext DbContext
         {
             get
             {
-                if (database.State != DatabaseState.Opened)
-                    database.Open();
+                if (dbContext.State != DatabaseState.Opened)
+                    dbContext.Open();
 
-                return database;
+                return dbContext;
             }
         }
 
@@ -39,19 +39,19 @@ namespace DustInTheWind.VeloCity.DataAccess
         private SprintRepository sprintRepository;
         private TeamMemberRepository teamMemberRepository;
 
-        public Exception DatabaseError => database.LastError;
+        public Exception DatabaseError => dbContext.LastError;
 
-        public Warning DatabaseWarning => database.LastWarning;
+        public Warning DatabaseWarning => dbContext.LastWarning;
 
-        public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(Database);
+        public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(DbContext);
 
-        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(Database);
+        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(DbContext);
 
-        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(Database);
+        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(DbContext);
 
-        public UnitOfWork(Database database)
+        public UnitOfWork(VeloCityDbContext dbContext)
         {
-            this.database = database ?? throw new ArgumentNullException(nameof(database));
+            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
     }
 }

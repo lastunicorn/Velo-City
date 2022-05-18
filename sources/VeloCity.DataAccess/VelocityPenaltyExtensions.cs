@@ -42,17 +42,17 @@ namespace DustInTheWind.VeloCity.DataAccess
             };
         }
 
-        public static IEnumerable<VelocityPenalty> ToEntities(this IEnumerable<JVelocityPenalty> velocityPenalties, Database database)
+        public static IEnumerable<VelocityPenalty> ToEntities(this IEnumerable<JVelocityPenalty> velocityPenalties, VeloCityDbContext dbContext)
         {
             return velocityPenalties?
-                .Select(x => x.ToEntity(database));
+                .Select(x => x.ToEntity(dbContext));
         }
 
-        public static VelocityPenalty ToEntity(this JVelocityPenalty velocityPenalty, Database database)
+        public static VelocityPenalty ToEntity(this JVelocityPenalty velocityPenalty, VeloCityDbContext dbContext)
         {
             return new VelocityPenalty
             {
-                Sprint = database.Sprints.FirstOrDefault(x => x.Id == velocityPenalty.SprintId),
+                Sprint = dbContext.Sprints.FirstOrDefault(x => x.Id == velocityPenalty.SprintId),
                 Value = velocityPenalty.Value,
                 Duration = velocityPenalty.Duration ?? 1,
                 Comments = velocityPenalty.Comments

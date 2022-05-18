@@ -51,7 +51,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
             containerBuilder.RegisterInstance(availableCommands).AsSelf();
             
-            containerBuilder.RegisterType<Database>().AsSelf();
+            containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
             foreach (Type type in availableCommands.GetCommandTypes())

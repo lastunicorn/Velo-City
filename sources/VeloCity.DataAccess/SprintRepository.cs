@@ -24,26 +24,26 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     internal class SprintRepository : ISprintRepository
     {
-        private readonly Database database;
+        private readonly VeloCityDbContext dbContext;
 
-        public SprintRepository(Database database)
+        public SprintRepository(VeloCityDbContext dbContext)
         {
-            this.database = database ?? throw new ArgumentNullException(nameof(database));
+            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public Sprint Get(int id)
         {
-            return database.Sprints.FirstOrDefault(x => x.Id == id);
+            return dbContext.Sprints.FirstOrDefault(x => x.Id == id);
         }
 
         public Sprint GetByNumber(int number)
         {
-            return database.Sprints.FirstOrDefault(x => x.Number == number);
+            return dbContext.Sprints.FirstOrDefault(x => x.Number == number);
         }
 
         public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count)
         {
-            return database.Sprints
+            return dbContext.Sprints
                 .OrderByDescending(x => x.StartDate)
                 .SkipWhile(x => x.Number != sprintNumber)
                 .Skip(1)
@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             List<int> excludedSprintsList = excludedSprints.ToList();
 
-            return database.Sprints
+            return dbContext.Sprints
                 .Where(x => !excludedSprintsList.Contains(x.Number))
                 .OrderByDescending(x => x.StartDate)
                 .SkipWhile(x => x.Number != sprintNumber)
@@ -66,14 +66,14 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public Sprint GetLast()
         {
-            return database.Sprints
+            return dbContext.Sprints
                 .OrderByDescending(x => x.StartDate)
                 .FirstOrDefault();
         }
 
         public IEnumerable<Sprint> GetLast(int count)
         {
-            return database.Sprints
+            return dbContext.Sprints
                 .Where(x => x.State is SprintState.InProgress or SprintState.Closed)
                 .OrderByDescending(x => x.StartDate)
                 .Take(count);
@@ -81,7 +81,7 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public Sprint GetLastInProgress()
         {
-            return database.Sprints
+            return dbContext.Sprints
                 .Where(x => x.State == SprintState.InProgress)
                 .OrderByDescending(x => x.StartDate)
                 .FirstOrDefault();
@@ -91,7 +91,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             List<int> excludedSprintsList = excludedSprints.ToList();
 
-            return database.Sprints
+            return dbContext.Sprints
                 .Where(x => !excludedSprintsList.Contains(x.Number))
                 .OrderByDescending(x => x.StartDate)
                 .Where(x => x.State == SprintState.Closed)
@@ -100,7 +100,7 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public IEnumerable<Sprint> GetLastClosed(uint count)
         {
-            return database.Sprints
+            return dbContext.Sprints
                 .OrderByDescending(x => x.StartDate)
                 .Where(x => x.State == SprintState.Closed)
                 .Take((int)count);
@@ -108,7 +108,7 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate)
         {
-            return database.Sprints
+            return dbContext.Sprints
                 .OrderByDescending(x => x.StartDate)
                 .Where(x => x.EndDate >= startDate && x.StartDate <= endDate);
         }

@@ -23,7 +23,7 @@ using DustInTheWind.VeloCity.JsonFiles;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
-    public class Database
+    public class VeloCityDbContext
     {
         private readonly IConfig config;
         private DatabaseFile databaseFile;
@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public List<Sprint> Sprints { get; } = new();
 
-        public Database(IConfig config)
+        public VeloCityDbContext(IConfig config)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
         }

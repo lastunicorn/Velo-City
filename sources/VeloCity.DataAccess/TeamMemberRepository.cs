@@ -24,39 +24,39 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     internal class TeamMemberRepository : ITeamMemberRepository
     {
-        private readonly Database database;
+        private readonly VeloCityDbContext dbContext;
 
-        public TeamMemberRepository(Database database)
+        public TeamMemberRepository(VeloCityDbContext dbContext)
         {
-            this.database = database ?? throw new ArgumentNullException(nameof(database));
+            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public IEnumerable<TeamMember> GetAll()
         {
-            return database.TeamMembers;
+            return dbContext.TeamMembers;
         }
         
         public IEnumerable<TeamMember> GetByDate(DateTime date)
         {
-            return database.TeamMembers
+            return dbContext.TeamMembers
                 .Where(x => x.Employments?.Any(e => e.ContainsDate(date)) ?? false);
         }
 
         public IEnumerable<TeamMember> GetByDateInterval(DateTime? startDate, DateTime? endDate)
         {
-            return database.TeamMembers
+            return dbContext.TeamMembers
                 .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(startDate, endDate)) ?? false);
         }
 
         public IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval)
         {
-            return database.TeamMembers
+            return dbContext.TeamMembers
                 .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(dateInterval)) ?? false);
         }
 
         public IEnumerable<TeamMember> Find(string text)
         {
-            return database.TeamMembers
+            return dbContext.TeamMembers
                 .Where(x => x.Name.Contains(text));
         }
     }

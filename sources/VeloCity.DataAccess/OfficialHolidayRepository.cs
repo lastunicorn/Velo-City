@@ -24,28 +24,28 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     internal class OfficialHolidayRepository : IOfficialHolidayRepository
     {
-        private readonly Database database;
+        private readonly VeloCityDbContext dbContext;
 
-        public OfficialHolidayRepository(Database database)
+        public OfficialHolidayRepository(VeloCityDbContext dbContext)
         {
-            this.database = database ?? throw new ArgumentNullException(nameof(database));
+            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         public IEnumerable<OfficialHoliday> GetAll()
         {
-            return database.OfficialHolidays;
+            return dbContext.OfficialHolidays;
         }
 
         public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate)
         {
-            return database.OfficialHolidays
+            return dbContext.OfficialHolidays
                 .Where(x => x.Match(startDate, endDate))
                 .ToList();
         }
 
         public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country)
         {
-            return database.OfficialHolidays
+            return dbContext.OfficialHolidays
                 .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
                 .Where(x => x.Match(startDate, endDate))
                 .ToList();
@@ -53,13 +53,13 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public IEnumerable<OfficialHoliday> GetByYear(int year)
         {
-            return database.OfficialHolidays
+            return dbContext.OfficialHolidays
                 .Where(x => x.Match(year));
         }
 
         public IEnumerable<OfficialHoliday> GetByYear(int year, string country)
         {
-            return database.OfficialHolidays
+            return dbContext.OfficialHolidays
                 .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
                 .Where(x => x.Match(year));
         }
