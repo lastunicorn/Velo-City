@@ -24,7 +24,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
     public class DoesContinueWithTests
     {
         [Fact]
-        public void HavingFutureInfiniteDateInterval_WhenCheckingIfItContinuesWithFiniteInterval_ReturnsFalse()
+        public void HavingInfiniteDateInterval_WhenCheckingIfItContinuesWithFiniteInterval_ReturnsFalse()
         {
             DateInterval dateInterval = new();
 
@@ -50,7 +50,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
         {
             DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(null, new DateTime(5400, 12, 14));
+            DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
             bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
             actual.Should().BeFalse();
@@ -61,7 +61,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
         {
             DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(null, new DateTime(5400, 12, 14));
+            DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
             bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
             actual.Should().BeFalse();
@@ -72,7 +72,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
         {
             DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(null, new DateTime(1950, 12, 14));
+            DateInterval dateInterval2 = new(new DateTime(1950, 12, 14));
             bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
             actual.Should().BeFalse();
@@ -83,7 +83,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
         {
             DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(null, new DateTime(1800, 12, 14));
+            DateInterval dateInterval2 = new(new DateTime(1800, 12, 14));
             bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
             actual.Should().BeFalse();
@@ -94,21 +94,21 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
         {
             DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(null, new DateTime(2002, 08, 04));
+            DateInterval dateInterval2 = new(new DateTime(2002, 08, 04));
             bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
             actual.Should().BeFalse();
         }
 
         [Fact]
-        public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingNextDayAfterInterval_ReturnsFalse()
+        public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingNextDayAfterInterval_ReturnsTrue()
         {
             DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(null, new DateTime(2002, 08, 05));
+            DateInterval dateInterval2 = new(new DateTime(2002, 08, 05));
             bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeFalse();
+            actual.Should().BeTrue();
         }
     }
 }
