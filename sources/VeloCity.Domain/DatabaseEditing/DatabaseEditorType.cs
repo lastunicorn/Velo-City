@@ -14,17 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace DustInTheWind.VeloCity.Application.OpenDatabase
+namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
 {
-    internal class DatabaseOpenException : Exception
+    public enum DatabaseEditorType
     {
-        private const string DefaultMessage = "Failed to open the database file.";
-
-        public DatabaseOpenException(Exception innerException)
-            : base(DefaultMessage, innerException)
-        {
-        }
+        Default,
+        Custom
     }
 }

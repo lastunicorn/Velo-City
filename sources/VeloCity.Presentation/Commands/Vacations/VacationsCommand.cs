@@ -34,6 +34,12 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }
 
+        public RequestType RequestType { get; private set; }
+
+        public string RequestedTeamMemberName { get; private set; }
+        
+        public DateTime RequestedDate { get; private set; }
+
         public VacationsCommand(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -51,6 +57,12 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
             TeamMemberVacations = response.TeamMemberVacations
                 .Select(x => new TeamMemberVacationViewModel(x))
                 .ToList();
+
+            RequestType = response.RequestType;
+
+            RequestedTeamMemberName = response.RequestedTeamMemberName;
+
+            RequestedDate = response.RequestedDate;
         }
     }
 }

@@ -36,33 +36,48 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
 
         public Task<PresentVacationsResponse> Handle(PresentVacationsRequest request, CancellationToken cancellationToken)
         {
-            List<TeamMemberVacations> teamMemberVacations = GetTeamMemberVacations(request.TeamMemberName);
-
-            if (request.TeamMemberName != null && teamMemberVacations.Count == 0)
-                throw new TeamMemberNotFoundException(request.TeamMemberName);
-
-            PresentVacationsResponse response = new()
-            {
-                TeamMemberVacations = teamMemberVacations
-            };
-
+            PresentVacationsResponse response = CreateResponse(request);
             return Task.FromResult(response);
         }
 
-        private List<TeamMemberVacations> GetTeamMemberVacations(string teamMemberName)
+        private PresentVacationsResponse CreateResponse(PresentVacationsRequest request)
         {
-            return RetrieveTeamMembers(teamMemberName)
+            return request.TeamMemberName != null
+                ? GetVacationsByTeamMember(request.TeamMemberName)
+                : GetVacationsByCurrentDate(DateTime.Today);
+        }
+
+        private PresentVacationsResponse GetVacationsByTeamMember(string teamMemberName)
+        {
+            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.Find(teamMemberName);
+
+            return new PresentVacationsResponse
+            {
+                TeamMemberVacations = SortAndConvertToVacations(teamMembers),
+                RequestType = RequestType.ByName,
+                RequestedTeamMemberName = teamMemberName
+            };
+        }
+
+        private PresentVacationsResponse GetVacationsByCurrentDate(DateTime date)
+        {
+            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDate(date);
+
+            return new PresentVacationsResponse
+            {
+                TeamMemberVacations = SortAndConvertToVacations(teamMembers),
+                RequestType = RequestType.ByCurrentDate,
+                RequestedDate = date
+            };
+        }
+
+        private static List<TeamMemberVacations> SortAndConvertToVacations(IEnumerable<TeamMember> teamMembers)
+        {
+            return teamMembers
                 .OrderBy(x => x.Employments?.GetLastEmploymentBatch()?.StartDate)
                 .ThenBy(x => x.Name)
                 .Select(x => new TeamMemberVacations(x))
                 .ToList();
-        }
-
-        private IEnumerable<TeamMember> RetrieveTeamMembers(string teamMemberName)
-        {
-            return teamMemberName == null
-                ? unitOfWork.TeamMemberRepository.GetByDate(DateTime.Today)
-                : unitOfWork.TeamMemberRepository.Find(teamMemberName);
         }
     }
 }

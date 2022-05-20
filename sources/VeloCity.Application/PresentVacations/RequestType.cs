@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain.DatabaseEditing;
-
-namespace DustInTheWind.VeloCity.Application.OpenDatabase
+namespace DustInTheWind.VeloCity.Application.PresentVacations
 {
-    public class OpenDatabaseResponse
+    public enum RequestType
     {
-        public string DatabaseFilePath { get; set; }
-
-        public DatabaseEditorType DatabaseEditorType { get; set; }
+        ByName,
+        ByCurrentDate
     }
 }

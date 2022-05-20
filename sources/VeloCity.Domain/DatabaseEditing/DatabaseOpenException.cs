@@ -16,14 +16,14 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Application.OpenDatabase
+namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
 {
-    internal class DatabaseFileNotFoundException : Exception
+    internal class DatabaseOpenException : Exception
     {
-        private const string DefaultMessage = "Database file does not exist: '{0}'";
+        private const string DefaultMessage = "Failed to open the database file.";
 
-        public DatabaseFileNotFoundException(string databaseFilePath)
-            : base(string.Format(DefaultMessage, databaseFilePath))
+        public DatabaseOpenException(Exception innerException)
+            : base(DefaultMessage, innerException)
         {
         }
     }

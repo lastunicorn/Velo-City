@@ -14,11 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Application.OpenDatabase
+using System;
+
+namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
 {
-    public enum DatabaseEditorType
+    public class DatabaseFileNotFoundException : Exception
     {
-        Default,
-        Custom
+        private const string DefaultMessage = "Database file does not exist: '{0}'";
+
+        public DatabaseFileNotFoundException(string databaseFilePath)
+            : base(string.Format(DefaultMessage, databaseFilePath))
+        {
+        }
     }
 }

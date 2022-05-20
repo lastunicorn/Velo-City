@@ -17,7 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls.Tables;
+using DustInTheWind.VeloCity.Application.PresentVacations;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
@@ -33,7 +35,39 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
         public void Display(VacationsCommand command)
         {
-            foreach (TeamMemberVacationViewModel teamMemberVacation in command.TeamMemberVacations)
+            switch (command.RequestType)
+            {
+                case RequestType.ByName:
+                    if (command.TeamMemberVacations.Count == 0)
+                    {
+                        CustomConsole.WriteLineWarning($"No team member was found with name '{command.RequestedTeamMemberName}'.");
+                        return;
+                    }
+                    else
+                    {
+                        CustomConsole.WriteLine($"Vacations for team member '{command.RequestedTeamMemberName}':");
+                    }
+                    break;
+
+                case RequestType.ByCurrentDate:
+                    if (command.TeamMemberVacations.Count == 0)
+                    {
+                        CustomConsole.WriteLineWarning($"No team member is active at date {command.RequestedDate:yyyy MM dd}.");
+                        return;
+                    }
+                    else
+                    {
+                        CustomConsole.WriteLine($"Vacations for all the team members active at {command.RequestedDate:yyyy MM dd}:");
+                    }
+                    break;
+            }
+
+            DisplayVacations(command.TeamMemberVacations);
+        }
+
+        private void DisplayVacations(List<TeamMemberVacationViewModel> teamMemberVacations)
+        {
+            foreach (TeamMemberVacationViewModel teamMemberVacation in teamMemberVacations)
             {
                 DataGrid dataGrid = dataGridFactory.Create();
                 dataGrid.Title = teamMemberVacation.PersonName.ToString();
@@ -41,7 +75,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
 
                 IEnumerable<ContentRow> rows = teamMemberVacation.MonthsOfVacations.Select(ToRow);
 
-                foreach (ContentRow row in rows) 
+                foreach (ContentRow row in rows)
                     dataGrid.Rows.Add(row);
 
                 dataGrid.Display();

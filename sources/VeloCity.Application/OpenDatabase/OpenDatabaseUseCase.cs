@@ -15,11 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Application.OpenDatabase
@@ -57,47 +57,16 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
 
         private DatabaseEditorType OpenDatabaseFile(string databaseFilePath)
         {
-            try
+            DatabaseEditor databaseEditor = new()
             {
-                string fileName;
-                string arguments;
+                Editor = config.DatabaseEditor,
+                EditorArguments = config.DatabaseEditorArguments,
+                DatabaseFilePath = databaseFilePath
+            };
 
-                bool isCustomEditorProvided = !string.IsNullOrEmpty(config.DatabaseEditor);
-                if (isCustomEditorProvided)
-                {
-                    fileName = config.DatabaseEditor;
+            databaseEditor.OpenDatabase();
 
-                    bool areCustomArgumentsProvided = !string.IsNullOrEmpty(config.DatabaseEditorArguments);
-                    arguments = areCustomArgumentsProvided
-                        ? string.Format(config.DatabaseEditorArguments, databaseFilePath)
-                        : $@"""{databaseFilePath}""";
-                }
-                else
-                {
-                    fileName = $@"""{databaseFilePath}""";
-                    arguments = string.Empty;
-                }
-
-                Process process = new()
-                {
-                    StartInfo = new()
-                    {
-                        FileName = fileName,
-                        Arguments = arguments,
-                        UseShellExecute = true,
-                    }
-                };
-
-                process.Start();
-
-                return isCustomEditorProvided
-                    ? DatabaseEditorType.Custom
-                    : DatabaseEditorType.Default;
-            }
-            catch (Exception ex)
-            {
-                throw new DatabaseOpenException(ex);
-            }
+            return databaseEditor.EditorType;
         }
     }
 }

@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.Application.PresentVacations
@@ -21,5 +22,11 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
     public class PresentVacationsResponse
     {
         public List<TeamMemberVacations> TeamMemberVacations { get; set; }
+
+        public RequestType RequestType { get; set; }
+
+        public string RequestedTeamMemberName { get; set; }
+        
+        public DateTime RequestedDate { get; set; }
     }
 }
