@@ -73,10 +73,18 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public IEnumerable<Sprint> GetLast(int count)
         {
-            return dbContext.Sprints
+            IEnumerable<Sprint> sprints = dbContext.Sprints
                 .Where(x => x.State is SprintState.InProgress or SprintState.Closed)
                 .OrderByDescending(x => x.StartDate)
                 .Take(count);
+
+            foreach (Sprint sprint in sprints)
+            {
+                foreach (TeamMember teamMember in dbContext.TeamMembers)
+                    sprint.AddSprintMember(teamMember);
+
+                yield return sprint;
+            }
         }
 
         public Sprint GetLastInProgress()

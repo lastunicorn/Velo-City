@@ -85,5 +85,10 @@ namespace DustInTheWind.VeloCity.Domain
 
             Days = new SprintMemberDayCollection(sprintMemberDays);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

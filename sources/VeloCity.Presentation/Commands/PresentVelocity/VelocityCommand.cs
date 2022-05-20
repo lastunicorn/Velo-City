@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
         {
             PresentVelocityRequest request = new()
             {
-                Count = SprintCount
+                SprintCount = SprintCount
             };
 
             PresentVelocityResponse response = await mediator.Send(request);

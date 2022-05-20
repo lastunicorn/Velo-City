@@ -20,8 +20,14 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
 {
     public class SprintVelocity
     {
-        public int SprintNumber { get; set; }
+        public int SprintNumber { get; }
 
-        public Velocity Velocity { get; set; }
+        public Velocity Velocity { get; }
+
+        public SprintVelocity(Sprint sprint)
+        {
+            SprintNumber = sprint.Number;
+            Velocity = sprint.CalculateVelocity();
+        }
     }
 }

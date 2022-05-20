@@ -21,20 +21,32 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
 {
     public class SprintOverview
     {
-        public string Name { get; set; }
+        public string Name { get; }
 
-        public int SprintNumber { get; set; }
+        public int SprintNumber { get; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate { get; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime EndDate { get; }
 
-        public HoursValue TotalWorkHours { get; set; }
+        public HoursValue TotalWorkHours { get; }
 
-        public StoryPoints CommitmentStoryPoints { get; set; }
+        public StoryPoints CommitmentStoryPoints { get; }
 
-        public StoryPoints ActualStoryPoints { get; set; }
+        public StoryPoints ActualStoryPoints { get; }
 
-        public Velocity ActualVelocity { get; set; }
+        public Velocity ActualVelocity { get; }
+
+        public SprintOverview(Sprint sprint)
+        {
+            Name = sprint.Name;
+            SprintNumber = sprint.Number;
+            StartDate = sprint.StartDate;
+            EndDate = sprint.EndDate;
+            TotalWorkHours = sprint.CalculateTotalWorkHours();
+            CommitmentStoryPoints = sprint.CommitmentStoryPoints;
+            ActualStoryPoints = sprint.ActualStoryPoints;
+            ActualVelocity = sprint.CalculateVelocity();
+        }
     }
 }

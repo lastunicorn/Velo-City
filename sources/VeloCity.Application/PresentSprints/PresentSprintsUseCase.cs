@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
@@ -41,7 +40,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
                 : request.Count.Value;
 
             List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetLast(sprintCount)
-                .Select(CreateSprintOverview)
+                .Select(x => new SprintOverview(x))
                 .ToList();
 
             PresentSprintsResponse response = new()
@@ -50,25 +49,6 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
             };
 
             return Task.FromResult(response);
-        }
-
-        private SprintOverview CreateSprintOverview(Sprint sprint)
-        {
-            HoursValue totalWorkHours = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.StartDate, sprint.EndDate)
-                .Select(x => x.ToSprintMember(sprint).WorkHours)
-                .Sum(x => x.Value);
-
-            return new SprintOverview
-            {
-                Name = sprint.Name,
-                SprintNumber = sprint.Number,
-                StartDate = sprint.StartDate,
-                EndDate = sprint.EndDate,
-                TotalWorkHours = totalWorkHours,
-                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                ActualStoryPoints = sprint.ActualStoryPoints,
-                ActualVelocity = sprint.ActualStoryPoints / totalWorkHours
-            };
         }
     }
 }
