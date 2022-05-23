@@ -14,30 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using DustInTheWind.VeloCity.Domain.DataAccess;
+using FluentAssertions;
+using Xunit;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests
 {
-    public class DataAccessException : Exception
+    public class ConstructorWithMessageTests
     {
-        public DataAccessException()
-            : base(Resources.DataAccess_DefaultError)
+        [Fact]
+        public void WhenCreatingInstanceWithSpecificMessage_ThenMessageIsTheProvidedOne()
         {
+            DataAccessException dataAccessException = new("custom message");
+
+            dataAccessException.Message.Should().Be("custom message");
         }
 
-        public DataAccessException(string message)
-            : base(message)
+        [Fact]
+        public void WhenCreatingInstanceWithSpecificMessage_ThenInnerExceptionIsNull()
         {
-        }
+            DataAccessException dataAccessException = new("custom message");
 
-        public DataAccessException(Exception innerException)
-            : base(Resources.DataAccess_DefaultError, innerException)
-        {
-        }
-
-        public DataAccessException(string message, Exception innerException)
-            : base(message, innerException)
-        {
+            dataAccessException.InnerException.Should().BeNull();
         }
     }
 }
