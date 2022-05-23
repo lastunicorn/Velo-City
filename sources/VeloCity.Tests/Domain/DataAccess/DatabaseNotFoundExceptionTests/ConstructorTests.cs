@@ -14,32 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DatabaseNotFoundExceptionTests
 {
-    public class ConstructorWithInnerExceptionTests
+    public class ConstructorTests
     {
         [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenMessageIsTheDefaultOne()
+        public void WhenCreatingInstanceWithNullConnectionString_ThenMessageContainsEmptyConnectionString()
         {
-            Exception innerException = new();
-            DataAccessException dataAccessException = new(innerException);
+            DatabaseNotFoundException databaseNotFoundException = new(null);
 
-            dataAccessException.Message.Should().Be(Resources.DataAccess_DefaultErrorMessage);
+            string expected = string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, null as string);
+            databaseNotFoundException.Message.Should().Be(expected);
         }
 
         [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsTheProvidedOne()
+        public void WhenCreatingInstanceWithSpecificConnectionString_ThenMessageContainsThatConnectionString()
         {
-            Exception innerException = new();
-            DataAccessException dataAccessException = new(innerException);
+            DatabaseNotFoundException databaseNotFoundException = new("custom connection string");
 
-            dataAccessException.InnerException.Should().BeSameAs(innerException);
+            string expected = string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, "custom connection string");
+            databaseNotFoundException.Message.Should().Be(expected);
         }
     }
 }

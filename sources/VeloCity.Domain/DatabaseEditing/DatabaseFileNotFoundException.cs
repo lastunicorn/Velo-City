@@ -20,10 +20,8 @@ namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
 {
     public class DatabaseFileNotFoundException : Exception
     {
-        private const string DefaultMessage = "Database file does not exist: '{0}'";
-
         public DatabaseFileNotFoundException(string databaseFilePath)
-            : base(string.Format(DefaultMessage, databaseFilePath))
+            : base(string.Format(Resources.DatabaseFileNotFound_DefaultErrorMessage, databaseFilePath))
         {
         }
     }

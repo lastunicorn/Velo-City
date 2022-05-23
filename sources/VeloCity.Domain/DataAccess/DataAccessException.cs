@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
     public class DataAccessException : Exception
     {
         public DataAccessException()
-            : base(Resources.DataAccess_DefaultError)
+            : base(Resources.DataAccess_DefaultErrorMessage)
         {
         }
 
@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         }
 
         public DataAccessException(Exception innerException)
-            : base(Resources.DataAccess_DefaultError, innerException)
+            : base(Resources.DataAccess_DefaultErrorMessage, innerException)
         {
         }
 

@@ -63,9 +63,45 @@ namespace DustInTheWind.VeloCity.Domain {
         /// <summary>
         ///   Looks up a localized string similar to Error reading the database..
         /// </summary>
-        internal static string DataAccess_DefaultError {
+        internal static string DataAccess_DefaultErrorMessage {
             get {
-                return ResourceManager.GetString("DataAccess_DefaultError", resourceCulture);
+                return ResourceManager.GetString("DataAccess_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database file does not exist: &apos;{0}&apos;.
+        /// </summary>
+        internal static string DatabaseFileNotFound_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("DatabaseFileNotFound_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database was not found. Connection string: {0}.
+        /// </summary>
+        internal static string DatabaseNotFound_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("DatabaseNotFound_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to open the database file..
+        /// </summary>
+        internal static string DatabaseOpen_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("DatabaseOpen_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The sprint with number {0} does not exist in the database..
+        /// </summary>
+        internal static string SprintDoesNotExist_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("SprintDoesNotExist_DefaultErrorMessage", resourceCulture);
             }
         }
     }

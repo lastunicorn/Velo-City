@@ -37,5 +37,13 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTest
 
             dataAccessException.InnerException.Should().BeNull();
         }
+
+        [Fact]
+        public void WhenCreatingInstanceWithNullMessage_ThenMessageIsNotNull()
+        {
+            DataAccessException dataAccessException = new(null as string);
+
+            dataAccessException.Message.Should().NotBeNull();
+        }
     }
 }

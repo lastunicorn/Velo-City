@@ -20,10 +20,8 @@ namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
 {
     internal class DatabaseOpenException : Exception
     {
-        private const string DefaultMessage = "Failed to open the database file.";
-
         public DatabaseOpenException(Exception innerException)
-            : base(DefaultMessage, innerException)
+            : base(Resources.DatabaseOpen_DefaultErrorMessage, innerException)
         {
         }
     }

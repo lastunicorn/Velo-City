@@ -14,21 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public class DatabaseNotFoundException : DataAccessException
     {
-        private const string DefaultMessage = "Database was not found. Connection String: {0}";
-
         public DatabaseNotFoundException(string connectionString)
-            : base(string.Format(DefaultMessage, connectionString))
-        {
-        }
-
-        public DatabaseNotFoundException(Exception innerException)
-            : base(DefaultMessage, innerException)
+            : base(string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, connectionString))
         {
         }
     }
