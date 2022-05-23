@@ -20,6 +20,7 @@ using Autofac;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Bootstrapper

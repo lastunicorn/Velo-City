@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DustInTheWind.VeloCity.Domain
 {
@@ -23,12 +24,12 @@ namespace DustInTheWind.VeloCity.Domain
         public DateTime? StartDate { get; }
 
         public DateTime? EndDate { get; }
-
+        
         public bool IsFullInfinite => StartDate == null && EndDate == null;
 
         public bool IsHalfInfinite => StartDate == null || EndDate == null;
 
-        public bool IsZero => StartDate != null && EndDate != null && StartDate == EndDate;
+        public bool IsZero => StartDate != null && EndDate != null && StartDate.Value == EndDate.Value;
 
         public DateInterval(DateTime? startDate = null, DateTime? endDate = null)
         {
@@ -45,12 +46,13 @@ namespace DustInTheWind.VeloCity.Domain
                 return true;
 
             if (dateInterval.StartDate == null)
-                return StartDate == null || dateInterval.EndDate >= StartDate;
+                return StartDate == null || dateInterval.EndDate!.Value >= StartDate.Value;
 
             if (dateInterval.EndDate == null)
-                return EndDate == null || dateInterval.StartDate <= EndDate;
+                return EndDate == null || dateInterval.StartDate!.Value <= EndDate.Value;
 
-            return ContainsDate(dateInterval.EndDate.Value) || ((EndDate == null || dateInterval.EndDate > EndDate) && dateInterval.StartDate <= EndDate);
+            return ContainsDate(dateInterval.EndDate.Value) ||
+                   ((EndDate == null || dateInterval.EndDate.Value > EndDate.Value) && dateInterval.StartDate.Value <= EndDate);
         }
 
         public bool IsIntersecting(DateTime? startDate, DateTime? endDate)
@@ -63,13 +65,13 @@ namespace DustInTheWind.VeloCity.Domain
         {
             DateTime date = dateTime.Date;
 
-            return (StartDate == null || date >= StartDate) &&
-                   (EndDate == null || date <= EndDate);
+            return (StartDate == null || date >= StartDate.Value) &&
+                   (EndDate == null || date <= EndDate.Value);
         }
 
         public bool DoesContinueWith(DateInterval dateInterval)
         {
-            if (EndDate == null || EndDate == DateTime.MaxValue.Date || dateInterval.StartDate == null)
+            if (EndDate == null || EndDate.Value == DateTime.MaxValue.Date || dateInterval.StartDate == null)
                 return false;
 
             return EndDate.Value.AddDays(1) == dateInterval.StartDate.Value;

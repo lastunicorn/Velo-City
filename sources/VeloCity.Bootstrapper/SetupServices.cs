@@ -20,6 +20,7 @@ using Autofac;
 using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.Presentation;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;

@@ -20,6 +20,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 

@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.Configuring;
 using Microsoft.Extensions.Configuration;
 
 namespace DustInTheWind.VeloCity.Bootstrapper

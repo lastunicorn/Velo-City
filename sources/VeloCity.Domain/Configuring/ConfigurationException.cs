@@ -14,12 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain
-{
-    public class ConfigItem
-    {
-        public string Name { get; set; }
+using System;
 
-        public string Value { get; set; }
+namespace DustInTheWind.VeloCity.Domain.Configuring
+{
+    public class ConfigurationException : Exception
+    {
+        public ConfigurationException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
     }
 }

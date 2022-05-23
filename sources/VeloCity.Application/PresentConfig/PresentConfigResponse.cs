@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.Configuring;
 
 namespace DustInTheWind.VeloCity.Application.PresentConfig
 {
