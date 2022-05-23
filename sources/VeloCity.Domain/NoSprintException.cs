@@ -20,10 +20,8 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class NoSprintException : Exception
     {
-        private const string DefaultMessage = "There is no sprint in the database.";
-
         public NoSprintException()
-            : base(DefaultMessage)
+            : base(Resources.NoSprint_DefaultErrorMessage)
         {
         }
     }

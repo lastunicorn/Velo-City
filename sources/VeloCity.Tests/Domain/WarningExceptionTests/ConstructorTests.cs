@@ -14,15 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using DustInTheWind.VeloCity.Domain;
+using FluentAssertions;
+using Xunit;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Tests.Domain.WarningExceptionTests
 {
-    public class SprintDoesNotExistException : Exception
+    public class ConstructorTests
     {
-        public SprintDoesNotExistException(int sprintNumber)
-            : base(string.Format(Resources.SprintDoesNotExist_DefaultErrorMessage, sprintNumber))
+        [Fact]
+        public void WhenCreatingInstanceWithNullMessage_ThenMessageIsNotNull()
         {
+            WarningException warningException = new(null);
+
+            warningException.Message.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void WhenCreatingInstanceWithSpecificMessageText_ThenMessageIsThatText()
+        {
+            WarningException warningException = new("custom text");
+            
+            warningException.Message.Should().Be("custom text");
         }
     }
 }

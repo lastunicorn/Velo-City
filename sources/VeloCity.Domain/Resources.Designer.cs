@@ -61,6 +61,24 @@ namespace DustInTheWind.VeloCity.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error reading the {0} value from the configuration file..
+        /// </summary>
+        internal static string ConfigurationElement_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("ConfigurationElement_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not open the configuration file..
+        /// </summary>
+        internal static string ConfigurationOpen_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("ConfigurationOpen_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error reading the database..
         /// </summary>
         internal static string DataAccess_DefaultErrorMessage {
@@ -93,6 +111,15 @@ namespace DustInTheWind.VeloCity.Domain {
         internal static string DatabaseOpen_DefaultErrorMessage {
             get {
                 return ResourceManager.GetString("DatabaseOpen_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no sprint in the database..
+        /// </summary>
+        internal static string NoSprint_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("NoSprint_DefaultErrorMessage", resourceCulture);
             }
         }
         

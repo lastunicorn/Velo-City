@@ -20,7 +20,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public interface IUnitOfWork
     {
-        public Warning DatabaseWarning { get; }
+        public WarningException DatabaseWarning { get; }
         
         public Exception DatabaseError { get; }
 

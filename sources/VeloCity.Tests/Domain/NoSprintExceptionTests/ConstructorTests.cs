@@ -14,15 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using DustInTheWind.VeloCity.Domain;
+using FluentAssertions;
+using Xunit;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Tests.Domain.NoSprintExceptionTests
 {
-    public class SprintDoesNotExistException : Exception
+    public class ConstructorTests
     {
-        public SprintDoesNotExistException(int sprintNumber)
-            : base(string.Format(Resources.SprintDoesNotExist_DefaultErrorMessage, sprintNumber))
+        [Fact]
+        public void WhenCreatingInstance_ThenMessageContainsDefaultText()
         {
+            NoSprintException databaseNotFoundException = new();
+
+            databaseNotFoundException.Message.Should().Be(Resources.NoSprint_DefaultErrorMessage);
+        }
+
+        [Fact]
+        public void WhenCreatingInstance_ThenInnerExceptionIsNull()
+        {
+            NoSprintException databaseNotFoundException = new();
+
+            databaseNotFoundException.InnerException.Should().BeNull();
         }
     }
 }

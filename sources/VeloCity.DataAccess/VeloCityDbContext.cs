@@ -33,7 +33,7 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public DataAccessException LastError { get; private set; }
 
-        public Warning LastWarning { get; private set; }
+        public WarningException LastWarning { get; private set; }
 
         public List<TeamMember> TeamMembers { get; } = new();
 

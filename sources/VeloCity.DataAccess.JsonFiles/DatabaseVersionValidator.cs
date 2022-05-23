@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
             CurrentApplicationVersion = assemblyName.Version;
         }
 
-        public Warning Warning { get; private set; }
+        public WarningException Warning { get; private set; }
 
         public void CheckDatabaseVersion(Version databaseVersion)
         {

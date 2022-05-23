@@ -19,7 +19,7 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
-    internal class DatabaseVersionWarning : Warning
+    internal class DatabaseVersionWarning : WarningException
     {
         private const string DefaultMessage = "The version of the json file is unexpected. The parsed data may be incomplete. Actual file version: {0}. Expected file version: {1}.";
 

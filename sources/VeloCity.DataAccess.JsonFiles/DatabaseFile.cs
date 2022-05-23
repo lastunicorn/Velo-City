@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
 
         public DatabaseDocument Document { get; set; }
 
-        public Warning LastWarning { get; private set; }
+        public WarningException LastWarning { get; private set; }
 
         public DatabaseFile(string filePath)
         {

@@ -41,7 +41,7 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public Exception DatabaseError => dbContext.LastError;
 
-        public Warning DatabaseWarning => dbContext.LastWarning;
+        public WarningException DatabaseWarning => dbContext.LastWarning;
 
         public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(DbContext);
 

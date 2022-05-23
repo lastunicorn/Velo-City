@@ -16,46 +16,46 @@
 
 using System;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DatabaseEditing;
+using DustInTheWind.VeloCity.Domain.Configuring;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DatabaseEditing.DatabaseOpenExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExceptionTests
 {
     public class ConstructorTests
     {
         [Fact]
         public void WhenCreatingInstanceWithNullInnerException_ThenMessageContainsDefaultText()
         {
-            DatabaseOpenException databaseOpenException = new(null);
-            
-            databaseOpenException.Message.Should().Be(Resources.DatabaseOpen_DefaultErrorMessage);
+            ConfigurationOpenException configurationOpenException = new(null);
+
+            configurationOpenException.Message.Should().Be(Resources.ConfigurationOpen_DefaultErrorMessage);
         }
 
         [Fact]
         public void WhenCreatingInstanceWithNullInnerException_ThenInnerExceptionIsNull()
         {
-            DatabaseOpenException databaseOpenException = new(null);
+            ConfigurationOpenException configurationOpenException = new(null);
 
-            databaseOpenException.InnerException.Should().BeNull();
+            configurationOpenException.InnerException.Should().BeNull();
         }
 
         [Fact]
         public void WhenCreatingInstanceWithSpecificInnerException_ThenMessageContainsDefaultText()
         {
             Exception innerException = new();
-            DatabaseOpenException databaseOpenException = new(innerException);
+            ConfigurationOpenException configurationOpenException = new(innerException);
 
-            databaseOpenException.Message.Should().Be(Resources.DatabaseOpen_DefaultErrorMessage);
+            configurationOpenException.Message.Should().Be(Resources.ConfigurationOpen_DefaultErrorMessage);
         }
 
         [Fact]
         public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsThatException()
         {
             Exception innerException = new();
-            DatabaseOpenException databaseOpenException = new(innerException);
+            ConfigurationOpenException configurationOpenException = new(innerException);
 
-            databaseOpenException.InnerException.Should().BeSameAs(innerException);
+            configurationOpenException.InnerException.Should().BeSameAs(innerException);
         }
     }
 }

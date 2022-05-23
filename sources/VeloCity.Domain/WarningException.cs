@@ -18,15 +18,10 @@ using System;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class Warning : Exception
+    public class WarningException : Exception
     {
-        public Warning(string message)
+        public WarningException(string message)
             : base(message)
-        {
-        }
-
-        public Warning(string message, Exception innerException)
-            : base(message, innerException)
         {
         }
     }

@@ -16,12 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain.Configuring
 {
-    public class SprintDoesNotExistException : Exception
+    public class ConfigurationElementException : ConfigurationException
     {
-        public SprintDoesNotExistException(int sprintNumber)
-            : base(string.Format(Resources.SprintDoesNotExist_DefaultErrorMessage, sprintNumber))
+        public ConfigurationElementException(string elementName, Exception innerException)
+            : base(string.Format(Resources.ConfigurationElement_DefaultErrorMessage, elementName), innerException)
         {
         }
     }

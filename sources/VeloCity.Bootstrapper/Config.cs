@@ -47,7 +47,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 }
                 catch (Exception ex)
                 {
-                    throw new ConfigurationException("Error reading the ErrorMessageLevel value from the configuration file.", ex);
+                    throw new ConfigurationElementException(ErrorMessageLevelPropertyName, ex);
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 }
                 catch (Exception ex)
                 {
-                    throw new ConfigurationException("Error reading the ErrorMessageLevel value from the configuration file.", ex);
+                    throw new ConfigurationElementException(DataGridStylePropertyName, ex);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
                 }
                 catch (Exception ex)
                 {
-                    throw new ConfigurationException("Error reading the ErrorMessageLevel value from the configuration file.", ex);
+                    throw new ConfigurationElementException(AnalysisLookBackPropertyName, ex);
                 }
             }
         }
@@ -136,7 +136,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             }
             catch (Exception ex)
             {
-                throw new ConfigurationException("Could not open the configuration file.", ex);
+                throw new ConfigurationOpenException(ex);
             }
         }
 
