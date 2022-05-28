@@ -21,13 +21,11 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public interface ITeamMemberRepository
     {
-        IEnumerable<TeamMember> GetAll();
-
         IEnumerable<TeamMember> GetByDate(DateTime date);
 
         IEnumerable<TeamMember> GetByDateInterval(DateTime? startDate, DateTime? endDate);
 
-        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval);
+        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
         
         IEnumerable<TeamMember> Find(string text);
     }

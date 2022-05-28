@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public DateTime ActualEndDate { get; private set; }
 
-        public List<Sprint> AllSprints { get; set; }
+        public SprintList AllSprints { get; set; }
 
         public SprintsSpace(SprintFactory sprintFactory)
         {
@@ -49,7 +49,7 @@ namespace DustInTheWind.VeloCity.Domain
             DateTime startDate = DateInterval.StartDate ?? DateTime.MinValue;
             DateTime endDate = DateInterval.EndDate ?? DateTime.MaxValue;
 
-            AllSprints = GenerateSprints(startDate, endDate).ToList();
+            AllSprints = GenerateSprints(startDate, endDate).ToSprintList();
 
             Sprint firstSprint = AllSprints.First();
             Sprint lastSprint = AllSprints.Last();

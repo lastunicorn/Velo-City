@@ -55,8 +55,6 @@ namespace DustInTheWind.VeloCity.Domain
             {
                 IEnumerable<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll();
                 futureSprint.OfficialHolidays.AddRange(officialHolidays);
-
-                RetrieveSprintMembersFor(futureSprint);
             }
 
             return sprints;
@@ -72,8 +70,6 @@ namespace DustInTheWind.VeloCity.Domain
             if (currentSprint == null)
                 throw new NoSprintException();
 
-            RetrieveSprintMembersFor(currentSprint);
-
             return currentSprint;
         }
 
@@ -85,18 +81,12 @@ namespace DustInTheWind.VeloCity.Domain
                 ? unitOfWork.SprintRepository.GetLastClosed(count, excludedSprints).ToList()
                 : unitOfWork.SprintRepository.GetLastClosed(count).ToList();
 
-            foreach (Sprint sprint in sprints)
-                RetrieveSprintMembersFor(sprint);
-
             return sprints;
         }
 
         private void RetrieveSprintMembersFor(Sprint sprint)
         {
-            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetAll();
-
-            if (excludedTeamMembers is { Count: > 0 })
-                teamMembers = teamMembers.Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)));
+            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval, excludedTeamMembers);
 
             foreach (TeamMember teamMember in teamMembers)
                 sprint.AddSprintMember(teamMember);

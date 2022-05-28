@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
         public SprintVelocity(Sprint sprint)
         {
             SprintNumber = sprint.Number;
-            Velocity = sprint.CalculateVelocity();
+            Velocity = sprint.Velocity;
         }
     }
 }

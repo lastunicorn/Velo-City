@@ -43,10 +43,10 @@ namespace DustInTheWind.VeloCity.Application.PresentSprints
             SprintNumber = sprint.Number;
             StartDate = sprint.StartDate;
             EndDate = sprint.EndDate;
-            TotalWorkHours = sprint.CalculateTotalWorkHours();
+            TotalWorkHours = sprint.TotalWorkHours;
             CommitmentStoryPoints = sprint.CommitmentStoryPoints;
             ActualStoryPoints = sprint.ActualStoryPoints;
-            ActualVelocity = sprint.CalculateVelocity();
+            ActualVelocity = sprint.Velocity;
         }
     }
 }

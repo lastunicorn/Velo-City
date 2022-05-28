@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Application.PresentForecast
         public Task<PresentForecastResponse> Handle(PresentForecastRequest request, CancellationToken cancellationToken)
         {
             SprintFactory sprintFactory = new(unitOfWork, request.ExcludedTeamMembers);
-            List<Sprint> historySprints = sprintFactory.GetLastClosed(config.AnalysisLookBack, request.ExcludedSprints);
+            SprintList historySprints = sprintFactory.GetLastClosed(config.AnalysisLookBack, request.ExcludedSprints).ToSprintList();
             SprintsSpace sprintsSpace = CreateSprintsSpace(request.Date, sprintFactory);
 
             Forecast forecast = new()

@@ -34,15 +34,11 @@ namespace DustInTheWind.VeloCity.Domain
 
         public Velocity CalculateAverageVelocity()
         {
-            IEnumerable<Velocity> previousVelocities = Items
-                .Select(x => x.CalculateVelocity());
-
-            if (!previousVelocities.Any())
+            if (Items.Count == 0)
                 return Velocity.Null;
 
-            return previousVelocities
-                .Select(x => x.Value)
-                .Average();
+            return Items
+                .Average(x => x.Velocity.Value);
         }
     }
 }

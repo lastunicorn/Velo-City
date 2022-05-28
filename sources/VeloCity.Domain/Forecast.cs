@@ -22,11 +22,11 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class Forecast
     {
-        public List<Sprint> HistorySprints { get; set; }
+        public SprintList HistorySprints { get; set; }
 
-        public List<Sprint> FutureSprints { get; set; }
+        public SprintList FutureSprints { get; set; }
 
-        public int TotalWorkHours { get; private set; }
+        public HoursValue TotalWorkHours { get; private set; }
 
         public Velocity EstimatedVelocity { get; private set; }
 
@@ -41,8 +41,7 @@ namespace DustInTheWind.VeloCity.Domain
             if (HistorySprints == null || HistorySprints.Count == 0)
                 throw new Exception("History sprints were not provided. They are needed to calculate the estimated velocity.");
 
-            SprintList historySprints = HistorySprints.ToSprintList();
-            EstimatedVelocity = historySprints.CalculateAverageVelocity();
+            EstimatedVelocity = HistorySprints.CalculateAverageVelocity();
 
             if (EstimatedVelocity.IsNull)
                 throw new Exception("Error calculating the estimated velocity.");
@@ -51,7 +50,7 @@ namespace DustInTheWind.VeloCity.Domain
                 .Select(x => ToSprintForecast(x, EstimatedVelocity))
                 .ToList();
 
-            TotalWorkHours = FutureSprints.Sum(x => x.CalculateTotalWorkHours());
+            TotalWorkHours = FutureSprints.Sum(x => x.TotalWorkHours);
 
             EstimatedStoryPoints = TotalWorkHours * EstimatedVelocity;
 
@@ -60,7 +59,7 @@ namespace DustInTheWind.VeloCity.Domain
                 .Any();
 
             int? totalWorkHoursWithVelocityPenalties = FutureSprints
-                .Sum(x => x.CalculateTotalWorkHoursWithVelocityPenalties());
+                .Sum(x => x.TotalWorkHoursWithVelocityPenalties);
 
             EstimatedStoryPointsWithVelocityPenalties = velocityPenaltiesExists
                 ? totalWorkHoursWithVelocityPenalties * EstimatedVelocity
@@ -69,14 +68,12 @@ namespace DustInTheWind.VeloCity.Domain
 
         private static SprintForecast ToSprintForecast(Sprint sprint, Velocity estimatedVelocity)
         {
-            HoursValue totalWorkHours = sprint.CalculateTotalWorkHours();
-
             StoryPoints estimatedStoryPoints = estimatedVelocity.IsNull
                 ? StoryPoints.Null
-                : totalWorkHours * estimatedVelocity;
+                : sprint.TotalWorkHours * estimatedVelocity;
 
             bool velocityPenaltiesExists = sprint.GetVelocityPenalties().Any();
-            int? totalWorkHoursWithVelocityPenalties = sprint.CalculateTotalWorkHoursWithVelocityPenalties();
+            HoursValue totalWorkHoursWithVelocityPenalties = sprint.TotalWorkHoursWithVelocityPenalties;
 
             StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !velocityPenaltiesExists
                 ? StoryPoints.Null
@@ -90,7 +87,7 @@ namespace DustInTheWind.VeloCity.Domain
                 EndDate = sprint.EndDate,
                 Days = sprint.EnumerateAllDays().ToList(),
                 WorkDaysCount = sprint.CountWorkDays(),
-                TotalWorkHours = totalWorkHours,
+                TotalWorkHours = sprint.TotalWorkHours,
                 EstimatedStoryPoints = estimatedStoryPoints,
                 EstimatedStoryPointsWithVelocityPenalties = estimatedStoryPointsWithVelocityPenalties
             };

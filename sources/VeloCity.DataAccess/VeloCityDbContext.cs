@@ -55,23 +55,13 @@ namespace DustInTheWind.VeloCity.DataAccess
 
             try
             {
-                State = DatabaseState.Closed;
-                ClearAllData();
-                LastError = null;
-                LastWarning = null;
+                CloseInternal();
 
                 databaseFile = new DatabaseFile(config.DatabaseLocation);
                 databaseFile.Open();
 
                 LoadAllData();
-
-                foreach (Sprint sprint in Sprints)
-                {
-                    List<OfficialHoliday> officialHolidays = OfficialHolidays
-                        .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
-                        .ToList();
-                    sprint.OfficialHolidays.AddRange(officialHolidays);
-                }
+                PopulateSprints();
 
                 State = DatabaseState.Opened;
             }
@@ -95,12 +85,17 @@ namespace DustInTheWind.VeloCity.DataAccess
             }
         }
 
-        private void ClearAllData()
+        private void CloseInternal()
         {
             TeamMembers.Clear();
             OfficialHolidays.Clear();
             Vacations.Clear();
             Sprints.Clear();
+
+            LastError = null;
+            LastWarning = null;
+
+            State = DatabaseState.Closed;
         }
 
         private void LoadAllData()
@@ -113,6 +108,33 @@ namespace DustInTheWind.VeloCity.DataAccess
 
             IEnumerable<OfficialHoliday> officialHolidays = databaseFile.Document.OfficialHolidays.ToEntities();
             OfficialHolidays.AddRange(officialHolidays);
+        }
+
+        private void PopulateSprints()
+        {
+            foreach (Sprint sprint in Sprints)
+            {
+                AddHolidays(sprint);
+                AddTeamMembers(sprint);
+            }
+        }
+
+        private void AddHolidays(Sprint sprint)
+        {
+            List<OfficialHoliday> officialHolidays = OfficialHolidays
+                .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
+                .ToList();
+
+            sprint.OfficialHolidays.AddRange(officialHolidays);
+        }
+
+        private void AddTeamMembers(Sprint sprint)
+        {
+            IEnumerable<TeamMember> teamMembers = TeamMembers
+                .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(sprint.DateInterval)) ?? false);
+
+            foreach (TeamMember teamMember in teamMembers)
+                sprint.AddSprintMember(teamMember);
         }
     }
 }

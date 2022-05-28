@@ -57,9 +57,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 
             if (sprint == null)
                 throw new SprintDoesNotExistException(sprintNumber);
-
-            RetrieveSprintMembersFor(sprint, null);
-
+            
             return new PresentSprintCalendarResponse
             {
                 SprintCalendar = new SprintCalendar
@@ -154,9 +152,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 
             if (sprint == null)
                 throw new NoSprintException();
-
-            RetrieveSprintMembersFor(sprint, null);
-
+            
             return new PresentSprintCalendarResponse
             {
                 SprintCalendar = new SprintCalendar
@@ -168,17 +164,6 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
                     SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList()
                 }
             };
-        }
-
-        private void RetrieveSprintMembersFor(Sprint sprint, IReadOnlyCollection<string> excludedTeamMembers)
-        {
-            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetAll();
-
-            if (excludedTeamMembers is { Count: > 0 })
-                teamMembers = teamMembers.Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)));
-
-            foreach (TeamMember teamMember in teamMembers)
-                sprint.AddSprintMember(teamMember);
         }
     }
 }

@@ -39,27 +39,17 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = request.SprintNumber == null
-                ? RetrieveDefaultSprintToAnalyze(request.ExcludedTeamMembers)
-                : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value, request.ExcludedTeamMembers);
+            Sprint currentSprint = RetrieveCurrentSprint(request);
 
             uint analysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack;
-            SprintList historySprints = RetrievePreviousSprints(currentSprint.Number, analysisLookBack, request.ExcludedSprints, request.ExcludedTeamMembers)
-                .ToSprintList();
-            Velocity estimatedVelocity = historySprints.CalculateAverageVelocity();
+            SprintList historySprints = RetrievePreviousSprints(currentSprint.Number, analysisLookBack, request.ExcludedSprints, request.ExcludedTeamMembers);
 
-            HoursValue totalWorkHours = currentSprint.CalculateTotalWorkHours();
-
-            StoryPoints estimatedStoryPoints = estimatedVelocity.IsNull
-                ? StoryPoints.Null
-                : totalWorkHours * estimatedVelocity;
-
-            List<VelocityPenaltyInfo> velocityPenalties = RetrieveVelocityPenalties(currentSprint);
-            int? totalWorkHoursWithVelocityPenalties = currentSprint.CalculateTotalWorkHoursWithVelocityPenalties();
-
-            StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !velocityPenalties.Any()
-                ? StoryPoints.Null
-                : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
+            SprintAnalysis sprintAnalysis = new()
+            {
+                Sprint = currentSprint,
+                HistorySprints = historySprints
+            };
+            sprintAnalysis.Calculate();
 
             AnalyzeSprintResponse response = new()
             {
@@ -70,14 +60,16 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 SprintDays = currentSprint.EnumerateAllDays().ToList(),
                 WorkDaysCount = currentSprint.CountWorkDays(),
                 SprintMembers = currentSprint.SprintMembersOrderedByEmployment.ToList(),
-                TotalWorkHours = totalWorkHours,
-                EstimatedStoryPoints = estimatedStoryPoints,
-                EstimatedStoryPointsWithVelocityPenalties = estimatedStoryPointsWithVelocityPenalties,
-                EstimatedVelocity = estimatedVelocity,
-                VelocityPenalties = velocityPenalties,
+                TotalWorkHours = currentSprint.TotalWorkHours,
+                EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
+                EstimatedStoryPointsWithVelocityPenalties = sprintAnalysis.EstimatedStoryPointsWithVelocityPenalties,
+                EstimatedVelocity = sprintAnalysis.EstimatedVelocity,
+                VelocityPenalties = sprintAnalysis.VelocityPenalties
+                    .Select(x => new VelocityPenaltyInfo(x))
+                    .ToList(),
                 CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
                 ActualStoryPoints = currentSprint.ActualStoryPoints,
-                ActualVelocity = currentSprint.ActualStoryPoints / totalWorkHours,
+                ActualVelocity = currentSprint.Velocity,
                 LookBackSprintCount = analysisLookBack,
                 PreviousSprints = historySprints
                     .Select(x => x.Number)
@@ -90,34 +82,39 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
             return Task.FromResult(response);
         }
 
+        private Sprint RetrieveCurrentSprint(AnalyzeSprintRequest request)
+        {
+            return request.SprintNumber == null
+                ? RetrieveDefaultSprintToAnalyze(request.ExcludedTeamMembers)
+                : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value, request.ExcludedTeamMembers);
+        }
+
         private Sprint RetrieveDefaultSprintToAnalyze(IReadOnlyCollection<string> excludedTeamMembers)
         {
-            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
+            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
 
-            if (currentSprint == null)
-                currentSprint = unitOfWork.SprintRepository.GetLast();
+            if (sprint == null)
+                sprint = unitOfWork.SprintRepository.GetLast();
 
-            if (currentSprint == null)
+            if (sprint == null)
                 throw new NoSprintException();
 
-            RetrieveSprintMembersFor(currentSprint, excludedTeamMembers);
-
-            return currentSprint;
+            return sprint;
         }
 
         private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber, IReadOnlyCollection<string> excludedTeamMembers)
         {
-            Sprint currentSprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
 
-            if (currentSprint == null)
+            if (sprint == null)
                 throw new SprintDoesNotExistException(sprintNumber);
 
-            RetrieveSprintMembersFor(currentSprint, excludedTeamMembers);
+            sprint.ExcludedTeamMembers = excludedTeamMembers;
 
-            return currentSprint;
+            return sprint;
         }
 
-        private List<Sprint> RetrievePreviousSprints(int sprintNumber, uint count, List<int> excludedSprints, IReadOnlyCollection<string> excludedTeamMembers)
+        private SprintList RetrievePreviousSprints(int sprintNumber, uint count, List<int> excludedSprints, IReadOnlyCollection<string> excludedTeamMembers)
         {
             bool excludedSprintsExists = excludedSprints is { Count: > 0 };
 
@@ -126,31 +123,9 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                 : unitOfWork.SprintRepository.GetClosedSprintsBefore(sprintNumber, count).ToList();
 
             foreach (Sprint sprint in sprints)
-                RetrieveSprintMembersFor(sprint, excludedTeamMembers);
+                sprint.ExcludedTeamMembers = excludedTeamMembers;
 
-            return sprints;
-        }
-
-        private void RetrieveSprintMembersFor(Sprint sprint, IReadOnlyCollection<string> excludedTeamMembers)
-        {
-            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetAll();
-
-            if (excludedTeamMembers is { Count: > 0 })
-                teamMembers = teamMembers.Where(x => !excludedTeamMembers.Any(z => x.Name.Contains(z)));
-
-            foreach (TeamMember teamMember in teamMembers)
-                sprint.AddSprintMember(teamMember);
-        }
-
-        private static List<VelocityPenaltyInfo> RetrieveVelocityPenalties(Sprint sprint)
-        {
-            return sprint.GetVelocityPenalties()
-                .Select(x => new VelocityPenaltyInfo
-                {
-                    PersonName = x.TeamMember.Name,
-                    PenaltyValue = x.Value
-                })
-                .ToList();
+            return sprints.ToSprintList();
         }
     }
 }

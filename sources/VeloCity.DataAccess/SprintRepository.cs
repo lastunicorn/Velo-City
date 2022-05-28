@@ -38,7 +38,8 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public Sprint GetByNumber(int number)
         {
-            return dbContext.Sprints.FirstOrDefault(x => x.Number == number);
+            return dbContext.Sprints
+                .FirstOrDefault(x => x.Number == number);
         }
 
         public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count)
@@ -73,18 +74,10 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public IEnumerable<Sprint> GetLast(int count)
         {
-            IEnumerable<Sprint> sprints = dbContext.Sprints
+            return dbContext.Sprints
                 .Where(x => x.State is SprintState.InProgress or SprintState.Closed)
                 .OrderByDescending(x => x.StartDate)
                 .Take(count);
-
-            foreach (Sprint sprint in sprints)
-            {
-                foreach (TeamMember teamMember in dbContext.TeamMembers)
-                    sprint.AddSprintMember(teamMember);
-
-                yield return sprint;
-            }
         }
 
         public Sprint GetLastInProgress()

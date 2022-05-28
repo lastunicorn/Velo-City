@@ -31,11 +31,6 @@ namespace DustInTheWind.VeloCity.DataAccess
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public IEnumerable<TeamMember> GetAll()
-        {
-            return dbContext.TeamMembers;
-        }
-        
         public IEnumerable<TeamMember> GetByDate(DateTime date)
         {
             return dbContext.TeamMembers
@@ -48,10 +43,15 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(startDate, endDate)) ?? false);
         }
 
-        public IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval)
+        public IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null)
         {
-            return dbContext.TeamMembers
+            IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers
                 .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(dateInterval)) ?? false);
+
+            if (excludedNames is { Count: > 0 })
+                teamMembers = teamMembers.Where(x => !excludedNames.Any(z => x.Name.Contains(z)));
+
+            return teamMembers;
         }
 
         public IEnumerable<TeamMember> Find(string text)

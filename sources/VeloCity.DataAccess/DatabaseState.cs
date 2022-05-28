@@ -18,7 +18,7 @@ namespace DustInTheWind.VeloCity.DataAccess
 {
     public enum DatabaseState
     {
-        Closed,
+        Closed = 0,
         Opened,
         Error
     }
