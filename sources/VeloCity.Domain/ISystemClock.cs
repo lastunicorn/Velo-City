@@ -15,33 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class SprintList : Collection<Sprint>
+    public interface ISystemClock
     {
-        public Sprint Last => Items
-            .OrderByDescending(x => x.StartDate)
-            .FirstOrDefault();
-
-        public SprintList(IEnumerable<Sprint> sprints)
-        {
-            if (sprints == null) throw new ArgumentNullException(nameof(sprints));
-
-            foreach (Sprint sprint in sprints)
-                Items.Add(sprint);
-        }
-
-        public Velocity CalculateAverageVelocity()
-        {
-            if (Items.Count == 0)
-                return Velocity.Null;
-
-            return Items
-                .Average(x => x.Velocity.Value);
-        }
+        DateTime Today { get; }
     }
 }

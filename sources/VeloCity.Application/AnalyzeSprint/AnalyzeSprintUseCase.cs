@@ -30,11 +30,13 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IConfig config;
+        private readonly ISystemClock systemClock;
 
-        public AnalyzeSprintUseCase(IUnitOfWork unitOfWork, IConfig config)
+        public AnalyzeSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.config = config ?? throw new ArgumentNullException(nameof(config));
+            this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
         }
 
         public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
@@ -76,7 +78,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
                     .ToList(),
                 ExcludedSprints = request.ExcludedSprints?.ToList(),
                 ShowTeam = request.ShowTeam,
-                CurrentDay = DateTime.Today
+                CurrentDay = systemClock.Today
             };
 
             return Task.FromResult(response);

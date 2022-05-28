@@ -59,7 +59,7 @@ namespace DustInTheWind.VeloCity.Domain
         {
             get
             {
-                if (ExcludedTeamMembers is { Count: 0 })
+                if (ExcludedTeamMembers is null or { Count: 0 })
                     return allSprintMembers;
 
                 return allSprintMembers

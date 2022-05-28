@@ -40,7 +40,7 @@ namespace DustInTheWind.VeloCity.Tests.Application.PresentVacations
                 .Setup(x => x.TeamMemberRepository)
                 .Returns(teamMemberRepository.Object);
 
-            useCase = new PresentVacationsUseCase(unitOfWork.Object);
+            useCase = new PresentVacationsUseCase(unitOfWork.Object, Mock.Of<ISystemClock>());
         }
 
         [Fact]

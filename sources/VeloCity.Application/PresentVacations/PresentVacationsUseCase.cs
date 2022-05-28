@@ -28,10 +28,12 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
     internal class PresentVacationsUseCase : IRequestHandler<PresentVacationsRequest, PresentVacationsResponse>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly ISystemClock systemClock;
 
-        public PresentVacationsUseCase(IUnitOfWork unitOfWork)
+        public PresentVacationsUseCase(IUnitOfWork unitOfWork, ISystemClock systemClock)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
         }
 
         public Task<PresentVacationsResponse> Handle(PresentVacationsRequest request, CancellationToken cancellationToken)
@@ -44,7 +46,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
         {
             return request.TeamMemberName != null
                 ? GetVacationsByTeamMember(request.TeamMemberName)
-                : GetVacationsByCurrentDate(DateTime.Today);
+                : GetVacationsByCurrentDate(systemClock.Today);
         }
 
         private PresentVacationsResponse GetVacationsByTeamMember(string teamMemberName)

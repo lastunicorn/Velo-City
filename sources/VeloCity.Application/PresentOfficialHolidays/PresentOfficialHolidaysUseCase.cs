@@ -28,10 +28,12 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
     internal class PresentOfficialHolidaysUseCase : IRequestHandler<PresentOfficialHolidaysRequest, PresentOfficialHolidaysResponse>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly ISystemClock systemClock;
 
-        public PresentOfficialHolidaysUseCase(IUnitOfWork unitOfWork)
+        public PresentOfficialHolidaysUseCase(IUnitOfWork unitOfWork, ISystemClock systemClock)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
         }
 
         public Task<PresentOfficialHolidaysResponse> Handle(PresentOfficialHolidaysRequest request, CancellationToken cancellationToken)
@@ -93,7 +95,7 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
 
         private PresentOfficialHolidaysResponse GetOfficialHolidaysForCurrentYear(string country)
         {
-            int currentYear = DateTime.Now.Year;
+            int currentYear = systemClock.Today.Year;
 
             IEnumerable<OfficialHoliday> officialHolidays = country == null
                 ? unitOfWork.OfficialHolidayRepository.GetByYear(currentYear)

@@ -43,6 +43,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
 
+            containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
             containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
             containerBuilder.RegisterType<CommandRouter>().AsSelf();
             containerBuilder.RegisterType<CommandFactory>().As<ICommandFactory>();
@@ -51,7 +52,7 @@ namespace DustInTheWind.VeloCity.Bootstrapper
             availableCommands.LoadFromCurrentAppDomain();
 
             containerBuilder.RegisterInstance(availableCommands).AsSelf();
-            
+
             containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
