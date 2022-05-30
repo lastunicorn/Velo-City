@@ -66,7 +66,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
             {
                 SprintNumber = SprintNumber,
                 ExcludedSprints = ExcludedSprints,
-                ShowTeam = ShowTeam,
+                IncludeTeamDetails = ShowTeam,
                 ExcludedTeamMembers = ExcludedTeamMembers,
                 AnalysisLookBack = AnalysisLookBack
             };

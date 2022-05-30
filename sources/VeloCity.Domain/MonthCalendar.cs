@@ -14,18 +14,57 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.Domain
 {
     public class MonthCalendar
     {
-        public int Year { get; set; }
+        private readonly IUnitOfWork unitOfWork;
 
-        public int Month { get; set; }
+        public int Year { get; }
 
-        public List<SprintDay> Days { get; set; }
+        public int Month { get; }
 
-        public List<SprintMember> SprintMembers { get; set; }
+        public List<SprintDay> Days { get; }
+
+        public MonthCalendar(IUnitOfWork unitOfWork, DateTime startDate, DateTime endDate)
+        {
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+
+            Year = startDate.Year;
+            Month = startDate.Month;
+            Days = EnumerateAllDays(startDate, endDate).ToList();
+        }
+
+        private IEnumerable<SprintDay> EnumerateAllDays(DateTime startDate, DateTime endDate)
+        {
+            int totalDaysCount = (int)(endDate.Date - startDate.Date).TotalDays + 1;
+
+            return Enumerable.Range(0, totalDaysCount)
+                .Select(x =>
+                {
+                    DateTime date = startDate.AddDays(x);
+                    return ToSprintDay(date);
+                });
+        }
+
+        private SprintDay ToSprintDay(DateTime date)
+        {
+            List<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll()
+                .ToList();
+
+            return new SprintDay
+            {
+                Date = date,
+                OfficialHolidays = officialHolidays
+                    .Where(x => x.Match(date))
+                    .Select(x => x.GetInstanceFor(date.Year))
+                    .ToList()
+            };
+        }
     }
 }

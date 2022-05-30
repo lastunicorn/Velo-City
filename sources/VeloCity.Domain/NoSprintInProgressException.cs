@@ -15,31 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class SprintCalendar
+    public class NoSprintInProgressException : Exception
     {
-        public string SprintName { get; }
-
-        public DateTime StartDate { get; }
-
-        public DateTime EndDate { get; }
-
-        public List<SprintDay> Days { get; }
-
-        public List<SprintMember> SprintMembers { get; }
-
-        public SprintCalendar(Sprint sprint)
+        public NoSprintInProgressException()
+            : base(Resources.NoSprintInProgress_DefaultErrorMessage)
         {
-
-            SprintName = sprint.Name;
-            StartDate = sprint.StartDate;
-            EndDate = sprint.EndDate;
-            Days = sprint.EnumerateAllDays().ToList();
-            SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList();
         }
     }
 }

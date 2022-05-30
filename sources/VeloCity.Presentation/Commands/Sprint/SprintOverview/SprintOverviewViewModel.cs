@@ -29,9 +29,9 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
 
         public string SprintName => response.SprintName;
 
-        public DateTime StartDate => response.StartDate;
+        public DateTime StartDate => response.SprintDateInterval.StartDate!.Value;
 
-        public DateTime EndDate => response.EndDate;
+        public DateTime EndDate => response.SprintDateInterval.EndDate!.Value;
 
         public SprintStateViewModel State { get; }
 

@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -60,88 +59,23 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 
             return new PresentSprintCalendarResponse
             {
-                SprintCalendar = new SprintCalendar
-                {
-                    SprintName = sprint.Name,
-                    StartDate = sprint.StartDate,
-                    EndDate = sprint.EndDate,
-                    Days = sprint.EnumerateAllDays().ToList(),
-                    SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList()
-                }
+                SprintCalendar = new SprintCalendar(sprint)
             };
         }
 
         private PresentSprintCalendarResponse CreateMonthCalendarResponse(DateTime startDate, DateTime? endDate)
         {
+            MonthEnumeration monthEnumeration = new()
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                Count = endDate == null ? 1 : null
+            };
+
             return new PresentSprintCalendarResponse
             {
-                MonthCalendars = SplitInMonthIntervals(startDate, endDate)
-                    .Select(x => new MonthCalendar
-                    {
-                        Year = x.StartDate.Value.Year,
-                        Month = x.StartDate.Value.Month,
-                        Days = EnumerateAllDays(x.StartDate.Value, x.EndDate.Value).ToList()
-                    })
-                    .ToList()
-            };
-        }
-
-        private static IEnumerable<DateInterval> SplitInMonthIntervals(DateTime startDate, DateTime? endDate)
-        {
-            if (endDate == null)
-            {
-                yield return CreateNextMonthInterval(startDate, endDate);
-            }
-            else
-            {
-                DateTime date = startDate;
-
-                while (date <= endDate)
-                {
-                    DateInterval monthInterval = CreateNextMonthInterval(date, endDate);
-                    yield return monthInterval;
-
-                    date = monthInterval.EndDate.Value.AddDays(1);
-                }
-            }
-        }
-
-        private static DateInterval CreateNextMonthInterval(DateTime startDate, DateTime? endDate)
-        {
-            DateTime calculatedStartDate = startDate;
-
-            int daysInMonth = DateTime.DaysInMonth(calculatedStartDate.Year, calculatedStartDate.Month);
-            DateTime calculatedEndDate = new(calculatedStartDate.Year, calculatedStartDate.Month, daysInMonth);
-
-            if (calculatedEndDate > endDate)
-                calculatedEndDate = endDate.Value;
-
-            return new DateInterval(calculatedStartDate, calculatedEndDate);
-        }
-
-        private IEnumerable<SprintDay> EnumerateAllDays(DateTime startDate, DateTime endDate)
-        {
-            int totalDaysCount = (int)(endDate.Date - startDate.Date).TotalDays + 1;
-
-            return Enumerable.Range(0, totalDaysCount)
-                .Select(x =>
-                {
-                    DateTime date = startDate.AddDays(x);
-                    return ToSprintDay(date);
-                });
-        }
-
-        private SprintDay ToSprintDay(DateTime date)
-        {
-            List<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll()
-                .ToList();
-
-            return new SprintDay
-            {
-                Date = date,
-                OfficialHolidays = officialHolidays
-                    .Where(x => x.Match(date))
-                    .Select(x => x.GetInstanceFor(date.Year))
+                MonthCalendars = monthEnumeration
+                    .Select(x => new MonthCalendar(unitOfWork, x.StartDate!.Value, x.EndDate!.Value))
                     .ToList()
             };
         }
@@ -151,18 +85,11 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
             Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
 
             if (sprint == null)
-                throw new NoSprintException();
+                throw new NoSprintInProgressException();
 
             return new PresentSprintCalendarResponse
             {
-                SprintCalendar = new SprintCalendar
-                {
-                    SprintName = sprint.Name,
-                    StartDate = sprint.StartDate,
-                    EndDate = sprint.EndDate,
-                    Days = sprint.EnumerateAllDays().ToList(),
-                    SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList()
-                }
+                SprintCalendar = new SprintCalendar(sprint)
             };
         }
     }

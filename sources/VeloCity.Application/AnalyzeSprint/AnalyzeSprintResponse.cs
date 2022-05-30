@@ -26,9 +26,7 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public SprintState SprintState { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+        public DateInterval SprintDateInterval { get; set; }
 
         public List<SprintDay> SprintDays { get; set; }
 
@@ -52,13 +50,9 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public Velocity ActualVelocity { get; set; }
 
-        public uint LookBackSprintCount { get; set; }
-
         public List<int> PreviousSprints { get; set; }
 
         public List<int> ExcludedSprints { get; set; }
-
-        public bool ShowTeam { get; set; }
 
         public DateTime CurrentDay { get; set; }
     }

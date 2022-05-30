@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,93 +40,78 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = RetrieveCurrentSprint(request);
+            Sprint currentSprint = RetrieveSprintToAnalyze(request);
 
-            uint analysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack;
-            SprintList historySprints = RetrievePreviousSprints(currentSprint.Number, analysisLookBack, request.ExcludedSprints, request.ExcludedTeamMembers);
-
-            SprintAnalysis sprintAnalysis = new()
+            SprintAnalysis sprintAnalysis = new(unitOfWork)
             {
-                Sprint = currentSprint,
-                HistorySprints = historySprints
+                ExcludedSprints = request.ExcludedSprints,
+                ExcludedTeamMembers = request.ExcludedTeamMembers,
+                AnalysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack
             };
-            sprintAnalysis.Calculate();
+            sprintAnalysis.Analyze(currentSprint);
 
-            AnalyzeSprintResponse response = new()
-            {
-                SprintName = currentSprint.Name,
-                SprintState = currentSprint.State,
-                StartDate = currentSprint.StartDate,
-                EndDate = currentSprint.EndDate,
-                SprintDays = currentSprint.EnumerateAllDays().ToList(),
-                WorkDaysCount = currentSprint.CountWorkDays(),
-                SprintMembers = currentSprint.SprintMembersOrderedByEmployment.ToList(),
-                TotalWorkHours = currentSprint.TotalWorkHours,
-                EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
-                EstimatedStoryPointsWithVelocityPenalties = sprintAnalysis.EstimatedStoryPointsWithVelocityPenalties,
-                EstimatedVelocity = sprintAnalysis.EstimatedVelocity,
-                VelocityPenalties = sprintAnalysis.VelocityPenalties
-                    .Select(x => new VelocityPenaltyInfo(x))
-                    .ToList(),
-                CommitmentStoryPoints = currentSprint.CommitmentStoryPoints,
-                ActualStoryPoints = currentSprint.ActualStoryPoints,
-                ActualVelocity = currentSprint.Velocity,
-                LookBackSprintCount = analysisLookBack,
-                PreviousSprints = historySprints
-                    .Select(x => x.Number)
-                    .ToList(),
-                ExcludedSprints = request.ExcludedSprints?.ToList(),
-                ShowTeam = request.ShowTeam,
-                CurrentDay = systemClock.Today
-            };
+            AnalyzeSprintResponse response = CreateResponse(sprintAnalysis);
 
             return Task.FromResult(response);
         }
 
-        private Sprint RetrieveCurrentSprint(AnalyzeSprintRequest request)
+        private Sprint RetrieveSprintToAnalyze(AnalyzeSprintRequest request)
         {
-            return request.SprintNumber == null
-                ? RetrieveDefaultSprintToAnalyze(request.ExcludedTeamMembers)
-                : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value, request.ExcludedTeamMembers);
-        }
+            Sprint sprint = request.SprintNumber == null
+                ? RetrieveDefaultSprintToAnalyze()
+                : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
 
-        private Sprint RetrieveDefaultSprintToAnalyze(IReadOnlyCollection<string> excludedTeamMembers)
-        {
-            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress() ??
-                            unitOfWork.SprintRepository.GetLast();
-
-            if (sprint == null)
-                throw new NoSprintException();
-
-            sprint.ExcludedTeamMembers = excludedTeamMembers;
+            sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;
 
             return sprint;
         }
 
-        private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber, IReadOnlyCollection<string> excludedTeamMembers)
+        private Sprint RetrieveDefaultSprintToAnalyze()
+        {
+            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+
+            if (sprint == null)
+                throw new NoSprintInProgressException();
+
+            return sprint;
+        }
+
+        private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber)
         {
             Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
 
             if (sprint == null)
                 throw new SprintDoesNotExistException(sprintNumber);
 
-            sprint.ExcludedTeamMembers = excludedTeamMembers;
-
             return sprint;
         }
 
-        private SprintList RetrievePreviousSprints(int sprintNumber, uint count, List<int> excludedSprints, IReadOnlyCollection<string> excludedTeamMembers)
+        private AnalyzeSprintResponse CreateResponse(SprintAnalysis sprintAnalysis)
         {
-            bool excludedSprintsExists = excludedSprints is { Count: > 0 };
-
-            List<Sprint> sprints = excludedSprintsExists
-                ? unitOfWork.SprintRepository.GetClosedSprintsBefore(sprintNumber, count, excludedSprints).ToList()
-                : unitOfWork.SprintRepository.GetClosedSprintsBefore(sprintNumber, count).ToList();
-
-            foreach (Sprint sprint in sprints)
-                sprint.ExcludedTeamMembers = excludedTeamMembers;
-
-            return sprints.ToSprintList();
+            return new AnalyzeSprintResponse
+            {
+                SprintName = sprintAnalysis.Sprint.Name,
+                SprintState = sprintAnalysis.Sprint.State,
+                SprintDateInterval = sprintAnalysis.Sprint.DateInterval,
+                SprintDays = sprintAnalysis.Sprint.EnumerateAllDays()?.ToList(),
+                WorkDaysCount = sprintAnalysis.Sprint.CountWorkDays(),
+                SprintMembers = sprintAnalysis.Sprint.SprintMembersOrderedByEmployment?.ToList(),
+                TotalWorkHours = sprintAnalysis.Sprint.TotalWorkHours,
+                EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
+                EstimatedStoryPointsWithVelocityPenalties = sprintAnalysis.EstimatedStoryPointsWithVelocityPenalties,
+                EstimatedVelocity = sprintAnalysis.EstimatedVelocity,
+                VelocityPenalties = sprintAnalysis.VelocityPenalties?
+                    .Select(x => new VelocityPenaltyInfo(x))
+                    .ToList(),
+                CommitmentStoryPoints = sprintAnalysis.Sprint.CommitmentStoryPoints,
+                ActualStoryPoints = sprintAnalysis.Sprint.ActualStoryPoints,
+                ActualVelocity = sprintAnalysis.Sprint.Velocity,
+                PreviousSprints = sprintAnalysis.HistorySprints?
+                    .Select(x => x.Number)
+                    .ToList(),
+                ExcludedSprints = sprintAnalysis.ExcludedSprints?.ToList(),
+                CurrentDay = systemClock.Today
+            };
         }
     }
 }

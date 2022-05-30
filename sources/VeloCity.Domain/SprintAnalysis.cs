@@ -14,16 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.Domain
 {
     public class SprintAnalysis
     {
-        public Sprint Sprint { get; set; }
+        private readonly IUnitOfWork unitOfWork;
 
-        public SprintList HistorySprints { get; set; }
+        public Sprint Sprint { get; private set; }
+
+        public SprintList HistorySprints { get; private set; }
+
+        public uint AnalysisLookBack { get; set; }
+
+        public List<int> ExcludedSprints { get; set; }
+
+        public List<string> ExcludedTeamMembers { get; set; }
 
         public Velocity EstimatedVelocity { get; private set; }
 
@@ -35,8 +45,19 @@ namespace DustInTheWind.VeloCity.Domain
 
         public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; private set; }
 
-        public void Calculate()
+        public SprintAnalysis(IUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        }
+
+        public void Analyze(Sprint sprint)
+        {
+            Sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
+
+            Sprint.ExcludedTeamMembers = ExcludedTeamMembers;
+
+            HistorySprints = RetrievePreviousSprints();
+
             Velocity estimatedVelocity = HistorySprints.CalculateAverageVelocity();
 
             EstimatedVelocity = estimatedVelocity;
@@ -51,6 +72,20 @@ namespace DustInTheWind.VeloCity.Domain
             EstimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !VelocityPenalties.Any()
                 ? StoryPoints.Null
                 : TotalWorkHoursWithVelocityPenalties * estimatedVelocity;
+        }
+
+        private SprintList RetrievePreviousSprints()
+        {
+            bool excludedSprintsExists = ExcludedSprints is { Count: > 0 };
+
+            List<Sprint> sprints = excludedSprintsExists
+                ? unitOfWork.SprintRepository.GetClosedSprintsBefore(Sprint.Number, AnalysisLookBack, ExcludedSprints).ToList()
+                : unitOfWork.SprintRepository.GetClosedSprintsBefore(Sprint.Number, AnalysisLookBack).ToList();
+
+            foreach (Sprint sprint in sprints)
+                sprint.ExcludedTeamMembers = ExcludedTeamMembers;
+
+            return sprints.ToSprintList();
         }
     }
 }

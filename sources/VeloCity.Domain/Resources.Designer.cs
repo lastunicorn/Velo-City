@@ -124,6 +124,15 @@ namespace DustInTheWind.VeloCity.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no sprint in progress. Please provide a specific sprint number..
+        /// </summary>
+        internal static string NoSprintInProgress_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("NoSprintInProgress_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The sprint with number {0} does not exist in the database..
         /// </summary>
         internal static string SprintDoesNotExist_DefaultErrorMessage {

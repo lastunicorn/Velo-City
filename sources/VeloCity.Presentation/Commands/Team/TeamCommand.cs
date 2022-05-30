@@ -55,14 +55,20 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Team
             PresentTeamRequest request = new()
             {
                 Date = Date,
-                StartDate = StartDate,
-                EndDate = EndDate,
+                DateInterval = CalculateDateInterval(),
                 SprintNumber = Sprint
             };
             PresentTeamResponse response = await mediator.Send(request);
 
             Information = new InformationViewModel(response);
             TeamMembers = response.TeamMembers;
+        }
+
+        private DateInterval? CalculateDateInterval()
+        {
+            return StartDate != null || EndDate != null
+                ? new DateInterval(StartDate, EndDate)
+                : null;
         }
     }
 }
