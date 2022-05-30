@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
     public interface IUnitOfWork
     {
         public WarningException DatabaseWarning { get; }
-        
+
         public Exception DatabaseError { get; }
 
         public IOfficialHolidayRepository OfficialHolidayRepository { get; }

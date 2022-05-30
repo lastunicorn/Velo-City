@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Domain
         public static char DefaultZeroCharacter { get; set; } = '-';
 
         public int Value { get; init; }
-        
+
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return Value == 0

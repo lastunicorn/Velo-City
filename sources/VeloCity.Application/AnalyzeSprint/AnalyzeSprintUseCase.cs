@@ -93,13 +93,13 @@ namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
 
         private Sprint RetrieveDefaultSprintToAnalyze(IReadOnlyCollection<string> excludedTeamMembers)
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
-
-            if (sprint == null)
-                sprint = unitOfWork.SprintRepository.GetLast();
+            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress() ??
+                            unitOfWork.SprintRepository.GetLast();
 
             if (sprint == null)
                 throw new NoSprintException();
+
+            sprint.ExcludedTeamMembers = excludedTeamMembers;
 
             return sprint;
         }

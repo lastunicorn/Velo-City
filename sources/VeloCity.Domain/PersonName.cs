@@ -96,7 +96,7 @@ namespace DustInTheWind.VeloCity.Domain
                 return sb.ToString();
             }
         }
-        
+
         public string ShortName => Nickname ?? FirstName ?? MiddleName ?? LastName;
 
         public static PersonName Parse(string text)

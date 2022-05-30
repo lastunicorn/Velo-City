@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace DustInTheWind.VeloCity.Domain
 {
@@ -24,7 +23,7 @@ namespace DustInTheWind.VeloCity.Domain
         public DateTime? StartDate { get; }
 
         public DateTime? EndDate { get; }
-        
+
         public bool IsFullInfinite => StartDate == null && EndDate == null;
 
         public bool IsHalfInfinite => StartDate == null || EndDate == null;

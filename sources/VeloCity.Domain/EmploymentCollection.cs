@@ -50,6 +50,7 @@ namespace DustInTheWind.VeloCity.Domain
             DateTime key = employment.TimeInterval.StartDate ?? DateTime.MinValue;
             employments.Add(key, employment);
         }
+
         public Employment GetFirstEmployment()
         {
             return employments.Values.LastOrDefault();
