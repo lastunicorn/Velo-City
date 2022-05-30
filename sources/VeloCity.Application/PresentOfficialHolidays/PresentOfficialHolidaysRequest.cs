@@ -21,9 +21,9 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
     public class PresentOfficialHolidaysRequest : IRequest<PresentOfficialHolidaysResponse>
     {
         public int? Year { get; set; }
-        
+
         public int? SprintNumber { get; set; }
-        
+
         public string Country { get; set; }
     }
 }

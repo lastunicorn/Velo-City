@@ -33,7 +33,7 @@ namespace DustInTheWind.VeloCity.Application.PresentForecast
         public StoryPoints EstimatedStoryPoints { get; set; }
 
         public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
-        
+
         public List<SprintForecast> Sprints { get; set; }
     }
 }

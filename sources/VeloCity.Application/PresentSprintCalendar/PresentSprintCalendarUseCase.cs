@@ -57,7 +57,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 
             if (sprint == null)
                 throw new SprintDoesNotExistException(sprintNumber);
-            
+
             return new PresentSprintCalendarResponse
             {
                 SprintCalendar = new SprintCalendar
@@ -152,7 +152,7 @@ namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
 
             if (sprint == null)
                 throw new NoSprintException();
-            
+
             return new PresentSprintCalendarResponse
             {
                 SprintCalendar = new SprintCalendar

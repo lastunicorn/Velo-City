@@ -15,10 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 using MediatR;
@@ -36,38 +34,22 @@ namespace DustInTheWind.VeloCity.Application.OpenDatabase
 
         public Task<OpenDatabaseResponse> Handle(OpenDatabaseRequest request, CancellationToken cancellationToken)
         {
-            string databaseFilePath = config.DatabaseLocation;
+            DatabaseEditor databaseEditor = CreateDatabaseEditor();
+            databaseEditor.OpenDatabase();
 
-            CheckDatabaseFileExists(databaseFilePath);
-            DatabaseEditorType databaseEditorType = OpenDatabaseFile(databaseFilePath);
-
-            OpenDatabaseResponse response = new()
-            {
-                DatabaseFilePath = databaseFilePath,
-                DatabaseEditorType = databaseEditorType
-            };
+            OpenDatabaseResponse response = new(databaseEditor);
 
             return Task.FromResult(response);
         }
 
-        private static void CheckDatabaseFileExists(string databaseFilePath)
+        private DatabaseEditor CreateDatabaseEditor()
         {
-            if (!File.Exists(databaseFilePath))
-                throw new DatabaseFileNotFoundException(databaseFilePath);
-        }
-
-        private DatabaseEditorType OpenDatabaseFile(string databaseFilePath)
-        {
-            DatabaseEditor databaseEditor = new()
+            return new DatabaseEditor
             {
                 Editor = config.DatabaseEditor,
                 EditorArguments = config.DatabaseEditorArguments,
-                DatabaseFilePath = databaseFilePath
+                DatabaseFilePath = config.DatabaseLocation
             };
-
-            databaseEditor.OpenDatabase();
-
-            return databaseEditor.EditorType;
         }
     }
 }

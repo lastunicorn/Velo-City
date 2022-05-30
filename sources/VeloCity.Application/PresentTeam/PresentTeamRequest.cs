@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Domain;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Application.PresentTeam
@@ -23,9 +24,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
     {
         public DateTime? Date { get; set; }
 
-        public DateTime? StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
+        public DateInterval? DateInterval { get; set; }
 
         public int? SprintNumber { get; set; }
     }

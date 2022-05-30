@@ -47,7 +47,8 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
         }
-
+        
+        /// <exception cref="DataAccessException">In case the database could not be opened.</exception>
         public void Open()
         {
             if (State == DatabaseState.Opened)

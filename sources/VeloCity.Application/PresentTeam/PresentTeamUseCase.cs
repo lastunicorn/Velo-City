@@ -44,41 +44,21 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
             if (request.Date != null)
                 return CreateResponseForDate(request.Date.Value);
 
-            if (request.StartDate != null || request.EndDate != null)
-            {
-                DateInterval dateInterval = new(request.StartDate, request.EndDate);
-                return CreateResponseForDateInterval(dateInterval);
-            }
+            if (request.DateInterval != null)
+                return CreateResponseForDateInterval(request.DateInterval.Value);
 
             if (request.SprintNumber != null)
-            {
-                Sprint sprint = unitOfWork.SprintRepository.GetByNumber(request.SprintNumber.Value);
+                return CreateResponseForSprint(request.SprintNumber.Value);
 
-                if (sprint == null)
-                    throw new SprintDoesNotExistException(request.SprintNumber.Value);
-
-                return CreateResponseForSprint(sprint);
-            }
-
-            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
-
-            if (currentSprint == null)
-                throw new NoSprintException();
-
-            return CreateResponseForSprint(currentSprint);
+            return CreateResponseForCurrentSprint();
         }
 
         private PresentTeamResponse CreateResponseForDate(DateTime date)
         {
-            return new PresentTeamResponse()
+            return new PresentTeamResponse
             {
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDate(date)
-                    .OrderBy(x =>
-                    {
-                        Employment employment = x.Employments.GetEmploymentBatchFor(date).LastOrDefault();
-                        return employment?.TimeInterval.StartDate;
-                    })
-                    .ThenBy(x => x.Name)
+                    .OrderByEmploymentForDate(date)
                     .ToList(),
                 ResponseType = TeamResponseType.Date,
                 Date = date
@@ -90,32 +70,51 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
             return new PresentTeamResponse
             {
                 TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval)
-                    .OrderBy(x =>
-                    {
-                        Employment employment = dateInterval.StartDate == null
-                            ? x.Employments.GetFirstEmployment()
-                            : x.Employments.GetEmploymentBatchFor(dateInterval.StartDate.Value).LastOrDefault();
-
-                        return employment?.TimeInterval.StartDate;
-                    })
-                    .ThenBy(x => x.Name)
+                    .OrderByEmploymentForDate(dateInterval.StartDate)
                     .ToList(),
                 ResponseType = TeamResponseType.DateInterval,
                 DateInterval = dateInterval
             };
         }
 
+        private PresentTeamResponse CreateResponseForSprint(int sprintNumber)
+        {
+            Sprint sprint = RetrieveSprint(sprintNumber);
+            return CreateResponseForSprint(sprint);
+        }
+
+        private Sprint RetrieveSprint(int sprintNumber)
+        {
+            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+
+            if (sprint == null)
+                throw new SprintDoesNotExistException(sprintNumber);
+
+            return sprint;
+        }
+
+        private PresentTeamResponse CreateResponseForCurrentSprint()
+        {
+            Sprint currentSprint = RetrieveCurrentSprint();
+            return CreateResponseForSprint(currentSprint);
+        }
+
+        private Sprint RetrieveCurrentSprint()
+        {
+            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
+
+            if (currentSprint == null)
+                throw new NoSprintException();
+
+            return currentSprint;
+        }
+
         private PresentTeamResponse CreateResponseForSprint(Sprint sprint)
         {
             return new PresentTeamResponse
             {
-                TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.StartDate, sprint.EndDate)
-                    .OrderBy(x =>
-                    {
-                        Employment employment = x.Employments.GetEmploymentBatchFor(sprint.StartDate).LastOrDefault();
-                        return employment?.TimeInterval.StartDate;
-                    })
-                    .ThenBy(x => x.Name)
+                TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval)
+                    .OrderByEmploymentForDate(sprint.StartDate)
                     .ToList(),
                 ResponseType = TeamResponseType.Sprint,
                 SprintNumber = sprint.Number,

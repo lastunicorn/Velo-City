@@ -35,13 +35,8 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
 
         public Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
         {
-            int sprintCount = request.SprintCount is null or < 1
-                ? 10
-                : request.SprintCount.Value;
-
-            List<SprintVelocity> sprintVelocities = unitOfWork.SprintRepository.GetLast(sprintCount)
-                .Select(x => new SprintVelocity(x))
-                .ToList();
+            int sprintCount = CalculateSprintCount(request);
+            List<SprintVelocity> sprintVelocities = RetrieveSprintVelocities(sprintCount);
 
             PresentVelocityResponse response = new()
             {
@@ -49,6 +44,20 @@ namespace DustInTheWind.VeloCity.Application.PresentVelocity
             };
 
             return Task.FromResult(response);
+        }
+
+        private static int CalculateSprintCount(PresentVelocityRequest request)
+        {
+            return request.SprintCount is null or < 1
+                ? 10
+                : request.SprintCount.Value;
+        }
+
+        private List<SprintVelocity> RetrieveSprintVelocities(int sprintCount)
+        {
+            return unitOfWork.SprintRepository.GetLast(sprintCount)
+                .Select(x => new SprintVelocity(x))
+                .ToList();
         }
     }
 }

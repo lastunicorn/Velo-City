@@ -16,6 +16,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
 {
@@ -33,6 +34,9 @@ namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
 
         public void OpenDatabase()
         {
+            if (!File.Exists(DatabaseFilePath))
+                throw new DatabaseFileNotFoundException(DatabaseFilePath);
+
             try
             {
                 Process process = new()
@@ -53,6 +57,15 @@ namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
             }
         }
 
+        private string CalculateFileNameToExecute()
+        {
+            bool isCustomEditorProvided = !string.IsNullOrEmpty(Editor);
+
+            return isCustomEditorProvided
+                ? Editor
+                : $@"""{DatabaseFilePath}""";
+        }
+
         private string CalculateArguments()
         {
             bool isCustomEditorProvided = !string.IsNullOrEmpty(Editor);
@@ -62,15 +75,6 @@ namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
             bool areCustomArgumentsProvided = !string.IsNullOrEmpty(EditorArguments);
             return areCustomArgumentsProvided
                 ? string.Format(EditorArguments, DatabaseFilePath)
-                : $@"""{DatabaseFilePath}""";
-        }
-
-        private string CalculateFileNameToExecute()
-        {
-            bool isCustomEditorProvided = !string.IsNullOrEmpty(Editor);
-
-            return isCustomEditorProvided
-                ? Editor
                 : $@"""{DatabaseFilePath}""";
         }
     }

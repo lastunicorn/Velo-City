@@ -26,7 +26,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
         public RequestType RequestType { get; set; }
 
         public string RequestedTeamMemberName { get; set; }
-        
+
         public DateTime RequestedDate { get; set; }
     }
 }
