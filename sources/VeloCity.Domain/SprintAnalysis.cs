@@ -25,15 +25,15 @@ namespace DustInTheWind.VeloCity.Domain
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public Sprint Sprint { get; private set; }
-
-        public SprintList HistorySprints { get; private set; }
-
         public uint AnalysisLookBack { get; set; }
 
         public List<int> ExcludedSprints { get; set; }
 
         public List<string> ExcludedTeamMembers { get; set; }
+
+        public Sprint Sprint { get; private set; }
+
+        public SprintList HistorySprints { get; private set; }
 
         public Velocity EstimatedVelocity { get; private set; }
 

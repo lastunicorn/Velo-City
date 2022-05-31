@@ -16,27 +16,49 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
 {
     public class SprintForecast
     {
-        public int Number { get; set; }
+        public string SprintName { get; }
 
-        public bool IsRealSprint { get; set; }
+        public DateTime StartDate { get; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; }
 
-        public DateTime EndDate { get; set; }
+        public List<SprintDay> Days { get; }
 
-        public List<SprintDay> Days { get; set; }
+        public int WorkDaysCount { get; }
 
-        public int WorkDaysCount { get; set; }
+        public HoursValue TotalWorkHours { get; }
 
-        public HoursValue TotalWorkHours { get; set; }
+        public StoryPoints EstimatedStoryPoints { get; }
 
-        public StoryPoints EstimatedStoryPoints { get; set; }
+        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; }
 
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
+        public SprintForecast(Sprint sprint, Velocity estimatedVelocity)
+        {
+            StoryPoints estimatedStoryPoints = estimatedVelocity.IsNull
+                ? StoryPoints.Null
+                : sprint.TotalWorkHours * estimatedVelocity;
+
+            bool velocityPenaltiesExists = sprint.GetVelocityPenalties().Any();
+            HoursValue totalWorkHoursWithVelocityPenalties = sprint.TotalWorkHoursWithVelocityPenalties;
+
+            StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !velocityPenaltiesExists
+                ? StoryPoints.Null
+                : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
+
+            SprintName = sprint.Name;
+            StartDate = sprint.StartDate;
+            EndDate = sprint.EndDate;
+            Days = sprint.EnumerateAllDays().ToList();
+            WorkDaysCount = sprint.CountWorkDays();
+            TotalWorkHours = sprint.TotalWorkHours;
+            EstimatedStoryPoints = estimatedStoryPoints;
+            EstimatedStoryPointsWithVelocityPenalties = estimatedStoryPointsWithVelocityPenalties;
+        }
     }
 }

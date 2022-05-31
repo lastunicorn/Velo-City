@@ -42,6 +42,13 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .FirstOrDefault(x => x.Number == number);
         }
 
+        public DateInterval? GetDateIntervalFor(int sprintNumber)
+        {
+            return dbContext.Sprints
+                .FirstOrDefault(x => x.Number == sprintNumber)?
+                .DateInterval;
+        }
+
         public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count)
         {
             return dbContext.Sprints
@@ -105,6 +112,13 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .OrderByDescending(x => x.StartDate)
                 .Where(x => x.State == SprintState.Closed)
                 .Take((int)count);
+        }
+
+        public Sprint GetLastClosed()
+        {
+            return dbContext.Sprints
+                .OrderByDescending(x => x.StartDate)
+                .FirstOrDefault(x => x.State == SprintState.Closed);
         }
 
         public IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate)

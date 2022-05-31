@@ -43,6 +43,16 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .ToList();
         }
 
+        public IEnumerable<OfficialHoliday> Get(DateInterval dateInterval)
+        {
+            DateTime calculatedStartDate = dateInterval.StartDate ?? DateTime.MinValue;
+            DateTime calculatedEndDate = dateInterval.EndDate ?? DateTime.MaxValue;
+
+            return dbContext.OfficialHolidays
+                .Where(x => x.Match(calculatedStartDate, calculatedEndDate))
+                .ToList();
+        }
+
         public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country)
         {
             return dbContext.OfficialHolidays

@@ -37,46 +37,38 @@ namespace DustInTheWind.VeloCity.Application.PresentForecast
 
         public Task<PresentForecastResponse> Handle(PresentForecastRequest request, CancellationToken cancellationToken)
         {
-            SprintFactory sprintFactory = new(unitOfWork, request.ExcludedTeamMembers);
-            SprintList historySprints = sprintFactory.GetLastClosed(config.AnalysisLookBack, request.ExcludedSprints).ToSprintList();
-            SprintsSpace sprintsSpace = CreateSprintsSpace(request.Date, sprintFactory);
+            Forecast forecast = CalculateForecast(request);
+            PresentForecastResponse response = CreateResponse(forecast);
 
-            Forecast forecast = new()
+            return Task.FromResult(response);
+        }
+
+        private Forecast CalculateForecast(PresentForecastRequest request)
+        {
+            Forecast forecast = new(unitOfWork)
             {
-                HistorySprints = historySprints,
-                FutureSprints = sprintsSpace.AllSprints
+                EndDate = request.EndDate,
+                AnalysisLookBack = config.AnalysisLookBack,
+                ExcludedSprints = request.ExcludedSprints,
+                ExcludedTeamMembers = request.ExcludedTeamMembers
             };
             forecast.Calculate();
 
-            PresentForecastResponse response = new()
+            return forecast;
+        }
+
+        private static PresentForecastResponse CreateResponse(Forecast forecast)
+        {
+            return new PresentForecastResponse
             {
-                StartDate = sprintsSpace.ActualStartDate,
-                EndDate = sprintsSpace.ActualEndDate,
+                StartDate = forecast.ActualStartDate,
+                EndDate = forecast.ActualEndDate,
                 TotalWorkHours = forecast.TotalWorkHours,
                 EstimatedVelocity = forecast.EstimatedVelocity,
                 EstimatedStoryPoints = forecast.EstimatedStoryPoints,
                 EstimatedStoryPointsWithVelocityPenalties = forecast.EstimatedStoryPointsWithVelocityPenalties,
                 Sprints = forecast.ForecastSprints
             };
-
-            return Task.FromResult(response);
-        }
-
-        private static SprintsSpace CreateSprintsSpace(DateTime? requestedEndDate, SprintFactory sprintFactory)
-        {
-            Sprint currentSprint = sprintFactory.GetCurrentSprint();
-
-            DateTime startDate = currentSprint.EndDate.AddDays(1);
-            DateTime endDate = requestedEndDate ?? startDate.AddDays(30);
-
-            SprintsSpace sprintsSpace = new(sprintFactory)
-            {
-                DateInterval = new DateInterval(startDate, endDate),
-                ExistingSprints = sprintFactory.GetExistingSprints(startDate, endDate)
-            };
-            sprintsSpace.GenerateMissingSprints();
-
-            return sprintsSpace;
         }
     }
 }

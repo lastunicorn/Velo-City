@@ -16,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.Domain
@@ -24,12 +23,10 @@ namespace DustInTheWind.VeloCity.Domain
     public class SprintFactory
     {
         private readonly IUnitOfWork unitOfWork;
-        private readonly IReadOnlyCollection<string> excludedTeamMembers;
 
-        public SprintFactory(IUnitOfWork unitOfWork, IReadOnlyCollection<string> excludedTeamMembers)
+        public SprintFactory(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.excludedTeamMembers = excludedTeamMembers;
         }
 
         public Sprint GenerateImaginarySprint(DateTime startDate, DateTime endDate)
@@ -39,57 +36,22 @@ namespace DustInTheWind.VeloCity.Domain
                 DateInterval = new DateInterval(startDate, endDate)
             };
 
-            IEnumerable<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll();
-            sprint.OfficialHolidays.AddRange(officialHolidays);
-
-            RetrieveSprintMembersFor(sprint);
+            PopulateOfficialHolidays(sprint);
+            PopulateSprintMembers(sprint);
 
             return sprint;
         }
 
-        public List<Sprint> GetExistingSprints(DateTime startDate, DateTime endDate)
+        private void PopulateOfficialHolidays(Sprint sprint)
         {
-            List<Sprint> sprints = unitOfWork.SprintRepository.Get(startDate, endDate).ToList();
-
-            foreach (Sprint futureSprint in sprints)
-            {
-                IEnumerable<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll();
-                futureSprint.OfficialHolidays.AddRange(officialHolidays);
-            }
-
-            return sprints;
+            IEnumerable<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.Get(sprint.DateInterval);
+            sprint.OfficialHolidays.AddRange(officialHolidays);
         }
 
-        public Sprint GetCurrentSprint()
+        private void PopulateSprintMembers(Sprint sprint)
         {
-            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
-
-            if (currentSprint == null)
-                currentSprint = unitOfWork.SprintRepository.GetLast();
-
-            if (currentSprint == null)
-                throw new NoSprintException();
-
-            return currentSprint;
-        }
-
-        public List<Sprint> GetLastClosed(uint count, List<int> excludedSprints)
-        {
-            bool excludedSprintsExists = excludedSprints is { Count: > 0 };
-
-            List<Sprint> sprints = excludedSprintsExists
-                ? unitOfWork.SprintRepository.GetLastClosed(count, excludedSprints).ToList()
-                : unitOfWork.SprintRepository.GetLastClosed(count).ToList();
-
-            return sprints;
-        }
-
-        private void RetrieveSprintMembersFor(Sprint sprint)
-        {
-            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval, excludedTeamMembers);
-
-            foreach (TeamMember teamMember in teamMembers)
-                sprint.AddSprintMember(teamMember);
+            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval);
+            sprint.AddSprintMembers(teamMembers);
         }
     }
 }

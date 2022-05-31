@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Application.PresentForecast
 {
     public class PresentForecastRequest : IRequest<PresentForecastResponse>
     {
-        public DateTime? Date { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public List<int> ExcludedSprints { get; set; }
 

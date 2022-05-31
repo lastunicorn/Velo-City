@@ -180,8 +180,21 @@ namespace DustInTheWind.VeloCity.Domain
 
         public void AddSprintMember(TeamMember teamMember)
         {
+            if (teamMember == null) throw new ArgumentNullException(nameof(teamMember));
+
             SprintMember sprintMember = teamMember.ToSprintMember(this);
             allSprintMembers.Add(sprintMember);
+        }
+
+        public void AddSprintMembers(IEnumerable<TeamMember> teamMembers)
+        {
+            if (teamMembers == null) throw new ArgumentNullException(nameof(teamMembers));
+
+            foreach (TeamMember teamMember in teamMembers)
+            {
+                SprintMember sprintMember = teamMember.ToSprintMember(this);
+                allSprintMembers.Add(sprintMember);
+            }
         }
 
         public List<VelocityPenaltyInstance> GetVelocityPenalties()

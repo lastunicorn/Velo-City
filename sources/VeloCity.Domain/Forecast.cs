@@ -17,14 +17,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.Domain
 {
     public class Forecast
     {
-        public SprintList HistorySprints { get; set; }
+        private readonly IUnitOfWork unitOfWork;
 
-        public SprintList FutureSprints { get; set; }
+        public DateTime? EndDate { get; set; }
+
+        public uint AnalysisLookBack { get; set; }
+
+        public List<int> ExcludedSprints { get; set; }
+
+        public List<string> ExcludedTeamMembers { get; set; }
+
+        public SprintList HistorySprints { get; private set; }
+
+        public SprintList FutureSprints { get; private set; }
+
+        public DateTime ActualStartDate => FutureSprints.FirstOrDefault()?.StartDate ?? DateTime.MinValue;
+
+        public DateTime ActualEndDate => FutureSprints.LastOrDefault()?.EndDate ?? DateTime.MinValue;
 
         public HoursValue TotalWorkHours { get; private set; }
 
@@ -36,10 +51,21 @@ namespace DustInTheWind.VeloCity.Domain
 
         public List<SprintForecast> ForecastSprints { get; private set; }
 
+        public Forecast(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        }
+
         public void Calculate()
         {
-            if (HistorySprints == null || HistorySprints.Count == 0)
-                throw new Exception("History sprints were not provided. They are needed to calculate the estimated velocity.");
+            Sprint referenceSprint = GetReferenceSprint();
+            HistorySprints = RetrievePreviousSprints(referenceSprint);
+
+            SprintsSpace sprintsSpace = CreateSprintsSpace(referenceSprint);
+            FutureSprints = sprintsSpace.ToSprintList();
+
+            foreach (Sprint futureSprint in FutureSprints)
+                futureSprint.ExcludedTeamMembers = ExcludedTeamMembers;
 
             EstimatedVelocity = HistorySprints.CalculateAverageVelocity();
 
@@ -47,7 +73,7 @@ namespace DustInTheWind.VeloCity.Domain
                 throw new Exception("Error calculating the estimated velocity.");
 
             ForecastSprints = FutureSprints
-                .Select(x => ToSprintForecast(x, EstimatedVelocity))
+                .Select(x => new SprintForecast(x, EstimatedVelocity))
                 .ToList();
 
             TotalWorkHours = FutureSprints.Sum(x => x.TotalWorkHours);
@@ -66,30 +92,55 @@ namespace DustInTheWind.VeloCity.Domain
                 : StoryPoints.Null;
         }
 
-        private static SprintForecast ToSprintForecast(Sprint sprint, Velocity estimatedVelocity)
+        public Sprint GetReferenceSprint()
         {
-            StoryPoints estimatedStoryPoints = estimatedVelocity.IsNull
-                ? StoryPoints.Null
-                : sprint.TotalWorkHours * estimatedVelocity;
+            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
 
-            bool velocityPenaltiesExists = sprint.GetVelocityPenalties().Any();
-            HoursValue totalWorkHoursWithVelocityPenalties = sprint.TotalWorkHoursWithVelocityPenalties;
+            if (currentSprint == null)
+                currentSprint = unitOfWork.SprintRepository.GetLastClosed();
 
-            StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !velocityPenaltiesExists
-                ? StoryPoints.Null
-                : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
+            if (currentSprint == null)
+                throw new NoSprintException();
 
-            return new SprintForecast
+            currentSprint.ExcludedTeamMembers = ExcludedTeamMembers;
+
+            return currentSprint;
+        }
+
+        private SprintList RetrievePreviousSprints(Sprint referenceSprint)
+        {
+            bool excludedSprintsExists = ExcludedSprints is { Count: > 0 };
+
+            IEnumerable<Sprint> sprints = excludedSprintsExists
+                ? unitOfWork.SprintRepository.GetClosedSprintsBefore(referenceSprint.Number, AnalysisLookBack, ExcludedSprints)
+                : unitOfWork.SprintRepository.GetClosedSprintsBefore(referenceSprint.Number, AnalysisLookBack);
+
+            SprintList sprintList = sprints.ToSprintList();
+
+            if (sprintList.Count == 0)
+                throw new Exception("There are no history sprints. The forecast calculation cannot proceed. History sprints are needed to calculate the estimated velocity.");
+
+            foreach (Sprint sprint in sprintList)
+                sprint.ExcludedTeamMembers = ExcludedTeamMembers;
+
+            return sprintList;
+        }
+
+        private SprintsSpace CreateSprintsSpace(Sprint referenceSprint)
+        {
+            const int defaultSprintSize = 14;
+
+            DateTime calculatedStartDate = referenceSprint.EndDate.AddDays(1);
+            DateTime calculatedEndDate = EndDate ?? referenceSprint.EndDate.AddDays(defaultSprintSize * 3);
+
+            SprintFactory sprintFactory = new(unitOfWork);
+
+            return new SprintsSpace(sprintFactory)
             {
-                Number = sprint.Number,
-                IsRealSprint = sprint.Number > 0,
-                StartDate = sprint.StartDate,
-                EndDate = sprint.EndDate,
-                Days = sprint.EnumerateAllDays().ToList(),
-                WorkDaysCount = sprint.CountWorkDays(),
-                TotalWorkHours = sprint.TotalWorkHours,
-                EstimatedStoryPoints = estimatedStoryPoints,
-                EstimatedStoryPointsWithVelocityPenalties = estimatedStoryPointsWithVelocityPenalties
+                DefaultSprintSize = defaultSprintSize,
+                DateInterval = new DateInterval(calculatedStartDate, calculatedEndDate),
+                ExistingSprints = unitOfWork.SprintRepository.Get(calculatedStartDate, calculatedEndDate)
+                    .ToList()
             };
         }
     }

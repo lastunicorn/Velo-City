@@ -29,6 +29,6 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
 
         public RequestType RequestType { get; set; }
 
-        public DateInterval SprintTimeInterval { get; set; }
+        public DateInterval SprintDateInterval { get; set; }
     }
 }

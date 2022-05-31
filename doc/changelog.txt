@@ -3,6 +3,9 @@ Velo City
 
 v1.9.0
 ----------------------------------------------------------------------------------------------------
+- [feature] Added "date" parameter to the "vacation" command.
+- [feature] Added "analysis-look-back" parameter to the "sprint" command.
+- [feature] Repeate the recurrent vacations in each month ("vacations" command).
 
 
 v1.8.0

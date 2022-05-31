@@ -115,6 +115,15 @@ namespace DustInTheWind.VeloCity.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The sprint {0} has an invalid date interval..
+        /// </summary>
+        internal static string InvalidDateInterval_DefaultErrorMessage {
+            get {
+                return ResourceManager.GetString("InvalidDateInterval_DefaultErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is no sprint in the database..
         /// </summary>
         internal static string NoSprint_DefaultErrorMessage {

@@ -85,24 +85,22 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
                 DisplaySprintDetails(sprint);
         }
 
-        private void DisplaySprintDetails(SprintForecast sprint)
+        private void DisplaySprintDetails(SprintForecast sprintForecast)
         {
             DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = sprint.IsRealSprint
-                ? $"Sprint {sprint.Number}"
-                : "Presumed Sprint";
+            dataGrid.Title = sprintForecast.SprintName;
 
-            dataGrid.Rows.Add("Date Interval", $"{sprint.StartDate:d} - {sprint.EndDate:d}");
+            dataGrid.Rows.Add("Date Interval", $"{sprintForecast.StartDate:d} - {sprintForecast.EndDate:d}");
             dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Work Days", sprint.WorkDaysCount + " days");
-            dataGrid.Rows.Add("Work Hours", $"{sprint.TotalWorkHours}");
+            dataGrid.Rows.Add("Work Days", sprintForecast.WorkDaysCount + " days");
+            dataGrid.Rows.Add("Work Hours", $"{sprintForecast.TotalWorkHours}");
             dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Estimated Story Points", $"{sprint.EstimatedStoryPoints.ToStandardDigitsString()}");
+            dataGrid.Rows.Add("Estimated Story Points", $"{sprintForecast.EstimatedStoryPoints.ToStandardDigitsString()}");
 
-            if (!sprint.EstimatedStoryPointsWithVelocityPenalties.IsNull)
-                dataGrid.Rows.Add("Estimated Story Points (*)", $"{sprint.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
+            if (!sprintForecast.EstimatedStoryPointsWithVelocityPenalties.IsNull)
+                dataGrid.Rows.Add("Estimated Story Points (*)", $"{sprintForecast.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
 
-            AddFooter(dataGrid, sprint);
+            AddFooter(dataGrid, sprintForecast);
 
             dataGrid.Display();
         }

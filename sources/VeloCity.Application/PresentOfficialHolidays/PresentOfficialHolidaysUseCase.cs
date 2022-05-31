@@ -55,39 +55,50 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
 
         private PresentOfficialHolidaysResponse GetOfficialHolidaysBySprint(int sprintNumber, string country)
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
-
-            if (sprint == null)
-                throw new SprintDoesNotExistException(sprintNumber);
-
-            IEnumerable<OfficialHoliday> officialHolidays = country == null
-                ? unitOfWork.OfficialHolidayRepository.Get(sprint.StartDate, sprint.EndDate)
-                : unitOfWork.OfficialHolidayRepository.Get(sprint.StartDate, sprint.EndDate, country);
+            DateInterval sprintDateInterval = RetrieveSprintTimeLapse(sprintNumber);
 
             return new PresentOfficialHolidaysResponse
             {
-                OfficialHolidays = officialHolidays
-                    .SelectMany(x => x.GetInstancesFor(sprint.StartDate, sprint.EndDate))
-                    .OrderBy(x => x.Date)
-                    .ToList(),
+                OfficialHolidays = GetOfficialHolidayInstancesForDateInterval(sprintDateInterval, country),
                 RequestType = RequestType.BySprint,
-                SprintNumber = sprint.Number,
-                SprintTimeInterval = sprint.DateInterval
+                SprintNumber = sprintNumber,
+                SprintDateInterval = sprintDateInterval
             };
+        }
+
+        private DateInterval RetrieveSprintTimeLapse(int sprintNumber)
+        {
+            DateInterval? sprintDateInterval = unitOfWork.SprintRepository.GetDateIntervalFor(sprintNumber);
+
+            if (sprintDateInterval == null)
+                throw new SprintDoesNotExistException(sprintNumber);
+
+            if (sprintDateInterval.Value.IsHalfInfinite)
+                throw new InvalidDateIntervalException(sprintNumber);
+
+            return sprintDateInterval.Value;
+        }
+
+        private List<OfficialHolidayInstance> GetOfficialHolidayInstancesForDateInterval(DateInterval dateInterval, string country)
+        {
+            DateTime startDate = dateInterval.StartDate!.Value;
+            DateTime endDate = dateInterval.EndDate!.Value;
+
+            IEnumerable<OfficialHoliday> officialHolidays = country == null
+                ? unitOfWork.OfficialHolidayRepository.Get(startDate, endDate)
+                : unitOfWork.OfficialHolidayRepository.Get(startDate, endDate, country);
+
+            return officialHolidays
+                .SelectMany(x => x.GetInstancesFor(startDate, endDate))
+                .OrderBy(x => x.Date)
+                .ToList();
         }
 
         private PresentOfficialHolidaysResponse GetOfficialHolidaysByYear(int year, string country)
         {
-            IEnumerable<OfficialHoliday> officialHolidays = country == null
-                ? unitOfWork.OfficialHolidayRepository.GetByYear(year)
-                : unitOfWork.OfficialHolidayRepository.GetByYear(year, country);
-
             return new PresentOfficialHolidaysResponse
             {
-                OfficialHolidays = officialHolidays
-                    .Select(x => x.GetInstanceFor(year))
-                    .OrderBy(x => x.Date)
-                    .ToList(),
+                OfficialHolidays = GetOfficialHolidayInstancesForYear(year, country),
                 RequestType = RequestType.ByYear,
                 Year = year
             };
@@ -97,19 +108,24 @@ namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
         {
             int currentYear = systemClock.Today.Year;
 
-            IEnumerable<OfficialHoliday> officialHolidays = country == null
-                ? unitOfWork.OfficialHolidayRepository.GetByYear(currentYear)
-                : unitOfWork.OfficialHolidayRepository.GetByYear(currentYear, country);
-
             return new PresentOfficialHolidaysResponse
             {
-                OfficialHolidays = officialHolidays
-                    .Select(x => x.GetInstanceFor(currentYear))
-                    .OrderBy(x => x.Date)
-                    .ToList(),
+                OfficialHolidays = GetOfficialHolidayInstancesForYear(currentYear, country),
                 RequestType = RequestType.ByCurrentYear,
                 Year = currentYear
             };
+        }
+
+        private List<OfficialHolidayInstance> GetOfficialHolidayInstancesForYear(int year, string country)
+        {
+            IEnumerable<OfficialHoliday> officialHolidays = country == null
+                ? unitOfWork.OfficialHolidayRepository.GetByYear(year)
+                : unitOfWork.OfficialHolidayRepository.GetByYear(year, country);
+
+            return officialHolidays
+                .Select(x => x.GetInstanceFor(year))
+                .OrderBy(x => x.Date)
+                .ToList();
         }
     }
 }

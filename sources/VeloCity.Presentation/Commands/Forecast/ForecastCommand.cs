@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
         {
             PresentForecastRequest request = new()
             {
-                Date = Date
+                EndDate = Date
             };
             PresentForecastResponse response = await mediator.Send(request);
 

@@ -15,12 +15,13 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public class SprintsSpace
+    public class SprintsSpace : IEnumerable<Sprint>
     {
         private readonly SprintFactory sprintFactory;
 
@@ -30,98 +31,136 @@ namespace DustInTheWind.VeloCity.Domain
 
         public int DefaultSprintSize { get; set; } = 14;
 
-        public DateTime ActualStartDate { get; private set; }
-
-        public DateTime ActualEndDate { get; private set; }
-
-        public SprintList AllSprints { get; set; }
-
         public SprintsSpace(SprintFactory sprintFactory)
         {
             this.sprintFactory = sprintFactory ?? throw new ArgumentNullException(nameof(sprintFactory));
         }
 
-        public void GenerateMissingSprints()
+        public IEnumerator<Sprint> GetEnumerator()
         {
-            if (DateInterval.IsZero)
-                throw new Exception("The forecast interval cannot be zero.");
-
-            DateTime startDate = DateInterval.StartDate ?? DateTime.MinValue;
-            DateTime endDate = DateInterval.EndDate ?? DateTime.MaxValue;
-
-            AllSprints = GenerateSprints(startDate, endDate).ToSprintList();
-
-            Sprint firstSprint = AllSprints.First();
-            Sprint lastSprint = AllSprints.Last();
-
-            ActualStartDate = firstSprint.StartDate;
-            ActualEndDate = lastSprint.EndDate;
+            return new SprintEnumerator(this);
         }
 
-        private IEnumerable<Sprint> GenerateSprints(DateTime startDate, DateTime endDate)
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            List<Sprint> orderedExistingSprints = ExistingSprints
-                .OrderBy(x => x.StartDate)
-                .ToList();
+            return GetEnumerator();
+        }
 
-            DateTime currentDate = startDate;
-            using IEnumerator<Sprint> existingSprintEnumerator = orderedExistingSprints.GetEnumerator();
-            bool existsMoreSprints = existingSprintEnumerator.MoveNext();
+        private class SprintEnumerator : IEnumerator<Sprint>
+        {
+            private readonly SprintsSpace sprintsSpace;
 
-            while (existsMoreSprints && (existingSprintEnumerator.Current == null || existingSprintEnumerator.Current.StartDate < currentDate))
+            private bool isFirstCall = true;
+            private int lastSprintNumber;
+            private DateTime nextStartDate;
+            private DateTime endDate;
+            private IEnumerator<Sprint> existingSprintsEnumerator;
+            private bool moreSprintsExist;
+            private Sprint existingSprint;
+
+            public Sprint Current { get; private set; }
+
+            object IEnumerator.Current => Current;
+
+            public SprintEnumerator(SprintsSpace sprintsSpace)
             {
-                existsMoreSprints = existingSprintEnumerator.MoveNext();
+                this.sprintsSpace = sprintsSpace ?? throw new ArgumentNullException(nameof(sprintsSpace));
             }
 
-            while (currentDate <= endDate)
+            public bool MoveNext()
             {
-                if (existsMoreSprints)
+                if (isFirstCall)
                 {
-                    if (existingSprintEnumerator.Current.StartDate == currentDate)
+                    Initialize();
+                    isFirstCall = false;
+                }
+
+                if (nextStartDate > endDate)
+                    return false;
+
+                if (moreSprintsExist)
+                {
+                    if (existingSprint.StartDate == nextStartDate)
                     {
-                        yield return existingSprintEnumerator.Current;
-
-                        if (existingSprintEnumerator.Current.EndDate == DateTime.MaxValue)
-                            break;
-
-                        currentDate = existingSprintEnumerator.Current.EndDate.AddDays(1);
-
-                        while (existsMoreSprints && (existingSprintEnumerator.Current == null || existingSprintEnumerator.Current.StartDate < currentDate))
-                        {
-                            existsMoreSprints = existingSprintEnumerator.MoveNext();
-                        }
+                        PromoteCurrentExistingSprint();
+                        MoveToNextExistingSprint();
+                        return true;
                     }
                     else
                     {
-                        DateTime sprintStartDate = currentDate;
+                        DateTime maxEndDate = existingSprint.StartDate.AddDays(-1);
+                        PromoteNewImaginarySprint(maxEndDate);
 
-                        int daysUntilNextSprint = (int)(existingSprintEnumerator.Current.StartDate - sprintStartDate).TotalDays;
-                        int currentSprintSize = Math.Min(DefaultSprintSize, daysUntilNextSprint + 1);
-                        DateTime sprintEndDate = sprintStartDate.AddDays(currentSprintSize - 1);
-
-                        yield return sprintFactory.GenerateImaginarySprint(sprintStartDate, sprintEndDate);
-
-                        if (sprintEndDate == DateTime.MaxValue)
-                            break;
-
-                        currentDate = sprintEndDate.AddDays(1);
+                        return true;
                     }
                 }
                 else
                 {
-                    DateTime sprintStartDate = currentDate;
-
-                    int daysUntilEndDate = (int)(endDate - sprintStartDate).TotalDays;
-                    int currentSprintSize = Math.Min(DefaultSprintSize, daysUntilEndDate + 1);
-                    DateTime sprintEndDate = sprintStartDate.AddDays(currentSprintSize - 1);
-
-                    yield return sprintFactory.GenerateImaginarySprint(sprintStartDate, sprintEndDate);
-
-                    if (sprintEndDate == DateTime.MaxValue)
-                        break;
-
-                    currentDate = sprintEndDate.AddDays(1);
+                    PromoteNewImaginarySprint(endDate);
+                    return true;
                 }
+            }
+
+            private void Initialize()
+            {
+                lastSprintNumber = 0;
+
+                nextStartDate = sprintsSpace.DateInterval.StartDate ?? DateTime.MinValue;
+                endDate = sprintsSpace.DateInterval.EndDate ?? DateTime.MaxValue;
+
+                existingSprintsEnumerator = sprintsSpace.ExistingSprints
+                    .OrderBy(x => x.StartDate)
+                    .GetEnumerator();
+
+                moreSprintsExist = true;
+                existingSprint = null;
+
+                MoveToNextExistingSprint();
+            }
+
+            private void MoveToNextExistingSprint()
+            {
+                moreSprintsExist = existingSprintsEnumerator.MoveNext();
+                existingSprint = existingSprintsEnumerator.Current;
+
+                while (moreSprintsExist && (existingSprint == null || existingSprint.StartDate < nextStartDate))
+                {
+                    moreSprintsExist = existingSprintsEnumerator.MoveNext();
+                    existingSprint = existingSprintsEnumerator.Current;
+                }
+            }
+
+            private void PromoteCurrentExistingSprint()
+            {
+                lastSprintNumber = existingSprint.Number;
+                Current = existingSprint;
+
+                nextStartDate = existingSprint.EndDate.AddDays(1);
+            }
+
+            private void PromoteNewImaginarySprint(DateTime maxEndDate)
+            {
+                int daysUntilNextSprint = (int)(maxEndDate - nextStartDate).TotalDays;
+                int currentSprintSize = Math.Min(sprintsSpace.DefaultSprintSize, daysUntilNextSprint + 1);
+                DateTime sprintEndDate = nextStartDate.AddDays(currentSprintSize - 1);
+
+                Sprint nextSprint = sprintsSpace.sprintFactory.GenerateImaginarySprint(nextStartDate, sprintEndDate);
+                lastSprintNumber++;
+                nextSprint.Number = lastSprintNumber;
+                nextSprint.Name = $"Sprint {lastSprintNumber} (Presumed)";
+                Current = nextSprint;
+
+                nextStartDate = sprintEndDate.AddDays(1);
+            }
+
+            public void Reset()
+            {
+                Initialize();
+            }
+
+            public void Dispose()
+            {
+                existingSprintsEnumerator?.Dispose();
             }
         }
     }

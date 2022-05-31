@@ -37,12 +37,6 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Where(x => x.Employments?.Any(e => e.ContainsDate(date)) ?? false);
         }
 
-        public IEnumerable<TeamMember> GetByDateInterval(DateTime? startDate, DateTime? endDate)
-        {
-            return dbContext.TeamMembers
-                .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(startDate, endDate)) ?? false);
-        }
-
         public IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null)
         {
             IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers

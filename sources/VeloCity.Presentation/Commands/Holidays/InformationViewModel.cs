@@ -32,7 +32,7 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
         {
             return response.RequestType switch
             {
-                RequestType.BySprint => $"The official holidays for the sprint {response.SprintNumber} ({response.SprintTimeInterval}):",
+                RequestType.BySprint => $"The official holidays for the sprint {response.SprintNumber} ({response.SprintDateInterval}):",
                 RequestType.ByYear => $"The official holidays for the year {response.Year}:",
                 RequestType.ByCurrentYear => $"The official holidays for the current year {response.Year}:",
                 _ => throw new ArgumentOutOfRangeException()

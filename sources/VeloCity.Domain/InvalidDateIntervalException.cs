@@ -16,14 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Application.PresentVacations
+namespace DustInTheWind.VeloCity.Domain
 {
-    internal class TeamMemberNotFoundException : Exception
+    public class InvalidDateIntervalException : Exception
     {
-        private const string DefaultMessage = "No team member was found in the database with name '{0}'.";
-
-        public TeamMemberNotFoundException(string teamMemberName)
-            : base(string.Format(DefaultMessage, teamMemberName))
+        public InvalidDateIntervalException(int sprintNumber)
+            : base(string.Format(Resources.InvalidDateInterval_DefaultErrorMessage, sprintNumber))
         {
         }
     }

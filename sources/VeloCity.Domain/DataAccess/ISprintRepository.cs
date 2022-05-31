@@ -38,7 +38,11 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints);
 
         IEnumerable<Sprint> GetLastClosed(uint count);
+        
+        Sprint GetLastClosed();
 
         IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
+        
+        DateInterval? GetDateIntervalFor(int sprintNumber);
     }
 }
