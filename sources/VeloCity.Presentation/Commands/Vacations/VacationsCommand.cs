@@ -32,13 +32,12 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
         [CommandParameter(Name = "name", ShortName = 'n', Order = 1, IsOptional = true)]
         public string PersonName { get; set; }
 
+        [CommandParameter(Name = "date", ShortName = 'd', IsOptional = true)]
+        public DateTime? Date { get; set; }
+
         public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }
 
         public RequestType RequestType { get; private set; }
-
-        public string RequestedTeamMemberName { get; private set; }
-        
-        public DateTime RequestedDate { get; private set; }
 
         public VacationsCommand(IMediator mediator)
         {
@@ -49,7 +48,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
         {
             PresentVacationsRequest request = new()
             {
-                TeamMemberName = PersonName
+                TeamMemberName = PersonName,
+                Date = Date
             };
 
             PresentVacationsResponse response = await mediator.Send(request);
@@ -59,10 +59,8 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
                 .ToList();
 
             RequestType = response.RequestType;
-
-            RequestedTeamMemberName = response.RequestedTeamMemberName;
-
-            RequestedDate = response.RequestedDate;
+            PersonName = response.RequestedTeamMemberName;
+            Date = response.RequestedDate;
         }
     }
 }

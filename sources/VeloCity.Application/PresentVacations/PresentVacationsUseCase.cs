@@ -44,9 +44,13 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
 
         private PresentVacationsResponse CreateResponse(PresentVacationsRequest request)
         {
-            return request.TeamMemberName != null
-                ? GetVacationsByTeamMember(request.TeamMemberName)
-                : GetVacationsByCurrentDate(systemClock.Today);
+            if (request.TeamMemberName != null)
+                return GetVacationsByTeamMember(request.TeamMemberName);
+
+            if (request.Date != null)
+                return GetVacationsByDate(request.Date.Value);
+
+            return GetVacationsByDate(systemClock.Today);
         }
 
         private PresentVacationsResponse GetVacationsByTeamMember(string teamMemberName)
@@ -55,31 +59,28 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
 
             return new PresentVacationsResponse
             {
-                TeamMemberVacations = SortAndConvertToVacations(teamMembers),
+                TeamMemberVacations = teamMembers
+                    .OrderByEmployment()
+                    .Select(x => new TeamMemberVacations(x))
+                    .ToList(),
                 RequestType = RequestType.ByName,
                 RequestedTeamMemberName = teamMemberName
             };
         }
 
-        private PresentVacationsResponse GetVacationsByCurrentDate(DateTime date)
+        private PresentVacationsResponse GetVacationsByDate(DateTime date)
         {
             IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDate(date);
 
             return new PresentVacationsResponse
             {
-                TeamMemberVacations = SortAndConvertToVacations(teamMembers),
+                TeamMemberVacations = teamMembers
+                    .OrderByEmployment()
+                    .Select(x => new TeamMemberVacations(x))
+                    .ToList(),
                 RequestType = RequestType.ByCurrentDate,
                 RequestedDate = date
             };
-        }
-
-        private static List<TeamMemberVacations> SortAndConvertToVacations(IEnumerable<TeamMember> teamMembers)
-        {
-            return teamMembers
-                .OrderBy(x => x.Employments?.GetLastEmploymentBatch()?.StartDate)
-                .ThenBy(x => x.Name)
-                .Select(x => new TeamMemberVacations(x))
-                .ToList();
         }
     }
 }

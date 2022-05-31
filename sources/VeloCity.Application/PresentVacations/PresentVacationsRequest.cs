@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Application.PresentVacations
@@ -21,5 +22,7 @@ namespace DustInTheWind.VeloCity.Application.PresentVacations
     public class PresentVacationsRequest : IRequest<PresentVacationsResponse>
     {
         public string TeamMemberName { get; set; }
+        
+        public DateTime? Date { get; set; }
     }
 }

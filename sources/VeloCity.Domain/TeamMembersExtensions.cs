@@ -17,11 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Domain
 {
-    internal static class TeamMembersExtensions
+    public static class TeamMembersExtensions
     {
         public static IEnumerable<TeamMember> OrderByEmploymentForDate(this IEnumerable<TeamMember> teamMembers, DateTime? date = null)
         {
@@ -45,6 +44,13 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
                     Employment employment = x.Employments.GetEmploymentBatchFor(date).LastOrDefault();
                     return employment?.TimeInterval.StartDate;
                 })
+                .ThenBy(x => x.Name);
+        }
+
+        public static IEnumerable<TeamMember> OrderByEmployment(this IEnumerable<TeamMember> teamMembers)
+        {
+            return teamMembers
+                .OrderBy(x => x.Employments?.GetLastEmploymentBatch()?.StartDate)
                 .ThenBy(x => x.Name);
         }
     }

@@ -61,12 +61,12 @@ namespace DustInTheWind.VeloCity.Domain
             return employments.Values.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
         }
 
-        public IEnumerable<Employment> GetEmploymentBatchFor(DateTime date)
+        public EmploymentBatch GetEmploymentBatchFor(DateTime date)
         {
             EmploymentBatch matchingBatch = GetEmploymentBatches()
                 .FirstOrDefault(x => x.ContainsDate(date));
 
-            return matchingBatch ?? Enumerable.Empty<Employment>();
+            return matchingBatch ?? new EmploymentBatch();
         }
 
         public EmploymentBatch GetLastEmploymentBatch()

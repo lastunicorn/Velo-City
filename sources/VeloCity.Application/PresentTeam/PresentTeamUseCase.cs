@@ -57,8 +57,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
         {
             return new PresentTeamResponse
             {
-                TeamMembers = unitOfWork.TeamMemberRepository.GetByDate(date)
-                    .OrderByEmploymentForDate(date)
+                TeamMembers = TeamMembersExtensions.OrderByEmploymentForDate(unitOfWork.TeamMemberRepository.GetByDate(date), date)
                     .ToList(),
                 ResponseType = TeamResponseType.Date,
                 Date = date
@@ -69,8 +68,7 @@ namespace DustInTheWind.VeloCity.Application.PresentTeam
         {
             return new PresentTeamResponse
             {
-                TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval)
-                    .OrderByEmploymentForDate(dateInterval.StartDate)
+                TeamMembers = TeamMembersExtensions.OrderByEmploymentForDate(unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval), dateInterval.StartDate)
                     .ToList(),
                 ResponseType = TeamResponseType.DateInterval,
                 DateInterval = dateInterval

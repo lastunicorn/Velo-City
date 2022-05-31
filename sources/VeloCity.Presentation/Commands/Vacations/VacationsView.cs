@@ -40,24 +40,24 @@ namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
                 case RequestType.ByName:
                     if (command.TeamMemberVacations.Count == 0)
                     {
-                        CustomConsole.WriteLineWarning($"No team member was found with name '{command.RequestedTeamMemberName}'.");
+                        CustomConsole.WriteLineWarning($"No team member was found with name '{command.PersonName}'.");
                         return;
                     }
                     else
                     {
-                        CustomConsole.WriteLine($"Vacations for team member '{command.RequestedTeamMemberName}':");
+                        CustomConsole.WriteLine($"Vacations for team member '{command.PersonName}':");
                     }
                     break;
 
                 case RequestType.ByCurrentDate:
                     if (command.TeamMemberVacations.Count == 0)
                     {
-                        CustomConsole.WriteLineWarning($"No team member is active at date {command.RequestedDate:yyyy MM dd}.");
+                        CustomConsole.WriteLineWarning($"No team member is active at date {command.Date:yyyy MM dd}.");
                         return;
                     }
                     else
                     {
-                        CustomConsole.WriteLine($"Vacations for all the team members active at {command.RequestedDate:yyyy MM dd}:");
+                        CustomConsole.WriteLine($"Vacations for all the team members active at {command.Date:yyyy MM dd}:");
                     }
                     break;
             }
