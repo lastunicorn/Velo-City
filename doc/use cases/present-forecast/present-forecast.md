@@ -14,15 +14,15 @@
 
 1. Create a forecast.
 
-   - Get the reference sprint
+   - 1.1 Get the reference sprint
      - The last in-progress sprint or the last closed sprint if none is in progress.
 
-   - Retrieve previous sprints.
-   - Generate future sprints.
-   - Estimate the velocity for the future sprints.
-   - Calculate the total work hours for the future sprints.
-   - Estimate the SP that can be burn in the future sprints.
-   - Estimate the SP that can be burn in the future sprints taking into account the velocity penalties.
+   - 1.2 Retrieve previous sprints.
+   - 1.3 Estimate the velocity for the future sprints.
+   - 1.4 Generate future sprints.
+   - 1.5 Calculate the total work hours for the future sprints.
+   - 1.6 Estimate the SP that can be burn in the future sprints.
+   - 1.7 Estimate the SP that can be burn in the future sprints taking into account the velocity penalties.
 
 2. Return the calculated data.
 
