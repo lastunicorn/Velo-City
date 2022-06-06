@@ -24,7 +24,7 @@
 **Response**:
 
 - The vacations for all matching team members.
-- The date for which the response is calculated.
+- The team member name.
 
 **Diagram**:
 
@@ -34,8 +34,9 @@
 
 **Steps**:
 
-1. Retrieve, from the data storage, the team members active in the specified date interval.
+1. Retrieve, from the data storage, the team members active in the specified date.
 2. Sort them in ascending order by last employment date.
+3. Create the vacation list for each team member.
 
 **Errors**:
 
@@ -44,60 +45,32 @@
 
 **Response**:
 
-- The list of team members ordered by last employment date.
-- The date interval for which the response is calculated.
+- The vacations for all matching team members.
+- The date.
 
 **Diagram**:
 
 ![Diagram](present-team-by-date.drawio.png)
 
-## If SprintNumber is provided
-
-**Steps**:
-
-1. Retrieve, from the data storage, the sprint with the specified number.
-2. Retrieve, from the data storage, the team members active in the sprint's date interval.
-3. Sort them in ascending order by last employment date.
-
-**Errors**:
-
-- Database cannot be opened
-  - `DataAccessException`
-- Sprint with specified number does not exist.
-  - `SprintDoesNotExistException`
-
-
-**Response**:
-
-- The list of team members ordered by last employment date.
-- The sprint's number.
-- The sprint's date interval.
-
-**Diagram**:
-
-![Diagram](present-team-by-sprint.drawio.png)
-
 ## If request is empty
 
-**Steps**:
+- **Steps**:
 
-1. Retrieve, from the data storage, the current sprint.
-2. Retrieve, from the data storage, the team members active in the sprint's date interval.
-3. Sort them in ascending order by last employment date.
+  1. Retrieve the current date from the system.
+  2. Retrieve, from the data storage, the team members active in the current date.
+  3. Sort them in ascending order by last employment date.
+  4. Create the vacation list for each team member.
 
-**Errors**:
+  **Errors**:
 
-- Database cannot be opened
-  - `DataAccessException`
-- There is no sprint in progress.
-  - `NoSprintException`
+  - Database cannot be opened
+    - `DataAccessException`
 
-**Response**:
+  **Response**:
 
-- The list of team members ordered by last employment date.
-- The sprint's number.
-- The date interval of the sprint.
+  - The vacations for all matching team members.
+  - The date (today).
 
 **Diagram**:
 
-![Diagram](present-team-by-current-sprint.drawio.png)
+![Diagram](present-team-by-current-date.drawio.png)

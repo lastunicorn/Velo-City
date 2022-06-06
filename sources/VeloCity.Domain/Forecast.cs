@@ -32,9 +32,7 @@ namespace DustInTheWind.VeloCity.Domain
         public List<int> ExcludedSprints { get; set; }
 
         public List<string> ExcludedTeamMembers { get; set; }
-
-        public SprintList HistorySprints { get; private set; }
-
+        
         public SprintList FutureSprints { get; private set; }
 
         public DateTime ActualStartDate => FutureSprints.FirstOrDefault()?.StartDate ?? DateTime.MinValue;
@@ -59,18 +57,14 @@ namespace DustInTheWind.VeloCity.Domain
         public void Calculate()
         {
             Sprint referenceSprint = GetReferenceSprint();
-            HistorySprints = RetrievePreviousSprints(referenceSprint);
 
-            SprintsSpace sprintsSpace = CreateSprintsSpace(referenceSprint);
-            FutureSprints = sprintsSpace.ToSprintList();
+            SprintList historySprints = RetrievePreviousSprints(referenceSprint);
+            EstimatedVelocity = EstimateVelocity(historySprints);
+            
+            FutureSprints = GenerateFutureSprints(referenceSprint);
 
             foreach (Sprint futureSprint in FutureSprints)
                 futureSprint.ExcludedTeamMembers = ExcludedTeamMembers;
-
-            EstimatedVelocity = HistorySprints.CalculateAverageVelocity();
-
-            if (EstimatedVelocity.IsNull)
-                throw new Exception("Error calculating the estimated velocity.");
 
             ForecastSprints = FutureSprints
                 .Select(x => new SprintForecast(x, EstimatedVelocity))
@@ -126,7 +120,17 @@ namespace DustInTheWind.VeloCity.Domain
             return sprintList;
         }
 
-        private SprintsSpace CreateSprintsSpace(Sprint referenceSprint)
+        private static Velocity EstimateVelocity(SprintList historySprints)
+        {
+            Velocity estimatedVelocity = historySprints.CalculateAverageVelocity();
+
+            if (estimatedVelocity.IsNull)
+                throw new Exception("Error calculating the estimated velocity.");
+
+            return estimatedVelocity;
+        }
+
+        private SprintList GenerateFutureSprints(Sprint referenceSprint)
         {
             const int defaultSprintSize = 14;
 
@@ -134,14 +138,15 @@ namespace DustInTheWind.VeloCity.Domain
             DateTime calculatedEndDate = EndDate ?? referenceSprint.EndDate.AddDays(defaultSprintSize * 3);
 
             SprintFactory sprintFactory = new(unitOfWork);
-
-            return new SprintsSpace(sprintFactory)
+            SprintsSpace sprintsSpace = new(sprintFactory)
             {
                 DefaultSprintSize = defaultSprintSize,
                 DateInterval = new DateInterval(calculatedStartDate, calculatedEndDate),
                 ExistingSprints = unitOfWork.SprintRepository.Get(calculatedStartDate, calculatedEndDate)
                     .ToList()
             };
+
+            return sprintsSpace.ToSprintList();
         }
     }
 }
