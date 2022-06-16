@@ -14,19 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Reflection;
 using Autofac;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
-using DustInTheWind.VeloCity.Presentation;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
+using DustInTheWind.VeloCity.SettingsAccess;
+using DustInTheWind.VeloCity.SystemAccess;
+using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
+using DustInTheWind.VeloCity.Wpf.Presentation;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
-namespace DustInTheWind.VeloCity.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
 {
     internal class SetupServices
     {
@@ -40,29 +40,17 @@ namespace DustInTheWind.VeloCity.Bootstrapper
 
         private static void ConfigureServices(ContainerBuilder containerBuilder)
         {
-            Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
+            Assembly assembly = typeof(PresentMainViewRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
 
             containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
             containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
-            containerBuilder.RegisterType<CommandRouter>().AsSelf();
-            containerBuilder.RegisterType<CommandFactory>().As<ICommandFactory>();
-
-            AvailableCommands availableCommands = new();
-            availableCommands.LoadFromCurrentAppDomain();
-
-            containerBuilder.RegisterInstance(availableCommands).AsSelf();
-
+            
             containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
-            foreach (Type type in availableCommands.GetCommandTypes())
-                containerBuilder.RegisterType(type).AsSelf();
-
-            foreach (Type type in availableCommands.GetViewTypes())
-                containerBuilder.RegisterType(type).AsSelf();
-
-            containerBuilder.RegisterType<DataGridFactory>().AsSelf();
+            containerBuilder.RegisterType<MainWindow>().AsSelf();
+            containerBuilder.RegisterType<MainViewModel>().AsSelf();
         }
     }
 }

@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 Velo City
 Copyright (C) 2022 Dust in the Wind
 
@@ -22,20 +22,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
         <AssemblyName>velo</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Bootstrapper</RootNamespace>
+        <RootNamespace>DustInTheWind.VeloCity.Cli.Bootstrapper</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac" Version="6.3.0" />
-        <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="8.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+        <PackageReference Include="Autofac" Version="6.4.0" />
+        <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="8.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VeloCity.Application\VeloCity.Application.csproj" />
+        <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" />
+        <ProjectReference Include="..\VeloCity.Cli.Application\VeloCity.Cli.Application.csproj" />
         <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" />
-        <ProjectReference Include="..\VeloCity.Presentation\VeloCity.Presentation.csproj" />
+        <ProjectReference Include="..\VeloCity.Cli.Presentation\VeloCity.Cli.Presentation.csproj" />
+        <ProjectReference Include="..\VeloCity.SystemAccess\VeloCity.SystemAccess.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="velo-city-database.json">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 

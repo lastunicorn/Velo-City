@@ -19,19 +19,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>DustInTheWind.VeloCity.Presentation</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Presentation</RootNamespace>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <AssemblyName>DustInTheWind.VeloCity.Wpf.Presentation</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Wpf.Presentation</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ConsoleTools" Version="1.1.1" />
-        <PackageReference Include="MediatR" Version="10.0.1" />
+      <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VeloCity.Application\VeloCity.Application.csproj" />
-        <ProjectReference Include="..\VeloCity.Presentation.Infrastructure\VeloCity.Presentation.Infrastructure.csproj" />
+      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
+      <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Page Update="MainWindow.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
     </ItemGroup>
 
 </Project>

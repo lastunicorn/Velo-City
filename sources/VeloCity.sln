@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Bootstrapper", "VeloCity.Bootstrapper\VeloCity.Bootstrapper.csproj", "{FED35DE4-65E2-4777-9B52-A21B0669A680}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Cli.Bootstrapper", "VeloCity.Cli.Bootstrapper\VeloCity.Cli.Bootstrapper.csproj", "{FED35DE4-65E2-4777-9B52-A21B0669A680}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.DataAccess", "VeloCity.DataAccess\VeloCity.DataAccess.csproj", "{9C38A3FB-5029-48F3-B13E-1CF8250DAF51}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Domain", "VeloCity.Domain\VeloCity.Domain.csproj", "{00A95EAF-7616-4846-9198-7C811E49C7E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Application", "VeloCity.Application\VeloCity.Application.csproj", "{259FA603-87B7-40D9-AFA0-6FAFB6CB39F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Cli.Application", "VeloCity.Cli.Application\VeloCity.Cli.Application.csproj", "{259FA603-87B7-40D9-AFA0-6FAFB6CB39F4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.DataAccess.JsonFiles", "VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj", "{E049FF0F-68F0-4990-A476-E71E35D6EFB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Presentation", "VeloCity.Presentation\VeloCity.Presentation.csproj", "{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Cli.Presentation", "VeloCity.Cli.Presentation\VeloCity.Cli.Presentation.csproj", "{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "VeloCity.Installer", "VeloCity.Installer\VeloCity.Installer.wixproj", "{74D86E62-8460-46E9-AEC2-126F8C2285F8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -30,7 +30,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Installer.CustomAc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests", "VeloCity.Tests\VeloCity.Tests.csproj", "{6E96C113-31C2-4065-B876-023BAF251B74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Presentation.Infrastructure", "VeloCity.Presentation.Infrastructure\VeloCity.Presentation.Infrastructure.csproj", "{C8D6ED03-A4BD-4D12-AEBB-F9BBA4EC20E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Presentation.Infrastructure", "VeloCity.Presentation.Infrastructure\VeloCity.Presentation.Infrastructure.csproj", "{C8D6ED03-A4BD-4D12-AEBB-F9BBA4EC20E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Wpf.Bootstrapper", "VeloCity.Wpf.Bootstrapper\VeloCity.Wpf.Bootstrapper.csproj", "{822E656F-39EC-4858-884E-E046D52D4C4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Wpf.Presentation", "VeloCity.Wpf.Presentation\VeloCity.Wpf.Presentation.csproj", "{03D04179-6A41-4AA4-A57E-689B67FE42C2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Wpf.Application", "VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj", "{642279F1-84BE-432C-BFB9-69D9C2EA41D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleApplication", "ConsoleApplication", "{2CCB7854-35D5-4458-BF4C-69FE17B90DCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WpfApplication", "WpfApplication", "{A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.SettingsAccess", "VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj", "{D4CB08F2-9C75-41BB-869E-DD51353CD847}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.SystemAccess", "VeloCity.SystemAccess\VeloCity.SystemAccess.csproj", "{2A16E17B-AC01-4E5D-9E88-B7918762E787}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Peripherals", "Peripherals", "{D56DD2AD-35B0-4059-BF0A-83E5DB9F70CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -160,9 +176,82 @@ Global
 		{C8D6ED03-A4BD-4D12-AEBB-F9BBA4EC20E9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8D6ED03-A4BD-4D12-AEBB-F9BBA4EC20E9}.Release|x86.ActiveCfg = Release|Any CPU
 		{C8D6ED03-A4BD-4D12-AEBB-F9BBA4EC20E9}.Release|x86.Build.0 = Release|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Debug|x86.Build.0 = Debug|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Debug-With-Installer|Any CPU.Build.0 = Debug|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Debug-With-Installer|x86.ActiveCfg = Debug|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Debug-With-Installer|x86.Build.0 = Debug|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Release|x86.ActiveCfg = Release|Any CPU
+		{822E656F-39EC-4858-884E-E046D52D4C4C}.Release|x86.Build.0 = Release|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Debug|x86.Build.0 = Debug|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Debug-With-Installer|Any CPU.Build.0 = Debug|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Debug-With-Installer|x86.ActiveCfg = Debug|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Debug-With-Installer|x86.Build.0 = Debug|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Release|x86.ActiveCfg = Release|Any CPU
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2}.Release|x86.Build.0 = Release|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Debug|x86.Build.0 = Debug|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Debug-With-Installer|Any CPU.Build.0 = Debug|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Debug-With-Installer|x86.ActiveCfg = Debug|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Debug-With-Installer|x86.Build.0 = Debug|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Release|x86.ActiveCfg = Release|Any CPU
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8}.Release|x86.Build.0 = Release|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Debug|x86.Build.0 = Debug|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Debug-With-Installer|Any CPU.Build.0 = Debug|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Debug-With-Installer|x86.ActiveCfg = Debug|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Debug-With-Installer|x86.Build.0 = Debug|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Release|x86.ActiveCfg = Release|Any CPU
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847}.Release|x86.Build.0 = Release|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Debug|x86.Build.0 = Debug|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Debug-With-Installer|Any CPU.Build.0 = Debug|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Debug-With-Installer|x86.ActiveCfg = Debug|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Debug-With-Installer|x86.Build.0 = Debug|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FED35DE4-65E2-4777-9B52-A21B0669A680} = {2CCB7854-35D5-4458-BF4C-69FE17B90DCD}
+		{9C38A3FB-5029-48F3-B13E-1CF8250DAF51} = {D56DD2AD-35B0-4059-BF0A-83E5DB9F70CD}
+		{259FA603-87B7-40D9-AFA0-6FAFB6CB39F4} = {2CCB7854-35D5-4458-BF4C-69FE17B90DCD}
+		{E049FF0F-68F0-4990-A476-E71E35D6EFB6} = {D56DD2AD-35B0-4059-BF0A-83E5DB9F70CD}
+		{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15} = {2CCB7854-35D5-4458-BF4C-69FE17B90DCD}
+		{C8D6ED03-A4BD-4D12-AEBB-F9BBA4EC20E9} = {2CCB7854-35D5-4458-BF4C-69FE17B90DCD}
+		{822E656F-39EC-4858-884E-E046D52D4C4C} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
+		{03D04179-6A41-4AA4-A57E-689B67FE42C2} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
+		{642279F1-84BE-432C-BFB9-69D9C2EA41D8} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
+		{D4CB08F2-9C75-41BB-869E-DD51353CD847} = {D56DD2AD-35B0-4059-BF0A-83E5DB9F70CD}
+		{2A16E17B-AC01-4E5D-9E88-B7918762E787} = {D56DD2AD-35B0-4059-BF0A-83E5DB9F70CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {416DF04A-8ACB-461F-866E-98A0873E1E9F}

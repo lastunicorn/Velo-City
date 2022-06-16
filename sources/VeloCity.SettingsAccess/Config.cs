@@ -20,9 +20,9 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using Microsoft.Extensions.Configuration;
 
-namespace DustInTheWind.VeloCity.Bootstrapper
+namespace DustInTheWind.VeloCity.SettingsAccess
 {
-    internal class Config : IConfig
+    public class Config : IConfig
     {
         private const string ErrorMessageLevelPropertyName = "ErrorMessageLevel";
         private const string DatabaseLocationPropertyName = "DatabaseLocation";

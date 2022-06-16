@@ -21,6 +21,8 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public interface ISprintRepository
     {
+        List<Sprint> GetAll();
+
         Sprint Get(int id);
 
         Sprint GetByNumber(int number);

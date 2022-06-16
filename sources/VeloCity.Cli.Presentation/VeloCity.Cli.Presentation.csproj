@@ -20,23 +20,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>DustInTheWind.VeloCity.Application</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Application</RootNamespace>
+        <AssemblyName>DustInTheWind.VeloCity.Cli.Presentation</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Cli.Presentation</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="ConsoleTools" Version="1.1.1" />
         <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VeloCity.DataAccess.Jsonfiles\VeloCity.DataAccess.JsonFiles.csproj" />
-        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>DustInTheWind.VeloCity.Tests</_Parameter1>
-        </AssemblyAttribute>
+        <ProjectReference Include="..\VeloCity.Cli.Application\VeloCity.Cli.Application.csproj" />
+        <ProjectReference Include="..\VeloCity.Presentation.Infrastructure\VeloCity.Presentation.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

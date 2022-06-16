@@ -31,6 +31,11 @@ namespace DustInTheWind.VeloCity.DataAccess
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public List<Sprint> GetAll()
+        {
+            return dbContext.Sprints;
+        }
+
         public Sprint Get(int id)
         {
             return dbContext.Sprints.FirstOrDefault(x => x.Id == id);

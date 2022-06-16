@@ -1,0 +1,51 @@
+﻿<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <AssemblyName>VeloCity</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Wpf.Bootstrapper</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="6.4.0" />
+        <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="8.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" />
+        <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" />
+        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
+        <ProjectReference Include="..\VeloCity.SystemAccess\VeloCity.SystemAccess.csproj" />
+        <ProjectReference Include="..\VeloCity.Wpf.Presentation\VeloCity.Wpf.Presentation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="velo-city-database.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>
