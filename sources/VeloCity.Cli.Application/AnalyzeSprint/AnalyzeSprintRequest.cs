@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
 {
     public class AnalyzeSprintRequest : IRequest<AnalyzeSprintResponse>
     {
