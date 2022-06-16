@@ -15,9 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
 {
     internal class AbsentMyContractNote : NoteBase
     {

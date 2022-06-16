@@ -17,7 +17,7 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {
     public class VacationDailyViewModel : VacationViewModel
     {

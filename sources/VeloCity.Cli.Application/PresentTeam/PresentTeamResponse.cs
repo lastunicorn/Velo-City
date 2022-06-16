@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam
 {
     public class PresentTeamResponse
     {

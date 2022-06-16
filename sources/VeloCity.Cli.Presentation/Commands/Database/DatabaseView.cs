@@ -18,7 +18,7 @@ using DustInTheWind.ConsoleTools;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Database
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Database
 {
     public class DatabaseView : IView<DatabaseCommand>
     {

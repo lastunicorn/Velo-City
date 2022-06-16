@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Application.PresentVacations
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations
 {
     public class PresentVacationsResponse
     {

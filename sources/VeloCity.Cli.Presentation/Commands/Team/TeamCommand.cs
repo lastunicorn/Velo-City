@@ -17,12 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentTeam;
+using DustInTheWind.VeloCity.Cli.Application.PresentTeam;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Team
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
 {
     [Command("team", ShortDescription = "The composition of the team (team members).", Order = 6)]
     public class TeamCommand : ICommand

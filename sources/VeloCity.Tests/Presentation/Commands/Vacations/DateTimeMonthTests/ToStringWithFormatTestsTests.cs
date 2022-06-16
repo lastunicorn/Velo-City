@@ -16,7 +16,7 @@
 
 using System;
 using System.Globalization;
-using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 using FluentAssertions;
 using Xunit;
 

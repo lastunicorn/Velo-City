@@ -15,9 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Application.PresentTeam;
+using DustInTheWind.VeloCity.Cli.Application.PresentTeam;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Team
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
 {
     public class InformationViewModel
     {

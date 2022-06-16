@@ -16,7 +16,7 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
 {
     public class PresentSprintsRequest : IRequest<PresentSprintsResponse>
     {

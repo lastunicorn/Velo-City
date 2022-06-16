@@ -16,7 +16,7 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
 {
     internal class CommitmentChartItem
     {

@@ -18,10 +18,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
-using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
+using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
 {
     public class VelocityPenaltiesNote : NoteBase
     {

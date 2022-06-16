@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentForecast
+namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
 {
     public class PresentForecastRequest : IRequest<PresentForecastResponse>
     {

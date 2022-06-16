@@ -19,7 +19,7 @@ using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 
-namespace DustInTheWind.VeloCity.Presentation
+namespace DustInTheWind.VeloCity.Cli.Presentation
 {
     public class DataGridFactory
     {

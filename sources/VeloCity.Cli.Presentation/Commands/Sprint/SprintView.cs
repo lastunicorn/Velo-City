@@ -15,14 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintMembers;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers;
-using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview;
-using DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint
 {
     public class SprintView : IView<SprintCommand>
     {

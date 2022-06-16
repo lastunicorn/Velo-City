@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain.Configuring;
 
-namespace DustInTheWind.VeloCity.Application.PresentConfig
+namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig
 {
     public class PresentConfigResponse
     {

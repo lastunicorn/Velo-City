@@ -16,7 +16,7 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentConfig
+namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig
 {
     public class PresentConfigRequest : IRequest<PresentConfigResponse>
     {

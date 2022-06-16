@@ -23,7 +23,7 @@ using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
 {
     internal class AnalyzeSprintUseCase : IRequestHandler<AnalyzeSprintRequest, AnalyzeSprintResponse>
     {

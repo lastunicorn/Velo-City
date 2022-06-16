@@ -17,10 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Application.PresentVacations;
+using DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {
     public class TeamMemberVacationViewModel
     {

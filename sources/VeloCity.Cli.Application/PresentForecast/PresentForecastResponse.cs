@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentForecast
+namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
 {
     public class PresentForecastResponse
     {

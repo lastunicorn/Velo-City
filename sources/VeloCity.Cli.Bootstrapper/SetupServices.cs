@@ -17,18 +17,18 @@
 using System;
 using System.Reflection;
 using Autofac;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Presentation;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
-using DustInTheWind.VeloCity.Presentation;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
-namespace DustInTheWind.VeloCity.Bootstrapper
+namespace DustInTheWind.VeloCity.Cli.Bootstrapper
 {
     internal class SetupServices
     {

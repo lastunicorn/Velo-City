@@ -17,7 +17,7 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
 {
     public class SprintOverview
     {

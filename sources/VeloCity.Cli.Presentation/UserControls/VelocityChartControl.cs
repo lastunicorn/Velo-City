@@ -20,7 +20,7 @@ using System.Linq;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
 {
     internal class VelocityChartControl : BlockControl
     {

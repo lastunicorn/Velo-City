@@ -18,7 +18,7 @@ using System;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
 {
     public class TeamMemberViewModel
     {

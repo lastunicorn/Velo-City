@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls.Notes
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes
 {
     internal class NotesControl : BlockControl
     {

@@ -15,9 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Application.PresentOfficialHolidays;
+using DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays
 {
     public class InformationViewModel
     {

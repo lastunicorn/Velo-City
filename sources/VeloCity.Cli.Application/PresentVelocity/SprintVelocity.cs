@@ -16,7 +16,7 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity
 {
     public class SprintVelocity
     {

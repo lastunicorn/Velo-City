@@ -18,7 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
 {
     internal class Chart : IEnumerable<ChartBar>
     {

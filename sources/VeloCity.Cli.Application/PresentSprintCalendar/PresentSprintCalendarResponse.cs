@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar
 {
     public class PresentSprintCalendarResponse
     {

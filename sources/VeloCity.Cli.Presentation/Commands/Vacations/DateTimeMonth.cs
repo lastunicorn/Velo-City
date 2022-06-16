@@ -17,7 +17,7 @@
 using System;
 using System.Globalization;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {
     public readonly struct DateTimeMonth : IComparable<DateTimeMonth>, IFormattable
     {

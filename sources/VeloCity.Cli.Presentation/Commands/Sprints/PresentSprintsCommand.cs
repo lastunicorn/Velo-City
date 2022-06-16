@@ -17,11 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentSprints;
+using DustInTheWind.VeloCity.Cli.Application.PresentSprints;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints
 {
     [Command("sprints", ShortDescription = "An overview of the last n sprints.", Order = 2)]
     public class PresentSprintsCommand : ICommand

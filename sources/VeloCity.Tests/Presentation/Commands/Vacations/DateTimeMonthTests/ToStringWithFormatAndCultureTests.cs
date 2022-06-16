@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Globalization;
-using DustInTheWind.VeloCity.Presentation.Commands.Vacations;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 using FluentAssertions;
 using Xunit;
 

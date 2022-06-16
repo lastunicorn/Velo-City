@@ -22,7 +22,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar
 {
     internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalendarRequest, PresentSprintCalendarResponse>
     {

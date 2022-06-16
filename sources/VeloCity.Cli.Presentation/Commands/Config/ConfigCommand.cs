@@ -17,13 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentConfig;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Cli.Application.PresentConfig;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Config
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Config
 {
     [Command("config", ShortDescription = "Inspect and change the application's configuration values.", Order = 100)]
     public class ConfigCommand : ICommand

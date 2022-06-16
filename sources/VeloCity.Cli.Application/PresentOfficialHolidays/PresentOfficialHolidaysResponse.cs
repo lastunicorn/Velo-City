@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
+namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays
 {
     public class PresentOfficialHolidaysResponse
     {

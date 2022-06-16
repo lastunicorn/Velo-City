@@ -17,12 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentSprintCalendar;
+using DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar
 {
     [Command("calendar", ShortDescription = "Inspect the calendar of a specific sprint.", Order = 8)]
     public class CalendarCommand : ICommand

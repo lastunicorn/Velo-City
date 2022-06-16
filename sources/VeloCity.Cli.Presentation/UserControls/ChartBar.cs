@@ -16,7 +16,7 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
 {
     internal class ChartBar
     {

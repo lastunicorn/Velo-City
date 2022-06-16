@@ -22,7 +22,7 @@ using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentForecast
+namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
 {
     internal class PresentForecastUseCase : IRequestHandler<PresentForecastRequest, PresentForecastResponse>
     {

@@ -17,7 +17,7 @@
 using System;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Bootstrapper
+namespace DustInTheWind.VeloCity.Cli.Bootstrapper
 {
     internal class TypeIsNotCommandException : Exception
     {

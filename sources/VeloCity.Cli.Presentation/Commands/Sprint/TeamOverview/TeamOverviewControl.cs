@@ -19,10 +19,10 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Presentation.UserControls;
-using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
 {
     internal class TeamOverviewControl : Control
     {

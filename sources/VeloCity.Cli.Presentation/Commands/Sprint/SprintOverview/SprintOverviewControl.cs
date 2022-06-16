@@ -17,9 +17,9 @@
 using System;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
 {
     internal class SprintOverviewControl : Control
     {

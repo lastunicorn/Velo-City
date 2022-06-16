@@ -19,10 +19,10 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Application.PresentVacations;
+using DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {
     public class VacationsView : IView<VacationsCommand>
     {

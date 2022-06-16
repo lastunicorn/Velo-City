@@ -17,10 +17,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
 {
     public class SprintCalendarViewModel
     {

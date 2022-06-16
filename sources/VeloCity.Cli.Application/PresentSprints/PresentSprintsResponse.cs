@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
 {
     public class PresentSprintsResponse
     {

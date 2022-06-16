@@ -16,12 +16,12 @@
 
 using System;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.OpenDatabase;
+using DustInTheWind.VeloCity.Cli.Application.OpenDatabase;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Database
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Database
 {
     [Command("db", ShortDescription = "Opens the database for editing.", Order = 101)]
     public class DatabaseCommand : ICommand

@@ -23,7 +23,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
+namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays
 {
     internal class PresentOfficialHolidaysUseCase : IRequestHandler<PresentOfficialHolidaysRequest, PresentOfficialHolidaysResponse>
     {

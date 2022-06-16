@@ -18,7 +18,7 @@ using System;
 using System.ComponentModel;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
 {
     public class SprintStateViewModel
     {

@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
-using DustInTheWind.VeloCity.Presentation.UserControls;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints
 {
     internal class CommitmentChartControl : BlockControl
     {

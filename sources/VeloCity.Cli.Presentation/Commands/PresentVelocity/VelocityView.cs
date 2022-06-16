@@ -17,11 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Application.PresentVelocity;
+using DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.PresentVelocity
 {
     public class VelocityView : IView<VelocityCommand>
     {

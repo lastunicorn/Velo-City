@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Application.PresentVacations
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations
 {
     public class TeamMemberVacations
     {

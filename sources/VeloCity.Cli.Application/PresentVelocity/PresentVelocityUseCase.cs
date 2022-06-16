@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity
 {
     public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, PresentVelocityResponse>
     {

@@ -17,15 +17,15 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview;
-using DustInTheWind.VeloCity.Presentation.Commands.Sprint.TeamOverview;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint
 {
     [Command("sprint", ShortDescription = "Analyze a sprint.", Order = 1)]
     public class SprintCommand : ICommand

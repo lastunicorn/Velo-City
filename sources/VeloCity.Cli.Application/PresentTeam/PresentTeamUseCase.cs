@@ -22,7 +22,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam
 {
     internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentTeamResponse>
     {

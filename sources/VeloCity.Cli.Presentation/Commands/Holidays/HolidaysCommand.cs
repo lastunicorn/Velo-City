@@ -17,12 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentOfficialHolidays;
+using DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays
 {
     [Command("holidays", ShortDescription = "The holidays for a specific year or sprint.", Order = 7)]
     public class HolidaysCommand : ICommand

@@ -17,12 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentForecast;
+using DustInTheWind.VeloCity.Cli.Application.PresentForecast;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
 {
     [Command("forecast", ShortDescription = "Calculates the forecast for a specific time.", Order = 4)]
     public class ForecastCommand : ICommand

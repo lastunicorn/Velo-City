@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
 {
     public class CalendarItemViewModel
     {

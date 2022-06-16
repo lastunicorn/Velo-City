@@ -17,7 +17,7 @@
 using System;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentVacations
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations
 {
     public class PresentVacationsRequest : IRequest<PresentVacationsResponse>
     {

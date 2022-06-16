@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
 {
     internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, PresentSprintsResponse>
     {

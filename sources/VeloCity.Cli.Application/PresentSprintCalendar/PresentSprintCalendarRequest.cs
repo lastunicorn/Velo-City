@@ -17,7 +17,7 @@
 using System;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar
 {
     public class PresentSprintCalendarRequest : IRequest<PresentSprintCalendarResponse>
     {

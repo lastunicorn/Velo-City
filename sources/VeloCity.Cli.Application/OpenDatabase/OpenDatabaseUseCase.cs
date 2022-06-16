@@ -21,7 +21,7 @@ using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.OpenDatabase
+namespace DustInTheWind.VeloCity.Cli.Application.OpenDatabase
 {
     internal class OpenDatabaseUseCase : IRequestHandler<OpenDatabaseRequest, OpenDatabaseResponse>
     {

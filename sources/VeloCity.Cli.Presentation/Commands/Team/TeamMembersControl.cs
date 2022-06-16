@@ -22,7 +22,7 @@ using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Team
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
 {
     internal class TeamMembersControl : BlockControl
     {

@@ -19,12 +19,12 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintOverview;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using DustInTheWind.VeloCity.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Forecast
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
 {
     public class ForecastView : IView<ForecastCommand>
     {

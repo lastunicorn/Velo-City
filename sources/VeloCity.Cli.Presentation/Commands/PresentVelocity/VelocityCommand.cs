@@ -17,11 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentVelocity;
+using DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.PresentVelocity
 {
     [Command("velocity", ShortDescription = "A chart with the velocity per sprints.", Order = 3)]
     public class VelocityCommand : ICommand

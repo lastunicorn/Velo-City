@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentConfig
+namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig
 {
     internal class PresentConfigUseCase : IRequestHandler<PresentConfigRequest, PresentConfigResponse>
     {

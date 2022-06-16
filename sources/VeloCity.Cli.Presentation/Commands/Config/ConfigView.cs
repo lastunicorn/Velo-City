@@ -15,11 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Config
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Config
 {
     public class ConfigView : IView<ConfigCommand>
     {

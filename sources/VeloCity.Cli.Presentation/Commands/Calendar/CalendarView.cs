@@ -16,11 +16,11 @@
 
 using System;
 using System.Collections.Generic;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using DustInTheWind.VeloCity.Presentation.UserControls.SprintCalendar;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Calendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar
 {
     public class CalendarView : IView<CalendarCommand>
     {

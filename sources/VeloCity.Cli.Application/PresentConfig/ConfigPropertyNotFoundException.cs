@@ -16,7 +16,7 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Application.PresentConfig
+namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig
 {
     internal class ConfigPropertyNotFoundException : Exception
     {

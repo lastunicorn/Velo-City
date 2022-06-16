@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Presentation.UserControls.Notes
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes
 {
     public abstract class NoteBase
     {

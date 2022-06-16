@@ -16,7 +16,7 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentOfficialHolidays
+namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays
 {
     public class PresentOfficialHolidaysRequest : IRequest<PresentOfficialHolidaysResponse>
     {

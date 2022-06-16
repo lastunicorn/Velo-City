@@ -16,7 +16,7 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Application.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity
 {
     public class PresentVelocityResponse
     {

@@ -18,11 +18,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Application.PresentVacations;
+using DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {
     [Command("vacations", ShortDescription = "The team member's vacation days.", Order = 5)]
     public class VacationsCommand : ICommand

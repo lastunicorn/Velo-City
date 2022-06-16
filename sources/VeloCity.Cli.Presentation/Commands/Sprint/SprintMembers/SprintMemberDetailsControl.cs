@@ -20,7 +20,7 @@ using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprint.SprintMembers
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintMembers
 {
     internal class SprintMemberDetailsControl : Control
     {

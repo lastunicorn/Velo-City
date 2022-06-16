@@ -20,7 +20,7 @@ using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Holidays
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays
 {
     public class HolidaysView : IView<HolidaysCommand>
     {

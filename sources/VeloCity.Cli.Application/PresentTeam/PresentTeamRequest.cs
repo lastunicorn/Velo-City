@@ -18,7 +18,7 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam
 {
     public class PresentTeamRequest : IRequest<PresentTeamResponse>
     {

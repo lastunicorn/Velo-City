@@ -20,7 +20,7 @@ using DustInTheWind.ConsoleTools;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Team
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
 {
     public class TeamView : IView<TeamCommand>
     {

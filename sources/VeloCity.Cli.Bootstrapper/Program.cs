@@ -23,7 +23,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Bootstrapper
+namespace DustInTheWind.VeloCity.Cli.Bootstrapper
 {
     internal class Program
     {

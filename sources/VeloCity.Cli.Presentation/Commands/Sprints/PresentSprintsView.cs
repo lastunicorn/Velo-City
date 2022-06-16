@@ -17,11 +17,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Application.PresentSprints;
+using DustInTheWind.VeloCity.Cli.Application.PresentSprints;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
-using DustInTheWind.VeloCity.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Presentation.Commands.Sprints
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints
 {
     public class PresentSprintsView : IView<PresentSprintsCommand>
     {
