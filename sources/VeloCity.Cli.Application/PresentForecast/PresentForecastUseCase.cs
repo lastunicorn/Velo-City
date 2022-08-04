@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
@@ -67,6 +68,9 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
                 EstimatedVelocity = forecast.EstimatedVelocity,
                 EstimatedStoryPoints = forecast.EstimatedStoryPoints,
                 EstimatedStoryPointsWithVelocityPenalties = forecast.EstimatedStoryPointsWithVelocityPenalties,
+                PreviouslyClosedSprints = forecast.HistorySprints?
+                    .Select(x => x.Number)
+                    .ToList(),
                 Sprints = forecast.ForecastSprints
             };
         }

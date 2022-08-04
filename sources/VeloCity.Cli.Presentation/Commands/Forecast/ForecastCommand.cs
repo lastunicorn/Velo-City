@@ -16,8 +16,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Cli.Application.PresentForecast;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
+using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
@@ -44,6 +47,8 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
 
         public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; private set; }
 
+        public List<NoteBase> Notes { get; private set; }
+
         public List<SprintForecast> Sprints { get; private set; }
 
         public ForecastCommand(IMediator mediator)
@@ -66,6 +71,28 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
             EstimatedStoryPoints = response.EstimatedStoryPoints;
             EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties;
             Sprints = response.Sprints;
+
+            Notes = CreateNotes(response).ToList();
+        }
+
+        private static IEnumerable<NoteBase> CreateNotes(PresentForecastResponse response)
+        {
+            bool previousSprintsExist = response.PreviouslyClosedSprints is { Count: > 0 };
+
+            if (previousSprintsExist)
+            {
+                yield return new PreviousSprintsCalculationNote
+                {
+                    PreviousSprintNumbers = response.PreviouslyClosedSprints
+                };
+            }
+            else
+            {
+                yield return new NoPreviousSprintsNote();
+            }
+
+            if (!response.EstimatedStoryPointsWithVelocityPenalties.IsNull)
+                yield return new VelocityPenaltiesNote();
         }
     }
 }
