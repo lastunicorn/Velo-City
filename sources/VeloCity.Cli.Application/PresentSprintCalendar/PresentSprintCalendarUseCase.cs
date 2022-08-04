@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,10 +73,25 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar
                 Count = endDate == null ? 1 : null
             };
 
+            List<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll()
+                .ToList();
+
             return new PresentSprintCalendarResponse
             {
                 MonthCalendars = monthEnumeration
-                    .Select(x => new MonthCalendar(unitOfWork, x.StartDate!.Value, x.EndDate!.Value))
+                    .Select(x =>
+                    {
+                        DateTime monthStartDate = x.StartDate!.Value;
+                        DateTime monthEndDate = x.EndDate!.Value;
+                        DateInterval monthDateInterval = new(startDate, endDate);
+
+                        return new MonthCalendar(monthStartDate, monthEndDate)
+                        {
+                            OfficialHolidays = officialHolidays,
+                            TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(monthDateInterval)
+                                .ToList()
+                        };
+                    })
                     .ToList()
             };
         }
