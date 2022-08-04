@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
@@ -61,9 +62,12 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar
 
         private void DisplayMonthCalendar(MonthCalendar monthCalendar)
         {
+            List<SprintDay> monthDays = monthCalendar.EnumerateAllDays()
+                .ToList();
+
             SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
             {
-                ViewModel = new SprintCalendarViewModel(monthCalendar.Days, null)
+                ViewModel = new SprintCalendarViewModel(monthDays, monthCalendar.MonthMembers)
                 {
                     Title = $"{monthCalendar.Year:D4} {monthCalendar.Month:D2}"
                 }

@@ -17,30 +17,48 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Domain.DataAccess;
 
 namespace DustInTheWind.VeloCity.Domain
 {
     public class MonthCalendar
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly DateTime startDate;
+        private readonly DateTime endDate;
 
         public int Year { get; }
 
         public int Month { get; }
 
-        public List<SprintDay> Days { get; }
+        public List<OfficialHoliday> OfficialHolidays { get; set; }
 
-        public MonthCalendar(IUnitOfWork unitOfWork, DateTime startDate, DateTime endDate)
+        public List<TeamMember> TeamMembers { get; set; }
+
+        public IEnumerable<MonthMember> MonthMembers
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            get
+            {
+                return TeamMembers
+                    .Select(x => new MonthMember(x, this))
+                    .OrderBy(x => x.TeamMember.Employments.GetLastEmploymentBatch()?.StartDate)
+                    .ThenBy(x => x.Name);
+            }
+        }
+
+        public MonthCalendar(DateTime startDate, DateTime endDate)
+        {
+            this.startDate = startDate;
+            this.endDate = endDate;
 
             Year = startDate.Year;
             Month = startDate.Month;
-            Days = EnumerateAllDays(startDate, endDate).ToList();
         }
 
-        private IEnumerable<SprintDay> EnumerateAllDays(DateTime startDate, DateTime endDate)
+        public IEnumerable<SprintDay> EnumerateAllDays()
+        {
+            return EnumerateDays(startDate, endDate);
+        }
+
+        private IEnumerable<SprintDay> EnumerateDays(DateTime startDate, DateTime endDate)
         {
             int totalDaysCount = (int)(endDate.Date - startDate.Date).TotalDays + 1;
 
@@ -54,13 +72,10 @@ namespace DustInTheWind.VeloCity.Domain
 
         private SprintDay ToSprintDay(DateTime date)
         {
-            List<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll()
-                .ToList();
-
             return new SprintDay
             {
                 Date = date,
-                OfficialHolidays = officialHolidays
+                OfficialHolidays = OfficialHolidays
                     .Where(x => x.Match(date))
                     .Select(x => x.GetInstanceFor(date.Year))
                     .ToList()

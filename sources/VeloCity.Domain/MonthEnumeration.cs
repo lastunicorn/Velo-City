@@ -48,6 +48,8 @@ namespace DustInTheWind.VeloCity.Domain
             public MonthEnumerator(MonthEnumeration monthEnumeration)
             {
                 this.monthEnumeration = monthEnumeration ?? throw new ArgumentNullException(nameof(monthEnumeration));
+
+                Reset();
             }
 
             public DateInterval Current { get; private set; }

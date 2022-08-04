@@ -56,7 +56,15 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
             }
         }
 
-        public SprintCalendarViewModel(List<SprintDay> sprintDays, IReadOnlyCollection<SprintMember> sprintMembers)
+        public SprintCalendarViewModel(List<SprintDay> sprintDays, IEnumerable<MonthMember> monthMembers)
+        {
+            if (sprintDays == null) throw new ArgumentNullException(nameof(sprintDays));
+
+            CalendarItems = CreateCalendarItems(sprintDays, monthMembers);
+            Notes = CreateNotes();
+        }
+
+        public SprintCalendarViewModel(List<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
         {
             if (sprintDays == null) throw new ArgumentNullException(nameof(sprintDays));
 
@@ -64,7 +72,29 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
             Notes = CreateNotes();
         }
 
-        private static List<CalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IReadOnlyCollection<SprintMember> sprintMembers)
+        private static List<CalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<MonthMember> monthMembers)
+        {
+            return sprintDays
+                .Select(x =>
+                {
+                    List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(x.Date, monthMembers);
+                    return new CalendarItemViewModel(x, sprintMemberDays);
+                })
+                .ToList();
+        }
+
+        private static List<SprintMemberDay> GetAllSprintMemberDays(DateTime date, IEnumerable<MonthMember> monthMembers)
+        {
+            if (monthMembers == null)
+                return new List<SprintMemberDay>();
+
+            return monthMembers
+                .Select(x => x.Days[date])
+                .Where(x => x != null)
+                .ToList();
+        }
+
+        private static List<CalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
         {
             return sprintDays
                 .Select(x =>
@@ -75,7 +105,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
                 .ToList();
         }
 
-        private static List<SprintMemberDay> GetAllSprintMemberDays(DateTime date, IReadOnlyCollection<SprintMember> sprintMembers)
+        private static List<SprintMemberDay> GetAllSprintMemberDays(DateTime date, IEnumerable<SprintMember> sprintMembers)
         {
             if (sprintMembers == null)
                 return new List<SprintMemberDay>();
