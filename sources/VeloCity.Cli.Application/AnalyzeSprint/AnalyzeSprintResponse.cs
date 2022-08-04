@@ -50,7 +50,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
 
         public Velocity ActualVelocity { get; set; }
 
-        public List<int> PreviousSprints { get; set; }
+        public List<int> PreviouslyClosedSprints { get; set; }
 
         public List<int> ExcludedSprints { get; set; }
 

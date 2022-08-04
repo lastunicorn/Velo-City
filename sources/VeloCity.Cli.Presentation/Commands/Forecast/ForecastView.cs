@@ -64,19 +64,16 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
 
         private static void AddFooter(DataGrid dataGrid, ForecastCommand command)
         {
-            bool velocityPenaltiesExist = !command.EstimatedStoryPointsWithVelocityPenalties.IsNull;
-            if (!velocityPenaltiesExist)
-                return;
-
-            NotesControl notesControl = new()
+            if (command.Notes?.Count > 0)
             {
-                Notes = new List<NoteBase>
+                NotesControl notesControl = new()
                 {
-                    new VelocityPenaltiesNote()
-                }
-            };
-            dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
-            dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
+                    Notes = command.Notes
+                };
+
+                dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
+                dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
+            }
         }
 
         private void DisplaySprintDetails(List<SprintForecast> sprints)

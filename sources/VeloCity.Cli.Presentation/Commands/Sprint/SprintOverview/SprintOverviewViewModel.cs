@@ -64,13 +64,13 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
 
         private IEnumerable<NoteBase> CreateNotes()
         {
-            bool previousSprintsExist = response.PreviousSprints is { Count: > 0 };
+            bool previousSprintsExist = response.PreviouslyClosedSprints is { Count: > 0 };
 
             if (previousSprintsExist)
             {
                 yield return new PreviousSprintsCalculationNote
                 {
-                    PreviousSprintNumbers = response.PreviousSprints
+                    PreviousSprintNumbers = response.PreviouslyClosedSprints
                 };
             }
             else

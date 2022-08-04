@@ -32,7 +32,9 @@ namespace DustInTheWind.VeloCity.Domain
         public List<int> ExcludedSprints { get; set; }
 
         public List<string> ExcludedTeamMembers { get; set; }
-        
+
+        public SprintList HistorySprints { get; private set; }
+
         public SprintList FutureSprints { get; private set; }
 
         public DateTime ActualStartDate => FutureSprints.FirstOrDefault()?.StartDate ?? DateTime.MinValue;
@@ -58,9 +60,9 @@ namespace DustInTheWind.VeloCity.Domain
         {
             Sprint referenceSprint = GetReferenceSprint();
 
-            SprintList historySprints = RetrievePreviousSprints(referenceSprint);
-            EstimatedVelocity = EstimateVelocity(historySprints);
-            
+            HistorySprints = RetrievePreviousSprints(referenceSprint);
+            EstimatedVelocity = EstimateVelocity(HistorySprints);
+
             FutureSprints = GenerateFutureSprints(referenceSprint);
 
             foreach (Sprint futureSprint in FutureSprints)
@@ -88,10 +90,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public Sprint GetReferenceSprint()
         {
-            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
-
-            if (currentSprint == null)
-                currentSprint = unitOfWork.SprintRepository.GetLastClosed();
+            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress()
+                                   ?? unitOfWork.SprintRepository.GetLastClosed();
 
             if (currentSprint == null)
                 throw new NoSprintException();

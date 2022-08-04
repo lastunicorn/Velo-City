@@ -106,7 +106,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
                 CommitmentStoryPoints = sprintAnalysis.Sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprintAnalysis.Sprint.ActualStoryPoints,
                 ActualVelocity = sprintAnalysis.Sprint.Velocity,
-                PreviousSprints = sprintAnalysis.HistorySprints?
+                PreviouslyClosedSprints = sprintAnalysis.HistorySprints?
                     .Select(x => x.Number)
                     .ToList(),
                 ExcludedSprints = sprintAnalysis.ExcludedSprints?.ToList(),
