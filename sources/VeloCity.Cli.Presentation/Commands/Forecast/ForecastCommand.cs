@@ -35,6 +35,9 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
         [CommandParameter(Name = "date", ShortName = 'd', IsOptional = true)]
         public DateTime? Date { get; set; }
 
+        [CommandParameter(Name = "analysis-look-back", ShortName = 'l', IsOptional = true)]
+        public uint? AnalysisLookBack { get; set; }
+
         public DateTime StartDate { get; private set; }
 
         public DateTime EndDate { get; private set; }
@@ -60,7 +63,8 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
         {
             PresentForecastRequest request = new()
             {
-                EndDate = Date
+                EndDate = Date,
+                AnalysisLookBack = AnalysisLookBack
             };
             PresentForecastResponse response = await mediator.Send(request);
 

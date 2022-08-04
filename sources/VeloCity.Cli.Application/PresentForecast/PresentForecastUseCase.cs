@@ -49,7 +49,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
             Forecast forecast = new(unitOfWork)
             {
                 EndDate = request.EndDate,
-                AnalysisLookBack = config.AnalysisLookBack,
+                AnalysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack,
                 ExcludedSprints = request.ExcludedSprints,
                 ExcludedTeamMembers = request.ExcludedTeamMembers
             };
