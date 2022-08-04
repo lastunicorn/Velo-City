@@ -23,7 +23,10 @@ namespace DustInTheWind.VeloCity.DataAccess
     public class UnitOfWork : IUnitOfWork
     {
         private readonly VeloCityDbContext dbContext;
-
+        private OfficialHolidayRepository officialHolidayRepository;
+        private SprintRepository sprintRepository;
+        private TeamMemberRepository teamMemberRepository;
+        
         private VeloCityDbContext DbContext
         {
             get
@@ -34,10 +37,6 @@ namespace DustInTheWind.VeloCity.DataAccess
                 return dbContext;
             }
         }
-
-        private OfficialHolidayRepository officialHolidayRepository;
-        private SprintRepository sprintRepository;
-        private TeamMemberRepository teamMemberRepository;
 
         public Exception DatabaseError => dbContext.LastError;
 

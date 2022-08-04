@@ -36,7 +36,7 @@ namespace DustInTheWind.VeloCity.Domain
             EndDate = endDate?.Date;
 
             if (StartDate > EndDate)
-                throw new ArgumentException("End date must be after start date.", nameof(endDate));
+                throw new ArgumentException($"End date ({endDate}) must be after start date ({startDate}).", nameof(endDate));
         }
 
         public bool IsIntersecting(DateInterval dateInterval)
