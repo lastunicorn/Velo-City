@@ -53,6 +53,8 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
             CommandCreatedEventArgs args = new()
             {
+                Args = arguments.UnderlyingArgs,
+                CommandFullName = command?.GetType().FullName,
                 UnusedArguments = argumentsLens.EnumerateUnusedArguments().ToList()
             };
             OnCommandCreated(args);
