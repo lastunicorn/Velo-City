@@ -21,6 +21,11 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
     public class CommandCreatedEventArgs : EventArgs
     {
+        public string CommandFullName { get; init; }
+
+        public string[] Args { get; init; }
+
         public List<Argument> UnusedArguments { get; init; }
+
     }
 }

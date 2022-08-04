@@ -23,6 +23,8 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 {
     public class Arguments : IEnumerable<Argument>
     {
+        public string[] UnderlyingArgs { get; }
+
         private readonly List<Argument> arguments = new();
 
         public int Count => arguments.Count;
@@ -43,7 +45,7 @@ namespace DustInTheWind.VeloCity.Presentation.Infrastructure
 
         public Arguments(string[] args)
         {
-            if (args == null) throw new ArgumentNullException(nameof(args));
+            UnderlyingArgs = args ?? throw new ArgumentNullException(nameof(args));
 
             IEnumerable<Argument> newArguments = Parse(args);
             arguments.AddRange(newArguments);

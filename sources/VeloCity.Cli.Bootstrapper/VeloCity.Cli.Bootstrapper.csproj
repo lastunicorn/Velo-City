@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ItemGroup>
         <PackageReference Include="Autofac" Version="6.4.0" />
+        <PackageReference Include="log4net" Version="2.0.15" />
         <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="8.1.0" />
     </ItemGroup>
 
@@ -41,6 +42,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <ItemGroup>
         <None Update="appsettings.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="log4net.config">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
         <None Update="velo-city-database.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

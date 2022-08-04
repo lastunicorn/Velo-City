@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using DustInTheWind.ConsoleTools;
@@ -22,11 +23,14 @@ using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Presentation.Infrastructure;
+using log4net;
 
 namespace DustInTheWind.VeloCity.Cli.Bootstrapper
 {
     internal class Program
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+
         private static async Task Main(string[] args)
         {
             ErrorMessageLevel errorMessageLevel = ErrorMessageLevel.Verbose;
@@ -41,6 +45,8 @@ namespace DustInTheWind.VeloCity.Cli.Bootstrapper
             }
             catch (Exception ex)
             {
+                Log.Error(ex);
+
                 if (errorMessageLevel == ErrorMessageLevel.Verbose)
                     CustomConsole.WriteLineError(ex);
                 else
@@ -65,13 +71,19 @@ namespace DustInTheWind.VeloCity.Cli.Bootstrapper
             CommandRouter commandRouter = container.Resolve<CommandRouter>();
             commandRouter.CommandCreated += (sender, e) =>
             {
+                string argsAsString = string.Join(' ', e.Args);
+                Log.Info($"Execute command: {e.CommandFullName} - Arguments: {argsAsString}");
+
                 if (e.UnusedArguments.Count > 0)
                 {
-                    foreach (Argument unusedArgument in e.UnusedArguments)
-                    {
-                        string argumentInfo = unusedArgument.Name ?? unusedArgument.Value;
+                    string[] unusedArguments = e.UnusedArguments
+                        .Select(x => x.Name ?? x.Value)
+                        .ToArray();
+
+                    Log.Warn("Unused arguments: " + string.Join(' ', unusedArguments));
+
+                    foreach (string argumentInfo in unusedArguments)
                         CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"Unknown argument: {argumentInfo}");
-                    }
                 }
             };
 
