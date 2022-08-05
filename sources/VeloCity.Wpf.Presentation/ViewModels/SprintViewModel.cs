@@ -14,29 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMainView
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 {
-    public class SprintInfo
+    public class SprintViewModel
     {
-        public int Id { get; }
+        private readonly SprintInfo sprintInfo;
 
-        public string Name { get; }
+        public int SprintId => sprintInfo.Id;
 
-        public int Number { get; }
+        public string SprintName => sprintInfo.Name;
 
-        public DateInterval DateInterval { get; }
-        
-        public SprintState State { get; }
+        public int SprintNumber => sprintInfo.Number;
 
-        public SprintInfo(Sprint sprint)
+        public SprintState SprintState => sprintInfo.State;
+
+        public SprintViewModel(SprintInfo sprintInfo)
         {
-            Id = sprint.Id;
-            Name = sprint.Name;
-            Number = sprint.Number;
-            DateInterval = sprint.DateInterval;
-            State = sprint.State;
+            this.sprintInfo = sprintInfo ?? throw new ArgumentNullException(nameof(sprintInfo));
+        }
+
+        public override string ToString()
+        {
+            return $"{sprintInfo.Name} [{sprintInfo.DateInterval}]";
         }
     }
 }

@@ -15,31 +15,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMainView
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
 {
-    internal class PresentMainViewUseCase : IRequestHandler<PresentMainViewRequest, PresentMainViewResponse>
+    internal class PresentSprintDetailsUseCase : IRequestHandler<PresentSprintDetailsRequest, PresentSprintDetailsResponse>
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public PresentMainViewUseCase(IUnitOfWork unitOfWork)
+        public PresentSprintDetailsUseCase(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public Task<PresentMainViewResponse> Handle(PresentMainViewRequest request, CancellationToken cancellationToken)
+        public Task<PresentSprintDetailsResponse> Handle(PresentSprintDetailsRequest request, CancellationToken cancellationToken)
         {
-            PresentMainViewResponse response = new()
+            PresentSprintDetailsResponse response = new()
             {
-                Sprints = unitOfWork.SprintRepository.GetAll()
-                    .OrderByDescending(x => x.StartDate)
-                    .Select(x => new SprintInfo(x))
-                    .ToList()
             };
 
             return Task.FromResult(response);

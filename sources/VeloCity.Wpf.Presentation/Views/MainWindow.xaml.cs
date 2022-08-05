@@ -15,26 +15,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Windows;
-using Autofac;
-using DustInTheWind.VeloCity.Wpf.Presentation.Views;
+using DustInTheWind.VeloCity.Wpf.Presentation.ViewModels;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Views
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class App : global::System.Windows.Application
+    public partial class MainWindow : Window
     {
-        protected override void OnStartup(StartupEventArgs e)
+        public MainWindow(MainViewModel viewModel)
         {
-            IContainer container = SetupServices.BuildContainer();
+            InitializeComponent();
 
-            MainWindow mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
-
-            MainWindow = mainWindow;
-
-            base.OnStartup(e);
+            DataContext = viewModel;
         }
     }
 }

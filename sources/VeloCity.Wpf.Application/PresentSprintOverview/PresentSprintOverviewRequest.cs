@@ -14,23 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
+using System.Collections.Generic;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 {
-    public class SprintViewModel
+    public class PresentSprintOverviewRequest : IRequest<PresentSprintOverviewResponse>
     {
-        private readonly SprintInfo sprintInfo;
+        public int? SprintNumber { get; set; }
 
-        public SprintViewModel(SprintInfo sprintInfo)
-        {
-            this.sprintInfo = sprintInfo ?? throw new ArgumentNullException(nameof(sprintInfo));
-        }
+        public List<int> ExcludedSprints { get; set; }
 
-        public override string ToString()
-        {
-            return $"{sprintInfo.Name} [{sprintInfo.DateInterval}]";
-        }
+        public bool IncludeTeamDetails { get; set; }
+
+        public List<string> ExcludedTeamMembers { get; set; }
+
+        public uint? AnalysisLookBack { get; set; }
     }
 }

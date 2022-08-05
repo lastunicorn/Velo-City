@@ -20,7 +20,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "VeloCity.Installer", "VeloC
 		{FED35DE4-65E2-4777-9B52-A21B0669A680} = {FED35DE4-65E2-4777-9B52-A21B0669A680}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{124DD8ED-0D48-48B5-8B59-0715B4152421}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{124DD8ED-0D48-48B5-8B59-0715B4152421}"
 	ProjectSection(SolutionItems) = preProject
 		AssemblyInfo.Shared.cs = AssemblyInfo.Shared.cs
 		Directory.build.props = Directory.build.props

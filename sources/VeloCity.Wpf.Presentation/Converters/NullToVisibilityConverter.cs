@@ -14,27 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Globalization;
 using System.Windows;
-using Autofac;
-using DustInTheWind.VeloCity.Wpf.Presentation.Views;
+using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : global::System.Windows.Application
+    [Localizability(LocalizationCategory.NeverLocalize)]
+    internal class NullToVisibilityConverter : IValueConverter
     {
-        protected override void OnStartup(StartupEventArgs e)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            IContainer container = SetupServices.BuildContainer();
+            return value == null
+                ? Visibility.Collapsed
+                : Visibility.Visible;
+        }
 
-            MainWindow mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
-
-            MainWindow = mainWindow;
-
-            base.OnStartup(e);
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DependencyProperty.UnsetValue;
         }
     }
 }

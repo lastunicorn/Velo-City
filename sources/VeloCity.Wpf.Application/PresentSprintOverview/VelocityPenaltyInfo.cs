@@ -14,20 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
+using System;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public class VelocityPenaltyInfo
     {
-        public MainWindow(MainViewModel viewModel)
-        {
-            InitializeComponent();
+        public PersonName PersonName { get; }
 
-            DataContext = viewModel;
+        public int PenaltyValue { get; }
+
+        public VelocityPenaltyInfo(VelocityPenaltyInstance velocityPenaltyInstance)
+        {
+            if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
+
+            PersonName = velocityPenaltyInstance.TeamMember.Name;
+            PenaltyValue = velocityPenaltyInstance.Value;
         }
     }
 }
