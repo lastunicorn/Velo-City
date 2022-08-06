@@ -42,7 +42,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VeloCity.Cli.Presentation\VeloCity.Cli.Presentation.csproj" />
+        <ProjectReference Include="..\VeloCity.Cli.Application\VeloCity.Cli.Application.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Cli.Presentation\VeloCity.Cli.Presentation.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Presentation.Infrastructure\VeloCity.Presentation.Infrastructure.csproj" PrivateAssets="All" />
     </ItemGroup>
 
 </Project>
