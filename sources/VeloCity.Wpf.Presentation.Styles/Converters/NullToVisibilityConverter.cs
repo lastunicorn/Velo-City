@@ -19,7 +19,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
 {
     [Localizability(LocalizationCategory.NeverLocalize)]
     internal class NullToVisibilityConverter : IValueConverter

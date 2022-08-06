@@ -21,25 +21,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <PropertyGroup>
         <TargetFramework>net5.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
-        <AssemblyName>DustInTheWind.VeloCity.Wpf.Presentation</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Wpf.Presentation</RootNamespace>
+        <AssemblyName>DustInTheWind.VeloCity.Wpf.Presentation.Styles</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Wpf.Presentation.Styles</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MediatR" Version="10.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Page Update="Views\MainWindow.xaml">
-            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-            <SubType>Designer</SubType>
-        </Page>
+      <Page Update="Themes\CustomControls\PropertyGroupsViewStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
     </ItemGroup>
 
 </Project>

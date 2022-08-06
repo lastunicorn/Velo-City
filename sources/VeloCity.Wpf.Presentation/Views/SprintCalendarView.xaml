@@ -30,7 +30,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     d:DesignWidth="800"
     d:DataContext="{d:DesignInstance viewModels:SprintCalendarViewModel}">
 
-    <ListView
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/DataGridStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!--<ListView
         ItemsSource="{Binding CalendarItems}"
         SelectionMode="Single">
 
@@ -56,7 +64,60 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     DisplayMemberBinding="{Binding AbsenceHours}" />
             </GridView>
         </ListView.View>
-    </ListView>
+    </ListView>-->
+
+    <DataGrid
+        ItemsSource="{Binding CalendarItems}"
+        AutoGenerateColumns="False">
+
+        <DataGrid.Columns>
+
+            <DataGridTextColumn
+                Header="Date"
+                Binding="{Binding Date, StringFormat={}{0:yyyy MM dd}}"
+                CanUserSort="False"/>
+
+            <DataGridTextColumn
+                Header="Work Hours"
+                Binding="{Binding WorkHours}">
+
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Right" />
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+
+            <DataGridTextColumn
+                Header="Absence Hours"
+                Binding="{Binding AbsenceHours}">
+
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Right" />
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
+
+        </DataGrid.Columns>
+
+        <DataGrid.RowStyle>
+            <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsWorkDay}" Value="False">
+                        <Setter Property="Foreground" Value="LightGray" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </DataGrid.RowStyle>
+
+        <DataGrid.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                <Setter Property="IsTabStop" Value="False"/>
+            </Style>
+        </DataGrid.CellStyle>
+
+    </DataGrid>
 
     <!--<ScrollViewer>
 
