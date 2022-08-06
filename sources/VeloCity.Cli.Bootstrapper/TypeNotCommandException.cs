@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
+using DustInTheWind.ConsoleTools.Commando;
 
 namespace DustInTheWind.VeloCity.Cli.Bootstrapper
 {

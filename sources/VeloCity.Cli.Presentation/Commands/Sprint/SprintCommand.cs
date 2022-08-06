@@ -17,12 +17,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint

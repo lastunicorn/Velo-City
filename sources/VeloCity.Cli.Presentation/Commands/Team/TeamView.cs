@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.ConsoleTools;
+using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
 {
