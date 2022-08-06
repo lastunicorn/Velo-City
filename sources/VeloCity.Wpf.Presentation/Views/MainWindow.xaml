@@ -32,25 +32,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     Height="600"
     Width="800"
     d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
-    Background="WhiteSmoke"
+    Background="#EAE7DD"
     ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
-        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <converters:SprintStateToBrushConverter x:Key="SprintStateToBrushConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <!--<Style TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-
-        <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
-            <Setter Property="FontSize" Value="14" />
-        </Style>
-
-        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}" />
-        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource BaseStyle}" />
-        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseStyle}" />
-        <Style TargetType="{x:Type ListView}" BasedOn="{StaticResource BaseStyle}" />-->
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:NullToVisibilityConverter Inverse="True" x:Key="NullToVisibilityInverseConverter" />
+            <converters:SprintStateToBrushConverter x:Key="SprintStateToBrushConverter" />
+        </ResourceDictionary>
     </Window.Resources>
 
     <Grid
@@ -94,6 +88,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             HorizontalAlignment="Stretch"
             Margin="10 0" />
 
+        <TextBlock
+            Grid.Column="2"
+            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityInverseConverter}}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="20"
+            Text="Select a Sprint"
+            IsEnabled="False"/>
+
         <Grid
             Grid.Column="2"
             Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityConverter}}">
@@ -103,25 +106,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <TextBlock
                     DockPanel.Dock="Top"
                     Text="{Binding DetailsTitle}"
-                    FontSize="20"
+                    FontSize="25"
                     Margin="0 0 0 20" />
 
                 <TabControl>
-                    <TabControl.Resources>
-                        <Style TargetType="TabItem">
-                            <Setter Property="Padding" Value="15 5" />
-                            <Setter Property="MinHeight" Value="30" />
-                        </Style>
-                    </TabControl.Resources>
-
                     <TabItem Header="Overview">
                         <views:SprintOverviewView
                             DataContext="{Binding SprintOverview}"
-                            Margin="10" />
+                            Margin="20" />
                     </TabItem>
                     <TabItem Header="Calendar">
                         <views:SprintCalendarView
-                            DataContext="{Binding SprintCalendar}" />
+                            DataContext="{Binding SprintCalendar}"
+                            Margin="20"/>
                     </TabItem>
                     <TabItem Header="Team Members" />
                 </TabControl>

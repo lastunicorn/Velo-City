@@ -1,0 +1,90 @@
+﻿<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- Primary Colors -->
+
+    <Color x:Key="PrimaryColor">#AA6C39</Color>
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
+
+    <Color x:Key="PrimaryDarkColor">#804515</Color>
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDarkColor}" />
+
+    <Color x:Key="PrimaryLightColor">#D49A6A</Color>
+    <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLightColor}" />
+
+    <!-- Special Colors -->
+
+    <Color x:Key="AccentColor">#552700</Color>
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+
+    <Color x:Key="WarningColor">#F0AD4E</Color>
+    <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}" />
+
+    <Color x:Key="ErrorColor">#D9534F</Color>
+    <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}" />
+
+    <Color x:Key="DisabledColor">#E5E5E5</Color>
+    <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource DisabledColor}" />
+
+    <!-- Border Constants -->
+
+    <Color x:Key="BorderColor">#DBDBDB</Color>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
+
+    <Color x:Key="BorderDarkColor">#C7C6C1</Color>
+    <SolidColorBrush x:Key="BorderDarkBrush" Color="{StaticResource BorderDarkColor}" />
+
+    <Color x:Key="SelectedBorderColor">#3E4B52</Color>
+    <SolidColorBrush x:Key="SelectedBorderBrush" Color="{StaticResource SelectedBorderColor}" />
+
+    <!-- Background Constants -->
+
+    <Color x:Key="BackgroundDarkColor">#3E4B52</Color>
+    <SolidColorBrush x:Key="BackgroundDarkBrush" Color="{StaticResource BackgroundDarkColor}" />
+
+    <Color x:Key="BackgroundLightColor">#F7F7F7</Color>
+    <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroundLightColor}" />
+
+    <Color x:Key="MouseOverBackgroundColor">#F7F7F7</Color>
+    <SolidColorBrush x:Key="MouseOverBackgroundBrush" Color="{StaticResource MouseOverBackgroundColor}" />
+
+    <Color x:Key="SelectedBackgroundColor">#e7e7e7</Color>
+    <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="{StaticResource SelectedBackgroundColor}" />
+
+    <!-- Font Constants -->
+
+    <Color x:Key="PrimaryFontDarkColor">#212121</Color>
+    <SolidColorBrush x:Key="PrimaryFontDarkBrush" Color="{StaticResource PrimaryFontDarkColor}" />
+
+    <Color x:Key="PrimaryFontLightColor">#FFFFFF</Color>
+    <SolidColorBrush x:Key="PrimaryFontLightBrush" Color="{StaticResource PrimaryFontLightColor}" />
+
+    <Color x:Key="DisabledFontColor">#8F8F8F</Color>
+    <SolidColorBrush x:Key="DisabledFontBrush" Color="{StaticResource DisabledFontColor}" />
+
+    <system:Double x:Key="DefaultFontSize">14</system:Double>
+
+    <FontFamily x:Key="DefaultFontFamily">OpenSans</FontFamily>
+
+
+</ResourceDictionary>

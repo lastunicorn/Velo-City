@@ -23,6 +23,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 {
     public class CalendarItemViewModel
     {
+        public bool IsSelectable => false;
+
         public DateTime Date { get; }
 
         public bool IsWorkDay { get; set; }

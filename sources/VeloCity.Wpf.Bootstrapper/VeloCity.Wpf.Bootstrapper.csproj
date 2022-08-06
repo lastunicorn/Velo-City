@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ProjectReference Include="..\VeloCity.SystemAccess\VeloCity.SystemAccess.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation\VeloCity.Wpf.Presentation.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

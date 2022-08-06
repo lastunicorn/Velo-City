@@ -15,50 +15,59 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Domain;
+using System.Collections.Generic;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
+using DustInTheWind.VeloCity.Wpf.Presentation.Styles;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 {
     public class SprintOverviewViewModel
     {
-        public DateInterval TimeInterval { get; }
-
-        public SprintState State { get; }
-
-        public int? WorkDaysCount { get; }
-
-        public HoursValue TotalWorkHours { get; }
-
-        public StoryPoints EstimatedStoryPoints { get; }
-
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; }
-
-        public Velocity EstimatedVelocity { get; }
-
-        public StoryPoints CommitmentStoryPoints { get; }
-
-        public StoryPoints ActualStoryPoints { get; }
-
-        public Velocity ActualVelocity { get; }
+        public List<PropertyGroup> PropertyGroups { get; }
 
         public SprintOverviewViewModel(PresentSprintResponse response)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
-            
-            DateTime startDate = response.SprintDateInterval.StartDate!.Value;
-            DateTime endDate = response.SprintDateInterval.EndDate!.Value;
-            TimeInterval = new DateInterval(startDate, endDate);
 
-            State = response.SprintState;
-            WorkDaysCount = response.WorkDaysCount;
-            TotalWorkHours = response.TotalWorkHours;
-            EstimatedStoryPoints = response.EstimatedStoryPoints;
-            EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties;
-            EstimatedVelocity = response.EstimatedVelocity;
-            CommitmentStoryPoints = response.CommitmentStoryPoints;
-            ActualStoryPoints = response.ActualStoryPoints;
-            ActualVelocity = response.ActualVelocity;
+            DateTime? startDate = response.SprintDateInterval.StartDate;
+            DateTime? endDate = response.SprintDateInterval.EndDate;
+
+            PropertyGroups = new List<PropertyGroup>
+            {
+                new("Overview")
+                {
+                    Items = new List<PropertyGroupItem>
+                    {
+                        new("Time Interval", new DateIntervalViewModel(startDate, endDate)),
+                        new("State", new SprintStateViewModel(response.SprintState))
+                    }
+                },
+                new("Size")
+                {
+                    Items = new List<PropertyGroupItem>
+                    {
+                        new("Work Days", new DaysViewModel(response.WorkDaysCount)),
+                        new("Total Work Hours", response.TotalWorkHours)
+                    }
+                },
+                new("Before Starting")
+                {
+                    Items = new List<PropertyGroupItem>
+                    {
+                        new("Estimated Story Points", new StoryPointsViewModel(response.EstimatedStoryPoints)),
+                        new("Estimated Velocity", new VelocityViewModel(response.EstimatedVelocity)),
+                        new("Commitment Story Points", response.CommitmentStoryPoints)
+                    }
+                },
+                new("After Close")
+                {
+                    Items = new List<PropertyGroupItem>
+                    {
+                        new("Actual Story Points", new StoryPointsViewModel(response.ActualStoryPoints)),
+                        new("Actual Velocity", new VelocityViewModel(response.ActualVelocity))
+                    }
+                }
+            };
         }
     }
 }

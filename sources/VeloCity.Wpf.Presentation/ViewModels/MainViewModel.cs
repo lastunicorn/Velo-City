@@ -129,6 +129,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 
         private async Task RetrieveSprintDetails(int sprintId)
         {
+            SprintOverview = null;
+            SprintCalendar = null;
+
             PresentSprintRequest request = new()
             {
                 SprintNumber = sprintId

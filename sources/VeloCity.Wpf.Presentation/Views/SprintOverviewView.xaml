@@ -24,133 +24,236 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:viewModels="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ViewModels"
+    xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800"
     d:DataContext="{d:DesignInstance viewModels:SprintOverviewViewModel}">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <ScrollViewer>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="20" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="20" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="20" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <styles:PropertyGroupsView
+            ItemsSource="{Binding PropertyGroups}"/>
 
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="Time Interval" />
 
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="1"
-                Text="{Binding TimeInterval}" />
+        <!--<StackPanel Orientation="Vertical" Grid.IsSharedSizeScope="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <TextBlock
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="State" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-            <TextBlock
-                Grid.Row="1"
-                Grid.Column="1"
-                Text="{Binding State}" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Time Interval" />
 
-            <TextBlock
-                Grid.Row="3"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="Work Days" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding TimeInterval}" />
 
-            <TextBlock
-                Grid.Row="3"
-                Grid.Column="1"
-                Text="{Binding WorkDaysCount}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="State" />
 
-            <TextBlock
-                Grid.Row="4"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="Total Work Hours" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding State}" />
 
-            <TextBlock
-                Grid.Row="4"
-                Grid.Column="1"
-                Text="{Binding TotalWorkHours}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Work Days" />
 
-            <TextBlock
-                Grid.Row="6"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="Estimated Story Points" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Text="{Binding WorkDaysCount}" />
 
-            <TextBlock
-                Grid.Row="6"
-                Grid.Column="1"
-                Text="{Binding EstimatedStoryPoints}" />
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Total Work Hours" />
 
-            <TextBlock
-                Grid.Row="7"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="Estimated Velocity" />
+                <TextBlock
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Text="{Binding TotalWorkHours}" />
 
-            <TextBlock
-                Grid.Row="7"
-                Grid.Column="1"
-                Text="{Binding EstimatedVelocity}" />
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Estimated Story Points" />
 
-            <TextBlock
-                Grid.Row="8"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="Commitment Story Points" />
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Text="{Binding EstimatedStoryPoints}" />
 
-            <TextBlock
-                Grid.Row="8"
-                Grid.Column="1"
-                Text="{Binding CommitmentStoryPoints}" />
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Estimated Velocity" />
 
-            <TextBlock
-                Grid.Row="10"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="Actual Story Points" />
+                <TextBlock
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Text="{Binding EstimatedVelocity}" />
 
-            <TextBlock
-                Grid.Row="10"
-                Grid.Column="1"
-                Text="{Binding ActualStoryPoints}" />
+                <TextBlock
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Commitment Story Points" />
 
-            <TextBlock
-                Grid.Row="11"
-                Grid.Column="0"
-                Margin="0 0 10 0"
-                Text="Actual Velocity" />
+                <TextBlock
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Text="{Binding CommitmentStoryPoints}" />
 
-            <TextBlock
-                Grid.Row="11"
-                Grid.Column="1"
-                Text="{Binding ActualVelocity}" />
-        </Grid>
+                <TextBlock
+                    Grid.Row="10"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Actual Story Points" />
+
+                <TextBlock
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Text="{Binding ActualStoryPoints}" />
+
+                <TextBlock
+                    Grid.Row="11"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Actual Velocity" />
+
+                <TextBlock
+                    Grid.Row="11"
+                    Grid.Column="1"
+                    Text="{Binding ActualVelocity}" />
+            </Grid>
+
+            <TextBlock Text="Before Start"/>
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup" />
+                    <ColumnDefinition Width="*" SharedSizeGroup="ValueGroup" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Estimated Story Points" />
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding EstimatedStoryPoints}" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Estimated Velocity" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding EstimatedVelocity}" />
+
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Commitment Story Points" />
+
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding CommitmentStoryPoints}" />
+            </Grid>
+
+            <TextBlock Text="After Close"/>
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="LabelGroup" />
+                    <ColumnDefinition Width="*" SharedSizeGroup="ValueGroup" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Actual Story Points" />
+
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding ActualStoryPoints}" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0 0 10 0"
+                    Text="Actual Velocity" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding ActualVelocity}" />
+            </Grid>
+        </StackPanel>-->
+
     </ScrollViewer>
 
 </UserControl>
