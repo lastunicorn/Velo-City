@@ -20,7 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
     {
         private readonly IMediator mediator;
         private List<SprintViewModel> sprints;
-        private SprintDetailsViewModel sprintDetails;
+        private SprintOverviewViewModel sprintOverview;
         private SprintViewModel selectedSprint;
         private string detailsTitle;
         private SprintCalendarViewModel sprintCalendar;
@@ -64,7 +64,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
                 selectedSprint = value;
                 OnPropertyChanged();
 
-                SprintDetails = null;
+                SprintOverview = null;
                 DetailsTitle = BuildDetailsTitle();
 
                 if (selectedSprint != null)
@@ -89,12 +89,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
             }
         }
 
-        public SprintDetailsViewModel SprintDetails
+        public SprintOverviewViewModel SprintOverview
         {
-            get => sprintDetails;
+            get => sprintOverview;
             private set
             {
-                sprintDetails = value;
+                sprintOverview = value;
                 OnPropertyChanged();
             }
         }
@@ -129,14 +129,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 
         private async Task RetrieveSprintDetails(int sprintId)
         {
-            PresentSprintOverviewRequest request = new()
+            PresentSprintRequest request = new()
             {
                 SprintNumber = sprintId
             };
 
-            PresentSprintOverviewResponse response = await mediator.Send(request);
+            PresentSprintResponse response = await mediator.Send(request);
 
-            SprintDetails = new SprintDetailsViewModel(response);
+            SprintOverview = new SprintOverviewViewModel(response);
             SprintCalendar = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers);
         }
     }

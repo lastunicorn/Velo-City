@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
@@ -62,7 +62,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint
 
         public async Task Execute()
         {
-            AnalyzeSprintRequest request = new()
+            PresentSprintRequest request = new()
             {
                 SprintNumber = SprintNumber,
                 ExcludedSprints = ExcludedSprints,
@@ -71,7 +71,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint
                 AnalysisLookBack = AnalysisLookBack
             };
 
-            AnalyzeSprintResponse response = await mediator.Send(request);
+            PresentSprintResponse response = await mediator.Send(request);
 
             SprintOverviewViewModel = new SprintOverviewViewModel(response);
             SprintCalendarViewModel = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers)

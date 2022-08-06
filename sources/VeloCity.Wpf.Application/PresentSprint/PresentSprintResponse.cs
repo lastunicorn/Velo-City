@@ -18,12 +18,12 @@ using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
 {
-    public class AnalyzeSprintResponse
+    public class PresentSprintResponse
     {
         public string SprintName { get; set; }
-
+        
         public SprintState SprintState { get; set; }
 
         public DateInterval SprintDateInterval { get; set; }

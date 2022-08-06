@@ -17,7 +17,7 @@
 using System;
 using System.Reflection;
 using Autofac;
-using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain;
@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.Cli.Bootstrapper
 
         private static void ConfigureServices(ContainerBuilder containerBuilder)
         {
-            Assembly assembly = typeof(AnalyzeSprintRequest).Assembly;
+            Assembly assembly = typeof(PresentSprintRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
 
             containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();

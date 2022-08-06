@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     mc:Ignorable="d"
     Title="{Binding Title}"
-    Height="450"
+    Height="600"
     Width="800"
     d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
     Background="WhiteSmoke"
@@ -96,7 +96,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Grid
             Grid.Column="2"
-            Visibility="{Binding SprintDetails, Converter={StaticResource NullToVisibilityConverter}}">
+            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityConverter}}">
 
             <DockPanel>
 
@@ -115,8 +115,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </TabControl.Resources>
 
                     <TabItem Header="Overview">
-                        <views:SprintDetailsView
-                            DataContext="{Binding SprintDetails}"
+                        <views:SprintOverviewView
+                            DataContext="{Binding SprintOverview}"
                             Margin="10" />
                     </TabItem>
                     <TabItem Header="Calendar">

@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 using DustInTheWind.VeloCity.Domain;
 
@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
 {
     public class SprintOverviewViewModel
     {
-        private readonly AnalyzeSprintResponse response;
+        private readonly PresentSprintResponse response;
 
         public string SprintName => response.SprintName;
 
@@ -53,7 +53,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
 
         public List<NoteBase> Notes { get; }
 
-        public SprintOverviewViewModel(AnalyzeSprintResponse response)
+        public SprintOverviewViewModel(PresentSprintResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
 

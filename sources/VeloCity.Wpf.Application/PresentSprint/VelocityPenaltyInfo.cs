@@ -17,7 +17,7 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
 {
     public class VelocityPenaltyInfo
     {

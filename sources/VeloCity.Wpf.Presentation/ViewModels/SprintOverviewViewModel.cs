@@ -16,11 +16,11 @@
 
 using System;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 {
-    public class SprintDetailsViewModel
+    public class SprintOverviewViewModel
     {
         public DateInterval TimeInterval { get; }
 
@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 
         public Velocity ActualVelocity { get; }
 
-        public SprintDetailsViewModel(PresentSprintOverviewResponse response)
+        public SprintOverviewViewModel(PresentSprintResponse response)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
             

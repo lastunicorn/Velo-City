@@ -14,21 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using MediatR;
+using System;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
 {
-    public class AnalyzeSprintRequest : IRequest<AnalyzeSprintResponse>
+    public class VelocityPenaltyInfo
     {
-        public int? SprintNumber { get; set; }
+        public PersonName PersonName { get; }
 
-        public List<int> ExcludedSprints { get; set; }
+        public int PenaltyValue { get; }
 
-        public bool IncludeTeamDetails { get; set; }
+        public VelocityPenaltyInfo(VelocityPenaltyInstance velocityPenaltyInstance)
+        {
+            if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
 
-        public List<string> ExcludedTeamMembers { get; set; }
-
-        public uint? AnalysisLookBack { get; set; }
+            PersonName = velocityPenaltyInstance.TeamMember.Name;
+            PenaltyValue = velocityPenaltyInstance.Value;
+        }
     }
 }

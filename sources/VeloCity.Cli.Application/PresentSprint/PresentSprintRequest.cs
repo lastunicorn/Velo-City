@@ -17,9 +17,9 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
 {
-    public class PresentSprintOverviewRequest : IRequest<PresentSprintOverviewResponse>
+    public class PresentSprintRequest : IRequest<PresentSprintResponse>
     {
         public int? SprintNumber { get; set; }
 

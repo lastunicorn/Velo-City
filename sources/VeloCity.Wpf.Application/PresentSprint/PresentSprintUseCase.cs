@@ -23,46 +23,42 @@ using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
 {
-    internal class AnalyzeSprintUseCase : IRequestHandler<AnalyzeSprintRequest, AnalyzeSprintResponse>
+    internal class PresentSprintUseCase : IRequestHandler<PresentSprintRequest, PresentSprintResponse>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IConfig config;
         private readonly ISystemClock systemClock;
 
-        public AnalyzeSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock)
+        public PresentSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
         }
 
-        public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
+        public Task<PresentSprintResponse> Handle(PresentSprintRequest request, CancellationToken cancellationToken)
         {
             Sprint currentSprint = RetrieveSprintToAnalyze(request);
 
             SprintAnalysis sprintAnalysis = new(unitOfWork)
             {
-                ExcludedSprints = request.ExcludedSprints,
-                ExcludedTeamMembers = request.ExcludedTeamMembers,
-                AnalysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack
+                AnalysisLookBack = config.AnalysisLookBack
             };
             sprintAnalysis.Analyze(currentSprint);
 
-            AnalyzeSprintResponse response = CreateResponse(sprintAnalysis);
+            PresentSprintResponse response = CreateResponse(sprintAnalysis);
 
             return Task.FromResult(response);
         }
 
-        private Sprint RetrieveSprintToAnalyze(AnalyzeSprintRequest request)
+        private Sprint RetrieveSprintToAnalyze(PresentSprintRequest request)
         {
             Sprint sprint = request.SprintNumber == null
                 ? RetrieveDefaultSprintToAnalyze()
                 : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
-
-            sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;
-
+            
             return sprint;
         }
 
@@ -86,9 +82,9 @@ namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
             return sprint;
         }
 
-        private AnalyzeSprintResponse CreateResponse(SprintAnalysis sprintAnalysis)
+        private PresentSprintResponse CreateResponse(SprintAnalysis sprintAnalysis)
         {
-            return new AnalyzeSprintResponse
+            return new PresentSprintResponse
             {
                 SprintName = sprintAnalysis.Sprint.Name,
                 SprintState = sprintAnalysis.Sprint.State,

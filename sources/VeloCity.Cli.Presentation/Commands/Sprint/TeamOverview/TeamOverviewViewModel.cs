@@ -17,14 +17,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
 {
     public class TeamOverviewViewModel
     {
-        private readonly AnalyzeSprintResponse response;
+        private readonly PresentSprintResponse response;
 
         public List<TeamMemberViewModel> TeamMembers => response.SprintMembers
             .Select(x => new TeamMemberViewModel(x))
@@ -32,7 +32,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
 
         public List<NoteBase> Notes { get; set; }
 
-        public TeamOverviewViewModel(AnalyzeSprintResponse response)
+        public TeamOverviewViewModel(PresentSprintResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
             

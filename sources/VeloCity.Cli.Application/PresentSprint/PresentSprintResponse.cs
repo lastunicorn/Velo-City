@@ -18,13 +18,11 @@ using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
 {
-    public class PresentSprintOverviewResponse
+    public class PresentSprintResponse
     {
         public string SprintName { get; set; }
-        
-        public int SprintNumber { get; set; }
 
         public SprintState SprintState { get; set; }
 

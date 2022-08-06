@@ -23,22 +23,22 @@ using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
 {
-    internal class PresentSprintOverviewUseCase : IRequestHandler<PresentSprintOverviewRequest, PresentSprintOverviewResponse>
+    internal class PresentSprintUseCase : IRequestHandler<PresentSprintRequest, PresentSprintResponse>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IConfig config;
         private readonly ISystemClock systemClock;
 
-        public PresentSprintOverviewUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock)
+        public PresentSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
         }
 
-        public Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
+        public Task<PresentSprintResponse> Handle(PresentSprintRequest request, CancellationToken cancellationToken)
         {
             Sprint currentSprint = RetrieveSprintToAnalyze(request);
 
@@ -50,12 +50,12 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
             };
             sprintAnalysis.Analyze(currentSprint);
 
-            PresentSprintOverviewResponse response = CreateResponse(sprintAnalysis);
+            PresentSprintResponse response = CreateResponse(sprintAnalysis);
 
             return Task.FromResult(response);
         }
 
-        private Sprint RetrieveSprintToAnalyze(PresentSprintOverviewRequest request)
+        private Sprint RetrieveSprintToAnalyze(PresentSprintRequest request)
         {
             Sprint sprint = request.SprintNumber == null
                 ? RetrieveDefaultSprintToAnalyze()
@@ -86,9 +86,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
             return sprint;
         }
 
-        private PresentSprintOverviewResponse CreateResponse(SprintAnalysis sprintAnalysis)
+        private PresentSprintResponse CreateResponse(SprintAnalysis sprintAnalysis)
         {
-            return new PresentSprintOverviewResponse
+            return new PresentSprintResponse
             {
                 SprintName = sprintAnalysis.Sprint.Name,
                 SprintState = sprintAnalysis.Sprint.State,

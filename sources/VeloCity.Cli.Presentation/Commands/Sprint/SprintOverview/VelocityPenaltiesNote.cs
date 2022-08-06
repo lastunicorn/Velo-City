@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
-using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
