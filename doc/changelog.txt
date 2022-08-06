@@ -11,6 +11,8 @@ v1.9.0
 - [feature] Added a note in the forecast screen with the closed sprints used for velocity
             calculation.
 - [feature] Added team member information in the month calendar.
+- [feature] [GUI] Created a minimal GUI with list of Sprints and two details pages for each sprint:
+            Overview and Calendar.
 
 v1.8.0
 ----------------------------------------------------------------------------------------------------
