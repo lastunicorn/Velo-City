@@ -29,8 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     mc:Ignorable="d"
     Title="{Binding Title}"
-    Height="600"
-    Width="800"
+    Width="1024"
+    Height="768"
     d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
     Background="#EAE7DD"
     ResizeMode="CanResizeWithGrip">
@@ -43,7 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToVisibilityConverter Inverse="True" x:Key="NullToVisibilityInverseConverter" />
-            <converters:SprintStateToBrushConverter x:Key="SprintStateToBrushConverter" />
+            <converters:SprintStateToStrokeBrushConverter x:Key="SprintStateToStrokeBrushConverter" />
+            <converters:SprintStateToFillBrushConverter x:Key="SprintStateToFillBrushConverter" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -65,14 +66,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <DataTemplate>
                     <DockPanel>
 
-                        <Border
-                            DockPanel.Dock="Left"
+                        <Ellipse
                             Width="16"
                             Height="16"
-                            Margin="2"
-                            Background="{Binding SprintState, Converter={StaticResource SprintStateToBrushConverter}}"
-                            CornerRadius="8"
-                            VerticalAlignment="Center" />
+                            StrokeThickness="3"
+                            Stroke="{Binding SprintState, Converter={StaticResource SprintStateToStrokeBrushConverter}}"
+                            Fill="{Binding SprintState, Converter={StaticResource SprintStateToFillBrushConverter}}"
+                            StrokeLineJoin="Round"
+                            StrokeStartLineCap="Flat"
+                            StrokeEndLineCap="Flat" />
 
                         <TextBlock
                             Text="{Binding}"
@@ -95,7 +97,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             VerticalAlignment="Center"
             FontSize="20"
             Text="Select a Sprint"
-            IsEnabled="False"/>
+            IsEnabled="False" />
 
         <Grid
             Grid.Column="2"
@@ -118,9 +120,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <TabItem Header="Calendar">
                         <views:SprintCalendarView
                             DataContext="{Binding SprintCalendar}"
-                            Margin="20"/>
+                            Margin="20" />
                     </TabItem>
-                    <TabItem Header="Team Members" />
+                    <TabItem Header="Team Members">
+                        <TextBlock
+                            Text="Work in progress"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontSize="20"
+                            Foreground="{StaticResource DisabledFontBrush}" />
+                    </TabItem>
                 </TabControl>
 
 

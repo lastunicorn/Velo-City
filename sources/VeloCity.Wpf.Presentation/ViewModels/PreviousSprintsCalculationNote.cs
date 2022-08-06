@@ -15,15 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 {
-    internal class AbsentMyContractNote : NoteBase
+    internal class PreviousSprintsCalculationNote : NoteBase
     {
+        public List<int> PreviousSprintNumbers { get; set; }
+
         protected override IEnumerable<string> BuildMessage()
         {
-            yield return "(c) absent by contract";
+            string previousSprints = string.Join(", ", PreviousSprintNumbers);
+            yield return $"Estimations are based on previous {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
         }
     }
 }

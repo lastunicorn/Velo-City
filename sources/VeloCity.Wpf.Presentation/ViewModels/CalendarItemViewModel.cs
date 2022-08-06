@@ -27,13 +27,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 
         public DateTime Date { get; }
 
-        public bool IsWorkDay { get; set; }
+        public bool IsWorkDay { get; }
 
         public HoursValue WorkHours { get; }
 
         public HoursValue AbsenceHours { get; }
 
-        //public AbsenceDetailsViewModel AbsenceDetails { get; }
+        public AbsenceDetailsViewModel AbsenceDetails { get; }
         
         public CalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
         {
@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
             AbsenceHours = sprintMemberDays
                 .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
                 .Sum(x => x.AbsenceHours);
-            //AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
+            AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
         }
     }
 }

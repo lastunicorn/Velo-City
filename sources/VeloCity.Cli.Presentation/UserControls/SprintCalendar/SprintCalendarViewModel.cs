@@ -139,7 +139,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
                 notes.Add(new PartialDayVacationNote());
 
             if (isMissingByContractNoteVisible)
-                notes.Add(new AbsentMyContractNote());
+                notes.Add(new AbsentByContractNote());
 
             return notes;
         }

@@ -25,11 +25,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <RootNamespace>DustInTheWind.VeloCity.Wpf.Presentation.Styles</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Page Update="Themes\CustomControls\PropertyGroupsViewStyles.xaml">
-        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-        <SubType>Designer</SubType>
-      </Page>
-    </ItemGroup>
-
 </Project>
