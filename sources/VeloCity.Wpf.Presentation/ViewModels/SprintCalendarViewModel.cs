@@ -25,14 +25,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
     {
         public List<CalendarItemViewModel> CalendarItems { get; }
 
-        //public List<NoteBase> Notes { get; }
+        public List<NoteBase> Notes { get; }
         
         public SprintCalendarViewModel(List<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
         {
             if (sprintDays == null) throw new ArgumentNullException(nameof(sprintDays));
 
             CalendarItems = CreateCalendarItems(sprintDays, sprintMembers);
-            //Notes = CreateNotes();
+            Notes = CreateNotes();
         }
 
         private static List<CalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
@@ -57,32 +57,32 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
                 .ToList();
         }
 
-        //private List<NoteBase> CreateNotes()
-        //{
-        //    List<NoteBase> notes = new();
+        private List<NoteBase> CreateNotes()
+        {
+            List<NoteBase> notes = new();
 
-        //    IEnumerable<TeamMemberAbsenceDetails> memberAbsenceDetailsViewModels = CalendarItems
-        //        .SelectMany(x => x.AbsenceDetails.TeamMemberVacationDetails ?? Enumerable.Empty<TeamMemberAbsenceDetails>());
+            IEnumerable<TeamMemberAbsenceDetails> memberAbsenceDetailsViewModels = CalendarItems
+                .SelectMany(x => x.AbsenceDetails.TeamMemberVacationDetails ?? Enumerable.Empty<TeamMemberAbsenceDetails>());
 
-        //    bool isPartialVacationNoteVisible = false;
-        //    bool isMissingByContractNoteVisible = false;
+            bool isPartialVacationNoteVisible = false;
+            bool isMissingByContractNoteVisible = false;
 
-        //    foreach (TeamMemberAbsenceDetails teamMemberAbsenceDetailsViewModel in memberAbsenceDetailsViewModels)
-        //    {
-        //        if (teamMemberAbsenceDetailsViewModel.IsPartialVacation)
-        //            isPartialVacationNoteVisible = true;
+            foreach (TeamMemberAbsenceDetails teamMemberAbsenceDetailsViewModel in memberAbsenceDetailsViewModels)
+            {
+                if (teamMemberAbsenceDetailsViewModel.IsPartialVacation)
+                    isPartialVacationNoteVisible = true;
 
-        //        if (teamMemberAbsenceDetailsViewModel.IsMissingByContract)
-        //            isMissingByContractNoteVisible = true;
-        //    }
+                if (teamMemberAbsenceDetailsViewModel.IsMissingByContract)
+                    isMissingByContractNoteVisible = true;
+            }
 
-        //    if (isPartialVacationNoteVisible)
-        //        notes.Add(new PartialDayVacationNote());
+            if (isPartialVacationNoteVisible)
+                notes.Add(new PartialDayVacationNote());
 
-        //    if (isMissingByContractNoteVisible)
-        //        notes.Add(new AbsentMyContractNote());
+            if (isMissingByContractNoteVisible)
+                notes.Add(new AbsentByContractNote());
 
-        //    return notes;
-        //}
+            return notes;
+        }
     }
 }

@@ -24,7 +24,7 @@ using DustInTheWind.VeloCity.Domain;
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
 {
     [Localizability(LocalizationCategory.NeverLocalize)]
-    internal class SprintStateToBrushConverter : IValueConverter
+    internal class SprintStateToStrokeBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -34,8 +34,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
                 {
                     SprintState.New => Brushes.LightGray,
                     SprintState.Unknown => Brushes.Transparent,
-                    SprintState.InProgress => Brushes.LightGreen,
-                    SprintState.Closed => Brushes.OrangeRed,
+                    SprintState.InProgress => Brushes.MediumSeaGreen,
+                    SprintState.Closed => Brushes.MediumSeaGreen,
                     _ => throw new ArgumentOutOfRangeException()
                 };
             }
