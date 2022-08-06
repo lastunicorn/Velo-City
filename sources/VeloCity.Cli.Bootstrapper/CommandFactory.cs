@@ -16,7 +16,7 @@
 
 using System;
 using Autofac;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
+using DustInTheWind.ConsoleTools.Commando;
 
 namespace DustInTheWind.VeloCity.Cli.Bootstrapper
 {

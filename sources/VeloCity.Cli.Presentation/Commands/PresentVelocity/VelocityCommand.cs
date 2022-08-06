@@ -17,8 +17,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
-using DustInTheWind.VeloCity.Presentation.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.PresentVelocity

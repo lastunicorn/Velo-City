@@ -27,16 +27,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ItemGroup>
         <PackageReference Include="Autofac" Version="6.4.0" />
+        <PackageReference Include="ConsoleTools.Commando" Version="1.4.0" />
+        <PackageReference Include="ConsoleTools.Commando.Autofac.DependencyInjection" Version="1.4.0" />
         <PackageReference Include="log4net" Version="2.0.15" />
         <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="8.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" />
-        <ProjectReference Include="..\VeloCity.Cli.Application\VeloCity.Cli.Application.csproj" />
-        <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" />
-        <ProjectReference Include="..\VeloCity.Cli.Presentation\VeloCity.Cli.Presentation.csproj" />
-        <ProjectReference Include="..\VeloCity.SystemAccess\VeloCity.SystemAccess.csproj" />
+        <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Cli.Application\VeloCity.Cli.Application.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Cli.Presentation\VeloCity.Cli.Presentation.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.SystemAccess\VeloCity.SystemAccess.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

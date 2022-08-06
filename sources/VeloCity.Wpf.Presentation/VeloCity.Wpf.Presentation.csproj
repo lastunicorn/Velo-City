@@ -1,4 +1,4 @@
-<!--
+﻿<!--
 Velo City
 Copyright (C) 2022 Dust in the Wind
 
@@ -30,8 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
-      <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" />
+      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

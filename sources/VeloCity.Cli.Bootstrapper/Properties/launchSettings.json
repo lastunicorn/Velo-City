@@ -1,8 +1,8 @@
 {
-  "profiles": {
-    "VeloCity.Bootstrapper": {
-      "commandName": "Project",
-      "commandLineArgs": "forecast"
+    "profiles": {
+        "VeloCity.Bootstrapper": {
+            "commandName": "Project",
+            "commandLineArgs": "calendar -a 2022-08-01 -z 2022-11-01"
+        }
     }
-  }
 }
