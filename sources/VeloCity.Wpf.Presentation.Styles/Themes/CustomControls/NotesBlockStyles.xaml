@@ -28,7 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Style TargetType="{x:Type styles:NotesBlock}">
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}" />
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
-        <Setter Property="Foreground" Value="{StaticResource PrimaryFontDarkBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="CornerRadius" Value="4" />
         <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">
@@ -43,7 +48,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
 
-                        <ItemsPresenter/>
+                        <ItemsPresenter>
+                            <ItemsPresenter.Resources>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="TextWrapping" Value="Wrap" />
+                                </Style>
+                            </ItemsPresenter.Resources>
+                        </ItemsPresenter>
                     </styles:InfoBlock>
 
                 </ControlTemplate>
@@ -55,9 +66,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <DataTemplate>
                     <ContentPresenter
                         Content="{Binding}"
-                        Margin="0 0 0 3"/>
+                        Margin="0 0 0 8" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
+
+        <!--<Style.Triggers>
+            <DataTrigger Binding="{Binding }" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>-->
+
     </Style>
 </ResourceDictionary>

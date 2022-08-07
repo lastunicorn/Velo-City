@@ -33,16 +33,26 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
             if (response == null) throw new ArgumentNullException(nameof(response));
 
             PropertyGroups = CreatePropertyGroups(response);
-
             Notes = CreateNotes(response).ToList();
         }
 
         private static List<PropertyGroup> CreatePropertyGroups(PresentSprintResponse response)
         {
+            return new List<PropertyGroup>
+            {
+                CreateOverviewGroup(response),
+                CreateSizeGroup(response),
+                CreateBeforeStartingGroup(response),
+                CreateAfterCloseGroup(response)
+            };
+        }
+
+        private static PropertyGroup CreateOverviewGroup(PresentSprintResponse response)
+        {
             DateTime? startDate = response.SprintDateInterval.StartDate;
             DateTime? endDate = response.SprintDateInterval.EndDate;
 
-            PropertyGroup overviewGroup = new("Overview")
+            return new PropertyGroup("Overview")
             {
                 Items = new List<PropertyGroupItem>
                 {
@@ -50,8 +60,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
                     new("State", new SprintStateViewModel(response.SprintState))
                 }
             };
+        }
 
-            PropertyGroup sizeGroup = new("Size")
+        private static PropertyGroup CreateSizeGroup(PresentSprintResponse response)
+        {
+            return new PropertyGroup("Size")
             {
                 Items = new List<PropertyGroupItem>
                 {
@@ -59,7 +72,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
                     new("Total Work Hours", response.TotalWorkHours)
                 }
             };
-            
+        }
+
+        private static PropertyGroup CreateBeforeStartingGroup(PresentSprintResponse response)
+        {
             PropertyGroup beforeStartingGroup = new("Before Starting")
             {
                 Items = new List<PropertyGroupItem>()
@@ -76,25 +92,22 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 
             PropertyGroupItem estimatedVelocityItem = new("Estimated Velocity", new VelocityViewModel(response.EstimatedVelocity));
             beforeStartingGroup.Items.Add(estimatedVelocityItem);
-            
-            PropertyGroupItem commitmentStoryPointsItem = new("Commitment Story Points", response.CommitmentStoryPoints);
+
+            PropertyGroupItem commitmentStoryPointsItem = new("Commitment Story Points", new StoryPointsViewModel(response.CommitmentStoryPoints));
             beforeStartingGroup.Items.Add(commitmentStoryPointsItem);
             
-            PropertyGroup afterCloseGroup = new("After Close")
+            return beforeStartingGroup;
+        }
+
+        private static PropertyGroup CreateAfterCloseGroup(PresentSprintResponse response)
+        {
+            return new PropertyGroup("After Close")
             {
                 Items = new List<PropertyGroupItem>
                 {
                     new("Actual Story Points", new StoryPointsViewModel(response.ActualStoryPoints)),
                     new("Actual Velocity", new VelocityViewModel(response.ActualVelocity))
                 }
-            };
-
-            return new List<PropertyGroup>
-            {
-                overviewGroup,
-                sizeGroup,
-                beforeStartingGroup,
-                afterCloseGroup
             };
         }
 

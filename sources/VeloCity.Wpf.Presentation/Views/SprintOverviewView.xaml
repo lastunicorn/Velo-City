@@ -44,11 +44,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <styles:NotesBlock
             DockPanel.Dock="Bottom"
             ItemsSource="{Binding Notes}"
-            Margin="0 20 0 0"
-            Padding="20"
-            Background="GhostWhite"
-            BorderThickness="2"
-            CornerRadius="4" />
+            Margin="0 20 0 0">
+
+            <styles:NotesBlock.Style>
+                <Style TargetType="styles:NotesBlock" BasedOn="{StaticResource {x:Type styles:NotesBlock}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Notes.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </styles:NotesBlock.Style>
+        </styles:NotesBlock>
 
         <ScrollViewer>
             <styles:PropertyGroupsView ItemsSource="{Binding PropertyGroups}" />

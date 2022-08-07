@@ -45,11 +45,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <styles:NotesBlock
             DockPanel.Dock="Bottom"
             ItemsSource="{Binding Notes}"
-            Margin="0 20 0 0"
-            Padding="20"
-            Background="GhostWhite"
-            BorderThickness="2"
-            CornerRadius="4" />
+            Margin="0 20 0 0">
+
+            <styles:NotesBlock.Style>
+                <Style TargetType="styles:NotesBlock" BasedOn="{StaticResource {x:Type styles:NotesBlock}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Notes.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </styles:NotesBlock.Style>
+
+        </styles:NotesBlock>
 
         <DataGrid
             ItemsSource="{Binding CalendarItems}"
@@ -59,9 +67,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <DataGrid.Columns>
 
                 <DataGridTextColumn
-                    Header="Week Day"
                     Binding="{Binding Date, StringFormat={}{0:dddd}}"
-                    CanUserSort="False" />
+                    CanUserSort="False">
+
+                    <DataGridTextColumn.Header>
+                        <DataGridColumnHeader
+                            Content="Week Day"
+                            HorizontalAlignment="Center" />
+                    </DataGridTextColumn.Header>
+
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="Padding" Value="10 0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
                 <DataGridTextColumn
                     Header="Date"
@@ -69,8 +90,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     CanUserSort="False" />
 
                 <DataGridTextColumn
-                    Header="Work Hours"
-                    Binding="{Binding WorkHours}">
+                    Binding="{Binding WorkHours}"
+                    CanUserSort="False">
+
+                    <DataGridTextColumn.Header>
+                        <DataGridColumnHeader
+                            Content="Work Hours"
+                            HorizontalAlignment="Right" />
+                    </DataGridTextColumn.Header>
 
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
@@ -80,20 +107,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </DataGridTextColumn>
 
                 <DataGridTextColumn
-                    Header="Absence Hours"
-                    Binding="{Binding AbsenceHours}">
+                    Binding="{Binding AbsenceHours}"
+                    CanUserSort="False">
+
+                    <DataGridTextColumn.Header>
+                        <DataGridColumnHeader
+                            Content="Absence Hours"
+                            HorizontalAlignment="Right" />
+                    </DataGridTextColumn.Header>
 
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Right" />
+                            <Setter Property="Padding" Value="10 0" />
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
                 <DataGridTextColumn
                     Header="Absence Details"
-                    Binding="{Binding AbsenceDetails}">
-                </DataGridTextColumn>
+                    Binding="{Binding AbsenceDetails}"
+                    CanUserSort="False" />
 
             </DataGrid.Columns>
 
@@ -101,8 +135,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsWorkDay}" Value="False">
-                            <Setter Property="Foreground" Value="LightGray" />
-                            <Setter Property="Background" Value="WhiteSmoke" />
+                            <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}" />
+                            <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

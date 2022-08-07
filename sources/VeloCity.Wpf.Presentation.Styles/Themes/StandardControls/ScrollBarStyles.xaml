@@ -20,13 +20,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Color x:Key="ScrollThumbColor">#c4c4c4</Color>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Color x:Key="ScrollThumbColor">#686868</Color>
     <SolidColorBrush x:Key="ScrollThumbBrush" Color="{StaticResource ScrollThumbColor}" />
 
-    <Color x:Key="ScrollBarBackgroundColor">#ffffff</Color>
+    <Color x:Key="ScrollBarBackgroundColor">#3E3E42</Color>
     <SolidColorBrush x:Key="ScrollBarBackgroundBrush" Color="{StaticResource ScrollBarBackgroundColor}" />
 
-    <Color x:Key="ScrollBarBorderColor">#c4c4c4</Color>
+    <Color x:Key="ScrollBarBorderColor">#3E3E42</Color>
     <SolidColorBrush x:Key="ScrollBarBorderBrush" Color="{StaticResource ScrollBarBorderColor}" />
 
     <Style TargetType="{x:Type ScrollViewer}">

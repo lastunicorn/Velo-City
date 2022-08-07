@@ -28,13 +28,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}" />
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
-        <Setter Property="Foreground" Value="{StaticResource PrimaryFontDarkBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderDarkBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -68,7 +69,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledFontBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -100,14 +101,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource SelectedBackgroundColor}" />
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AccentColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="SelectedUnfocused">
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource SelectedBackgroundColor}" />
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource PrimaryLightColor}" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

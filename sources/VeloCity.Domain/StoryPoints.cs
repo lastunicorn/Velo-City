@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.Domain
                 ? $"- {MeasurementUnit}"
                 : IsEmpty
                     ? $"0 {MeasurementUnit}"
-                    : $"{Value:0.0000} {MeasurementUnit}";
+                    : $"{Value:0.####} {MeasurementUnit}";
         }
 
         public static implicit operator float(StoryPoints storyPoints)

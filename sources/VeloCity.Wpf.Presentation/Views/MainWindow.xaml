@@ -32,21 +32,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     Width="1024"
     Height="768"
     d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
-    Background="#EAE7DD"
     ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:NullToVisibilityConverter Inverse="True" x:Key="NullToVisibilityInverseConverter" />
-            <converters:SprintStateToStrokeBrushConverter x:Key="SprintStateToStrokeBrushConverter" />
-            <converters:SprintStateToFillBrushConverter x:Key="SprintStateToFillBrushConverter" />
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityInverseConverter" Inverse="True" />
+            
+            <converters:SprintStateToBrushConverter
+                x:Key="SprintStateToStrokeBrushConverter"
+                UnknownBrush="Transparent"
+                NewBrush="LightGray"
+                InProgressBrush="MediumSeaGreen"
+                ClosedBrush="MediumSeaGreen" />
+
+            <converters:SprintStateToBrushConverter
+                x:Key="SprintStateToFillBrushConverter"
+                UnknownBrush="Transparent"
+                NewBrush="Transparent"
+                InProgressBrush="Transparent"
+                ClosedBrush="MediumSeaGreen" />
+
         </ResourceDictionary>
     </Window.Resources>
+
+    <Window.Style>
+        <StaticResource ResourceKey="WindowStyle" />
+    </Window.Style>
 
     <Grid
         Margin="20">
@@ -88,7 +105,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Grid.Column="1"
             Width="8"
             HorizontalAlignment="Stretch"
-            Margin="10 0" />
+            Margin="0"
+            Background="{StaticResource PrimaryBrush}"/>
 
         <TextBlock
             Grid.Column="2"
@@ -101,15 +119,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Grid
             Grid.Column="2"
-            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityConverter}}">
+            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityConverter}}"
+            Margin="10 0 0 0">
 
             <DockPanel>
 
                 <TextBlock
                     DockPanel.Dock="Top"
                     Text="{Binding DetailsTitle}"
-                    FontSize="25"
-                    Margin="0 0 0 20" />
+                    FontSize="28"
+                    Margin="0 8 0 20"
+                    Foreground="{StaticResource FontPrimaryBrush}"/>
 
                 <TabControl>
                     <TabItem Header="Overview">
@@ -128,7 +148,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             FontSize="20"
-                            Foreground="{StaticResource DisabledFontBrush}" />
+                            Foreground="{StaticResource FontDisabledBrush}" />
                     </TabItem>
                 </TabControl>
 
