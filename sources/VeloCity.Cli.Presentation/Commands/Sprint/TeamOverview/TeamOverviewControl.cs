@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
+using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
@@ -88,17 +89,20 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
 
         private Chart CreateChart()
         {
-            Chart chart = new();
+            Chart chart = new()
+            {
+                ActualSize = 24
+            };
 
             IEnumerable<ChartBar> chartBars = ViewModel.TeamMembers
                 .Select(x => new ChartBar
                 {
                     MaxValue = x.WorkHours + x.AbsenceHours,
-                    Value = x.WorkHours
+                    FillValue = x.WorkHours
                 });
 
-            foreach (ChartBar chartBar in chartBars)
-                chart.Add(chartBar);
+            chart.AddRange(chartBars);
+            chart.Calculate();
 
             return chart;
         }
