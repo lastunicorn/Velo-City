@@ -14,28 +14,51 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
+namespace DustInTheWind.VeloCity.ChartTools
 {
-    internal class Chart : IEnumerable<ChartBar>
+    public class Chart : IEnumerable<ChartBar>
     {
         private readonly List<ChartBar> chartBars = new();
+        private int? actualSize;
 
-        public int MaxDisplayLength { get; set; } = 24;
+        public int ActualSize
+        {
+            get => actualSize ?? MaxValue;
+            set => actualSize = value;
+        }
 
-        public int MaxValue => chartBars
-            .Select(x => x.MaxValue)
-            .Max();
+        public int MaxValue { get; private set; }
 
         public ChartBar this[int index] => chartBars[index];
 
         public void Add(ChartBar chartBar)
         {
-            chartBar.Parent = this;
+            if (chartBar.Container != null)
+                throw new ArgumentException("The chart bar is already part of another chart.", nameof(chartBar));
+
+            chartBar.Container = this;
             chartBars.Add(chartBar);
+        }
+
+        public void AddRange(IEnumerable<ChartBar> chartBars)
+        {
+            foreach (ChartBar chartBar in chartBars) 
+                Add(chartBar);
+        }
+
+        public void Calculate()
+        {
+            MaxValue = chartBars
+                .Select(x => x.MaxValue)
+                .Max();
+
+            foreach (ChartBar chartBar in chartBars)
+                chartBar.Calculate();
         }
 
         public IEnumerator<ChartBar> GetEnumerator()

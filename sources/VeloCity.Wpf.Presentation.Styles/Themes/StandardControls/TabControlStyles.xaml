@@ -100,6 +100,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         <Setter Property="Background" Value="{StaticResource AccentBrush}" />
                                     </DataTrigger>
 
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="False"/>
+                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True"/>
+                                        </MultiDataTrigger.Conditions>
+
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="TextBlock.Foreground" Value="{StaticResource FontPrimaryBrush}"/>
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+
                                 </Style.Triggers>
                             </Style>
                         </ContentControl.Style>

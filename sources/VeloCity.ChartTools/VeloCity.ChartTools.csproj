@@ -20,20 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>DustInTheWind.VeloCity.Cli.Presentation</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Cli.Presentation</RootNamespace>
+        <AssemblyName>DustInTheWind.VeloCity.ChartTools</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.ChartTools</RootNamespace>
     </PropertyGroup>
-
-    <ItemGroup>
-        <PackageReference Include="ConsoleTools" Version="1.1.1" />
-        <PackageReference Include="ConsoleTools.Commando" Version="1.4.0" />
-        <PackageReference Include="MediatR" Version="10.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\VeloCity.ChartTools\VeloCity.ChartTools.csproj" />
-        <ProjectReference Include="..\VeloCity.Cli.Application\VeloCity.Cli.Application.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
-    </ItemGroup>
 
 </Project>

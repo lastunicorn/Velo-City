@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:viewModels="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ViewModels"
     xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
+    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -37,6 +38,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/DataGridStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <converters:IntToGridLengthConverter x:Key="IntToGridLengthConverter" GridUnitType="Star" />
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -95,16 +100,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DataGridTextColumn.Header>
                         <DataGridColumnHeader
-                            Content="Work Hours"
+                            Content="Work"
                             HorizontalAlignment="Right" />
                     </DataGridTextColumn.Header>
 
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Right" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasWorkHours}" Value="True">
+                                    <Setter Property="Foreground" Value="LimeGreen" />
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
+
+                <DataGridTemplateColumn
+                    CanUserSort="False"
+                    Width="250">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid
+                                Visibility="{Binding ChartBar, Converter={StaticResource NullToVisibilityConverter}}"
+                                HorizontalAlignment="Stretch">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding ChartBar.ActualFillValue, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding ChartBar.ActualEmptyValue, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding ChartBar.ActualEmptySpace, Converter={StaticResource IntToGridLengthConverter}}" />
+                                </Grid.ColumnDefinitions>
+
+                                <Border
+                                    Grid.Column="0"
+                                    Background="LimeGreen"
+                                    Height="3" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    Height="1"
+                                    Background="#40F9F1A5" />
+
+                                <Border
+                                    Grid.Column="2" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
 
                 <DataGridTextColumn
                     Binding="{Binding AbsenceHours}"
@@ -112,14 +158,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DataGridTextColumn.Header>
                         <DataGridColumnHeader
-                            Content="Absence Hours"
+                            Content="Absence"
                             HorizontalAlignment="Right" />
                     </DataGridTextColumn.Header>
 
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="HorizontalAlignment" Value="Right" />
-                            <Setter Property="Padding" Value="10 0" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasAbsenceHours}" Value="True">
+                                    <Setter Property="Foreground" Value="#F9F1A5" />
+                                </DataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
@@ -127,7 +178,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <DataGridTextColumn
                     Header="Absence Details"
                     Binding="{Binding AbsenceDetails}"
-                    CanUserSort="False" />
+                    CanUserSort="False"
+                    Foreground="#F9F1A5" />
 
             </DataGrid.Columns>
 
