@@ -25,8 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="Control" x:Key="InfoIconStyle">
-        <Setter Property="Foreground" Value="CornflowerBlue"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="CornflowerBlue" />
+        <Setter Property="Background" Value="Transparent" />
 
         <Setter Property="Template">
             <Setter.Value>

@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityInverseConverter" Inverse="True" />
-            
+
             <converters:SprintStateToBrushConverter
                 x:Key="SprintStateToStrokeBrushConverter"
                 UnknownBrush="Transparent"
@@ -106,7 +106,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Width="8"
             HorizontalAlignment="Stretch"
             Margin="0"
-            Background="{StaticResource PrimaryBrush}"/>
+            Background="{StaticResource PrimaryBrush}" />
 
         <TextBlock
             Grid.Column="2"
@@ -129,7 +129,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Text="{Binding DetailsTitle}"
                     FontSize="28"
                     Margin="0 8 0 20"
-                    Foreground="{StaticResource FontPrimaryBrush}"/>
+                    Foreground="{StaticResource FontPrimaryBrush}" />
 
                 <TabControl>
                     <TabItem Header="Overview">

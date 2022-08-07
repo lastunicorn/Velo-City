@@ -52,9 +52,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         Background="{TemplateBinding Background}">
 
                         <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup  x:Name="CommonStates">
-                                <VisualState  x:Name="Disabled">
-                                    <Storyboard >
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetName="border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
                                             <EasingColorKeyFrame KeyTime="0" Value="{DynamicResource ControlLightColor}" />
                                         </ColorAnimationUsingKeyFrames>
@@ -71,7 +71,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                             <ScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                                    <Grid >
+                                    <Grid>
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -113,7 +113,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                             Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
 
-                                        <Grid 
+                                        <Grid
                                             Grid.Column="1"
                                             Grid.Row="2">
 
@@ -234,7 +234,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </Style>
 
     <Style TargetType="{x:Type DataGridRow}" x:Key="DataGridRowStyle">
-        <Setter Property="IsHitTestVisible" Value="{Binding Path=IsSelectable}"/>
+        <Setter Property="IsHitTestVisible" Value="{Binding Path=IsSelectable}" />
 
         <Style.Triggers>
 
@@ -249,7 +249,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DataGridRowStyle}"/>
+    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DataGridRowStyle}" />
 
     <Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellStyle">
         <Setter Property="Padding" Value="18 0" />
@@ -283,6 +283,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellStyle}"/>
+    <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellStyle}" />
 
 </ResourceDictionary>

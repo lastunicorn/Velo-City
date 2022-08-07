@@ -20,4 +20,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     x:Class="DustInTheWind.VeloCity.Wpf.Bootstrapper.App"
 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"/>
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" />

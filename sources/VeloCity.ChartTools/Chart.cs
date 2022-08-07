@@ -47,7 +47,7 @@ namespace DustInTheWind.VeloCity.ChartTools
 
         public void AddRange(IEnumerable<ChartBar> chartBars)
         {
-            foreach (ChartBar chartBar in chartBars) 
+            foreach (ChartBar chartBar in chartBars)
                 Add(chartBar);
         }
 
