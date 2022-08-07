@@ -35,7 +35,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
         public TeamOverviewViewModel(PresentSprintResponse response)
         {
             this.response = response ?? throw new ArgumentNullException(nameof(response));
-            
+
             Notes = new List<NoteBase> { new TeamDetailsNote() };
         }
     }

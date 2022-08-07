@@ -58,8 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource DisabledBrush}">
-                            </Setter>
+                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource DisabledBrush}" />
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -92,7 +91,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver"/>
+                                <VisualState x:Name="MouseOver" />
                                 <VisualState x:Name="Disabled" />
                             </VisualStateGroup>
 
@@ -118,7 +117,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <ContentPresenter
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
-                            VerticalAlignment="Center"/>
+                            VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

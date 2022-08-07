@@ -22,11 +22,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
     public class InfoBlock : ContentControl
     {
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached(
-                nameof(CornerRadius),
-                typeof(CornerRadius),
-                typeof(InfoBlock),
-                new FrameworkPropertyMetadata(defaultValue: new CornerRadius(), flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-            );
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(InfoBlock),
+            new FrameworkPropertyMetadata(defaultValue: new CornerRadius(), flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
 
         public CornerRadius CornerRadius
         {

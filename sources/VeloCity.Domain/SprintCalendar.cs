@@ -34,7 +34,6 @@ namespace DustInTheWind.VeloCity.Domain
 
         public SprintCalendar(Sprint sprint)
         {
-
             SprintName = sprint.Name;
             StartDate = sprint.StartDate;
             EndDate = sprint.EndDate;

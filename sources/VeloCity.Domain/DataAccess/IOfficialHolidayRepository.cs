@@ -24,7 +24,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         IEnumerable<OfficialHoliday> GetAll();
 
         IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate);
-        
+
         IEnumerable<OfficialHoliday> Get(DateInterval dateInterval);
 
         IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country);

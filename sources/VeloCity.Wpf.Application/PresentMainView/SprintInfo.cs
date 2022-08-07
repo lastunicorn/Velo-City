@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentMainView
         public int Number { get; }
 
         public DateInterval DateInterval { get; }
-        
+
         public SprintState State { get; }
 
         public SprintInfo(Sprint sprint)

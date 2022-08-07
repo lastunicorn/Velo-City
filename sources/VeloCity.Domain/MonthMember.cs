@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Domain
         private readonly MonthCalendar monthCalendar;
 
         public PersonName Name => TeamMember.Name;
-        
+
         public TeamMember TeamMember { get; }
 
         public SprintMemberDayCollection Days { get; }

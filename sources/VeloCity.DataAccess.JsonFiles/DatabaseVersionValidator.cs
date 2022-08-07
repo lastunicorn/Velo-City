@@ -37,7 +37,6 @@ namespace DustInTheWind.VeloCity.JsonFiles
      * [ new      ] /TeamMembers/Nickname: string (optional)
      * [ new      ] /TeamMembers/Employments/Country: string (optional)
      */
-
     internal class DatabaseVersionValidator
     {
         private static readonly Version CurrentApplicationVersion;

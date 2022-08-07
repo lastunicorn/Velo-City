@@ -95,7 +95,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 
             PropertyGroupItem commitmentStoryPointsItem = new("Commitment Story Points", new StoryPointsViewModel(response.CommitmentStoryPoints));
             beforeStartingGroup.Items.Add(commitmentStoryPointsItem);
-            
+
             return beforeStartingGroup;
         }
 

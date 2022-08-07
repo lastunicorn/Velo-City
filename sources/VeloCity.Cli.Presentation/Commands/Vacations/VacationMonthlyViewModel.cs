@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
         public DateInterval DateInterval { get; set; }
 
         public override DateTime? SignificantDate => DateInterval.StartDate;
-        
+
         public override DateTime? StartDate => DateInterval.StartDate;
 
         public override DateTime? EndDate => DateInterval.EndDate;
