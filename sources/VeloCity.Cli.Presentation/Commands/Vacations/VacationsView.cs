@@ -47,6 +47,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
                     {
                         CustomConsole.WriteLine($"Vacations for team member '{command.PersonName}':");
                     }
+
                     break;
 
                 case RequestType.ByCurrentDate:
@@ -59,6 +60,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
                     {
                         CustomConsole.WriteLine($"Vacations for all the team members active at {command.Date:yyyy MM dd}:");
                     }
+
                     break;
             }
 

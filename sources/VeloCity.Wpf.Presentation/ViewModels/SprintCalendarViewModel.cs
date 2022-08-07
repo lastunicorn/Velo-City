@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
@@ -26,13 +27,46 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
         public List<CalendarItemViewModel> CalendarItems { get; }
 
         public List<NoteBase> Notes { get; }
-        
+
         public SprintCalendarViewModel(List<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
         {
             if (sprintDays == null) throw new ArgumentNullException(nameof(sprintDays));
 
             CalendarItems = CreateCalendarItems(sprintDays, sprintMembers);
             Notes = CreateNotes();
+
+            Chart chart = CreateChart();
+        }
+
+        private Chart CreateChart()
+        {
+            Chart chart = new()
+            {
+                ActualSize = 100
+            };
+
+            IEnumerable<ChartBar> chartBars = CalendarItems
+                .Select(x =>
+                {
+                    int workHours = x.WorkHours?.Value ?? 0;
+                    int absenceHours = x.AbsenceHours?.Value ?? 0;
+
+                    ChartBar chartBar = new()
+                    {
+                        MaxValue = workHours + absenceHours,
+                        FillValue = workHours
+                    };
+
+                    if (x.IsWorkDay)
+                        x.ChartBar = chartBar;
+
+                    return chartBar;
+                });
+
+            chart.AddRange(chartBars);
+            chart.Calculate();
+
+            return chart;
         }
 
         private static List<CalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)

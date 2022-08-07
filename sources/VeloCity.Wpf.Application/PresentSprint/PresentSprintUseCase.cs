@@ -58,7 +58,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
             Sprint sprint = request.SprintNumber == null
                 ? RetrieveDefaultSprintToAnalyze()
                 : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
-            
+
             return sprint;
         }
 

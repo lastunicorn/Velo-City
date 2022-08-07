@@ -29,9 +29,9 @@ namespace DustInTheWind.VeloCity.JsonFiles
         public int? StartYear { get; set; }
 
         public int? EndYear { get; set; }
-        
+
         public string Country { get; set; }
-        
+
         public string Description { get; set; }
     }
 }

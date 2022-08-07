@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations
     public class PresentVacationsRequest : IRequest<PresentVacationsResponse>
     {
         public string TeamMemberName { get; set; }
-        
+
         public DateTime? Date { get; set; }
     }
 }

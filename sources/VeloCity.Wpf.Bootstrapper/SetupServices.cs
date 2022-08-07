@@ -23,7 +23,6 @@ using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
-using DustInTheWind.VeloCity.Wpf.Presentation;
 using DustInTheWind.VeloCity.Wpf.Presentation.ViewModels;
 using DustInTheWind.VeloCity.Wpf.Presentation.Views;
 using MediatR.Extensions.Autofac.DependencyInjection;
@@ -47,7 +46,7 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
 
             containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
             containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
-            
+
             containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 

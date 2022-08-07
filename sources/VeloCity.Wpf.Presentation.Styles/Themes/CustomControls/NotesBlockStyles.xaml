@@ -71,11 +71,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </Setter.Value>
         </Setter>
 
-        <!--<Style.Triggers>
-            <DataTrigger Binding="{Binding }" Value="{x:Null}">
-                <Setter Property="Visibility" Value="Collapsed" />
-            </DataTrigger>
-        </Style.Triggers>-->
-
     </Style>
 </ResourceDictionary>

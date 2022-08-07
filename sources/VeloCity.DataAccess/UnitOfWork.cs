@@ -26,7 +26,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         private OfficialHolidayRepository officialHolidayRepository;
         private SprintRepository sprintRepository;
         private TeamMemberRepository teamMemberRepository;
-        
+
         private VeloCityDbContext DbContext
         {
             get

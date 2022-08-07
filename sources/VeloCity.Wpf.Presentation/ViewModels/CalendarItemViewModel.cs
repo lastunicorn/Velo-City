@@ -17,24 +17,37 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 {
     public class CalendarItemViewModel
     {
+        private ChartBar chartBar;
+
         public bool IsSelectable => false;
 
         public DateTime Date { get; }
 
         public bool IsWorkDay { get; }
 
-        public HoursValue WorkHours { get; }
+        public HoursValue? WorkHours { get; }
 
-        public HoursValue AbsenceHours { get; }
+        public bool HasWorkHours => WorkHours?.Value > 0;
+
+        public ChartBar ChartBar
+        {
+            get => IsWorkDay ? chartBar : null;
+            set => chartBar = value;
+        }
+
+        public HoursValue? AbsenceHours { get; }
+
+        public bool HasAbsenceHours => AbsenceHours?.Value > 0;
 
         public AbsenceDetailsViewModel AbsenceDetails { get; }
-        
+
         public CalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
         {
             if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
@@ -42,10 +55,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ViewModels
 
             Date = sprintDay.Date;
             IsWorkDay = sprintMemberDays.Any(x => x.AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday);
-            WorkHours = sprintMemberDays.Sum(x => x.WorkHours);
-            AbsenceHours = sprintMemberDays
-                .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
-                .Sum(x => x.AbsenceHours);
+            WorkHours = IsWorkDay
+                ? sprintMemberDays.Sum(x => x.WorkHours)
+                : null;
+            AbsenceHours = IsWorkDay
+                ? sprintMemberDays
+                    .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
+                    .Sum(x => x.AbsenceHours)
+                : null;
             AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
         }
     }

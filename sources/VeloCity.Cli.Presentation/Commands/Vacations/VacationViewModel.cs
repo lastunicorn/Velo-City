@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
         public abstract DateTime? SignificantDate { get; }
 
         public abstract DateTime? StartDate { get; }
-        
+
         public abstract DateTime? EndDate { get; }
 
         public override string ToString()

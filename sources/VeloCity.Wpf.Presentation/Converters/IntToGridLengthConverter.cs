@@ -15,30 +15,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
 {
-    public class SprintCalendar
+    [Localizability(LocalizationCategory.NeverLocalize)]
+    internal class IntToGridLengthConverter : IValueConverter
     {
-        public string SprintName { get; }
+        public GridUnitType GridUnitType { get; set; }
 
-        public DateTime StartDate { get; }
-
-        public DateTime EndDate { get; }
-
-        public List<SprintDay> Days { get; }
-
-        public List<SprintMember> SprintMembers { get; }
-
-        public SprintCalendar(Sprint sprint)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SprintName = sprint.Name;
-            StartDate = sprint.StartDate;
-            EndDate = sprint.EndDate;
-            Days = sprint.EnumerateAllDays().ToList();
-            SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList();
+            if (value is int intValue)
+                return new GridLength(intValue, GridUnitType);
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return DependencyProperty.UnsetValue;
         }
     }
 }

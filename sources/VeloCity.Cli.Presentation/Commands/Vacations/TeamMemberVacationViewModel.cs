@@ -24,7 +24,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {
     public class TeamMemberVacationViewModel
     {
-        readonly SortedList<DateTimeMonth, MonthOfVacationsViewModel> groupedVacations = new();
+        private readonly SortedList<DateTimeMonth, MonthOfVacationsViewModel> groupedVacations = new();
 
         public PersonName PersonName { get; }
 

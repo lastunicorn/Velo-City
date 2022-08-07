@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
     public class MonthOfVacationsViewModel
     {
         public DateTimeMonth DateTimeMonth { get; }
-        
+
         public List<VacationViewModel> Vacations { get; }
 
         public MonthOfVacationsViewModel(DateTimeMonth dateTimeMonth)

@@ -85,35 +85,35 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintMembers
                     return string.Empty;
 
                 case AbsenceReason.OfficialHoliday:
+                {
+                    StringBuilder sb = new();
+
+                    if (sprintMemberDay.AbsenceComments != null)
+                        sb.Append(sprintMemberDay.AbsenceComments);
+
+                    return new ContentCell
                     {
-                        StringBuilder sb = new();
-
-                        if (sprintMemberDay.AbsenceComments != null)
-                            sb.Append(sprintMemberDay.AbsenceComments);
-
-                        return new ContentCell
-                        {
-                            Content = sb.ToString()
-                        };
-                    }
+                        Content = sb.ToString()
+                    };
+                }
 
                 case AbsenceReason.Vacation:
                 case AbsenceReason.Unemployed:
                 case AbsenceReason.Contract:
+                {
+                    StringBuilder sb = new();
+
+                    string absenceReason = ToString(sprintMemberDay.AbsenceReason);
+                    sb.Append(absenceReason);
+
+                    if (sprintMemberDay.AbsenceComments != null)
+                        sb.Append($" ({sprintMemberDay.AbsenceComments})");
+
+                    return new ContentCell
                     {
-                        StringBuilder sb = new();
-
-                        string absenceReason = ToString(sprintMemberDay.AbsenceReason);
-                        sb.Append(absenceReason);
-
-                        if (sprintMemberDay.AbsenceComments != null)
-                            sb.Append($" ({sprintMemberDay.AbsenceComments})");
-
-                        return new ContentCell
-                        {
-                            Content = sb.ToString()
-                        };
-                    }
+                        Content = sb.ToString()
+                    };
+                }
 
                 default:
                     throw new ArgumentOutOfRangeException();
