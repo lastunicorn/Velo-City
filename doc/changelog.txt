@@ -1,18 +1,22 @@
 Velo City
 ====================================================================================================
 
+v1.10.0
+----------------------------------------------------------------------------------------------------
+
+
 v1.9.0
 ----------------------------------------------------------------------------------------------------
 - [feature] Added "date" parameter to the "vacation" command.
 - [feature] Added the "analysis-look-back" parameter to the "sprint" command.
 - [feature] Added the "analysis-look-back" parameter to the "forecast" command.
-- [feature] Repeate the recurrent vacations in each month ("vacations" command).
+- [feature] Repeat the recurrent vacations in each month ("vacations" command).
 - [feature] Write errors into the log file.
 - [feature] Added a note in the forecast screen with the closed sprints used for velocity
             calculation.
 - [feature] Added team member information in the month calendar.
 - [feature] [GUI] Created a minimal GUI with list of Sprints and two details pages for each sprint:
-            Overview and Calendar. (not released yet, but can be found on github)
+            Overview and Calendar. (not released yet, but can be found on Github)
 
 v1.8.0
 ----------------------------------------------------------------------------------------------------
