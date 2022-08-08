@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </styles:NotesBlock>
 
         <ScrollViewer>
-            <styles:PropertyGroupsView ItemsSource="{Binding PropertyGroups}" />
+            <styles:PropertyGroupsView ItemsSource="{Binding PropertyGroups}"/>
         </ScrollViewer>
 
     </DockPanel>

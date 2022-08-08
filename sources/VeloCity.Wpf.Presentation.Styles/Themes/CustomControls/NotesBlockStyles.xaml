@@ -25,6 +25,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <Style x:Key="NotesBlockFirstItemStyle">
+        <Setter Property="Control.Margin" Value="0" />
+    </Style>
+
+    <Style x:Key="NotesBlockNormalItemStyle">
+        <Setter Property="Control.Margin" Value="0 10 0 0" />
+    </Style>
+
+    <Style x:Key="NotesBlockLastItemStyle">
+        <Setter Property="Control.Margin" Value="0 10 0 0" />
+    </Style>
+
     <Style TargetType="{x:Type styles:NotesBlock}">
         <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}" />
         <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
@@ -35,6 +47,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="Padding" Value="20" />
         <Setter Property="CornerRadius" Value="4" />
         <Setter Property="IsTabStop" Value="False" />
+
+        <Setter Property="ItemContainerStyleSelector">
+            <Setter.Value>
+                <styles:ListItemStyleSelector
+                    FirstItemStyle="{StaticResource NotesBlockFirstItemStyle}"
+                    NormalItemStyle="{StaticResource NotesBlockNormalItemStyle}"
+                    LastItemStyle="{StaticResource NotesBlockLastItemStyle}" />
+            </Setter.Value>
+        </Setter>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -48,13 +69,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
 
-                        <ItemsPresenter>
-                            <ItemsPresenter.Resources>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                </Style>
-                            </ItemsPresenter.Resources>
-                        </ItemsPresenter>
+                        <ItemsPresenter />
+
                     </styles:InfoBlock>
 
                 </ControlTemplate>
@@ -64,9 +80,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <ContentPresenter
+                    <ContentControl
                         Content="{Binding}"
-                        Margin="0 0 0 8" />
+                        IsTabStop="False">
+
+                        <ContentControl.Resources>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                        </ContentControl.Resources>
+
+                    </ContentControl>
                 </DataTemplate>
             </Setter.Value>
         </Setter>

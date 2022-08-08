@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type styles:PropertyGroupView}">
+        <Setter Property="IsTabStop" Value="False"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -59,7 +60,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <ContentControl
                             Grid.Column="2"
-                            Content="{Binding Value}">
+                            Content="{Binding Value}"
+                            IsTabStop="False">
 
                             <ContentControl.Resources>
                                 <Style TargetType="{x:Type TextBlock}" />

@@ -84,7 +84,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <ContentControl
                         Content="{TemplateBinding Content}"
-                        FontSize="{StaticResource DefaultFontSize}">
+                        FontSize="{StaticResource DefaultFontSize}"
+                        IsTabStop="False">
 
                         <ContentControl.Style>
                             <Style TargetType="{x:Type ContentControl}">
