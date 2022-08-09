@@ -14,27 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
-using Autofac;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.General
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : global::System.Windows.Application
+    internal class StoryPointsViewModel
     {
-        protected override void OnStartup(StartupEventArgs e)
+        private readonly StoryPoints value;
+
+        public StoryPointsViewModel(StoryPoints value)
         {
-            IContainer container = SetupServices.BuildContainer();
+            this.value = value;
+        }
 
-            MainWindow mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
-
-            MainWindow = mainWindow;
-
-            base.OnStartup(e);
+        public override string ToString()
+        {
+            return value.ToStandardDigitsString();
         }
     }
 }

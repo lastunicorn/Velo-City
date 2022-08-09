@@ -233,13 +233,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type DataGridRow}" x:Key="DataGridRowStyle">
-        <Setter Property="IsHitTestVisible" Value="{Binding Path=IsSelectable}" />
+    <Style TargetType="{x:Type DataGridRow}">
+        <!--<Setter Property="IsHitTestVisible" Value="{Binding Path=IsSelectable}" />-->
 
         <Style.Triggers>
 
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="WhiteSmoke" />
+                <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
             </Trigger>
 
             <DataTrigger Binding="{Binding IsSelected}" Value="True">
@@ -249,9 +249,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </Style.Triggers>
     </Style>
 
-    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DataGridRowStyle}" />
-
-    <Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellStyle">
+    <Style TargetType="{x:Type DataGridCell}">
         <Setter Property="Padding" Value="18 0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="MinHeight" Value="38" />
@@ -282,7 +280,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         </Style.Triggers>
     </Style>
-
-    <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellStyle}" />
 
 </ResourceDictionary>

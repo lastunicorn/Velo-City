@@ -14,27 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
-using Autofac;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage;
+using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : global::System.Windows.Application
+    internal class NoPreviousSprintsNote : NoteBase
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override IEnumerable<string> BuildMessage()
         {
-            IContainer container = SetupServices.BuildContainer();
-
-            MainWindow mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
-
-            MainWindow = mainWindow;
-
-            base.OnStartup(e);
+            yield return "Could not calculate an estimation because no previous closed sprints exist.";
         }
     }
 }
