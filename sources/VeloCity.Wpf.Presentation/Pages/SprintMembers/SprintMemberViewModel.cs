@@ -21,7 +21,7 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
-    public class SprintMemberViewModel
+    public class SprintMemberViewModel : DataGridRowViewModel
     {
         public PersonName Name { get; }
 

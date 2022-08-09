@@ -67,95 +67,152 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <StaticResource ResourceKey="WindowStyle" />
     </Window.Style>
 
-    <Grid
-        Margin="20">
+    <DockPanel>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Border
+            DockPanel.Dock="Top"
+            Padding="30 25"
+            Background="{StaticResource PrimaryDarkBrush}"
+            BorderThickness="0 0 0 1"
+            BorderBrush="{StaticResource BorderBrush}">
 
-        <ListView
-            Grid.Column="0"
-            ItemsSource="{Binding Sprints}"
-            SelectedItem="{Binding SelectedSprint}">
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel>
-
-                        <Ellipse
-                            Width="16"
-                            Height="16"
-                            StrokeThickness="3"
-                            Stroke="{Binding SprintState, Converter={StaticResource SprintStateToStrokeBrushConverter}}"
-                            Fill="{Binding SprintState, Converter={StaticResource SprintStateToFillBrushConverter}}"
-                            StrokeLineJoin="Round"
-                            StrokeStartLineCap="Flat"
-                            StrokeEndLineCap="Flat" />
-
-                        <TextBlock
-                            Text="{Binding}"
-                            Margin="10 5" />
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <GridSplitter
-            Grid.Column="1"
-            Width="8"
-            HorizontalAlignment="Stretch"
-            Margin="0"
-            Background="{StaticResource PrimaryBrush}" />
-
-        <TextBlock
-            Grid.Column="2"
-            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityInverseConverter}}"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="20"
-            Text="Select a Sprint"
-            IsEnabled="False" />
-
-        <Grid
-            Grid.Column="2"
-            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityConverter}}"
-            Margin="10 0 0 0">
+            <!--<Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>-->
 
             <DockPanel>
 
+                <Image
+                    DockPanel.Dock="Left"
+                    SnapsToDevicePixels="True"
+                    Source="pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Images/images.png"
+                    Width="50"
+                    VerticalAlignment="Center"
+                    Margin="0 0 20 0" />
+
                 <TextBlock
-                    DockPanel.Dock="Top"
-                    Text="{Binding DetailsTitle}"
-                    FontSize="28"
-                    Margin="0 8 0 20"
-                    Foreground="{StaticResource FontPrimaryBrush}" />
-
-                <TabControl>
-                    <TabItem Header="Overview">
-                        <sprintOverview:SprintOverviewView
-                            DataContext="{Binding SprintOverview}"
-                            Margin="20" />
-                    </TabItem>
-                    <TabItem Header="Calendar">
-                        <sprintCalendar:SprintCalendarView
-                            DataContext="{Binding SprintCalendar}"
-                            Margin="20" />
-                    </TabItem>
-                    <TabItem Header="Sprint Members">
-                        <sprintMembers:SprintMembersView
-                            DataContext="{Binding SprintMembers}"
-                            Margin="20" />
-                    </TabItem>
-                </TabControl>
-
-
+                    Text="Sprints"
+                    FontSize="30"
+                    Foreground="{StaticResource FontPrimaryBrush}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left" />
             </DockPanel>
+
+        </Border>
+
+        <Grid
+            Margin="20">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ListView
+                Grid.Column="0"
+                ItemsSource="{Binding Sprints}"
+                SelectedItem="{Binding SelectedSprint}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel Margin="10 0">
+
+                            <Grid>
+
+                                <Ellipse
+                                    Width="16"
+                                    Height="16"
+                                    StrokeThickness="3"
+                                    Stroke="{Binding SprintState, Converter={StaticResource SprintStateToStrokeBrushConverter}}"
+                                    Fill="{Binding SprintState, Converter={StaticResource SprintStateToFillBrushConverter}}"
+                                    StrokeLineJoin="Round"
+                                    StrokeStartLineCap="Flat"
+                                    StrokeEndLineCap="Flat"
+                                    Margin="0 0 15 0">
+
+                                    <Ellipse.BitmapEffect>
+                                        <DropShadowBitmapEffect
+                                            Color="{StaticResource PrimaryColor}"
+                                            Direction="0"
+                                            ShadowDepth="0"
+                                            Softness=".4" />
+                                    </Ellipse.BitmapEffect>
+
+                                </Ellipse>
+                            </Grid>
+
+                            <TextBlock
+                                Text="{Binding}"
+                                Margin="0 5 0 5" />
+
+                        </DockPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <GridSplitter
+                Grid.Column="1"
+                Width="8"
+                HorizontalAlignment="Stretch"
+                Margin="0"
+                Background="{StaticResource PrimaryBrush}" />
+
+            <TextBlock
+                Grid.Column="2"
+                Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityInverseConverter}}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Text="Select a Sprint"
+                IsEnabled="False" />
+
+            <Grid
+                Grid.Column="2"
+                Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityConverter}}"
+                Margin="10 0 0 0">
+
+                <DockPanel>
+
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        Text="{Binding DetailsTitle}"
+                        FontSize="28"
+                        Margin="0 8 0 20"
+                        Foreground="{StaticResource FontPrimaryBrush}" />
+
+                    <TabControl>
+                        <TabItem Header="Overview">
+                            <sprintOverview:SprintOverviewView
+                                DataContext="{Binding SprintOverview}"
+                                Margin="20" />
+                        </TabItem>
+                        <TabItem Header="Calendar">
+                            <sprintCalendar:SprintCalendarView
+                                DataContext="{Binding SprintCalendar}"
+                                Margin="20" />
+                        </TabItem>
+                        <TabItem Header="Sprint Members">
+                            <sprintMembers:SprintMembersView
+                                DataContext="{Binding SprintMembers}"
+                                Margin="20" />
+                        </TabItem>
+                    </TabControl>
+
+
+                </DockPanel>
+
+            </Grid>
 
         </Grid>
 
-    </Grid>
+    </DockPanel>
 
 </Window>

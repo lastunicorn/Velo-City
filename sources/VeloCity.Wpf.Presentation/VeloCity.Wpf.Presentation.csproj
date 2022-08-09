@@ -26,6 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Images\images.png" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 
@@ -34,6 +38,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
       <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
       <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Images\images.png" />
     </ItemGroup>
 
     <ItemGroup>

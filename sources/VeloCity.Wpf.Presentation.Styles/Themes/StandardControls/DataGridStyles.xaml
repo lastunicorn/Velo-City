@@ -242,9 +242,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
             </Trigger>
 
-            <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                <Setter Property="Background" Value="#D8F4F8" />
-            </DataTrigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+            </Trigger>
 
         </Style.Triggers>
     </Style>
