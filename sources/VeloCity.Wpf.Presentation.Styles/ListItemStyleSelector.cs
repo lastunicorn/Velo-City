@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
     {
         public Style FirstItemStyle { get; set; }
 
-        public Style ItemStyle { get; set; }
+        public Style NormalItemStyle { get; set; }
 
         public Style LastItemStyle { get; set; }
 
@@ -33,12 +33,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
             int index = itemsControl.ItemContainerGenerator.IndexFromContainer(container);
 
             if (index == 0)
-                return FirstItemStyle ?? ItemStyle ?? base.SelectStyle(item, container);
+                return FirstItemStyle ?? NormalItemStyle ?? base.SelectStyle(item, container);
 
             if (index == itemsControl.Items.Count - 1)
-                return LastItemStyle ?? ItemStyle ?? base.SelectStyle(item, container);
+                return LastItemStyle ?? NormalItemStyle ?? base.SelectStyle(item, container);
 
-            return ItemStyle ?? base.SelectStyle(item, container);
+            return NormalItemStyle ?? base.SelectStyle(item, container);
         }
     }
 }

@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="Control" x:Key="InfoIconStyle">
+    <Style TargetType="{x:Type Control}" x:Key="InfoIconStyle">
         <Setter Property="Foreground" Value="CornflowerBlue" />
         <Setter Property="Background" Value="Transparent" />
 

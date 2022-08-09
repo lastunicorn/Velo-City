@@ -26,6 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="Images\images.png" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 
@@ -37,7 +41,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-        <Page Update="Views\MainWindow.xaml">
+      <Resource Include="Images\images.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Page Update="Pages\MainPage\MainWindow.xaml">
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>

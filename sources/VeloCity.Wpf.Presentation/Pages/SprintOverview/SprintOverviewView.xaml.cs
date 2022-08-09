@@ -14,27 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
-using Autofac;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for SprintOverviewView.xaml
     /// </summary>
-    public partial class App : global::System.Windows.Application
+    public partial class SprintOverviewView : UserControl
     {
-        protected override void OnStartup(StartupEventArgs e)
+        public string Test { get; set; }
+
+        public SprintOverviewView()
         {
-            IContainer container = SetupServices.BuildContainer();
-
-            MainWindow mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
-
-            MainWindow = mainWindow;
-
-            base.OnStartup(e);
+            InitializeComponent();
         }
     }
 }

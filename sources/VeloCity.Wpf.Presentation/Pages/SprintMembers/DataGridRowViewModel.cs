@@ -14,27 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
-using Autofac;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage;
-
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : global::System.Windows.Application
+    public class DataGridRowViewModel
     {
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            IContainer container = SetupServices.BuildContainer();
-
-            MainWindow mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
-
-            MainWindow = mainWindow;
-
-            base.OnStartup(e);
-        }
+        public bool IsSelected { get; set; }
     }
 }

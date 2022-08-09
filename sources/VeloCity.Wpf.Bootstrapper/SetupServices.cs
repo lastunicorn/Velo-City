@@ -23,8 +23,7 @@ using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
-using DustInTheWind.VeloCity.Wpf.Presentation.ViewModels;
-using DustInTheWind.VeloCity.Wpf.Presentation.Views;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
 namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
