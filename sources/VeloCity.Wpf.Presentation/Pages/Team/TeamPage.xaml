@@ -50,14 +50,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ListView
             Grid.Column="0"
             ItemsSource="{Binding TeamMembers}"
-            SelectedItem="{Binding SelectedTeamMember}">
+            SelectedItem="{Binding SelectedTeamMember}"
+            Padding="100">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
 
                     <TextBlock
                         Text="{Binding}"
-                        Margin="0 5 0 5" />
+                        Margin="0 5 0 5">
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEmployed}" Value="False">
+                                        <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+
+                    </TextBlock>
 
                 </DataTemplate>
             </ListView.ItemTemplate>

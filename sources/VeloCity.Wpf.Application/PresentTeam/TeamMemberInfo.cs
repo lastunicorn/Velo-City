@@ -22,9 +22,12 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
     {
         public string Name { get; }
 
+        public bool IsEmployed { get; }
+
         public TeamMemberInfo(TeamMember teamMember)
         {
             Name = teamMember.Name;
+            IsEmployed = teamMember.IsEmployed;
         }
     }
 }

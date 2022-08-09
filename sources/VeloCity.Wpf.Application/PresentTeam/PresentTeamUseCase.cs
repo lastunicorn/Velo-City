@@ -38,8 +38,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
             PresentTeamResponse response = new()
             {
                 TeamMembers = unitOfWork.TeamMemberRepository.GetAll()
-                    .OrderByEmploymentForDate()
-                    .Select(x=> new TeamMemberInfo(x))
+                    .OrderByEmployment()
+                    .OrderByDescending(x => x.IsEmployed)
+                    .Select(x => new TeamMemberInfo(x))
                     .ToList()
             };
 

@@ -23,6 +23,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
     {
         private readonly TeamMemberInfo teamMemberInfo;
 
+        public bool IsEmployed => teamMemberInfo.IsEmployed;
+
         public TeamMemberViewModel(TeamMemberInfo teamMemberInfo)
         {
             this.teamMemberInfo = teamMemberInfo ?? throw new ArgumentNullException(nameof(teamMemberInfo));
