@@ -15,31 +15,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
+using System.Windows;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
 {
-    public class SprintViewModel
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        private readonly SprintInfo sprintInfo;
-
-        public int SprintId => sprintInfo.Id;
-
-        public string SprintName => sprintInfo.Name;
-
-        public int SprintNumber => sprintInfo.Number;
-
-        public SprintState SprintState => sprintInfo.State;
-
-        public SprintViewModel(SprintInfo sprintInfo)
+        public MainWindow(MainViewModel viewModel)
         {
-            this.sprintInfo = sprintInfo ?? throw new ArgumentNullException(nameof(sprintInfo));
+            InitializeComponent();
+
+            DataContext = viewModel;
         }
 
-        public override string ToString()
+        private void Timeline_OnCompleted(object? sender, EventArgs e)
         {
-            return $"{sprintInfo.Name} [{sprintInfo.DateInterval}]";
+            Border2.Height = Double.NaN;
+            Border2.VerticalAlignment = VerticalAlignment.Stretch;
+        }
+
+        private void Timeline2_OnCompleted(object? sender, EventArgs e)
+        {
+            
         }
     }
 }

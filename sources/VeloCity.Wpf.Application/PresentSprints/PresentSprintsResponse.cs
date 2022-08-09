@@ -14,11 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
+using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMainView
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
 {
-    public class PresentMainViewRequest : IRequest<PresentMainViewResponse>
+    public class PresentSprintsResponse
     {
+        public List<SprintInfo> Sprints { get; set; }
     }
 }

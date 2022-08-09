@@ -14,12 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMainView
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
 {
-    public class PresentMainViewResponse
+    public class SprintInfo
     {
-        public List<SprintInfo> Sprints { get; set; }
+        public int Id { get; }
+
+        public string Name { get; }
+
+        public int Number { get; }
+
+        public DateInterval DateInterval { get; }
+
+        public SprintState State { get; }
+
+        public SprintInfo(Sprint sprint)
+        {
+            Id = sprint.Id;
+            Name = sprint.Name;
+            Number = sprint.Number;
+            DateInterval = sprint.DateInterval;
+            State = sprint.State;
+        }
     }
 }

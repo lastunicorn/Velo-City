@@ -15,18 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
 {
-    public interface ITeamMemberRepository
+    public class TeamMemberViewModel
     {
-        IEnumerable<TeamMember> GetAll();
+        private readonly TeamMemberInfo teamMemberInfo;
 
-        IEnumerable<TeamMember> GetByDate(DateTime date);
+        public TeamMemberViewModel(TeamMemberInfo teamMemberInfo)
+        {
+            this.teamMemberInfo = teamMemberInfo ?? throw new ArgumentNullException(nameof(teamMemberInfo));
+        }
 
-        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
-
-        IEnumerable<TeamMember> Find(string text);
+        public override string ToString()
+        {
+            return teamMemberInfo.Name;
+        }
     }
 }

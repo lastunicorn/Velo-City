@@ -14,19 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
 {
-    public interface ITeamMemberRepository
+    public class TeamMemberInfo
     {
-        IEnumerable<TeamMember> GetAll();
+        public string Name { get; }
 
-        IEnumerable<TeamMember> GetByDate(DateTime date);
-
-        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
-
-        IEnumerable<TeamMember> Find(string text);
+        public TeamMemberInfo(TeamMember teamMember)
+        {
+            Name = teamMember.Name;
+        }
     }
 }

@@ -14,29 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMainView
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
 {
-    public class SprintInfo
+    public class PresentSprintsRequest : IRequest<PresentSprintsResponse>
     {
-        public int Id { get; }
-
-        public string Name { get; }
-
-        public int Number { get; }
-
-        public DateInterval DateInterval { get; }
-
-        public SprintState State { get; }
-
-        public SprintInfo(Sprint sprint)
-        {
-            Id = sprint.Id;
-            Name = sprint.Name;
-            Number = sprint.Number;
-            DateInterval = sprint.DateInterval;
-            State = sprint.State;
-        }
     }
 }

@@ -14,20 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
+using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public class PresentTeamResponse
     {
-        public MainWindow(MainViewModel viewModel)
-        {
-            InitializeComponent();
-
-            DataContext = viewModel;
-        }
+        public List<TeamMemberInfo> TeamMembers { get; set; }
     }
 }

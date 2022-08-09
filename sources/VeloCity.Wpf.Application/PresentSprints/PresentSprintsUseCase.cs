@@ -21,20 +21,20 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMainView
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
 {
-    internal class PresentMainViewUseCase : IRequestHandler<PresentMainViewRequest, PresentMainViewResponse>
+    internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, PresentSprintsResponse>
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public PresentMainViewUseCase(IUnitOfWork unitOfWork)
+        public PresentSprintsUseCase(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public Task<PresentMainViewResponse> Handle(PresentMainViewRequest request, CancellationToken cancellationToken)
+        public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
         {
-            PresentMainViewResponse response = new()
+            PresentSprintsResponse response = new()
             {
                 Sprints = unitOfWork.SprintRepository.GetAll()
                     .OrderByDescending(x => x.StartDate)

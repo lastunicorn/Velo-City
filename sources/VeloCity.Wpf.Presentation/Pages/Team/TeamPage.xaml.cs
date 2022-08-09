@@ -14,19 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
 {
-    public interface ITeamMemberRepository
+    /// <summary>
+    /// Interaction logic for TeamPage.xaml
+    /// </summary>
+    public partial class TeamPage : UserControl
     {
-        IEnumerable<TeamMember> GetAll();
-
-        IEnumerable<TeamMember> GetByDate(DateTime date);
-
-        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
-
-        IEnumerable<TeamMember> Find(string text);
+        public TeamPage()
+        {
+            InitializeComponent();
+        }
     }
 }
