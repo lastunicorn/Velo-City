@@ -25,6 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="PresentSprintMemberDetails\**" />
+      <EmbeddedResource Remove="PresentSprintMemberDetails\**" />
+      <None Remove="PresentSprintMemberDetails\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 

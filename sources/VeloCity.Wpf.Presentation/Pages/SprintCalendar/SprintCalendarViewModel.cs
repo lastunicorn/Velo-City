@@ -24,7 +24,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar
 {
     public class SprintCalendarViewModel
     {
-        public List<CalendarItemViewModel> CalendarItems { get; }
+        public List<SprintCalendarItemViewModel> CalendarItems { get; }
 
         public List<NoteBase> Notes { get; }
 
@@ -38,13 +38,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar
             CreateChartBars();
         }
 
-        private static List<CalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
+        private static List<SprintCalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
         {
             return sprintDays
                 .Select(x =>
                 {
                     List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(x.Date, sprintMembers);
-                    return new CalendarItemViewModel(x, sprintMemberDays);
+                    return new SprintCalendarItemViewModel(x, sprintMemberDays);
                 })
                 .ToList();
         }

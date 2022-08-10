@@ -16,6 +16,7 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 
@@ -23,6 +24,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
     public class SprintMemberOverviewViewModel : DataGridRowViewModel
     {
+        private readonly SprintMember sprintMember;
+
+        public override bool IsSelectable => true;
+
         public PersonName Name { get; }
 
         public HoursValue WorkHours { get; }
@@ -35,15 +40,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 
         public ChartBar ChartBar { get; set; }
 
+        public SprintMemberCalendarViewModel SprintMemberCalendarViewModel { get; }
+
         public SprintMemberOverviewViewModel(SprintMember sprintMember)
         {
-            if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
+            this.sprintMember = sprintMember ?? throw new ArgumentNullException(nameof(sprintMember));
 
             Name = sprintMember.Name;
             WorkHours = sprintMember.WorkHours;
             AbsenceHours = sprintMember.Days
                 .Where(IsAbsenceDay)
                 .Sum(x => x.AbsenceHours);
+
+            SprintMemberCalendarViewModel = new SprintMemberCalendarViewModel(sprintMember);
         }
 
         private static bool IsAbsenceDay(SprintMemberDay sprintMemberDay)

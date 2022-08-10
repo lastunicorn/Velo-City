@@ -22,11 +22,13 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar
 {
-    public class CalendarItemViewModel
+    public class SprintCalendarItemViewModel : DataGridRowViewModel
     {
         private ChartBar chartBar;
 
-        public bool IsSelectable => false;
+        public override bool IsSelectable => true;
+
+        public override bool IsEnabled => IsWorkDay;
 
         public DateTime Date { get; }
 
@@ -48,7 +50,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar
 
         public AbsenceDetailsViewModel AbsenceDetails { get; }
 
-        public CalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
+        public SprintCalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
         {
             if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
             if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));

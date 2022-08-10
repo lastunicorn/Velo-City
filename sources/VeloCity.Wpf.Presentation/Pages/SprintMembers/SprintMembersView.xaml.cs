@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
         {
             InitializeComponent();
         }
-        
+
         private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             MouseWheelEventArgs eventArg = new(e.MouseDevice, e.Timestamp, e.Delta)
@@ -87,6 +87,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
             }
 
             return VisualTreeHelper.GetParent(obj);
+        }
+
+        private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is DataGridRow dataGridRow)
+            {
+                if (dataGridRow.IsSelected)
+                {
+                    dataGridRow.IsSelected = false;
+                    e.Handled = true;
+                }
+            }
         }
     }
 }

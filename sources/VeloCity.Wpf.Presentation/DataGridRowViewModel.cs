@@ -14,10 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Presentation
 {
-    public class DataGridRowViewModel
+    public class DataGridRowViewModel : ViewModelBase
     {
-        public bool IsSelected { get; set; }
+        public virtual bool IsSelectable { get; protected set; }
+
+        public virtual bool IsSelected { get; set; }
+
+        public virtual bool IsEnabled { get; protected set; }
     }
 }

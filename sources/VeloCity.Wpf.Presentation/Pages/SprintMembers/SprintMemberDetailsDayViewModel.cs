@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
     public class SprintMemberDetailsDayViewModel : DataGridRowViewModel
     {
-        public bool IsSelectable => false;
+        public override bool IsSelectable => true;
 
         public DateTime Date { get; }
 
@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
         public SprintMemberDetailsDayViewModel(SprintMemberDay sprintMemberDay)
         {
             if (sprintMemberDay == null) throw new ArgumentNullException(nameof(sprintMemberDay));
-
+            
             Date = sprintMemberDay.SprintDay.Date;
 
             IsWorkDay = sprintMemberDay.IsWorkDay;

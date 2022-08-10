@@ -26,17 +26,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
     public class SprintMembersViewModel
     {
         public List<SprintMemberOverviewViewModel> SprintMembersOverview { get; }
-
-        public List<SprintMemberDetailsViewModel> SprintMembersDetails { get; }
-
+        
         public SprintMembersViewModel(PresentSprintResponse response)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
 
             SprintMembersOverview = CreateSprintMemberOverviewItems(response.SprintMembers);
             CreateChartBars();
-
-            SprintMembersDetails = CreateSprintMemberDetailsItems(response.SprintMembers);
         }
 
         private static List<SprintMemberOverviewViewModel> CreateSprintMemberOverviewItems(IEnumerable<SprintMember> sprintMembers)
@@ -69,13 +65,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 
             chart.AddRange(chartBars);
             chart.Calculate();
-        }
-
-        private static List<SprintMemberDetailsViewModel> CreateSprintMemberDetailsItems(List<SprintMember> sprintMembers)
-        {
-            return sprintMembers
-                .Select(x => new SprintMemberDetailsViewModel(x))
-                .ToList();
         }
     }
 }

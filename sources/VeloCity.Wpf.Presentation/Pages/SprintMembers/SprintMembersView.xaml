@@ -45,140 +45,136 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </UserControl.Resources>
 
     <ScrollViewer Padding="0 0 20 0">
-        <StackPanel Orientation="Vertical">
+        <DataGrid
+            ItemsSource="{Binding SprintMembersOverview}"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
 
-            <TextBlock
-                DockPanel.Dock="Top"
-                Text="Overview"
-                Foreground="{StaticResource FontPrimaryBrush}"
-                FontSize="25"
-                Margin="0 0 0 10" />
+            <DataGrid.Columns>
 
-            <DataGrid
-                ItemsSource="{Binding SprintMembersOverview}"
-                AutoGenerateColumns="False"
-                IsReadOnly="True"
-                PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
+                <DataGridTextColumn
+                    Header="Name"
+                    Binding="{Binding Name}"
+                    CanUserSort="False" />
 
-                <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding WorkHours}"
+                    CanUserSort="False">
 
-                    <DataGridTextColumn
-                        Header="Name"
-                        Binding="{Binding Name}"
-                        CanUserSort="False" />
+                    <DataGridTextColumn.Header>
+                        <DataGridColumnHeader
+                            Content="Work"
+                            HorizontalAlignment="Right" />
+                    </DataGridTextColumn.Header>
 
-                    <DataGridTextColumn
-                        Binding="{Binding WorkHours}"
-                        CanUserSort="False">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
 
-                        <DataGridTextColumn.Header>
-                            <DataGridColumnHeader
-                                Content="Work"
-                                HorizontalAlignment="Right" />
-                        </DataGridTextColumn.Header>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasWorkHours}" Value="True">
+                                    <Setter Property="Foreground" Value="LimeGreen" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="HorizontalAlignment" Value="Right" />
+                <DataGridTemplateColumn
+                    CanUserSort="False"
+                    Width="250">
 
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding HasWorkHours}" Value="True">
-                                        <Setter Property="Foreground" Value="LimeGreen" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid
+                                Visibility="{Binding ChartBar, Converter={StaticResource NullToVisibilityConverter}}"
+                                HorizontalAlignment="Stretch">
 
-                    <DataGridTemplateColumn
-                        CanUserSort="False"
-                        Width="250">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding ChartBar.ActualFillValue, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding ChartBar.ActualEmptyValue, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding ChartBar.ActualEmptySpace, Converter={StaticResource IntToGridLengthConverter}}" />
+                                </Grid.ColumnDefinitions>
 
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid
-                                    Visibility="{Binding ChartBar, Converter={StaticResource NullToVisibilityConverter}}"
-                                    HorizontalAlignment="Stretch">
+                                <Border
+                                    Grid.Column="0"
+                                    Background="LimeGreen"
+                                    Height="3" />
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="{Binding ChartBar.ActualFillValue, Converter={StaticResource IntToGridLengthConverter}}" />
-                                        <ColumnDefinition Width="{Binding ChartBar.ActualEmptyValue, Converter={StaticResource IntToGridLengthConverter}}" />
-                                        <ColumnDefinition Width="{Binding ChartBar.ActualEmptySpace, Converter={StaticResource IntToGridLengthConverter}}" />
-                                    </Grid.ColumnDefinitions>
+                                <Border
+                                    Grid.Column="1"
+                                    Height="1"
+                                    Background="#40F9F1A5" />
 
-                                    <Border
-                                        Grid.Column="0"
-                                        Background="LimeGreen"
-                                        Height="3" />
+                                <Border
+                                    Grid.Column="2" />
 
-                                    <Border
-                                        Grid.Column="1"
-                                        Height="1"
-                                        Background="#40F9F1A5" />
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
 
-                                    <Border
-                                        Grid.Column="2" />
+                </DataGridTemplateColumn>
 
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
+                <DataGridTextColumn
+                    Binding="{Binding AbsenceHours}"
+                    CanUserSort="False">
 
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn.Header>
+                        <DataGridColumnHeader
+                            Content="Absence"
+                            HorizontalAlignment="Right" />
+                    </DataGridTextColumn.Header>
 
-                    <DataGridTextColumn
-                        Binding="{Binding AbsenceHours}"
-                        CanUserSort="False">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
 
-                        <DataGridTextColumn.Header>
-                            <DataGridColumnHeader
-                                Content="Absence"
-                                HorizontalAlignment="Right" />
-                        </DataGridTextColumn.Header>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasAbsenceHours}" Value="True">
+                                    <Setter Property="Foreground" Value="#F9F1A5" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
 
-                        <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="HorizontalAlignment" Value="Right" />
+            </DataGrid.Columns>
 
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding HasAbsenceHours}" Value="True">
-                                        <Setter Property="Foreground" Value="#F9F1A5" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                    <Setter Property="IsTabStop" Value="False" />
+                </Style>
+            </DataGrid.CellStyle>
 
-                </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
 
-                <DataGrid.CellStyle>
-                    <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
-                        <Setter Property="IsTabStop" Value="False" />
-                    </Style>
-                </DataGrid.CellStyle>
+                    <DockPanel
+                        Margin="20"
+                        Visibility="{Binding SprintMemberCalendarViewModel, Converter={StaticResource NullToVisibilityConverter}}">
 
-            </DataGrid>
+                        <TextBlock
+                            DockPanel.Dock="Top"
+                            Text="{Binding Name}"
+                            FontSize="25"
+                            Margin="0 0 0 20" />
 
-            <ItemsControl ItemsSource="{Binding SprintMembersDetails}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+                        <sprintMembers:SprintMemberCalendar
+                            DataContext="{Binding SprintMemberCalendarViewModel}" />
 
-                        <DockPanel>
-                            <TextBlock
-                                DockPanel.Dock="Top"
-                                Text="{Binding Name}"
-                                FontSize="25"
-                                Margin="0 20 0 10" />
+                    </DockPanel>
 
-                            <sprintMembers:SprintMemberCalendar
-                                DataContext="{Binding SprintMemberCalendar}"/>
-                            
-                        </DockPanel>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
 
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                    <EventSetter Event="MouseDown" Handler="EventSetter_OnHandler" />
+                </Style>
+            </DataGrid.ItemContainerStyle>
 
-        </StackPanel>
+        </DataGrid>
 
     </ScrollViewer>
 
