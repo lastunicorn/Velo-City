@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="Margin" Value="0" />
         <Setter Property="RowHeaderWidth" Value="0" />
         <Setter Property="RowBackground" Value="{StaticResource PrimaryDarkBrush}" />
-        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
 
         <Setter Property="Template">
             <Setter.Value>

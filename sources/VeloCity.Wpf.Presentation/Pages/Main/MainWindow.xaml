@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Color="{StaticResource BorderColor}"
                     Direction="10"
                     ShadowDepth="10"
-                    BlurRadius="10"/>
+                    BlurRadius="10" />
             </Border.Effect>
 
             <Border.Style>
@@ -87,7 +87,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         DecelerationRatio="0.9"
                         Duration="0:0:0.2"
                         FillBehavior="Stop"
-                        Completed="Timeline_OnCompleted"/>
+                        Completed="Timeline_OnCompleted" />
                 </Storyboard>
             </Border.Resources>
 
@@ -117,8 +117,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         </Border>
 
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <StackPanel Orientation="Horizontal">
+                    
+                    <Label
+                        Content="Database:"
+                        Margin="0 0 10 0"/>
+
+                    <TextBlock
+                        Text="{Binding DatabaseConnectionString}"
+                        VerticalAlignment="Center"/>
+
+                </StackPanel>
+            </StatusBarItem>
+        </StatusBar>
+
         <Grid x:Name="GridContent">
-            
+
             <sprints:SprintsPage x:Name="Page1" DataContext="{Binding SprintsPageViewModel}" />
 
             <!--<team:TeamPage x:Name="Page1" DataContext="{Binding TeamPageViewModel}" />-->

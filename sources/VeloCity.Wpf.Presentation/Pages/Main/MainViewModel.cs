@@ -16,6 +16,8 @@
 
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team;
 using MediatR;
@@ -24,6 +26,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly IMediator mediator;
+        private string databaseConnectionString;
+
         public string Title
         {
             get
@@ -36,16 +41,37 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
             }
         }
 
+        public string DatabaseConnectionString
+        {
+            get => databaseConnectionString;
+            set
+            {
+                databaseConnectionString = value;
+                OnPropertyChanged();
+            }
+        }
+
         public SprintsPageViewModel SprintsPageViewModel { get; }
-        
+
         public TeamPageViewModel TeamPageViewModel { get; }
 
         public MainViewModel(IMediator mediator)
         {
-            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
             SprintsPageViewModel = new SprintsPageViewModel(mediator);
             TeamPageViewModel = new TeamPageViewModel(mediator);
+
+            _ = Initialize();
+        }
+
+        private async Task Initialize()
+        {
+            PresentMainRequest request = new();
+
+            PresentMainResponse response = await mediator.Send(request);
+
+            DatabaseConnectionString = response.DatabaseConnectionString;
         }
     }
 }

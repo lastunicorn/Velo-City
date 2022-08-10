@@ -24,16 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type TextBlock}">
-        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}" />
-        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
+    <Style TargetType="{x:Type StatusBar}">
         <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
-
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Padding" Value="10 0" />
     </Style>
 
 </ResourceDictionary>
