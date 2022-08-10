@@ -24,15 +24,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints"
-    xmlns:pages="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages"
-    xmlns:team="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team"
     xmlns:menu="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Menu"
+    xmlns:main="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main"
 
     mc:Ignorable="d"
     Title="{Binding Title}"
     Width="1024"
     Height="768"
-    d:DataContext="{d:DesignInstance mainPage:MainViewModel}"
+    d:DataContext="{d:DesignInstance main:MainViewModel}"
     ResizeMode="CanResizeWithGrip">
 
     <Window.Resources>
@@ -55,7 +54,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             DockPanel.Dock="Top"
             Padding="30 25"
             BorderThickness="0 0 0 1"
-            BorderBrush="{StaticResource BorderBrush}">
+            BorderBrush="{StaticResource BorderBrush}"
+            Visibility="Collapsed">
 
             <Border.Effect>
                 <DropShadowEffect
@@ -78,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </Border.Style>
 
             <Border.Resources>
-                <Storyboard x:Key="TransformImage">
+                <Storyboard x:Key="ShowPanelStoryboard">
                     <DoubleAnimation
                         Storyboard.TargetName="Border2"
                         Storyboard.TargetProperty="Height"
@@ -93,7 +93,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <Border.Triggers>
                 <EventTrigger RoutedEvent="Border.MouseDown">
-                    <BeginStoryboard Storyboard="{StaticResource TransformImage}" />
+                    <BeginStoryboard Storyboard="{StaticResource ShowPanelStoryboard}" />
                 </EventTrigger>
             </Border.Triggers>
 
@@ -119,9 +119,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Grid x:Name="GridContent">
             
-            <!--<sprints:SprintsPage x:Name="Page1" DataContext="{Binding SprintsPageViewModel}" />-->
+            <sprints:SprintsPage x:Name="Page1" DataContext="{Binding SprintsPageViewModel}" />
 
-            <team:TeamPage x:Name="Page1" DataContext="{Binding TeamPageViewModel}" />
+            <!--<team:TeamPage x:Name="Page1" DataContext="{Binding TeamPageViewModel}" />-->
 
             <menu:MenuPage
                 x:Name="Border2"

@@ -91,13 +91,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 StrokeEndLineCap="Flat"
                                 Margin="0 0 15 0">
 
-                                <Ellipse.BitmapEffect>
-                                    <DropShadowBitmapEffect
+                                <Ellipse.Effect>
+                                    <DropShadowEffect
                                         Color="{StaticResource PrimaryColor}"
                                         Direction="0"
                                         ShadowDepth="0"
-                                        Softness=".4" />
-                                </Ellipse.BitmapEffect>
+                                        BlurRadius="10"/>
+                                </Ellipse.Effect>
 
                             </Ellipse>
                         </Grid>
@@ -142,28 +142,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Foreground="{StaticResource FontPrimaryBrush}" />
 
                 <TabControl>
+
                     <TabItem Header="Overview">
                         <sprintOverview:SprintOverviewView
                             DataContext="{Binding SprintOverview}"
                             Margin="20" />
                     </TabItem>
+
                     <TabItem Header="Calendar">
                         <sprintCalendar:SprintCalendarView
                             DataContext="{Binding SprintCalendar}"
                             Margin="20" />
                     </TabItem>
+
                     <TabItem Header="Sprint Members">
                         <sprintMembers:SprintMembersView
                             DataContext="{Binding SprintMembers}"
                             Margin="20" />
                     </TabItem>
+
                 </TabControl>
 
-
             </DockPanel>
-
         </Grid>
-
     </Grid>
 
 </UserControl>

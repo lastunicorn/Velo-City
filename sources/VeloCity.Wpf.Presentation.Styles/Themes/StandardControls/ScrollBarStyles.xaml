@@ -88,12 +88,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             ViewportSize="{TemplateBinding ViewportWidth}"
                             Height="8" />
 
-                        <Rectangle
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            x:Name="Corner"
-                            Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -140,7 +134,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Width" Value="10" />
         <Setter Property="MinWidth" Value="10" />
 
@@ -149,7 +142,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
 
                     <Border
-                        x:Name="Bg"
+                        x:Name="PART_Border"
                         SnapsToDevicePixels="true"
                         Background="{StaticResource ScrollBarBackgroundBrush}"
                         BorderBrush="{StaticResource ScrollBarBorderBrush}"
