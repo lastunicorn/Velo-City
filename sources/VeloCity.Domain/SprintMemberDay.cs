@@ -34,6 +34,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public string AbsenceComments { get; private set; }
 
+        public bool IsWorkDay => AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday;
+
         public SprintMemberDay(TeamMember teamMember, SprintDay sprintDay)
         {
             TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));

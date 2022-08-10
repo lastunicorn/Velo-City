@@ -11,25 +11,31 @@
 	</PropertyGroup>
 	
 	<Target Name="Build">
+	
+		<!-- Build the solution. -->
+		
 		<MSBuild
 			Projects="..\sources\VeloCity.sln"
 			Properties="Configuration=Release;Platform=Any CPU;Version=$(Version)"/>
+		
+		
+		<!-- Publish the CLI application. -->
 		
 		<MakeDir
 			Directories="$(TempPath)zip\VeloCity\"
 			Condition="!Exists('$(TempPath)zip\VeloCity\')" />
 			
 		<ItemGroup>
-			<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.exe" />
-			<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.dll" />
-			<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.xml" />
-			<CoreFile Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.json" />
-			<CoreFile Remove="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\velo.runtimeconfig.dev.json" />
-			<CoreFile Remove="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\ref\**" />
+			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.exe" />
+			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.dll" />
+			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.xml" />
+			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.json" />
+			<CoreFileCli Remove="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\velo.runtimeconfig.dev.json" />
+			<CoreFileCli Remove="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\ref\**" />
 		</ItemGroup>
 
         <Copy
-            SourceFiles="@(CoreFile)"
+            SourceFiles="@(CoreFileCli)"
             DestinationFiles="$(TempPath)zip\VeloCity\%(RecursiveDir)%(Filename)%(Extension)" />
         <Copy
             SourceFiles="$(RepositoryRoot)LICENSE"
@@ -41,6 +47,36 @@
             SourceFiles="$(RepositoryRoot)doc\changelog.txt"
             DestinationFolder="$(TempPath)zip\VeloCity\" />
 		
+		
+		<!-- Publish the WPF application. -->
+		
+		<MakeDir
+			Directories="$(TempPath)zip\VeloCity-GUI\"
+			Condition="!Exists('$(TempPath)zip\VeloCity-GUI\')" />
+			
+		<ItemGroup>
+			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\**\*.exe" />
+			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\**\*.dll" />
+			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\**\*.xml" />
+			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\**\*.json" />
+			<CoreFileWpf Remove="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\velo.runtimeconfig.dev.json" />
+			<CoreFileWpf Remove="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\ref\**" />
+		</ItemGroup>
+
+        <Copy
+            SourceFiles="@(CoreFileWpf)"
+            DestinationFiles="$(TempPath)zip\VeloCity-GUI\%(RecursiveDir)%(Filename)%(Extension)" />
+        <Copy
+            SourceFiles="$(RepositoryRoot)LICENSE"
+            DestinationFolder="$(TempPath)zip\VeloCity-GUI\" />
+        <Copy
+            SourceFiles="$(RepositoryRoot)doc\readme.txt"
+            DestinationFolder="$(TempPath)zip\VeloCity-GUI\" />
+        <Copy
+            SourceFiles="$(RepositoryRoot)doc\changelog.txt"
+            DestinationFolder="$(TempPath)zip\VeloCity-GUI\" />
+		
+		
 		<!-- Create the zip file. -->
 		
 		<MakeDir
@@ -51,6 +87,7 @@
             SourceDirectory="$(TempPath)zip\"
             DestinationFile="$(OutputPath)$(OutputFileName)" />
         
+		
 		<!-- Publish the installer file. -->
 		
 		<Copy

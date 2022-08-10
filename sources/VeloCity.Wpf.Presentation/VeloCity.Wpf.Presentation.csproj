@@ -45,10 +45,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-        <Page Update="Pages\MainPage\MainWindow.xaml">
+        <Page Update="Pages\Main\MainWindow.xaml">
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Pages\NewFolder\" />
     </ItemGroup>
 
 </Project>

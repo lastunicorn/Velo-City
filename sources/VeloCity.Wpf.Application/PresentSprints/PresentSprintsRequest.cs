@@ -14,19 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
 {
-    public interface ITeamMemberRepository
+    public class PresentSprintsRequest : IRequest<PresentSprintsResponse>
     {
-        IEnumerable<TeamMember> GetAll();
-
-        IEnumerable<TeamMember> GetByDate(DateTime date);
-
-        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
-
-        IEnumerable<TeamMember> Find(string text);
     }
 }

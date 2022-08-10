@@ -25,23 +25,27 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
     public class SprintMembersViewModel
     {
-        public List<SprintMemberViewModel> SprintMemberItems { get; }
-        
+        public List<SprintMemberOverviewViewModel> SprintMembersOverview { get; }
+
+        public List<SprintMemberDetailsViewModel> SprintMembersDetails { get; }
+
         public SprintMembersViewModel(PresentSprintResponse response)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
 
-            SprintMemberItems = CreateSprintMemberItems(response.SprintMembers);
+            SprintMembersOverview = CreateSprintMemberOverviewItems(response.SprintMembers);
             CreateChartBars();
+
+            SprintMembersDetails = CreateSprintMemberDetailsItems(response.SprintMembers);
         }
 
-        private static List<SprintMemberViewModel> CreateSprintMemberItems(IEnumerable<SprintMember> sprintMembers)
+        private static List<SprintMemberOverviewViewModel> CreateSprintMemberOverviewItems(IEnumerable<SprintMember> sprintMembers)
         {
             return sprintMembers
-                .Select(x => new SprintMemberViewModel(x))
+                .Select(x => new SprintMemberOverviewViewModel(x))
                 .ToList();
         }
-        
+
         private void CreateChartBars()
         {
             Chart chart = new()
@@ -49,7 +53,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
                 ActualSize = 100
             };
 
-            IEnumerable<ChartBar> chartBars = SprintMemberItems
+            IEnumerable<ChartBar> chartBars = SprintMembersOverview
                 .Select(x =>
                 {
                     ChartBar chartBar = new()
@@ -65,6 +69,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 
             chart.AddRange(chartBars);
             chart.Calculate();
+        }
+
+        private static List<SprintMemberDetailsViewModel> CreateSprintMemberDetailsItems(List<SprintMember> sprintMembers)
+        {
+            return sprintMembers
+                .Select(x => new SprintMemberDetailsViewModel(x))
+                .ToList();
         }
     }
 }

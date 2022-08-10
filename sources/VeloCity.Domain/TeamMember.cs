@@ -28,6 +28,15 @@ namespace DustInTheWind.VeloCity.Domain
 
         public EmploymentCollection Employments { get; set; }
 
+        public bool IsEmployed
+        {
+            get
+            {
+                Employment employment = Employments?.GetLastEmployment();
+                return employment is { EndDate: null };
+            }
+        }
+
         public string Comments { get; set; }
 
         public VacationCollection Vacations { get; set; }

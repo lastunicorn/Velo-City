@@ -24,6 +24,13 @@ namespace DustInTheWind.VeloCity.Domain
 
         public int Value { get; init; }
 
+        public static HoursValue Zero { get; } = new(0);
+
+        public HoursValue(int value)
+        {
+            Value = value;
+        }
+
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return Value == 0

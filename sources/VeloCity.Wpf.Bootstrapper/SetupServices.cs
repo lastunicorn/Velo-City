@@ -22,8 +22,8 @@ using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
-using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
 namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
@@ -40,7 +40,7 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
 
         private static void ConfigureServices(ContainerBuilder containerBuilder)
         {
-            Assembly assembly = typeof(PresentMainViewRequest).Assembly;
+            Assembly assembly = typeof(PresentSprintsRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
 
             containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();

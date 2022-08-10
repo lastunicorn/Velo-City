@@ -14,19 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
+using System.Linq;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
-    public interface ITeamMemberRepository
+    public class SprintMemberCalendarViewModel
     {
-        IEnumerable<TeamMember> GetAll();
+        public List<SprintMemberDetailsDayViewModel> Days { get; }
 
-        IEnumerable<TeamMember> GetByDate(DateTime date);
-
-        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
-
-        IEnumerable<TeamMember> Find(string text);
+        public SprintMemberCalendarViewModel(SprintMember sprintMember)
+        {
+            Days = sprintMember.Days
+                .Select(x => new SprintMemberDetailsDayViewModel(x))
+                .ToList();
+        }
     }
 }

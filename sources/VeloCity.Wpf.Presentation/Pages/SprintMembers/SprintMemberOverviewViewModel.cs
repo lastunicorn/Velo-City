@@ -21,7 +21,7 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
-    public class SprintMemberViewModel : DataGridRowViewModel
+    public class SprintMemberOverviewViewModel : DataGridRowViewModel
     {
         public PersonName Name { get; }
 
@@ -35,7 +35,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 
         public ChartBar ChartBar { get; set; }
 
-        public SprintMemberViewModel(SprintMember sprintMember)
+        public SprintMemberOverviewViewModel(SprintMember sprintMember)
         {
             if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
 

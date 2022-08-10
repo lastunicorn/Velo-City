@@ -56,6 +56,11 @@ namespace DustInTheWind.VeloCity.Domain
             return employments.Values.LastOrDefault();
         }
 
+        public Employment GetLastEmployment()
+        {
+            return employments.Values.FirstOrDefault();
+        }
+
         public Employment GetEmploymentFor(DateTime date)
         {
             return employments.Values.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));

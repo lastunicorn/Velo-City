@@ -186,8 +186,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsWorkDay}" Value="False">
-                            <!--<Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}" />-->
-                            <!--<Setter Property="Background" Value="{StaticResource PrimaryLightBrush}" />-->
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                     </Style.Triggers>

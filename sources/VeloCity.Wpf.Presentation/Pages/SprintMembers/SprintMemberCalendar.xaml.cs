@@ -22,15 +22,15 @@ using System.Windows.Media;
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
     /// <summary>
-    /// Interaction logic for SprintMembersView.xaml
+    /// Interaction logic for SprintMemberCalendar.xaml
     /// </summary>
-    public partial class SprintMembersView : UserControl
+    public partial class SprintMemberCalendar : UserControl
     {
-        public SprintMembersView()
+        public SprintMemberCalendar()
         {
             InitializeComponent();
         }
-        
+
         private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             MouseWheelEventArgs eventArg = new(e.MouseDevice, e.Timestamp, e.Delta)

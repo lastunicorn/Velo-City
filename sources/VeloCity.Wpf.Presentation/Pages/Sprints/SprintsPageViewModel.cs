@@ -17,18 +17,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Wpf.Application.PresentMainView;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
 {
-    public class MainViewModel : ViewModelBase
+    public class SprintsPageViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
         private List<SprintViewModel> sprints;
@@ -37,18 +36,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage
         private string detailsTitle;
         private SprintCalendarViewModel sprintCalendar;
         private SprintMembersViewModel sprintMembers;
-
-        public string Title
-        {
-            get
-            {
-                Assembly assembly = Assembly.GetEntryAssembly();
-                AssemblyName assemblyName = assembly.GetName();
-                Version version = assemblyName.Version;
-
-                return $"VeloCity {version.ToString(3)}";
-            }
-        }
 
         public List<SprintViewModel> Sprints
         {
@@ -123,7 +110,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage
             }
         }
 
-        public MainViewModel(IMediator mediator)
+        public SprintsPageViewModel(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
@@ -132,9 +119,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.MainPage
 
         private async Task Initialize()
         {
-            PresentMainViewRequest request = new();
+            PresentSprintsRequest request = new();
 
-            PresentMainViewResponse response = await mediator.Send(request);
+            PresentSprintsResponse response = await mediator.Send(request);
 
             Sprints = response.Sprints
                 .Select(x => new SprintViewModel(x))

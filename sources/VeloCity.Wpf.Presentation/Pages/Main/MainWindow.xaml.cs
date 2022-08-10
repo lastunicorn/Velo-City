@@ -14,29 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
+using System;
+using System.Windows;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMainView
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
 {
-    public class SprintInfo
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        public int Id { get; }
-
-        public string Name { get; }
-
-        public int Number { get; }
-
-        public DateInterval DateInterval { get; }
-
-        public SprintState State { get; }
-
-        public SprintInfo(Sprint sprint)
+        public MainWindow(MainViewModel viewModel)
         {
-            Id = sprint.Id;
-            Name = sprint.Name;
-            Number = sprint.Number;
-            DateInterval = sprint.DateInterval;
-            State = sprint.State;
+            InitializeComponent();
+
+            DataContext = viewModel;
+        }
+
+        private void Timeline_OnCompleted(object? sender, EventArgs e)
+        {
+            Border2.Height = Double.NaN;
+            Border2.VerticalAlignment = VerticalAlignment.Stretch;
+        }
+
+        private void Timeline2_OnCompleted(object? sender, EventArgs e)
+        {
+            
         }
     }
 }
