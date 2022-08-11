@@ -153,8 +153,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             From="{Binding ActualHeight, ElementName=GridContent}"
                             To="0"
                             DecelerationRatio="0.9"
-                            Duration="0:0:0.2"
-                            Completed="Timeline2_OnCompleted" />
+                            Duration="0:0:0.2" />
                     </Storyboard>
                 </menu:MenuPage.Resources>
 

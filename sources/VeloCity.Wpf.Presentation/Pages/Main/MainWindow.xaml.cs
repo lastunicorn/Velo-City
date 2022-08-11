@@ -31,15 +31,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
             DataContext = viewModel;
         }
 
-        private void Timeline_OnCompleted(object? sender, EventArgs e)
+        private void Timeline_OnCompleted(object sender, EventArgs e)
         {
-            Border2.Height = Double.NaN;
+            Border2.Height = double.NaN;
             Border2.VerticalAlignment = VerticalAlignment.Stretch;
-        }
-
-        private void Timeline2_OnCompleted(object? sender, EventArgs e)
-        {
-            
         }
     }
 }

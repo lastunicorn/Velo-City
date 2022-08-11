@@ -151,7 +151,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <DataTemplate>
 
                     <DockPanel
-                        Margin="20"
+                        Margin="40"
                         Visibility="{Binding SprintMemberCalendarViewModel, Converter={StaticResource NullToVisibilityConverter}}">
 
                         <TextBlock
