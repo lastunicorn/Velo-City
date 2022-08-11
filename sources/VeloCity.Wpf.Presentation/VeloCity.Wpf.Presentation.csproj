@@ -51,4 +51,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </Page>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Commands\" />
+    </ItemGroup>
+
 </Project>

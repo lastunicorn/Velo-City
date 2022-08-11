@@ -14,22 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Wpf.Application.Refresh
 {
-    public interface IUnitOfWork
+    public class RefreshEvent
     {
-        public WarningException DatabaseWarning { get; }
-
-        public Exception DatabaseError { get; }
-
-        public IOfficialHolidayRepository OfficialHolidayRepository { get; }
-
-        public ISprintRepository SprintRepository { get; }
-
-        public ITeamMemberRepository TeamMemberRepository { get; }
-
-        void InvalidateCash();
     }
 }

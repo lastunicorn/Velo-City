@@ -15,21 +15,31 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Windows.Input;
+using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 {
-    public interface IUnitOfWork
+    public class RefreshCommand : ICommand
     {
-        public WarningException DatabaseWarning { get; }
+        private readonly IMediator mediator;
+        public event EventHandler CanExecuteChanged;
 
-        public Exception DatabaseError { get; }
+        public RefreshCommand(IMediator mediator)
+        {
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
 
-        public IOfficialHolidayRepository OfficialHolidayRepository { get; }
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
 
-        public ISprintRepository SprintRepository { get; }
-
-        public ITeamMemberRepository TeamMemberRepository { get; }
-
-        void InvalidateCash();
+        public void Execute(object parameter)
+        {
+            RefreshRequest request = new();
+            _ = mediator.Send(request);
+        }
     }
 }
