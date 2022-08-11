@@ -96,7 +96,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         Color="{StaticResource PrimaryColor}"
                                         Direction="0"
                                         ShadowDepth="0"
-                                        BlurRadius="10"/>
+                                        BlurRadius="10" />
                                 </Ellipse.Effect>
 
                             </Ellipse>
@@ -134,12 +134,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <DockPanel>
 
-                <TextBlock
-                    DockPanel.Dock="Top"
-                    Text="{Binding DetailsTitle}"
-                    FontSize="28"
-                    Margin="0 8 0 20"
-                    Foreground="{StaticResource FontPrimaryBrush}" />
+                <Grid
+                    DockPanel.Dock="Top">
+
+                    <TextBlock
+                        Text="{Binding DetailsTitle}"
+                        FontSize="28"
+                        Margin="0 8 0 20"
+                        Foreground="{StaticResource FontPrimaryBrush}" />
+
+                    <Button
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Content="Refresh"
+                        Command="{Binding RefreshCommand}"/>
+
+                </Grid>
 
                 <TabControl>
 

@@ -17,6 +17,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team;
@@ -55,11 +56,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
 
         public TeamPageViewModel TeamPageViewModel { get; }
 
-        public MainViewModel(IMediator mediator)
+        public MainViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            SprintsPageViewModel = new SprintsPageViewModel(mediator);
+            SprintsPageViewModel = new SprintsPageViewModel(mediator, eventBus);
             TeamPageViewModel = new TeamPageViewModel(mediator);
 
             _ = Initialize();

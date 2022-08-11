@@ -52,5 +52,11 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
+
+        public void InvalidateCash()
+        {
+            dbContext.Close();
+            dbContext.Open();
+        }
     }
 }

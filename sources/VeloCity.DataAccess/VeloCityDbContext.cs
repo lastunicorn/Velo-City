@@ -86,19 +86,6 @@ namespace DustInTheWind.VeloCity.DataAccess
             }
         }
 
-        private void CloseInternal()
-        {
-            TeamMembers.Clear();
-            OfficialHolidays.Clear();
-            Vacations.Clear();
-            Sprints.Clear();
-
-            LastError = null;
-            LastWarning = null;
-
-            State = DatabaseState.Closed;
-        }
-
         private void LoadAllData()
         {
             IEnumerable<Sprint> sprints = databaseFile.Document.Sprints.ToEntities();
@@ -136,6 +123,24 @@ namespace DustInTheWind.VeloCity.DataAccess
 
             foreach (TeamMember teamMember in teamMembers)
                 sprint.AddSprintMember(teamMember);
+        }
+
+        public void Close()
+        {
+            CloseInternal();
+        }
+
+        private void CloseInternal()
+        {
+            TeamMembers.Clear();
+            OfficialHolidays.Clear();
+            Vacations.Clear();
+            Sprints.Clear();
+
+            LastError = null;
+            LastWarning = null;
+
+            State = DatabaseState.Closed;
         }
     }
 }

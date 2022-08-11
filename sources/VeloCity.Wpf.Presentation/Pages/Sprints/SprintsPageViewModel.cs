@@ -17,9 +17,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
+using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview;
@@ -63,13 +67,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             }
         }
 
-        private string BuildDetailsTitle()
-        {
-            return SelectedSprint == null
-                ? null
-                : $"{SelectedSprint.SprintName} ({selectedSprint.SprintNumber})";
-        }
-
         public string DetailsTitle
         {
             get => detailsTitle;
@@ -79,6 +76,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
                 OnPropertyChanged();
             }
         }
+
+        public RefreshCommand RefreshCommand { get; }
 
         public SprintOverviewViewModel SprintOverview
         {
@@ -110,11 +109,20 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             }
         }
 
-        public SprintsPageViewModel(IMediator mediator)
+        public SprintsPageViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
+            RefreshCommand = new RefreshCommand(mediator);
+
+            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+
             _ = Initialize();
+        }
+
+        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        {
+            await Initialize();
         }
 
         private async Task Initialize()
@@ -143,6 +151,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             SprintOverview = new SprintOverviewViewModel(response);
             SprintCalendar = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers);
             SprintMembers = new SprintMembersViewModel(response);
+        }
+
+        private string BuildDetailsTitle()
+        {
+            return SelectedSprint == null
+                ? null
+                : $"{SelectedSprint.SprintName} ({selectedSprint.SprintNumber})";
         }
     }
 }
