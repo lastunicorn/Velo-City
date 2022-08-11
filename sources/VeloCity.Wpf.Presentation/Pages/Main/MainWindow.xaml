@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints"
-    xmlns:menu="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Menu"
     xmlns:main="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main"
 
     mc:Ignorable="d"
@@ -49,122 +48,100 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <DockPanel>
 
-        <Border
-            x:Name="Border1"
-            DockPanel.Dock="Top"
-            Padding="30 25"
-            BorderThickness="0 0 0 1"
-            BorderBrush="{StaticResource BorderBrush}"
-            Visibility="Collapsed">
-
-            <Border.Effect>
-                <DropShadowEffect
-                    Color="{StaticResource BorderColor}"
-                    Direction="10"
-                    ShadowDepth="10"
-                    BlurRadius="10" />
-            </Border.Effect>
-
-            <Border.Style>
-                <Style TargetType="Border">
-
-                    <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}" />
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource PrimaryLightBrush}" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-
-            <Border.Resources>
-                <Storyboard x:Key="ShowPanelStoryboard">
-                    <DoubleAnimation
-                        Storyboard.TargetName="Border2"
-                        Storyboard.TargetProperty="Height"
-                        From="0"
-                        To="{Binding ActualHeight, ElementName=GridContent}"
-                        DecelerationRatio="0.9"
-                        Duration="0:0:0.2"
-                        FillBehavior="Stop"
-                        Completed="Timeline_OnCompleted" />
-                </Storyboard>
-            </Border.Resources>
-
-            <Border.Triggers>
-                <EventTrigger RoutedEvent="Border.MouseDown">
-                    <BeginStoryboard Storyboard="{StaticResource ShowPanelStoryboard}" />
-                </EventTrigger>
-            </Border.Triggers>
-
-            <DockPanel>
-
-                <Image
-                    DockPanel.Dock="Left"
-                    SnapsToDevicePixels="True"
-                    Source="pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Images/images.png"
-                    Width="50"
-                    VerticalAlignment="Center"
-                    Margin="0 0 20 0" />
-
-                <TextBlock
-                    Text="Sprints"
-                    FontSize="30"
-                    Foreground="{StaticResource FontPrimaryBrush}"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Left" />
-            </DockPanel>
-
-        </Border>
-
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
-                    
+
                     <Label
                         Content="Database:"
-                        Margin="0 0 10 0"/>
+                        Margin="0 0 10 0" />
 
                     <TextBlock
                         Text="{Binding DatabaseConnectionString}"
-                        VerticalAlignment="Center"/>
+                        VerticalAlignment="Center" />
 
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
 
-        <Grid x:Name="GridContent">
+        <sprints:SprintsPage
+            DataContext="{Binding SprintsPageViewModel}"
+            Margin="20" />
 
-            <sprints:SprintsPage x:Name="Page1" DataContext="{Binding SprintsPageViewModel}" />
+        <!--<TabControl TabStripPlacement="Left">
 
-            <!--<team:TeamPage x:Name="Page1" DataContext="{Binding TeamPageViewModel}" />-->
+            <TabControl.Template>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid>
 
-            <menu:MenuPage
-                x:Name="Border2"
-                DockPanel.Dock="Top"
-                Background="{StaticResource PrimaryBrush}"
-                Height="0"
-                VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-                <menu:MenuPage.Resources>
-                    <Storyboard x:Key="HidePanelStoryboard">
-                        <DoubleAnimation
-                            Storyboard.TargetProperty="Height"
-                            From="{Binding ActualHeight, ElementName=GridContent}"
-                            To="0"
-                            DecelerationRatio="0.9"
-                            Duration="0:0:0.2" />
-                    </Storyboard>
-                </menu:MenuPage.Resources>
+                        <Border
+                            Grid.Column="0"
+                            BorderThickness="0 0 10 0"
+                            BorderBrush="Transparent"
+                            Background="{StaticResource PrimaryDarkBrush}"
+                            ClipToBounds="True">
 
-                <menu:MenuPage.Triggers>
-                    <EventTrigger RoutedEvent="Border.MouseDown">
-                        <BeginStoryboard Storyboard="{StaticResource HidePanelStoryboard}" />
-                    </EventTrigger>
-                </menu:MenuPage.Triggers>
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    Color="{StaticResource BorderColor}"
+                                    ShadowDepth="1"
+                                    BlurRadius="10" />
+                            </Border.Effect>
 
-            </menu:MenuPage>
-        </Grid>
+                            <TabPanel
+                                IsItemsHost="true"
+                                Background="Transparent" />
+                        </Border>
+
+                        <Border
+                            Grid.Column="1"
+                            BorderThickness="0"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+
+                            <ContentPresenter ContentSource="SelectedContent" />
+
+                        </Border>
+
+                    </Grid>
+                </ControlTemplate>
+            </TabControl.Template>
+
+            <TabItem Margin="10">
+                <TabItem.Header>
+                    <Image
+                        DockPanel.Dock="Left"
+                        SnapsToDevicePixels="True"
+                        Source="pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Images/sprints.png"
+                        Width="40"
+                        VerticalAlignment="Center" />
+                </TabItem.Header>
+
+                <sprints:SprintsPage
+                    DataContext="{Binding SprintsPageViewModel}"
+                    Margin="20" />
+            </TabItem>
+
+            <TabItem Margin="10">
+                <TabItem.Header>
+                    <Image
+                        DockPanel.Dock="Left"
+                        SnapsToDevicePixels="True"
+                        Source="pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Images/team-members.png"
+                        Width="40"
+                        VerticalAlignment="Center" />
+                </TabItem.Header>
+
+                <team:TeamPage
+                    DataContext="{Binding TeamPageViewModel}" />
+
+            </TabItem>
+
+        </TabControl>-->
 
     </DockPanel>
 

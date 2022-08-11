@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMemberCalendar;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {

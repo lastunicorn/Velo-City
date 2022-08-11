@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMemberCalendar
 {
     public class SprintMemberCalendarViewModel
     {

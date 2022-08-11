@@ -16,7 +16,6 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="20 0" />
         <Setter Property="Height" Value="42" />
-        <Setter Property="MinWidth" Value="90" />
         <Setter Property="BorderThickness" Value="0" />
 
         <Setter Property="Template">

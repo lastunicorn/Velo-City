@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMemberCalendar;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {

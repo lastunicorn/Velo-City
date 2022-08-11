@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Windows;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
@@ -29,12 +28,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
             InitializeComponent();
 
             DataContext = viewModel;
-        }
-
-        private void Timeline_OnCompleted(object sender, EventArgs e)
-        {
-            Border2.Height = double.NaN;
-            Border2.VerticalAlignment = VerticalAlignment.Stretch;
         }
     }
 }

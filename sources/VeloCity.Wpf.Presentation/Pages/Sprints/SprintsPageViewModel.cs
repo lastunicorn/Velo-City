@@ -56,6 +56,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             get => selectedSprint;
             set
             {
+                if (ReferenceEquals(selectedSprint, value))
+                    return;
+
                 selectedSprint = value;
                 OnPropertyChanged();
 
@@ -127,6 +130,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
 
         private async Task Initialize()
         {
+            int? initialSelectedSprintNumber = selectedSprint?.SprintNumber;
+
             PresentSprintsRequest request = new();
 
             PresentSprintsResponse response = await mediator.Send(request);
@@ -134,6 +139,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             Sprints = response.Sprints
                 .Select(x => new SprintViewModel(x))
                 .ToList();
+
+            if (initialSelectedSprintNumber != null)
+                SelectedSprint = Sprints.FirstOrDefault(x => x.SprintNumber == initialSelectedSprintNumber);
         }
 
         private async Task RetrieveSprintDetails(int sprintId)

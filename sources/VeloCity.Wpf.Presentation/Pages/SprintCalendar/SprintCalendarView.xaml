@@ -174,11 +174,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <DataGridTextColumn
+                <!--<DataGridTextColumn
                     Header="Absence Details"
                     Binding="{Binding AbsenceDetails}"
                     CanUserSort="False"
-                    Foreground="#F9F1A5" />
+                    Foreground="#F9F1A5" />-->
+
+                <DataGridTemplateColumn
+                    Header="Absence Details"
+                    CanUserSort="False">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <sprintCalendar:AbsenceDetailsControl DataContext="{Binding AbsenceDetails}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
             </DataGrid.Columns>
 

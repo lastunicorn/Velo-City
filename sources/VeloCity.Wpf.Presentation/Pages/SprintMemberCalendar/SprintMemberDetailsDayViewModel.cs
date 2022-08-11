@@ -18,7 +18,7 @@ using System;
 using System.Text;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMemberCalendar
 {
     public class SprintMemberDetailsDayViewModel : DataGridRowViewModel
     {

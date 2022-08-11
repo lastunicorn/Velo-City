@@ -19,14 +19,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMemberCalendar
 {
     /// <summary>
-    /// Interaction logic for SprintMemberCalendar.xaml
+    /// Interaction logic for SprintMemberCalendarControl.xaml
     /// </summary>
-    public partial class SprintMemberCalendar : UserControl
+    public partial class SprintMemberCalendarControl : UserControl
     {
-        public SprintMemberCalendar()
+        public SprintMemberCalendarControl()
         {
             InitializeComponent();
         }

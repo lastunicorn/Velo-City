@@ -26,7 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Images\images.png" />
+      <None Remove="Images\sprints.png" />
+      <None Remove="Images\team-members.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -41,7 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Images\images.png" />
+      <Resource Include="Images\sprints.png" />
     </ItemGroup>
 
     <ItemGroup>
