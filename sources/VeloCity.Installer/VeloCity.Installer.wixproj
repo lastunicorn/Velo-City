@@ -17,7 +17,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>FileSourceDirectory=$(SolutionDir)VeloCity.Cli.Bootstrapper\bin\$(Configuration)\net5.0;Version=$(Version)</DefineConstants>
+    <DefineConstants>FileSourceDirectoryCli=$(SolutionDir)VeloCity.Cli.Bootstrapper\bin\$(Configuration)\net5.0;FileSourceDirectoryGui=$(SolutionDir)VeloCity.Wpf.Bootstrapper\bin\$(Configuration)\net5.0-windows;Version=$(Version)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Components\ApplicationFilesCli.wxs" />
