@@ -1,7 +1,8 @@
 Velo City 1.10.0
 ====================================================================================================
 
-This is a console application tool that calculates the velocity of a scrum team.
+This is a tool that calculates the velocity of a scrum team and helps planning the sprints.
+It has two interfaces: a command line interface and a GUI created in WPF.
 
 
 Client data
@@ -17,10 +18,17 @@ This json contains three sections:
 	- official holidays - a list of official holidays for each team member.
 
 
-User Interface
+Command Line Interface
 ----------------------------------------------------------------------------------------------------
 
-The user interface is a CLI. We have plans to create a GUI desktop interface in the future.
+The console is accessible by typing "velo" in a console.
+
+
+Desktop GUI Interface
+----------------------------------------------------------------------------------------------------
+
+The GUI is in a beta version and is missing some of the features. They will be added in later
+versions.
 
 
 Features

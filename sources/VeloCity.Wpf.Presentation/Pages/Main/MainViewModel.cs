@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
                 AssemblyName assemblyName = assembly.GetName();
                 Version version = assemblyName.Version;
 
-                return $"VeloCity {version.ToString(3)}";
+                return $"VeloCity {version.ToString(3)} beta";
             }
         }
 
