@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.WarningExceptionTests
         public void WhenCreatingInstanceWithSpecificMessageText_ThenMessageIsThatText()
         {
             WarningException warningException = new("custom text");
-            
+
             warningException.Message.Should().Be("custom text");
         }
     }

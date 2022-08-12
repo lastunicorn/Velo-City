@@ -33,7 +33,7 @@ namespace DustInTheWind.VeloCity.Tests.Application.PresentVacations
 
         public PresentVacationsUseCaseTests()
         {
-            teamMemberRepository = new();
+            teamMemberRepository = new Mock<ITeamMemberRepository>();
 
             Mock<IUnitOfWork> unitOfWork = new();
             unitOfWork

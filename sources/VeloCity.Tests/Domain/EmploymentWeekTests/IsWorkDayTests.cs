@@ -73,13 +73,13 @@ namespace DustInTheWind.VeloCity.Tests.Domain.EmploymentWeekTests
         [InlineData(DayOfWeek.Sunday)]
         public void HavingEmploymentWeekWithOneDay_WhenVerifyingThatDay_ThenReturnsTrue(DayOfWeek dayOfWeek)
         {
-            EmploymentWeek employmentWeek = new(new [] { dayOfWeek });
+            EmploymentWeek employmentWeek = new(new[] { dayOfWeek });
 
             bool actual = employmentWeek.IsWorkDay(dayOfWeek);
 
             actual.Should().BeTrue();
         }
-        
+
         [Fact]
         public void HavingEmploymentWeekWithOneDay_WhenVerifyingOtherDay_ThenReturnsFalse()
         {

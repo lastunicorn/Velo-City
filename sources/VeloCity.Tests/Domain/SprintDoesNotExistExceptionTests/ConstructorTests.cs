@@ -43,7 +43,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.SprintDoesNotExistExceptionTests
         public void WhenCreatingInstanceWithSpecificSprintNumber_ThenInnerExceptionIsNull(int sprintNumber)
         {
             SprintDoesNotExistException sprintDoesNotExistException = new(sprintNumber);
-            
+
             sprintDoesNotExistException.InnerException.Should().BeNull();
         }
     }

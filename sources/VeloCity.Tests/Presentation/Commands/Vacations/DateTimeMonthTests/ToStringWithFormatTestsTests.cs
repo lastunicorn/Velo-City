@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
         public void HavingAnInstance_WhenSerializedWithShortNameFormatForRomanianCulture_ReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
         {
             DateTimeMonth dateTimeMonth = new(year, month);
-            
+
             string actual = RunUsingCulture(new CultureInfo("ro-RO"), () => dateTimeMonth.ToString("short-name"));
 
             actual.Should().Be(expected);
@@ -88,7 +88,7 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
         public void HavingAnInstance_WhenSerializedWithShortNameFormatForUSCulture_ReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
         {
             DateTimeMonth dateTimeMonth = new(year, month);
-            
+
             string actual = RunUsingCulture(new CultureInfo("en-US"), () => dateTimeMonth.ToString("short-name"));
 
             actual.Should().Be(expected);

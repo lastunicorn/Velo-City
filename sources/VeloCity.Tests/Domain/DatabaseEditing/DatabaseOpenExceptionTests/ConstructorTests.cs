@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DatabaseEditing.DatabaseOpenExcept
         public void WhenCreatingInstanceWithNullInnerException_ThenMessageContainsDefaultText()
         {
             DatabaseOpenException databaseOpenException = new(null);
-            
+
             databaseOpenException.Message.Should().Be(Resources.DatabaseOpen_DefaultErrorMessage);
         }
 
