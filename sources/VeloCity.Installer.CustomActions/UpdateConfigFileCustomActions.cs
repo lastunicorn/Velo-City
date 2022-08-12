@@ -30,22 +30,13 @@ namespace DustInTheWind.VeloCity.Installer.CustomActions
             {
                 session.Log("Begin UpdateConfigFile Custom Action");
 
-                string installFolder = session.CustomActionData["InstallFolder"];
                 string databaseJsonLocation = session.CustomActionData["DatabaseJsonLocation"];
-
-                const string configFileName = "appsettings.json";
-                string configFilePath = Path.Combine(installFolder, configFileName);
-
-                if (!File.Exists(configFilePath))
-                    throw new MissingConfigurationFileException(configFilePath);
-
-                string inputJson = File.ReadAllText(configFilePath);
-
-                dynamic jsonObj = JsonConvert.DeserializeObject(inputJson);
-                jsonObj["DatabaseLocation"] = databaseJsonLocation;
-
-                string outputJson = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-                File.WriteAllText(configFilePath, outputJson);
+                
+                string installDirCli = session.CustomActionData["InstallDirCli"];
+                UpdateConfigFile(installDirCli, databaseJsonLocation);
+                
+                string installDirGui = session.CustomActionData["InstallDirGui"];
+                UpdateConfigFile(installDirGui, databaseJsonLocation);
 
                 return ActionResult.Success;
             }
@@ -58,6 +49,23 @@ namespace DustInTheWind.VeloCity.Installer.CustomActions
             {
                 session.Log("End UpdateConfigFile Custom Action");
             }
+        }
+
+        private static void UpdateConfigFile(string installDir, string databaseFilePath)
+        {
+            const string configFileName = "appsettings.json";
+            string configFilePath = Path.Combine(installDir, configFileName);
+
+            if (!File.Exists(configFilePath))
+                throw new MissingConfigurationFileException(configFilePath);
+
+            string inputJson = File.ReadAllText(configFilePath);
+
+            dynamic jsonObj = JsonConvert.DeserializeObject(inputJson);
+            jsonObj["DatabaseLocation"] = databaseFilePath;
+
+            string outputJson = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
+            File.WriteAllText(configFilePath, outputJson);
         }
     }
 }

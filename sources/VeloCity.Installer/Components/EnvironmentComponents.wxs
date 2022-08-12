@@ -21,13 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
 
-        <ComponentGroup Id="EnvironmentComponentGroup" Directory="INSTALLFOLDER">
-            <Component Id ="EnvironmentComponent" Guid="7221BA39-4147-4916-8ED3-CCDD8503D6EE">
+        <ComponentGroup Id="EnvironmentComponentGroup" Directory="INSTALLDIR">
+            <Component Id="EnvironmentComponent" Guid="7221BA39-4147-4916-8ED3-CCDD8503D6EE">
                 <CreateFolder />
                 <Environment
                     Id="SetPath"
                     Name="PATH"
-                    Value="[INSTALLFOLDER]"
+                    Value="[INSTALLDIR_CLI]"
                     Permanent="no"
                     Part="last"
                     Action="set"

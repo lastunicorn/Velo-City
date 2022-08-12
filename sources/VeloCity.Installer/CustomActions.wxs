@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <CustomAction
             Id="UpdateConfigFile_SetData"
             Property="UpdateConfigFile"
-            Value="InstallFolder=[INSTALLFOLDER];DatabaseJsonLocation=[DATABASE_JSON_LOCATION]" />
+            Value="InstallDirCli=[INSTALLDIR_CLI];InstallDirGui=[INSTALLDIR_GUI];DatabaseJsonLocation=[DATABASE_JSON_LOCATION]" />
 
         <CustomAction
             Id="UpdateConfigFile"

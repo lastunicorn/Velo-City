@@ -44,12 +44,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Title="Velo City"
             Level="1">
 
-            <ComponentGroupRef Id="ApplicationFiles" />
+            <ComponentGroupRef Id="ApplicationFilesCli" />
             <ComponentGroupRef Id="EnvironmentComponentGroup" />
+
+            <ComponentGroupRef Id="ApplicationFilesGui" />
+            <ComponentGroupRef Id="ApplicationShortcutComponentGroup" />
+
             <ComponentGroupRef Id="InfoFilesComponentGroup" />
         </Feature>
 
-        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
         <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
         <UIRef Id="WixUI_InstallDir_Modified" />
 
@@ -63,7 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <Custom Action="UpdateConfigFile" After="InstallFiles">NOT Installed</Custom>
 
             <!-- update(install) -->
-            <Custom Action="ReadFromConfigFile" After="CostFinalize">WIX_UPGRADE_DETECTED</Custom>
+            <Custom Action="ReadFromConfigFile" After="CostFinalize">WIX_UPGRADE_DETECTED OR REINSTALL</Custom>
         </InstallExecuteSequence>
 
     </Product>
