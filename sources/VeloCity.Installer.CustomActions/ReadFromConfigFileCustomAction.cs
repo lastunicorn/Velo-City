@@ -30,10 +30,10 @@ namespace DustInTheWind.VeloCity.Installer.CustomActions
             {
                 session.Log("Begin ReadFromConfigFile Custom Action");
 
-                string installFolder = session["INSTALLFOLDER"];
+                string installDir = session["INSTALLDIR_CLI"];
 
                 const string configFileName = "appsettings.json";
-                string configFilePath = Path.Combine(installFolder, configFileName);
+                string configFilePath = Path.Combine(installDir, configFileName);
 
                 if (!File.Exists(configFilePath))
                 {

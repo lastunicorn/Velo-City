@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
 
-        <ComponentGroup Id="InfoFilesComponentGroup" Directory="INSTALLFOLDER">
+        <ComponentGroup Id="InfoFilesComponentGroup" Directory="INSTALLDIR">
 
             <Component Id="ReadmeFileComponent" Guid="6A084702-3EDF-43D2-B7DE-CDFAD9E08AF7">
                 <File

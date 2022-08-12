@@ -12,7 +12,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <DefineConstants>Debug;FileSourceDirectory=$(SolutionDir)VeloCity.Cli.Bootstrapper\bin\$(Configuration)\net5.0;Version=$(Version)</DefineConstants>
+    <DefineConstants>Debug;FileSourceDirectoryCli=$(SolutionDir)VeloCity.Cli.Bootstrapper\bin\$(Configuration)\net5.0;FileSourceDirectoryGui=$(SolutionDir)VeloCity.Wpf.Bootstrapper\bin\$(Configuration)\net5.0-windows;Version=$(Version)</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
@@ -20,7 +20,9 @@
     <DefineConstants>FileSourceDirectory=$(SolutionDir)VeloCity.Cli.Bootstrapper\bin\$(Configuration)\net5.0;Version=$(Version)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Components\ApplicationFiles.wxs" />
+    <Compile Include="Components\ApplicationFilesCli.wxs" />
+    <Compile Include="Components\ApplicationFilesGui.wxs" />
+    <Compile Include="Components\ApplicationShortcutComponents.wxs" />
     <Compile Include="Components\EnvironmentComponents.wxs" />
     <Compile Include="Components\InfoFilesComponents.wxs" />
     <Compile Include="Directories.wxs" />
@@ -63,7 +65,8 @@
     <PostBuildEvent>xcopy /y "$(ProjectDir)%2a.bat" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Cli.Bootstrapper\$(OutDir)net5.0" -cg ApplicationFiles -gg -scom -srd -sfrag -sreg -dr INSTALLFOLDER -var var.FileSourceDirectory -template fragment -out ..\..\Components\ApplicationFiles.wxs</PreBuildEvent>
+    <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Cli.Bootstrapper\$(OutDir)net5.0" -cg ApplicationFilesCli -gg -scom -srd -sfrag -sreg -dr INSTALLDIR_CLI -var var.FileSourceDirectoryCli -template fragment -out ..\..\Components\ApplicationFilesCli.wxs
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Wpf.Bootstrapper\$(OutDir)net5.0-windows" -cg ApplicationFilesGui -gg -scom -srd -sfrag -sreg -dr INSTALLDIR_GUI -var var.FileSourceDirectoryGui -template fragment -out ..\..\Components\ApplicationFilesGui.wxs</PreBuildEvent>
   </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

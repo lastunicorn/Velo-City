@@ -23,7 +23,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFilesFolder">
-                <Directory Id="INSTALLFOLDER" Name="Velo City" />
+                <Directory Id="INSTALLDIR" Name="Velo City">
+                    <Directory Id="INSTALLDIR_CLI" Name="cli" />
+                    <Directory Id="INSTALLDIR_GUI" Name="gui" />
+                </Directory>
+            </Directory>
+            <Directory Id="ProgramMenuFolder">
+                <Directory Id="ApplicationProgramsFolder" Name="Velo City"/>
             </Directory>
         </Directory>
 
