@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.General;
 using DustInTheWind.VeloCity.Wpf.Presentation.Styles;
@@ -29,11 +30,37 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 
         public List<NoteBase> Notes { get; }
 
+        public int SprintNumber { get; }
+
+        public string SprintName { get; }
+
+        public SprintState SprintState { get; }
+
+        public string SprintComments { get; }
+        
+        public DateInterval TimeInterval { get; }
+        
+        public int WorkDays { get; }
+        
+        public HoursValue TotalWorkHours { get; }
+
         public SprintOverviewViewModel(PresentSprintResponse response)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
 
             PropertyGroups = CreatePropertyGroups(response);
+
+            SprintNumber = response.SprintNumber;
+            SprintName = response.SprintName;
+            SprintState = response.SprintState;
+            SprintComments = response.SprintComments;
+
+            DateTime? startDate = response.SprintDateInterval.StartDate;
+            DateTime? endDate = response.SprintDateInterval.EndDate;
+            TimeInterval = new DateInterval(startDate, endDate);
+            WorkDays = response.WorkDaysCount;
+            TotalWorkHours = response.TotalWorkHours;
+
             Notes = CreateNotes(response).ToList();
         }
 
@@ -50,25 +77,28 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 
         private static PropertyGroup CreateOverviewGroup(PresentSprintResponse response)
         {
-            DateTime? startDate = response.SprintDateInterval.StartDate;
-            DateTime? endDate = response.SprintDateInterval.EndDate;
-
             return new PropertyGroup("Overview")
             {
                 Items = new List<PropertyGroupItem>
                 {
-                    new("Time Interval", new DateIntervalViewModel(startDate, endDate)),
-                    new("State", new SprintStateViewModel(response.SprintState))
+                    new("Number", response.SprintNumber),
+                    new("Name", response.SprintName),
+                    new("State", new SprintStateViewModel(response.SprintState)),
+                    new("Comments", response.SprintComments)
                 }
             };
         }
 
         private static PropertyGroup CreateSizeGroup(PresentSprintResponse response)
         {
+            DateTime? startDate = response.SprintDateInterval.StartDate;
+            DateTime? endDate = response.SprintDateInterval.EndDate;
+
             return new PropertyGroup("Size")
             {
                 Items = new List<PropertyGroupItem>
                 {
+                    new("Time Interval", new DateIntervalViewModel(startDate, endDate)),
                     new("Work Days", new DaysViewModel(response.WorkDaysCount)),
                     new("Total Work Hours", response.TotalWorkHours)
                 }

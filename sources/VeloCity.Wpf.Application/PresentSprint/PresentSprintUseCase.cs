@@ -86,8 +86,10 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
         {
             return new PresentSprintResponse
             {
+                SprintNumber = sprintAnalysis.Sprint.Number,
                 SprintName = sprintAnalysis.Sprint.Name,
                 SprintState = sprintAnalysis.Sprint.State,
+                SprintComments = sprintAnalysis.Sprint.Comments,
                 SprintDateInterval = sprintAnalysis.Sprint.DateInterval,
                 SprintDays = sprintAnalysis.Sprint.EnumerateAllDays()?.ToList(),
                 WorkDaysCount = sprintAnalysis.Sprint.CountWorkDays(),

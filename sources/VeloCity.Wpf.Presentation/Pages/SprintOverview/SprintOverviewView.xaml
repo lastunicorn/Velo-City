@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
+    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -34,8 +35,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Generic.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/PanelWithTitleStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/LabeledContentStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/InfoBlockStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ContentWithInfoStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:SprintStateToTestConverter x:Key="SprintStateToTestConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -57,9 +64,124 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </styles:NotesBlock.Style>
         </styles:NotesBlock>
 
-        <ScrollViewer>
-            <styles:PropertyGroupsView ItemsSource="{Binding PropertyGroups}"/>
-        </ScrollViewer>
+        <Grid>
+            <!--<styles:PropertyGroupsView ItemsSource="{Binding PropertyGroups}"/>-->
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <styles:PanelWithTitle
+                Grid.Column="0"
+                Title="Identity">
+
+                <StackPanel
+                    Grid.IsSharedSizeScope="True"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                    <styles:LabeledContent Label="Number">
+                        <styles:ContentWithInfo>
+                            <TextBlock Text="{Binding SprintNumber}" />
+                        </styles:ContentWithInfo>
+                    </styles:LabeledContent>
+
+                    <styles:LabeledContent Label="Name">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding SprintName}" />
+                        </StackPanel>
+                    </styles:LabeledContent>
+
+                    <styles:LabeledContent Label="State">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding SprintState, Converter={StaticResource SprintStateToTestConverter}}" />
+                        </StackPanel>
+                    </styles:LabeledContent>
+
+                    <styles:LabeledContent Label="Comments">
+                        <TextBlock Text="{Binding SprintComments}" TextWrapping="Wrap" />
+                    </styles:LabeledContent>
+
+                </StackPanel>
+
+            </styles:PanelWithTitle>
+
+            <styles:PanelWithTitle
+                Grid.Column="2"
+                Title="Identity">
+
+                <StackPanel
+                    Grid.IsSharedSizeScope="True"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                    <styles:LabeledContent Label="Number">
+                        <styles:ContentWithInfo>
+                            <TextBlock Text="{Binding SprintNumber}" />
+                        </styles:ContentWithInfo>
+                    </styles:LabeledContent>
+
+                    <styles:LabeledContent Label="Name">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding SprintName}" />
+                        </StackPanel>
+                    </styles:LabeledContent>
+
+                    <styles:LabeledContent Label="State">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding SprintState, Converter={StaticResource SprintStateToTestConverter}}" />
+                        </StackPanel>
+                    </styles:LabeledContent>
+
+                    <styles:LabeledContent Label="Comments">
+                        <TextBlock Text="{Binding SprintComments}" TextWrapping="Wrap" />
+                    </styles:LabeledContent>
+
+                </StackPanel>
+
+            </styles:PanelWithTitle>
+
+            <styles:PanelWithTitle
+                Grid.Row="1"
+                Title="Size">
+
+                <StackPanel
+                    Grid.IsSharedSizeScope="True"
+                    HorizontalAlignment="Stretch"
+                    Orientation="Vertical"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                    <styles:LabeledContent Label="Time Interval">
+                        <styles:ContentWithInfo>
+                            <TextBlock Text="{Binding TimeInterval}" />
+                        </styles:ContentWithInfo>
+                    </styles:LabeledContent>
+
+                    <styles:LabeledContent Label="Work Days">
+                        <styles:ContentWithInfo>
+                            <TextBlock Text="{Binding WorkDays}" />
+                        </styles:ContentWithInfo>
+                    </styles:LabeledContent>
+
+                    <styles:LabeledContent Label="Total Work Hours">
+                        <styles:ContentWithInfo>
+                            <TextBlock Text="{Binding TotalWorkHours}" />
+                        </styles:ContentWithInfo>
+                    </styles:LabeledContent>
+
+                </StackPanel>
+
+            </styles:PanelWithTitle>
+        </Grid>
 
     </DockPanel>
 

@@ -22,9 +22,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
 {
     public class PresentSprintResponse
     {
+        public int SprintNumber { get; set; }
+
         public string SprintName { get; set; }
 
         public SprintState SprintState { get; set; }
+
+        public string SprintComments { get; set; }
 
         public DateInterval SprintDateInterval { get; set; }
 

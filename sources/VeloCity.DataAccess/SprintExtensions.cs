@@ -71,11 +71,10 @@ namespace DustInTheWind.VeloCity.DataAccess
                 Number = sprint.Number,
                 Name = sprint.Name,
                 DateInterval = new DateInterval(sprint.StartDate, sprint.EndDate),
-                //EndDate = sprint.EndDate,
-                //StartDate = sprint.StartDate,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
-                State = sprint.State.ToEntity()
+                State = sprint.State.ToEntity(),
+                Comments = sprint.Comments
             };
         }
 

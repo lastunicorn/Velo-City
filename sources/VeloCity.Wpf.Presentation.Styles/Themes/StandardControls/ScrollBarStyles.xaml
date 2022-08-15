@@ -40,7 +40,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                    <Grid
+                        x:Name="Grid"
+                        Background="{TemplateBinding Background}">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />

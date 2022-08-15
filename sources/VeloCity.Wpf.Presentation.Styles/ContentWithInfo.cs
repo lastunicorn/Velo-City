@@ -14,28 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
 {
-    public class JSprint
+    public class ContentWithInfo : ContentControl
     {
-        public int Id { get; set; }
+        public static readonly DependencyProperty InfoProperty = DependencyProperty.Register(
+            nameof(Info),
+            typeof(object),
+            typeof(LabeledContent),
+            new PropertyMetadata(null)
+        );
 
-        public int Number { get; set; }
+        public object Info
+        {
+            get => GetValue(InfoProperty);
+            set => SetValue(InfoProperty, value);
+        }
 
-        public string Name { get; set; }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
-        public float CommitmentStoryPoints { get; set; }
-
-        public float ActualStoryPoints { get; set; }
-
-        public JSprintState State { get; set; }
-        
-        public string Comments { get; set; }
+        static ContentWithInfo()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ContentWithInfo), new FrameworkPropertyMetadata(typeof(ContentWithInfo)));
+        }
     }
 }
