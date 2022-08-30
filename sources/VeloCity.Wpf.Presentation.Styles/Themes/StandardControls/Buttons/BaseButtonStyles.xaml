@@ -7,7 +7,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style
-        TargetType="{x:Type Button}" 
+        TargetType="{x:Type Button}"
         x:Key="BaseButtonStyle">
 
         <Setter Property="SnapsToDevicePixels" Value="True" />

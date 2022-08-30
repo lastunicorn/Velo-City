@@ -26,7 +26,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
     public class SprintMembersViewModel
     {
         public List<SprintMemberOverviewViewModel> SprintMembersOverview { get; }
-        
+
         public SprintMembersViewModel(PresentSprintResponse response)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));

@@ -46,9 +46,9 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
 
         DateInterval? GetDateIntervalFor(int sprintNumber);
-        
+
         bool IsAnyInProgress();
-        
+
         bool IsFirstNewSprint(int sprintId);
     }
 }

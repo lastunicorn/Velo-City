@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
         public string SprintName { get; }
 
         public int SprintNumber { get; }
-        
+
         public DateInterval SprintDateInterval { get; }
 
         public SprintState SprintState

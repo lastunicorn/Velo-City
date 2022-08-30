@@ -18,7 +18,7 @@ using System;
 
 namespace DustInTheWind.VeloCity.Domain
 {
-    public readonly struct StoryPoints: IFormattable
+    public readonly struct StoryPoints : IFormattable
     {
         private const string MeasurementUnit = "SP";
 

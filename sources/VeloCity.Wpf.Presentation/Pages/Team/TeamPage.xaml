@@ -61,10 +61,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <TextBlock.Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsEmployed}" Value="False">
-                                        <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}"/>
+                                        <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

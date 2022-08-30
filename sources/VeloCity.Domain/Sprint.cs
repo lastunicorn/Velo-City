@@ -118,7 +118,7 @@ namespace DustInTheWind.VeloCity.Domain
         }
 
         public IReadOnlyCollection<string> ExcludedTeamMembers { get; set; }
-        
+
         private HoursValue CalculateTotalWorkHoursWithVelocityPenalties()
         {
             return SprintMembers

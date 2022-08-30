@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
     public class SprintUpdatedEvent
     {
         public int? SprintId { get; set; }
-        
+
         public SprintState SprintState { get; set; }
     }
 }

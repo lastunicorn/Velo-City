@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <sprintsList:SprintsListView
             Grid.Column="0"
-            DataContext="{Binding SprintsListViewModel}"/>
+            DataContext="{Binding SprintsListViewModel}" />
 
         <GridSplitter
             Grid.Column="1"
@@ -96,7 +96,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Content="Refresh"
-                        Command="{Binding RefreshCommand}"/>
+                        Command="{Binding RefreshCommand}" />
 
                 </Grid>
 

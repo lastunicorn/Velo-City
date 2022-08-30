@@ -48,7 +48,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CanStartSprint
         {
             Sprint sprint = RetrieveSelectedSprint();
 
-            return sprint != null && 
+            return sprint != null &&
                    IsCorrectState(sprint) &&
                    NoSprintIsInProgress() &&
                    IsFirstNewSprint(sprint);

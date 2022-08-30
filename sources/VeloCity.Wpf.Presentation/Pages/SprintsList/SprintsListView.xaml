@@ -74,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 <styles:StartIcon
                     Width="16"
-                    Height="16"/>
+                    Height="16" />
             </Button>
 
             <Button

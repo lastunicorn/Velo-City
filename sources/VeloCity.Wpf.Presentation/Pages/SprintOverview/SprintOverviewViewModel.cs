@@ -21,7 +21,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
@@ -30,7 +29,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 {
-    public class SprintOverviewViewModel:ViewModelBase
+    public class SprintOverviewViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
         private SprintState sprintState;

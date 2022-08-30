@@ -125,7 +125,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             PresentSprintRequest request = new();
 
             PresentSprintResponse response = await mediator.Send(request);
-            
+
             SprintCalendarViewModel = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers);
             SprintMembersViewModel = new SprintMembersViewModel(response);
 

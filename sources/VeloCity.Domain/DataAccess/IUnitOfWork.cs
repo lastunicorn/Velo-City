@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
         public ITeamMemberRepository TeamMemberRepository { get; }
 
         void InvalidateCash();
-        
+
         void SaveChanges();
     }
 }

@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 Width="16"
                                 Height="16"
                                 VerticalAlignment="Top"
-                                IsTabStop="False"/>
+                                IsTabStop="False" />
 
                             <ContentPresenter
                                 Grid.Column="1"

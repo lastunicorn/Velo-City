@@ -186,7 +186,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <sprintCalendar:AbsenceDetailsControl DataContext="{Binding AbsenceDetails}"/>
+                            <sprintCalendar:AbsenceDetailsControl DataContext="{Binding AbsenceDetails}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
