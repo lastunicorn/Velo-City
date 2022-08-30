@@ -17,30 +17,45 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
 {
-    public class SprintViewModel
+    public class SprintViewModel : ViewModelBase
     {
-        private readonly SprintInfo sprintInfo;
+        private SprintState sprintState;
 
-        public int SprintId => sprintInfo.Id;
+        public int SprintId { get; }
 
-        public string SprintName => sprintInfo.Name;
+        public string SprintName { get; }
 
-        public int SprintNumber => sprintInfo.Number;
+        public int SprintNumber { get; }
+        
+        public DateInterval SprintDateInterval { get; }
 
-        public SprintState SprintState => sprintInfo.State;
+        public SprintState SprintState
+        {
+            get => sprintState;
+            set
+            {
+                sprintState = value;
+                OnPropertyChanged();
+            }
+        }
 
         public SprintViewModel(SprintInfo sprintInfo)
         {
-            this.sprintInfo = sprintInfo ?? throw new ArgumentNullException(nameof(sprintInfo));
+            if (sprintInfo == null) throw new ArgumentNullException(nameof(sprintInfo));
+
+            SprintId = sprintInfo.Id;
+            SprintName = sprintInfo.Name;
+            SprintNumber = sprintInfo.Number;
+            SprintState = sprintInfo.State;
+            SprintDateInterval = sprintInfo.DateInterval;
         }
 
         public override string ToString()
         {
-            return $"{sprintInfo.Name} [{sprintInfo.DateInterval}]";
+            return $"{SprintName} [{SprintDateInterval}]";
         }
     }
 }

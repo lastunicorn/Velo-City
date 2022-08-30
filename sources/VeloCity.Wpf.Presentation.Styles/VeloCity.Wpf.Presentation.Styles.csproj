@@ -25,4 +25,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <RootNamespace>DustInTheWind.VeloCity.Wpf.Presentation.Styles</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Page Update="Themes\CustomControls\StopIconStyle.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Themes\CustomControls\StartIconStyle.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
+    </ItemGroup>
+
 </Project>

@@ -14,9 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+
 namespace DustInTheWind.VeloCity.Domain
 {
-    public readonly struct Velocity
+    public readonly struct Velocity : IFormattable
     {
         private const string MeasurementUnit = "SP/h";
 
@@ -40,8 +42,16 @@ namespace DustInTheWind.VeloCity.Domain
                 : $"{Value} {MeasurementUnit}";
         }
 
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return ToString(format);
+        }
+
         public string ToString(string format)
         {
+            if (format == "standard")
+                return ToStandardDigitsString();
+
             return IsNull
                 ? $"- {MeasurementUnit}"
                 : $"{Value.ToString(format)} {MeasurementUnit}";

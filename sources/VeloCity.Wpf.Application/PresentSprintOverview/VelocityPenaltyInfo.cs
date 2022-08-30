@@ -14,16 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
-using System.Windows.Controls;
+using System;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 {
-    public class PropertyGroupView : ItemsControl
+    public class VelocityPenaltyInfo
     {
-        static PropertyGroupView()
+        public PersonName PersonName { get; }
+
+        public int PenaltyValue { get; }
+
+        public VelocityPenaltyInfo(VelocityPenaltyInstance velocityPenaltyInstance)
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyGroupView), new FrameworkPropertyMetadata(typeof(PropertyGroupView)));
+            if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
+
+            PersonName = velocityPenaltyInstance.TeamMember.Name;
+            PenaltyValue = velocityPenaltyInstance.Value;
         }
     }
 }

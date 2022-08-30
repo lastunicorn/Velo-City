@@ -42,8 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityInverseConverter" Inverse="True" />
+            <converters:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -69,16 +69,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <TextBlock
             Grid.Column="2"
-            Visibility="{Binding SprintOverviewViewModel, Converter={StaticResource NullToVisibilityInverseConverter}}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="20"
             Text="Select a Sprint"
-            IsEnabled="False" />
+            IsEnabled="False"
+            Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
 
         <Grid
             Grid.Column="2"
-            Visibility="{Binding SprintOverviewViewModel, Converter={StaticResource NullToVisibilityConverter}}"
+            Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
             Margin="10 0 0 0">
 
             <DockPanel>

@@ -20,13 +20,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview;
+using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints;
 using MediatR;
 
@@ -36,11 +34,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
     {
         private readonly IMediator mediator;
         private List<SprintViewModel> sprints;
-        private SprintOverviewViewModel sprintOverview;
         private SprintViewModel selectedSprint;
-        private string detailsTitle;
-        private SprintCalendarViewModel sprintCalendar;
-        private SprintMembersViewModel sprintMembers;
 
         public List<SprintViewModel> Sprints
         {
@@ -67,12 +61,20 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
             }
         }
 
+        public StartSprintCommand StartSprintCommand { get; }
+        
+        public StopSprintCommand StopSprintCommand { get; }
+
         public SprintsListViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
+            StartSprintCommand = new StartSprintCommand(mediator, eventBus);
+            StopSprintCommand = new StopSprintCommand(mediator);
+
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
             eventBus.Subscribe<CurrentSprintChangedEvent>(HandleCurrentSprintChangedEvent);
+            eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
 
             _ = Initialize();
         }
@@ -85,6 +87,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
         private Task HandleCurrentSprintChangedEvent(CurrentSprintChangedEvent ev, CancellationToken cancellationToken)
         {
             SelectedSprint = sprints.FirstOrDefault(x => x.SprintId == ev.SprintId);
+
+            return Task.CompletedTask;
+        }
+
+        private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
+        {
+            SprintViewModel sprintViewModel = sprints.FirstOrDefault(x => x.SprintId == ev.SprintId);
+
+            if (sprintViewModel != null)
+                sprintViewModel.SprintState = ev.SprintState;
 
             return Task.CompletedTask;
         }

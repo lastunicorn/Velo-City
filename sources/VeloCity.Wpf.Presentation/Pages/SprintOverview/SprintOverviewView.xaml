@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
+    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -35,7 +36,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Generic.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/PanelWithTitleStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/LabeledContentStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:SprintStateToTextConverter x:Key="SprintStateToTextConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -58,7 +63,94 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </styles:NotesBlock>
 
         <ScrollViewer>
-            <styles:PropertyGroupsView ItemsSource="{Binding PropertyGroups}"/>
+            <StackPanel
+                Orientation="Vertical"
+                Grid.IsSharedSizeScope="True">
+
+                <styles:PanelWithTitle Title="Identity">
+
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        Orientation="Vertical">
+
+                        <styles:LabeledContent Label="Time Interval">
+                            <TextBlock Text="{Binding TimeInterval}" />
+                        </styles:LabeledContent>
+
+                        <styles:LabeledContent Label="State">
+                            <TextBlock Text="{Binding SprintState, Converter={StaticResource SprintStateToTextConverter}}" />
+                        </styles:LabeledContent>
+
+                    </StackPanel>
+
+                </styles:PanelWithTitle>
+
+                <styles:PanelWithTitle Title="Size">
+
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        Orientation="Vertical">
+
+                        <styles:LabeledContent Label="Work Days">
+                            <TextBlock Text="{Binding WorkDays, StringFormat={}{0} days}" />
+                        </styles:LabeledContent>
+
+                        <styles:LabeledContent Label="Total Work Hours">
+                            <TextBlock Text="{Binding TotalWorkHours}" />
+                        </styles:LabeledContent>
+
+                    </StackPanel>
+
+                </styles:PanelWithTitle>
+
+                <styles:PanelWithTitle Title="Before Starting">
+
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        Orientation="Vertical">
+
+                        <styles:LabeledContent Label="Estimated Story Points">
+                            <TextBlock Text="{Binding EstimatedStoryPoints, StringFormat=standard}" />
+                        </styles:LabeledContent>
+
+                        <styles:LabeledContent
+                            Label="Estimated Story Points (*)"
+                            Visibility="{Binding EstimatedStoryPointsWithVelocityPenalties, Converter={StaticResource NullToVisibilityConverter}}">
+
+                            <TextBlock Text="{Binding EstimatedStoryPointsWithVelocityPenalties, StringFormat=standard}" />
+                        </styles:LabeledContent>
+
+                        <styles:LabeledContent Label="Estimated Velocity">
+                            <TextBlock Text="{Binding EstimatedVelocity, StringFormat=standard}" />
+                        </styles:LabeledContent>
+
+                        <styles:LabeledContent Label="Commitment Story Points">
+                            <TextBlock Text="{Binding CommitmentStoryPoints, StringFormat=standard}" />
+                        </styles:LabeledContent>
+
+                    </StackPanel>
+
+                </styles:PanelWithTitle>
+
+                <styles:PanelWithTitle Title="After Close">
+
+                    <StackPanel
+                        HorizontalAlignment="Stretch"
+                        Orientation="Vertical">
+
+                        <styles:LabeledContent Label="Actual Story Points">
+                            <TextBlock Text="{Binding ActualStoryPoints, StringFormat=standard}" />
+                        </styles:LabeledContent>
+
+                        <styles:LabeledContent Label="Actual Velocity">
+                            <TextBlock Text="{Binding ActualVelocity, StringFormat=standard}" />
+                        </styles:LabeledContent>
+
+                    </StackPanel>
+
+                </styles:PanelWithTitle>
+
+            </StackPanel>
         </ScrollViewer>
 
     </DockPanel>

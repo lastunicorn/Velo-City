@@ -14,28 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 {
-    public class PresentSprintResponse
+    public class PresentSprintOverviewResponse
     {
-        public string SprintName { get; set; }
-        
-        public int SprintNumber { get; set; }
-
         public SprintState SprintState { get; set; }
 
         public DateInterval SprintDateInterval { get; set; }
 
-        public List<SprintDay> SprintDays { get; set; }
-
         public int WorkDaysCount { get; set; }
-
-        public List<SprintMember> SprintMembers { get; set; }
 
         public HoursValue TotalWorkHours { get; set; }
 
@@ -56,7 +46,5 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
         public List<int> PreviouslyClosedSprints { get; set; }
 
         public List<int> ExcludedSprints { get; set; }
-
-        public DateTime CurrentDay { get; set; }
     }
 }

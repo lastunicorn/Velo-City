@@ -21,29 +21,26 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 {
-    internal class PresentSprintUseCase : IRequestHandler<PresentSprintRequest, PresentSprintResponse>
+    internal class PresentSprintOverviewUseCase : IRequestHandler<PresentSprintOverviewRequest, PresentSprintOverviewResponse>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IConfig config;
-        private readonly ISystemClock systemClock;
         private readonly ApplicationState applicationState;
 
-        public PresentSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock, ApplicationState applicationState)
+        public PresentSprintOverviewUseCase(IUnitOfWork unitOfWork, IConfig config, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.config = config ?? throw new ArgumentNullException(nameof(config));
-            this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
-        public Task<PresentSprintResponse> Handle(PresentSprintRequest request, CancellationToken cancellationToken)
+        public Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = RetrieveSprintToAnalyze(request);
+            Sprint currentSprint = RetrieveSprintToAnalyze();
 
             SprintAnalysis sprintAnalysis = new(unitOfWork)
             {
@@ -51,20 +48,16 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
             };
             sprintAnalysis.Analyze(currentSprint);
 
-            PresentSprintResponse response = CreateResponse(sprintAnalysis);
+            PresentSprintOverviewResponse response = CreateResponse(sprintAnalysis);
 
             return Task.FromResult(response);
         }
 
-        private Sprint RetrieveSprintToAnalyze(PresentSprintRequest request)
+        private Sprint RetrieveSprintToAnalyze()
         {
-            Sprint sprint = request.SprintNumber == null
-                ? applicationState.CurrentSprintId == null
-                    ? RetrieveDefaultSprintToAnalyze()
-                    : RetrieveSpecificSprintToAnalyze(applicationState.CurrentSprintId.Value)
-                : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
-
-            return sprint;
+            return applicationState.CurrentSprintId == null
+                ? RetrieveDefaultSprintToAnalyze()
+                : RetrieveSpecificSprintToAnalyze(applicationState.CurrentSprintId.Value);
         }
 
         private Sprint RetrieveDefaultSprintToAnalyze()
@@ -87,17 +80,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
             return sprint;
         }
 
-        private PresentSprintResponse CreateResponse(SprintAnalysis sprintAnalysis)
+        private PresentSprintOverviewResponse CreateResponse(SprintAnalysis sprintAnalysis)
         {
-            return new PresentSprintResponse
+            return new PresentSprintOverviewResponse
             {
-                SprintName = sprintAnalysis.Sprint.Name,
-                SprintNumber = sprintAnalysis.Sprint.Number,
                 SprintState = sprintAnalysis.Sprint.State,
                 SprintDateInterval = sprintAnalysis.Sprint.DateInterval,
-                SprintDays = sprintAnalysis.Sprint.EnumerateAllDays()?.ToList(),
                 WorkDaysCount = sprintAnalysis.Sprint.CountWorkDays(),
-                SprintMembers = sprintAnalysis.Sprint.SprintMembersOrderedByEmployment?.ToList(),
                 TotalWorkHours = sprintAnalysis.Sprint.TotalWorkHours,
                 EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
                 EstimatedStoryPointsWithVelocityPenalties = sprintAnalysis.EstimatedStoryPointsWithVelocityPenalties,
@@ -111,8 +100,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
                 PreviouslyClosedSprints = sprintAnalysis.HistorySprints?
                     .Select(x => x.Number)
                     .ToList(),
-                ExcludedSprints = sprintAnalysis.ExcludedSprints?.ToList(),
-                CurrentDay = systemClock.Today
+                ExcludedSprints = sprintAnalysis.ExcludedSprints?.ToList()
             };
         }
     }

@@ -14,23 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using DustInTheWind.VeloCity.Domain;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
 {
-    public class VelocityPenaltyInfo
+    public class LabeledContent : ContentControl
     {
-        public PersonName PersonName { get; }
+        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
+            nameof(Label),
+            typeof(object),
+            typeof(LabeledContent),
+            new PropertyMetadata(null)
+        );
 
-        public int PenaltyValue { get; }
-
-        public VelocityPenaltyInfo(VelocityPenaltyInstance velocityPenaltyInstance)
+        public object Label
         {
-            if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
+            get => GetValue(LabelProperty);
+            set => SetValue(LabelProperty, value);
+        }
 
-            PersonName = velocityPenaltyInstance.TeamMember.Name;
-            PenaltyValue = velocityPenaltyInstance.Value;
+        static LabeledContent()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LabeledContent), new FrameworkPropertyMetadata(typeof(LabeledContent)));
         }
     }
 }

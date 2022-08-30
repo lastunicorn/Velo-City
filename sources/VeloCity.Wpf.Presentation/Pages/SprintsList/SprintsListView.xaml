@@ -36,6 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyle.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StopIconStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:SprintStateToBrushConverter
@@ -55,45 +57,81 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ListView
-        ItemsSource="{Binding Sprints}"
-        SelectedItem="{Binding SelectedSprint}">
+    <DockPanel>
 
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <DockPanel Margin="10 0">
+        <StackPanel
+            Orientation="Horizontal"
+            DockPanel.Dock="Top">
 
-                    <Grid>
+            <Button
+                Command="{Binding StartSprintCommand}"
+                Padding="0"
+                Margin="0"
+                Width="32"
+                Height="32"
+                ToolTip="Start the currently selected sprint.">
 
-                        <Ellipse
-                            Width="16"
-                            Height="16"
-                            StrokeThickness="3"
-                            Stroke="{Binding SprintState, Converter={StaticResource SprintStateToStrokeBrushConverter}}"
-                            Fill="{Binding SprintState, Converter={StaticResource SprintStateToFillBrushConverter}}"
-                            StrokeLineJoin="Round"
-                            StrokeStartLineCap="Flat"
-                            StrokeEndLineCap="Flat"
-                            Margin="0 0 15 0">
+                <Control
+                    Style="{StaticResource StartIconStyle}"
+                    Width="16"
+                    Height="16" />
+            </Button>
 
-                            <Ellipse.Effect>
-                                <DropShadowEffect
-                                    Color="{StaticResource PrimaryColor}"
-                                    Direction="0"
-                                    ShadowDepth="0"
-                                    BlurRadius="10" />
-                            </Ellipse.Effect>
+            <Button
+                Padding="0"
+                Margin="0"
+                Width="32"
+                Height="32"
+                ToolTip="Stop the currently selected sprint.">
 
-                        </Ellipse>
-                    </Grid>
+                <Control
+                    Style="{StaticResource StopIconStyle}"
+                    Width="16"
+                    Height="16" />
+            </Button>
 
-                    <TextBlock
-                        Text="{Binding}"
-                        Margin="0 5 0 5" />
+        </StackPanel>
 
-                </DockPanel>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+        <ListView
+            ItemsSource="{Binding Sprints}"
+            SelectedItem="{Binding SelectedSprint}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Margin="10 0">
+
+                        <Grid>
+
+                            <Ellipse
+                                Width="16"
+                                Height="16"
+                                StrokeThickness="3"
+                                Stroke="{Binding SprintState, Converter={StaticResource SprintStateToStrokeBrushConverter}}"
+                                Fill="{Binding SprintState, Converter={StaticResource SprintStateToFillBrushConverter}}"
+                                StrokeLineJoin="Round"
+                                StrokeStartLineCap="Flat"
+                                StrokeEndLineCap="Flat"
+                                Margin="0 0 15 0">
+
+                                <Ellipse.Effect>
+                                    <DropShadowEffect
+                                        Color="{StaticResource PrimaryColor}"
+                                        Direction="0"
+                                        ShadowDepth="0"
+                                        BlurRadius="10" />
+                                </Ellipse.Effect>
+
+                            </Ellipse>
+                        </Grid>
+
+                        <TextBlock
+                            Text="{Binding}"
+                            Margin="0 5 0 5" />
+
+                    </DockPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </DockPanel>
 
 </UserControl>

@@ -14,23 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
+using System.Windows.Input;
+using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 {
-    public class PropertyGroup
+    public class StopSprintCommand : ICommand
     {
-        public string Title { get; set; }
+        private readonly IMediator mediator;
+        public event EventHandler CanExecuteChanged;
 
-        public List<PropertyGroupItem> Items { get; set; }
-
-        public PropertyGroup()
+        public StopSprintCommand(IMediator mediator)
         {
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public PropertyGroup(string title)
+        public bool CanExecute(object parameter)
         {
-            Title = title;
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            RefreshRequest request = new();
+            _ = mediator.Send(request);
         }
     }
 }

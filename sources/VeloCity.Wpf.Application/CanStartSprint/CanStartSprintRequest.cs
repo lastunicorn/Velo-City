@@ -14,16 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
-using System.Windows.Controls;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Application.CanStartSprint
 {
-    public class PropertyGroupsView : ItemsControl
+    public class CanStartSprintRequest : IRequest<CanStartSprintResponse>
     {
-        static PropertyGroupsView()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyGroupsView), new FrameworkPropertyMetadata(typeof(PropertyGroupsView)));
-        }
     }
 }
