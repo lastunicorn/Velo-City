@@ -15,18 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
@@ -34,41 +33,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
     public class SprintsPageViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private List<SprintViewModel> sprints;
-        private SprintOverviewViewModel sprintOverview;
-        private SprintViewModel selectedSprint;
+        private SprintOverviewViewModel sprintOverviewViewModel;
         private string detailsTitle;
-        private SprintCalendarViewModel sprintCalendar;
-        private SprintMembersViewModel sprintMembers;
-
-        public List<SprintViewModel> Sprints
-        {
-            get => sprints;
-            private set
-            {
-                sprints = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public SprintViewModel SelectedSprint
-        {
-            get => selectedSprint;
-            set
-            {
-                if (ReferenceEquals(selectedSprint, value))
-                    return;
-
-                selectedSprint = value;
-                OnPropertyChanged();
-
-                SprintOverview = null;
-                DetailsTitle = BuildDetailsTitle();
-
-                if (selectedSprint != null)
-                    _ = RetrieveSprintDetails(selectedSprint.SprintId);
-            }
-        }
+        private SprintCalendarViewModel sprintCalendarViewModel;
+        private SprintMembersViewModel sprintMembersViewModel;
 
         public string DetailsTitle
         {
@@ -82,90 +50,80 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
 
         public RefreshCommand RefreshCommand { get; }
 
-        public SprintOverviewViewModel SprintOverview
+        public SprintOverviewViewModel SprintOverviewViewModel
         {
-            get => sprintOverview;
+            get => sprintOverviewViewModel;
             private set
             {
-                sprintOverview = value;
+                sprintOverviewViewModel = value;
                 OnPropertyChanged();
             }
         }
 
-        public SprintCalendarViewModel SprintCalendar
+        public SprintCalendarViewModel SprintCalendarViewModel
         {
-            get => sprintCalendar;
+            get => sprintCalendarViewModel;
             set
             {
-                sprintCalendar = value;
+                sprintCalendarViewModel = value;
                 OnPropertyChanged();
             }
         }
 
-        public SprintMembersViewModel SprintMembers
+        public SprintMembersViewModel SprintMembersViewModel
         {
-            get => sprintMembers;
+            get => sprintMembersViewModel;
             set
             {
-                sprintMembers = value;
+                sprintMembersViewModel = value;
                 OnPropertyChanged();
             }
         }
+
+        public SprintsListViewModel SprintsListViewModel { get; }
 
         public SprintsPageViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
+            SprintsListViewModel = new SprintsListViewModel(mediator, eventBus);
             RefreshCommand = new RefreshCommand(mediator);
 
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
-
-            _ = Initialize();
+            eventBus.Subscribe<CurrentSprintChangedEvent>(HandleCurrentSprintChangedEvent);
         }
 
         private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
         {
-            await Initialize();
+            await RetrieveSprintDetails();
         }
 
-        private async Task Initialize()
+        private async Task HandleCurrentSprintChangedEvent(CurrentSprintChangedEvent ev, CancellationToken cancellationToken)
         {
-            int? initialSelectedSprintNumber = selectedSprint?.SprintNumber;
-
-            PresentSprintsRequest request = new();
-
-            PresentSprintsResponse response = await mediator.Send(request);
-
-            Sprints = response.Sprints
-                .Select(x => new SprintViewModel(x))
-                .ToList();
-
-            if (initialSelectedSprintNumber != null)
-                SelectedSprint = Sprints.FirstOrDefault(x => x.SprintNumber == initialSelectedSprintNumber);
+            await RetrieveSprintDetails();
         }
 
-        private async Task RetrieveSprintDetails(int sprintId)
+        private async Task RetrieveSprintDetails()
         {
-            SprintOverview = null;
-            SprintCalendar = null;
+            SprintOverviewViewModel = null;
+            SprintCalendarViewModel = null;
 
-            PresentSprintRequest request = new()
-            {
-                SprintNumber = sprintId
-            };
+            PresentSprintRequest request = new();
 
             PresentSprintResponse response = await mediator.Send(request);
 
-            SprintOverview = new SprintOverviewViewModel(response);
-            SprintCalendar = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers);
-            SprintMembers = new SprintMembersViewModel(response);
+            SprintOverviewViewModel = new SprintOverviewViewModel(response);
+            SprintCalendarViewModel = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers);
+            SprintMembersViewModel = new SprintMembersViewModel(response);
+
+            DetailsTitle = BuildDetailsTitle(response);
         }
 
-        private string BuildDetailsTitle()
+        private static string BuildDetailsTitle(PresentSprintResponse response)
         {
-            return SelectedSprint == null
+            return response == null
                 ? null
-                : $"{SelectedSprint.SprintName} ({selectedSprint.SprintNumber})";
+                : $"{response.SprintName} ({response.SprintNumber})";
         }
     }
 }

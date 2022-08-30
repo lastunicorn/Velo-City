@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
     xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints"
+    xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -44,20 +45,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityInverseConverter" Inverse="True" />
 
-            <converters:SprintStateToBrushConverter
-                x:Key="SprintStateToStrokeBrushConverter"
-                UnknownBrush="Transparent"
-                NewBrush="LightGray"
-                InProgressBrush="MediumSeaGreen"
-                ClosedBrush="MediumSeaGreen" />
-
-            <converters:SprintStateToBrushConverter
-                x:Key="SprintStateToFillBrushConverter"
-                UnknownBrush="Transparent"
-                NewBrush="Transparent"
-                InProgressBrush="Transparent"
-                ClosedBrush="MediumSeaGreen" />
-
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -69,47 +56,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ListView
+        <sprintsList:SprintsListView
             Grid.Column="0"
-            ItemsSource="{Binding Sprints}"
-            SelectedItem="{Binding SelectedSprint}">
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel Margin="10 0">
-
-                        <Grid>
-
-                            <Ellipse
-                                Width="16"
-                                Height="16"
-                                StrokeThickness="3"
-                                Stroke="{Binding SprintState, Converter={StaticResource SprintStateToStrokeBrushConverter}}"
-                                Fill="{Binding SprintState, Converter={StaticResource SprintStateToFillBrushConverter}}"
-                                StrokeLineJoin="Round"
-                                StrokeStartLineCap="Flat"
-                                StrokeEndLineCap="Flat"
-                                Margin="0 0 15 0">
-
-                                <Ellipse.Effect>
-                                    <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
-                                        Direction="0"
-                                        ShadowDepth="0"
-                                        BlurRadius="10" />
-                                </Ellipse.Effect>
-
-                            </Ellipse>
-                        </Grid>
-
-                        <TextBlock
-                            Text="{Binding}"
-                            Margin="0 5 0 5" />
-
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            DataContext="{Binding SprintsListViewModel}"/>
 
         <GridSplitter
             Grid.Column="1"
@@ -120,7 +69,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <TextBlock
             Grid.Column="2"
-            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityInverseConverter}}"
+            Visibility="{Binding SprintOverviewViewModel, Converter={StaticResource NullToVisibilityInverseConverter}}"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="20"
@@ -129,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Grid
             Grid.Column="2"
-            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityConverter}}"
+            Visibility="{Binding SprintOverviewViewModel, Converter={StaticResource NullToVisibilityConverter}}"
             Margin="10 0 0 0">
 
             <DockPanel>
@@ -155,19 +104,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <TabItem Header="Overview">
                         <sprintOverview:SprintOverviewView
-                            DataContext="{Binding SprintOverview}"
+                            DataContext="{Binding SprintOverviewViewModel}"
                             Margin="20" />
                     </TabItem>
 
                     <TabItem Header="Calendar">
                         <sprintCalendar:SprintCalendarView
-                            DataContext="{Binding SprintCalendar}"
+                            DataContext="{Binding SprintCalendarViewModel}"
                             Margin="20" />
                     </TabItem>
 
                     <TabItem Header="Sprint Members">
                         <sprintMembers:SprintMembersView
-                            DataContext="{Binding SprintMembers}"
+                            DataContext="{Binding SprintMembersViewModel}"
                             Margin="20" />
                     </TabItem>
 

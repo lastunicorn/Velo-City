@@ -44,6 +44,7 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             Assembly assembly = typeof(PresentSprintsRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
 
+            containerBuilder.RegisterType<ApplicationState>().AsSelf().SingleInstance();
             containerBuilder.RegisterType<EventBus>().AsSelf().SingleInstance();
             containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
             containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();

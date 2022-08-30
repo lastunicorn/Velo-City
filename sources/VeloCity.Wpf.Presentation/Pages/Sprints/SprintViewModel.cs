@@ -17,6 +17,7 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
 {
