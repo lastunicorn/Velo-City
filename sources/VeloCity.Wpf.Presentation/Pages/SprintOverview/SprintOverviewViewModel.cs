@@ -161,7 +161,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
-            eventBus.Subscribe<CurrentSprintChangedEvent>(HandleCurrentSprintChangedEvent);
+            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
         }
 
@@ -193,7 +193,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             await RetrieveSprintDetails();
         }
 
-        private async Task HandleCurrentSprintChangedEvent(CurrentSprintChangedEvent ev, CancellationToken cancellationToken)
+        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
         {
             await RetrieveSprintDetails();
         }

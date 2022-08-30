@@ -13,30 +13,18 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
 using System.Windows;
 using System.Windows.Controls;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
 {
-    public class NotesBlock : ItemsControl
+    public class StartIcon : Control
     {
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
-            "CornerRadius",
-            typeof(CornerRadius),
-            typeof(NotesBlock),
-            new FrameworkPropertyMetadata(defaultValue: new CornerRadius(), flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-        public CornerRadius CornerRadius
+        static StartIcon()
         {
-            get => (CornerRadius)GetValue(CornerRadiusProperty);
-            set => SetValue(CornerRadiusProperty, value);
-        }
-
-        static NotesBlock()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotesBlock), new FrameworkPropertyMetadata(typeof(NotesBlock)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StartIcon), new FrameworkPropertyMetadata(typeof(StartIcon)));
         }
     }
 }

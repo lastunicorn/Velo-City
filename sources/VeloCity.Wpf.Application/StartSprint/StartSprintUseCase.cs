@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
 
         public async Task<Unit> Handle(StartSprintRequest request, CancellationToken cancellationToken)
         {
-            int? sprintId = applicationState.CurrentSprintId;
+            int? sprintId = applicationState.SelectedSprintId;
 
             if (sprintId == null)
                 throw new Exception("No sprint is selected.");

@@ -55,9 +55,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 
         private Sprint RetrieveSprintToAnalyze()
         {
-            return applicationState.CurrentSprintId == null
+            return applicationState.SelectedSprintId == null
                 ? RetrieveDefaultSprintToAnalyze()
-                : RetrieveSpecificSprintToAnalyze(applicationState.CurrentSprintId.Value);
+                : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
         }
 
         private Sprint RetrieveDefaultSprintToAnalyze()

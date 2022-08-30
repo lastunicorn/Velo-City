@@ -13,11 +13,18 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint
+using System.Windows;
+using System.Windows.Controls;
+
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
 {
-    public class CurrentSprintChangedEvent
+    public class StopIcon : Control
     {
-        public int? SprintId { get; set; }
+        static StopIcon()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StopIcon), new FrameworkPropertyMetadata(typeof(StopIcon)));
+        }
     }
 }

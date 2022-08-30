@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
+    xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -71,10 +72,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Height="32"
                 ToolTip="Start the currently selected sprint.">
 
-                <Control
-                    Style="{StaticResource StartIconStyle}"
+                <styles:StartIcon
                     Width="16"
-                    Height="16" />
+                    Height="16"/>
             </Button>
 
             <Button
@@ -84,8 +84,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Height="32"
                 ToolTip="Stop the currently selected sprint.">
 
-                <Control
-                    Style="{StaticResource StopIconStyle}"
+                <styles:StopIcon
                     Width="16"
                     Height="16" />
             </Button>

@@ -29,19 +29,26 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
     public class StartSprintCommand : ICommand
     {
         private readonly IMediator mediator;
-        private readonly EventBus eventBus;
 
         public event EventHandler CanExecuteChanged;
 
         public StartSprintCommand(IMediator mediator, EventBus eventBus)
         {
+            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
-            eventBus.Subscribe<CurrentSprintChangedEvent>(HandleCurrentSprintChangedEvent);
+            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+            eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
         }
 
-        private Task HandleCurrentSprintChangedEvent(CurrentSprintChangedEvent ev, CancellationToken cancellationToken)
+        private Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+        {
+            OnCanExecuteChanged();
+
+            return Task.CompletedTask;
+        }
+
+        private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
         {
             OnCanExecuteChanged();
 
@@ -58,7 +65,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
             CanStartSprintRequest request = new();
             CanStartSprintResponse response = await mediator.Send(request);
 
-            return response.CanStartCurrentSprint;
+            return response.CanStartSprint;
         }
 
         public void Execute(object parameter)

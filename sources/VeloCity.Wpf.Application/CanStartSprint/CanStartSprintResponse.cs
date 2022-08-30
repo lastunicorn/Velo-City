@@ -18,6 +18,6 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CanStartSprint
 {
     public class CanStartSprintResponse
     {
-        public bool CanStartCurrentSprint { get; init; }
+        public bool CanStartSprint { get; init; }
     }
 }

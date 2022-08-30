@@ -74,5 +74,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <FontFamily x:Key="DefaultFontFamily">OpenSans</FontFamily>
 
+    <!-- Icon Constants -->
+
+    <Color x:Key="IconPrimaryColor">#C7C7C7</Color>
+    <SolidColorBrush x:Key="IconPrimaryBrush" Color="{StaticResource IconPrimaryColor}" />
+
+    <Color x:Key="IconDisabledColor">#4E4E50</Color>
+    <SolidColorBrush x:Key="IconDisabledBrush" Color="{StaticResource IconDisabledColor}" />
 
 </ResourceDictionary>

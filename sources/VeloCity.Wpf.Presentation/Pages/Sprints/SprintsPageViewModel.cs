@@ -105,7 +105,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             RefreshCommand = new RefreshCommand(mediator);
 
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
-            eventBus.Subscribe<CurrentSprintChangedEvent>(HandleCurrentSprintChangedEvent);
+            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
         }
 
         private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
@@ -113,7 +113,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             await RetrieveSprintDetails();
         }
 
-        private async Task HandleCurrentSprintChangedEvent(CurrentSprintChangedEvent ev, CancellationToken cancellationToken)
+        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
         {
             await RetrieveSprintDetails();
         }

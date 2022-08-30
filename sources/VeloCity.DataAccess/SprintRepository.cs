@@ -54,6 +54,22 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .DateInterval;
         }
 
+        public bool IsAnyInProgress()
+        {
+            return dbContext.Sprints.Any(x => x.State == SprintState.InProgress);
+        }
+
+        public bool IsFirstNewSprint(int sprintId)
+        {
+            int id = dbContext.Sprints
+                .Where(x => x.State == SprintState.New)
+                .OrderBy(x => x.StartDate)
+                .Select(x => x.Id)
+                .FirstOrDefault();
+
+            return id == sprintId;
+        }
+
         public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count)
         {
             return dbContext.Sprints

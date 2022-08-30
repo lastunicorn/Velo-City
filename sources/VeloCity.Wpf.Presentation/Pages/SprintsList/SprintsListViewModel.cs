@@ -25,7 +25,6 @@ using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
@@ -57,12 +56,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
                 selectedSprint = value;
                 OnPropertyChanged();
 
-                _ = SetCurrentSprint(selectedSprint?.SprintId);
+                if (!IsInitializeMode)
+                    _ = SetCurrentSprint(selectedSprint?.SprintId);
             }
         }
 
         public StartSprintCommand StartSprintCommand { get; }
-        
+
         public StopSprintCommand StopSprintCommand { get; }
 
         public SprintsListViewModel(IMediator mediator, EventBus eventBus)
@@ -73,7 +73,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
             StopSprintCommand = new StopSprintCommand(mediator);
 
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
-            eventBus.Subscribe<CurrentSprintChangedEvent>(HandleCurrentSprintChangedEvent);
+            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
 
             _ = Initialize();
@@ -84,9 +84,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
             await Initialize();
         }
 
-        private Task HandleCurrentSprintChangedEvent(CurrentSprintChangedEvent ev, CancellationToken cancellationToken)
+        private Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
         {
-            SelectedSprint = sprints.FirstOrDefault(x => x.SprintId == ev.SprintId);
+            SelectedSprint = sprints.FirstOrDefault(x => x.SprintId == ev.NewSprintId);
 
             return Task.CompletedTask;
         }
@@ -103,18 +103,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
 
         private async Task Initialize()
         {
-            int? initialSelectedSprintNumber = selectedSprint?.SprintNumber;
-
             PresentSprintsRequest request = new();
-
             PresentSprintsResponse response = await mediator.Send(request);
 
-            Sprints = response.Sprints
-                .Select(x => new SprintViewModel(x))
-                .ToList();
+            RunInInitializeMode(() =>
+            {
+                Sprints = response.Sprints
+                    .Select(x => new SprintViewModel(x))
+                    .ToList();
 
-            if (initialSelectedSprintNumber != null)
-                SelectedSprint = Sprints.FirstOrDefault(x => x.SprintNumber == initialSelectedSprintNumber);
+                SelectedSprint = response.CurrentSprintId == null
+                    ? null
+                    : Sprints.FirstOrDefault(x => x.SprintId == response.CurrentSprintId.Value);
+            });
         }
 
         private async Task SetCurrentSprint(int? sprintId)

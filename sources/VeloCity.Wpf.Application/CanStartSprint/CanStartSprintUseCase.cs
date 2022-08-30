@@ -36,50 +36,53 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CanStartSprint
 
         public Task<CanStartSprintResponse> Handle(CanStartSprintRequest request, CancellationToken cancellationToken)
         {
-            bool canStartCurrentSprint = CanStartCurrentSprint();
-
             CanStartSprintResponse response = new()
             {
-                CanStartCurrentSprint = canStartCurrentSprint
+                CanStartSprint = CanStartSelectedSprint()
             };
 
             return Task.FromResult(response);
         }
 
-        private bool CanStartCurrentSprint()
+        private bool CanStartSelectedSprint()
         {
-            Sprint sprint = RetrieveCurrentSprint();
+            Sprint sprint = RetrieveSelectedSprint();
 
-            if (sprint == null)
-                return false;
-
-            return ValidateSprintState(sprint);
+            return sprint != null && 
+                   IsCorrectState(sprint) &&
+                   NoSprintIsInProgress() &&
+                   IsFirstNewSprint(sprint);
         }
 
-        private Sprint RetrieveCurrentSprint()
+        private Sprint RetrieveSelectedSprint()
         {
-            int? sprintId = applicationState.CurrentSprintId;
+            int? sprintId = applicationState.SelectedSprintId;
 
             return sprintId != null
                 ? unitOfWork.SprintRepository.Get(sprintId.Value)
                 : null;
         }
 
-        private static bool ValidateSprintState(Sprint sprint)
+        private static bool IsCorrectState(Sprint sprint)
         {
-            switch (sprint.State)
+            return sprint.State switch
             {
-                case SprintState.New:
-                    return true;
+                SprintState.New => true,
+                SprintState.Unknown => false,
+                SprintState.InProgress => false,
+                SprintState.Closed => false,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
 
-                case SprintState.Unknown:
-                case SprintState.InProgress:
-                case SprintState.Closed:
-                    return false;
+        private bool NoSprintIsInProgress()
+        {
+            return !unitOfWork.SprintRepository.IsAnyInProgress();
+        }
 
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+        private bool IsFirstNewSprint(Sprint sprint)
+        {
+            return unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
         }
     }
 }
