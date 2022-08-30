@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.CanStartSprint;
+using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using MediatR;
@@ -37,8 +38,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
+            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
+        }
+
+        private Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        {
+            OnCanExecuteChanged();
+
+            return Task.CompletedTask;
         }
 
         private Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)

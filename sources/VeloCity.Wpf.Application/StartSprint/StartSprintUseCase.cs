@@ -38,22 +38,28 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
 
         public async Task<Unit> Handle(StartSprintRequest request, CancellationToken cancellationToken)
         {
-            int? sprintId = applicationState.SelectedSprintId;
+            Sprint selectedSprint = RetrieveSelectedSprint();
 
-            if (sprintId == null)
-                throw new Exception("No sprint is selected.");
+            ValidateSprintState(selectedSprint);
+            ValidateNoSprintIsInProgress(selectedSprint);
+            ValidateSprintIsNextInLine(selectedSprint);
 
-            Sprint sprint = unitOfWork.SprintRepository.Get(sprintId.Value);
+            selectedSprint.State = SprintState.InProgress;
+            unitOfWork.SaveChanges();
 
-            ValidateSprintState(sprint);
-
-            // todo: validate that the sprint is the next "new" sprint.
-
-            sprint.State = SprintState.InProgress;
-
-            await RaiseSprintUpdatedEvent(sprint, cancellationToken);
+            await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
 
             return Unit.Value;
+        }
+
+        private Sprint RetrieveSelectedSprint()
+        {
+            int? selectedSprintId = applicationState.SelectedSprintId;
+
+            if (selectedSprintId == null)
+                throw new Exception("No sprint is selected.");
+
+            return unitOfWork.SprintRepository.Get(selectedSprintId.Value);
         }
 
         private static void ValidateSprintState(Sprint sprint)
@@ -75,6 +81,22 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void ValidateSprintIsNextInLine(Sprint sprint)
+        {
+            bool isNextInLine = unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
+
+            if (!isNextInLine)
+                throw new Exception($"The sprint {sprint.Number} cannot be started because it is not the next sprint.");
+        }
+
+        private void ValidateNoSprintIsInProgress(Sprint sprint)
+        {
+            Sprint sprintInProgress = unitOfWork.SprintRepository.GetLastInProgress();
+
+            if (sprintInProgress != null)
+                throw new Exception($"The sprint {sprint.Number} cannot be started because sprint {sprintInProgress.Number} is already in progress.");
         }
 
         private async Task RaiseSprintUpdatedEvent(Sprint sprint, CancellationToken cancellationToken)

@@ -42,7 +42,8 @@ namespace DustInTheWind.VeloCity.DataAccess
                 EndDate = sprint.EndDate,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
-                State = sprint.State.ToJEntity()
+                State = sprint.State.ToJEntity(),
+                Comments = sprint.Comments
             };
         }
 
@@ -75,7 +76,8 @@ namespace DustInTheWind.VeloCity.DataAccess
                 //StartDate = sprint.StartDate,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
-                State = sprint.State.ToEntity()
+                State = sprint.State.ToEntity(),
+                Comments = sprint.Comments
             };
         }
 

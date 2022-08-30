@@ -36,9 +36,18 @@ namespace DustInTheWind.VeloCity.DataAccess
                 StartDate = employment.TimeInterval.StartDate,
                 EndDate = employment.TimeInterval.EndDate,
                 HoursPerDay = employment.HoursPerDay,
-                WeekDays = employment.EmploymentWeek.ToList(),
+                WeekDays = ToJList(employment),
                 Country = employment.Country
             };
+        }
+
+        private static List<JDayOfWeek> ToJList(Employment employment)
+        {
+            return employment.EmploymentWeek.IsDefault
+                ? null
+                : employment.EmploymentWeek
+                    .Select(x => x.ToJEntity())
+                    .ToList();
         }
 
         public static IEnumerable<Employment> ToEntities(this IEnumerable<JEmployment> employments)
@@ -53,7 +62,9 @@ namespace DustInTheWind.VeloCity.DataAccess
             {
                 TimeInterval = new DateInterval(employment.StartDate, employment.EndDate),
                 HoursPerDay = employment.HoursPerDay,
-                EmploymentWeek = new EmploymentWeek(employment.WeekDays),
+                EmploymentWeek = employment.WeekDays == null
+                    ? new EmploymentWeek()
+                    : new EmploymentWeek(employment.WeekDays.Select(x => x.ToEntity())),
                 Country = employment.Country
             };
         }

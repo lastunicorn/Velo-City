@@ -14,27 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public class JOfficialHoliday
+    public enum JDayOfWeek
     {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public JOfficialHolidayRecurrence Recurrence { get; set; }
+        [EnumMember(Value = "sunday")]
+        Sunday,
 
-        public DateTime Date { get; set; }
+        [EnumMember(Value = "monday")]
+        Monday,
 
-        public string Name { get; set; }
+        [EnumMember(Value = "tuesday")]
+        Tuesday,
 
-        public int? StartYear { get; set; }
+        [EnumMember(Value = "wednesday")]
+        Wednesday,
 
-        public int? EndYear { get; set; }
+        [EnumMember(Value = "thursday")]
+        Thursday,
 
-        public string Country { get; set; }
+        [EnumMember(Value = "friday")]
+        Friday,
 
-        public string Description { get; set; }
+        [EnumMember(Value = "saturday")]
+        Saturday,
     }
 }

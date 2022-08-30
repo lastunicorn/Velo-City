@@ -44,6 +44,9 @@ namespace DustInTheWind.VeloCity.DataAccess
                 Comments = teamMember.Comments,
                 VacationDays = teamMember.Vacations?
                     .ToJEntities()
+                    .ToList(),
+                VelocityPenalties = teamMember.VelocityPenalties?
+                    .ToJEntities()
                     .ToList()
             };
         }

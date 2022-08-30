@@ -53,6 +53,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public SprintState State { get; set; }
 
+        public string Comments { get; set; }
+
         private readonly List<SprintMember> allSprintMembers = new();
 
         private IEnumerable<SprintMember> SprintMembers
@@ -116,7 +118,7 @@ namespace DustInTheWind.VeloCity.Domain
         }
 
         public IReadOnlyCollection<string> ExcludedTeamMembers { get; set; }
-
+        
         private HoursValue CalculateTotalWorkHoursWithVelocityPenalties()
         {
             return SprintMembers

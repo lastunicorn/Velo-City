@@ -16,6 +16,8 @@
 
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
@@ -26,8 +28,9 @@ namespace DustInTheWind.VeloCity.JsonFiles
         public DateTime? EndDate { get; set; }
 
         public int HoursPerDay { get; set; }
-
-        public List<DayOfWeek> WeekDays { get; set; }
+        
+        [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
+        public List<JDayOfWeek> WeekDays { get; set; }
 
         public string Country { get; set; }
     }
