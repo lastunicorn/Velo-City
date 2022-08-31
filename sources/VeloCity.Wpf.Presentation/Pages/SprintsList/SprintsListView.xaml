@@ -23,11 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
     xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
     xmlns:controls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Controls"
-    xmlns:domain="clr-namespace:DustInTheWind.VeloCity.Domain;assembly=DustInTheWind.VeloCity.Domain"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -85,51 +83,145 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             SelectedItem="{Binding SelectedSprint}"
             SelectionMode="Single">
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel
-                        Margin="10 0"
-                        MinHeight="40">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
 
-                        <controls:SprintStateControl
-                            DockPanel.Dock="Left"
-                            Margin="0 3 15 3"
-                            Value="{Binding SprintState}"
-                            IsLabelVisible="False"
-                            VerticalAlignment="Top"/>
+                                <Border
+                                    x:Name="PART_Border"
+                                    Padding="8"
+                                    SnapsToDevicePixels="true"
+                                    Background="Transparent"
+                                    MinHeight="40">
 
-                        <StackPanel
-                            Margin="0 2">
+                                    <VisualStateManager.VisualStateGroups>
 
-                            <StackPanel
-                                Orientation="Horizontal">
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <Storyboard AutoReverse="True">
 
-                                <TextBlock
-                                    Text="Sprint"
-                                    FontSize="16" />
+                                                    <ColorAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="TextBlock1"
+                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
 
-                                <TextBlock
-                                    Text="{Binding SprintNumber}"
-                                    FontSize="16"
-                                    Margin="3 0 0 0" />
+                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource FontDimColor}" />
+                                                    </ColorAnimationUsingKeyFrames>
 
-                                <TextBlock
-                                    Text="{Binding SprintDateInterval, StringFormat={}[{0}]}"
-                                    Margin="10 0 0 0"
-                                    VerticalAlignment="Center"/>
-                            </StackPanel>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
 
-                            <TextBlock
-                                Text="{Binding SprintName}"
-                                FontSize="12"
-                                Foreground="Gray"
-                                Margin="0 2 0 0" />
+                                        <VisualStateGroup x:Name="SelectionStates">
 
-                        </StackPanel>
+                                            <VisualState x:Name="Unselected">
+                                                <Storyboard>
 
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                                                    <ColorAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="TextBlock1"
+                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+
+                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource FontDimColor}" />
+                                                    </ColorAnimationUsingKeyFrames>
+
+                                                </Storyboard>
+                                            </VisualState>
+
+                                            <VisualState x:Name="Selected">
+                                                <Storyboard >
+
+                                                    <ColorAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="PART_Border"
+                                                        Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+
+                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AccentColor}" />
+                                                    </ColorAnimationUsingKeyFrames>
+
+                                                    <ColorAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="TextBlock1"
+                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+
+                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource FontPrimaryColor}" />
+                                                    </ColorAnimationUsingKeyFrames>
+
+                                                </Storyboard>
+                                            </VisualState>
+
+                                            <VisualState x:Name="SelectedUnfocused">
+                                                <Storyboard>
+
+                                                    <ColorAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="PART_Border"
+                                                        Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+
+                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource PrimaryLightColor}" />
+                                                    </ColorAnimationUsingKeyFrames>
+
+                                                    <ColorAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="TextBlock1"
+                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+
+                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource FontDimColor}" />
+                                                    </ColorAnimationUsingKeyFrames>
+
+                                                </Storyboard>
+                                            </VisualState>
+
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <DockPanel
+                                        x:Name="DockPanel1"
+                                        Margin="10 0"
+                                        MinHeight="40">
+
+                                        <controls:SprintStateControl
+                                            DockPanel.Dock="Left"
+                                            Margin="0 3 15 3"
+                                            Value="{Binding SprintState}"
+                                            IsLabelVisible="False"
+                                            VerticalAlignment="Top" />
+
+                                        <StackPanel
+                                            Margin="0 2">
+
+                                            <StackPanel
+                                                Orientation="Horizontal">
+
+                                                <TextBlock
+                                                    Text="Sprint"
+                                                    FontSize="16" />
+
+                                                <TextBlock
+                                                    Text="{Binding SprintNumber}"
+                                                    FontSize="16"
+                                                    Margin="3 0 0 0" />
+
+                                                <TextBlock
+                                                    Text="{Binding SprintDateInterval, StringFormat={}[{0}]}"
+                                                    Margin="10 0 0 0"
+                                                    VerticalAlignment="Center" />
+                                            </StackPanel>
+
+                                            <TextBlock
+                                                x:Name="TextBlock1"
+                                                Text="{Binding SprintName}"
+                                                FontSize="12"
+                                                Margin="0 2 0 0" />
+
+                                        </StackPanel>
+
+                                    </DockPanel>
+
+                                </Border>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+
         </ListView>
     </DockPanel>
 

@@ -67,6 +67,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Color x:Key="FontPrimaryColor">#F1F1F1</Color>
     <SolidColorBrush x:Key="FontPrimaryBrush" Color="{StaticResource FontPrimaryColor}" />
 
+    <Color x:Key="FontDimColor">Gray</Color>
+    <SolidColorBrush x:Key="FontDimBrush" Color="{StaticResource FontDimColor}" />
+
     <Color x:Key="FontDisabledColor">#8F8F8F</Color>
     <SolidColorBrush x:Key="FontDisabledBrush" Color="{StaticResource FontDisabledColor}" />
 
