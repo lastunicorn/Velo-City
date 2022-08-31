@@ -70,16 +70,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </styles:LabeledContent>
 
                         <styles:LabeledContent Label="State">
-                            <controls:SprintStateControl
-                                Value="{Binding SprintState, Mode=OneWay}" />
-                            <!--<TextBlock Text="{Binding SprintState, Converter={StaticResource SprintStateToTextConverter}}" />-->
+                            <controls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
                         </styles:LabeledContent>
 
                     </StackPanel>
 
                 </styles:PanelWithTitle>
 
-                <styles:PanelWithTitle Title="Size">
+                <styles:PanelWithTitle
+                    Title="Size"
+                    Margin="0 20 0 0">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
@@ -97,7 +97,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 </styles:PanelWithTitle>
 
-                <styles:PanelWithTitle Title="Before Starting">
+                <styles:PanelWithTitle
+                    Title="Before Starting"
+                    Margin="0 20 0 0">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
@@ -126,7 +128,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 </styles:PanelWithTitle>
 
-                <styles:PanelWithTitle Title="After Close">
+                <styles:PanelWithTitle
+                    Title="After Close"
+                    Margin="0 20 0 0">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
@@ -146,7 +150,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 <styles:PanelWithTitle
                     Title="Comments"
-                    Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}">
+                    Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}"
+                    Margin="0 20 0 0">
 
                     <TextBlock
                         Text="{Binding SprintComments}"
