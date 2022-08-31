@@ -100,24 +100,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     </Grid>
 
-                    <TabControl>
+                    <TabControl
+                        BorderThickness="0"
+                        Background="Transparent">
 
                         <TabItem Header="Overview">
                             <sprintOverview:SprintOverviewView
                                 DataContext="{Binding SprintOverviewViewModel}"
-                                Margin="20" />
+                                Margin="0 20 0 0" />
                         </TabItem>
 
                         <TabItem Header="Calendar">
                             <sprintCalendar:SprintCalendarView
                                 DataContext="{Binding SprintCalendarViewModel}"
-                                Margin="20" />
+                                Margin="0 20 0 0" />
                         </TabItem>
 
                         <TabItem Header="Sprint Members">
                             <sprintMembers:SprintMembersView
                                 DataContext="{Binding SprintMembersViewModel}"
-                                Margin="20" />
+                                Margin="0 20 0 0" />
                         </TabItem>
 
                     </TabControl>
