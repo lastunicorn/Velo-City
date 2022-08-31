@@ -28,12 +28,14 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
+        private readonly ISprintStartDataProvider sprintStartDataProvider;
 
-        public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus)
+        public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus, ISprintStartDataProvider sprintStartDataProvider)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+            this.sprintStartDataProvider = sprintStartDataProvider ?? throw new ArgumentNullException(nameof(sprintStartDataProvider));
         }
 
         public async Task<Unit> Handle(StartSprintRequest request, CancellationToken cancellationToken)
@@ -43,11 +45,16 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             ValidateSprintState(selectedSprint);
             ValidateNoSprintIsInProgress(selectedSprint);
             ValidateSprintIsNextInLine(selectedSprint);
+            
+            StartSprintConfirmationResponse sprintStartConfirmationResponse = RequestUserConfirmation(selectedSprint);
 
-            selectedSprint.State = SprintState.InProgress;
-            unitOfWork.SaveChanges();
+            if (sprintStartConfirmationResponse.IsAccepted)
+            {
+                UpdateSprint(selectedSprint, sprintStartConfirmationResponse);
+                unitOfWork.SaveChanges();
 
-            await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
+                await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
+            }
 
             return Unit.Value;
         }
@@ -99,12 +106,35 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
                 throw new Exception($"The sprint {sprint.Number} cannot be started because sprint {sprintInProgress.Number} is already in progress.");
         }
 
+        private StartSprintConfirmationResponse RequestUserConfirmation(Sprint selectedSprint)
+        {
+            StartSprintConfirmationRequest startSprintConfirmationRequest = new()
+            {
+                SprintName = selectedSprint.Name,
+                SprintNumber = selectedSprint.Number,
+                EstimatedStoryPoints = 0
+            };
+
+            return sprintStartDataProvider.ConfirmStartSprint(startSprintConfirmationRequest);
+        }
+
+        private static void UpdateSprint(Sprint selectedSprint, StartSprintConfirmationResponse sprintStartConfirmationResponse)
+        {
+            selectedSprint.State = SprintState.InProgress;
+            selectedSprint.CommitmentStoryPoints = sprintStartConfirmationResponse.CommitmentStoryPoints;
+            selectedSprint.Description = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.Description)
+                ? null
+                : sprintStartConfirmationResponse.Description;
+        }
+
         private async Task RaiseSprintUpdatedEvent(Sprint sprint, CancellationToken cancellationToken)
         {
             SprintUpdatedEvent sprintUpdatedEvent = new()
             {
                 SprintId = sprint.Id,
-                SprintState = sprint.State
+                SprintState = sprint.State,
+                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+                Description = sprint.Description
             };
 
             await eventBus.Publish(sprintUpdatedEvent, cancellationToken);

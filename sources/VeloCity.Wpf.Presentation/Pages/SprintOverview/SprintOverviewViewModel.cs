@@ -32,9 +32,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
     public class SprintOverviewViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private SprintState sprintState;
         private DateInterval timeInterval;
-        private string sprintComments;
+        private SprintState sprintState;
+        private string sprintDescription;
         private int workDays;
         private HoursValue totalWorkHours;
         private StoryPoints estimatedStoryPoints;
@@ -43,6 +43,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
         private StoryPoints commitmentStoryPoints;
         private StoryPoints actualStoryPoints;
         private Velocity actualVelocity;
+        private string sprintComments;
         private List<NoteBase> notes;
 
         public DateInterval TimeInterval
@@ -65,12 +66,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             }
         }
 
-        public string SprintComments
+        public string SprintDescription
         {
-            get => sprintComments;
+            get => sprintDescription;
             set
             {
-                sprintComments = value;
+                sprintDescription = value;
                 OnPropertyChanged();
             }
         }
@@ -155,6 +156,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             }
         }
 
+        public string SprintComments
+        {
+            get => sprintComments;
+            set
+            {
+                sprintComments = value;
+                OnPropertyChanged();
+            }
+        }
+
         public List<NoteBase> Notes
         {
             get => notes;
@@ -181,7 +192,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             DateTime? endDate = response.SprintDateInterval.EndDate;
             TimeInterval = new DateInterval(startDate, endDate);
             SprintState = response.SprintState;
-            SprintComments = response.SprintComments;
+            SprintDescription = response.SprintDescription;
 
             WorkDays = response.WorkDaysCount;
             TotalWorkHours = response.TotalWorkHours;
@@ -200,7 +211,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
                 : response.ActualStoryPoints;
             ActualVelocity = response.SprintState != SprintState.Closed && response.ActualVelocity.IsZero
                 ? null
-                : response.ActualVelocity; ;
+                : response.ActualVelocity;
+
+            SprintComments = response.SprintComments;
 
             Notes = CreateNotes(response).ToList();
         }
@@ -227,6 +240,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
         private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
         {
             SprintState = ev.SprintState;
+            SprintDescription = ev.Description;
+            CommitmentStoryPoints = ev.CommitmentStoryPoints;
 
             return Task.CompletedTask;
         }

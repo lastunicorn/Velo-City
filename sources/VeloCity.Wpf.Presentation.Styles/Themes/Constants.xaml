@@ -59,9 +59,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Color x:Key="BorderColor">#3F3F46</Color>
     <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
 
-    <Color x:Key="BorderSelectedColor">#3E4B52</Color>
-    <SolidColorBrush x:Key="SelectedBorderBrush" Color="{StaticResource BorderSelectedColor}" />
-
     <!-- Font Constants -->
 
     <Color x:Key="FontPrimaryColor">#F1F1F1</Color>

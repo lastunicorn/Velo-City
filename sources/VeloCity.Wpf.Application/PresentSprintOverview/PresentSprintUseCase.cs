@@ -86,7 +86,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
             {
                 SprintState = sprintAnalysis.Sprint.State,
                 SprintDateInterval = sprintAnalysis.Sprint.DateInterval,
-                SprintComments = sprintAnalysis.Sprint.Comments,
+                SprintDescription = sprintAnalysis.Sprint.Description,
                 WorkDaysCount = sprintAnalysis.Sprint.CountWorkDays(),
                 TotalWorkHours = sprintAnalysis.Sprint.TotalWorkHours,
                 EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
@@ -101,7 +101,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
                 PreviouslyClosedSprints = sprintAnalysis.HistorySprints?
                     .Select(x => x.Number)
                     .ToList(),
-                ExcludedSprints = sprintAnalysis.ExcludedSprints?.ToList()
+                ExcludedSprints = sprintAnalysis.ExcludedSprints?.ToList(),
+                SprintComments = sprintAnalysis.Sprint.Comments,
             };
         }
     }

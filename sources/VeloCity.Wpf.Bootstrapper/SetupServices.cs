@@ -24,6 +24,8 @@ using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
+using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Presentation;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
@@ -54,6 +56,8 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
 
             containerBuilder.RegisterType<MainWindow>().AsSelf();
             containerBuilder.RegisterType<MainViewModel>().AsSelf();
+
+            containerBuilder.RegisterType<SprintStartDataProvider>().As<ISprintStartDataProvider>();
         }
     }
 }

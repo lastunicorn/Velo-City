@@ -14,34 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
 {
-    public class JSprint
+    public class StartSprintConfirmationResponse
     {
-        public int Id { get; set; }
+        public bool IsAccepted { get; set; }
 
-        public int Number { get; set; }
-
-        public string Name { get; set; }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+        public StoryPoints CommitmentStoryPoints { get; set; }
 
         public string Description { get; set; }
-
-        public float CommitmentStoryPoints { get; set; }
-
-        public float ActualStoryPoints { get; set; }
-
-        [JsonConverter(typeof(StringEnumConverter))]
-        public JSprintState State { get; set; }
-        
-        public string Comments { get; set; }
     }
 }

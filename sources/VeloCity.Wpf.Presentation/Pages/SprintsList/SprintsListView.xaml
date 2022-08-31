@@ -51,11 +51,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             DockPanel.Dock="Top">
 
             <Button
+                Style="{StaticResource ToolBarButtonStyle}"
                 Command="{Binding StartSprintCommand}"
                 Padding="0"
-                Margin="0"
-                Width="32"
-                Height="32"
                 ToolTip="Start the currently selected sprint.">
 
                 <styles:StartIcon
@@ -65,9 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <Button
                 Padding="0"
-                Margin="0"
-                Width="32"
-                Height="32"
                 ToolTip="Stop the currently selected sprint."
                 Visibility="Collapsed">
 

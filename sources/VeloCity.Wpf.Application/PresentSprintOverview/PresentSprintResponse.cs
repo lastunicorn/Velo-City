@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 
         public DateInterval SprintDateInterval { get; set; }
         
-        public string SprintComments { get; set; }
+        public string SprintDescription { get; set; }
 
         public int WorkDaysCount { get; set; }
 
@@ -48,5 +48,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
         public List<int> PreviouslyClosedSprints { get; set; }
 
         public List<int> ExcludedSprints { get; set; }
+
+        public string SprintComments { get; set; }
     }
 }

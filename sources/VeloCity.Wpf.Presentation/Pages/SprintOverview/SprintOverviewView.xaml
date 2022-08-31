@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:controls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Controls"
 
     mc:Ignorable="d"
@@ -41,8 +40,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Themes/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <converters:SprintStateToTextConverter x:Key="SprintStateToTextConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -71,6 +68,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <styles:LabeledContent Label="State">
                             <controls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
+                        </styles:LabeledContent>
+
+                        <styles:LabeledContent
+                            Label="Description"
+                            Visibility="{Binding SprintDescription, Converter={StaticResource NullToVisibilityConverter}}">
+
+                            <TextBlock
+                                Text="{Binding SprintDescription}"
+                                TextWrapping="Wrap"
+                                HorizontalAlignment="Left"/>
+
                         </styles:LabeledContent>
 
                     </StackPanel>
