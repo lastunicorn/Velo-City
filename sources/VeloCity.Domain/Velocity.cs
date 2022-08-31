@@ -24,20 +24,20 @@ namespace DustInTheWind.VeloCity.Domain
 
         public float Value { get; init; }
 
-        public bool IsNull { get; private init; }
+        public bool IsEmpty { get; private init; }
 
-        public bool IsEmpty => Value == 0;
+        public bool IsZero => Value == 0;
 
-        public static Velocity Null { get; } = new()
+        public static Velocity Empty { get; } = new()
         {
-            IsNull = true
+            IsEmpty = true
         };
 
-        public static Velocity Empty { get; } = new();
+        public static Velocity Zero { get; } = new();
 
         public override string ToString()
         {
-            return IsNull
+            return IsEmpty
                 ? $"- {MeasurementUnit}"
                 : $"{Value} {MeasurementUnit}";
         }
@@ -52,16 +52,16 @@ namespace DustInTheWind.VeloCity.Domain
             if (format == "standard")
                 return ToStandardDigitsString();
 
-            return IsNull
+            return IsEmpty
                 ? $"- {MeasurementUnit}"
                 : $"{Value.ToString(format)} {MeasurementUnit}";
         }
 
         public string ToStandardDigitsString()
         {
-            return IsNull
+            return IsEmpty
                 ? $"- {MeasurementUnit}"
-                : IsEmpty
+                : IsZero
                     ? $"0 {MeasurementUnit}"
                     : $"{Value:0.0000} {MeasurementUnit}";
         }
@@ -76,6 +76,21 @@ namespace DustInTheWind.VeloCity.Domain
             return new Velocity
             {
                 Value = velocity
+            };
+        }
+
+        public static implicit operator Velocity(float? velocity)
+        {
+            if (velocity == null)
+                return new Velocity
+                {
+                    Value = 0,
+                    IsEmpty = true
+                };
+
+            return new Velocity
+            {
+                Value = velocity.Value
             };
         }
     }

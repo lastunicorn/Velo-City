@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Domain
         public Velocity CalculateAverageVelocity()
         {
             if (Items.Count == 0)
-                return Velocity.Null;
+                return Velocity.Empty;
 
             return Items
                 .Average(x => x.Velocity.Value);

@@ -41,19 +41,19 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void WhenCreatingNewInstance_ThenIsNullIsFalse()
         {
-            storyPoints.IsNull.Should().BeFalse();
+            storyPoints.IsEmpty.Should().BeFalse();
         }
 
         [Fact]
         public void WhenCreatingNewInstance_ThenIsNotNullIsTrue()
         {
-            storyPoints.IsNotNull.Should().BeTrue();
+            storyPoints.IsNotEmpty.Should().BeTrue();
         }
 
         [Fact]
         public void WhenCreatingNewInstance_ThenIsEmptyIsFalse()
         {
-            storyPoints.IsEmpty.Should().BeFalse();
+            storyPoints.IsZero.Should().BeFalse();
         }
     }
 }

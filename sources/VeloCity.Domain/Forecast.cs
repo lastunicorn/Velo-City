@@ -124,7 +124,7 @@ namespace DustInTheWind.VeloCity.Domain
         {
             Velocity estimatedVelocity = historySprints.CalculateAverageVelocity();
 
-            if (estimatedVelocity.IsNull)
+            if (estimatedVelocity.IsEmpty)
                 throw new Exception("Error calculating the estimated velocity.");
 
             return estimatedVelocity;

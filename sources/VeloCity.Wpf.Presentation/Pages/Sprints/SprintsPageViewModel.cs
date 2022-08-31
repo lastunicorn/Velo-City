@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Wpf.Application;
@@ -137,7 +138,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
         {
             return response == null
                 ? null
-                : $"{response.SprintName} ({response.SprintNumber})";
+                : string.IsNullOrEmpty(response.SprintName)
+                    ? $"Sprint {response.SprintNumber}"
+                    : $"Sprint {response.SprintNumber} - {response.SprintName}";
         }
     }
 }

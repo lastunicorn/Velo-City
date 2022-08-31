@@ -62,14 +62,14 @@ namespace DustInTheWind.VeloCity.Domain
 
             EstimatedVelocity = estimatedVelocity;
 
-            EstimatedStoryPoints = estimatedVelocity.IsNull
+            EstimatedStoryPoints = estimatedVelocity.IsEmpty
                 ? StoryPoints.Null
                 : Sprint.TotalWorkHours * estimatedVelocity;
 
             VelocityPenalties = Sprint.GetVelocityPenalties();
             TotalWorkHoursWithVelocityPenalties = Sprint.TotalWorkHoursWithVelocityPenalties;
 
-            EstimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !VelocityPenalties.Any()
+            EstimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsEmpty || !VelocityPenalties.Any()
                 ? StoryPoints.Null
                 : TotalWorkHoursWithVelocityPenalties * estimatedVelocity;
         }

@@ -62,7 +62,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
             dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Estimated Story Points", $"{ViewModel.EstimatedStoryPoints.ToStandardDigitsString()}");
 
-            if (!ViewModel.EstimatedStoryPointsWithVelocityPenalties.IsNull)
+            if (!ViewModel.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
                 dataGrid.Rows.Add("Estimated Story Points (*)", $"{ViewModel.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
 
             dataGrid.Rows.Add("Estimated Velocity", $"{ViewModel.EstimatedVelocity.ToStandardDigitsString()}");

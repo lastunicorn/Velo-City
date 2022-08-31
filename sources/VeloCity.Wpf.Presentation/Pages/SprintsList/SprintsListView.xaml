@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
     xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
+    xmlns:controls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Controls"
+    xmlns:domain="clr-namespace:DustInTheWind.VeloCity.Domain;assembly=DustInTheWind.VeloCity.Domain"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -39,22 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyle.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StopIconStyle.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Themes/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <converters:SprintStateToBrushConverter
-                x:Key="SprintStateToStrokeBrushConverter"
-                UnknownBrush="Transparent"
-                NewBrush="LightGray"
-                InProgressBrush="MediumSeaGreen"
-                ClosedBrush="MediumSeaGreen" />
-
-            <converters:SprintStateToBrushConverter
-                x:Key="SprintStateToFillBrushConverter"
-                UnknownBrush="Transparent"
-                NewBrush="Transparent"
-                InProgressBrush="Transparent"
-                ClosedBrush="MediumSeaGreen" />
-
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -82,7 +70,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Margin="0"
                 Width="32"
                 Height="32"
-                ToolTip="Stop the currently selected sprint.">
+                ToolTip="Stop the currently selected sprint."
+                Visibility="Collapsed">
 
                 <styles:StopIcon
                     Width="16"
@@ -93,39 +82,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <ListView
             ItemsSource="{Binding Sprints}"
-            SelectedItem="{Binding SelectedSprint}">
+            SelectedItem="{Binding SelectedSprint}"
+            SelectionMode="Single">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel Margin="10 0">
+                    <DockPanel
+                        Margin="10 0"
+                        MinHeight="40">
 
-                        <Grid>
+                        <controls:SprintStateControl
+                            DockPanel.Dock="Left"
+                            Margin="0 3 15 3"
+                            Value="{Binding SprintState}"
+                            IsLabelVisible="False"
+                            VerticalAlignment="Top"/>
 
-                            <Ellipse
-                                Width="16"
-                                Height="16"
-                                StrokeThickness="3"
-                                Stroke="{Binding SprintState, Converter={StaticResource SprintStateToStrokeBrushConverter}}"
-                                Fill="{Binding SprintState, Converter={StaticResource SprintStateToFillBrushConverter}}"
-                                StrokeLineJoin="Round"
-                                StrokeStartLineCap="Flat"
-                                StrokeEndLineCap="Flat"
-                                Margin="0 0 15 0">
+                        <StackPanel
+                            Margin="0 2">
 
-                                <Ellipse.Effect>
-                                    <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
-                                        Direction="0"
-                                        ShadowDepth="0"
-                                        BlurRadius="10" />
-                                </Ellipse.Effect>
+                            <StackPanel
+                                Orientation="Horizontal">
 
-                            </Ellipse>
-                        </Grid>
+                                <TextBlock
+                                    Text="Sprint"
+                                    FontSize="16" />
 
-                        <TextBlock
-                            Text="{Binding}"
-                            Margin="0 5 0 5" />
+                                <TextBlock
+                                    Text="{Binding SprintNumber}"
+                                    FontSize="16"
+                                    Margin="3 0 0 0" />
+
+                                <TextBlock
+                                    Text="{Binding SprintDateInterval, StringFormat={}[{0}]}"
+                                    Margin="10 0 0 0"
+                                    VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <TextBlock
+                                Text="{Binding SprintName}"
+                                FontSize="12"
+                                Foreground="Gray"
+                                Margin="0 2 0 0" />
+
+                        </StackPanel>
 
                     </DockPanel>
                 </DataTemplate>

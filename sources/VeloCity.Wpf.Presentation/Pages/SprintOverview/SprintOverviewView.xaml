@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
     xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
+    xmlns:controls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Controls"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -38,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Generic.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/PanelWithTitleStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/LabeledContentStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Themes/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:SprintStateToTextConverter x:Key="SprintStateToTextConverter" />
@@ -49,20 +51,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <styles:NotesBlock
             DockPanel.Dock="Bottom"
             ItemsSource="{Binding Notes}"
-            Margin="0 20 0 0">
+            Margin="0 20 0 0" />
 
-            <styles:NotesBlock.Style>
-                <Style TargetType="styles:NotesBlock" BasedOn="{StaticResource {x:Type styles:NotesBlock}}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Notes.Count}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </styles:NotesBlock.Style>
-        </styles:NotesBlock>
+        <ScrollViewer x:Name="ScrollViewer1">
 
-        <ScrollViewer>
             <StackPanel
                 Orientation="Vertical"
                 Grid.IsSharedSizeScope="True">
@@ -78,7 +70,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </styles:LabeledContent>
 
                         <styles:LabeledContent Label="State">
-                            <TextBlock Text="{Binding SprintState, Converter={StaticResource SprintStateToTextConverter}}" />
+                            <controls:SprintStateControl
+                                Value="{Binding SprintState, Mode=OneWay}" />
+                            <!--<TextBlock Text="{Binding SprintState, Converter={StaticResource SprintStateToTextConverter}}" />-->
                         </styles:LabeledContent>
 
                     </StackPanel>
@@ -147,6 +141,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </styles:LabeledContent>
 
                     </StackPanel>
+
+                </styles:PanelWithTitle>
+
+                <styles:PanelWithTitle
+                    Title="Comments"
+                    Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}">
+
+                    <TextBlock
+                        Text="{Binding SprintComments}"
+                        TextWrapping="Wrap"
+                        HorizontalAlignment="Left"
+                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"/>
 
                 </styles:PanelWithTitle>
 

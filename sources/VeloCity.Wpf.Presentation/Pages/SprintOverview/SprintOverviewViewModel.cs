@@ -34,6 +34,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
         private readonly IMediator mediator;
         private SprintState sprintState;
         private DateInterval timeInterval;
+        private string sprintComments;
         private int workDays;
         private HoursValue totalWorkHours;
         private StoryPoints estimatedStoryPoints;
@@ -60,6 +61,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             private set
             {
                 sprintState = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SprintComments
+        {
+            get => sprintComments;
+            set
+            {
+                sprintComments = value;
                 OnPropertyChanged();
             }
         }
@@ -170,19 +181,26 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             DateTime? endDate = response.SprintDateInterval.EndDate;
             TimeInterval = new DateInterval(startDate, endDate);
             SprintState = response.SprintState;
+            SprintComments = response.SprintComments;
 
             WorkDays = response.WorkDaysCount;
             TotalWorkHours = response.TotalWorkHours;
 
             EstimatedStoryPoints = response.EstimatedStoryPoints;
-            EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties.IsNull
+            EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties.IsEmpty
                 ? (StoryPoints?)null
                 : response.EstimatedStoryPointsWithVelocityPenalties;
             EstimatedVelocity = response.EstimatedVelocity;
-            CommitmentStoryPoints = response.CommitmentStoryPoints;
+            CommitmentStoryPoints = response.SprintState == SprintState.New && response.CommitmentStoryPoints.IsZero
+                ? null
+                : response.CommitmentStoryPoints;
 
-            ActualStoryPoints = response.ActualStoryPoints;
-            ActualVelocity = response.ActualVelocity;
+            ActualStoryPoints = response.SprintState != SprintState.Closed && response.ActualStoryPoints.IsZero
+                ? null
+                : response.ActualStoryPoints;
+            ActualVelocity = response.SprintState != SprintState.Closed && response.ActualVelocity.IsZero
+                ? null
+                : response.ActualVelocity; ;
 
             Notes = CreateNotes(response).ToList();
         }
@@ -237,7 +255,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
                 };
             }
 
-            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotNull)
+            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotEmpty)
             {
                 yield return new VelocityPenaltiesNote
                 {

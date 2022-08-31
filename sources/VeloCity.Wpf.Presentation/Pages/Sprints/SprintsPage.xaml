@@ -67,62 +67,63 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Margin="0"
             Background="{StaticResource PrimaryBrush}" />
 
-        <TextBlock
-            Grid.Column="2"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="20"
-            Text="Select a Sprint"
-            IsEnabled="False"
-            Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
-
         <Grid
             Grid.Column="2"
-            Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
-            Margin="10 0 0 0">
+            Margin="20">
 
-            <DockPanel>
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Text="Select a Sprint"
+                IsEnabled="False"
+                Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
 
-                <Grid
-                    DockPanel.Dock="Top">
+            <Grid Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                    <TextBlock
-                        Text="{Binding DetailsTitle}"
-                        FontSize="28"
-                        Margin="0 8 0 20"
-                        Foreground="{StaticResource FontPrimaryBrush}" />
+                <DockPanel>
 
-                    <Button
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Content="Refresh"
-                        Command="{Binding RefreshCommand}" />
+                    <Grid
+                        DockPanel.Dock="Top">
 
-                </Grid>
+                        <TextBlock
+                            Text="{Binding DetailsTitle}"
+                            FontSize="28"
+                            Margin="0 8 0 20"
+                            Foreground="{StaticResource FontPrimaryBrush}" />
 
-                <TabControl>
+                        <Button
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Content="Refresh"
+                            Command="{Binding RefreshCommand}" />
 
-                    <TabItem Header="Overview">
-                        <sprintOverview:SprintOverviewView
-                            DataContext="{Binding SprintOverviewViewModel}"
-                            Margin="20" />
-                    </TabItem>
+                    </Grid>
 
-                    <TabItem Header="Calendar">
-                        <sprintCalendar:SprintCalendarView
-                            DataContext="{Binding SprintCalendarViewModel}"
-                            Margin="20" />
-                    </TabItem>
+                    <TabControl>
 
-                    <TabItem Header="Sprint Members">
-                        <sprintMembers:SprintMembersView
-                            DataContext="{Binding SprintMembersViewModel}"
-                            Margin="20" />
-                    </TabItem>
+                        <TabItem Header="Overview">
+                            <sprintOverview:SprintOverviewView
+                                DataContext="{Binding SprintOverviewViewModel}"
+                                Margin="20" />
+                        </TabItem>
 
-                </TabControl>
+                        <TabItem Header="Calendar">
+                            <sprintCalendar:SprintCalendarView
+                                DataContext="{Binding SprintCalendarViewModel}"
+                                Margin="20" />
+                        </TabItem>
 
-            </DockPanel>
+                        <TabItem Header="Sprint Members">
+                            <sprintMembers:SprintMembersView
+                                DataContext="{Binding SprintMembersViewModel}"
+                                Margin="20" />
+                        </TabItem>
+
+                    </TabControl>
+
+                </DockPanel>
+            </Grid>
         </Grid>
     </Grid>
 
