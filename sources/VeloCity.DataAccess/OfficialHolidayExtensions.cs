@@ -37,6 +37,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 case OfficialHolidayOnce officialHolidayOnce:
                     return new JOfficialHoliday
                     {
+                        Recurrence = JOfficialHolidayRecurrence.Once,
                         Date = officialHolidayOnce.Date,
                         Name = officialHolidayOnce.Name,
                         Country = officialHolidayOnce.Country,
@@ -46,6 +47,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 case OfficialHolidayYearly officialHolidayYearly:
                     return new JOfficialHoliday
                     {
+                        Recurrence = JOfficialHolidayRecurrence.Yearly,
                         Date = officialHolidayYearly.Date,
                         Name = officialHolidayYearly.Name,
                         Country = officialHolidayYearly.Country,

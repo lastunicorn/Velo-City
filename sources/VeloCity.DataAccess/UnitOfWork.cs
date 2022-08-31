@@ -58,5 +58,10 @@ namespace DustInTheWind.VeloCity.DataAccess
             dbContext.Close();
             dbContext.Open();
         }
+
+        public void SaveChanges()
+        {
+            dbContext.Save();
+        }
     }
 }

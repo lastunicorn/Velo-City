@@ -14,7 +14,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.SprintListTests
 
             Velocity velocity = sprintList.CalculateAverageVelocity();
 
-            velocity.Should().Be(Velocity.Null);
+            velocity.Should().Be(Velocity.Empty);
         }
 
         [Fact]

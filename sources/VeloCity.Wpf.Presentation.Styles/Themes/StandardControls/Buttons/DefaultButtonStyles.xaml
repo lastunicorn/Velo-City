@@ -1,4 +1,22 @@
-﻿<ResourceDictionary
+﻿<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
@@ -7,16 +25,16 @@
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/Buttons/BaseButtonStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <SolidColorBrush x:Key="DefaultButtonNormalBackgroundBrush" Color="{StaticResource PrimaryColor}" />
+    <SolidColorBrush x:Key="DefaultButtonNormalBackgroundBrush" Color="Transparent" />
     <SolidColorBrush x:Key="DefaultButtonNormalForegroundBrush" Color="{StaticResource FontPrimaryColor}" />
 
-    <SolidColorBrush x:Key="DefaultButtonOverBackgroundBrush" Color="{StaticResource PrimaryLightColor}" />
+    <SolidColorBrush x:Key="DefaultButtonOverBackgroundBrush" Color="{StaticResource AccentColor}" />
     <SolidColorBrush x:Key="DefaultButtonOverForegroundBrush" Color="{StaticResource FontPrimaryColor}" />
 
     <SolidColorBrush x:Key="DefaultButtonPressedBackgroundBrush" Color="{StaticResource PrimaryDarkColor}" />
     <SolidColorBrush x:Key="DefaultButtonPressedForegroundBrush" Color="{StaticResource FontPrimaryColor}" />
 
-    <SolidColorBrush x:Key="DefaultButtonDisabledBackgroundBrush" Color="{StaticResource DisabledColor}" />
+    <SolidColorBrush x:Key="DefaultButtonDisabledBackgroundBrush" Color="{StaticResource PrimaryColor}" />
     <SolidColorBrush x:Key="DefaultButtonDisabledForegroundBrush" Color="{StaticResource FontDisabledColor}" />
 
     <Style

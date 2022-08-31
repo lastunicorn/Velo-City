@@ -31,19 +31,19 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheNullStaticInstance_ThenIsNullIsTrue()
         {
-            StoryPoints.Null.IsNull.Should().BeTrue();
+            StoryPoints.Null.IsEmpty.Should().BeTrue();
         }
 
         [Fact]
         public void HavingTheNullStaticInstance_ThenIsNotNullIsFalse()
         {
-            StoryPoints.Null.IsNotNull.Should().BeFalse();
+            StoryPoints.Null.IsNotEmpty.Should().BeFalse();
         }
 
         [Fact]
         public void HavingTheNullStaticInstance_ThenIsEmptyIsTrue()
         {
-            StoryPoints.Null.IsEmpty.Should().BeTrue();
+            StoryPoints.Null.IsZero.Should().BeTrue();
         }
 
         [Fact]

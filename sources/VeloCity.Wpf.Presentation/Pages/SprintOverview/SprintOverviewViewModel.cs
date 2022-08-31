@@ -17,102 +17,236 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.General;
-using DustInTheWind.VeloCity.Wpf.Presentation.Styles;
+using System.Threading;
+using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
+using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 {
-    public class SprintOverviewViewModel
+    public class SprintOverviewViewModel : ViewModelBase
     {
-        public List<PropertyGroup> PropertyGroups { get; set; }
+        private readonly IMediator mediator;
+        private DateInterval timeInterval;
+        private SprintState sprintState;
+        private string sprintDescription;
+        private int workDays;
+        private HoursValue totalWorkHours;
+        private StoryPoints estimatedStoryPoints;
+        private StoryPoints? estimatedStoryPointsWithVelocityPenalties;
+        private Velocity estimatedVelocity;
+        private StoryPoints commitmentStoryPoints;
+        private StoryPoints actualStoryPoints;
+        private Velocity actualVelocity;
+        private string sprintComments;
+        private List<NoteBase> notes;
 
-        public List<NoteBase> Notes { get; }
-
-        public SprintOverviewViewModel(PresentSprintResponse response)
+        public DateInterval TimeInterval
         {
-            if (response == null) throw new ArgumentNullException(nameof(response));
-
-            PropertyGroups = CreatePropertyGroups(response);
-            Notes = CreateNotes(response).ToList();
-        }
-
-        private static List<PropertyGroup> CreatePropertyGroups(PresentSprintResponse response)
-        {
-            return new List<PropertyGroup>
+            get => timeInterval;
+            private set
             {
-                CreateOverviewGroup(response),
-                CreateSizeGroup(response),
-                CreateBeforeStartingGroup(response),
-                CreateAfterCloseGroup(response)
-            };
+                timeInterval = value;
+                OnPropertyChanged();
+            }
         }
 
-        private static PropertyGroup CreateOverviewGroup(PresentSprintResponse response)
+        public SprintState SprintState
+        {
+            get => sprintState;
+            private set
+            {
+                sprintState = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SprintDescription
+        {
+            get => sprintDescription;
+            set
+            {
+                sprintDescription = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int WorkDays
+        {
+            get => workDays;
+            private set
+            {
+                workDays = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public HoursValue TotalWorkHours
+        {
+            get => totalWorkHours;
+            private set
+            {
+                totalWorkHours = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public StoryPoints EstimatedStoryPoints
+        {
+            get => estimatedStoryPoints;
+            private set
+            {
+                estimatedStoryPoints = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public StoryPoints? EstimatedStoryPointsWithVelocityPenalties
+        {
+            get => estimatedStoryPointsWithVelocityPenalties;
+            private set
+            {
+                estimatedStoryPointsWithVelocityPenalties = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Velocity EstimatedVelocity
+        {
+            get => estimatedVelocity;
+            private set
+            {
+                estimatedVelocity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public StoryPoints CommitmentStoryPoints
+        {
+            get => commitmentStoryPoints;
+            private set
+            {
+                commitmentStoryPoints = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public StoryPoints ActualStoryPoints
+        {
+            get => actualStoryPoints;
+            private set
+            {
+                actualStoryPoints = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Velocity ActualVelocity
+        {
+            get => actualVelocity;
+            private set
+            {
+                actualVelocity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SprintComments
+        {
+            get => sprintComments;
+            set
+            {
+                sprintComments = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<NoteBase> Notes
+        {
+            get => notes;
+            private set
+            {
+                notes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public SprintOverviewViewModel(IMediator mediator, EventBus eventBus)
+        {
+            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+            eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
+        }
+
+        private void DisplayResponse(PresentSprintOverviewResponse response)
         {
             DateTime? startDate = response.SprintDateInterval.StartDate;
             DateTime? endDate = response.SprintDateInterval.EndDate;
+            TimeInterval = new DateInterval(startDate, endDate);
+            SprintState = response.SprintState;
+            SprintDescription = response.SprintDescription;
 
-            return new PropertyGroup("Overview")
-            {
-                Items = new List<PropertyGroupItem>
-                {
-                    new("Time Interval", new DateIntervalViewModel(startDate, endDate)),
-                    new("State", new SprintStateViewModel(response.SprintState))
-                }
-            };
+            WorkDays = response.WorkDaysCount;
+            TotalWorkHours = response.TotalWorkHours;
+
+            EstimatedStoryPoints = response.EstimatedStoryPoints;
+            EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties.IsEmpty
+                ? (StoryPoints?)null
+                : response.EstimatedStoryPointsWithVelocityPenalties;
+            EstimatedVelocity = response.EstimatedVelocity;
+            CommitmentStoryPoints = response.SprintState == SprintState.New && response.CommitmentStoryPoints.IsZero
+                ? null
+                : response.CommitmentStoryPoints;
+
+            ActualStoryPoints = response.SprintState != SprintState.Closed && response.ActualStoryPoints.IsZero
+                ? null
+                : response.ActualStoryPoints;
+            ActualVelocity = response.SprintState != SprintState.Closed && response.ActualVelocity.IsZero
+                ? null
+                : response.ActualVelocity;
+
+            SprintComments = response.SprintComments;
+
+            Notes = CreateNotes(response).ToList();
         }
 
-        private static PropertyGroup CreateSizeGroup(PresentSprintResponse response)
+        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
         {
-            return new PropertyGroup("Size")
-            {
-                Items = new List<PropertyGroupItem>
-                {
-                    new("Work Days", new DaysViewModel(response.WorkDaysCount)),
-                    new("Total Work Hours", response.TotalWorkHours)
-                }
-            };
+            await RetrieveSprintDetails();
         }
 
-        private static PropertyGroup CreateBeforeStartingGroup(PresentSprintResponse response)
+        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
         {
-            PropertyGroup beforeStartingGroup = new("Before Starting")
-            {
-                Items = new List<PropertyGroupItem>()
-            };
-
-            PropertyGroupItem estimatedStoryPointsItem = new("Estimated Story Points", new StoryPointsViewModel(response.EstimatedStoryPoints));
-            beforeStartingGroup.Items.Add(estimatedStoryPointsItem);
-
-            if (!response.EstimatedStoryPointsWithVelocityPenalties.IsNull)
-            {
-                PropertyGroupItem estimatedStoryPointsWithVelocityPenaltiesItem = new("Estimated Story Points (*)", new StoryPointsViewModel(response.EstimatedStoryPointsWithVelocityPenalties));
-                beforeStartingGroup.Items.Add(estimatedStoryPointsWithVelocityPenaltiesItem);
-            }
-
-            PropertyGroupItem estimatedVelocityItem = new("Estimated Velocity", new VelocityViewModel(response.EstimatedVelocity));
-            beforeStartingGroup.Items.Add(estimatedVelocityItem);
-
-            PropertyGroupItem commitmentStoryPointsItem = new("Commitment Story Points", new StoryPointsViewModel(response.CommitmentStoryPoints));
-            beforeStartingGroup.Items.Add(commitmentStoryPointsItem);
-
-            return beforeStartingGroup;
+            await RetrieveSprintDetails();
         }
 
-        private static PropertyGroup CreateAfterCloseGroup(PresentSprintResponse response)
+        private async Task RetrieveSprintDetails()
         {
-            return new PropertyGroup("After Close")
-            {
-                Items = new List<PropertyGroupItem>
-                {
-                    new("Actual Story Points", new StoryPointsViewModel(response.ActualStoryPoints)),
-                    new("Actual Velocity", new VelocityViewModel(response.ActualVelocity))
-                }
-            };
+            PresentSprintOverviewRequest request = new();
+
+            PresentSprintOverviewResponse response = await mediator.Send(request);
+
+            DisplayResponse(response);
         }
 
-        private static IEnumerable<NoteBase> CreateNotes(PresentSprintResponse response)
+        private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
+        {
+            SprintState = ev.SprintState;
+            SprintDescription = ev.Description;
+            CommitmentStoryPoints = ev.CommitmentStoryPoints;
+
+            return Task.CompletedTask;
+        }
+
+        private static IEnumerable<NoteBase> CreateNotes(PresentSprintOverviewResponse response)
         {
             bool previousSprintsExist = response.PreviouslyClosedSprints is { Count: > 0 };
 
@@ -136,7 +270,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
                 };
             }
 
-            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotNull)
+            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotEmpty)
             {
                 yield return new VelocityPenaltiesNote
                 {

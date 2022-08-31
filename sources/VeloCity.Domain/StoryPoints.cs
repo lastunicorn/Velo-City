@@ -14,46 +14,56 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+
 namespace DustInTheWind.VeloCity.Domain
 {
-    public readonly struct StoryPoints
+    public readonly struct StoryPoints : IFormattable
     {
         private const string MeasurementUnit = "SP";
 
         public float Value { get; init; }
 
-        public bool IsNull { get; private init; }
+        public bool IsEmpty { get; private init; }
 
-        public bool IsNotNull => !IsNull;
+        public bool IsNotEmpty => !IsEmpty;
 
-        public bool IsEmpty => Value == 0;
+        public bool IsZero => Value == 0;
 
         public static StoryPoints Null { get; } = new()
         {
-            IsNull = true
+            IsEmpty = true
         };
 
-        public static StoryPoints Empty { get; } = new();
+        public static StoryPoints Zero { get; } = new();
 
         public override string ToString()
         {
-            return IsNull
+            return IsEmpty
                 ? $"- {MeasurementUnit}"
                 : $"{Value} {MeasurementUnit}";
         }
 
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            return ToString(format);
+        }
+
         public string ToString(string format)
         {
-            return IsNull
+            if (format == "standard")
+                return ToStandardDigitsString();
+
+            return IsEmpty
                 ? $"- {MeasurementUnit}"
                 : $"{Value.ToString(format)} {MeasurementUnit}";
         }
 
         public string ToStandardDigitsString()
         {
-            return IsNull
+            return IsEmpty
                 ? $"- {MeasurementUnit}"
-                : IsEmpty
+                : IsZero
                     ? $"0 {MeasurementUnit}"
                     : $"{Value:0.####} {MeasurementUnit}";
         }
@@ -73,7 +83,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public static implicit operator float?(StoryPoints storyPoints)
         {
-            return storyPoints.IsNull
+            return storyPoints.IsEmpty
                 ? null
                 : storyPoints.Value;
         }
@@ -84,13 +94,23 @@ namespace DustInTheWind.VeloCity.Domain
                 return new StoryPoints
                 {
                     Value = 0,
-                    IsNull = true
+                    IsEmpty = true
                 };
 
             return new StoryPoints
             {
                 Value = storyPoints.Value
             };
+        }
+
+        public static bool operator ==(StoryPoints storyPoints1, StoryPoints storyPoints2)
+        {
+            return Math.Abs(storyPoints1.Value - storyPoints2.Value) < 0.0000000000000000000000000000000000000000000000000000000000000000000001;
+        }
+
+        public static bool operator !=(StoryPoints storyPoints1, StoryPoints storyPoints2)
+        {
+            return Math.Abs(storyPoints1.Value - storyPoints2.Value) >= 0.0000000000000000000000000000000000000000000000000000000000000000000001;
         }
     }
 }

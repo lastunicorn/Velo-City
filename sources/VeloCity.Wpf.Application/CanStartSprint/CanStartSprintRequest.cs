@@ -14,23 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Application.CanStartSprint
 {
-    public class PropertyGroup
+    public class CanStartSprintRequest : IRequest<CanStartSprintResponse>
     {
-        public string Title { get; set; }
-
-        public List<PropertyGroupItem> Items { get; set; }
-
-        public PropertyGroup()
-        {
-        }
-
-        public PropertyGroup(string title)
-        {
-            Title = title;
-        }
     }
 }

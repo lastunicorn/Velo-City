@@ -26,31 +26,31 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheEmptyStaticInstance_ThenValueIsZero()
         {
-            StoryPoints.Empty.Value.Should().Be(0);
+            StoryPoints.Zero.Value.Should().Be(0);
         }
 
         [Fact]
         public void HavingTheEmptyStaticInstance_ThenIsNullIsFalse()
         {
-            StoryPoints.Empty.IsNull.Should().BeFalse();
+            StoryPoints.Zero.IsEmpty.Should().BeFalse();
         }
 
         [Fact]
         public void HavingTheEmptyStaticInstance_ThenIsNotNullIsTrue()
         {
-            StoryPoints.Empty.IsNotNull.Should().BeTrue();
+            StoryPoints.Zero.IsNotEmpty.Should().BeTrue();
         }
 
         [Fact]
         public void HavingTheEmptyStaticInstance_ThenIsEmptyIsTrue()
         {
-            StoryPoints.Empty.IsEmpty.Should().BeTrue();
+            StoryPoints.Zero.IsZero.Should().BeTrue();
         }
 
         [Fact]
         public void HavingTheEmptyStaticInstance_WhenSerialized_ThenStringContainsZeroSP()
         {
-            string actual = StoryPoints.Empty.ToString();
+            string actual = StoryPoints.Zero.ToString();
 
             actual.Should().Be("0 SP");
         }
@@ -59,7 +59,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         public void HavingTheEmptyStaticInstanceInEnUsCulture_WhenSerializedWithF2Formatting_ThenStringContainsZerosWithTwoDigitsSP()
         {
             CultureInfo.CurrentCulture = new CultureInfo("en-US");
-            string actual = StoryPoints.Empty.ToString("F2");
+            string actual = StoryPoints.Zero.ToString("F2");
 
             actual.Should().Be("0.00 SP");
         }
@@ -68,7 +68,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         public void HavingTheEmptyStaticInstanceInEnUsCulture_WhenSerializedToStandardDigitsString_ThenStringContainsZeroSP()
         {
             CultureInfo.CurrentCulture = new CultureInfo("en-US");
-            string actual = StoryPoints.Empty.ToStandardDigitsString();
+            string actual = StoryPoints.Zero.ToStandardDigitsString();
 
             actual.Should().Be("0 SP");
         }
@@ -76,7 +76,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheEmptyStaticInstance_WhenImplicitlyCastToFloat_ThenZeroIsReturned()
         {
-            float actual = StoryPoints.Empty;
+            float actual = StoryPoints.Zero;
 
             actual.Should().Be(0);
         }
@@ -84,7 +84,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheEmptyStaticInstance_WhenImplicitlyCastToNullableFloat_ThenZeroIsReturned()
         {
-            float? actual = StoryPoints.Empty;
+            float? actual = StoryPoints.Zero;
 
             actual.Should().Be(0);
         }

@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
@@ -30,12 +31,14 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
         private readonly IUnitOfWork unitOfWork;
         private readonly IConfig config;
         private readonly ISystemClock systemClock;
+        private readonly ApplicationState applicationState;
 
-        public PresentSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock)
+        public PresentSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
+            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
         public Task<PresentSprintResponse> Handle(PresentSprintRequest request, CancellationToken cancellationToken)
@@ -56,7 +59,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
         private Sprint RetrieveSprintToAnalyze(PresentSprintRequest request)
         {
             Sprint sprint = request.SprintNumber == null
-                ? RetrieveDefaultSprintToAnalyze()
+                ? applicationState.SelectedSprintId == null
+                    ? RetrieveDefaultSprintToAnalyze()
+                    : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value)
                 : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
 
             return sprint;
@@ -87,6 +92,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
             return new PresentSprintResponse
             {
                 SprintName = sprintAnalysis.Sprint.Name,
+                SprintNumber = sprintAnalysis.Sprint.Number,
                 SprintState = sprintAnalysis.Sprint.State,
                 SprintDateInterval = sprintAnalysis.Sprint.DateInterval,
                 SprintDays = sprintAnalysis.Sprint.EnumerateAllDays()?.ToList(),

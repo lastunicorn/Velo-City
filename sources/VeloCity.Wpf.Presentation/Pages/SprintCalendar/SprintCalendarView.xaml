@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/DataGridStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Generic.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -50,19 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <styles:NotesBlock
             DockPanel.Dock="Bottom"
             ItemsSource="{Binding Notes}"
-            Margin="0 20 0 0">
-
-            <styles:NotesBlock.Style>
-                <Style TargetType="styles:NotesBlock" BasedOn="{StaticResource {x:Type styles:NotesBlock}}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Notes.Count}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </styles:NotesBlock.Style>
-
-        </styles:NotesBlock>
+            Margin="0 20 0 0" />
 
         <DataGrid
             ItemsSource="{Binding CalendarItems}"
@@ -174,19 +162,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
 
-                <!--<DataGridTextColumn
-                    Header="Absence Details"
-                    Binding="{Binding AbsenceDetails}"
-                    CanUserSort="False"
-                    Foreground="#F9F1A5" />-->
-
                 <DataGridTemplateColumn
                     Header="Absence Details"
                     CanUserSort="False">
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <sprintCalendar:AbsenceDetailsControl DataContext="{Binding AbsenceDetails}"/>
+                            <sprintCalendar:AbsenceDetailsControl DataContext="{Binding AbsenceDetails}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

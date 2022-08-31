@@ -1,17 +1,14 @@
 ﻿<!--
 Velo City
 Copyright (C) 2022 Dust in the Wind
-
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
-
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
@@ -28,52 +25,45 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
-    <Style TargetType="{x:Type styles:PropertyGroupsView}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="IsTabStop" Value="False"/>
+    <Style x:Key="{x:Type styles:PanelWithTitle}" TargetType="{x:Type styles:PanelWithTitle}">
+        <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
-                    <StackPanel Grid.IsSharedSizeScope="True">
-                        <ItemsPresenter />
-                    </StackPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+                <ControlTemplate TargetType="{x:Type styles:PanelWithTitle}">
 
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-
-                    <DockPanel Margin="0 0 0 20">
+                    <DockPanel>
 
                         <Border
                             DockPanel.Dock="Top"
                             BorderThickness="0 0 0 1"
                             BorderBrush="{StaticResource BorderBrush}"
-                            Margin="0 0 0 5"
+                            Margin="0 0 0 10"
                             SnapsToDevicePixels="True"
-                            Visibility="{Binding Title, Converter={StaticResource NullToVisibilityConverter}}">
+                            Visibility="{TemplateBinding Title, Converter={StaticResource NullToVisibilityConverter}}">
 
-                            <TextBlock
-                                FontSize="18"
-                                FontWeight="DemiBold"
-                                Text="{Binding Title}"
-                                Margin="0 0 0 2" />
+                            <ContentPresenter
+                                Content="{TemplateBinding Title}"
+                                Margin="0 0 0 2">
+
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="FontSize" Value="18" />
+                                        <Setter Property="FontWeight" Value="DemiBold" />
+                                    </Style>
+                                </ContentPresenter.Resources>
+
+                            </ContentPresenter>
                         </Border>
 
-                        <styles:PropertyGroupView
-                            ItemsSource="{Binding Items}"
-                            Margin="0 3 0 0"
-                            Visibility="{Binding Items, Converter={StaticResource NullToVisibilityConverter}}" />
+                        <ContentPresenter />
 
                     </DockPanel>
 
-                </DataTemplate>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
 
 </ResourceDictionary>

@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
     xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints"
+    xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -41,22 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityInverseConverter" Inverse="True" />
-
-            <converters:SprintStateToBrushConverter
-                x:Key="SprintStateToStrokeBrushConverter"
-                UnknownBrush="Transparent"
-                NewBrush="LightGray"
-                InProgressBrush="MediumSeaGreen"
-                ClosedBrush="MediumSeaGreen" />
-
-            <converters:SprintStateToBrushConverter
-                x:Key="SprintStateToFillBrushConverter"
-                UnknownBrush="Transparent"
-                NewBrush="Transparent"
-                InProgressBrush="Transparent"
-                ClosedBrush="MediumSeaGreen" />
+            <converters:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -69,47 +56,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ListView
+        <sprintsList:SprintsListView
             Grid.Column="0"
-            ItemsSource="{Binding Sprints}"
-            SelectedItem="{Binding SelectedSprint}">
-
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel Margin="10 0">
-
-                        <Grid>
-
-                            <Ellipse
-                                Width="16"
-                                Height="16"
-                                StrokeThickness="3"
-                                Stroke="{Binding SprintState, Converter={StaticResource SprintStateToStrokeBrushConverter}}"
-                                Fill="{Binding SprintState, Converter={StaticResource SprintStateToFillBrushConverter}}"
-                                StrokeLineJoin="Round"
-                                StrokeStartLineCap="Flat"
-                                StrokeEndLineCap="Flat"
-                                Margin="0 0 15 0">
-
-                                <Ellipse.Effect>
-                                    <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
-                                        Direction="0"
-                                        ShadowDepth="0"
-                                        BlurRadius="10" />
-                                </Ellipse.Effect>
-
-                            </Ellipse>
-                        </Grid>
-
-                        <TextBlock
-                            Text="{Binding}"
-                            Margin="0 5 0 5" />
-
-                    </DockPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            DataContext="{Binding SprintsListViewModel}" />
 
         <GridSplitter
             Grid.Column="1"
@@ -118,62 +67,65 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Margin="0"
             Background="{StaticResource PrimaryBrush}" />
 
-        <TextBlock
-            Grid.Column="2"
-            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityInverseConverter}}"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="20"
-            Text="Select a Sprint"
-            IsEnabled="False" />
-
         <Grid
             Grid.Column="2"
-            Visibility="{Binding SprintOverview, Converter={StaticResource NullToVisibilityConverter}}"
-            Margin="10 0 0 0">
+            Margin="20">
 
-            <DockPanel>
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="20"
+                Text="Select a Sprint"
+                IsEnabled="False"
+                Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
 
-                <Grid
-                    DockPanel.Dock="Top">
+            <Grid Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                    <TextBlock
-                        Text="{Binding DetailsTitle}"
-                        FontSize="28"
-                        Margin="0 8 0 20"
-                        Foreground="{StaticResource FontPrimaryBrush}" />
+                <DockPanel>
 
-                    <Button
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Content="Refresh"
-                        Command="{Binding RefreshCommand}"/>
+                    <Grid
+                        DockPanel.Dock="Top">
 
-                </Grid>
+                        <TextBlock
+                            Text="{Binding DetailsTitle}"
+                            FontSize="28"
+                            Margin="0 8 0 20"
+                            Foreground="{StaticResource FontPrimaryBrush}" />
 
-                <TabControl>
+                        <Button
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Content="Refresh"
+                            Command="{Binding RefreshCommand}" />
 
-                    <TabItem Header="Overview">
-                        <sprintOverview:SprintOverviewView
-                            DataContext="{Binding SprintOverview}"
-                            Margin="20" />
-                    </TabItem>
+                    </Grid>
 
-                    <TabItem Header="Calendar">
-                        <sprintCalendar:SprintCalendarView
-                            DataContext="{Binding SprintCalendar}"
-                            Margin="20" />
-                    </TabItem>
+                    <TabControl
+                        BorderThickness="0"
+                        Background="Transparent">
 
-                    <TabItem Header="Sprint Members">
-                        <sprintMembers:SprintMembersView
-                            DataContext="{Binding SprintMembers}"
-                            Margin="20" />
-                    </TabItem>
+                        <TabItem Header="Overview">
+                            <sprintOverview:SprintOverviewView
+                                DataContext="{Binding SprintOverviewViewModel}"
+                                Margin="0 20 0 0" />
+                        </TabItem>
 
-                </TabControl>
+                        <TabItem Header="Calendar">
+                            <sprintCalendar:SprintCalendarView
+                                DataContext="{Binding SprintCalendarViewModel}"
+                                Margin="0 20 0 0" />
+                        </TabItem>
 
-            </DockPanel>
+                        <TabItem Header="Sprint Members">
+                            <sprintMembers:SprintMembersView
+                                DataContext="{Binding SprintMembersViewModel}"
+                                Margin="0 20 0 0" />
+                        </TabItem>
+
+                    </TabControl>
+
+                </DockPanel>
+            </Grid>
         </Grid>
     </Grid>
 

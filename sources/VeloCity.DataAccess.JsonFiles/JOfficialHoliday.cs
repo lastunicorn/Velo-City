@@ -15,11 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class JOfficialHoliday
     {
+        [JsonConverter(typeof(StringEnumConverter))]
         public JOfficialHolidayRecurrence Recurrence { get; set; }
 
         public DateTime Date { get; set; }

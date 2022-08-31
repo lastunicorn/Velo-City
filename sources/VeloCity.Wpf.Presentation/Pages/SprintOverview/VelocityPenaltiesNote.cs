@@ -17,7 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 {

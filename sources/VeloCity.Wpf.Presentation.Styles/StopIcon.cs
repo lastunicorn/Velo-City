@@ -13,24 +13,18 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-using System;
-using DustInTheWind.VeloCity.Domain;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
 {
-    public class VelocityPenaltyInfo
+    public class StopIcon : Control
     {
-        public PersonName PersonName { get; }
-
-        public int PenaltyValue { get; }
-
-        public VelocityPenaltyInfo(VelocityPenaltyInstance velocityPenaltyInstance)
+        static StopIcon()
         {
-            if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
-
-            PersonName = velocityPenaltyInstance.TeamMember.Name;
-            PenaltyValue = velocityPenaltyInstance.Value;
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StopIcon), new FrameworkPropertyMetadata(typeof(StopIcon)));
         }
     }
 }

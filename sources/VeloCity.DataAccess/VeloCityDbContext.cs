@@ -142,5 +142,14 @@ namespace DustInTheWind.VeloCity.DataAccess
 
             State = DatabaseState.Closed;
         }
+
+        public void Save()
+        {
+            databaseFile.Document.Sprints = Sprints.ToJEntities().ToList();
+            databaseFile.Document.TeamMembers = TeamMembers.ToJEntities().ToList();
+            databaseFile.Document.OfficialHolidays = OfficialHolidays.ToJEntities().ToList();
+
+            databaseFile.Save();
+        }
     }
 }

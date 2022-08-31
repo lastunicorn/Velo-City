@@ -26,10 +26,12 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
     internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, PresentSprintsResponse>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly ApplicationState applicationState;
 
-        public PresentSprintsUseCase(IUnitOfWork unitOfWork)
+        public PresentSprintsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
         public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
@@ -39,7 +41,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
                 Sprints = unitOfWork.SprintRepository.GetAll()
                     .OrderByDescending(x => x.StartDate)
                     .Select(x => new SprintInfo(x))
-                    .ToList()
+                    .ToList(),
+                CurrentSprintId = applicationState.SelectedSprintId
             };
 
             return Task.FromResult(response);

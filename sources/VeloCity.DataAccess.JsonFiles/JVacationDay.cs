@@ -16,24 +16,28 @@
 
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class JVacationDay
     {
+        [JsonConverter(typeof(StringEnumConverter))]
         public JVacationRecurrence Recurrence { get; set; }
 
         public DateTime? Date { get; set; }
 
-        public List<DayOfWeek> WeekDays { get; set; }
+        public DateTime? StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
+        [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
+        public List<JDayOfWeek> WeekDays { get; set; }
 
         public List<int> MonthDays { get; set; }
 
         public List<DateTime> Dates { get; set; }
-
-        public DateTime? StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
 
         public int? HourCount { get; set; }
 

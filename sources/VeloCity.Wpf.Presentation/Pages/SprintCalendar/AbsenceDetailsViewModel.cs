@@ -24,7 +24,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar
     public class AbsenceDetailsViewModel
     {
         public List<TeamMemberAbsenceDetails> TeamMemberVacationDetails { get; }
-        
+
         public List<OfficialHolidayAbsenceDetails> OfficialHolidays { get; }
 
         public bool HasVacationsAndHolidays => TeamMemberVacationDetails?.Count > 0 && OfficialHolidays?.Count > 0;

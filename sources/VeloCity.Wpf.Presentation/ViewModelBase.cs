@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -21,11 +22,29 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {
+        private volatile bool isInitializeMode;
+
+        protected bool IsInitializeMode => isInitializeMode;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void RunInInitializeMode(Action action)
+        {
+            isInitializeMode = true;
+
+            try
+            {
+                action();
+            }
+            finally
+            {
+                isInitializeMode = false;
+            }
         }
     }
 }

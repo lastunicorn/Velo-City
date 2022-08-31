@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
 {
     public class NotesBlock : ItemsControl
     {
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached(
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
             "CornerRadius",
             typeof(CornerRadius),
             typeof(NotesBlock),

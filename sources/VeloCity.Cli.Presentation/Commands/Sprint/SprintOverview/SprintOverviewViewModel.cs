@@ -86,7 +86,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
                 };
             }
 
-            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotNull)
+            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotEmpty)
             {
                 yield return new VelocityPenaltiesNote
                 {

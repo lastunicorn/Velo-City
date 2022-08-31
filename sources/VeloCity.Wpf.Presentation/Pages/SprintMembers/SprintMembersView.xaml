@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:sprintMembers="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters" 
+    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:sprintMemberCalendar="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMemberCalendar"
 
     mc:Ignorable="d"
@@ -36,7 +36,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/DataGridStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -45,7 +44,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer Padding="0 0 20 0">
+    <ScrollViewer Padding="0 0 0 0">
+
         <DataGrid
             ItemsSource="{Binding SprintMembersOverview}"
             AutoGenerateColumns="False"

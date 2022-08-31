@@ -17,12 +17,15 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprint
 {
     public class PresentSprintResponse
     {
         public string SprintName { get; set; }
+
+        public int SprintNumber { get; set; }
 
         public SprintState SprintState { get; set; }
 

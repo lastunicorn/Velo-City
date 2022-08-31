@@ -61,8 +61,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMemberCalendar
 
                     if (dependObj is T dependencyObject)
                         return dependencyObject;
-                }
-                while (dependObj != null);
+                } while (dependObj != null);
             }
 
             return null;

@@ -14,16 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
 {
-    public class PropertyGroupView : ItemsControl
+    /// <summary>
+    /// Interaction logic for SprintsListView.xaml
+    /// </summary>
+    public partial class SprintsListView : UserControl
     {
-        static PropertyGroupView()
+        public SprintsListView()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PropertyGroupView), new FrameworkPropertyMetadata(typeof(PropertyGroupView)));
+            InitializeComponent();
         }
     }
 }

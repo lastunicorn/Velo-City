@@ -15,23 +15,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Windows.Input;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 {
-    public class PropertyGroupItem
+    public class StopSprintCommand : ICommand
     {
-        public string Name { get; init; }
+        private readonly IMediator mediator;
+        public event EventHandler CanExecuteChanged;
 
-        public object Value { get; init; }
-
-        public PropertyGroupItem()
+        public StopSprintCommand(IMediator mediator)
         {
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public PropertyGroupItem(string name, object value)
+        public bool CanExecute(object parameter)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Value = value;
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
         }
     }
 }

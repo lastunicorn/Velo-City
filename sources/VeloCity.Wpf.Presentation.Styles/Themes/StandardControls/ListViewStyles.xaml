@@ -78,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
+                <ControlTemplate TargetType="ListViewItem">
 
                     <Border
                         x:Name="PART_Border"
@@ -129,15 +129,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             VerticalAlignment="Center" />
                     </Border>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
-        <!--<Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Blue"></Setter>
-            </Trigger>
-        </Style.Triggers>-->
     </Style>
 
 </ResourceDictionary>

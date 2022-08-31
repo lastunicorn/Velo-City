@@ -95,7 +95,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
                 yield return new NoPreviousSprintsNote();
             }
 
-            if (!response.EstimatedStoryPointsWithVelocityPenalties.IsNull)
+            if (!response.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
                 yield return new VelocityPenaltiesNote();
         }
     }

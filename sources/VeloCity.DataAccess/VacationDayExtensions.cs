@@ -38,6 +38,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 case VacationOnce vacationOnce:
                     return new JVacationDay
                     {
+                        Recurrence = JVacationRecurrence.Once,
                         Date = vacationOnce.Date,
                         HourCount = vacationOnce.HourCount,
                         Comments = vacationOnce.Comments
@@ -46,6 +47,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 case VacationDaily vacationDaily:
                     return new JVacationDay
                     {
+                        Recurrence = JVacationRecurrence.Daily,
                         StartDate = vacationDaily.DateInterval.StartDate,
                         EndDate = vacationDaily.DateInterval.EndDate,
                         HourCount = vacationDaily.HourCount,
@@ -55,6 +57,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 case VacationMonthly vacationMonthly:
                     return new JVacationDay
                     {
+                        Recurrence = JVacationRecurrence.Monthly,
                         StartDate = vacationMonthly.DateInterval.StartDate,
                         EndDate = vacationMonthly.DateInterval.EndDate,
                         MonthDays = vacationMonthly.MonthDays,
@@ -65,9 +68,12 @@ namespace DustInTheWind.VeloCity.DataAccess
                 case VacationWeekly vacationWeekly:
                     return new JVacationDay
                     {
+                        Recurrence = JVacationRecurrence.Weekly,
                         StartDate = vacationWeekly.DateInterval.StartDate,
                         EndDate = vacationWeekly.DateInterval.EndDate,
-                        WeekDays = vacationWeekly.WeekDays,
+                        WeekDays = vacationWeekly.WeekDays
+                            .Select(x => x.ToJEntity())
+                            .ToList(),
                         HourCount = vacationWeekly.HourCount,
                         Comments = vacationWeekly.Comments
                     };
@@ -75,6 +81,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                 case VacationYearly vacationYearly:
                     return new JVacationDay
                     {
+                        Recurrence = JVacationRecurrence.Yearly,
                         StartDate = vacationYearly.DateInterval.StartDate,
                         EndDate = vacationYearly.DateInterval.EndDate,
                         Dates = vacationYearly.Dates,
@@ -120,7 +127,9 @@ namespace DustInTheWind.VeloCity.DataAccess
                     return new VacationWeekly
                     {
                         DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
-                        WeekDays = vacationDay.WeekDays,
+                        WeekDays = vacationDay.WeekDays
+                            .Select(x => x.ToEntity())
+                            .ToList(),
                         HourCount = vacationDay.HourCount,
                         Comments = vacationDay.Comments
                     };

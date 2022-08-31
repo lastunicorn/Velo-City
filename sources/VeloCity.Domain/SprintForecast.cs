@@ -40,14 +40,14 @@ namespace DustInTheWind.VeloCity.Domain
 
         public SprintForecast(Sprint sprint, Velocity estimatedVelocity)
         {
-            StoryPoints estimatedStoryPoints = estimatedVelocity.IsNull
+            StoryPoints estimatedStoryPoints = estimatedVelocity.IsEmpty
                 ? StoryPoints.Null
                 : sprint.TotalWorkHours * estimatedVelocity;
 
             bool velocityPenaltiesExists = sprint.GetVelocityPenalties().Any();
             HoursValue totalWorkHoursWithVelocityPenalties = sprint.TotalWorkHoursWithVelocityPenalties;
 
-            StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsNull || !velocityPenaltiesExists
+            StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsEmpty || !velocityPenaltiesExists
                 ? StoryPoints.Null
                 : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
 

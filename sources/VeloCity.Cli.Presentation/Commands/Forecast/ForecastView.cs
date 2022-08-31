@@ -54,7 +54,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
             dataGrid.Rows.Add("Estimated Velocity", $"{command.EstimatedVelocity.ToStandardDigitsString()}");
             dataGrid.Rows.Add("Estimated Story Points", $"{command.EstimatedStoryPoints.ToStandardDigitsString()}");
 
-            if (!command.EstimatedStoryPointsWithVelocityPenalties.IsNull)
+            if (!command.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
                 dataGrid.Rows.Add("Estimated Story Points (*)", $"{command.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
 
             AddFooter(dataGrid, command);
@@ -94,7 +94,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
             dataGrid.Rows.Add(" ", " ");
             dataGrid.Rows.Add("Estimated Story Points", $"{sprintForecast.EstimatedStoryPoints.ToStandardDigitsString()}");
 
-            if (!sprintForecast.EstimatedStoryPointsWithVelocityPenalties.IsNull)
+            if (!sprintForecast.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
                 dataGrid.Rows.Add("Estimated Story Points (*)", $"{sprintForecast.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
 
             AddFooter(dataGrid, sprintForecast);
@@ -104,7 +104,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
 
         private static void AddFooter(DataGrid dataGrid, SprintForecast sprint)
         {
-            bool velocityPenaltiesExist = !sprint.EstimatedStoryPointsWithVelocityPenalties.IsNull;
+            bool velocityPenaltiesExist = !sprint.EstimatedStoryPointsWithVelocityPenalties.IsEmpty;
             if (!velocityPenaltiesExist)
                 return;
 
