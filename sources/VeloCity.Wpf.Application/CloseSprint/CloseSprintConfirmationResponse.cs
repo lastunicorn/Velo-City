@@ -14,29 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Windows.Input;
-using MediatR;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
+namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
 {
-    public class StopSprintCommand : ICommand
+    public class CloseSprintConfirmationResponse
     {
-        private readonly IMediator mediator;
-        public event EventHandler CanExecuteChanged;
+        public bool IsAccepted { get; set; }
 
-        public StopSprintCommand(IMediator mediator)
-        {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+        public StoryPoints ActualStoryPoints { get; set; }
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-        }
+        public string Comments { get; set; }
     }
 }

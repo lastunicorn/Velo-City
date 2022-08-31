@@ -14,22 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
+using System.Windows;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
 {
-    public class SprintUpdatedEvent
+    /// <summary>
+    /// Interaction logic for CloseSprintConfirmationWindow.xaml
+    /// </summary>
+    public partial class CloseSprintConfirmationWindow : Window
     {
-        public int? SprintId { get; set; }
+        public CloseSprintConfirmationWindow()
+        {
+            InitializeComponent();
+            
+            SourceInitialized += (x, y) =>
+            {
+                this.HideMinimizeAndMaximizeButtons();
+            };
+        }
 
-        public SprintState SprintState { get; set; }
-        
-        public StoryPoints CommitmentStoryPoints { get; set; }
-        
-        public StoryPoints ActualStoryPoints { get; set; }
-        
-        public string Description { get; set; }
-        
-        public string Comments { get; set; }
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
     }
 }

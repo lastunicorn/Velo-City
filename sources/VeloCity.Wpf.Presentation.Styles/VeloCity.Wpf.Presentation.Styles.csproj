@@ -26,11 +26,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
-      <Page Update="Themes\CustomControls\StopIconStyle.xaml">
+      <Page Update="Themes\CustomControls\CloseIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\StartIconStyle.xaml">
+      <Page Update="Themes\CustomControls\StopIconStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Themes\CustomControls\StartIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
       <Page Update="Themes\StandardControls\Buttons\ToolBarButtonStyles.xaml">

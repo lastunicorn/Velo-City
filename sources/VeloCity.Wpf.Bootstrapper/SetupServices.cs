@@ -23,6 +23,7 @@ using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
+using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation;
@@ -58,6 +59,7 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             containerBuilder.RegisterType<MainViewModel>().AsSelf();
 
             containerBuilder.RegisterType<SprintStartDataProvider>().As<ISprintStartDataProvider>();
+            containerBuilder.RegisterType<SprintCloseDataProvider>().As<ISprintCloseDataProvider>();
         }
     }
 }
