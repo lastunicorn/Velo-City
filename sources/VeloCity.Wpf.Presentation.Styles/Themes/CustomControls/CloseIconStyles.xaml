@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type styles:CloseIcon}">
-        <Setter Property="Foreground" Value="MediumSeaGreen" />
+        <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="64" />
         <Setter Property="Height" Value="64" />

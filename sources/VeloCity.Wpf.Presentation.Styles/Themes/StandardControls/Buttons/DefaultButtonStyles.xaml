@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <SolidColorBrush x:Key="DefaultButtonPressedBackgroundBrush" Color="{StaticResource PrimaryDarkColor}" />
     <SolidColorBrush x:Key="DefaultButtonPressedForegroundBrush" Color="{StaticResource FontPrimaryColor}" />
 
-    <SolidColorBrush x:Key="DefaultButtonDisabledBackgroundBrush" Color="{StaticResource PrimaryColor}" />
+    <SolidColorBrush x:Key="DefaultButtonDisabledBackgroundBrush" Color="Transparent" />
     <SolidColorBrush x:Key="DefaultButtonDisabledForegroundBrush" Color="{StaticResource FontDisabledColor}" />
 
     <Style

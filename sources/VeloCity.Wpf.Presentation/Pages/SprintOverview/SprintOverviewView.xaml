@@ -56,7 +56,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Orientation="Vertical"
                 Grid.IsSharedSizeScope="True">
 
-                <styles:PanelWithTitle Title="Identity">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type styles:PanelWithTitle}" BasedOn="{StaticResource {x:Type styles:PanelWithTitle}}">
+                        <Setter Property="Margin" Value="0 25 0 0" />
+                    </Style>
+                </StackPanel.Resources>
+
+                <styles:PanelWithTitle
+                    Title="Identity"
+                    Margin="0">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
@@ -76,20 +84,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 <styles:PanelWithTitle
                     Title="Goal"
-                    Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}"
-                    Margin="0 20 0 0">
+                    Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}">
 
                     <TextBlock
                         Text="{Binding SprintGoal}"
                         TextWrapping="Wrap"
                         HorizontalAlignment="Left"
-                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"/>
+                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}" />
 
                 </styles:PanelWithTitle>
 
-                <styles:PanelWithTitle
-                    Title="Size"
-                    Margin="0 20 0 0">
+                <styles:PanelWithTitle Title="Size">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
@@ -107,9 +112,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 </styles:PanelWithTitle>
 
-                <styles:PanelWithTitle
-                    Title="Before Starting"
-                    Margin="0 20 0 0">
+                <styles:PanelWithTitle Title="Before Starting">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
@@ -138,9 +141,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 </styles:PanelWithTitle>
 
-                <styles:PanelWithTitle
-                    Title="After Close"
-                    Margin="0 20 0 0">
+                <styles:PanelWithTitle Title="After Close">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
@@ -160,14 +161,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 <styles:PanelWithTitle
                     Title="Comments"
-                    Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}"
-                    Margin="0 20 0 0">
+                    Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}">
 
                     <TextBlock
                         Text="{Binding SprintComments}"
                         TextWrapping="Wrap"
                         HorizontalAlignment="Left"
-                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"/>
+                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}" />
 
                 </styles:PanelWithTitle>
 

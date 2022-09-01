@@ -88,17 +88,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 <DockPanel>
 
-                    <Grid
+                    <DockPanel
                         DockPanel.Dock="Top"
                         Margin="0 0 0 30">
 
-                        <TextBlock
-                            Text="{Binding DetailsTitle}"
-                            FontSize="28"
-                            Foreground="{StaticResource FontPrimaryBrush}"
-                            VerticalAlignment="Center"/>
-
                         <StackPanel
+                            DockPanel.Dock="Right"
                             Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center">
@@ -141,7 +136,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         </StackPanel>
 
-                    </Grid>
+                        <TextBlock
+                            Text="{Binding DetailsTitle}"
+                            FontSize="28"
+                            Foreground="{StaticResource FontPrimaryBrush}"
+                            VerticalAlignment="Center"
+                            TextTrimming="CharacterEllipsis"/>
+
+                    </DockPanel>
 
                     <TabControl
                         BorderThickness="0"

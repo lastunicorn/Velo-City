@@ -74,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     DockPanel.Dock="Left"
                     Margin="0 0 20 0"
                     Width="32"
-                    Height="32"/>
+                    Height="32" />
 
                 <TextBlock
                     Text="{Binding Title}"
@@ -102,14 +102,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Content="Cancel"
                     IsCancel="True"
                     MinWidth="100"
-                    TabIndex="4"/>
+                    TabIndex="4" />
 
                 <Button
                     Content="Ok"
                     IsDefault="True"
                     MinWidth="100"
                     Click="ButtonBase_OnClick"
-                    TabIndex="3"/>
+                    TabIndex="3" />
 
             </StackPanel>
         </Border>
@@ -132,21 +132,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Grid.Column="0"
                 Content="_Actual Story Points"
                 VerticalAlignment="Center"
-                Target="TextBoxActualStoryPoints"/>
+                Target="TextBoxActualStoryPoints" />
 
             <TextBox
                 Grid.Row="0"
                 Grid.Column="2"
                 x:Name="TextBoxActualStoryPoints"
                 Text="{Binding ActualStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
-                TabIndex="1"/>
+                TabIndex="1" />
 
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
                 Content="_Comments"
                 VerticalAlignment="Center"
-                Target="TextBoxComments"/>
+                Target="TextBoxComments" />
 
             <TextBox
                 Grid.Row="1"
@@ -155,7 +155,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Text="{Binding Comments}"
                 Style="{StaticResource MultilineTextBoxStyle}"
                 Margin="0 10 0 0"
-                TabIndex="2"/>
+                TabIndex="2" />
         </Grid>
 
     </DockPanel>
