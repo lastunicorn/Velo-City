@@ -44,9 +44,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                Window parentWindow = Window.GetWindow(this);
+                Window parentWindow = GetWindow(this);
                 parentWindow?.DragMove();
             }
         }
+    }
     }
 }

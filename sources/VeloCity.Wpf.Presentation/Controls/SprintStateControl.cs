@@ -96,6 +96,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Controls
             set => SetValue(LabelTextProperty, value);
         }
 
+        public static readonly DependencyProperty IsIconShadowVisibleProperty = DependencyProperty.Register(
+            nameof(IsIconShadowVisible),
+            typeof(bool),
+            typeof(SprintStateControl),
+            new PropertyMetadata(true)
+        );
+
+        public bool IsIconShadowVisible
+        {
+            get => (bool)GetValue(IsIconShadowVisibleProperty);
+            set => SetValue(IsIconShadowVisibleProperty, value);
+        }
+
         static SprintStateControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SprintStateControl), new FrameworkPropertyMetadata(typeof(SprintStateControl)));

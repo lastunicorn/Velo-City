@@ -46,12 +46,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
+                <ControlTemplate TargetType="{x:Type controls:SprintStateControl}">
 
                     <StackPanel
                         Orientation="Horizontal">
 
                         <Ellipse
+                            x:Name="PART_Icon"
                             Width="16"
                             Height="16"
                             StrokeThickness="3"
@@ -63,14 +64,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             VerticalAlignment="Center"
                             Visibility="{Binding IsIconVisible, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                            <Ellipse.Effect>
-                                <DropShadowEffect
-                                    Color="{StaticResource PrimaryColor}"
-                                    Direction="0"
-                                    ShadowDepth="0"
-                                    BlurRadius="10" />
-                            </Ellipse.Effect>
-
                         </Ellipse>
 
                         <TextBlock
@@ -80,6 +73,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             VerticalAlignment="Center"/>
 
                     </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsIconShadowVisible" Value="True">
+                            <Setter Property="Effect" TargetName="PART_Icon">
+                                <Setter.Value>
+                                    <DropShadowEffect
+                                        Color="{StaticResource PrimaryColor}"
+                                        Direction="0"
+                                        ShadowDepth="0"
+                                        BlurRadius="10" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
 
                 </ControlTemplate>
             </Setter.Value>

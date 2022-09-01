@@ -49,18 +49,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <StackPanel Orientation="Horizontal">
 
                             <ContentPresenter
+                                x:Name="PART_Icon"
                                 Content="{TemplateBinding Icon}"
-                                Margin="0 0 8 0">
-
-                                <ContentPresenter.Effect>
-                                    <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
-                                        Direction="0"
-                                        ShadowDepth="0"
-                                        BlurRadius="10" />
-                                </ContentPresenter.Effect>
-
-                            </ContentPresenter>
+                                Margin="0 0 8 0" />
 
                             <ContentPresenter
                                 Content="{TemplateBinding Content}"
@@ -69,6 +60,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </StackPanel>
 
                     </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Effect" TargetName="PART_Icon">
+                                <Setter.Value>
+                                    <DropShadowEffect
+                                        Color="{StaticResource PrimaryColor}"
+                                        Direction="0"
+                                        ShadowDepth="0"
+                                        BlurRadius="10" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
 
                 </ControlTemplate>
             </Setter.Value>
