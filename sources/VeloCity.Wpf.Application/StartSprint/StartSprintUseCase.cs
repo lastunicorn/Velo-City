@@ -112,7 +112,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             {
                 SprintName = selectedSprint.Name,
                 SprintNumber = selectedSprint.Number,
-                EstimatedStoryPoints = 0
+                EstimatedStoryPoints = 0,
+                SprintGoal = selectedSprint.Goal
             };
 
             return sprintStartDataProvider.ConfirmStartSprint(startSprintConfirmationRequest);
@@ -122,9 +123,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
         {
             selectedSprint.State = SprintState.InProgress;
             selectedSprint.CommitmentStoryPoints = sprintStartConfirmationResponse.CommitmentStoryPoints;
-            selectedSprint.Description = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.Description)
+            selectedSprint.Goal = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.SprintGoal)
                 ? null
-                : sprintStartConfirmationResponse.Description;
+                : sprintStartConfirmationResponse.SprintGoal;
         }
 
         private async Task RaiseSprintUpdatedEvent(Sprint sprint, CancellationToken cancellationToken)
@@ -134,7 +135,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
                 SprintId = sprint.Id,
                 SprintState = sprint.State,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                Description = sprint.Description
+                ActualStoryPoints = sprint.ActualStoryPoints,
+                SprintGoal = sprint.Goal,
+                Comments = sprint.Comments
             };
 
             await eventBus.Publish(sprintUpdatedEvent, cancellationToken);

@@ -27,7 +27,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation
             {
                 SprintName = request.SprintName,
                 SprintNumber = request.SprintNumber,
-                CommitmentStoryPoints = request.EstimatedStoryPoints
+                CommitmentStoryPoints = request.EstimatedStoryPoints,
+                SprintGoal = request.SprintGoal
             };
             StartSprintConfirmationWindow window = new()
             {
@@ -41,7 +42,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation
             {
                 IsAccepted = response == true,
                 CommitmentStoryPoints = viewModel.CommitmentStoryPoints,
-                Description = viewModel.Description
+                SprintGoal = viewModel.SprintGoal
             };
         }
     }

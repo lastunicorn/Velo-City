@@ -48,7 +48,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <StackPanel
             Orientation="Horizontal"
-            DockPanel.Dock="Top">
+            DockPanel.Dock="Top"
+            Visibility="Collapsed">
 
             <Button
                 Style="{StaticResource ToolBarButtonStyle}"

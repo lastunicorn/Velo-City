@@ -51,8 +51,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             }
         }
 
-        public RefreshCommand RefreshCommand { get; }
-
         public bool IsSprintSelected
         {
             get => isSprintSelected;
@@ -93,6 +91,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             }
         }
 
+        public RefreshCommand RefreshCommand { get; }
+
+        public StartSprintCommand StartSprintCommand { get; }
+
+        public CloseSprintCommand CloseSprintCommand { get; }
+
         public SprintsListViewModel SprintsListViewModel { get; }
 
         public SprintsPageViewModel(IMediator mediator, EventBus eventBus)
@@ -104,6 +108,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             SprintOverviewViewModel = new SprintOverviewViewModel(mediator, eventBus);
 
             RefreshCommand = new RefreshCommand(mediator);
+            StartSprintCommand = new StartSprintCommand(mediator, eventBus);
+            CloseSprintCommand = new CloseSprintCommand(mediator, eventBus);
 
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);

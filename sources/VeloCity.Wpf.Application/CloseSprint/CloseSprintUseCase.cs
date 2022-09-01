@@ -117,7 +117,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
                 SprintState = sprint.State,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
-                Description = sprint.Description,
+                SprintGoal = sprint.Goal,
                 Comments = sprint.Comments
             };
 

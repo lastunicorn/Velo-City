@@ -70,18 +70,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <controls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
                         </styles:LabeledContent>
 
-                        <styles:LabeledContent
-                            Label="Description"
-                            Visibility="{Binding SprintDescription, Converter={StaticResource NullToVisibilityConverter}}">
-
-                            <TextBlock
-                                Text="{Binding SprintDescription}"
-                                TextWrapping="Wrap"
-                                HorizontalAlignment="Left"/>
-
-                        </styles:LabeledContent>
-
                     </StackPanel>
+
+                </styles:PanelWithTitle>
+
+                <styles:PanelWithTitle
+                    Title="Goal"
+                    Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}"
+                    Margin="0 20 0 0">
+
+                    <TextBlock
+                        Text="{Binding SprintGoal}"
+                        TextWrapping="Wrap"
+                        HorizontalAlignment="Left"
+                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"/>
 
                 </styles:PanelWithTitle>
 

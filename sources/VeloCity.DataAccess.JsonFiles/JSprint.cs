@@ -17,7 +17,6 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
@@ -33,15 +32,15 @@ namespace DustInTheWind.VeloCity.JsonFiles
 
         public DateTime EndDate { get; set; }
 
-        public string Description { get; set; }
+        public string Goal { get; set; }
 
-        public float CommitmentStoryPoints { get; set; }
+        public float? CommitmentStoryPoints { get; set; }
 
-        public float ActualStoryPoints { get; set; }
+        public float? ActualStoryPoints { get; set; }
 
         [JsonConverter(typeof(StringEnumConverter))]
         public JSprintState State { get; set; }
-        
+
         public string Comments { get; set; }
     }
 }

@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints"
     xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
+    xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -40,6 +41,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CloseIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/RefreshIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/IconButtonStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter" />
@@ -84,19 +89,57 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <DockPanel>
 
                     <Grid
-                        DockPanel.Dock="Top">
+                        DockPanel.Dock="Top"
+                        Margin="0 0 0 30">
 
                         <TextBlock
                             Text="{Binding DetailsTitle}"
                             FontSize="28"
-                            Margin="0 8 0 20"
-                            Foreground="{StaticResource FontPrimaryBrush}" />
+                            Foreground="{StaticResource FontPrimaryBrush}"
+                            VerticalAlignment="Center"/>
 
-                        <Button
+                        <StackPanel
+                            Orientation="Horizontal"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Content="Refresh"
-                            Command="{Binding RefreshCommand}" />
+                            VerticalAlignment="Center">
+
+                            <styles:IconButton
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Command="{Binding StartSprintCommand}"
+                                Content="Start">
+
+                                <styles:IconButton.Icon>
+                                    <styles:StartIcon Width="16" Height="16" />
+                                </styles:IconButton.Icon>
+
+                            </styles:IconButton>
+
+                            <styles:IconButton
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Command="{Binding CloseSprintCommand}"
+                                Content="Close">
+
+                                <styles:IconButton.Icon>
+                                    <styles:CloseIcon Width="16" Height="16" />
+                                </styles:IconButton.Icon>
+
+                            </styles:IconButton>
+
+                            <styles:IconButton
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Command="{Binding RefreshCommand}"
+                                Content="Refresh">
+
+                                <styles:IconButton.Icon>
+                                    <styles:RefreshIcon Width="16" Height="16" />
+                                </styles:IconButton.Icon>
+
+                            </styles:IconButton>
+
+                        </StackPanel>
 
                     </Grid>
 

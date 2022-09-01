@@ -86,7 +86,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
             {
                 SprintState = sprintAnalysis.Sprint.State,
                 SprintDateInterval = sprintAnalysis.Sprint.DateInterval,
-                SprintDescription = sprintAnalysis.Sprint.Description,
+                SprintGoal = sprintAnalysis.Sprint.Goal,
                 WorkDaysCount = sprintAnalysis.Sprint.CountWorkDays(),
                 TotalWorkHours = sprintAnalysis.Sprint.TotalWorkHours,
                 EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,

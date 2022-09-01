@@ -53,7 +53,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public SprintState State { get; set; }
 
-        public string Description { get; set; }
+        public string Goal { get; set; }
 
         public string Comments { get; set; }
 

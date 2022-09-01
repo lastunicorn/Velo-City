@@ -14,16 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Text;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
 {
     public class CloseSprintConfirmationViewModel : ViewModelBase
     {
+        private string title;
         private string sprintName;
         private int sprintNumber;
         private StoryPoints actualStoryPoints;
         private string comments;
+
+        public string Title
+        {
+            get => title;
+            private set
+            {
+                title = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string SprintName
         {
@@ -31,7 +43,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
             set
             {
                 sprintName = value;
-                OnPropertyChanged();
+
+                RefreshTitle();
             }
         }
 
@@ -41,7 +54,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
             set
             {
                 sprintNumber = value;
-                OnPropertyChanged();
+
+                RefreshTitle();
             }
         }
 
@@ -63,6 +77,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
                 comments = value;
                 OnPropertyChanged();
             }
+        }
+
+        private void RefreshTitle()
+        {
+            StringBuilder sb = new();
+
+            sb.Append($"Close Sprint {sprintNumber}");
+
+            if (sprintName != null)
+                sb.Append($" - {sprintName}");
+
+            Title = sb.ToString();
         }
     }
 }

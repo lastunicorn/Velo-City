@@ -14,16 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Text;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
 {
     public class StartSprintConfirmationViewModel : ViewModelBase
     {
+        private string title;
         private string sprintName;
         private int sprintNumber;
         private StoryPoints commitmentStoryPoints;
-        private string description;
+        private string sprintGoal;
+
+        public string Title
+        {
+            get => title;
+            private set
+            {
+                title = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string SprintName
         {
@@ -31,7 +43,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
             set
             {
                 sprintName = value;
-                OnPropertyChanged();
+
+                RefreshTitle();
             }
         }
 
@@ -41,7 +54,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
             set
             {
                 sprintNumber = value;
-                OnPropertyChanged();
+
+                RefreshTitle();
             }
         }
 
@@ -55,14 +69,26 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
             }
         }
 
-        public string Description
+        public string SprintGoal
         {
-            get => description;
+            get => sprintGoal;
             set
             {
-                description = value;
+                sprintGoal = value;
                 OnPropertyChanged();
             }
+        }
+
+        private void RefreshTitle()
+        {
+            StringBuilder sb = new();
+
+            sb.Append($"Start Sprint {sprintNumber}");
+
+            if (sprintName != null)
+                sb.Append($" - {sprintName}");
+
+            Title = sb.ToString();
         }
     }
 }

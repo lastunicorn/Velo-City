@@ -28,8 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Style TargetType="{x:Type styles:CloseIcon}">
         <Setter Property="Foreground" Value="MediumSeaGreen" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="32" />
-        <Setter Property="Height" Value="32" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -46,8 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Margin="{TemplateBinding Padding}">
 
                             <Ellipse
-                                Width="32"
-                                Height="32"
+                                Width="64"
+                                Height="64"
                                 StrokeThickness="1"
                                 Stroke="{TemplateBinding Foreground}"
                                 Fill="{TemplateBinding Foreground}"

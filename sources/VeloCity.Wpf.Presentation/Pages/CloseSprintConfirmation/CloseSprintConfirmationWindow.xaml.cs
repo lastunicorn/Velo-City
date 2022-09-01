@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Windows;
+using System.Windows.Input;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
@@ -37,6 +38,15 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
+        }
+
+        private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                Window parentWindow = Window.GetWindow(this);
+                parentWindow?.DragMove();
+            }
         }
     }
 }
