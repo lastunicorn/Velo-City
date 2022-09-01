@@ -49,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <ContentPresenter.Resources>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="FontSize" Value="18" />
+                                        <Setter Property="FontSize" Value="20" />
                                         <Setter Property="FontWeight" Value="DemiBold" />
                                     </Style>
                                 </ContentPresenter.Resources>

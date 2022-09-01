@@ -63,14 +63,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
 
         public StartSprintCommand StartSprintCommand { get; }
 
-        public StopSprintCommand StopSprintCommand { get; }
+        public CloseSprintCommand CloseSprintCommand { get; }
 
         public SprintsListViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
             StartSprintCommand = new StartSprintCommand(mediator, eventBus);
-            StopSprintCommand = new StopSprintCommand(mediator);
+            CloseSprintCommand = new CloseSprintCommand(mediator, eventBus);
 
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);

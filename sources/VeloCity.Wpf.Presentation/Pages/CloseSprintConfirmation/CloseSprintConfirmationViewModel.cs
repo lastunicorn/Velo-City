@@ -17,15 +17,15 @@
 using System.Text;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
 {
-    public class StartSprintConfirmationViewModel : ViewModelBase
+    public class CloseSprintConfirmationViewModel : ViewModelBase
     {
         private string title;
         private string sprintName;
         private int sprintNumber;
-        private StoryPoints commitmentStoryPoints;
-        private string sprintGoal;
+        private StoryPoints actualStoryPoints;
+        private string comments;
 
         public string Title
         {
@@ -59,22 +59,22 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
             }
         }
 
-        public StoryPoints CommitmentStoryPoints
+        public StoryPoints ActualStoryPoints
         {
-            get => commitmentStoryPoints;
+            get => actualStoryPoints;
             set
             {
-                commitmentStoryPoints = value;
+                actualStoryPoints = value;
                 OnPropertyChanged();
             }
         }
 
-        public string SprintGoal
+        public string Comments
         {
-            get => sprintGoal;
+            get => comments;
             set
             {
-                sprintGoal = value;
+                comments = value;
                 OnPropertyChanged();
             }
         }
@@ -83,7 +83,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
         {
             StringBuilder sb = new();
 
-            sb.Append($"Start Sprint {sprintNumber}");
+            sb.Append($"Close Sprint {sprintNumber}");
 
             if (sprintName != null)
                 sb.Append($" - {sprintName}");

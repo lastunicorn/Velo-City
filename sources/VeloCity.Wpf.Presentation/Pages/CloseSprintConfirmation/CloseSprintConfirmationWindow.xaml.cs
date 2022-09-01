@@ -16,15 +16,16 @@
 
 using System.Windows;
 using System.Windows.Input;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
 {
     /// <summary>
-    /// Interaction logic for StartSprintConfirmationWindow.xaml
+    /// Interaction logic for CloseSprintConfirmationWindow.xaml
     /// </summary>
-    public partial class StartSprintConfirmationWindow : Window
+    public partial class CloseSprintConfirmationWindow : Window
     {
-        public StartSprintConfirmationWindow()
+        public CloseSprintConfirmationWindow()
         {
             InitializeComponent();
             

@@ -17,32 +17,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <Window
-    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation.StartSprintConfirmationWindow"
+    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation.CloseSprintConfirmationWindow"
 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:startSprintConfirmation="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation"
     xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
+    xmlns:closeSprintConfirmation="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation"
     xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
 
     mc:Ignorable="d"
-    Title="Start Sprint"
+    Title="Close Sprint"
     Height="400"
     Width="640"
     WindowStartupLocation="CenterOwner"
     ShowInTaskbar="False"
     ResizeMode="CanResizeWithGrip"
     WindowStyle="None"
-    d:DataContext="{d:DesignInstance startSprintConfirmation:StartSprintConfirmationViewModel}">
+    d:DataContext="{d:DesignInstance closeSprintConfirmation:CloseSprintConfirmationViewModel}">
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CloseIconStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:StoryPointsToNumberConverter x:Key="StoryPointsToNumberConverter" />
@@ -70,7 +70,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <DockPanel>
 
-                <styles:StartIcon
+                <styles:CloseIcon
                     DockPanel.Dock="Left"
                     Margin="0 0 20 0"
                     Width="32"
@@ -78,9 +78,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 <TextBlock
                     Text="{Binding Title}"
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center">
+                    <TextBlock Text="Close Sprint" />
+                    <TextBlock Text="{Binding SprintNumber}" />
+                    <TextBlock Text="-" />
+                    <TextBlock Text="{Binding SprintName}" />
+                </TextBlock>
 
             </DockPanel>
+
         </Border>
 
         <Border
@@ -124,32 +130,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <Label
                 Grid.Row="0"
                 Grid.Column="0"
-                Content="_Commitment Story Points"
+                Content="_Actual Story Points"
                 VerticalAlignment="Center"
-                Target="TextBoxCommitmentStoryPoints" />
+                Target="TextBoxActualStoryPoints" />
 
             <TextBox
                 Grid.Row="0"
                 Grid.Column="2"
-                x:Name="TextBoxCommitmentStoryPoints"
-                Text="{Binding CommitmentStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
+                x:Name="TextBoxActualStoryPoints"
+                Text="{Binding ActualStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
                 TabIndex="1" />
 
             <Label
                 Grid.Row="1"
                 Grid.Column="0"
-                Content="Sprint's _Goal"
+                Content="_Comments"
                 VerticalAlignment="Center"
-                Target="TextBoxSprintGoal" />
+                Target="TextBoxComments" />
 
             <TextBox
                 Grid.Row="1"
                 Grid.Column="2"
-                x:Name="TextBoxSprintGoal"
-                Text="{Binding SprintGoal}"
-                TabIndex="2"
+                x:Name="TextBoxComments"
+                Text="{Binding Comments}"
                 Style="{StaticResource MultilineTextBoxStyle}"
-                Margin="0 10 0 0" />
+                Margin="0 10 0 0"
+                TabIndex="2" />
         </Grid>
 
     </DockPanel>

@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 
         public DateInterval SprintDateInterval { get; set; }
         
-        public string SprintDescription { get; set; }
+        public string SprintGoal { get; set; }
 
         public int WorkDaysCount { get; set; }
 

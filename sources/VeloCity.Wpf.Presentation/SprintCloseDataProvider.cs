@@ -14,23 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation;
+using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation
 {
-    public class SprintStartDataProvider : ISprintStartDataProvider
+    public class SprintCloseDataProvider : ISprintCloseDataProvider
     {
-        public StartSprintConfirmationResponse ConfirmStartSprint(StartSprintConfirmationRequest request)
+        public CloseSprintConfirmationResponse ConfirmCloseSprint(CloseSprintConfirmationRequest request)
         {
-            StartSprintConfirmationViewModel viewModel = new()
+            CloseSprintConfirmationViewModel viewModel = new()
             {
                 SprintName = request.SprintName,
-                SprintNumber = request.SprintNumber,
-                CommitmentStoryPoints = request.EstimatedStoryPoints,
-                SprintGoal = request.SprintGoal
+                SprintNumber = request.SprintNumber
             };
-            StartSprintConfirmationWindow window = new()
+            CloseSprintConfirmationWindow window = new()
             {
                 DataContext = viewModel,
                 Owner = System.Windows.Application.Current.MainWindow
@@ -38,11 +36,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation
 
             bool? response = window.ShowDialog();
 
-            return new StartSprintConfirmationResponse
+            return new CloseSprintConfirmationResponse
             {
                 IsAccepted = response == true,
-                CommitmentStoryPoints = viewModel.CommitmentStoryPoints,
-                SprintGoal = viewModel.SprintGoal
+                ActualStoryPoints = viewModel.ActualStoryPoints,
+                Comments = viewModel.Comments
             };
         }
     }

@@ -13,34 +13,18 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
 {
-    public class JSprint
+    public class CloseIcon : Control
     {
-        public int Id { get; set; }
-
-        public int Number { get; set; }
-
-        public string Name { get; set; }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
-        public string Goal { get; set; }
-
-        public float? CommitmentStoryPoints { get; set; }
-
-        public float? ActualStoryPoints { get; set; }
-
-        [JsonConverter(typeof(StringEnumConverter))]
-        public JSprintState State { get; set; }
-
-        public string Comments { get; set; }
+        static CloseIcon()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CloseIcon), new FrameworkPropertyMetadata(typeof(CloseIcon)));
+        }
     }
 }

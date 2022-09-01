@@ -30,15 +30,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         x:Key="SprintStateToStrokeBrushConverter"
         UnknownBrush="Transparent"
         NewBrush="LightGray"
-        InProgressBrush="MediumSeaGreen"
-        ClosedBrush="MediumSeaGreen" />
+        InProgressBrush="{StaticResource SuccessBrush}"
+        ClosedBrush="{StaticResource SuccessBrush}" />
 
     <converters:SprintStateToBrushConverter
         x:Key="SprintStateToFillBrushConverter"
         UnknownBrush="Transparent"
         NewBrush="Transparent"
         InProgressBrush="Transparent"
-        ClosedBrush="MediumSeaGreen" />
+        ClosedBrush="{StaticResource SuccessBrush}" />
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 

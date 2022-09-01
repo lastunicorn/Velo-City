@@ -32,8 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Color x:Key="PrimaryLightColor">#3F3F46</Color>
     <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLightColor}" />
 
-    <!-- Special Colors -->
-
     <!-- Blue -->
     <!--<Color x:Key="AccentColor">#007ACC</Color>-->
 
@@ -44,6 +42,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!--<Color x:Key="AccentColor">#F0AD4E</Color>-->
 
     <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+
+    <!-- Special Colors -->
+
+    <Color x:Key="SuccessColor">LimeGreen</Color>
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
 
     <Color x:Key="WarningColor">#F0AD4E</Color>
     <SolidColorBrush x:Key="WarningBrush" Color="{StaticResource WarningColor}" />

@@ -46,6 +46,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Update="Pages\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml.cs">
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
         <Page Update="Generic.xaml">
           <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         </Page>
@@ -53,10 +59,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Commands\" />
+        <Page Update="Pages\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml">
+          <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+          <SubType>Designer</SubType>
+        </Page>
     </ItemGroup>
 
 </Project>

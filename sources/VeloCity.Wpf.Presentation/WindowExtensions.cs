@@ -14,38 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Input;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
 {
-    /// <summary>
-    /// Interaction logic for StartSprintConfirmationWindow.xaml
-    /// </summary>
-    public partial class StartSprintConfirmationWindow : Window
+    internal static class WindowExtensions
     {
-        public StartSprintConfirmationWindow()
-        {
-            InitializeComponent();
-            
-            SourceInitialized += (x, y) =>
-            {
-                this.HideMinimizeAndMaximizeButtons();
-            };
-        }
+        // from winuser.h
+        private const int GWL_STYLE = -16,
+            WS_MAXIMIZEBOX = 0x10000,
+            WS_MINIMIZEBOX = 0x20000;
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
+        [DllImport("user32.dll")]
+        private static extern int GetWindowLong(IntPtr hwnd, int index);
 
-        private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
+        [DllImport("user32.dll")]
+        private static extern int SetWindowLong(IntPtr hwnd, int index, int value);
+
+        internal static void HideMinimizeAndMaximizeButtons(this Window window)
         {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                Window parentWindow = Window.GetWindow(this);
-                parentWindow?.DragMove();
-            }
+            IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(window).Handle;
+            var currentStyle = GetWindowLong(hwnd, GWL_STYLE);
+
+            SetWindowLong(hwnd, GWL_STYLE, (currentStyle & ~WS_MAXIMIZEBOX & ~WS_MINIMIZEBOX));
         }
     }
 }

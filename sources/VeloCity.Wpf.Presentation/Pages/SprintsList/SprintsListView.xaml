@@ -37,8 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyle.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StopIconStyle.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CloseIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Themes/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -48,12 +48,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <StackPanel
             Orientation="Horizontal"
-            DockPanel.Dock="Top">
+            DockPanel.Dock="Top"
+            Visibility="Collapsed">
 
             <Button
                 Style="{StaticResource ToolBarButtonStyle}"
                 Command="{Binding StartSprintCommand}"
-                Padding="0"
                 ToolTip="Start the currently selected sprint.">
 
                 <styles:StartIcon
@@ -62,11 +62,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </Button>
 
             <Button
-                Padding="0"
-                ToolTip="Stop the currently selected sprint."
-                Visibility="Collapsed">
+                Style="{StaticResource ToolBarButtonStyle}"
+                Command="{Binding CloseSprintCommand}"
+                ToolTip="Close the currently selected sprint.">
 
-                <styles:StopIcon
+                <styles:CloseIcon
                     Width="16"
                     Height="16" />
             </Button>

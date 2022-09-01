@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
         private readonly IMediator mediator;
         private DateInterval timeInterval;
         private SprintState sprintState;
-        private string sprintDescription;
+        private string sprintGoal;
         private int workDays;
         private HoursValue totalWorkHours;
         private StoryPoints estimatedStoryPoints;
@@ -66,12 +66,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             }
         }
 
-        public string SprintDescription
+        public string SprintGoal
         {
-            get => sprintDescription;
+            get => sprintGoal;
             set
             {
-                sprintDescription = value;
+                sprintGoal = value;
                 OnPropertyChanged();
             }
         }
@@ -192,7 +192,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             DateTime? endDate = response.SprintDateInterval.EndDate;
             TimeInterval = new DateInterval(startDate, endDate);
             SprintState = response.SprintState;
-            SprintDescription = response.SprintDescription;
+            SprintGoal = response.SprintGoal;
 
             WorkDays = response.WorkDaysCount;
             TotalWorkHours = response.TotalWorkHours;
@@ -240,8 +240,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
         private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
         {
             SprintState = ev.SprintState;
-            SprintDescription = ev.Description;
+            SprintGoal = ev.SprintGoal;
             CommitmentStoryPoints = ev.CommitmentStoryPoints;
+            ActualStoryPoints = ev.ActualStoryPoints;
+            SprintComments = ev.Comments;
 
             return Task.CompletedTask;
         }

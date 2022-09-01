@@ -25,5 +25,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
         public int SprintNumber { get; set; }
         
         public StoryPoints EstimatedStoryPoints { get; set; }
+        
+        public string SprintGoal { get; set; }
     }
 }

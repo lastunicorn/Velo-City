@@ -25,11 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type styles:StartIcon}">
-        <Setter Property="Foreground" Value="MediumSeaGreen" />
+    <Style TargetType="{x:Type styles:CloseIcon}">
+        <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="32" />
-        <Setter Property="Height" Value="32" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -45,24 +46,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Background="{TemplateBinding Background}"
                             Margin="{TemplateBinding Padding}">
 
-                            <Path
+                            <Ellipse
+                                Width="64"
+                                Height="64"
+                                StrokeThickness="1"
+                                Stroke="{TemplateBinding Foreground}"
                                 Fill="{TemplateBinding Foreground}"
-                                Stroke="{TemplateBinding Foreground}">
-
-                                <Path.Data>
-                                    <CombinedGeometry GeometryCombineMode="Exclude">
-
-                                        <CombinedGeometry.Geometry1>
-                                            <EllipseGeometry RadiusX="16" RadiusY="16" Center="16,16" />
-                                        </CombinedGeometry.Geometry1>
-
-                                        <CombinedGeometry.Geometry2>
-                                            <PathGeometry Figures="M 11 7.34 L 26 16 11 24.66 Z" />
-                                        </CombinedGeometry.Geometry2>
-
-                                    </CombinedGeometry>
-                                </Path.Data>
-                            </Path>
+                                StrokeLineJoin="Round"
+                                StrokeStartLineCap="Flat"
+                                StrokeEndLineCap="Flat"
+                                Opacity="1" />
 
                         </Grid>
 
