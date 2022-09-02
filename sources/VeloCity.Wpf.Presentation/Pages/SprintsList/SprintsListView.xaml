@@ -124,7 +124,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             </VisualState>
 
                                             <VisualState x:Name="Selected">
-                                                <Storyboard >
+                                                <Storyboard>
 
                                                     <ColorAnimationUsingKeyFrames
                                                         Storyboard.TargetName="PART_Border"
@@ -172,6 +172,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         MinHeight="40">
 
                                         <customControls:SprintStateControl
+                                            x:Name="SprintStateControl1"
                                             DockPanel.Dock="Left"
                                             Margin="0 3 15 3"
                                             Value="{Binding SprintState}"
@@ -210,6 +211,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     </DockPanel>
 
                                 </Border>
+
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="True" />
+                                            <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.Setters>
+                                            <Setter TargetName="SprintStateControl1" Property="IsIconShadowVisible" Value="True" />
+                                        </MultiTrigger.Setters>
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
 
                             </ControlTemplate>
                         </Setter.Value>

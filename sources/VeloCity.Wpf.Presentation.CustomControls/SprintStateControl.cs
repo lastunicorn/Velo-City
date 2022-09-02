@@ -100,7 +100,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             nameof(IsIconShadowVisible),
             typeof(bool),
             typeof(SprintStateControl),
-            new PropertyMetadata(true)
+            new PropertyMetadata(false)
         );
 
         public bool IsIconShadowVisible

@@ -77,7 +77,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </customControls:LabeledContent>
 
                         <customControls:LabeledContent Label="State">
-                            <customControls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
+                            <customControls:SprintStateControl
+                                Value="{Binding SprintState, Mode=OneWay}" />
                         </customControls:LabeledContent>
 
                     </StackPanel>
