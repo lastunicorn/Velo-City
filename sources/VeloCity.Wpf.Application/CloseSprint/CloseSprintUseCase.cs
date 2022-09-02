@@ -18,6 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using MediatR;
@@ -30,13 +31,16 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
         private readonly ISprintCloseDataProvider sprintCloseDataProvider;
+        private readonly IConfig config;
 
-        public CloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus, ISprintCloseDataProvider sprintCloseDataProvider)
+        public CloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
+            ISprintCloseDataProvider sprintCloseDataProvider, IConfig config)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
             this.sprintCloseDataProvider = sprintCloseDataProvider ?? throw new ArgumentNullException(nameof(sprintCloseDataProvider));
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         public async Task<Unit> Handle(CloseSprintRequest request, CancellationToken cancellationToken)
@@ -116,8 +120,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
                 SprintId = sprint.Id,
                 SprintState = sprint.State,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                ActualStoryPoints = sprint.ActualStoryPoints,
                 SprintGoal = sprint.Goal,
+                ActualStoryPoints = sprint.ActualStoryPoints,
+                ActualVelocity = sprint.Velocity,
                 Comments = sprint.Comments
             };
 

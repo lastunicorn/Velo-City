@@ -49,5 +49,4 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.CloseSprintConfirmation
             }
         }
     }
-    }
 }

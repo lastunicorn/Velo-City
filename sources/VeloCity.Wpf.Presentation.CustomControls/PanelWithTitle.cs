@@ -13,30 +13,31 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class InfoBlock : ContentControl
+    public class PanelWithTitle : ContentControl
     {
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(InfoBlock),
-            new FrameworkPropertyMetadata(defaultValue: new CornerRadius(), flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+            nameof(Title),
+            typeof(object),
+            typeof(PanelWithTitle),
+            new PropertyMetadata(null)
         );
 
-        public CornerRadius CornerRadius
+        public object Title
         {
-            get => (CornerRadius)GetValue(CornerRadiusProperty);
-            set => SetValue(CornerRadiusProperty, value);
+            get => GetValue(TitleProperty);
+            set => SetValue(TitleProperty, value);
         }
 
-        static InfoBlock()
+        static PanelWithTitle()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(InfoBlock), new FrameworkPropertyMetadata(typeof(InfoBlock)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PanelWithTitle), new FrameworkPropertyMetadata(typeof(PanelWithTitle)));
         }
     }
 }

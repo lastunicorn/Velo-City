@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints"
     xmlns:main="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     Title="{Binding Title}"
@@ -38,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -48,7 +50,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <DockPanel>
 
-        <StatusBar DockPanel.Dock="Bottom">
+        <StatusBar
+            DockPanel.Dock="Bottom"
+            BorderThickness="0 1 0 0"
+            BorderBrush="{StaticResource BorderBrush}">
+
             <StatusBarItem>
                 <StackPanel Orientation="Horizontal">
 
@@ -63,6 +69,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </StackPanel>
             </StatusBarItem>
         </StatusBar>
+
+        <Border
+            DockPanel.Dock="Left"
+            Background="{StaticResource PrimaryDarkBrush}"
+            Width="60"
+            BorderThickness="0 0 1 0"
+            BorderBrush="{StaticResource BorderBrush}"
+            Padding="0 20">
+
+            <StackPanel>
+
+                <Button
+                    Width="40"
+                    Height="40"
+                    Padding="0">
+
+                    <customControls:StartIcon
+                        Width="32"
+                        Height="32" />
+
+                </Button>
+
+                <Button
+                    Width="40"
+                    Height="40"
+                    Padding="0"
+                    Margin="0 10 0 0">
+
+                    B
+
+                </Button>
+
+                <Button
+                    Width="40"
+                    Height="40"
+                    Padding="0"
+                    Margin="0 10 0 0">
+
+                    C
+
+                </Button>
+
+            </StackPanel>
+
+        </Border>
 
         <sprints:SprintsPage
             DataContext="{Binding SprintsPageViewModel}"

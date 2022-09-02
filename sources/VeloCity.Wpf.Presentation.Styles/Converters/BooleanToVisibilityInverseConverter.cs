@@ -19,26 +19,26 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
 {
     [Localizability(LocalizationCategory.NeverLocalize)]
     public sealed class BooleanToVisibilityInverseConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool bValue = false;
+            bool boolValue = false;
 
             if (value is bool)
             {
-                bValue = (bool)value;
+                boolValue = (bool)value;
             }
             else if (value is Nullable<bool>)
             {
                 Nullable<bool> tmp = (Nullable<bool>)value;
-                bValue = tmp.HasValue ? tmp.Value : false;
+                boolValue = tmp.HasValue ? tmp.Value : false;
             }
 
-            return (bValue)
+            return boolValue
                 ? Visibility.Collapsed
                 : Visibility.Visible;
         }

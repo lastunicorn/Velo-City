@@ -13,21 +13,18 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-using DustInTheWind.VeloCity.Domain;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class StartSprintConfirmationRequest
+    public class CloseIcon : Control
     {
-        public string SprintName { get; set; }
-
-        public int SprintNumber { get; set; }
-        
-        public StoryPoints EstimatedStoryPoints { get; set; }
-        
-        public StoryPoints CommitmentStoryPoints { get; set; }
-        
-        public string SprintGoal { get; set; }
+        static CloseIcon()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CloseIcon), new FrameworkPropertyMetadata(typeof(CloseIcon)));
+        }
     }
 }

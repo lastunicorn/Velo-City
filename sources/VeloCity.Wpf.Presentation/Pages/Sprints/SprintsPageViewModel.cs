@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Wpf.Application;
@@ -34,7 +33,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
     public class SprintsPageViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private readonly EventBus eventBus;
         private SprintOverviewViewModel sprintOverviewViewModel;
         private string detailsTitle;
         private SprintCalendarViewModel sprintCalendarViewModel;
@@ -101,8 +99,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
 
         public SprintsPageViewModel(IMediator mediator, EventBus eventBus)
         {
+            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
             SprintsListViewModel = new SprintsListViewModel(mediator, eventBus);
             SprintOverviewViewModel = new SprintOverviewViewModel(mediator, eventBus);

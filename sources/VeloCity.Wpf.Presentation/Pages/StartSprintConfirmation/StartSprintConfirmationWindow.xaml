@@ -25,11 +25,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:startSprintConfirmation="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation"
     xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
-    xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     Title="Start Sprint"
-    Height="400"
+    Height="480"
     Width="640"
     WindowStartupLocation="CenterOwner"
     ShowInTaskbar="False"
@@ -57,10 +57,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Border
             DockPanel.Dock="Top"
-            MinHeight="50"
+            MinHeight="70"
             Background="{StaticResource PrimaryDarkBrush}"
-            Padding="30 20"
-            MouseDown="UIElement_OnMouseDown">
+            Padding="30 0"
+            MouseDown="UIElement_OnMouseDown"
+            BorderThickness="0 0 0 1"
+            BorderBrush="{StaticResource PrimaryLightBrush}">
 
             <Border.Resources>
                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
@@ -68,9 +70,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </Style>
             </Border.Resources>
 
-            <DockPanel>
+            <DockPanel VerticalAlignment="Center">
 
-                <styles:StartIcon
+                <customControls:StartIcon
                     DockPanel.Dock="Left"
                     Margin="0 0 20 0"
                     Width="32"
@@ -78,7 +80,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 <TextBlock
                     Text="{Binding Title}"
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center"
+                    TextTrimming="CharacterEllipsis" />
 
             </DockPanel>
         </Border>
@@ -86,11 +89,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Border
             DockPanel.Dock="Bottom"
             Background="{StaticResource PrimaryDarkBrush}"
-            Padding="30 10">
+            MinHeight="70"
+            Padding="30 0"
+            BorderThickness="0 1 0 0"
+            BorderBrush="{StaticResource PrimaryLightBrush}">
 
             <StackPanel
                 Orientation="Horizontal"
-                FlowDirection="RightToLeft">
+                FlowDirection="RightToLeft"
+                VerticalAlignment="Center">
 
                 <Button
                     Content="Cancel"
@@ -108,7 +115,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </StackPanel>
         </Border>
 
-        <Grid Margin="30">
+        <Grid Margin="40">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -118,38 +125,53 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Label
+            <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Content="_Commitment Story Points"
+                Text="Estimated Story Points:"
+                VerticalAlignment="Top"/>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding EstimatedStoryPoints}"
+                MinHeight="35"
+                VerticalAlignment="Center"/>
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Content="_Commitment Story Points:"
                 VerticalAlignment="Center"
                 Target="TextBoxCommitmentStoryPoints" />
 
             <TextBox
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.Column="2"
                 x:Name="TextBoxCommitmentStoryPoints"
                 Text="{Binding CommitmentStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
-                TabIndex="1" />
+                TabIndex="1"
+                Margin="0 3 0 0"/>
 
             <Label
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="0"
-                Content="Sprint's _Goal"
+                Content="Sprint's _Goal:"
                 VerticalAlignment="Center"
                 Target="TextBoxSprintGoal" />
 
             <TextBox
-                Grid.Row="1"
+                Grid.Row="2"
                 Grid.Column="2"
                 x:Name="TextBoxSprintGoal"
                 Text="{Binding SprintGoal}"
                 TabIndex="2"
                 Style="{StaticResource MultilineTextBoxStyle}"
-                Margin="0 10 0 0" />
+                Margin="0 20 0 0" />
         </Grid>
 
     </DockPanel>

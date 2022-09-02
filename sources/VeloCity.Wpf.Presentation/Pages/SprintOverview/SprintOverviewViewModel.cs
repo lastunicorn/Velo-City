@@ -243,6 +243,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             SprintGoal = ev.SprintGoal;
             CommitmentStoryPoints = ev.CommitmentStoryPoints;
             ActualStoryPoints = ev.ActualStoryPoints;
+            ActualVelocity = ev.ActualVelocity;
             SprintComments = ev.Comments;
 
             return Task.CompletedTask;

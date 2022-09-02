@@ -17,26 +17,26 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class LabeledContent : ContentControl
+    public class InfoBlock : ContentControl
     {
-        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
-            nameof(Label),
-            typeof(object),
-            typeof(LabeledContent),
-            new PropertyMetadata(null)
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached(
+            nameof(CornerRadius),
+            typeof(CornerRadius),
+            typeof(InfoBlock),
+            new FrameworkPropertyMetadata(defaultValue: new CornerRadius(), flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-        public object Label
+        public CornerRadius CornerRadius
         {
-            get => GetValue(LabelProperty);
-            set => SetValue(LabelProperty, value);
+            get => (CornerRadius)GetValue(CornerRadiusProperty);
+            set => SetValue(CornerRadiusProperty, value);
         }
 
-        static LabeledContent()
+        static InfoBlock()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(LabeledContent), new FrameworkPropertyMetadata(typeof(LabeledContent)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(InfoBlock), new FrameworkPropertyMetadata(typeof(InfoBlock)));
         }
     }
 }

@@ -18,26 +18,13 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class IconButton : Button
+    public class StopIcon : Control
     {
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-            "Icon",
-            typeof(object),
-            typeof(IconButton),
-            new FrameworkPropertyMetadata(defaultValue: null, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-        public object Icon
+        static StopIcon()
         {
-            get => GetValue(IconProperty);
-            set => SetValue(IconProperty, value);
-        }
-
-        static IconButton()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(IconButton), new FrameworkPropertyMetadata(typeof(IconButton)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(StopIcon), new FrameworkPropertyMetadata(typeof(StopIcon)));
         }
     }
 }

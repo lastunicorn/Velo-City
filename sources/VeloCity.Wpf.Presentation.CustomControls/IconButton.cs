@@ -13,30 +13,31 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class NotesBlock : ItemsControl
+    public class IconButton : Button
     {
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
-            "CornerRadius",
-            typeof(CornerRadius),
-            typeof(NotesBlock),
-            new FrameworkPropertyMetadata(defaultValue: new CornerRadius(), flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
+            "Icon",
+            typeof(object),
+            typeof(IconButton),
+            new FrameworkPropertyMetadata(defaultValue: null, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
         );
 
-        public CornerRadius CornerRadius
+        public object Icon
         {
-            get => (CornerRadius)GetValue(CornerRadiusProperty);
-            set => SetValue(CornerRadiusProperty, value);
+            get => GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
         }
 
-        static NotesBlock()
+        static IconButton()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotesBlock), new FrameworkPropertyMetadata(typeof(NotesBlock)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(IconButton), new FrameworkPropertyMetadata(typeof(IconButton)));
         }
     }
 }

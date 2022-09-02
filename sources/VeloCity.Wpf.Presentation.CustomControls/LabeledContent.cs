@@ -13,18 +13,30 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// using System;
 
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class CloseIcon : Control
+    public class LabeledContent : ContentControl
     {
-        static CloseIcon()
+        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
+            nameof(Label),
+            typeof(object),
+            typeof(LabeledContent),
+            new PropertyMetadata(null)
+        );
+
+        public object Label
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CloseIcon), new FrameworkPropertyMetadata(typeof(CloseIcon)));
+            get => GetValue(LabelProperty);
+            set => SetValue(LabelProperty, value);
+        }
+
+        static LabeledContent()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(LabeledContent), new FrameworkPropertyMetadata(typeof(LabeledContent)));
         }
     }
 }
