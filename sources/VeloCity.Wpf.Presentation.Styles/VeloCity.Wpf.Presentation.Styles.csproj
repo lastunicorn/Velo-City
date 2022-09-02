@@ -42,6 +42,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
+      <Page Update="Themes\CustomControls\SprintStateControlStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
       <Page Update="Themes\CustomControls\StopIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>

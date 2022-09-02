@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
-    xmlns:controls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Controls"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
@@ -39,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CloseIconStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Themes/SprintStateControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -83,7 +82,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <Style TargetType="ListViewItem">
                     <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate TargetType="ListViewItem">
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
 
                                 <Border
                                     x:Name="PART_Border"
@@ -172,7 +171,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         Margin="10 0"
                                         MinHeight="40">
 
-                                        <controls:SprintStateControl
+                                        <customControls:SprintStateControl
                                             DockPanel.Dock="Left"
                                             Margin="0 3 15 3"
                                             Value="{Binding SprintState}"

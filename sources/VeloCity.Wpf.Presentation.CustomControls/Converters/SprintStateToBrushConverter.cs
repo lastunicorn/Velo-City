@@ -21,10 +21,10 @@ using System.Windows.Data;
 using System.Windows.Media;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters
 {
     [Localizability(LocalizationCategory.NeverLocalize)]
-    internal class SprintStateToBrushConverter : IValueConverter
+    public class SprintStateToBrushConverter : IValueConverter
     {
         public Brush UnknownBrush { get; set; }
 

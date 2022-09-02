@@ -19,10 +19,10 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters
 {
     [Localizability(LocalizationCategory.NeverLocalize)]
-    internal class NullToVisibilityConverter : IValueConverter
+    public class NullToVisibilityConverter : IValueConverter
     {
         public bool Inverse { get; set; }
 

@@ -16,8 +16,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters" 
-    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls" 
+    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />

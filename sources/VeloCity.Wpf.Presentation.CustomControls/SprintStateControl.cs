@@ -20,9 +20,9 @@ using System.Windows;
 using System.Windows.Controls;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Controls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    internal class SprintStateControl : Control
+    public class SprintStateControl : Control
     {
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
             nameof(Value),

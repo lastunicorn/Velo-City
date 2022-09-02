@@ -19,7 +19,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters
 {
     [Localizability(LocalizationCategory.NeverLocalize)]
     public sealed class BooleanToVisibilityInverseConverter : IValueConverter

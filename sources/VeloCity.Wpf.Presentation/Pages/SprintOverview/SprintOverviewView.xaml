@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
-    xmlns:controls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Controls"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -38,8 +38,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/PanelWithTitleStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/LabeledContentStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Themes/SprintStateControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -75,7 +77,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </customControls:LabeledContent>
 
                         <customControls:LabeledContent Label="State">
-                            <controls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
+                            <customControls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
                         </customControls:LabeledContent>
 
                     </StackPanel>
