@@ -22,35 +22,22 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
+    public enum SprintState
+    {
+        Unknown = 0,
+        New,
+        InProgress,
+        Closed
+    }
+
     public class SprintStateControl : Control
     {
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
             nameof(Value),
             typeof(SprintState),
             typeof(SprintStateControl),
-            new PropertyMetadata(SprintState.Unknown, HandleValueChanged)
+            new PropertyMetadata(SprintState.Unknown)
         );
-
-        private static void HandleValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue != null && !e.NewValue.Equals(e.OldValue) && e.NewValue is SprintState sprintState)
-            {
-                string text = GenerateLabelText(sprintState);
-                obj.SetValue(LabelTextProperty, text);
-            }
-        }
-
-        private static string GenerateLabelText(SprintState sprintState)
-        {
-            return sprintState switch
-            {
-                SprintState.Unknown => "Unknown",
-                SprintState.New => "New",
-                SprintState.InProgress => "In Progress",
-                SprintState.Closed => "Closed",
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
 
         public SprintState Value
         {
@@ -82,18 +69,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
         {
             get => (bool)GetValue(IsLabelVisibleProperty);
             set => SetValue(IsLabelVisibleProperty, value);
-        }
-
-        public static readonly DependencyProperty LabelTextProperty = DependencyProperty.Register(
-            nameof(LabelText),
-            typeof(string),
-            typeof(SprintStateControl)
-        );
-
-        public string LabelText
-        {
-            get => (string)GetValue(LabelTextProperty);
-            set => SetValue(LabelTextProperty, value);
         }
 
         public static readonly DependencyProperty IsIconShadowVisibleProperty = DependencyProperty.Register(

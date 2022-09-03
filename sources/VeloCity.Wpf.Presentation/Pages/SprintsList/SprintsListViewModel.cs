@@ -24,7 +24,6 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
@@ -64,7 +63,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
         public SprintsListViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            
+
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
@@ -89,7 +88,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
             SprintViewModel sprintViewModel = sprints.FirstOrDefault(x => x.SprintId == ev.SprintId);
 
             if (sprintViewModel != null)
-                sprintViewModel.SprintState = ev.SprintState;
+                sprintViewModel.SprintState = ev.SprintState.ToPresentationModel();
 
             return Task.CompletedTask;
         }

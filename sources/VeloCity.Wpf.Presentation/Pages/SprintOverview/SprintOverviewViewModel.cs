@@ -26,6 +26,7 @@ using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using MediatR;
+using SprintState = DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.SprintState;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 {
@@ -191,7 +192,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             DateTime? startDate = response.SprintDateInterval.StartDate;
             DateTime? endDate = response.SprintDateInterval.EndDate;
             TimeInterval = new DateInterval(startDate, endDate);
-            SprintState = response.SprintState;
+            SprintState = response.SprintState.ToPresentationModel();
             SprintGoal = response.SprintGoal;
 
             WorkDays = response.WorkDaysCount;
@@ -202,14 +203,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
                 ? (StoryPoints?)null
                 : response.EstimatedStoryPointsWithVelocityPenalties;
             EstimatedVelocity = response.EstimatedVelocity;
-            CommitmentStoryPoints = response.SprintState == SprintState.New && response.CommitmentStoryPoints.IsZero
+            CommitmentStoryPoints = response.SprintState == Domain.SprintState.New && response.CommitmentStoryPoints.IsZero
                 ? null
                 : response.CommitmentStoryPoints;
 
-            ActualStoryPoints = response.SprintState != SprintState.Closed && response.ActualStoryPoints.IsZero
+            ActualStoryPoints = response.SprintState != Domain.SprintState.Closed && response.ActualStoryPoints.IsZero
                 ? null
                 : response.ActualStoryPoints;
-            ActualVelocity = response.SprintState != SprintState.Closed && response.ActualVelocity.IsZero
+            ActualVelocity = response.SprintState != Domain.SprintState.Closed && response.ActualVelocity.IsZero
                 ? null
                 : response.ActualVelocity;
 
@@ -239,7 +240,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
 
         private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
         {
-            SprintState = ev.SprintState;
+            SprintState = ev.SprintState.ToPresentationModel();
             SprintGoal = ev.SprintGoal;
             CommitmentStoryPoints = ev.CommitmentStoryPoints;
             ActualStoryPoints = ev.ActualStoryPoints;

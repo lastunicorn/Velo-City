@@ -17,6 +17,7 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
+using SprintState = DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.SprintState;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
 {
@@ -49,7 +50,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
             SprintId = sprintInfo.Id;
             SprintName = sprintInfo.Name;
             SprintNumber = sprintInfo.Number;
-            SprintState = sprintInfo.State;
+            SprintState = sprintInfo.State.ToPresentationModel();
             SprintDateInterval = sprintInfo.DateInterval;
         }
 
