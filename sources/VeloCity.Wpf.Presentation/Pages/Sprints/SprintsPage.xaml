@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/RefreshIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/IconButtonStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/MissingContentPanelStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintIconStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
@@ -72,53 +73,82 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <customControls:MissingContentPanel
             Grid.Column="2"
             Margin="30"
-            MissingContent="Select a Sprint"
             IsContentVisible="{Binding IsSprintSelected}">
+
+            <customControls:MissingContentPanel.MissingContent>
+
+                <StackPanel Orientation="Vertical">
+
+                    <customControls:GenericIcon
+                        Style="{StaticResource SprintIconStyle}"
+                        Width="100"
+                        Height="100"/>
+
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="Select a Sprint"
+                        IsEnabled="False"
+                        Margin="0 20 0 0"/>
+
+                </StackPanel>
+
+            </customControls:MissingContentPanel.MissingContent>
 
             <DockPanel>
 
                 <DockPanel
-                        DockPanel.Dock="Top"
-                        Margin="0 0 0 30">
+                    DockPanel.Dock="Top"
+                    Margin="0 0 0 30">
 
                     <StackPanel
-                            DockPanel.Dock="Right"
-                            Orientation="Horizontal"
+                        DockPanel.Dock="Right"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+
+                        <customControls:IconButton
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
-
-                        <customControls:IconButton
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Command="{Binding StartSprintCommand}"
-                                Content="Start">
+                            VerticalAlignment="Center"
+                            Command="{Binding StartSprintCommand}"
+                            Content="Start">
 
                             <customControls:IconButton.Icon>
-                                <customControls:StartIcon Width="16" Height="16" />
+                                <customControls:GenericIcon
+                                    Style="{StaticResource StartIconStyle}"
+                                    Width="16"
+                                    Height="16" />
                             </customControls:IconButton.Icon>
 
                         </customControls:IconButton>
 
                         <customControls:IconButton
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Command="{Binding CloseSprintCommand}"
-                                Content="Close">
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Command="{Binding CloseSprintCommand}"
+                            Content="Close">
 
                             <customControls:IconButton.Icon>
-                                <customControls:CloseIcon Width="16" Height="16" />
+                                <customControls:GenericIcon
+                                    Style="{StaticResource CloseIconStyle}"
+                                    Width="16"
+                                    Height="16" />
                             </customControls:IconButton.Icon>
 
                         </customControls:IconButton>
 
                         <customControls:IconButton
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Command="{Binding RefreshCommand}"
-                                Content="Reload">
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Command="{Binding RefreshCommand}"
+                            Content="Reload">
 
                             <customControls:IconButton.Icon>
-                                <customControls:RefreshIcon Width="16" Height="16" />
+                                <customControls:GenericIcon
+                                    Style="{StaticResource RefreshIconStyle}"
+                                    Width="16"
+                                    Height="16" />
                             </customControls:IconButton.Icon>
 
                         </customControls:IconButton>
@@ -126,35 +156,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </StackPanel>
 
                     <TextBlock
-                            Text="{Binding DetailsTitle}"
-                            FontSize="32"
-                            Foreground="{StaticResource FontPrimaryBrush}"
-                            VerticalAlignment="Center"
-                            TextTrimming="CharacterEllipsis"
-                            Margin="0 10"/>
+                        Text="{Binding DetailsTitle}"
+                        FontSize="32"
+                        Foreground="{StaticResource FontPrimaryBrush}"
+                        VerticalAlignment="Center"
+                        TextTrimming="CharacterEllipsis"
+                        Margin="0 10" />
 
                 </DockPanel>
 
                 <TabControl
-                        BorderThickness="0"
-                        Background="Transparent">
+                    BorderThickness="0"
+                    Background="Transparent">
 
                     <TabItem Header="Overview">
                         <sprintOverview:SprintOverviewView
-                                DataContext="{Binding SprintOverviewViewModel}"
-                                Margin="0 20 0 0" />
+                            DataContext="{Binding SprintOverviewViewModel}"
+                            Margin="0 20 0 0" />
                     </TabItem>
 
                     <TabItem Header="Calendar">
                         <sprintCalendar:SprintCalendarView
-                                DataContext="{Binding SprintCalendarViewModel}"
-                                Margin="0 20 0 0" />
+                            DataContext="{Binding SprintCalendarViewModel}"
+                            Margin="0 20 0 0" />
                     </TabItem>
 
                     <TabItem Header="Sprint Members">
                         <sprintMembers:SprintMembersView
-                                DataContext="{Binding SprintMembersViewModel}"
-                                Margin="0 20 0 0" />
+                            DataContext="{Binding SprintMembersViewModel}"
+                            Margin="0 20 0 0" />
                     </TabItem>
 
                 </TabControl>

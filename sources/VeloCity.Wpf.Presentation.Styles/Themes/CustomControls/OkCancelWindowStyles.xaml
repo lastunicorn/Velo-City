@@ -26,6 +26,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <Style TargetType="{x:Type customControls:OkCancelWindow}">
         <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+        <Setter Property="WindowStyle" Value="None" />
+        <Setter Property="ShowInTaskbar" Value="False" />
+        <Setter Property="Width" Value="640" />
+        <Setter Property="Height" Value="480" />
 
         <Setter Property="Template">
             <Setter.Value>

@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints"
     xmlns:main="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main"
     xmlns:team="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     Title="{Binding Title}"
@@ -39,7 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/TeamIconStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -190,22 +192,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <TabItem>
 
                 <TabItem.Header>
-                    <Image
-                        DockPanel.Dock="Left"
-                        SnapsToDevicePixels="True"
-                        Source="pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Images/sprints.png"
-                        Width="40"
-                        VerticalAlignment="Center">
 
-                        <Image.Effect>
+                    <customControls:GenericIcon
+                        Width="40"
+                        Height="40"
+                        Style="{StaticResource SprintIconStyle}">
+
+                        <Control.Effect>
                             <DropShadowEffect
                                 Color="{StaticResource PrimaryColor}"
                                 Direction="0"
                                 ShadowDepth="0"
                                 BlurRadius="10" />
-                        </Image.Effect>
+                        </Control.Effect>
 
-                    </Image>
+                    </customControls:GenericIcon>
+
                 </TabItem.Header>
 
                 <sprints:SprintsPage
@@ -216,22 +218,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <TabItem>
 
                 <TabItem.Header>
-                    <Image
-                        DockPanel.Dock="Left"
-                        SnapsToDevicePixels="True"
-                        Source="pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Images/sprints.png"
-                        Width="40"
-                        VerticalAlignment="Center">
 
-                        <Image.Effect>
+                    <customControls:GenericIcon
+                        Width="40"
+                        Height="40"
+                        Style="{StaticResource TeamIconStyle}">
+
+                        <Control.Effect>
                             <DropShadowEffect
                                 Color="{StaticResource PrimaryColor}"
                                 Direction="0"
                                 ShadowDepth="0"
                                 BlurRadius="10" />
-                        </Image.Effect>
+                        </Control.Effect>
 
-                    </Image>
+                    </customControls:GenericIcon>
+
                 </TabItem.Header>
 
                 <team:TeamPage

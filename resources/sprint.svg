@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="256"
+   height="256"
+   viewBox="0 0 256 256"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="drawing.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="2"
+     inkscape:cx="96.25"
+     inkscape:cy="150.5"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1672"
+     inkscape:window-y="166"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="false">
+    <sodipodi:guide
+       position="0,256"
+       orientation="0,256"
+       id="guide18843"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="256,256"
+       orientation="256,0"
+       id="guide18845"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="256,0"
+       orientation="0,-256"
+       id="guide18847"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="0,0"
+       orientation="-256,0"
+       id="guide18849"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path18835"
+       style="color:#000000;display:inline;opacity:0.5;fill:#000000;fill-opacity:1"
+       d="M 75.322266 7.4472656 C 74.405027 7.4159606 73.471269 7.8367583 72.916016 8.7265625 L 70.40625 12.75 C 65.594067 10.976536 60.406283 10 55 10 C 30.265782 10 10 30.265782 10 55 C 10 74.209945 22.229192 90.711514 39.277344 97.128906 C 39.540559 96.377345 39.773819 95.615604 40.056641 94.871094 C 42.149721 89.323596 44.843389 84.026502 47.953125 78.984375 C 37.522124 75.979947 30 66.469273 30 55 C 30 41.074519 41.074519 30 55 30 C 56.506251 30 57.973536 30.143688 59.402344 30.392578 L 56.832031 34.511719 C 55.722168 36.291732 56.956291 38.605835 59.052734 38.677734 L 74.238281 39.197266 L 89.423828 39.714844 C 91.520257 39.785984 92.907773 37.560489 91.921875 35.708984 L 84.777344 22.298828 L 77.634766 8.8886719 C 77.141474 7.9630763 76.239505 7.4785708 75.322266 7.4472656 z M 128 38 C 78.472292 38 38 78.472292 38 128 C 38 132.67 38.367372 137.25807 39.0625 141.74023 L 34.890625 142.53125 C 31.109409 143.24822 29.522728 147.78997 32.033203 150.70703 L 44.824219 165.56445 L 57.615234 180.42188 C 60.12674 183.33794 64.853958 182.44309 66.125 178.81055 L 72.595703 160.30469 L 79.066406 141.79688 C 80.336138 138.16378 77.197493 134.51879 73.416016 135.23438 L 68.580078 136.15039 C 68.220607 133.48388 68 130.77066 68 128 C 68 94.685411 94.685411 68 128 68 C 161.3146 68 188 94.685411 188 128 C 188 161.3146 161.3146 188 128 188 L 0 188 L 0 188.31055 L 0.96484375 188.86719 L 17.943359 198.66992 C 21.27591 200.59483 21.27591 205.40517 17.943359 207.33008 L 0.96484375 217.13281 L 0 217.68945 L 0 218 L 128 218 C 177.52771 218 218 177.52771 218 128 C 218 78.472292 177.52771 38 128 38 z M 216.96484 178.38867 C 214.38692 178.43397 212.0435 180.50808 212.04297 183.39453 L 212.04297 188 L 200.17578 188 C 195.32239 193.82796 189.80747 199.10471 183.70508 203.60938 C 175.02164 210.06606 165.17534 214.89253 154.81445 218 L 212.04297 218 L 212.04297 222.60547 C 212.04367 226.45403 216.20966 228.85923 219.54297 226.93555 L 236.52148 217.13281 L 253.5 207.33008 C 256.83256 205.40517 256.83256 200.59483 253.5 198.66992 L 236.52148 188.86719 L 219.54297 179.06445 C 218.70964 178.58352 217.82416 178.37357 216.96484 178.38867 z " />
+  </g>
+</svg>

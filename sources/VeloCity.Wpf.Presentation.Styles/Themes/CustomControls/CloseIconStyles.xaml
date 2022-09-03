@@ -23,51 +23,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/GenericIconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type customControls:CloseIcon}">
+    <Style
+        x:Key="CloseIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource GenericIconStyle}">
+
         <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="64" />
-        <Setter Property="Height" Value="64" />
-        <Setter Property="IsTabStop" Value="False" />
 
-        <Setter Property="Template">
+        <Setter Property="Geometry">
             <Setter.Value>
-                <ControlTemplate>
-
-                    <Viewbox
-                        Stretch="Uniform"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        SnapsToDevicePixels="False">
-
-                        <Grid
-                            Background="{TemplateBinding Background}"
-                            Margin="{TemplateBinding Padding}">
-
-                            <Ellipse
-                                Width="64"
-                                Height="64"
-                                StrokeThickness="1"
-                                Stroke="{TemplateBinding Foreground}"
-                                Fill="{TemplateBinding Foreground}"
-                                StrokeLineJoin="Round"
-                                StrokeStartLineCap="Flat"
-                                StrokeEndLineCap="Flat"
-                                Opacity="1" />
-
-                        </Grid>
-
-                    </Viewbox>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource IconDisabledBrush}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
+                <EllipseGeometry
+                    Center="128,128"
+                    RadiusX="128"
+                    RadiusY="128" />
             </Setter.Value>
         </Setter>
 

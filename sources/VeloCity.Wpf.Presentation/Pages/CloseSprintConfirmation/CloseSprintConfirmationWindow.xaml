@@ -29,12 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     mc:Ignorable="d"
     Title="{Binding Title}"
-    Height="480"
-    Width="640"
     WindowStartupLocation="CenterOwner"
-    ShowInTaskbar="False"
-    ResizeMode="CanResizeWithGrip"
-    WindowStyle="None"
     d:DataContext="{d:DesignInstance closeSprintConfirmation:CloseSprintConfirmationViewModel}">
 
     <Window.Resources>
@@ -55,7 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </Window.Style>
 
     <customControls:OkCancelWindow.TitleIcon>
-        <customControls:CloseIcon />
+        <customControls:GenericIcon Style="{StaticResource CloseIconStyle}" />
     </customControls:OkCancelWindow.TitleIcon>
 
     <Grid>

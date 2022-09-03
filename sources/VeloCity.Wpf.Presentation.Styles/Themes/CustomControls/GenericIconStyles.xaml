@@ -25,14 +25,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type customControls:StopIcon}">
-        <Setter Property="Foreground" Value="OrangeRed" />
+    <Style
+        x:Key="GenericIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}">
+
+        <Setter Property="Foreground" Value="{StaticResource IconPrimaryBrush}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="DisabledForeground" Value="{StaticResource IconDisabledBrush}" />
+        <Setter Property="DisabledBackground" Value="Transparent" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
         <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
+                <ControlTemplate TargetType="{x:Type customControls:GenericIcon}">
 
                     <Viewbox
                         Stretch="Uniform"
@@ -40,43 +47,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         Height="{TemplateBinding Height}"
                         SnapsToDevicePixels="False">
 
-                        <Grid
+                        <Border
+                            x:Name="PART_Border"
                             Background="{TemplateBinding Background}"
                             Margin="{TemplateBinding Padding}">
 
                             <Path
-                                Fill="{TemplateBinding Foreground}"
-                                Stroke="{TemplateBinding Foreground}">
+                                x:Name="PART_Path"
+                                Data="{TemplateBinding Geometry}"
+                                Fill="{TemplateBinding Foreground}" />
 
-                                <Path.Data>
-                                    <CombinedGeometry GeometryCombineMode="Exclude">
-
-                                        <CombinedGeometry.Geometry1>
-                                            <EllipseGeometry RadiusX="16" RadiusY="16" Center="16,16" />
-                                        </CombinedGeometry.Geometry1>
-
-                                        <CombinedGeometry.Geometry2>
-                                            <PathGeometry Figures="M 10 10 L 22 10 22 22 10 22 Z" />
-                                        </CombinedGeometry.Geometry2>
-
-                                    </CombinedGeometry>
-                                </Path.Data>
-                            </Path>
-
-                        </Grid>
+                        </Border>
 
                     </Viewbox>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource IconDisabledBrush}" />
+                            <Setter TargetName="PART_Path" Property="Fill" Value="{Binding DisabledForeground, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                            <Setter TargetName="PART_Border" Property="Background" Value="{Binding DisabledBackground, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
 
     </Style>
 

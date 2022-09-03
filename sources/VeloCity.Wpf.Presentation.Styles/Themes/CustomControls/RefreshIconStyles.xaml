@@ -23,47 +23,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/GenericIconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type customControls:RefreshIcon}">
-        <Setter Property="Foreground" Value="{StaticResource IconPrimaryBrush}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="64" />
-        <Setter Property="Height" Value="64" />
-        <Setter Property="IsTabStop" Value="False" />
+    <Style
+        x:Key="RefreshIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource GenericIconStyle}">
 
-        <Setter Property="Template">
+        <Setter Property="Geometry">
             <Setter.Value>
-                <ControlTemplate>
-
-                    <Viewbox
-                        Stretch="Uniform"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        SnapsToDevicePixels="False">
-
-                        <Grid
-                            Background="{TemplateBinding Background}"
-                            Margin="{TemplateBinding Padding}">
-
-                            <Path
-                                Width="34.8333"
-                                Height="41.1667"
-                                Stretch="Fill"
-                                Fill="{TemplateBinding Foreground}"
-                                Data="F1 M 38,20.5833C 42.9908,20.5833 47.4912,22.6825 50.6667,26.046L 50.6667,17.4167L 55.4166,22.1667L 55.4167,34.8333L 42.75,34.8333L 38,30.0833L 46.8512,30.0833C 44.6768,27.6539 41.517,26.125 38,26.125C 31.9785,26.125 27.0037,30.6068 26.2296,36.4167L 20.6543,36.4167C 21.4543,27.5397 28.9148,20.5833 38,20.5833 Z M 38,49.875C 44.0215,49.875 48.9963,45.3932 49.7703,39.5833L 55.3457,39.5833C 54.5457,48.4603 47.0852,55.4167 38,55.4167C 33.0092,55.4167 28.5088,53.3175 25.3333,49.954L 25.3333,58.5833L 20.5833,53.8333L 20.5833,41.1667L 33.25,41.1667L 38,45.9167L 29.1487,45.9167C 31.3231,48.3461 34.483,49.875 38,49.875 Z " />
-
-                        </Grid>
-
-                    </Viewbox>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource IconDisabledBrush}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
+                <Geometry>
+                    M 125,10 C 61.665242,10 10,61.665239 10,125 h 30 c 0,-47.121638 37.878358,-85 85,-85 14.9191,0 28.90245,3.809953 41.05859,10.496094 l -15.66406,12.183594 c -5.43125,4.226219 -4.25168,12.747042 2.12305,15.339843 l 33.31054,13.542969 33.3125,13.54102 c 6.37618,2.59164 13.16547,-2.68999 12.22266,-9.507817 l -4.92773,-35.619141 -4.92774,-35.61914 c -0.94438,-6.817266 -8.91301,-10.057243 -14.3457,-5.832031 l -16.0957,12.519531 C 172.34724,17.825029 149.57135,10 125,10 Z m 76.45117,115 c 0,47.12164 -37.87836,85 -85,85 -14.91909,0 -28.902444,-3.80996 -41.058592,-10.49609 l 15.664063,-12.1836 c 5.431254,-4.22621 4.251676,-12.74704 -2.123047,-15.33984 L 55.623047,158.4375 22.310547,144.89648 c -6.376174,-2.59164 -13.1654657,2.68998 -12.222656,9.50782 l 4.927734,35.61914 4.927734,35.61914 c 0.944379,6.81726 8.913009,10.05724 14.345703,5.83203 L 50.384766,218.95508 C 69.103927,232.17496 91.879828,240 116.45117,240 c 63.33476,0 115,-51.66524 115,-115 z
+                </Geometry>
             </Setter.Value>
         </Setter>
 
