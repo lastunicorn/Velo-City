@@ -14,18 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+using System.Windows;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    /// <summary>
-    /// Interaction logic for StartSprintConfirmationWindow.xaml
-    /// </summary>
-    public partial class StartSprintConfirmationWindow : OkCancelWindow
+    public class OkCancelWindow : Window
     {
-        public StartSprintConfirmationWindow()
+        public static readonly DependencyProperty TitleIconProperty = DependencyProperty.Register(
+            nameof(TitleIcon),
+            typeof(object),
+            typeof(OkCancelWindow)
+        );
+
+        public object TitleIcon
         {
-            InitializeComponent();
+            get => GetValue(TitleIconProperty);
+            set => SetValue(TitleIconProperty, value);
+        }
+
+        static OkCancelWindow()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(OkCancelWindow), new FrameworkPropertyMetadata(typeof(OkCancelWindow)));
         }
     }
 }

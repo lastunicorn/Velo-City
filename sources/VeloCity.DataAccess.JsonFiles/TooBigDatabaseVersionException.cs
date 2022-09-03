@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
 {
     public class TooBigDatabaseVersionException : DataAccessException
     {
-        private const string DefaultMessage = "The database json file in newer than expected. Please upgrade the Velo City application. Actual database version: {0}. Current version of Velo City works with database version: {1}.";
+        private const string DefaultMessage = "The database json file in newer than expected. Please upgrade the VeloCity application. Actual database version: {0}. Current version of VeloCity works with database version: {1}.";
 
         public TooBigDatabaseVersionException(Version actualVersion, Version expectedVersion)
             : base(string.Format(DefaultMessage, actualVersion, expectedVersion))

@@ -159,10 +159,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <TextBlock Text="{Binding ActualVelocity, StringFormat=standard}" />
                         </customControls:LabeledContent>
 
-                        <customControls:LabeledContent Label="Actual Velocity">
-                            <TextBlock Text="{Binding ActualVelocity, StringFormat=standard}" />
-                        </customControls:LabeledContent>
-
                     </StackPanel>
 
                 </customControls:PanelWithTitle>

@@ -25,7 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 
-    <Style x:Key="{x:Type customControls:PanelWithTitle}" TargetType="{x:Type customControls:PanelWithTitle}">
+    <Style
+        x:Key="{x:Type customControls:PanelWithTitle}"
+        TargetType="{x:Type customControls:PanelWithTitle}">
+
         <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">

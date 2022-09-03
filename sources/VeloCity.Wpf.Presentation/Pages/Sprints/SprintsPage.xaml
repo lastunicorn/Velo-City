@@ -115,7 +115,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center"
                                 Command="{Binding RefreshCommand}"
-                                Content="Refresh">
+                                Content="Reload">
 
                             <customControls:IconButton.Icon>
                                 <customControls:RefreshIcon Width="16" Height="16" />

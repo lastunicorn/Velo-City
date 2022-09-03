@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Margin="20">
+    <Grid>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -50,7 +50,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ListView
             Grid.Column="0"
             ItemsSource="{Binding TeamMembers}"
-            SelectedItem="{Binding SelectedTeamMember}">
+            SelectedItem="{Binding SelectedTeamMember}"
+            BorderThickness="0">
 
             <ListView.ItemTemplate>
                 <DataTemplate>

@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<Window
+<customControls:OkCancelWindow
     x:Class="DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation.StartSprintConfirmationWindow"
 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
-    Title="Start Sprint"
+    Title="{Binding Title}"
     Height="480"
     Width="640"
     WindowStartupLocation="CenterOwner"
@@ -40,9 +40,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/OkCancelWindowStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:StoryPointsToNumberConverter x:Key="StoryPointsToNumberConverter" />
@@ -50,130 +51,70 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </Window.Resources>
 
     <Window.Style>
-        <StaticResource ResourceKey="WindowStyle" />
+        <StaticResource ResourceKey="{x:Type customControls:OkCancelWindow}" />
     </Window.Style>
 
-    <DockPanel>
+    <customControls:OkCancelWindow.TitleIcon>
+        <customControls:StartIcon />
+    </customControls:OkCancelWindow.TitleIcon>
 
-        <Border
-            DockPanel.Dock="Top"
-            MinHeight="70"
-            Background="{StaticResource PrimaryDarkBrush}"
-            Padding="30 0"
-            MouseDown="UIElement_OnMouseDown"
-            BorderThickness="0 0 0 1"
-            BorderBrush="{StaticResource PrimaryLightBrush}">
+    <Grid>
 
-            <Border.Resources>
-                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                    <Setter Property="FontSize" Value="24" />
-                </Style>
-            </Border.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <DockPanel VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-                <customControls:StartIcon
-                    DockPanel.Dock="Left"
-                    Margin="0 0 20 0"
-                    Width="32"
-                    Height="32" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Estimated Story Points:"
+            VerticalAlignment="Top" />
 
-                <TextBlock
-                    Text="{Binding Title}"
-                    VerticalAlignment="Center"
-                    TextTrimming="CharacterEllipsis" />
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="2"
+            Text="{Binding EstimatedStoryPoints, StringFormat=standard}"
+            MinHeight="35"
+            VerticalAlignment="Center" />
 
-            </DockPanel>
-        </Border>
+        <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            Content="_Commitment Story Points:"
+            VerticalAlignment="Center"
+            Target="TextBoxCommitmentStoryPoints" />
 
-        <Border
-            DockPanel.Dock="Bottom"
-            Background="{StaticResource PrimaryDarkBrush}"
-            MinHeight="70"
-            Padding="30 0"
-            BorderThickness="0 1 0 0"
-            BorderBrush="{StaticResource PrimaryLightBrush}">
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="2"
+            x:Name="TextBoxCommitmentStoryPoints"
+            Text="{Binding CommitmentStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
+            TabIndex="1"
+            Margin="0 3 0 0" />
 
-            <StackPanel
-                Orientation="Horizontal"
-                FlowDirection="RightToLeft"
-                VerticalAlignment="Center">
+        <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            Content="Sprint's _Goal:"
+            VerticalAlignment="Center"
+            Target="TextBoxSprintGoal" />
 
-                <Button
-                    Content="Cancel"
-                    IsCancel="True"
-                    MinWidth="100"
-                    TabIndex="4" />
+        <TextBox
+            Grid.Row="2"
+            Grid.Column="2"
+            x:Name="TextBoxSprintGoal"
+            Text="{Binding SprintGoal}"
+            TabIndex="2"
+            Style="{StaticResource MultilineTextBoxStyle}"
+            Margin="0 20 0 0" />
+    </Grid>
 
-                <Button
-                    Content="Ok"
-                    IsDefault="True"
-                    MinWidth="100"
-                    Click="ButtonBase_OnClick"
-                    TabIndex="3" />
-
-            </StackPanel>
-        </Border>
-
-        <Grid Margin="40">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="20" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Text="Estimated Story Points:"
-                VerticalAlignment="Top"/>
-
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="2"
-                Text="{Binding EstimatedStoryPoints}"
-                MinHeight="35"
-                VerticalAlignment="Center"/>
-
-            <Label
-                Grid.Row="1"
-                Grid.Column="0"
-                Content="_Commitment Story Points:"
-                VerticalAlignment="Center"
-                Target="TextBoxCommitmentStoryPoints" />
-
-            <TextBox
-                Grid.Row="1"
-                Grid.Column="2"
-                x:Name="TextBoxCommitmentStoryPoints"
-                Text="{Binding CommitmentStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
-                TabIndex="1"
-                Margin="0 3 0 0"/>
-
-            <Label
-                Grid.Row="2"
-                Grid.Column="0"
-                Content="Sprint's _Goal:"
-                VerticalAlignment="Center"
-                Target="TextBoxSprintGoal" />
-
-            <TextBox
-                Grid.Row="2"
-                Grid.Column="2"
-                x:Name="TextBoxSprintGoal"
-                Text="{Binding SprintGoal}"
-                TabIndex="2"
-                Style="{StaticResource MultilineTextBoxStyle}"
-                Margin="0 20 0 0" />
-        </Grid>
-
-    </DockPanel>
-
-</Window>
+</customControls:OkCancelWindow>
