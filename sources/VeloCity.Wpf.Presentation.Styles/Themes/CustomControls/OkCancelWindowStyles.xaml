@@ -18,14 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:behaviors="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+    xmlns:converters1="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/TextBlockStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <converters:ResizeModeToGripVisibilityConverter x:Key="ResizeModeToGripVisibilityConverter" />
+    <converters1:ResizeModeToGripVisibilityConverter x:Key="ResizeModeToGripVisibilityConverter" />
 
     <Style TargetType="{x:Type customControls:OkCancelWindow}">
         <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />

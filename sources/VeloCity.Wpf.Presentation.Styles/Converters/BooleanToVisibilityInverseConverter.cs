@@ -18,32 +18,41 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
 {
-    internal class SprintStateToTextConverter : IValueConverter
+    [Localizability(LocalizationCategory.NeverLocalize)]
+    public sealed class BooleanToVisibilityInverseConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is SprintState sprintState)
+            bool boolValue = false;
+
+            if (value is bool)
             {
-                return sprintState switch
-                {
-                    SprintState.Unknown => "Unknown",
-                    SprintState.New => "New",
-                    SprintState.InProgress => "In Progress",
-                    SprintState.Closed => "Closed",
-                    _ => throw new ArgumentOutOfRangeException()
-                };
+                boolValue = (bool)value;
+            }
+            else if (value is Nullable<bool>)
+            {
+                Nullable<bool> tmp = (Nullable<bool>)value;
+                boolValue = tmp.HasValue ? tmp.Value : false;
             }
 
-            return DependencyProperty.UnsetValue;
+            return boolValue
+                ? Visibility.Collapsed
+                : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return DependencyProperty.UnsetValue;
+            if (value is Visibility visibility)
+            {
+                return visibility != Visibility.Visible;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

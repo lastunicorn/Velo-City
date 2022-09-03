@@ -18,17 +18,27 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
 {
-    [Localizability(LocalizationCategory.NeverLocalize)]
-    public class ResizeModeToGripVisibilityConverter : IValueConverter
+    public class SprintStateToTextConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is ResizeMode.CanResizeWithGrip
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            if (value is SprintState sprintState)
+            {
+                return sprintState switch
+                {
+                    SprintState.Unknown => "Unknown",
+                    SprintState.New => "New",
+                    SprintState.InProgress => "In Progress",
+                    SprintState.Closed => "Closed",
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+            }
+
+            return DependencyProperty.UnsetValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

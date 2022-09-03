@@ -19,22 +19,16 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
 {
     [Localizability(LocalizationCategory.NeverLocalize)]
-    public class NullToVisibilityConverter : IValueConverter
+    public class ResizeModeToGripVisibilityConverter : IValueConverter
     {
-        public bool Inverse { get; set; }
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Inverse
-                ? value == null
-                    ? Visibility.Visible
-                    : Visibility.Collapsed
-                : value == null
-                    ? Visibility.Collapsed
-                    : Visibility.Visible;
+            return value is ResizeMode.CanResizeWithGrip
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
