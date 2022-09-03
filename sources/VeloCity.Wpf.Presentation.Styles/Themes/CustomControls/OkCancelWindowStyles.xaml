@@ -44,7 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <Border
                             DockPanel.Dock="Top"
-                            MinHeight="70"
+                            MinHeight="90"
                             Background="{StaticResource PrimaryDarkBrush}"
                             Padding="30 0"
                             behaviors:WindowMoveBehavior.IsWindowMover="True"

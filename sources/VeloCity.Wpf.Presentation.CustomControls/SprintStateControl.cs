@@ -31,12 +31,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             new PropertyMetadata(SprintState.Unknown, HandleValueChanged)
         );
 
-        private static void HandleValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void HandleValueChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue != null && !e.NewValue.Equals(e.OldValue) && e.NewValue is SprintState sprintState)
             {
                 string text = GenerateLabelText(sprintState);
-                d.SetValue(LabelTextProperty, text);
+                obj.SetValue(LabelTextProperty, text);
             }
         }
 
