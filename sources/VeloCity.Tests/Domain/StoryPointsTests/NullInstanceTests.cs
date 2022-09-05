@@ -25,31 +25,31 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheNullStaticInstance_ThenValueIsZero()
         {
-            StoryPoints.Null.Value.Should().Be(0);
+            StoryPoints.Empty.Value.Should().Be(0);
         }
 
         [Fact]
         public void HavingTheNullStaticInstance_ThenIsNullIsTrue()
         {
-            StoryPoints.Null.IsEmpty.Should().BeTrue();
+            StoryPoints.Empty.IsEmpty.Should().BeTrue();
         }
 
         [Fact]
         public void HavingTheNullStaticInstance_ThenIsNotNullIsFalse()
         {
-            StoryPoints.Null.IsNotEmpty.Should().BeFalse();
+            StoryPoints.Empty.IsNotEmpty.Should().BeFalse();
         }
 
         [Fact]
         public void HavingTheNullStaticInstance_ThenIsEmptyIsTrue()
         {
-            StoryPoints.Null.IsZero.Should().BeTrue();
+            StoryPoints.Empty.IsZero.Should().BeTrue();
         }
 
         [Fact]
         public void HavingTheNullStaticInstance_WhenSerialized_ThenDashIsUsedInsteadOfValue()
         {
-            string actual = StoryPoints.Null.ToString();
+            string actual = StoryPoints.Empty.ToString();
 
             actual.Should().Be("- SP");
         }
@@ -57,7 +57,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheNullStaticInstance_WhenSerializedWithFormatting_ThenDashIsUsedInsteadOfValueAndFormatIsIgnored()
         {
-            string actual = StoryPoints.Null.ToString("D5");
+            string actual = StoryPoints.Empty.ToString("D5");
 
             actual.Should().Be("- SP");
         }
@@ -65,7 +65,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheNullStaticInstance_WhenSerializedToStandardDigitsString_ThenDashIsUsedInsteadOfValueAndFormatIsIgnored()
         {
-            string actual = StoryPoints.Null.ToStandardDigitsString();
+            string actual = StoryPoints.Empty.ToStandardDigitsString();
 
             actual.Should().Be("- SP");
         }
@@ -73,7 +73,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheNullStaticInstance_WhenImplicitlyCastToFloat_ThenZeroIsReturned()
         {
-            float actual = StoryPoints.Null;
+            float actual = StoryPoints.Empty;
 
             actual.Should().Be(0);
         }
@@ -81,7 +81,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheNullStaticInstance_WhenImplicitlyCastToNullableFloat_ThenNullIsReturned()
         {
-            float? actual = StoryPoints.Null;
+            float? actual = StoryPoints.Empty;
 
             actual.Should().BeNull();
         }

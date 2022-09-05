@@ -26,7 +26,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool IsEmpty { get; private init; }
 
-        public bool IsZero => Value == 0;
+        public bool IsZero => !IsEmpty && Value == 0;
 
         public static Velocity Empty { get; } = new()
         {
@@ -66,6 +66,31 @@ namespace DustInTheWind.VeloCity.Domain
                     : $"{Value:0.0000} {MeasurementUnit}";
         }
 
+        public bool Equals(Velocity other)
+        {
+            return Value.Equals(other.Value);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Velocity other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        public static bool operator ==(Velocity velocity1, Velocity velocity2)
+        {
+            return Math.Abs(velocity1.Value - velocity2.Value) < 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+        }
+
+        public static bool operator !=(Velocity velocity1, Velocity velocity2)
+        {
+            return Math.Abs(velocity1.Value - velocity2.Value) >= 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+        }
+
         public static implicit operator float(Velocity velocity)
         {
             return velocity.Value;
@@ -84,9 +109,19 @@ namespace DustInTheWind.VeloCity.Domain
             if (velocity == null)
                 return new Velocity
                 {
-                    Value = 0,
                     IsEmpty = true
                 };
+
+            return new Velocity
+            {
+                Value = velocity.Value
+            };
+        }
+
+        public static implicit operator Velocity?(float? velocity)
+        {
+            if (velocity == null)
+                return null;
 
             return new Velocity
             {

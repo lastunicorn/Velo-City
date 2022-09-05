@@ -18,7 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
@@ -33,10 +33,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
     public class SprintsPageViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private SprintOverviewViewModel sprintOverviewViewModel;
         private string detailsTitle;
-        private SprintCalendarViewModel sprintCalendarViewModel;
-        private SprintMembersViewModel sprintMembersViewModel;
         private bool isSprintSelected;
 
         public string DetailsTitle
@@ -59,35 +56,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             }
         }
 
-        public SprintOverviewViewModel SprintOverviewViewModel
-        {
-            get => sprintOverviewViewModel;
-            private set
-            {
-                sprintOverviewViewModel = value;
-                OnPropertyChanged();
-            }
-        }
+        public SprintOverviewViewModel SprintOverviewViewModel { get; }
 
-        public SprintCalendarViewModel SprintCalendarViewModel
-        {
-            get => sprintCalendarViewModel;
-            set
-            {
-                sprintCalendarViewModel = value;
-                OnPropertyChanged();
-            }
-        }
+        public SprintCalendarViewModel SprintCalendarViewModel { get; }
 
-        public SprintMembersViewModel SprintMembersViewModel
-        {
-            get => sprintMembersViewModel;
-            set
-            {
-                sprintMembersViewModel = value;
-                OnPropertyChanged();
-            }
-        }
+        public SprintMembersViewModel SprintMembersViewModel { get; }
 
         public RefreshCommand RefreshCommand { get; }
 
@@ -104,6 +77,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
 
             SprintsListViewModel = new SprintsListViewModel(mediator, eventBus);
             SprintOverviewViewModel = new SprintOverviewViewModel(mediator, eventBus);
+            SprintCalendarViewModel = new SprintCalendarViewModel(mediator, eventBus);
+            SprintMembersViewModel = new SprintMembersViewModel(mediator, eventBus);
 
             RefreshCommand = new RefreshCommand(mediator);
             StartSprintCommand = new StartSprintCommand(mediator, eventBus);
@@ -125,20 +100,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
 
         private async Task RetrieveSprintDetails()
         {
-            SprintCalendarViewModel = null;
-
-            PresentSprintRequest request = new();
-
-            PresentSprintResponse response = await mediator.Send(request);
-
-            SprintCalendarViewModel = new SprintCalendarViewModel(response.SprintDays, response.SprintMembers);
-            SprintMembersViewModel = new SprintMembersViewModel(response);
+            PresentSprintDetailRequest request = new();
+            PresentSprintDetailResponse response = await mediator.Send(request);
 
             DetailsTitle = BuildDetailsTitle(response);
             IsSprintSelected = true;
         }
 
-        private static string BuildDetailsTitle(PresentSprintResponse response)
+        private static string BuildDetailsTitle(PresentSprintDetailResponse response)
         {
             return response == null
                 ? null

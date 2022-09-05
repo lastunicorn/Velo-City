@@ -39,7 +39,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
         private int workDays;
         private HoursValue totalWorkHours;
         private StoryPoints estimatedStoryPoints;
-        private StoryPoints? estimatedStoryPointsWithVelocityPenalties;
+        private StoryPoints estimatedStoryPointsWithVelocityPenalties;
+        private bool estimatedStoryPointsWithVelocityPenaltiesVisible;
         private Velocity estimatedVelocity;
         private StoryPoints commitmentStoryPoints;
         private StoryPoints actualStoryPoints;
@@ -107,12 +108,22 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             }
         }
 
-        public StoryPoints? EstimatedStoryPointsWithVelocityPenalties
+        public StoryPoints EstimatedStoryPointsWithVelocityPenalties
         {
             get => estimatedStoryPointsWithVelocityPenalties;
             private set
             {
                 estimatedStoryPointsWithVelocityPenalties = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool EstimatedStoryPointsWithVelocityPenaltiesVisible
+        {
+            get => estimatedStoryPointsWithVelocityPenaltiesVisible;
+            private set
+            {
+                estimatedStoryPointsWithVelocityPenaltiesVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -187,6 +198,25 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
         }
 
+        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintOverview();
+        }
+
+        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintOverview();
+        }
+
+        private async Task RetrieveSprintOverview()
+        {
+            PresentSprintOverviewRequest request = new();
+
+            PresentSprintOverviewResponse response = await mediator.Send(request);
+
+            DisplayResponse(response);
+        }
+
         private void DisplayResponse(PresentSprintOverviewResponse response)
         {
             DateTime? startDate = response.SprintDateInterval.StartDate;
@@ -199,55 +229,23 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             TotalWorkHours = response.TotalWorkHours;
 
             EstimatedStoryPoints = response.EstimatedStoryPoints;
-            EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties.IsEmpty
-                ? (StoryPoints?)null
-                : response.EstimatedStoryPointsWithVelocityPenalties;
+            EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties;
+            EstimatedStoryPointsWithVelocityPenaltiesVisible = !response.EstimatedStoryPointsWithVelocityPenalties.IsEmpty;
             EstimatedVelocity = response.EstimatedVelocity;
             CommitmentStoryPoints = response.SprintState == Domain.SprintState.New && response.CommitmentStoryPoints.IsZero
-                ? null
+                ? StoryPoints.Empty
                 : response.CommitmentStoryPoints;
 
             ActualStoryPoints = response.SprintState != Domain.SprintState.Closed && response.ActualStoryPoints.IsZero
-                ? null
+                ? StoryPoints.Empty
                 : response.ActualStoryPoints;
             ActualVelocity = response.SprintState != Domain.SprintState.Closed && response.ActualVelocity.IsZero
-                ? null
+                ? Velocity.Empty
                 : response.ActualVelocity;
 
             SprintComments = response.SprintComments;
 
             Notes = CreateNotes(response).ToList();
-        }
-
-        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintDetails();
-        }
-
-        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintDetails();
-        }
-
-        private async Task RetrieveSprintDetails()
-        {
-            PresentSprintOverviewRequest request = new();
-
-            PresentSprintOverviewResponse response = await mediator.Send(request);
-
-            DisplayResponse(response);
-        }
-
-        private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
-        {
-            SprintState = ev.SprintState.ToPresentationModel();
-            SprintGoal = ev.SprintGoal;
-            CommitmentStoryPoints = ev.CommitmentStoryPoints;
-            ActualStoryPoints = ev.ActualStoryPoints;
-            ActualVelocity = ev.ActualVelocity;
-            SprintComments = ev.Comments;
-
-            return Task.CompletedTask;
         }
 
         private static IEnumerable<NoteBase> CreateNotes(PresentSprintOverviewResponse response)
@@ -281,6 +279,25 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
                     VelocityPenalties = response.VelocityPenalties
                 };
             }
+        }
+
+        private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
+        {
+            SprintState = ev.SprintState.ToPresentationModel();
+            SprintGoal = ev.SprintGoal;
+
+            CommitmentStoryPoints = ev.CommitmentStoryPoints;
+
+            ActualStoryPoints = ev.SprintState != Domain.SprintState.Closed && ev.ActualStoryPoints.IsZero
+                ? StoryPoints.Empty
+                : ev.ActualStoryPoints;
+            ActualVelocity = ev.SprintState != Domain.SprintState.Closed && ev.ActualVelocity.IsZero
+                ? Velocity.Empty
+                : ev.ActualVelocity;
+
+            SprintComments = ev.Comments;
+
+            return Task.CompletedTask;
         }
     }
 }

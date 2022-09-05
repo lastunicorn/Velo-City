@@ -42,6 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </ResourceDictionary.MergedDictionaries>
 
             <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -128,7 +130,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <customControls:LabeledContent
                             Label="Estimated Story Points (*)"
-                            Visibility="{Binding EstimatedStoryPointsWithVelocityPenalties, Converter={StaticResource NullToVisibilityConverter}}">
+                            Visibility="{Binding EstimatedStoryPointsWithVelocityPenaltiesVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                             <TextBlock Text="{Binding EstimatedStoryPointsWithVelocityPenalties, StringFormat=standard}" />
                         </customControls:LabeledContent>

@@ -17,25 +17,79 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
+using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar
 {
-    public class SprintCalendarViewModel
+    public class SprintCalendarViewModel : ViewModelBase
     {
-        public List<SprintCalendarItemViewModel> CalendarItems { get; }
+        private readonly IMediator mediator;
+        private List<SprintCalendarItemViewModel> calendarItems;
+        private List<NoteBase> notes;
 
-        public List<NoteBase> Notes { get; }
-
-        public SprintCalendarViewModel(List<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
+        public List<SprintCalendarItemViewModel> CalendarItems
         {
-            if (sprintDays == null) throw new ArgumentNullException(nameof(sprintDays));
+            get => calendarItems;
+            private set
+            {
+                calendarItems = value;
+                OnPropertyChanged();
+            }
+        }
 
-            CalendarItems = CreateCalendarItems(sprintDays, sprintMembers);
+        public List<NoteBase> Notes
+        {
+            get => notes;
+            private set
+            {
+                notes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public SprintCalendarViewModel(IMediator mediator, EventBus eventBus)
+        {
+            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+        }
+
+        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintCalendar();
+        }
+
+        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintCalendar();
+        }
+
+        private async Task RetrieveSprintCalendar()
+        {
+            PresentSprintCalendarRequest request = new();
+
+            PresentSprintCalendarResponse response = await mediator.Send(request);
+
+            DisplayResponse(response);
+        }
+
+        private void DisplayResponse(PresentSprintCalendarResponse response)
+        {
+            List<SprintCalendarItemViewModel> calendarItems = CreateCalendarItems(response.SprintDays, response.SprintMembers);
+            CreateChartBars(calendarItems);
+
+            CalendarItems = calendarItems;
             Notes = CreateNotes();
-
-            CreateChartBars();
         }
 
         private static List<SprintCalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
@@ -88,14 +142,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar
             return notes;
         }
 
-        private void CreateChartBars()
+        private static void CreateChartBars(IEnumerable<SprintCalendarItemViewModel> calendarItems)
         {
             Chart chart = new()
             {
                 ActualSize = 100
             };
 
-            IEnumerable<ChartBar> chartBars = CalendarItems
+            IEnumerable<ChartBar> chartBars = calendarItems
                 .Select(x =>
                 {
                     int workHours = x.WorkHours?.Value ?? 0;

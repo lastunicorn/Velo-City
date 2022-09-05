@@ -123,7 +123,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
                 SprintName = selectedSprint.Name,
                 SprintNumber = selectedSprint.Number,
                 EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
-                CommitmentStoryPoints = StoryPoints.Null,
+                CommitmentStoryPoints = StoryPoints.Empty,
                 SprintGoal = selectedSprint.Goal
             };
 
