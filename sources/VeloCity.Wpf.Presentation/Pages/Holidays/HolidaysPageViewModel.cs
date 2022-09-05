@@ -14,25 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
-
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Holidays
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public class HolidaysPageViewModel
     {
-        public MainWindow(MainViewModel viewModel)
-        {
-            InitializeComponent();
-
-            DataContext = viewModel;
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            
-        }
     }
 }

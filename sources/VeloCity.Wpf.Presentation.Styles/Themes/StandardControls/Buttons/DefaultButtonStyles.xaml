@@ -47,10 +47,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
+                <Style TargetType="{x:Type Control}">
+                    <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate>
+                            <ControlTemplate TargetType="{x:Type Control}">
 
                                 <Rectangle
                                     x:Name="PART_FocusRectangle"
@@ -59,7 +59,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     RadiusY="2"
                                     Stroke="{StaticResource AccentBrush}"
                                     StrokeThickness="1"
-                                    StrokeDashArray="1 2" />
+                                    StrokeDashArray="2 2" />
 
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">

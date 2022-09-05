@@ -17,36 +17,31 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using System.Windows;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.Refresh
+namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
 {
-    public class RefreshUseCase : IRequestHandler<RefreshRequest, Unit>
+    public sealed class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
     {
-        private readonly EventBus eventBus;
-        private readonly IUnitOfWork unitOfWork;
-
-        public RefreshUseCase(IUnitOfWork unitOfWork, EventBus eventBus)
-        {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-        }
-
-        public async Task<Unit> Handle(RefreshRequest request, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             try
             {
-                unitOfWork.InvalidateCash();
+                return await next();
             }
             catch (Exception ex)
             {
+                Window mainWindow = System.Windows.Application.Current.MainWindow;
+
+                if (mainWindow != null)
+                    MessageBox.Show(mainWindow, ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                else
+                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                throw;
             }
-
-            RefreshEvent refreshEvent = new();
-            await eventBus.Publish(refreshEvent, cancellationToken);
-
-            return Unit.Value;
         }
     }
 }

@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.Pages.Holidays.HolidaysPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:holidays="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Holidays"
+
+    mc:Ignorable="d"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance holidays:HolidaysPageViewModel}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/HolidaysIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/MissingContentPanelStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <customControls:MissingContentPanel
+        IsContentVisible="False">
+
+        <customControls:MissingContentPanel.MissingContent>
+
+            <StackPanel
+                Orientation="Vertical"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+                <customControls:GenericIcon
+                    Style="{StaticResource HolidaysIconStyle}"
+                    Width="120"
+                    Height="120" />
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="20"
+                    Text="Under construction"
+                    IsEnabled="False"
+                    Margin="0 20 0 0" />
+
+            </StackPanel>
+
+        </customControls:MissingContentPanel.MissingContent>
+
+    </customControls:MissingContentPanel>
+
+</UserControl>

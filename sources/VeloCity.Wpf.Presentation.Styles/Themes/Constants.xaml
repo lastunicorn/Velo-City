@@ -38,8 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- Green -->
     <Color x:Key="AccentColor">#00bc00</Color>
 
-    <!-- Orange -->
-    <!--<Color x:Key="AccentColor">#F0AD4E</Color>-->
+    <!-- Orange-Red -->
+    <!--<Color x:Key="AccentColor">#CA5100</Color>-->
 
     <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
 

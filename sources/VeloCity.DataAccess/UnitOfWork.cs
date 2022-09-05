@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             get
             {
-                if (dbContext.State != DatabaseState.Opened)
+                if (dbContext.State == DatabaseState.Closed)
                     dbContext.Open();
 
                 return dbContext;

@@ -77,12 +77,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <customControls:MissingContentPanel.MissingContent>
 
-                <StackPanel Orientation="Vertical">
+                <StackPanel
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
 
                     <customControls:GenericIcon
                         Style="{StaticResource SprintIconStyle}"
-                        Width="100"
-                        Height="100"/>
+                        Width="120"
+                        Height="120" />
 
                     <TextBlock
                         HorizontalAlignment="Center"
@@ -90,7 +93,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         FontSize="20"
                         Text="Select a Sprint"
                         IsEnabled="False"
-                        Margin="0 20 0 0"/>
+                        Margin="0 20 0 0" />
 
                 </StackPanel>
 
@@ -142,7 +145,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             Command="{Binding RefreshCommand}"
-                            Content="Reload">
+                            Content="Reload"
+                            Visibility="Collapsed">
 
                             <customControls:IconButton.Icon>
                                 <customControls:GenericIcon

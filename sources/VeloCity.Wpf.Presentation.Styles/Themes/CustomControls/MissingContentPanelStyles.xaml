@@ -29,34 +29,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <Style TargetType="{x:Type customControls:MissingContentPanel}">
 
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type customControls:MissingContentPanel}">
 
-                    <Grid>
+                    <Border
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}">
 
-                        <ContentPresenter
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Content="{TemplateBinding MissingContent}"
-                            IsEnabled="False"
-                            Visibility="{TemplateBinding IsContentVisible, Converter={StaticResource BooleanToVisibilityInverseConverter}}" >
+                        <Grid>
 
-                            <ContentPresenter.Resources>
-                                <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                    <Setter Property="FontSize" Value="20" />
-                                </Style>
-                            </ContentPresenter.Resources>
+                            <ContentPresenter
+                                Content="{TemplateBinding MissingContent}"
+                                IsEnabled="False"
+                                Visibility="{TemplateBinding IsContentVisible, Converter={StaticResource BooleanToVisibilityInverseConverter}}">
 
-                        </ContentPresenter>
+                                <ContentPresenter.Resources>
+                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                        <Setter Property="FontSize" Value="20" />
+                                    </Style>
+                                </ContentPresenter.Resources>
 
-                        <ContentPresenter
-                            Content="{TemplateBinding Content}"
-                            Visibility="{TemplateBinding IsContentVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </ContentPresenter>
 
-                    </Grid>
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                Visibility="{TemplateBinding IsContentVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                        </Grid>
+
+                    </Border>
 
                 </ControlTemplate>
             </Setter.Value>

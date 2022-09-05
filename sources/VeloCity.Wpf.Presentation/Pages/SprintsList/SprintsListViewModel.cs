@@ -33,6 +33,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
         private readonly IMediator mediator;
         private List<SprintViewModel> sprints;
         private SprintViewModel selectedSprint;
+        private bool hasSprints;
 
         public List<SprintViewModel> Sprints
         {
@@ -57,6 +58,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
 
                 if (!IsInitializeMode)
                     _ = SetCurrentSprint(selectedSprint?.SprintId);
+            }
+        }
+
+        public bool HasSprints
+        {
+            get => hasSprints;
+            private set
+            {
+                hasSprints = value;
+                OnPropertyChanged();
             }
         }
 
@@ -107,6 +118,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
                 SelectedSprint = response.CurrentSprintId == null
                     ? null
                     : Sprints.FirstOrDefault(x => x.SprintId == response.CurrentSprintId.Value);
+
+                HasSprints = Sprints?.Count > 0;
             });
         }
 

@@ -28,6 +28,7 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main;
+using MediatR;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
 namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
@@ -46,6 +47,7 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
         {
             Assembly assembly = typeof(PresentSprintsRequest).Assembly;
             containerBuilder.RegisterMediatR(assembly);
+            containerBuilder.RegisterGeneric(typeof(ExceptionHandlingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 
             containerBuilder.RegisterType<ApplicationState>().AsSelf().SingleInstance();
             containerBuilder.RegisterType<EventBus>().AsSelf().SingleInstance();

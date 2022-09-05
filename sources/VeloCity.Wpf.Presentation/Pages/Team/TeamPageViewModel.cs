@@ -28,6 +28,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
         private readonly IMediator mediator;
         private List<TeamMemberViewModel> teamMembers;
         private TeamMemberViewModel selectedTeamMember;
+        private bool hasTeamMembers;
 
         public List<TeamMemberViewModel> TeamMembers
         {
@@ -49,6 +50,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
             }
         }
 
+        public bool HasTeamMembers
+        {
+            get => hasTeamMembers;
+            set
+            {
+                hasTeamMembers = value;
+                OnPropertyChanged();
+            }
+        }
+
         public TeamPageViewModel(IMediator mediator)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -65,6 +76,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
             TeamMembers = response.TeamMembers
                 .Select(x => new TeamMemberViewModel(x))
                 .ToList();
+
+            HasTeamMembers = TeamMembers?.Count > 0;
         }
     }
 }

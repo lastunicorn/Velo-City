@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
-        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/TextBlockStyles.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <converters1:ResizeModeToGripVisibilityConverter x:Key="ResizeModeToGripVisibilityConverter" />
@@ -89,15 +89,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <Grid>
                                 <StackPanel
                                     Orientation="Horizontal"
-                                    FlowDirection="RightToLeft"
                                     VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
                                     Margin="30 0">
-
-                                    <Button
-                                        Content="Cancel"
-                                        IsCancel="True"
-                                        MinWidth="100"
-                                        TabIndex="4" />
 
                                     <Button
                                         Content="Ok"
@@ -106,12 +100,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         behaviors:WindowButtonBehavior.IsDefault="True"
                                         TabIndex="3" />
 
+                                    <Button
+                                        Content="Cancel"
+                                        IsCancel="True"
+                                        MinWidth="100"
+                                        TabIndex="4" />
+
                                 </StackPanel>
 
                                 <ResizeGrip
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
-                                    Visibility="{Binding ResizeMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ResizeModeToGripVisibilityConverter}}" />
+                                    Visibility="{Binding ResizeMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ResizeModeToGripVisibilityConverter}}"
+                                    IsTabStop="False"/>
                             </Grid>
 
                         </Border>
