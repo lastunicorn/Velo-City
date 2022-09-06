@@ -35,7 +35,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.Refresh
 
         public async Task<Unit> Handle(RefreshRequest request, CancellationToken cancellationToken)
         {
-            unitOfWork.InvalidateCash();
+            try
+            {
+                unitOfWork.InvalidateCash();
+            }
+            catch (Exception ex)
+            {
+            }
 
             RefreshEvent refreshEvent = new();
             await eventBus.Publish(refreshEvent, cancellationToken);

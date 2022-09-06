@@ -24,8 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
-    xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
-    xmlns:controls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Controls"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -39,50 +38,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CloseIconStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Themes/SprintStateControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <DockPanel>
+    <customControls:MissingContentPanel
+        IsContentVisible="{Binding HasSprints}">
 
-        <StackPanel
-            Orientation="Horizontal"
-            DockPanel.Dock="Top"
-            Visibility="Collapsed">
+        <customControls:MissingContentPanel.MissingContent>
+            <Border
+                Background="{StaticResource PrimaryDarkBrush}">
 
-            <Button
-                Style="{StaticResource ToolBarButtonStyle}"
-                Command="{Binding StartSprintCommand}"
-                ToolTip="Start the currently selected sprint.">
+                <ContentControl
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    MinWidth="300">
 
-                <styles:StartIcon
-                    Width="16"
-                    Height="16" />
-            </Button>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="No Sprints"
+                        IsEnabled="False" />
 
-            <Button
-                Style="{StaticResource ToolBarButtonStyle}"
-                Command="{Binding CloseSprintCommand}"
-                ToolTip="Close the currently selected sprint.">
+                </ContentControl>
 
-                <styles:CloseIcon
-                    Width="16"
-                    Height="16" />
-            </Button>
-
-        </StackPanel>
+            </Border>
+        </customControls:MissingContentPanel.MissingContent>
 
         <ListView
             ItemsSource="{Binding Sprints}"
             SelectedItem="{Binding SelectedSprint}"
-            SelectionMode="Single">
+            SelectionMode="Single"
+            BorderThickness="0">
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate TargetType="ListViewItem">
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
 
                                 <Border
                                     x:Name="PART_Border"
@@ -124,7 +119,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             </VisualState>
 
                                             <VisualState x:Name="Selected">
-                                                <Storyboard >
+                                                <Storyboard>
 
                                                     <ColorAnimationUsingKeyFrames
                                                         Storyboard.TargetName="PART_Border"
@@ -171,7 +166,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         Margin="10 0"
                                         MinHeight="40">
 
-                                        <controls:SprintStateControl
+                                        <customControls:SprintStateControl
+                                            x:Name="SprintStateControl1"
                                             DockPanel.Dock="Left"
                                             Margin="0 3 15 3"
                                             Value="{Binding SprintState}"
@@ -211,6 +207,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                 </Border>
 
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="True" />
+                                            <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.Setters>
+                                            <Setter TargetName="SprintStateControl1" Property="IsIconShadowVisible" Value="True" />
+                                        </MultiTrigger.Setters>
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
+
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -218,6 +226,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </ListView.ItemContainerStyle>
 
         </ListView>
-    </DockPanel>
+
+    </customControls:MissingContentPanel>
 
 </UserControl>

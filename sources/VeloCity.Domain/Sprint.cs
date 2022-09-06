@@ -47,7 +47,16 @@ namespace DustInTheWind.VeloCity.Domain
 
         public StoryPoints CommitmentStoryPoints { get; set; }
 
-        public StoryPoints ActualStoryPoints { get; set; }
+        public StoryPoints ActualStoryPoints
+        {
+            get => actualStoryPoints;
+            set
+            {
+                actualStoryPoints = value;
+                
+                velocity = null;
+            }
+        }
 
         public List<OfficialHoliday> OfficialHolidays { get; } = new();
 
@@ -77,6 +86,10 @@ namespace DustInTheWind.VeloCity.Domain
 
         private Velocity? velocity;
 
+        /// <summary>
+        /// Velocity is calculated based on ActualStoryPoints and the total work hours of the sprint members.
+        /// If each of these value is changed, the velocity must be recalculated.
+        /// </summary>
         public Velocity Velocity
         {
             get
@@ -109,6 +122,7 @@ namespace DustInTheWind.VeloCity.Domain
         }
 
         private HoursValue? totalWorkHoursWithVelocityPenalties;
+        private StoryPoints actualStoryPoints;
 
         public HoursValue TotalWorkHoursWithVelocityPenalties
         {

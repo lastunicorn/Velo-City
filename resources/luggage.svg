@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="luggage.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.65380859"
+     inkscape:cx="101.71173"
+     inkscape:cy="295.19343"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1672"
+     inkscape:window-y="166"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path3152"
+       style="color:#000000;display:inline;opacity:0.5;fill:#000000;stroke-width:20;stroke-linecap:round;stroke-linejoin:round"
+       d="M 189.30664 58.236328 A 10.163618 10.233751 0 0 0 179.14258 68.46875 L 179.14258 103.01758 L 125.83203 103.01758 L 125.83203 410 L 386.16797 410 L 386.16797 103.01758 L 332.85742 103.01758 L 332.85742 68.46875 A 10.163618 10.233751 0 0 0 322.69336 58.236328 L 189.30664 58.236328 z M 199.46875 78.701172 L 312.53125 78.701172 L 312.53125 103.01758 L 199.46875 103.01758 L 199.46875 78.701172 z M 10 96 A 10.001 10.001 0 0 0 0 106 L 0 136 A 10.001 10.001 0 0 0 6 145.12891 L 6 366.87109 A 10.001 10.001 0 0 0 0 376 L 0 406 A 10.001 10.001 0 0 0 10 416 L 40 416 A 10.001 10.001 0 0 0 49.128906 410 L 95.34375 410 L 95.34375 103.01758 L 49.484375 103.01758 A 10.001 10.001 0 0 0 40 96 L 10 96 z M 472 96 A 10.001 10.001 0 0 0 462.51562 103.01758 L 416.65625 103.01758 L 416.65625 410 L 462.87109 410 A 10.001 10.001 0 0 0 472 416 L 502 416 A 10.001 10.001 0 0 0 512 406 L 512 376 A 10.001 10.001 0 0 0 506 366.87109 L 506 145.12891 A 10.001 10.001 0 0 0 512 136 L 512 106 A 10.001 10.001 0 0 0 502 96 L 472 96 z " />
+  </g>
+</svg>

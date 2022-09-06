@@ -28,9 +28,9 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool IsNotEmpty => !IsEmpty;
 
-        public bool IsZero => Value == 0;
+        public bool IsZero => !IsEmpty && Value == 0;
 
-        public static StoryPoints Null { get; } = new()
+        public static StoryPoints Empty { get; } = new()
         {
             IsEmpty = true
         };
@@ -101,6 +101,32 @@ namespace DustInTheWind.VeloCity.Domain
             {
                 Value = storyPoints.Value
             };
+        }
+
+        public static implicit operator StoryPoints?(float? storyPoints)
+        {
+            if (storyPoints == null)
+                return null;
+
+            return new StoryPoints
+            {
+                Value = storyPoints.Value
+            };
+        }
+
+        public bool Equals(StoryPoints other)
+        {
+            return Value.Equals(other.Value) && IsEmpty == other.IsEmpty;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is StoryPoints other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Value, IsEmpty);
         }
 
         public static bool operator ==(StoryPoints storyPoints1, StoryPoints storyPoints2)

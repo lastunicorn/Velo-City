@@ -26,10 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:sprintMembers="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers"
     xmlns:sprintCalendar="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar"
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints"
     xmlns:sprintsList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList"
-    xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -45,10 +44,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CloseIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/RefreshIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/IconButtonStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/MissingContentPanelStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintIconStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <converters:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter" />
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -72,106 +70,133 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Margin="0"
             Background="{StaticResource PrimaryBrush}" />
 
-        <Grid
+        <customControls:MissingContentPanel
             Grid.Column="2"
-            Margin="20">
+            Margin="30"
+            IsContentVisible="{Binding IsSprintSelected}">
 
-            <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="20"
-                Text="Select a Sprint"
-                IsEnabled="False"
-                Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
+            <customControls:MissingContentPanel.MissingContent>
 
-            <Grid Visibility="{Binding IsSprintSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <StackPanel
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
 
-                <DockPanel>
+                    <customControls:GenericIcon
+                        Style="{StaticResource SprintIconStyle}"
+                        Width="120"
+                        Height="120" />
 
-                    <DockPanel
-                        DockPanel.Dock="Top"
-                        Margin="0 0 0 30">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Text="Select a Sprint"
+                        IsEnabled="False"
+                        Margin="0 20 0 0" />
 
-                        <StackPanel
-                            DockPanel.Dock="Right"
-                            Orientation="Horizontal"
+                </StackPanel>
+
+            </customControls:MissingContentPanel.MissingContent>
+
+            <DockPanel>
+
+                <DockPanel
+                    DockPanel.Dock="Top"
+                    Margin="0 0 0 30">
+
+                    <StackPanel
+                        DockPanel.Dock="Right"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+
+                        <customControls:IconButton
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
-
-                            <styles:IconButton
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Command="{Binding StartSprintCommand}"
-                                Content="Start">
-
-                                <styles:IconButton.Icon>
-                                    <styles:StartIcon Width="16" Height="16" />
-                                </styles:IconButton.Icon>
-
-                            </styles:IconButton>
-
-                            <styles:IconButton
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Command="{Binding CloseSprintCommand}"
-                                Content="Close">
-
-                                <styles:IconButton.Icon>
-                                    <styles:CloseIcon Width="16" Height="16" />
-                                </styles:IconButton.Icon>
-
-                            </styles:IconButton>
-
-                            <styles:IconButton
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Command="{Binding RefreshCommand}"
-                                Content="Refresh">
-
-                                <styles:IconButton.Icon>
-                                    <styles:RefreshIcon Width="16" Height="16" />
-                                </styles:IconButton.Icon>
-
-                            </styles:IconButton>
-
-                        </StackPanel>
-
-                        <TextBlock
-                            Text="{Binding DetailsTitle}"
-                            FontSize="28"
-                            Foreground="{StaticResource FontPrimaryBrush}"
                             VerticalAlignment="Center"
-                            TextTrimming="CharacterEllipsis"/>
+                            Command="{Binding StartSprintCommand}"
+                            Content="Start">
 
-                    </DockPanel>
+                            <customControls:IconButton.Icon>
+                                <customControls:GenericIcon
+                                    Style="{StaticResource StartIconStyle}"
+                                    Width="16"
+                                    Height="16" />
+                            </customControls:IconButton.Icon>
 
-                    <TabControl
-                        BorderThickness="0"
-                        Background="Transparent">
+                        </customControls:IconButton>
 
-                        <TabItem Header="Overview">
-                            <sprintOverview:SprintOverviewView
-                                DataContext="{Binding SprintOverviewViewModel}"
-                                Margin="0 20 0 0" />
-                        </TabItem>
+                        <customControls:IconButton
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Command="{Binding CloseSprintCommand}"
+                            Content="Close">
 
-                        <TabItem Header="Calendar">
-                            <sprintCalendar:SprintCalendarView
-                                DataContext="{Binding SprintCalendarViewModel}"
-                                Margin="0 20 0 0" />
-                        </TabItem>
+                            <customControls:IconButton.Icon>
+                                <customControls:GenericIcon
+                                    Style="{StaticResource CloseIconStyle}"
+                                    Width="16"
+                                    Height="16" />
+                            </customControls:IconButton.Icon>
 
-                        <TabItem Header="Sprint Members">
-                            <sprintMembers:SprintMembersView
-                                DataContext="{Binding SprintMembersViewModel}"
-                                Margin="0 20 0 0" />
-                        </TabItem>
+                        </customControls:IconButton>
 
-                    </TabControl>
+                        <customControls:IconButton
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Command="{Binding RefreshCommand}"
+                            Content="Reload"
+                            Visibility="Collapsed">
+
+                            <customControls:IconButton.Icon>
+                                <customControls:GenericIcon
+                                    Style="{StaticResource RefreshIconStyle}"
+                                    Width="16"
+                                    Height="16" />
+                            </customControls:IconButton.Icon>
+
+                        </customControls:IconButton>
+
+                    </StackPanel>
+
+                    <TextBlock
+                        Text="{Binding DetailsTitle}"
+                        FontSize="32"
+                        Foreground="{StaticResource FontPrimaryBrush}"
+                        VerticalAlignment="Center"
+                        TextTrimming="CharacterEllipsis"
+                        Margin="0 10" />
 
                 </DockPanel>
-            </Grid>
-        </Grid>
+
+                <TabControl
+                    BorderThickness="0"
+                    Background="Transparent">
+
+                    <TabItem Header="Overview">
+                        <sprintOverview:SprintOverviewView
+                            DataContext="{Binding SprintOverviewViewModel}"
+                            Margin="0 20 0 0" />
+                    </TabItem>
+
+                    <TabItem Header="Calendar">
+                        <sprintCalendar:SprintCalendarView
+                            DataContext="{Binding SprintCalendarViewModel}"
+                            Margin="0 20 0 0" />
+                    </TabItem>
+
+                    <TabItem Header="Sprint Members">
+                        <sprintMembers:SprintMembersView
+                            DataContext="{Binding SprintMembersViewModel}"
+                            Margin="0 20 0 0" />
+                    </TabItem>
+
+                </TabControl>
+
+            </DockPanel>
+
+        </customControls:MissingContentPanel>
+
     </Grid>
 
 </UserControl>

@@ -19,63 +19,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles">
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/GenericIconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type styles:StartIcon}">
+    <Style
+        x:Key="StartIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource GenericIconStyle}">
+
         <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="64" />
-        <Setter Property="Height" Value="64" />
-        <Setter Property="IsTabStop" Value="False" />
-
-        <Setter Property="Template">
+        <Setter Property="Geometry">
             <Setter.Value>
-                <ControlTemplate>
-
-                    <Viewbox
-                        Stretch="Uniform"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        SnapsToDevicePixels="False">
-
-                        <Grid
-                            Background="{TemplateBinding Background}"
-                            Margin="{TemplateBinding Padding}">
-
-                            <Path
-                                Fill="{TemplateBinding Foreground}"
-                                Stroke="{TemplateBinding Foreground}">
-
-                                <Path.Data>
-                                    <CombinedGeometry GeometryCombineMode="Exclude">
-
-                                        <CombinedGeometry.Geometry1>
-                                            <EllipseGeometry RadiusX="16" RadiusY="16" Center="16,16" />
-                                        </CombinedGeometry.Geometry1>
-
-                                        <CombinedGeometry.Geometry2>
-                                            <PathGeometry Figures="M 11 7.34 L 26 16 11 24.66 Z" />
-                                        </CombinedGeometry.Geometry2>
-
-                                    </CombinedGeometry>
-                                </Path.Data>
-                            </Path>
-
-                        </Grid>
-
-                    </Viewbox>
-
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource IconDisabledBrush}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
+                <Geometry>
+                    M 256 0 A 256 256 0 0 0 0 256 A 256 256 0 0 0 256 512 A 256 256 0 0 0 512 256 A 256 256 0 0 0 256 0 z M 256 106 A 150 150 0 0 1 406 256 A 150 150 0 0 1 256 406 A 150 150 0 0 1 106 256 A 150 150 0 0 1 256 106 z
+                </Geometry>
+                <!--<Geometry>
+                    M 127.99994 0 C 57.48537 0 5.0132687e-14 57.48537 0 127.99994 C 0 198.51451 57.48537 255.99988 127.99994 255.99988 C 198.51451 255.99988 255.99988 198.51451 255.99988 127.99994 C 255.99988 57.48537 198.51451 5.0132687e-14 127.99994 0 z M 101.29511 69.241768 C 101.8307 69.239792 102.37228 69.267607 102.91827 69.326518 C 104.98058 69.549044 106.97463 70.214749 108.77062 71.279887 L 145.46709 93.050651 L 182.16407 114.8209 C 192.02769 120.67448 192.02769 135.30421 182.16407 141.15779 L 145.46709 162.92804 L 108.77062 184.69932 C 98.905491 190.54991 86.575723 183.23485 86.574044 171.53062 L 86.574044 127.9896 L 86.574044 84.448075 C 86.575213 75.986299 93.261298 69.271413 101.29511 69.241768 z
+                </Geometry>-->
             </Setter.Value>
         </Setter>
 

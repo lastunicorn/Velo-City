@@ -17,22 +17,67 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprint;
+using DustInTheWind.VeloCity.Wpf.Application;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
+using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
 {
-    public class SprintMembersViewModel
+    public class SprintMembersViewModel : ViewModelBase
     {
-        public List<SprintMemberOverviewViewModel> SprintMembersOverview { get; }
+        private readonly IMediator mediator;
+        private List<SprintMemberOverviewViewModel> sprintMembersOverview;
 
-        public SprintMembersViewModel(PresentSprintResponse response)
+        public List<SprintMemberOverviewViewModel> SprintMembersOverview
         {
-            if (response == null) throw new ArgumentNullException(nameof(response));
+            get => sprintMembersOverview;
+            set
+            {
+                sprintMembersOverview = value;
+                OnPropertyChanged();
+            }
+        }
 
-            SprintMembersOverview = CreateSprintMemberOverviewItems(response.SprintMembers);
-            CreateChartBars();
+        public SprintMembersViewModel(IMediator mediator, EventBus eventBus)
+        {
+            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+        }
+
+        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintMembers();
+        }
+
+        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintMembers();
+        }
+
+        private async Task RetrieveSprintMembers()
+        {
+            PresentSprintMembersRequest request = new();
+
+            PresentSprintMembersResponse response = await mediator.Send(request);
+
+            DisplayResponse(response);
+        }
+
+        private void DisplayResponse(PresentSprintMembersResponse response)
+        {
+            List<SprintMemberOverviewViewModel> sprintMembersOverview = CreateSprintMemberOverviewItems(response.SprintMembers);
+            CreateChartBars(sprintMembersOverview);
+
+            SprintMembersOverview = sprintMembersOverview;
         }
 
         private static List<SprintMemberOverviewViewModel> CreateSprintMemberOverviewItems(IEnumerable<SprintMember> sprintMembers)
@@ -42,14 +87,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers
                 .ToList();
         }
 
-        private void CreateChartBars()
+        private static void CreateChartBars(IEnumerable<SprintMemberOverviewViewModel> sprintMembersOverview)
         {
             Chart chart = new()
             {
                 ActualSize = 100
             };
 
-            IEnumerable<ChartBar> chartBars = SprintMembersOverview
+            IEnumerable<ChartBar> chartBars = sprintMembersOverview
                 .Select(x =>
                 {
                     ChartBar chartBar = new()

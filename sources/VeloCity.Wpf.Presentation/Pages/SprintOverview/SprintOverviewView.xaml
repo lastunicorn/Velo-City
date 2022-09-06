@@ -23,9 +23,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:styles="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview"
-    xmlns:controls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Controls"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -38,14 +38,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/PanelWithTitleStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/LabeledContentStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation;component/Themes/SprintStateControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
         </ResourceDictionary>
     </UserControl.Resources>
 
     <DockPanel>
 
-        <styles:NotesBlock
+        <customControls:NotesBlock
             DockPanel.Dock="Bottom"
             ItemsSource="{Binding Notes}"
             Margin="0 20 0 0" />
@@ -57,12 +61,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Grid.IsSharedSizeScope="True">
 
                 <StackPanel.Resources>
-                    <Style TargetType="{x:Type styles:PanelWithTitle}" BasedOn="{StaticResource {x:Type styles:PanelWithTitle}}">
+                    <Style TargetType="{x:Type customControls:PanelWithTitle}" BasedOn="{StaticResource {x:Type customControls:PanelWithTitle}}">
                         <Setter Property="Margin" Value="0 25 0 0" />
                     </Style>
                 </StackPanel.Resources>
 
-                <styles:PanelWithTitle
+                <customControls:PanelWithTitle
                     Title="Identity"
                     Margin="0">
 
@@ -70,19 +74,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
 
-                        <styles:LabeledContent Label="Time Interval">
+                        <customControls:LabeledContent Label="Time Interval">
                             <TextBlock Text="{Binding TimeInterval}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
-                        <styles:LabeledContent Label="State">
-                            <controls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
-                        </styles:LabeledContent>
+                        <customControls:LabeledContent Label="State">
+                            <customControls:SprintStateControl
+                                Value="{Binding SprintState, Mode=OneWay}" />
+                        </customControls:LabeledContent>
 
                     </StackPanel>
 
-                </styles:PanelWithTitle>
+                </customControls:PanelWithTitle>
 
-                <styles:PanelWithTitle
+                <customControls:PanelWithTitle
                     Title="Goal"
                     Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}">
 
@@ -90,76 +95,77 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         Text="{Binding SprintGoal}"
                         TextWrapping="Wrap"
                         HorizontalAlignment="Left"
-                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}" />
+                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
+                        Margin="0 0 0 8" />
 
-                </styles:PanelWithTitle>
+                </customControls:PanelWithTitle>
 
-                <styles:PanelWithTitle Title="Size">
+                <customControls:PanelWithTitle Title="Size">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
 
-                        <styles:LabeledContent Label="Work Days">
+                        <customControls:LabeledContent Label="Work Days">
                             <TextBlock Text="{Binding WorkDays, StringFormat={}{0} days}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
-                        <styles:LabeledContent Label="Total Work Hours">
+                        <customControls:LabeledContent Label="Total Work Hours">
                             <TextBlock Text="{Binding TotalWorkHours}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
                     </StackPanel>
 
-                </styles:PanelWithTitle>
+                </customControls:PanelWithTitle>
 
-                <styles:PanelWithTitle Title="Before Starting">
+                <customControls:PanelWithTitle Title="Before Starting">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
 
-                        <styles:LabeledContent Label="Estimated Story Points">
+                        <customControls:LabeledContent Label="Estimated Story Points">
                             <TextBlock Text="{Binding EstimatedStoryPoints, StringFormat=standard}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
-                        <styles:LabeledContent
+                        <customControls:LabeledContent
                             Label="Estimated Story Points (*)"
-                            Visibility="{Binding EstimatedStoryPointsWithVelocityPenalties, Converter={StaticResource NullToVisibilityConverter}}">
+                            Visibility="{Binding EstimatedStoryPointsWithVelocityPenaltiesVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                             <TextBlock Text="{Binding EstimatedStoryPointsWithVelocityPenalties, StringFormat=standard}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
-                        <styles:LabeledContent Label="Estimated Velocity">
+                        <customControls:LabeledContent Label="Estimated Velocity">
                             <TextBlock Text="{Binding EstimatedVelocity, StringFormat=standard}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
-                        <styles:LabeledContent Label="Commitment Story Points">
+                        <customControls:LabeledContent Label="Commitment Story Points">
                             <TextBlock Text="{Binding CommitmentStoryPoints, StringFormat=standard}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
                     </StackPanel>
 
-                </styles:PanelWithTitle>
+                </customControls:PanelWithTitle>
 
-                <styles:PanelWithTitle Title="After Close">
+                <customControls:PanelWithTitle Title="After Close">
 
                     <StackPanel
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
 
-                        <styles:LabeledContent Label="Actual Story Points">
+                        <customControls:LabeledContent Label="Actual Story Points">
                             <TextBlock Text="{Binding ActualStoryPoints, StringFormat=standard}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
-                        <styles:LabeledContent Label="Actual Velocity">
+                        <customControls:LabeledContent Label="Actual Velocity">
                             <TextBlock Text="{Binding ActualVelocity, StringFormat=standard}" />
-                        </styles:LabeledContent>
+                        </customControls:LabeledContent>
 
                     </StackPanel>
 
-                </styles:PanelWithTitle>
+                </customControls:PanelWithTitle>
 
-                <styles:PanelWithTitle
+                <customControls:PanelWithTitle
                     Title="Comments"
                     Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}">
 
@@ -169,7 +175,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         HorizontalAlignment="Left"
                         MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}" />
 
-                </styles:PanelWithTitle>
+                </customControls:PanelWithTitle>
 
             </StackPanel>
         </ScrollViewer>

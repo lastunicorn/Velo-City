@@ -40,7 +40,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
             if (value is string stringValue)
             {
                 if (string.IsNullOrEmpty(stringValue))
-                    return StoryPoints.Null;
+                    return StoryPoints.Empty;
 
                 floatValue = float.Parse(stringValue);
                 return (StoryPoints)floatValue;

@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <Product
         Id="*"
-        Name="Velo City"
+        Name="VeloCity"
         Language="1033"
         Version="$(var.Version)"
         Manufacturer="Dust in the Wind"
@@ -41,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Feature
             Id="ProductFeature"
-            Title="Velo City"
+            Title="VeloCity"
             Level="1">
 
             <ComponentGroupRef Id="ApplicationFilesCli" />

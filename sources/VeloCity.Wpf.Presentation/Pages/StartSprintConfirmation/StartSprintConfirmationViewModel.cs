@@ -24,6 +24,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
         private string title;
         private string sprintName;
         private int sprintNumber;
+        private StoryPoints estimatedStoryPoints;
         private StoryPoints commitmentStoryPoints;
         private string sprintGoal;
 
@@ -56,6 +57,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
                 sprintNumber = value;
 
                 RefreshTitle();
+            }
+        }
+
+        public StoryPoints EstimatedStoryPoints
+        {
+            get => estimatedStoryPoints;
+            set
+            {
+                estimatedStoryPoints = value;
+                OnPropertyChanged();
             }
         }
 

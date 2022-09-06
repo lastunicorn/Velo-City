@@ -29,5 +29,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
 
             DataContext = viewModel;
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

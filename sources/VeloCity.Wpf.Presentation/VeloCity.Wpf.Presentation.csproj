@@ -26,42 +26,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Images\sprints.png" />
-      <None Remove="Images\team-members.png" />
+        <None Remove="Images\sprints.png" />
+        <None Remove="Images\team-members.png" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MediatR" Version="10.0.1" />
+        <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\VeloCity.ChartTools\VeloCity.ChartTools.csproj" />
-      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.ChartTools\VeloCity.ChartTools.csproj" />
+        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj" />
+        <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Images\sprints.png" />
+        <Resource Include="Images\sprints.png" />
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Pages\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml.cs">
-        <SubType>Code</SubType>
-      </Compile>
+        <Compile Update="Pages\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml.cs">
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>
-        <Page Update="Generic.xaml">
-          <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-        </Page>
         <Page Update="Pages\Main\MainWindow.xaml">
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
         <Page Update="Pages\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml">
-          <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-          <SubType>Designer</SubType>
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+            <SubType>Designer</SubType>
         </Page>
     </ItemGroup>
 

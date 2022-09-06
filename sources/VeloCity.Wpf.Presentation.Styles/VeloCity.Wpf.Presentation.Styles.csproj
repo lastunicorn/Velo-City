@@ -26,6 +26,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Page Update="Themes\CustomControls\RefreshIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
@@ -38,12 +42,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\StopIconStyles.xaml">
+      <Page Update="Themes\CustomControls\SprintStateControlStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
       <Page Update="Themes\CustomControls\StartIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
+      <Page Update="Themes\CustomControls\HolidaysIconStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
       </Page>
       <Page Update="Themes\StandardControls\Buttons\ToolBarButtonStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

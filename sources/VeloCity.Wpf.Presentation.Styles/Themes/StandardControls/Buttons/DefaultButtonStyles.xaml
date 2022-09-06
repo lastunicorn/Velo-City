@@ -45,6 +45,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="Background" Value="{StaticResource DefaultButtonNormalBackgroundBrush}" />
         <Setter Property="Foreground" Value="{StaticResource DefaultButtonNormalForegroundBrush}" />
 
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type Control}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Control}">
+
+                                <Rectangle
+                                    x:Name="PART_FocusRectangle"
+                                    Margin="2"
+                                    RadiusX="2"
+                                    RadiusY="2"
+                                    Stroke="{StaticResource AccentBrush}"
+                                    StrokeThickness="1"
+                                    StrokeDashArray="2 2" />
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="PART_FocusRectangle" Property="Stroke" Value="Black" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
         <Style.Triggers>
 
             <Trigger Property="IsMouseOver" Value="True">

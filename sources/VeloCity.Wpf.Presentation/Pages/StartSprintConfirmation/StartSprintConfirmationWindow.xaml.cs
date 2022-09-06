@@ -14,38 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows;
-using System.Windows.Input;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
 {
     /// <summary>
     /// Interaction logic for StartSprintConfirmationWindow.xaml
     /// </summary>
-    public partial class StartSprintConfirmationWindow : Window
+    public partial class StartSprintConfirmationWindow : OkCancelWindow
     {
         public StartSprintConfirmationWindow()
         {
             InitializeComponent();
-            
-            SourceInitialized += (x, y) =>
-            {
-                this.HideMinimizeAndMaximizeButtons();
-            };
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            DialogResult = true;
-        }
-
-        private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                Window parentWindow = Window.GetWindow(this);
-                parentWindow?.DragMove();
-            }
         }
     }
 }

@@ -85,7 +85,7 @@ namespace DustInTheWind.VeloCity.Domain
 
             EstimatedStoryPointsWithVelocityPenalties = velocityPenaltiesExists
                 ? totalWorkHoursWithVelocityPenalties * EstimatedVelocity
-                : StoryPoints.Null;
+                : StoryPoints.Empty;
         }
 
         public Sprint GetReferenceSprint()

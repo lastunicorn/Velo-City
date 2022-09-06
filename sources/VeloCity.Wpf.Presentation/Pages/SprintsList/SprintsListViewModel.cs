@@ -24,7 +24,6 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
@@ -34,6 +33,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
         private readonly IMediator mediator;
         private List<SprintViewModel> sprints;
         private SprintViewModel selectedSprint;
+        private bool hasSprints;
 
         public List<SprintViewModel> Sprints
         {
@@ -61,16 +61,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
             }
         }
 
-        public StartSprintCommand StartSprintCommand { get; }
-
-        public CloseSprintCommand CloseSprintCommand { get; }
+        public bool HasSprints
+        {
+            get => hasSprints;
+            private set
+            {
+                hasSprints = value;
+                OnPropertyChanged();
+            }
+        }
 
         public SprintsListViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-
-            StartSprintCommand = new StartSprintCommand(mediator, eventBus);
-            CloseSprintCommand = new CloseSprintCommand(mediator, eventBus);
 
             eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
@@ -96,7 +99,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
             SprintViewModel sprintViewModel = sprints.FirstOrDefault(x => x.SprintId == ev.SprintId);
 
             if (sprintViewModel != null)
-                sprintViewModel.SprintState = ev.SprintState;
+                sprintViewModel.SprintState = ev.SprintState.ToPresentationModel();
 
             return Task.CompletedTask;
         }
@@ -115,6 +118,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
                 SelectedSprint = response.CurrentSprintId == null
                     ? null
                     : Sprints.FirstOrDefault(x => x.SprintId == response.CurrentSprintId.Value);
+
+                HasSprints = Sprints?.Count > 0;
             });
         }
 

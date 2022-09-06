@@ -22,7 +22,7 @@ using System.Windows.Data;
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
 {
     [Localizability(LocalizationCategory.NeverLocalize)]
-    internal class NullToVisibilityConverter : IValueConverter
+    public class NullToVisibilityConverter : IValueConverter
     {
         public bool Inverse { get; set; }
 

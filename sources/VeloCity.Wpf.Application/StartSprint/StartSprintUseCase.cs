@@ -18,6 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
@@ -29,13 +30,16 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
         private readonly ISprintStartDataProvider sprintStartDataProvider;
+        private readonly IConfig config;
 
-        public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus, ISprintStartDataProvider sprintStartDataProvider)
+        public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
+            ISprintStartDataProvider sprintStartDataProvider, IConfig config)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
             this.sprintStartDataProvider = sprintStartDataProvider ?? throw new ArgumentNullException(nameof(sprintStartDataProvider));
+            this.config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
         public async Task<Unit> Handle(StartSprintRequest request, CancellationToken cancellationToken)
@@ -45,7 +49,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             ValidateSprintState(selectedSprint);
             ValidateNoSprintIsInProgress(selectedSprint);
             ValidateSprintIsNextInLine(selectedSprint);
-            
+
             StartSprintConfirmationResponse sprintStartConfirmationResponse = RequestUserConfirmation(selectedSprint);
 
             if (sprintStartConfirmationResponse.IsAccepted)
@@ -108,11 +112,18 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
 
         private StartSprintConfirmationResponse RequestUserConfirmation(Sprint selectedSprint)
         {
+            SprintAnalysis sprintAnalysis = new(unitOfWork)
+            {
+                AnalysisLookBack = config.AnalysisLookBack
+            };
+            sprintAnalysis.Analyze(selectedSprint);
+
             StartSprintConfirmationRequest startSprintConfirmationRequest = new()
             {
                 SprintName = selectedSprint.Name,
                 SprintNumber = selectedSprint.Number,
-                EstimatedStoryPoints = 0,
+                EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
+                CommitmentStoryPoints = StoryPoints.Empty,
                 SprintGoal = selectedSprint.Goal
             };
 
@@ -135,8 +146,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
                 SprintId = sprint.Id,
                 SprintState = sprint.State,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                ActualStoryPoints = sprint.ActualStoryPoints,
                 SprintGoal = sprint.Goal,
+                ActualStoryPoints = sprint.ActualStoryPoints,
+                ActualVelocity = sprint.Velocity,
                 Comments = sprint.Comments
             };
 

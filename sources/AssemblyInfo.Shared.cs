@@ -21,7 +21,7 @@ using System.Reflection;
 // associated with an assembly.
 
 [assembly: AssemblyCompany("Dust in the Wind")]
-[assembly: AssemblyProduct("Velo City")]
+[assembly: AssemblyProduct("VeloCity")]
 [assembly: AssemblyCopyright("Copyright © Dust in the Wind 2022")]
 [assembly: AssemblyTrademark("")]
 
