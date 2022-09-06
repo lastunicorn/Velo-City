@@ -247,7 +247,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 </TabItem>
 
-                <TabItem>
+                <!--<TabItem>
 
                     <TabItem.Header>
 
@@ -271,7 +271,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <holidays:HolidaysPage
                         DataContext="{Binding TeamPageViewModel}" />
 
-                </TabItem>
+                </TabItem>-->
 
             </TabControl>
 
