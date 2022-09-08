@@ -45,7 +45,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <!-- Special Colors -->
 
-    <Color x:Key="SuccessColor">LimeGreen</Color>
+    <!--<Color x:Key="SuccessColor">LimeGreen</Color>-->
+    <Color x:Key="SuccessColor">#6BBA45</Color>
     <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
 
     <Color x:Key="WarningColor">#F0AD4E</Color>
