@@ -20,8 +20,11 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Charts;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team;
+using LiveCharts;
+using LiveCharts.Wpf;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
@@ -56,6 +59,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
         public SprintsPageViewModel SprintsPageViewModel { get; }
 
         public TeamPageViewModel TeamPageViewModel { get; }
+        
+        public ChartsViewModel ChartsViewModel { get; }
 
         public RefreshCommand RefreshCommand { get; }
 
@@ -65,6 +70,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
 
             SprintsPageViewModel = new SprintsPageViewModel(mediator, eventBus);
             TeamPageViewModel = new TeamPageViewModel(mediator);
+            ChartsViewModel = new ChartsViewModel(mediator, eventBus);
 
             RefreshCommand = new RefreshCommand(mediator);
 
@@ -74,7 +80,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
         private async Task Initialize()
         {
             PresentMainRequest request = new();
-
             PresentMainResponse response = await mediator.Send(request);
 
             DatabaseConnectionString = response.DatabaseConnectionString;
