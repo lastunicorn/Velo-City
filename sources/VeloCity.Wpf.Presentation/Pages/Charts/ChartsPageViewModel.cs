@@ -28,7 +28,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Charts
 {
-    public class ChartsViewModel : ViewModelBase
+    public class ChartsPageViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
         private ChartValues<float> values;
@@ -73,17 +73,17 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Charts
 
         public Func<double, string> AxisYLabelFormatter { get; } = x => ((Velocity)x).ToString("standard");
 
-        public ChartsViewModel(IMediator mediator, EventBus eventBus)
+        public ChartsPageViewModel(IMediator mediator, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
 
             _ = Initialize();
         }
 
-        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
         {
             await Initialize();
         }

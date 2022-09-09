@@ -21,6 +21,8 @@ namespace DustInTheWind.VeloCity.Domain.DataAccess
 {
     public interface ITeamMemberRepository
     {
+        TeamMember Get(int id);
+
         IEnumerable<TeamMember> GetAll();
 
         IEnumerable<TeamMember> GetByDate(DateTime date);

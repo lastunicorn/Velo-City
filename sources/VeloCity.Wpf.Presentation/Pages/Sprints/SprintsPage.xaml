@@ -141,22 +141,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         </customControls:IconButton>
 
-                        <customControls:IconButton
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Command="{Binding RefreshCommand}"
-                            Content="Reload"
-                            Visibility="Collapsed">
-
-                            <customControls:IconButton.Icon>
-                                <customControls:GenericIcon
-                                    Style="{StaticResource RefreshIconStyle}"
-                                    Width="16"
-                                    Height="16" />
-                            </customControls:IconButton.Icon>
-
-                        </customControls:IconButton>
-
                     </StackPanel>
 
                     <TextBlock

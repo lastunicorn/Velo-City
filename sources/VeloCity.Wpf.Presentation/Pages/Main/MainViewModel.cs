@@ -23,8 +23,6 @@ using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Charts;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team;
-using LiveCharts;
-using LiveCharts.Wpf;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
@@ -32,7 +30,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
     public class MainViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
+        private readonly EventBus eventBus;
         private string databaseConnectionString;
+        private SprintsPageViewModel sprintsPageViewModel;
+        private TeamPageViewModel teamPageViewModel;
+        private ChartsPageViewModel chartsPageViewModel;
+        private RefreshCommand refreshCommand;
 
         public string Title
         {
@@ -56,23 +59,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
             }
         }
 
-        public SprintsPageViewModel SprintsPageViewModel { get; }
+        public SprintsPageViewModel SprintsPageViewModel => sprintsPageViewModel ??= new SprintsPageViewModel(mediator, eventBus);
 
-        public TeamPageViewModel TeamPageViewModel { get; }
-        
-        public ChartsViewModel ChartsViewModel { get; }
+        public TeamPageViewModel TeamPageViewModel => teamPageViewModel ??= new TeamPageViewModel(mediator, eventBus);
 
-        public RefreshCommand RefreshCommand { get; }
+        public ChartsPageViewModel ChartsPageViewModel => chartsPageViewModel ??= new ChartsPageViewModel(mediator, eventBus);
+
+        public RefreshCommand RefreshCommand => refreshCommand ??= new RefreshCommand(mediator);
 
         public MainViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-
-            SprintsPageViewModel = new SprintsPageViewModel(mediator, eventBus);
-            TeamPageViewModel = new TeamPageViewModel(mediator);
-            ChartsViewModel = new ChartsViewModel(mediator, eventBus);
-
-            RefreshCommand = new RefreshCommand(mediator);
+            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
             _ = Initialize();
         }

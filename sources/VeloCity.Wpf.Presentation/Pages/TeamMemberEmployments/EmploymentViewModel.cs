@@ -15,22 +15,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberEmployments
 {
-    public class TeamMemberInfo
+    public class EmploymentViewModel
     {
-        public int Id { get; }
-        
-        public string Name { get; }
+        public DateInterval TimeInterval { get; }
 
-        public bool IsEmployed { get; }
+        public int HoursPerDay { get; }
 
-        public TeamMemberInfo(TeamMember teamMember)
+        public EmploymentWeekViewModel EmploymentWeek { get; }
+
+        public string Country { get; }
+
+        public EmploymentViewModel(EmploymentInfo employmentInfo)
         {
-            Id = teamMember.Id;
-            Name = teamMember.Name;
-            IsEmployed = teamMember.IsEmployed;
+            TimeInterval = employmentInfo.TimeInterval;
+            HoursPerDay = employmentInfo.HoursPerDay;
+            EmploymentWeek = new EmploymentWeekViewModel(employmentInfo.EmploymentWeek);
+            Country = employmentInfo.Country;
         }
     }
 }

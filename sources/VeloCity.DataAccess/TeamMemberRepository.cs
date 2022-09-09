@@ -31,6 +31,12 @@ namespace DustInTheWind.VeloCity.DataAccess
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public TeamMember Get(int id)
+        {
+            return dbContext.TeamMembers
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         public IEnumerable<TeamMember> GetAll()
         {
             return dbContext.TeamMembers;

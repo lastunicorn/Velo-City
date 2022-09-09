@@ -18,7 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberEmployments;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
@@ -26,9 +28,21 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
     public class TeamPageViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
+        private string title;
         private List<TeamMemberViewModel> teamMembers;
         private TeamMemberViewModel selectedTeamMember;
         private bool hasTeamMembers;
+        private bool isTeamMemberSelected;
+
+        public string Title
+        {
+            get => title;
+            set
+            {
+                title = value;
+                OnPropertyChanged();
+            }
+        }
 
         public List<TeamMemberViewModel> TeamMembers
         {
@@ -47,6 +61,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
             {
                 selectedTeamMember = value;
                 OnPropertyChanged();
+
+                UpdateTitle();
+                IsTeamMemberSelected = value != null;
+                EmploymentsViewModel.DisplayTeamMember(value?.TeamMemberInfo?.Id);
             }
         }
 
@@ -60,9 +78,24 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
             }
         }
 
-        public TeamPageViewModel(IMediator mediator)
+        public bool IsTeamMemberSelected
         {
+            get => isTeamMemberSelected;
+            set
+            {
+                isTeamMemberSelected = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public EmploymentsViewModel EmploymentsViewModel { get; }
+
+        public TeamPageViewModel(IMediator mediator, EventBus eventBus)
+        {
+            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            EmploymentsViewModel = new EmploymentsViewModel(mediator, eventBus);
 
             _ = Initialize();
         }
@@ -78,6 +111,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
                 .ToList();
 
             HasTeamMembers = TeamMembers?.Count > 0;
+        }
+
+        private void UpdateTitle()
+        {
+            Title = SelectedTeamMember?.TeamMemberInfo?.Name;
         }
     }
 }
