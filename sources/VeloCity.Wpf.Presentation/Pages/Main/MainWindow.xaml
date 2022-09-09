@@ -293,7 +293,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </TabItem.Header>
 
                     <charts:ChartsPage
-                        DataContext="{Binding ChartsViewModel}" />
+                        DataContext="{Binding ChartsPageViewModel}" />
 
                 </TabItem>
 

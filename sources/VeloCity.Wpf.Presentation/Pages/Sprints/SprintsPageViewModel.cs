@@ -61,9 +61,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
         public SprintCalendarViewModel SprintCalendarViewModel { get; }
 
         public SprintMembersViewModel SprintMembersViewModel { get; }
-
-        public RefreshCommand RefreshCommand { get; }
-
+        
         public StartSprintCommand StartSprintCommand { get; }
 
         public CloseSprintCommand CloseSprintCommand { get; }
@@ -79,8 +77,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             SprintOverviewViewModel = new SprintOverviewViewModel(mediator, eventBus);
             SprintCalendarViewModel = new SprintCalendarViewModel(mediator, eventBus);
             SprintMembersViewModel = new SprintMembersViewModel(mediator, eventBus);
-
-            RefreshCommand = new RefreshCommand(mediator);
+            
             StartSprintCommand = new StartSprintCommand(mediator, eventBus);
             CloseSprintCommand = new CloseSprintCommand(mediator, eventBus);
 

@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    d:DataContext="{d:DesignInstance charts:ChartsViewModel}">
+    d:DataContext="{d:DesignInstance charts:ChartsPageViewModel}">
 
     <UserControl.Resources>
         <ResourceDictionary>
