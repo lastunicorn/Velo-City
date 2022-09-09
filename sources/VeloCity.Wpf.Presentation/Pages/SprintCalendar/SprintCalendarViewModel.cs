@@ -60,11 +60,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
         }
 
-        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
         {
             await RetrieveSprintCalendar();
         }

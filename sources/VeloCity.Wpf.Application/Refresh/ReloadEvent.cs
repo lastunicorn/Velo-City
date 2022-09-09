@@ -14,23 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
-
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Wpf.Application.Refresh
 {
-    public class TeamMemberInfo
+    public class ReloadEvent
     {
-        public int Id { get; }
-        
-        public string Name { get; }
-
-        public bool IsEmployed { get; }
-
-        public TeamMemberInfo(TeamMember teamMember)
-        {
-            Id = teamMember.Id;
-            Name = teamMember.Name;
-            IsEmployed = teamMember.IsEmployed;
-        }
     }
 }

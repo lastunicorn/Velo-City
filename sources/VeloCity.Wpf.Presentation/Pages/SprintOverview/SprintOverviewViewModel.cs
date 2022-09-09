@@ -193,12 +193,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintOverview
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
         }
 
-        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
         {
             await RetrieveSprintOverview();
         }

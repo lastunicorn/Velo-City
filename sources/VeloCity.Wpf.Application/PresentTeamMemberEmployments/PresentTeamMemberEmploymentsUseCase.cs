@@ -15,38 +15,39 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.Refresh
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
 {
-    public class RefreshUseCase : IRequestHandler<RefreshRequest, Unit>
+    internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>
     {
-        private readonly EventBus eventBus;
         private readonly IUnitOfWork unitOfWork;
 
-        public RefreshUseCase(IUnitOfWork unitOfWork, EventBus eventBus)
+        public PresentTeamMemberEmploymentsUseCase(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
-        public async Task<Unit> Handle(RefreshRequest request, CancellationToken cancellationToken)
+        public Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
         {
-            try
-            {
-                unitOfWork.InvalidateCash();
-            }
-            catch (Exception ex)
-            {
-            }
+            TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(request.TeamMemberId);
 
-            ReloadEvent reloadEvent = new();
-            await eventBus.Publish(reloadEvent, cancellationToken);
+            if (teamMember == null)
+                throw new Exception($"Team member with id {request.TeamMemberId} does not exist.");
 
-            return Unit.Value;
+            PresentTeamMemberEmploymentsResponse response = new()
+            {
+                Employments = teamMember.Employments
+                    .Select(x => new EmploymentInfo(x))
+                    .ToList()
+            };
+
+            return Task.FromResult(response);
         }
     }
 }

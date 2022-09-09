@@ -75,14 +75,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
 
             _ = Initialize();
         }
 
-        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
         {
             await Initialize();
         }

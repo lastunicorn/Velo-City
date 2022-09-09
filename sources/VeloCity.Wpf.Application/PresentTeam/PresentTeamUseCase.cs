@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,11 +36,29 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
 
         public Task<PresentTeamResponse> Handle(PresentTeamRequest request, CancellationToken cancellationToken)
         {
+            IEnumerable<TeamMember> allTeamMembers = unitOfWork.TeamMemberRepository.GetAll();
+
+            List<TeamMember> employedTeamMembers = new();
+            List<TeamMember> unemployedTeamMembers = new();
+
+            foreach (TeamMember teamMember in allTeamMembers)
+            {
+                if (teamMember.IsEmployed)
+                    employedTeamMembers.Add(teamMember);
+                else
+                    unemployedTeamMembers.Add(teamMember);
+            }
+
+            IEnumerable<TeamMember> orderedEmployedTeamMembers = employedTeamMembers
+                .OrderByEmployment();
+
+            IEnumerable<TeamMember> orderedUnemployedTeamMembers = unemployedTeamMembers
+                .OrderByDescending(x => x.Employments.GetLastEmployment().EndDate);
+
             PresentTeamResponse response = new()
             {
-                TeamMembers = unitOfWork.TeamMemberRepository.GetAll()
-                    .OrderByEmployment()
-                    .OrderByDescending(x => x.IsEmployed)
+                TeamMembers = orderedEmployedTeamMembers
+                    .Concat(orderedUnemployedTeamMembers)
                     .Select(x => new TeamMemberInfo(x))
                     .ToList()
             };

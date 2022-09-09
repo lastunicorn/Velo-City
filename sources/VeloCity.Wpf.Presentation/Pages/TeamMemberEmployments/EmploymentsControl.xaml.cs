@@ -14,9 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application.Refresh
+using System.Windows.Controls;
+
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberEmployments
 {
-    public class RefreshEvent
+    /// <summary>
+    /// Interaction logic for EmploymentsControl.xaml
+    /// </summary>
+    public partial class EmploymentsControl : UserControl
     {
+        public EmploymentsControl()
+        {
+            InitializeComponent();
+        }
     }
 }

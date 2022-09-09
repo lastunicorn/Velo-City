@@ -81,11 +81,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             StartSprintCommand = new StartSprintCommand(mediator, eventBus);
             CloseSprintCommand = new CloseSprintCommand(mediator, eventBus);
 
-            eventBus.Subscribe<RefreshEvent>(HandleRefreshEvent);
+            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
         }
 
-        private async Task HandleRefreshEvent(RefreshEvent ev, CancellationToken cancellationToken)
+        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
         {
             await RetrieveSprintDetails();
         }

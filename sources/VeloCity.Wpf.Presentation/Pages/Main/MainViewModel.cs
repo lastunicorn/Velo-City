@@ -61,7 +61,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main
 
         public SprintsPageViewModel SprintsPageViewModel => sprintsPageViewModel ??= new SprintsPageViewModel(mediator, eventBus);
 
-        public TeamPageViewModel TeamPageViewModel => teamPageViewModel ??= new TeamPageViewModel(mediator);
+        public TeamPageViewModel TeamPageViewModel => teamPageViewModel ??= new TeamPageViewModel(mediator, eventBus);
 
         public ChartsPageViewModel ChartsPageViewModel => chartsPageViewModel ??= new ChartsPageViewModel(mediator, eventBus);
 

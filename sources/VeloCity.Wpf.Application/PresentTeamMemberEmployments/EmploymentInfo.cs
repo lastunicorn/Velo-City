@@ -16,21 +16,24 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
 {
-    public class TeamMemberInfo
+    public class EmploymentInfo
     {
-        public int Id { get; }
-        
-        public string Name { get; }
+        public DateInterval TimeInterval { get; }
 
-        public bool IsEmployed { get; }
+        public int HoursPerDay { get; }
 
-        public TeamMemberInfo(TeamMember teamMember)
+        public EmploymentWeek EmploymentWeek { get; }
+
+        public string Country { get; }
+
+        public EmploymentInfo(Employment employment)
         {
-            Id = teamMember.Id;
-            Name = teamMember.Name;
-            IsEmployed = teamMember.IsEmployed;
+            TimeInterval = employment.TimeInterval;
+            HoursPerDay = employment.HoursPerDay;
+            EmploymentWeek = employment.EmploymentWeek;
+            Country = employment.Country;
         }
     }
 }

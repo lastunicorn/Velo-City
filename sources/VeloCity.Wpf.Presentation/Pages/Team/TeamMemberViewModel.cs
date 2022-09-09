@@ -21,18 +21,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
 {
     public class TeamMemberViewModel
     {
-        private readonly TeamMemberInfo teamMemberInfo;
+        public TeamMemberInfo TeamMemberInfo { get; }
 
-        public bool IsEmployed => teamMemberInfo.IsEmployed;
+        public bool IsEmployed => TeamMemberInfo.IsEmployed;
 
         public TeamMemberViewModel(TeamMemberInfo teamMemberInfo)
         {
-            this.teamMemberInfo = teamMemberInfo ?? throw new ArgumentNullException(nameof(teamMemberInfo));
+            TeamMemberInfo = teamMemberInfo ?? throw new ArgumentNullException(nameof(teamMemberInfo));
         }
 
         public override string ToString()
         {
-            return teamMemberInfo.Name;
+            return TeamMemberInfo.Name;
         }
     }
 }

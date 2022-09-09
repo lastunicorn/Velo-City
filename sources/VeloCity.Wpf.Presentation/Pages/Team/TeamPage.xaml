@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:team="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:teamMemberEmployments="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberEmployments"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -115,7 +116,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <customControls:MissingContentPanel
             Grid.Column="2"
-            IsContentVisible="False">
+            Margin="30"
+            IsContentVisible="{Binding IsTeamMemberSelected}">
 
             <customControls:MissingContentPanel.MissingContent>
 
@@ -133,13 +135,65 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="20"
-                        Text="Under construction"
+                        Text="Team Members"
                         IsEnabled="False"
                         Margin="0 20 0 0" />
 
                 </StackPanel>
 
             </customControls:MissingContentPanel.MissingContent>
+
+            <DockPanel>
+
+                <DockPanel
+                    DockPanel.Dock="Top"
+                    Margin="0 0 0 30">
+
+                    <TextBlock
+                        Text="{Binding Title}"
+                        FontSize="32"
+                        Foreground="{StaticResource FontPrimaryBrush}"
+                        VerticalAlignment="Center"
+                        TextTrimming="CharacterEllipsis"
+                        Margin="0 10" />
+
+                </DockPanel>
+
+                <TabControl
+                    BorderThickness="0"
+                    Background="Transparent">
+
+                    <TabItem Header="Employments">
+                        <teamMemberEmployments:EmploymentsControl
+                            DataContext="{Binding EmploymentsViewModel}"
+                            Margin="0 20 0 0" />
+                    </TabItem>
+
+                    <TabItem Header="Vacations">
+                        <StackPanel
+                            Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+
+                            <customControls:GenericIcon
+                                Style="{StaticResource TeamIconStyle}"
+                                Width="120"
+                                Height="120" />
+
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="20"
+                                Text="Team Members"
+                                IsEnabled="False"
+                                Margin="0 20 0 0" />
+
+                        </StackPanel>
+                    </TabItem>
+
+                </TabControl>
+
+            </DockPanel>
 
         </customControls:MissingContentPanel>
 
