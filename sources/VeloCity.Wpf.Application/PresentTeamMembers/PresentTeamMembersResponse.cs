@@ -15,11 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers
 {
-    public class PresentTeamResponse
+    public class PresentTeamMembersResponse
     {
         public List<TeamMemberInfo> TeamMembers { get; set; }
+        
+        public int? CurrentTeamMemberId { get; set; }
     }
 }

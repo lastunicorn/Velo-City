@@ -18,7 +18,6 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
@@ -27,13 +26,11 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
     internal class PresentSprintDetailsUseCase : IRequestHandler<PresentSprintDetailRequest, PresentSprintDetailResponse>
     {
         private readonly IUnitOfWork unitOfWork;
-        private readonly IConfig config;
         private readonly ApplicationState applicationState;
 
-        public PresentSprintDetailsUseCase(IUnitOfWork unitOfWork, IConfig config, ApplicationState applicationState)
+        public PresentSprintDetailsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 

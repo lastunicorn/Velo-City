@@ -19,7 +19,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Behaviors
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Behaviors
 {
     public static class InputBindingsManager
     {

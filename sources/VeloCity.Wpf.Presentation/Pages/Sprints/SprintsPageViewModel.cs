@@ -17,10 +17,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers;
@@ -33,15 +33,15 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
     public class SprintsPageViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private string detailsTitle;
+        private string title;
         private bool isSprintSelected;
 
-        public string DetailsTitle
+        public string Title
         {
-            get => detailsTitle;
+            get => title;
             set
             {
-                detailsTitle = value;
+                title = value;
                 OnPropertyChanged();
             }
         }
@@ -61,7 +61,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
         public SprintCalendarViewModel SprintCalendarViewModel { get; }
 
         public SprintMembersViewModel SprintMembersViewModel { get; }
-        
+
         public StartSprintCommand StartSprintCommand { get; }
 
         public CloseSprintCommand CloseSprintCommand { get; }
@@ -77,7 +77,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             SprintOverviewViewModel = new SprintOverviewViewModel(mediator, eventBus);
             SprintCalendarViewModel = new SprintCalendarViewModel(mediator, eventBus);
             SprintMembersViewModel = new SprintMembersViewModel(mediator, eventBus);
-            
+
             StartSprintCommand = new StartSprintCommand(mediator, eventBus);
             CloseSprintCommand = new CloseSprintCommand(mediator, eventBus);
 
@@ -100,11 +100,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints
             PresentSprintDetailRequest request = new();
             PresentSprintDetailResponse response = await mediator.Send(request);
 
-            DetailsTitle = BuildDetailsTitle(response);
+            Title = BuildTitle(response);
             IsSprintSelected = true;
         }
 
-        private static string BuildDetailsTitle(PresentSprintDetailResponse response)
+        private static string BuildTitle(PresentSprintDetailResponse response)
         {
             return response == null
                 ? null

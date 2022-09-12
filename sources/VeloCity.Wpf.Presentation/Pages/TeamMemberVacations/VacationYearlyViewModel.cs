@@ -15,28 +15,30 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
+using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberVacations
 {
-    public class TeamMemberViewModel
+    public class VacationYearlyViewModel : VacationViewModel
     {
-        public int TeamMemberId { get; }
+        public List<DateTime> Dates { get; set; }
 
-        private TeamMemberInfo TeamMemberInfo { get; }
+        public DateInterval DateInterval { get; set; }
 
-        public bool IsEmployed => TeamMemberInfo.IsEmployed;
+        public override DateTime? SignificantDate => DateInterval.StartDate;
 
-        public TeamMemberViewModel(TeamMemberInfo teamMemberInfo)
-        {
-            TeamMemberInfo = teamMemberInfo ?? throw new ArgumentNullException(nameof(teamMemberInfo));
+        public override DateTime? StartDate => DateInterval.StartDate;
 
-            TeamMemberId = teamMemberInfo.Id;
-        }
+        public override DateTime? EndDate => DateInterval.EndDate;
 
         public override string ToString()
         {
-            return TeamMemberInfo.Name;
+            string datesString = Dates == null || Dates.Count == 0
+                ? "<none>"
+                : string.Join(", ", Dates);
+
+            return $"Each {datesString} between [{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
         }
     }
 }

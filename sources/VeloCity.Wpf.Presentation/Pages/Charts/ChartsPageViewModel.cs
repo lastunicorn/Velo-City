@@ -23,6 +23,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using LiveCharts;
 using MediatR;
 

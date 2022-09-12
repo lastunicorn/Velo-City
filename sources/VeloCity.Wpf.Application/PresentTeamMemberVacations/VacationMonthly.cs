@@ -14,11 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
+using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
 {
-    public class PresentTeamMemberEmploymentsRequest : IRequest<PresentTeamMemberEmploymentsResponse>
+    public class VacationMonthlyInfo : VacationInfo
     {
+        public List<int> MonthDays { get; set; }
+
+        public DateInterval DateInterval { get; set; }
     }
 }

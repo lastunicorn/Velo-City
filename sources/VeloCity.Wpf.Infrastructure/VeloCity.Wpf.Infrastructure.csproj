@@ -20,23 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>DustInTheWind.VeloCity.Wpf.Application</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Wpf.Application</RootNamespace>
+        <AssemblyName>DustInTheWind.VeloCity.Wpf.Infrastructure</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Wpf.Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="PresentSprintMemberDetails\**" />
-      <EmbeddedResource Remove="PresentSprintMemberDetails\**" />
-      <None Remove="PresentSprintMemberDetails\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="MediatR" Version="10.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.Wpf.Infrastructure\VeloCity.Wpf.Infrastructure.csproj" />
+        <Compile Remove="PresentSprintMemberDetails\**" />
+        <EmbeddedResource Remove="PresentSprintMemberDetails\**" />
+        <None Remove="PresentSprintMemberDetails\**" />
     </ItemGroup>
 
 </Project>

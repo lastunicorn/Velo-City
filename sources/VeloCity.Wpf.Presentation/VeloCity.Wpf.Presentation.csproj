@@ -36,10 +36,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VeloCity.ChartTools\VeloCity.ChartTools.csproj" />
+        <ProjectReference Include="..\VeloCity.ChartTools\VeloCity.ChartTools.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj" />
+        <ProjectReference Include="..\VeloCity.Wpf.Infrastructure\VeloCity.Wpf.Infrastructure.csproj" />
+        <ProjectReference Include="..\VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
     </ItemGroup>
 

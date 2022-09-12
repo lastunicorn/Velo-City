@@ -16,9 +16,10 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember
 {
-    public class PresentTeamMemberEmploymentsRequest : IRequest<PresentTeamMemberEmploymentsResponse>
+    public class SetCurrentTeamMemberRequest : IRequest
     {
+        public int? TeamMemberId { get; set; }
     }
 }

@@ -144,7 +144,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </StackPanel>
 
                     <TextBlock
-                        Text="{Binding DetailsTitle}"
+                        Text="{Binding Title}"
                         FontSize="32"
                         Foreground="{StaticResource FontPrimaryBrush}"
                         VerticalAlignment="Center"

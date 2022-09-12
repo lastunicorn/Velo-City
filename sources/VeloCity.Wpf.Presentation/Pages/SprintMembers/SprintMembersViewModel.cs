@@ -25,6 +25,7 @@ using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintMembers

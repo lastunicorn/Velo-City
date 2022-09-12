@@ -21,20 +21,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers
 {
-    internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentTeamResponse>
+    internal class PresentTeamMembersUseCase : IRequestHandler<PresentTeamMembersRequest, PresentTeamMembersResponse>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly ApplicationState applicationState;
 
-        public PresentTeamUseCase(IUnitOfWork unitOfWork)
+        public PresentTeamMembersUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
-        public Task<PresentTeamResponse> Handle(PresentTeamRequest request, CancellationToken cancellationToken)
+        public Task<PresentTeamMembersResponse> Handle(PresentTeamMembersRequest request, CancellationToken cancellationToken)
         {
             IEnumerable<TeamMember> allTeamMembers = unitOfWork.TeamMemberRepository.GetAll();
 
@@ -55,12 +58,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
             IEnumerable<TeamMember> orderedUnemployedTeamMembers = unemployedTeamMembers
                 .OrderByDescending(x => x.Employments.GetLastEmployment().EndDate);
 
-            PresentTeamResponse response = new()
+            PresentTeamMembersResponse response = new()
             {
                 TeamMembers = orderedEmployedTeamMembers
                     .Concat(orderedUnemployedTeamMembers)
                     .Select(x => new TeamMemberInfo(x))
-                    .ToList()
+                    .ToList(),
+                CurrentTeamMemberId = applicationState.SelectedTeamMemberId
             };
 
             return Task.FromResult(response);

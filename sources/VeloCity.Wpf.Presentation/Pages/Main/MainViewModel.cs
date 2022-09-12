@@ -17,8 +17,8 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
+using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Charts;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Sprints;

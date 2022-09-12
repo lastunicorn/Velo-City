@@ -22,34 +22,31 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
 {
-    internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>
+    internal class PresentTeamMemberVacationsUseCase : IRequestHandler<PresentTeamMemberVacationsRequest, PresentTeamMemberVacationsResponse>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
 
-        public PresentTeamMemberEmploymentsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+        public PresentTeamMemberVacationsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
-        public Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
+        public Task<PresentTeamMemberVacationsResponse> Handle(PresentTeamMemberVacationsRequest request, CancellationToken cancellationToken)
         {
-            PresentTeamMemberEmploymentsResponse response = new();
+            PresentTeamMemberVacationsResponse response = new();
 
             if (applicationState.SelectedTeamMemberId != null)
             {
                 int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
                 TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
 
-                if (teamMember != null)
-                {
-                    response.Employments = teamMember.Employments
-                        .Select(x => new EmploymentInfo(x))
-                        .ToList();
-                }
+                response.Vacations = teamMember.Vacations
+                    .Select(VacationInfo.From)
+                    .ToList();
             }
 
             return Task.FromResult(response);

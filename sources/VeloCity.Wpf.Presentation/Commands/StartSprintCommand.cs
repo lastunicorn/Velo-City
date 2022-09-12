@@ -23,6 +23,7 @@ using DustInTheWind.VeloCity.Wpf.Application.CanStartSprint;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands

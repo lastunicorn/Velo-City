@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:charts="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Charts"
-    xmlns:behaviors="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Behaviors"
+    xmlns:behaviors="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Behaviors;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     d:DesignHeight="450"

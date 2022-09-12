@@ -15,40 +15,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
 {
-    internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>
+    internal class PresentTeamMemberDetailsUseCase : IRequestHandler<PresentTeamMemberDetailsRequest, PresentTeamMemberDetailsResponse>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
 
-        public PresentTeamMemberEmploymentsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+        public PresentTeamMemberDetailsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
-        public Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
+        public Task<PresentTeamMemberDetailsResponse> Handle(PresentTeamMemberDetailsRequest request, CancellationToken cancellationToken)
         {
-            PresentTeamMemberEmploymentsResponse response = new();
+            PresentTeamMemberDetailsResponse response = new();
 
             if (applicationState.SelectedTeamMemberId != null)
             {
-                int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
-                TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
+                int teamMemberId = applicationState.SelectedTeamMemberId.Value;
+                TeamMember currentTeamMember = unitOfWork.TeamMemberRepository.Get(teamMemberId);
 
-                if (teamMember != null)
+                if (currentTeamMember != null)
                 {
-                    response.Employments = teamMember.Employments
-                        .Select(x => new EmploymentInfo(x))
-                        .ToList();
+                    response.IsAnyTeamMemberSelected = true;
+                    response.TeamMemberName = currentTeamMember.Name;
                 }
             }
 

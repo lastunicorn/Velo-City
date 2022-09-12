@@ -14,11 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
+using System;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberVacations
 {
-    public class PresentTeamRequest : IRequest<PresentTeamResponse>
+    public class VacationOnceViewModel : VacationViewModel
     {
+        public DateTime Date { get; set; }
+
+        public override DateTime? SignificantDate => Date;
+
+        public override DateTime? StartDate => Date;
+
+        public override DateTime? EndDate => Date;
+
+        public override string ToString()
+        {
+            return $"{Date:d}" + (Comments == null ? string.Empty : " - " + Comments);
+        }
     }
 }

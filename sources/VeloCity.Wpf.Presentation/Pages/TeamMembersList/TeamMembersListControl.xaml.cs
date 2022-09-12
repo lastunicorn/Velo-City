@@ -14,11 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMembersList
 {
-    public class PresentTeamMemberEmploymentsRequest : IRequest<PresentTeamMemberEmploymentsResponse>
+    /// <summary>
+    /// Interaction logic for TeamMembersListControl.xaml
+    /// </summary>
+    public partial class TeamMembersListControl : UserControl
     {
+        public TeamMembersListControl()
+        {
+            InitializeComponent();
+        }
     }
 }

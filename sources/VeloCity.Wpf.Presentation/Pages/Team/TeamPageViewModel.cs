@@ -15,12 +15,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
+using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
+using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberEmployments;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMembersList;
+using DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberVacations;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
@@ -29,9 +32,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
     {
         private readonly IMediator mediator;
         private string title;
-        private List<TeamMemberViewModel> teamMembers;
-        private TeamMemberViewModel selectedTeamMember;
-        private bool hasTeamMembers;
         private bool isTeamMemberSelected;
 
         public string Title
@@ -40,40 +40,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
             set
             {
                 title = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public List<TeamMemberViewModel> TeamMembers
-        {
-            get => teamMembers;
-            private set
-            {
-                teamMembers = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public TeamMemberViewModel SelectedTeamMember
-        {
-            get => selectedTeamMember;
-            set
-            {
-                selectedTeamMember = value;
-                OnPropertyChanged();
-
-                UpdateTitle();
-                IsTeamMemberSelected = value != null;
-                EmploymentsViewModel.DisplayTeamMember(value?.TeamMemberInfo?.Id);
-            }
-        }
-
-        public bool HasTeamMembers
-        {
-            get => hasTeamMembers;
-            set
-            {
-                hasTeamMembers = value;
                 OnPropertyChanged();
             }
         }
@@ -90,32 +56,48 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team
 
         public EmploymentsViewModel EmploymentsViewModel { get; }
 
+        public VacationsViewModel VacationsViewModel { get; }
+
+        public TeamMembersListViewModel TeamMembersListViewModel { get; }
+
         public TeamPageViewModel(IMediator mediator, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
+            TeamMembersListViewModel = new TeamMembersListViewModel(mediator, eventBus);
             EmploymentsViewModel = new EmploymentsViewModel(mediator, eventBus);
+            VacationsViewModel = new VacationsViewModel(mediator, eventBus);
 
-            _ = Initialize();
+            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+            eventBus.Subscribe<TeamMemberChangedEvent>(HandleTeamMemberChangedEvent);
+
+            _ = RetrieveTeamMemberDetails();
         }
 
-        private async Task Initialize()
+        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
         {
-            PresentTeamRequest request = new();
-
-            PresentTeamResponse response = await mediator.Send(request);
-
-            TeamMembers = response.TeamMembers
-                .Select(x => new TeamMemberViewModel(x))
-                .ToList();
-
-            HasTeamMembers = TeamMembers?.Count > 0;
+            await RetrieveTeamMemberDetails();
         }
 
-        private void UpdateTitle()
+        private async Task HandleTeamMemberChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
         {
-            Title = SelectedTeamMember?.TeamMemberInfo?.Name;
+            await RetrieveTeamMemberDetails();
+        }
+
+        private async Task RetrieveTeamMemberDetails()
+        {
+            PresentTeamMemberDetailsRequest request = new();
+
+            PresentTeamMemberDetailsResponse response = await mediator.Send(request);
+
+            Title = BuildTitle(response);
+            IsTeamMemberSelected = response.IsAnyTeamMemberSelected;
+        }
+
+        private static string BuildTitle(PresentTeamMemberDetailsResponse response)
+        {
+            return response.TeamMemberName;
         }
     }
 }

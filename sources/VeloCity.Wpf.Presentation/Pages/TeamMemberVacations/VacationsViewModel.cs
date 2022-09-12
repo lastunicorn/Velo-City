@@ -19,30 +19,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberVacations
 {
-    public class EmploymentsViewModel : ViewModelBase
+    public class VacationsViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private List<EmploymentViewModel> employments;
+        private List<VacationViewModel> vacations;
 
-        public List<EmploymentViewModel> Employments
+        public List<VacationViewModel> Vacations
         {
-            get => employments;
+            get => vacations;
             private set
             {
-                employments = value;
+                vacations = value;
                 OnPropertyChanged();
             }
         }
 
-        public EmploymentsViewModel(IMediator mediator, EventBus eventBus)
+        public VacationsViewModel(IMediator mediator, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -53,21 +53,21 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberEmployments
 
         private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
         {
-            await ReloadEmployments();
+            await ReloadVacations();
         }
 
         private async Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
         {
-            await ReloadEmployments();
+            await ReloadVacations();
         }
 
-        private async Task ReloadEmployments()
+        private async Task ReloadVacations()
         {
-            PresentTeamMemberEmploymentsRequest request = new();
-            PresentTeamMemberEmploymentsResponse response = await mediator.Send(request);
+            PresentTeamMemberVacationsRequest request = new();
+            PresentTeamMemberVacationsResponse response = await mediator.Send(request);
 
-            Employments = response.Employments
-                .Select(x => new EmploymentViewModel(x))
+            Vacations = response.Vacations
+                .Select(VacationViewModel.From)
                 .ToList();
         }
     }

@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:team="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.Team"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:teamMemberEmployments="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberEmployments"
+    xmlns:teamMemberVacations="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMemberVacations"
+    xmlns:teamMembersList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Pages.TeamMembersList"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -35,8 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/TeamIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/MissingContentPanelStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -51,61 +53,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <customControls:MissingContentPanel
+        <teamMembersList:TeamMembersListControl
             Grid.Column="0"
-            IsContentVisible="{Binding HasTeamMembers}">
-
-            <customControls:MissingContentPanel.MissingContent>
-                <Border
-                    Background="{StaticResource PrimaryDarkBrush}">
-
-                    <ContentControl
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        MinWidth="300">
-
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="20"
-                            Text="No Team Members"
-                            IsEnabled="False" />
-
-                    </ContentControl>
-
-                </Border>
-            </customControls:MissingContentPanel.MissingContent>
-
-            <ListView
-                ItemsSource="{Binding TeamMembers}"
-                SelectedItem="{Binding SelectedTeamMember}"
-                BorderThickness="0">
-
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-
-                        <TextBlock
-                            Text="{Binding}"
-                            Margin="15 5">
-
-                            <TextBlock.Style>
-                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                    <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsEmployed}" Value="False">
-                                            <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-
-                        </TextBlock>
-
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
-        </customControls:MissingContentPanel>
+            DataContext="{Binding TeamMembersListViewModel}" />
 
         <GridSplitter
             Grid.Column="1"
@@ -170,25 +120,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </TabItem>
 
                     <TabItem Header="Vacations">
-                        <StackPanel
-                            Orientation="Vertical"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-
-                            <customControls:GenericIcon
-                                Style="{StaticResource TeamIconStyle}"
-                                Width="120"
-                                Height="120" />
-
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="20"
-                                Text="Team Members"
-                                IsEnabled="False"
-                                Margin="0 20 0 0" />
-
-                        </StackPanel>
+                        <teamMemberVacations:VacationsControl
+                            DataContext="{Binding VacationsViewModel}"
+                            Margin="0 20 0 0" />
                     </TabItem>
 
                 </TabControl>

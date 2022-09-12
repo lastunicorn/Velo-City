@@ -25,6 +25,7 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using MediatR;
 using SprintState = DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.SprintState;
 

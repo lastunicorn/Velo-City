@@ -20,26 +20,26 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember
 {
-    internal class SetCurrentSprintUseCase : IRequestHandler<SetCurrentSprintRequest>
+    internal class SetCurrentTeamMemberUseCase : IRequestHandler<SetCurrentTeamMemberRequest>
     {
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
 
-        public SetCurrentSprintUseCase(ApplicationState applicationState, EventBus eventBus)
+        public SetCurrentTeamMemberUseCase(ApplicationState applicationState, EventBus eventBus)
         {
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
-        public async Task<Unit> Handle(SetCurrentSprintRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(SetCurrentTeamMemberRequest request, CancellationToken cancellationToken)
         {
-            applicationState.SelectedSprintId = request.SprintId;
+            applicationState.SelectedTeamMemberId = request.TeamMemberId;
 
-            SprintChangedEvent ev = new()
+            TeamMemberChangedEvent ev = new()
             {
-                NewSprintId = request.SprintId
+                NewTeamMemberId = request.TeamMemberId
             };
 
             await eventBus.Publish(ev, cancellationToken);

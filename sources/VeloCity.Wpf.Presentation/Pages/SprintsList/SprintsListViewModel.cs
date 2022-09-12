@@ -19,11 +19,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.SprintsList
