@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DustInTheWind.VeloCity.Wpf.Infrastructure
+namespace DustInTheWind.VeloCity.Infrastructure
 {
     public class EventBus
     {

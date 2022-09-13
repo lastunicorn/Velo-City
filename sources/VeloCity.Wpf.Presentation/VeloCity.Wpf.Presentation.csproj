@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ProjectReference Include="..\VeloCity.ChartTools\VeloCity.ChartTools.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Wpf.Infrastructure\VeloCity.Wpf.Infrastructure.csproj" />
+        <ProjectReference Include="..\VeloCity.Wpf.Infrastructure\VeloCity.Infrastructure.csproj" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
     </ItemGroup>
@@ -49,17 +49,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Pages\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml.cs">
+        <Compile Update="SprintsArea\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml.cs">
             <SubType>Code</SubType>
         </Compile>
     </ItemGroup>
 
     <ItemGroup>
-        <Page Update="Pages\Main\MainWindow.xaml">
+        <Page Update="MainArea\Main\MainWindow.xaml">
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
-        <Page Update="Pages\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml">
+        <Page Update="SprintsArea\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml">
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>

@@ -52,7 +52,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.ChartTools", "Velo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Wpf.Presentation.CustomControls", "VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj", "{70F09227-A778-4FE6-A270-831375A07468}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Wpf.Infrastructure", "VeloCity.Wpf.Infrastructure\VeloCity.Wpf.Infrastructure.csproj", "{E7C08F3F-A68E-47EE-BFDE-A638CE622D13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Infrastructure", "VeloCity.Wpf.Infrastructure\VeloCity.Infrastructure.csproj", "{E7C08F3F-A68E-47EE-BFDE-A638CE622D13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -295,7 +295,6 @@ Global
 		{2A16E17B-AC01-4E5D-9E88-B7918762E787} = {D56DD2AD-35B0-4059-BF0A-83E5DB9F70CD}
 		{7AF94555-21AD-4D05-B48D-06599FE14B3F} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
 		{70F09227-A778-4FE6-A270-831375A07468} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
-		{E7C08F3F-A68E-47EE-BFDE-A638CE622D13} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {416DF04A-8ACB-461F-866E-98A0873E1E9F}

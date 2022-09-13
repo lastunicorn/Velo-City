@@ -18,7 +18,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.Presentation
 {
     internal static class WindowExtensions
     {

@@ -20,8 +20,8 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint

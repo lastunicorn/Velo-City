@@ -16,7 +16,7 @@
 
 using System.Windows;
 using Autofac;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main;
+using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 
 namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
 {

@@ -20,15 +20,15 @@ using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using DustInTheWind.VeloCity.Wpf.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.Main;
+using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 using MediatR;
 using MediatR.Extensions.Autofac.DependencyInjection;
 

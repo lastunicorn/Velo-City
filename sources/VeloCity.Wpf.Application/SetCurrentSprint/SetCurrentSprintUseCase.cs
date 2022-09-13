@@ -17,7 +17,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Wpf.Infrastructure;
+using DustInTheWind.VeloCity.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint
