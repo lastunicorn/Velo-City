@@ -20,6 +20,5 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
 {
     public class PresentTeamMemberEmploymentsRequest : IRequest<PresentTeamMemberEmploymentsResponse>
     {
-        public int TeamMemberId { get; set; }
     }
 }

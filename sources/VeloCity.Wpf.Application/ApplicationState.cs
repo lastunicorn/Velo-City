@@ -19,5 +19,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application
     public class ApplicationState
     {
         public int? SelectedSprintId { get; set; }
+        
+        public int? SelectedTeamMemberId { get; set; }
     }
 }

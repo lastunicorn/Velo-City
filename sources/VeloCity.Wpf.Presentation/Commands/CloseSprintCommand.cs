@@ -18,7 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using DustInTheWind.VeloCity.Wpf.Application;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;

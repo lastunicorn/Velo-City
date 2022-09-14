@@ -27,25 +27,30 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
     internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly ApplicationState applicationState;
 
-        public PresentTeamMemberEmploymentsUseCase(IUnitOfWork unitOfWork)
+        public PresentTeamMemberEmploymentsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
         public Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
         {
-            TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(request.TeamMemberId);
+            PresentTeamMemberEmploymentsResponse response = new();
 
-            if (teamMember == null)
-                throw new Exception($"Team member with id {request.TeamMemberId} does not exist.");
-
-            PresentTeamMemberEmploymentsResponse response = new()
+            if (applicationState.SelectedTeamMemberId != null)
             {
-                Employments = teamMember.Employments
-                    .Select(x => new EmploymentInfo(x))
-                    .ToList()
-            };
+                int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
+                TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
+
+                if (teamMember != null)
+                {
+                    response.Employments = teamMember.Employments
+                        .Select(x => new EmploymentInfo(x))
+                        .ToList();
+                }
+            }
 
             return Task.FromResult(response);
         }

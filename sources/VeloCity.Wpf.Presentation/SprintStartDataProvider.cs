@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using DustInTheWind.VeloCity.Wpf.Presentation.Pages.StartSprintConfirmation;
+using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirmation;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation
 {

@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ItemGroup>
         <ProjectReference Include="..\VeloCity.DataAccess.Jsonfiles\VeloCity.DataAccess.JsonFiles.csproj" />
-        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" />
+        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
     </ItemGroup>
 
 </Project>
