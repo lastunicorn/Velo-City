@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Globalization;
 using System.Windows;
+using System.Windows.Markup;
 using Autofac;
 using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 
@@ -27,6 +29,11 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            string currentCultureTag = CultureInfo.CurrentCulture.IetfLanguageTag;
+            XmlLanguage xmlLanguage = XmlLanguage.GetLanguage(currentCultureTag);
+            FrameworkPropertyMetadata frameworkPropertyMetadata = new(xmlLanguage);
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), frameworkPropertyMetadata);
+
             IContainer container = SetupServices.BuildContainer();
 
             MainWindow mainWindow = container.Resolve<MainWindow>();

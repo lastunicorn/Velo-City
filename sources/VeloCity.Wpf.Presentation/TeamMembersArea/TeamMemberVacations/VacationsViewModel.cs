@@ -16,9 +16,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
@@ -30,17 +32,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
     public class VacationsViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private List<VacationViewModel> vacations;
 
-        public List<VacationViewModel> Vacations
-        {
-            get => vacations;
-            private set
-            {
-                vacations = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<VacationGroupViewModel> VacationGroups { get; } = new();
 
         public VacationsViewModel(IMediator mediator, EventBus eventBus)
         {
@@ -66,9 +59,57 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
             PresentTeamMemberVacationsRequest request = new();
             PresentTeamMemberVacationsResponse response = await mediator.Send(request);
 
-            Vacations = response.Vacations
+            VacationGroups.Clear();
+            GroupVacationsByMonth(response.Vacations);
+        }
+
+        private void GroupVacationsByMonth(IEnumerable<VacationInfo> vacationInfos)
+        {
+            IEnumerable<VacationViewModel> vacationViewModels = vacationInfos
                 .Select(VacationViewModel.From)
-                .ToList();
+                .OrderByDescending(x => x.SignificantDate);
+
+            foreach (VacationViewModel vacationViewModel in vacationViewModels)
+            {
+                if (vacationViewModel.StartDate == null || vacationViewModel.EndDate == null)
+                {
+                    DateTime? date = vacationViewModel.SignificantDate;
+                    if (date != null)
+                    {
+                        DateTimeMonth dateTimeMonth = new(date.Value);
+                        AddVacation(dateTimeMonth, vacationViewModel);
+                    }
+                }
+                else
+                {
+                    DateTime date = vacationViewModel.StartDate.Value;
+                    DateTimeMonth dateTimeMonth = new(date);
+
+                    while (dateTimeMonth <= vacationViewModel.EndDate.Value)
+                    {
+                        AddVacation(dateTimeMonth, vacationViewModel);
+
+                        dateTimeMonth = dateTimeMonth.AddMonths(1);
+                    }
+                }
+            }
+        }
+
+        private void AddVacation(DateTimeMonth dateTimeMonth, VacationViewModel vacationViewModel)
+        {
+            VacationGroupViewModel vacationGroupViewModel = VacationGroups.FirstOrDefault(x => x.Month == dateTimeMonth);
+
+            if (vacationGroupViewModel == null)
+            {
+                vacationGroupViewModel = new VacationGroupViewModel()
+                {
+                    Month = dateTimeMonth,
+                    Vacations = new List<VacationViewModel>()
+                };
+                VacationGroups.Add(vacationGroupViewModel);
+            }
+
+            vacationGroupViewModel.Vacations.Add(vacationViewModel);
         }
     }
 }

@@ -71,6 +71,21 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
             return new DateTimeMonth(newYear, newMonth + 1);
         }
 
+        public bool Equals(DateTimeMonth other)
+        {
+            return Year == other.Year && Month == other.Month;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is DateTimeMonth other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Year, Month);
+        }
+
         public override string ToString()
         {
             return ToString("number", CultureInfo.CurrentCulture);
@@ -116,6 +131,18 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
                 default:
                     throw new FormatException($"The {format} format string is not supported.");
             }
+        }
+
+        public static bool operator ==(DateTimeMonth dateTimeMonth1, DateTimeMonth dateTimeMonth2)
+        {
+            return dateTimeMonth1.Year == dateTimeMonth2.Year &&
+                   dateTimeMonth1.Month == dateTimeMonth2.Month;
+        }
+
+        public static bool operator !=(DateTimeMonth dateTimeMonth1, DateTimeMonth dateTimeMonth2)
+        {
+            return dateTimeMonth1.Year != dateTimeMonth2.Year ||
+                   dateTimeMonth1.Month != dateTimeMonth2.Month;
         }
 
         public static bool operator >(DateTimeMonth dateTimeMonth, DateTime dateTime)

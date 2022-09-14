@@ -23,18 +23,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:teamMemberVacations="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    d:DataContext="{d:DesignInstance local:VacationsViewModel}">
+    d:DataContext="{d:DesignInstance teamMemberVacations:VacationsViewModel}">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/PanelWithTitleStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
@@ -42,11 +44,80 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ScrollViewer>
         <ItemsControl
-            ItemsSource="{Binding Vacations}">
+            ItemsSource="{Binding VacationGroups}">
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}"></TextBlock>
+
+                    <customControls:PanelWithTitle
+                        Title="{Binding Month}"
+                        Margin="0 0 0 20">
+
+                        <ItemsControl ItemsSource="{Binding Vacations}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl Content="{Binding}">
+                                        <ContentControl.Resources>
+
+                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationOnceViewModel}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Day: " />
+                                                    <TextBlock Text="{Binding Date, StringFormat=d}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+
+                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationDailyViewModel}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Interval: " />
+                                                    <TextBlock Text="{Binding DateInterval}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+
+                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationWeeklyViewModel}">
+                                                <TextBlock>
+                                                    <TextBlock Text="Weekly:" />
+                                                    <ItemsControl ItemsSource="{Binding WeekDays}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <DataTemplate.Resources>
+                                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
+                                                                </DataTemplate.Resources>
+                                                                <TextBlock Text="{Binding}" />
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                        <ItemsControl.Resources>
+                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
+                                                        </ItemsControl.Resources>
+                                                    </ItemsControl>
+                                                    <TextBlock Text="|" />
+                                                    <TextBlock Text="{Binding DateInterval}" />
+                                                </TextBlock>
+                                            </DataTemplate>
+
+                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationMonthlyViewModel}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Monthly: " />
+                                                    <TextBlock Text="{Binding MonthDays}" />
+                                                    <TextBlock Text="{Binding DateInterval}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+
+                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationYearlyViewModel}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Yearly: " />
+                                                    <TextBlock Text="{Binding Dates}" />
+                                                    <TextBlock Text="{Binding DateInterval}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+
+                                        </ContentControl.Resources>
+                                    </ContentControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                    </customControls:PanelWithTitle>
+
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
