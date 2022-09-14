@@ -47,6 +47,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
         private Velocity actualVelocity;
         private string sprintComments;
         private List<NoteBase> notes;
+        private int lookBackSprintCount;
 
         public DateInterval TimeInterval
         {
@@ -178,6 +179,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             }
         }
 
+        public int LookBackSprintCount
+        {
+            get => lookBackSprintCount;
+            set
+            {
+                lookBackSprintCount = value;
+                OnPropertyChanged();
+            }
+        }
+
         public List<NoteBase> Notes
         {
             get => notes;
@@ -244,6 +255,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
                 : response.ActualVelocity;
 
             SprintComments = response.SprintComments;
+
+            LookBackSprintCount = response.PreviouslyClosedSprints?.Count ?? 0;
 
             Notes = CreateNotes(response).ToList();
         }

@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:holidays="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.HolidaysArea.Holidays"
 
     mc:Ignorable="d"
     d:DesignHeight="450"

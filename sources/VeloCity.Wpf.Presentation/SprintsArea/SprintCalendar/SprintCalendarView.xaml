@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:converters1="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:sprintCalendar="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar"
 

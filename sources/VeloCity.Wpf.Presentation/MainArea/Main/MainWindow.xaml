@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:team="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team"
     xmlns:holidays="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.HolidaysArea.Holidays"
     xmlns:charts="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts"
+    xmlns:main="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main"
 
     mc:Ignorable="d"
     Title="{Binding Title}"
