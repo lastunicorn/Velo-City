@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,7 +38,10 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
 
         public Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
         {
-            PresentTeamMemberEmploymentsResponse response = new();
+            PresentTeamMemberEmploymentsResponse response = new()
+            {
+                Employments = new List<EmploymentInfo>()
+            };
 
             if (applicationState.SelectedTeamMemberId != null)
             {
@@ -46,9 +50,10 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
 
                 if (teamMember != null)
                 {
-                    response.Employments = teamMember.Employments
-                        .Select(x => new EmploymentInfo(x))
-                        .ToList();
+                    IEnumerable<EmploymentInfo> employmentInfos = teamMember.Employments
+                        .Select(x => new EmploymentInfo(x));
+
+                    response.Employments.AddRange(employmentInfos);
                 }
             }
 

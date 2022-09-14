@@ -41,7 +41,7 @@
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontSize="20"
+                    FontSize="25"
                     Text="Under construction"
                     IsEnabled="False"
                     Margin="0 20 0 0" />
