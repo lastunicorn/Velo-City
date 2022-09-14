@@ -25,6 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:behaviors="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Behaviors;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:charts="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts"
+    xmlns:velocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart"
+    xmlns:commitmentChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -43,88 +46,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <DockPanel
         Margin="40">
 
-        <TextBlock
+        <ComboBox
             DockPanel.Dock="Top"
-            Text="Velocity Chart"
-            FontSize="32"
-            Foreground="{StaticResource FontPrimaryBrush}"
-            VerticalAlignment="Center"
-            TextTrimming="CharacterEllipsis"
-            Margin="0 0 0 40" />
+            ItemsSource="{Binding ChartItemViewModels}"
+            SelectedItem="{Binding SelectedChartItemViewModel}"
+            HorizontalAlignment="Left"
+            MinWidth="300"
+            Margin="0 0 0 40">
 
-        <Border
-            DockPanel.Dock="Top"
-            Margin="0 0 0 40"
-            BorderBrush="{StaticResource BorderBrush}"
-            BorderThickness="1"
-            Padding="20"
-            CornerRadius="2">
+            <!--<ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>-->
 
-            <StackPanel
-                Orientation="Horizontal">
+        </ComboBox>
 
-                <TextBlock
-                    Text="Sprint Count"
-                    VerticalAlignment="Center"
-                    Margin="0 0 10 0" />
-
-                <TextBox
-                    Text="{Binding SprintCount}"
-                    behaviors:InputBindingsManager.UpdateSourceOnEnterKeyPressed="True"
-                    MinWidth="150" />
-
-            </StackPanel>
-
-        </Border>
-
-        <lvc:CartesianChart>
-
-            <lvc:CartesianChart.DataTooltip>
-                <lvc:DefaultTooltip
-                    SelectionMode="SharedXValues"
-                    ShowSeries="False" />
-            </lvc:CartesianChart.DataTooltip>
-
-            <lvc:CartesianChart.Series>
-
-                <lvc:ColumnSeries
-                    Values="{Binding Values}"
-                    Fill="{StaticResource SuccessBrush}" />
-
-            </lvc:CartesianChart.Series>
-
-            <lvc:CartesianChart.AxisX>
-                <lvc:Axis
-                    Labels="{Binding SprintsLabels}"
-                    LabelsRotation="-45">
-
-                    <lvc:Axis.Separator>
-                        <lvc:Separator
-                            StrokeThickness="0.5"
-                            Stroke="#404F56"
-                            Step="1"
-                            IsEnabled="False" />
-                    </lvc:Axis.Separator>
-
-                </lvc:Axis>
-            </lvc:CartesianChart.AxisX>
-
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis
-                    LabelFormatter="{Binding AxisYLabelFormatter}"
-                    MinValue="0">
-
-                    <lvc:Axis.Separator>
-                        <lvc:Separator
-                            StrokeThickness="0.5"
-                            Stroke="#404F56"
-                            UseLayoutRounding="False"/>
-                    </lvc:Axis.Separator>
-
-                </lvc:Axis>
-            </lvc:CartesianChart.AxisY>
-
-        </lvc:CartesianChart>
+        <ContentControl Content="{Binding SelectedChartItemViewModel.ViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type velocityChart:VelocityChartViewModel}">
+                    <velocityChart:VelocityChartControl />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type commitmentChart:CommitmentChartViewModel}">
+                    <commitmentChart:CommitmentChartControl />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
 
     </DockPanel>
 

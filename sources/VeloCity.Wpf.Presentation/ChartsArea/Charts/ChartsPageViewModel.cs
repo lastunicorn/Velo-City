@@ -16,101 +16,49 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
-using DustInTheWind.VeloCity.Wpf.Application.Refresh;
-using LiveCharts;
+using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart;
+using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
 {
     public class ChartsPageViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
-        private ChartValues<float> values;
-        private uint sprintCount;
-        private List<string> sprintsLabels;
+        private ChartItemViewModel selectedChartItemViewModel;
 
-        public uint SprintCount
+        public List<ChartItemViewModel> ChartItemViewModels { get; }
+
+        public ChartItemViewModel SelectedChartItemViewModel
         {
-            get => sprintCount;
+            get => selectedChartItemViewModel;
             set
             {
-                if (value == sprintCount)
-                    return;
-
-                sprintCount = value;
-                OnPropertyChanged();
-
-                if (!IsInitializeMode)
-                    _ = Initialize();
-            }
-        }
-
-        public ChartValues<float> Values
-        {
-            get => values;
-            private set
-            {
-                values = value;
+                selectedChartItemViewModel = value;
                 OnPropertyChanged();
             }
         }
-
-        public List<string> SprintsLabels
-        {
-            get => sprintsLabels;
-            set
-            {
-                sprintsLabels = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Func<double, string> AxisYLabelFormatter { get; } = x => ((Velocity)x).ToString("standard");
 
         public ChartsPageViewModel(IMediator mediator, EventBus eventBus)
         {
+            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-
-            _ = Initialize();
-        }
-
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            await Initialize();
-        }
-
-        private async Task Initialize()
-        {
-            await RunInInitializeMode(async () =>
+            ChartItemViewModels = new List<ChartItemViewModel>
             {
-                PresentVelocityRequest request = new()
+                new()
                 {
-                    SprintCount = SprintCount == 0
-                        ? null
-                        : SprintCount
-                };
-                PresentVelocityResponse response = await mediator.Send(request);
+                    Title = "Velocity Chart",
+                    ViewModel = new VelocityChartViewModel(mediator, eventBus)
+                },
+                new()
+                {
+                    Title = "Commitment Chart",
+                    ViewModel = new CommitmentChartViewModel(mediator, eventBus)
+                }
+            };
 
-                SprintCount = response.RequestedSprintCount;
-
-                IEnumerable<float> velocityValues = response.SprintVelocities
-                    .Select(x => x.Velocity.Value);
-
-                Values = new ChartValues<float>(velocityValues);
-
-                SprintsLabels = response.SprintVelocities
-                    .Select(x => $"Sprint {x.SprintNumber}")
-                    .ToList();
-            });
+            SelectedChartItemViewModel = ChartItemViewModels[0];
         }
     }
 }

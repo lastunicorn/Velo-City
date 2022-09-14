@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,16 +38,20 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
 
         public Task<PresentTeamMemberVacationsResponse> Handle(PresentTeamMemberVacationsRequest request, CancellationToken cancellationToken)
         {
-            PresentTeamMemberVacationsResponse response = new();
+            PresentTeamMemberVacationsResponse response = new()
+            {
+                Vacations = new List<VacationInfo>()
+            };
 
             if (applicationState.SelectedTeamMemberId != null)
             {
                 int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
                 TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
 
-                response.Vacations = teamMember.Vacations
-                    .Select(VacationInfo.From)
-                    .ToList();
+                IEnumerable<VacationInfo> vacationInfos = teamMember.Vacations
+                    .Select(VacationInfo.From);
+
+                response.Vacations.AddRange(vacationInfos);
             }
 
             return Task.FromResult(response);

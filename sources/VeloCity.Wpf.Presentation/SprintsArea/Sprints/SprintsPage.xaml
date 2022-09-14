@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview"
     xmlns:sprintCalendar="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar"
     xmlns:sprintMembers="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers"
+    xmlns:sprints="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -89,7 +90,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="20"
+                        FontSize="25"
                         Text="Select a Sprint"
                         IsEnabled="False"
                         Margin="0 20 0 0" />

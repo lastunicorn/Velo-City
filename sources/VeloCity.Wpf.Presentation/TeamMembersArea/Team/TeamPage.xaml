@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:teamMembersList="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList"
     xmlns:teamMemberEmployments="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments"
     xmlns:teamMemberVacations="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations"
+    xmlns:team="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -83,8 +84,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="20"
-                        Text="Team Members"
+                        FontSize="25"
+                        Text="Select a Team Member"
                         IsEnabled="False"
                         Margin="0 20 0 0" />
 
