@@ -83,7 +83,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
         {
             List<string> items = new();
 
-            items.Add($"{employment.HoursPerDay} h/day");
+            items.Add($"{employment.HoursPerDay.Value} h/day");
 
             if (employment.EmploymentWeek is { IsDefault: false })
             {

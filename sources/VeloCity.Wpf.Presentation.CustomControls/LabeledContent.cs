@@ -34,6 +34,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             set => SetValue(LabelProperty, value);
         }
 
+        public static readonly DependencyProperty BetweenSpaceProperty = DependencyProperty.Register(
+            nameof(BetweenSpace),
+            typeof(GridLength),
+            typeof(LabeledContent),
+            new PropertyMetadata(new GridLength(20))
+        );
+
+        public GridLength BetweenSpace
+        {
+            get => (GridLength)GetValue(LabelProperty);
+            set => SetValue(LabelProperty, value);
+        }
+
         static LabeledContent()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LabeledContent), new FrameworkPropertyMetadata(typeof(LabeledContent)));

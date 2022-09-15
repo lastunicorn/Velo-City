@@ -78,18 +78,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 PopupAnimation="Fade"
                                 MaxWidth="400"
                                 StaysOpen="False"
-                                VerticalOffset="-10">
+                                VerticalOffset="-10"
+                                Margin="10">
 
-                                <Grid Margin="0 0 0 7">
+                                <Grid Margin="20">
 
                                     <Border
                                         Background="{StaticResource PrimaryDarkBrush}"
-                                        Padding="30 20"
+                                        Padding="25 15"
                                         CornerRadius="4"
                                         BorderThickness="1"
                                         BorderBrush="{StaticResource BorderBrush}">
 
-                                        <ContentControl 
+                                        <ContentControl
                                             Content="{TemplateBinding Content}"
                                             Foreground="{TemplateBinding Foreground}">
 
@@ -103,6 +104,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         </ContentControl>
 
                                     </Border>
+
+                                    <Grid.Effect>
+                                        <DropShadowEffect
+                                            Color="{StaticResource PrimaryColor}"
+                                            Direction="0"
+                                            ShadowDepth="0"
+                                            BlurRadius="10"
+                                            Opacity="0.5" />
+                                    </Grid.Effect>
 
                                 </Grid>
                             </Popup>

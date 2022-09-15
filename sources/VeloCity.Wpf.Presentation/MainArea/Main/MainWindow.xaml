@@ -245,7 +245,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 </TabItem>
 
-                <TabItem>
+                <TabItem Visibility="Collapsed">
 
                     <TabItem.Header>
 

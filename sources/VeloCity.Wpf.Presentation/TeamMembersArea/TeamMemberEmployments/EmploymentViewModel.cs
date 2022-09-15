@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmpl
     {
         public DateInterval TimeInterval { get; }
 
-        public int HoursPerDay { get; }
+        public HoursValue HoursPerDay { get; }
 
         public EmploymentWeekViewModel EmploymentWeek { get; }
 

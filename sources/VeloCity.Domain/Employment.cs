@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public DateInterval TimeInterval { get; set; }
 
-        public int HoursPerDay { get; set; }
+        public HoursValue HoursPerDay { get; set; }
 
         public EmploymentWeek EmploymentWeek { get; set; }
 

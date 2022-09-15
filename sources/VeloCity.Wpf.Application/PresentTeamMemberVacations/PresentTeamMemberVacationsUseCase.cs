@@ -48,10 +48,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
                 int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
                 TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
 
-                IEnumerable<VacationInfo> vacationInfos = teamMember.Vacations
-                    .Select(VacationInfo.From);
+                if (teamMember?.Vacations != null)
+                {
+                    IEnumerable<VacationInfo> vacationInfos = teamMember.Vacations
+                        .Select(VacationInfo.From);
 
-                response.Vacations.AddRange(vacationInfos);
+                    response.Vacations.AddRange(vacationInfos);
+                }
             }
 
             return Task.FromResult(response);

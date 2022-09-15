@@ -83,12 +83,38 @@ namespace DustInTheWind.VeloCity.Domain
             };
         }
 
+        public static HoursValue operator +(HoursValue hoursValue1, int hoursValue2)
+        {
+            return new HoursValue
+            {
+                Value = hoursValue1.Value + hoursValue2
+            };
+        }
+
+        public static int operator +(int hoursValue1, HoursValue hoursValue2)
+        {
+            return hoursValue1 + hoursValue2.Value;
+        }
+
         public static HoursValue operator -(HoursValue hoursValue1, HoursValue hoursValue2)
         {
             return new HoursValue
             {
                 Value = hoursValue1.Value - hoursValue2.Value
             };
+        }
+
+        public static HoursValue operator -(HoursValue hoursValue1, int hoursValue2)
+        {
+            return new HoursValue
+            {
+                Value = hoursValue1.Value - hoursValue2
+            };
+        }
+
+        public static int operator -(int hoursValue1, HoursValue hoursValue2)
+        {
+            return hoursValue1 - hoursValue2.Value;
         }
     }
 }
