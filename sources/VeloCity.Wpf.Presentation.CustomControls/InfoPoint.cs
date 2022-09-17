@@ -16,11 +16,64 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
     public class InfoPoint : ContentControl
     {
+        public static readonly DependencyProperty IconStyleProperty = DependencyProperty.Register(
+            nameof(IconStyle),
+            typeof(Style),
+            typeof(InfoPoint),
+            new FrameworkPropertyMetadata(defaultValue: null, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+        public Style IconStyle
+        {
+            get => (Style)GetValue(IconStyleProperty);
+            set => SetValue(IconStyleProperty, value);
+        }
+
+        public static readonly DependencyProperty IconGeometryProperty = DependencyProperty.Register(
+            nameof(IconGeometry),
+            typeof(Geometry),
+            typeof(InfoPoint),
+            new FrameworkPropertyMetadata(defaultValue: null, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+        public Geometry IconGeometry
+        {
+            get => (Geometry)GetValue(IconGeometryProperty);
+            set => SetValue(IconGeometryProperty, value);
+        }
+
+        public static readonly DependencyProperty IconForegroundProperty = DependencyProperty.Register(
+            nameof(IconForeground),
+            typeof(Brush),
+            typeof(InfoPoint),
+            new FrameworkPropertyMetadata(defaultValue: null, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+        public Brush IconForeground
+        {
+            get => (Brush)GetValue(IconForegroundProperty);
+            set => SetValue(IconForegroundProperty, value);
+        }
+
+        public static readonly DependencyProperty IconBackgroundProperty = DependencyProperty.Register(
+            nameof(IconBackground),
+            typeof(Brush),
+            typeof(InfoPoint),
+            new FrameworkPropertyMetadata(defaultValue: null, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+        );
+
+        public Brush IconBackground
+        {
+            get => (Brush)GetValue(IconBackgroundProperty);
+            set => SetValue(IconBackgroundProperty, value);
+        }
+
         static InfoPoint()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(InfoPoint), new FrameworkPropertyMetadata(typeof(InfoPoint)));

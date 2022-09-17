@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg5"
+   sodipodi:docname="info.svg"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="1.3037281"
+     inkscape:cx="158.39192"
+     inkscape:cy="256.18838"
+     inkscape:window-width="1920"
+     inkscape:window-height="1003"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="color:#000000;fill:#000000;stroke-linecap:round;stroke-linejoin:round;-inkscape-stroke:none;opacity:0.491765"
+       d="M 256,0 C 115.0412,0 0,115.04119 0,256 0,396.95881 115.0412,512 256,512 396.9588,512 512,396.95881 512,256 512,115.04119 396.9588,0 256,0 Z m 0,71.923828 C 358.08833,71.923828 440.07617,153.91166 440.07617,256 440.07617,358.08834 358.08833,440.07617 256,440.07617 153.91167,440.07617 71.923828,358.08834 71.923828,256 71.923828,153.91166 153.91167,71.923828 256,71.923828 Z"
+       id="path10547" />
+    <path
+       style="color:#000000;fill:#000000;-inkscape-stroke:none;opacity:0.491765"
+       d="m 224,112 v 64 h 64 v -64 z"
+       id="path10544" />
+    <path
+       style="color:#000000;fill:#000000;-inkscape-stroke:none;opacity:0.491765"
+       d="m 224,208 v 192 h 64 V 208 Z"
+       id="path10541" />
+  </g>
+</svg>

@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CloseIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/CloseIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/OkCancelWindowStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
@@ -79,7 +79,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Grid.Column="2"
             x:Name="TextBoxActualStoryPoints"
             Text="{Binding ActualStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
-            TabIndex="1" />
+            TabIndex="1"
+            FontSize="20"/>
 
         <Label
             Grid.Row="1"

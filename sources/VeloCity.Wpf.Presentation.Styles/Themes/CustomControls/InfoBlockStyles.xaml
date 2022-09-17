@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
-        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/InfoIconStyle.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/InfoIconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type customControls:InfoBlock}">
@@ -53,12 +53,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <Control
+                            <customControls:GenericIcon
                                 Style="{StaticResource InfoIconStyle}"
                                 Width="16"
                                 Height="16"
-                                VerticalAlignment="Top"
-                                IsTabStop="False" />
+                                VerticalAlignment="Top" />
 
                             <ContentPresenter
                                 Grid.Column="1"

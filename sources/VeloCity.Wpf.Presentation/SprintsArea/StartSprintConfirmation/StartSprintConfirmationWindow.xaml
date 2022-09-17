@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/StartIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/StartIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/OkCancelWindowStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
@@ -78,7 +78,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Grid.Column="2"
             Text="{Binding EstimatedStoryPoints, StringFormat=standard}"
             MinHeight="35"
-            VerticalAlignment="Center" />
+            VerticalAlignment="Center"
+            FontSize="20"/>
 
         <Label
             Grid.Row="1"

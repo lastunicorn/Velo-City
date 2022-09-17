@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:sprintCalendar="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -31,56 +32,78 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     d:DataContext="{d:DesignInstance sprintCalendar:AbsenceDetailsViewModel}">
 
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/GenericIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/InfoContrctIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/FourDotsIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/InfoPartialVacationIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/InfoPointStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <WrapPanel Orientation="Horizontal">
+    <DockPanel>
 
-        <ItemsControl ItemsSource="{Binding TeamMemberVacationDetails}" Foreground="#F9F1A5">
+        <customControls:InfoPoint
+            DockPanel.Dock="Left"
+            Margin="0 0 10 0"
+            Visibility="{Binding HasVacationsAndHolidays, Converter={StaticResource BooleanToVisibilityConverter}}"
+            IconForeground="Chocolate"
+            IconGeometry="{StaticResource FourDotsIconGeometry}">
 
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            <ItemsControl ItemsSource="{Binding OfficialHolidays}" />
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding}" />
-                        <TextBlock x:Name="Separator" Text=", " />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+        </customControls:InfoPoint>
 
-        </ItemsControl>
+        <WrapPanel Orientation="Horizontal">
 
-        <TextBlock
-            Text="|"
-            Margin="10 0"
-            Visibility="{Binding HasVacationsAndHolidays, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <ItemsControl
+                ItemsSource="{Binding TeamMemberVacationDetails}"
+                Foreground="#F9F1A5">
 
-        <ItemsControl
-            ItemsSource="{Binding OfficialHolidays}"
-            Foreground="#F9F1A5">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type sprintCalendar:TeamMemberAbsenceDetails}">
+                        <StackPanel Orientation="Horizontal">
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding}" />
-                        <TextBlock x:Name="Separator" Text=", " />
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                            <TextBlock Text="{Binding Name}" />
 
-        </ItemsControl>
+                            <customControls:InfoPoint
+                                IconGeometry="{StaticResource InfoContractIconGeometry}"
+                                Visibility="{Binding IsMissingByContract, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                IconForeground="Chocolate"
+                                Margin="5 0 0 0">
 
-    </WrapPanel>
+                                <TextBlock Text="Absent by contract" />
+                            </customControls:InfoPoint>
+
+                            <customControls:InfoPoint
+                                IconGeometry="{StaticResource InfoPartialVacationIconGeometry}"
+                                Visibility="{Binding IsPartialVacation, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                IconForeground="Chocolate"
+                                Margin="5 0 0 0">
+
+                                <TextBlock Text="Partial-day vacation" />
+                            </customControls:InfoPoint>
+
+                            <TextBlock x:Name="Separator" Text="   " />
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </WrapPanel>
+
+    </DockPanel>
 
 </UserControl>

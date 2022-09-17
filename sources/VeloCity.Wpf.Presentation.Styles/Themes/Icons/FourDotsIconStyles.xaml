@@ -1,0 +1,42 @@
+﻿<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/GenericIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Geometry x:Key="FourDotsIconGeometry">
+        M 256 0 A 75 75 0 0 0 181 75 A 75 75 0 0 0 256 150 A 75 75 0 0 0 331 75 A 75 75 0 0 0 256 0 z M 75 181 A 75 75 0 0 0 0 256 A 75 75 0 0 0 75 331 A 75 75 0 0 0 150 256 A 75 75 0 0 0 75 181 z M 437 181 A 75 75 0 0 0 362 256 A 75 75 0 0 0 437 331 A 75 75 0 0 0 512 256 A 75 75 0 0 0 437 181 z M 256 362 A 75 75 0 0 0 181 437 A 75 75 0 0 0 256 512 A 75 75 0 0 0 331 437 A 75 75 0 0 0 256 362 z
+    </Geometry>
+
+    <Style
+        x:Key="FourDotsIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Geometry" Value="{StaticResource FourDotsIconGeometry}" />
+
+    </Style>
+
+</ResourceDictionary>

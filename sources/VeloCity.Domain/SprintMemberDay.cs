@@ -71,14 +71,6 @@ namespace DustInTheWind.VeloCity.Domain
                 return;
             }
 
-            bool isWorkDay = employment.IsWorkDay(SprintDay.Date.DayOfWeek);
-            if (!isWorkDay)
-            {
-                AbsenceReason = AbsenceReason.Contract;
-
-                return;
-            }
-
             List<OfficialHolidayInstance> officialHolidays = SprintDay.OfficialHolidays
                 .Where(x => string.Equals(x.Country, employment.Country, StringComparison.InvariantCultureIgnoreCase))
                 .ToList();
@@ -90,6 +82,14 @@ namespace DustInTheWind.VeloCity.Domain
 
                 IEnumerable<string> officialHolidayNames = officialHolidays.Select(x => x.Name);
                 AbsenceComments = string.Join(", ", officialHolidayNames);
+
+                return;
+            }
+
+            bool isWorkDay = employment.IsWorkDay(SprintDay.Date.DayOfWeek);
+            if (!isWorkDay)
+            {
+                AbsenceReason = AbsenceReason.Contract;
 
                 return;
             }

@@ -24,6 +24,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
     {
         private readonly SprintMemberDay sprintMemberDay;
 
+        public string Name { get; }
+
         public bool IsPartialVacation { get; }
 
         public bool IsMissingByContract { get; }
@@ -32,6 +34,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         {
             this.sprintMemberDay = sprintMemberDay ?? throw new ArgumentNullException(nameof(sprintMemberDay));
 
+            Name = sprintMemberDay.TeamMember.Name.ShortName;
             IsPartialVacation = sprintMemberDay.WorkHours > 0;
             IsMissingByContract = sprintMemberDay.AbsenceReason == AbsenceReason.Contract;
         }

@@ -1,0 +1,43 @@
+﻿<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/GenericIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Geometry x:Key="InfoContractIconGeometry">
+        M 256 0 A 256.00001 256.00001 0 0 0 0 256 A 256.00001 256.00001 0 0 0 256 512 A 256.00001 256.00001 0 0 0 512 256 A 256.00001 256.00001 0 0 0 256 0 z M 261.6875 121.8418 C 282.55955 121.8418 302.71575 125.75257 322.1582 133.57422 C 331.30759 137.24062 337.67016 139.07422 341.24414 139.07422 C 343.81741 139.07422 347.96327 138.52375 353.68164 137.42383 C 355.54011 137.05719 357.61304 136.875 359.90039 136.875 C 367.33427 136.875 373.83865 139.80758 379.41406 145.67383 C 393.13815 159.85057 400 177.45001 400 198.4707 C 400 213.25851 394.06679 224.07402 382.20117 230.91797 C 375.768 234.58437 368.54868 236.41797 360.54297 236.41797 C 353.25205 236.41797 347.31884 235.07346 342.74414 232.38477 C 338.16945 229.69607 333.73799 224.92989 329.44922 218.08594 C 323.30197 208.43109 318.29935 201.52635 314.43945 197.37109 C 310.57955 193.09363 305.86057 189.24229 300.28516 185.82031 C 286.41811 177.50981 271.90953 173.35547 256.75586 173.35547 C 242.03106 173.35547 230.3084 177.93947 221.58789 187.10547 C 213.01034 196.14925 208.7207 208.30927 208.7207 223.58594 C 208.7207 244.60663 214.9395 263.85553 227.37695 281.33203 C 244.24614 304.67478 268.40639 316.3457 299.85742 316.3457 C 311.43712 316.3457 322.87419 314.69624 334.16797 311.39648 C 345.6047 308.09673 354.46761 303.81768 360.75781 298.5625 C 366.19026 294.16282 370.62171 291.96289 374.05273 291.96289 C 379.05631 291.96289 383.34594 293.98063 386.91992 298.01367 C 390.4939 301.9245 392.28125 306.69068 392.28125 312.3125 C 392.28125 319.40087 389.77896 327.34517 384.77539 336.14453 C 379.77181 344.94389 373.76672 351.84863 366.76172 356.85938 C 363.75958 358.937 357.54078 360.7706 348.10547 362.35938 C 342.67302 363.21487 335.4537 365.47423 326.44727 369.14062 C 305.2893 377.81777 283.27387 382.15625 260.40039 382.15625 C 236.5262 382.15625 212.72342 377.5742 188.99219 368.4082 C 161.40106 357.77565 139.59932 341.45933 123.58789 319.46094 C 107.86237 298.0736 100 275.70993 100 252.36719 C 100 225.23583 109.86342 200.48613 129.5918 178.12109 C 146.7469 158.68918 169.12176 143.84014 196.71289 133.57422 C 217.72789 125.75257 239.38586 121.8418 261.6875 121.8418 z
+    </Geometry>
+
+    <Style
+        x:Key="InfoContractIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Foreground" Value="CornflowerBlue" />
+        <Setter Property="Geometry" Value="{StaticResource InfoContractIconGeometry}" />
+
+    </Style>
+
+</ResourceDictionary>
