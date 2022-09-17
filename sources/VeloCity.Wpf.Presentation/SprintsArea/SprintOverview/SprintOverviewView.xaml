@@ -117,8 +117,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <TextBlock Text="Work Days" />
 
-                                    <customControls:InfoPoint Margin="8 0 0 0">
-                                        <TextBlock Text="All sprint days that are not week-ends or official holidays." />
+                                    <customControls:InfoPoint Margin="5 0 0 0">
+
+                                        <customControls:InfoPoint.InfoContent>
+                                            <TextBlock Text="All sprint days that are not week-ends or official holidays." />
+                                        </customControls:InfoPoint.InfoContent>
+
                                     </customControls:InfoPoint>
 
                                 </StackPanel>
@@ -134,13 +138,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <TextBlock Text="Total Work Hours" />
 
-                                    <customControls:InfoPoint Margin="8 0 0 0">
-                                        <StackPanel>
-                                            <TextBlock Text="The total number of working hours from all the team members." />
-                                            <TextBlock
-                                                Text="The vacations and official holidays are excluded."
-                                                Margin="0 10 0 0" />
-                                        </StackPanel>
+                                    <customControls:InfoPoint Margin="5 0 0 0">
+
+                                        <customControls:InfoPoint.InfoContent>
+                                            <StackPanel>
+                                                <TextBlock Text="The total number of working hours from all the team members." />
+                                                <TextBlock
+                                                    Text="The vacations and official holidays are excluded."
+                                                    Margin="0 10 0 0" />
+                                            </StackPanel>
+                                        </customControls:InfoPoint.InfoContent>
+
                                     </customControls:InfoPoint>
 
                                 </StackPanel>
@@ -165,8 +173,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <TextBlock Text="Estimated Story Points" />
 
-                                    <customControls:InfoPoint Margin="8 0 0 0">
-                                        <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedStoryPointsInfo}" />
+                                    <customControls:InfoPoint Margin="5 0 0 0">
+
+                                        <customControls:InfoPoint.InfoContent>
+                                            <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedStoryPointsInfo}" />
+                                        </customControls:InfoPoint.InfoContent>
+
                                     </customControls:InfoPoint>
 
                                 </StackPanel>
@@ -182,10 +194,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <StackPanel>
 
                                     <StackPanel Orientation="Horizontal">
+
                                         <TextBlock Text="Estimated Story Points" />
 
-                                        <customControls:InfoPoint Margin="8 0 0 0">
-                                            <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedStoryPointsWithVelocityPenaltiesInfo}" />
+                                        <customControls:InfoPoint Margin="5 0 0 0">
+
+                                            <customControls:InfoPoint.InfoContent>
+                                                <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedStoryPointsWithVelocityPenaltiesInfo}" />
+                                            </customControls:InfoPoint.InfoContent>
+
                                         </customControls:InfoPoint>
                                     </StackPanel>
 
@@ -205,8 +222,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <TextBlock Text="Estimated Velocity" />
 
-                                    <customControls:InfoPoint Margin="8 0 0 0">
-                                        <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedVelocityInfo}" />
+                                    <customControls:InfoPoint Margin="5 0 0 0">
+
+                                        <customControls:InfoPoint.InfoContent>
+                                            <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedVelocityInfo}" />
+                                        </customControls:InfoPoint.InfoContent>
+
                                     </customControls:InfoPoint>
 
                                 </StackPanel>
@@ -239,13 +260,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <TextBlock Text="Actual Velocity" />
 
-                                    <customControls:InfoPoint Margin="8 0 0 0">
-                                        <StackPanel>
-                                            <TextBlock Text="It is calculated only for the closed sprints that have the 'Actual Story Points' specified." />
-                                            <TextBlock
-                                                Text="Actual Velocity = Actual Story Points / Total Work Hours"
-                                                Margin="0 10 0 0" />
-                                        </StackPanel>
+                                    <customControls:InfoPoint Margin="5 0 0 0">
+
+                                        <customControls:InfoPoint.InfoContent>
+                                            <StackPanel>
+                                                <TextBlock Text="It is calculated only for the closed sprints that have the 'Actual Story Points' specified." />
+                                                <TextBlock
+                                                    Text="Actual Velocity = Actual Story Points / Total Work Hours"
+                                                    Margin="0 10 0 0" />
+                                            </StackPanel>
+                                        </customControls:InfoPoint.InfoContent>
+
                                     </customControls:InfoPoint>
 
                                 </StackPanel>

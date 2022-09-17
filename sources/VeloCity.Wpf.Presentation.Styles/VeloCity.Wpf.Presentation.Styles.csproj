@@ -30,14 +30,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="Themes\CustomControls\InfoPointStyles.xaml">
+      <Page Update="Themes\Icons\FourDotsIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
-      <Page Update="Themes\CustomControls\RefreshIconStyles.xaml">
+      <Page Update="Themes\Icons\InfoPartialVacationIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\CloseIconStyles.xaml">
+      <Page Update="Themes\CustomControls\InfoPointStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
+      <Page Update="Themes\Icons\RefreshIconStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Themes\Icons\CloseIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
@@ -49,14 +56,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\StartIconStyles.xaml">
+      <Page Update="Themes\Icons\StartIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
-      <Page Update="Themes\CustomControls\HolidaysIconStyles.xaml">
+      <Page Update="Themes\Icons\HolidaysIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\ChartIconStyles.xaml">
+      <Page Update="Themes\Icons\ChartIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>

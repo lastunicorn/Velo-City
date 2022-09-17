@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
     public class IconButton : Button
     {
         public static readonly DependencyProperty IconProperty = DependencyProperty.Register(
-            "Icon",
+            nameof(Icon),
             typeof(object),
             typeof(IconButton),
             new FrameworkPropertyMetadata(defaultValue: null, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)

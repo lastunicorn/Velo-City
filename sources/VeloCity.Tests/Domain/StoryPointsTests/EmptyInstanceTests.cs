@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Globalization;
 using DustInTheWind.VeloCity.Domain;
 using FluentAssertions;
 using Xunit;
@@ -26,67 +25,65 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         [Fact]
         public void HavingTheEmptyStaticInstance_ThenValueIsZero()
         {
-            StoryPoints.Zero.Value.Should().Be(0);
+            StoryPoints.Empty.Value.Should().Be(0);
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_ThenIsNullIsFalse()
+        public void HavingTheEmptyStaticInstance_ThenIsNullIsTrue()
         {
-            StoryPoints.Zero.IsEmpty.Should().BeFalse();
+            StoryPoints.Empty.IsEmpty.Should().BeTrue();
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_ThenIsNotNullIsTrue()
+        public void HavingTheEmptyStaticInstance_ThenIsNotNullIsFalse()
         {
-            StoryPoints.Zero.IsNotEmpty.Should().BeTrue();
+            StoryPoints.Empty.IsNotEmpty.Should().BeFalse();
         }
 
         [Fact]
         public void HavingTheEmptyStaticInstance_ThenIsEmptyIsTrue()
         {
-            StoryPoints.Zero.IsZero.Should().BeTrue();
+            StoryPoints.Empty.IsEmpty.Should().BeTrue();
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_WhenSerialized_ThenStringContainsZeroSP()
+        public void HavingTheEmptyStaticInstance_WhenSerialized_ThenDashIsUsedInsteadOfValue()
         {
-            string actual = StoryPoints.Zero.ToString();
+            string actual = StoryPoints.Empty.ToString();
 
-            actual.Should().Be("0 SP");
+            actual.Should().Be("- SP");
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstanceInEnUsCulture_WhenSerializedWithF2Formatting_ThenStringContainsZerosWithTwoDigitsSP()
+        public void HavingTheEmptyStaticInstance_WhenSerializedWithFormatting_ThenDashIsUsedInsteadOfValueAndFormatIsIgnored()
         {
-            CultureInfo.CurrentCulture = new CultureInfo("en-US");
-            string actual = StoryPoints.Zero.ToString("F2");
+            string actual = StoryPoints.Empty.ToString("D5");
 
-            actual.Should().Be("0.00 SP");
+            actual.Should().Be("- SP");
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstanceInEnUsCulture_WhenSerializedToStandardDigitsString_ThenStringContainsZeroSP()
+        public void HavingTheEmptyStaticInstance_WhenSerializedToStandardDigitsString_ThenDashIsUsedInsteadOfValueAndFormatIsIgnored()
         {
-            CultureInfo.CurrentCulture = new CultureInfo("en-US");
-            string actual = StoryPoints.Zero.ToStandardDigitsString();
+            string actual = StoryPoints.Empty.ToStandardDigitsString();
 
-            actual.Should().Be("0 SP");
+            actual.Should().Be("- SP");
         }
 
         [Fact]
         public void HavingTheEmptyStaticInstance_WhenImplicitlyCastToFloat_ThenZeroIsReturned()
         {
-            float actual = StoryPoints.Zero;
+            float actual = StoryPoints.Empty;
 
             actual.Should().Be(0);
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_WhenImplicitlyCastToNullableFloat_ThenZeroIsReturned()
+        public void HavingTheEmptyStaticInstance_WhenImplicitlyCastToNullableFloat_ThenNullIsReturned()
         {
-            float? actual = StoryPoints.Zero;
+            float? actual = StoryPoints.Empty;
 
-            actual.Should().Be(0);
+            actual.Should().BeNull();
         }
     }
 }

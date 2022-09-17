@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="info-contract.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.52342475"
+     inkscape:cx="-96.479963"
+     inkscape:cy="309.50008"
+     inkscape:window-width="1920"
+     inkscape:window-height="1003"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path1013"
+       style="opacity:0.491765;stroke-width:90.0474"
+       d="M 512,255.99998 A 256.00001,256.00001 0 0 1 256.00003,512 256.00001,256.00001 0 0 1 0,255.99998 256.00001,256.00001 0 0 1 256.00003,0 256.00001,256.00001 0 0 1 512,255.99998 Z" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:406.057px;font-family:'Cooper Black';-inkscape-font-specification:'Cooper Black, ';opacity:0.491765;fill:#000000;fill-opacity:1;stroke:none;stroke-width:27.0026;stroke-dasharray:none"
+       x="82.942894"
+       y="407.96899"
+       id="text236"
+       transform="scale(1.0815505,0.92459852)"><tspan
+         sodipodi:role="line"
+         id="tspan234"
+         x="82.942894"
+         y="407.96899"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Cooper Black';-inkscape-font-specification:'Cooper Black, ';fill:#000000;fill-opacity:1;stroke:none;stroke-width:27.0026;stroke-dasharray:none">C</tspan></text>
+  </g>
+</svg>

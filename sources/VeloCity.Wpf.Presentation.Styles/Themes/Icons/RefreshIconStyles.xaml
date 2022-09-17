@@ -23,13 +23,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
-        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/GenericIconStyles.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/GenericIconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style
         x:Key="RefreshIconStyle"
         TargetType="{x:Type customControls:GenericIcon}"
-        BasedOn="{StaticResource GenericIconStyle}">
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
 
         <Setter Property="Geometry">
             <Setter.Value>

@@ -55,6 +55,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Color x:Key="ErrorColor">#D9534F</Color>
     <SolidColorBrush x:Key="ErrorBrush" Color="{StaticResource ErrorColor}" />
 
+    <Color x:Key="InfoColor">CornflowerBlue</Color>
+    <SolidColorBrush x:Key="InfoBrush" Color="{StaticResource InfoColor}" />
+
     <Color x:Key="DisabledColor">#E5E5E5</Color>
     <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource DisabledColor}" />
 

@@ -33,7 +33,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
     {
         private readonly IMediator mediator;
         private List<SprintCalendarItemViewModel> calendarItems;
-        private List<NoteBase> notes;
 
         public List<SprintCalendarItemViewModel> CalendarItems
         {
@@ -44,17 +43,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
                 OnPropertyChanged();
             }
         }
-
-        public List<NoteBase> Notes
-        {
-            get => notes;
-            private set
-            {
-                notes = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public SprintCalendarViewModel(IMediator mediator, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
@@ -89,7 +78,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
             CreateChartBars(calendarItems);
 
             CalendarItems = calendarItems;
-            Notes = CreateNotes();
         }
 
         private static List<SprintCalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
@@ -112,34 +100,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
                 .Select(x => x.Days[date])
                 .Where(x => x != null)
                 .ToList();
-        }
-
-        private List<NoteBase> CreateNotes()
-        {
-            List<NoteBase> notes = new();
-
-            IEnumerable<TeamMemberAbsenceDetails> memberAbsenceDetailsViewModels = CalendarItems
-                .SelectMany(x => x.AbsenceDetails.TeamMemberVacationDetails ?? Enumerable.Empty<TeamMemberAbsenceDetails>());
-
-            bool isPartialVacationNoteVisible = false;
-            bool isMissingByContractNoteVisible = false;
-
-            foreach (TeamMemberAbsenceDetails teamMemberAbsenceDetailsViewModel in memberAbsenceDetailsViewModels)
-            {
-                if (teamMemberAbsenceDetailsViewModel.IsPartialVacation)
-                    isPartialVacationNoteVisible = true;
-
-                if (teamMemberAbsenceDetailsViewModel.IsMissingByContract)
-                    isMissingByContractNoteVisible = true;
-            }
-
-            if (isPartialVacationNoteVisible)
-                notes.Add(new PartialDayVacationNote());
-
-            if (isMissingByContractNoteVisible)
-                notes.Add(new AbsentByContractNote());
-
-            return notes;
         }
 
         private static void CreateChartBars(IEnumerable<SprintCalendarItemViewModel> calendarItems)

@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ResourceDictionary.MergedDictionaries>
 
     <Style
-        x:Key="GenericIconStyle"
+        x:Key="{x:Type customControls:GenericIcon}"
         TargetType="{x:Type customControls:GenericIcon}">
 
         <Setter Property="Foreground" Value="{StaticResource IconPrimaryBrush}" />
