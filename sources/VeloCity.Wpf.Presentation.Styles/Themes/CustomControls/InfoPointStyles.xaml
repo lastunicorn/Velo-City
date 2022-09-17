@@ -30,12 +30,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Style TargetType="{x:Type customControls:InfoPoint}">
         <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="12" />
-        <Setter Property="Height" Value="12" />
-        <Setter Property="IconStyle" Value="{StaticResource InfoIconStyle}" />
+        <Setter Property="IconWidth" Value="12" />
+        <Setter Property="IconHeight" Value="12" />
         <Setter Property="IconGeometry" Value="{StaticResource InfoIconGeometry}" />
         <Setter Property="IconForeground" Value="{StaticResource InfoBrush}" />
         <Setter Property="IconBackground" Value="Transparent" />
+        <Setter Property="InfoForeground" Value="{StaticResource FontPrimaryBrush}" />
+        <Setter Property="InfoBackground" Value="{StaticResource PrimaryDarkBrush}" />
+        <Setter Property="InfoBorderThickness" Value="1" />
+        <Setter Property="InfoBorderBrush" Value="{StaticResource BorderBrush}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -43,26 +46,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <Border
                         Padding="{TemplateBinding Padding}"
+                        Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
 
                         <Grid>
 
-                            <customControls:GenericIcon
-                                x:Name="GenericIcon1"
-                                Geometry="{TemplateBinding IconGeometry}"
-                                Foreground="{TemplateBinding IconForeground}"
-                                Background="{TemplateBinding IconBackground}"
-                                Style="{TemplateBinding IconStyle}"
-                                Width="{TemplateBinding Width}"
-                                Height="{TemplateBinding Height}"
+                            <DockPanel
                                 Cursor="Hand"
+                                Background="Transparent"
                                 behaviors:PopupBehavior.Popup="{Binding ElementName=Popup1}">
 
-                            </customControls:GenericIcon>
+                                <customControls:GenericIcon
+                                    x:Name="Icon1"
+                                    DockPanel.Dock="Right"
+                                    Geometry="{TemplateBinding IconGeometry}"
+                                    Foreground="{TemplateBinding IconForeground}"
+                                    Background="{TemplateBinding IconBackground}"
+                                    Width="{TemplateBinding IconWidth}"
+                                    Height="{TemplateBinding IconHeight}"
+                                    Cursor="Hand"
+                                    Margin="{TemplateBinding IconMargin}" />
+
+                                <ContentControl
+                                    Content="{TemplateBinding Content}" />
+
+                            </DockPanel>
 
                             <Popup
                                 x:Name="Popup1"
+                                PlacementTarget="{Binding ElementName=Icon1}"
                                 Placement="Top"
                                 AllowsTransparency="True"
                                 PopupAnimation="Fade"
@@ -74,15 +87,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <Grid Margin="20">
 
                                     <Border
-                                        Background="{StaticResource PrimaryDarkBrush}"
+                                        Background="{TemplateBinding InfoBackground}"
                                         Padding="25 15"
                                         CornerRadius="4"
-                                        BorderThickness="1"
-                                        BorderBrush="{StaticResource BorderBrush}">
+                                        BorderThickness="{TemplateBinding InfoBorderThickness}"
+                                        BorderBrush="{TemplateBinding InfoBorderBrush}">
 
                                         <ContentControl
-                                            Content="{TemplateBinding Content}"
-                                            Foreground="{TemplateBinding Foreground}">
+                                            Content="{TemplateBinding InfoContent}"
+                                            Foreground="{TemplateBinding InfoForeground}">
 
                                             <ContentControl.Resources>
                                                 <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">

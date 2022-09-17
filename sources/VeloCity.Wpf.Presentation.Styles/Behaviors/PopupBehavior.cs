@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
@@ -22,7 +23,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
 {
     internal static class PopupBehavior
     {
-        private static readonly PopupPool Popups = new();
+        private static readonly ConcurrentDictionary<UIElement, Popup> PopupsByTriggerElement = new();
 
         public static readonly DependencyProperty PopupProperty = DependencyProperty.RegisterAttached(
             "Popup",
@@ -46,14 +47,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
             {
                 if (e.NewValue is Popup popup)
                 {
-                    Popups.Set(uiElement, popup);
-                    popup.PlacementTarget = uiElement;
+                    PopupsByTriggerElement.Set(uiElement, popup);
+                    popup.PlacementTarget ??= uiElement;
+
                     uiElement.MouseLeftButtonDown += UiElementOnMouseLeftButtonDown;
                 }
                 else
                 {
                     uiElement.MouseLeftButtonDown -= UiElementOnMouseLeftButtonDown;
-                    Popups.Remove(uiElement);
+
+                    PopupsByTriggerElement.Remove(uiElement);
                 }
             }
         }
@@ -62,7 +65,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
         {
             if (sender is UIElement uiElement)
             {
-                Popup popup = Popups.Get(uiElement);
+                Popup popup = PopupsByTriggerElement.Get(uiElement);
 
                 if (popup != null)
                     popup.IsOpen = true;

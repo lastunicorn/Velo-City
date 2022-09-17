@@ -54,7 +54,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             IconForeground="Chocolate"
             IconGeometry="{StaticResource FourDotsIconGeometry}">
 
-            <ItemsControl ItemsSource="{Binding OfficialHolidays}" />
+            <customControls:InfoPoint.InfoContent>
+                <ItemsControl ItemsSource="{Binding OfficialHolidays}" />
+            </customControls:InfoPoint.InfoContent>
 
         </customControls:InfoPoint>
 
@@ -82,7 +84,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 IconForeground="Chocolate"
                                 Margin="5 0 0 0">
 
-                                <TextBlock Text="Absent by contract" />
+                                <customControls:InfoPoint.InfoContent>
+                                    <TextBlock Text="absent by contract" />
+                                </customControls:InfoPoint.InfoContent>
+
                             </customControls:InfoPoint>
 
                             <customControls:InfoPoint
@@ -91,7 +96,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 IconForeground="Chocolate"
                                 Margin="5 0 0 0">
 
-                                <TextBlock Text="Partial-day vacation" />
+                                <customControls:InfoPoint.InfoContent>
+                                    <TextBlock Text="partial-day vacation" />
+                                </customControls:InfoPoint.InfoContent>
+
                             </customControls:InfoPoint>
 
                             <TextBlock x:Name="Separator" Text="   " />
