@@ -14,26 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
+using System.Collections;
+using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
 {
-    public class EmploymentInfo
+    internal abstract class InfoBase : IEnumerable<string>
     {
-        public DateInterval TimeInterval { get; }
+        protected abstract IEnumerable<string> BuildMessage();
 
-        public HoursValue HoursPerDay { get; }
-
-        public EmploymentWeek EmploymentWeek { get; }
-
-        public string Country { get; }
-
-        public EmploymentInfo(Employment employment)
+        public IEnumerator<string> GetEnumerator()
         {
-            TimeInterval = employment.TimeInterval;
-            HoursPerDay = employment.HoursPerDay;
-            EmploymentWeek = employment.EmploymentWeek;
-            Country = employment.Country;
+            IEnumerable<string> items = BuildMessage();
+            return items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

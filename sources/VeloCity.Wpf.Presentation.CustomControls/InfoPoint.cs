@@ -14,26 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class EmploymentInfo
+    public class InfoPoint : ContentControl
     {
-        public DateInterval TimeInterval { get; }
-
-        public HoursValue HoursPerDay { get; }
-
-        public EmploymentWeek EmploymentWeek { get; }
-
-        public string Country { get; }
-
-        public EmploymentInfo(Employment employment)
+        static InfoPoint()
         {
-            TimeInterval = employment.TimeInterval;
-            HoursPerDay = employment.HoursPerDay;
-            EmploymentWeek = employment.EmploymentWeek;
-            Country = employment.Country;
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(InfoPoint), new FrameworkPropertyMetadata(typeof(InfoPoint)));
         }
     }
 }

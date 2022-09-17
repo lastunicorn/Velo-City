@@ -39,14 +39,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
         private int workDays;
         private HoursValue totalWorkHours;
         private StoryPoints estimatedStoryPoints;
+        private IEnumerable<string> estimatedStoryPointsInfo;
         private StoryPoints estimatedStoryPointsWithVelocityPenalties;
+        private IEnumerable<string> estimatedStoryPointsWithVelocityPenaltiesInfo;
         private bool estimatedStoryPointsWithVelocityPenaltiesVisible;
         private Velocity estimatedVelocity;
+        private IEnumerable<string> estimatedVelocityInfo;
         private StoryPoints commitmentStoryPoints;
         private StoryPoints actualStoryPoints;
         private Velocity actualVelocity;
         private string sprintComments;
         private List<NoteBase> notes;
+        private int lookBackSprintCount;
 
         public DateInterval TimeInterval
         {
@@ -108,12 +112,32 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             }
         }
 
+        public IEnumerable<string> EstimatedStoryPointsInfo
+        {
+            get => estimatedStoryPointsInfo;
+            private set
+            {
+                estimatedStoryPointsInfo = value;
+                OnPropertyChanged();
+            }
+        }
+
         public StoryPoints EstimatedStoryPointsWithVelocityPenalties
         {
             get => estimatedStoryPointsWithVelocityPenalties;
             private set
             {
                 estimatedStoryPointsWithVelocityPenalties = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IEnumerable<string> EstimatedStoryPointsWithVelocityPenaltiesInfo
+        {
+            get => estimatedStoryPointsWithVelocityPenaltiesInfo;
+            private set
+            {
+                estimatedStoryPointsWithVelocityPenaltiesInfo = value;
                 OnPropertyChanged();
             }
         }
@@ -134,6 +158,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             private set
             {
                 estimatedVelocity = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IEnumerable<string> EstimatedVelocityInfo
+        {
+            get => estimatedVelocityInfo;
+            private set
+            {
+                estimatedVelocityInfo = value;
                 OnPropertyChanged();
             }
         }
@@ -174,6 +208,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             set
             {
                 sprintComments = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int LookBackSprintCount
+        {
+            get => lookBackSprintCount;
+            set
+            {
+                lookBackSprintCount = value;
                 OnPropertyChanged();
             }
         }
@@ -229,9 +273,21 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             TotalWorkHours = response.TotalWorkHours;
 
             EstimatedStoryPoints = response.EstimatedStoryPoints;
+            EstimatedStoryPointsInfo = new EstimatedStoryPointsInfo
+            {
+                PreviousSprintNumbers = response.PreviouslyClosedSprints
+            };
             EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties;
+            EstimatedStoryPointsWithVelocityPenaltiesInfo = new EstimatedStoryPointsWithVelocityPenaltiesInfo
+            {
+                VelocityPenalties = response.VelocityPenalties
+            };
             EstimatedStoryPointsWithVelocityPenaltiesVisible = !response.EstimatedStoryPointsWithVelocityPenalties.IsEmpty;
             EstimatedVelocity = response.EstimatedVelocity;
+            EstimatedVelocityInfo = new EstimatedVelocityInfo
+            {
+                PreviousSprintNumbers = response.PreviouslyClosedSprints
+            };
             CommitmentStoryPoints = response.SprintState == Domain.SprintState.New && response.CommitmentStoryPoints.IsZero
                 ? StoryPoints.Empty
                 : response.CommitmentStoryPoints;
@@ -244,6 +300,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
                 : response.ActualVelocity;
 
             SprintComments = response.SprintComments;
+
+            LookBackSprintCount = response.PreviouslyClosedSprints?.Count ?? 0;
 
             Notes = CreateNotes(response).ToList();
         }
@@ -269,14 +327,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
                 yield return new ExcludedSprintsNote
                 {
                     ExcludesSprintNumbers = response.ExcludedSprints
-                };
-            }
-
-            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotEmpty)
-            {
-                yield return new VelocityPenaltiesNote
-                {
-                    VelocityPenalties = response.VelocityPenalties
                 };
             }
         }

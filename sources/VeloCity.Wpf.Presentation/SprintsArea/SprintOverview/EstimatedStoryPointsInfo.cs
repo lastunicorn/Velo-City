@@ -14,33 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
 {
-    public class VelocityPenaltiesNote : NoteBase
+    internal class EstimatedStoryPointsInfo : InfoBase
     {
-        public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
+        public List<int> PreviousSprintNumbers { get; set; }
 
         protected override IEnumerable<string> BuildMessage()
         {
-            if (VelocityPenalties == null)
-            {
-                yield return "(*) The estimations include velocity penalties.";
-            }
-            else
-            {
-                IEnumerable<string> items = VelocityPenalties
-                    .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");
+            string previousSprints = string.Join(", ", PreviousSprintNumbers);
+            yield return $"Story points that the team can burn if they will have the same velocity as the average one from the last {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
 
-                string allItems = string.Join(Environment.NewLine, items);
-                string message = $"(*) The estimations include velocity penalties for:{Environment.NewLine}{allItems}.";
-
-                yield return message;
-            }
+            yield return "Estimated Story Points = Estimated Velocity * Total Work Hours";
         }
     }
 }

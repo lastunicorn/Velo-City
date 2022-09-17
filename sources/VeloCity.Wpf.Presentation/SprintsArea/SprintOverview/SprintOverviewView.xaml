@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:converters1="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -39,6 +39,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/LabeledContentStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintStateControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/InfoPointStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ParagraphsBlockStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters1:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
@@ -63,6 +65,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type customControls:PanelWithTitle}" BasedOn="{StaticResource {x:Type customControls:PanelWithTitle}}">
                         <Setter Property="Margin" Value="0 25 0 0" />
+                    </Style>
+                    <Style TargetType="{x:Type customControls:LabeledContent}" BasedOn="{StaticResource {x:Type customControls:LabeledContent}}">
+                        <Setter Property="BetweenSpace" Value="30" />
                     </Style>
                 </StackPanel.Resources>
 
@@ -106,11 +111,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
 
-                        <customControls:LabeledContent Label="Work Days">
+                        <customControls:LabeledContent>
+                            <customControls:LabeledContent.Label>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Text="Work Days" />
+
+                                    <customControls:InfoPoint Margin="8 0 0 0">
+                                        <TextBlock Text="All sprint days that are not week-ends or official holidays." />
+                                    </customControls:InfoPoint>
+
+                                </StackPanel>
+
+                            </customControls:LabeledContent.Label>
+
                             <TextBlock Text="{Binding WorkDays, StringFormat={}{0} days}" />
                         </customControls:LabeledContent>
 
-                        <customControls:LabeledContent Label="Total Work Hours">
+                        <customControls:LabeledContent>
+                            <customControls:LabeledContent.Label>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Text="Total Work Hours" />
+
+                                    <customControls:InfoPoint Margin="8 0 0 0">
+                                        <StackPanel>
+                                            <TextBlock Text="The total number of working hours from all the team members." />
+                                            <TextBlock
+                                                Text="The vacations and official holidays are excluded."
+                                                Margin="0 10 0 0" />
+                                        </StackPanel>
+                                    </customControls:InfoPoint>
+
+                                </StackPanel>
+                            </customControls:LabeledContent.Label>
+
                             <TextBlock Text="{Binding TotalWorkHours}" />
                         </customControls:LabeledContent>
 
@@ -124,18 +159,59 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
 
-                        <customControls:LabeledContent Label="Estimated Story Points">
+                        <customControls:LabeledContent>
+                            <customControls:LabeledContent.Label>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Text="Estimated Story Points" />
+
+                                    <customControls:InfoPoint Margin="8 0 0 0">
+                                        <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedStoryPointsInfo}" />
+                                    </customControls:InfoPoint>
+
+                                </StackPanel>
+                            </customControls:LabeledContent.Label>
+
                             <TextBlock Text="{Binding EstimatedStoryPoints, StringFormat=standard}" />
                         </customControls:LabeledContent>
 
                         <customControls:LabeledContent
-                            Label="Estimated Story Points (*)"
                             Visibility="{Binding EstimatedStoryPointsWithVelocityPenaltiesVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                            <customControls:LabeledContent.Label>
+                                <StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Estimated Story Points" />
+
+                                        <customControls:InfoPoint Margin="8 0 0 0">
+                                            <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedStoryPointsWithVelocityPenaltiesInfo}" />
+                                        </customControls:InfoPoint>
+                                    </StackPanel>
+
+                                    <TextBlock
+                                        Text="with velocity penalties"
+                                        Foreground="{StaticResource FontDimBrush}"
+                                        FontSize="12" />
+                                </StackPanel>
+                            </customControls:LabeledContent.Label>
 
                             <TextBlock Text="{Binding EstimatedStoryPointsWithVelocityPenalties, StringFormat=standard}" />
                         </customControls:LabeledContent>
 
-                        <customControls:LabeledContent Label="Estimated Velocity">
+                        <customControls:LabeledContent>
+                            <customControls:LabeledContent.Label>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Text="Estimated Velocity" />
+
+                                    <customControls:InfoPoint Margin="8 0 0 0">
+                                        <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedVelocityInfo}" />
+                                    </customControls:InfoPoint>
+
+                                </StackPanel>
+                            </customControls:LabeledContent.Label>
+
                             <TextBlock Text="{Binding EstimatedVelocity, StringFormat=standard}" />
                         </customControls:LabeledContent>
 
@@ -157,7 +233,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <TextBlock Text="{Binding ActualStoryPoints, StringFormat=standard}" />
                         </customControls:LabeledContent>
 
-                        <customControls:LabeledContent Label="Actual Velocity">
+                        <customControls:LabeledContent>
+                            <customControls:LabeledContent.Label>
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Text="Actual Velocity" />
+
+                                    <customControls:InfoPoint Margin="8 0 0 0">
+                                        <StackPanel>
+                                            <TextBlock Text="It is calculated only for the closed sprints that have the 'Actual Story Points' specified." />
+                                            <TextBlock
+                                                Text="Actual Velocity = Actual Story Points / Total Work Hours"
+                                                Margin="0 10 0 0" />
+                                        </StackPanel>
+                                    </customControls:InfoPoint>
+
+                                </StackPanel>
+                            </customControls:LabeledContent.Label>
+
                             <TextBlock Text="{Binding ActualVelocity, StringFormat=standard}" />
                         </customControls:LabeledContent>
 
