@@ -1,11 +1,16 @@
 Velo City
 ====================================================================================================
 
+v1.13.0
+----------------------------------------------------------------------------------------------------
+
+
+
 v1.12.0
 ----------------------------------------------------------------------------------------------------
 - [feature] [wpf] Display a velocity chart.
 - [feature] [wpf] Display a commitment chart.
-- [feature] [wpf] Create the team members page with vacations aned employments.
+- [feature] [wpf] Create the team members page with vacations and employments.
 - [feature] [wpf] Added info bubbles for the items in sprint overview and sprint calendar pages.
 - [feature] [wpf] Added the "Culture" property in settings file.
 
