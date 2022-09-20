@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 using Autofac;
+using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 
 namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
@@ -29,19 +30,28 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            string currentCultureTag = CultureInfo.CurrentCulture.IetfLanguageTag;
-            XmlLanguage xmlLanguage = XmlLanguage.GetLanguage(currentCultureTag);
-            FrameworkPropertyMetadata frameworkPropertyMetadata = new(xmlLanguage);
-            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), frameworkPropertyMetadata);
-
             IContainer container = SetupServices.BuildContainer();
 
+            SetCurrentCulture(container);
+            
             MainWindow mainWindow = container.Resolve<MainWindow>();
             mainWindow.Show();
 
             MainWindow = mainWindow;
 
             base.OnStartup(e);
+        }
+
+        private static void SetCurrentCulture(IComponentContext container)
+        {
+            IConfig config = container.Resolve<IConfig>();
+
+            CultureInfo.CurrentCulture = config.Culture;
+
+            string currentCultureTag = CultureInfo.CurrentCulture.IetfLanguageTag;
+            XmlLanguage xmlLanguage = XmlLanguage.GetLanguage(currentCultureTag);
+            FrameworkPropertyMetadata frameworkPropertyMetadata = new(xmlLanguage);
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), frameworkPropertyMetadata);
         }
     }
 }

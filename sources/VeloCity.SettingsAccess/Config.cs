@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.Configuring;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ namespace DustInTheWind.VeloCity.SettingsAccess
 {
     public class Config : IConfig
     {
+        private const string CulturePropertyName = "Culture";
         private const string ErrorMessageLevelPropertyName = "ErrorMessageLevel";
         private const string DatabaseLocationPropertyName = "DatabaseLocation";
         private const string DatabaseEditorPropertyName = "DatabaseEditor";
@@ -32,6 +34,18 @@ namespace DustInTheWind.VeloCity.SettingsAccess
         private const string AnalysisLookBackPropertyName = "AnalysisLookBack";
 
         private readonly IConfiguration config;
+
+        public CultureInfo Culture
+        {
+            get
+            {
+                IConfigurationSection configurationSection = config.GetSection(CulturePropertyName);
+
+                return configurationSection.Exists()
+                    ? new CultureInfo(configurationSection.Value)
+                    : CultureInfo.CurrentCulture;
+            }
+        }
 
         public ErrorMessageLevel ErrorMessageLevel
         {

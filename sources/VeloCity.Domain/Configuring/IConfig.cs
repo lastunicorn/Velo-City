@@ -15,11 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace DustInTheWind.VeloCity.Domain.Configuring
 {
     public interface IConfig
     {
+        CultureInfo Culture { get; }
+
         ErrorMessageLevel ErrorMessageLevel { get; }
 
         string DatabaseLocation { get; }
