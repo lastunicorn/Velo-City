@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DatabaseNotFoundExcepti
         {
             DatabaseNotFoundException databaseNotFoundException = new(null);
 
-            string expected = string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, null as string);
+            string expected = string.Format(DustInTheWind.VeloCity.DataAccessPort.Resources.DatabaseNotFound_DefaultErrorMessage, null as string);
             databaseNotFoundException.Message.Should().Be(expected);
         }
 
@@ -37,7 +37,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DatabaseNotFoundExcepti
         {
             DatabaseNotFoundException databaseNotFoundException = new("custom connection string");
 
-            string expected = string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, "custom connection string");
+            string expected = string.Format(DustInTheWind.VeloCity.DataAccessPort.Resources.DatabaseNotFound_DefaultErrorMessage, "custom connection string");
             databaseNotFoundException.Message.Should().Be(expected);
         }
     }

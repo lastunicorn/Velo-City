@@ -33,6 +33,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.DataAccess\VeloCity.Ports.DataAccess.csproj" PrivateAssets="All"  />
         <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />

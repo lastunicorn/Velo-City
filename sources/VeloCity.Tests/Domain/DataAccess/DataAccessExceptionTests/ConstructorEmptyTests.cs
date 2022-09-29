@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTest
         {
             DataAccessException dataAccessException = new();
 
-            dataAccessException.Message.Should().Be(Resources.DataAccess_DefaultErrorMessage);
+            dataAccessException.Message.Should().Be(DustInTheWind.VeloCity.DataAccessPort.Resources.DataAccess_DefaultErrorMessage);
         }
 
         [Fact]

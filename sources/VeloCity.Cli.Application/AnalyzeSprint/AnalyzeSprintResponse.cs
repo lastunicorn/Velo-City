@@ -14,30 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint
 {
-    public class DataAccessException : Exception
+    internal class AnalyzeSprintResponse
     {
-        public DataAccessException()
-            : base(Resources.DataAccess_DefaultErrorMessage)
-        {
-        }
+        public SprintList HistorySprints { get; set; }
 
-        public DataAccessException(string message)
-            : base(message)
-        {
-        }
+        public Velocity EstimatedVelocity { get; set; }
 
-        public DataAccessException(Exception innerException)
-            : base(Resources.DataAccess_DefaultErrorMessage, innerException)
-        {
-        }
+        public StoryPoints EstimatedStoryPoints { get; set; }
 
-        public DataAccessException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
+        public List<VelocityPenaltyInstance> VelocityPenalties { get; set; }
+
+        public int? TotalWorkHoursWithVelocityPenalties { get; set; }
+
+        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
     }
 }

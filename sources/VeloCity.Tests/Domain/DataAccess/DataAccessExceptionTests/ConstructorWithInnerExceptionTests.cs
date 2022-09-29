@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTest
             Exception innerException = new();
             DataAccessException dataAccessException = new(innerException);
 
-            dataAccessException.Message.Should().Be(Resources.DataAccess_DefaultErrorMessage);
+            dataAccessException.Message.Should().Be(DustInTheWind.VeloCity.DataAccessPort.Resources.DataAccess_DefaultErrorMessage);
         }
 
         [Fact]
