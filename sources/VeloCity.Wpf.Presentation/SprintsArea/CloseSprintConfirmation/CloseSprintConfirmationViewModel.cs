@@ -16,6 +16,7 @@
 
 using System.Text;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation
 {

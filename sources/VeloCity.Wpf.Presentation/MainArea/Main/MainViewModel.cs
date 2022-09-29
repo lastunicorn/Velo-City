@@ -21,6 +21,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
+using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
 using MediatR;
@@ -36,6 +37,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
         private TeamPageViewModel teamPageViewModel;
         private ChartsPageViewModel chartsPageViewModel;
         private RefreshCommand refreshCommand;
+        private ViewModelBase popupPageViewModel;
 
         public string Title
         {
@@ -65,6 +67,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
 
         public ChartsPageViewModel ChartsPageViewModel => chartsPageViewModel ??= new ChartsPageViewModel(mediator, eventBus);
 
+        public ViewModelBase PopupPageViewModel
+        {
+            get => popupPageViewModel;
+            set
+            {
+                popupPageViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
         public RefreshCommand RefreshCommand => refreshCommand ??= new RefreshCommand(mediator);
 
         public MainViewModel(IMediator mediator, EventBus eventBus)
@@ -81,6 +93,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
             PresentMainResponse response = await mediator.Send(request);
 
             DatabaseConnectionString = response.DatabaseConnectionString;
+
+            await Task.Delay(1000);
+
+            PopupPageViewModel = new CloseSprintConfirmationViewModel
+            {
+                SprintNumber = 23,
+                SprintName = "My sprint"
+            };
         }
     }
 }

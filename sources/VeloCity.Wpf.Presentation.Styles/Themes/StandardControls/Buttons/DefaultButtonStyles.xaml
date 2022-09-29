@@ -58,14 +58,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     RadiusX="2"
                                     RadiusY="2"
                                     Stroke="{StaticResource AccentBrush}"
-                                    StrokeThickness="1"
+                                    StrokeThickness=".7"
                                     StrokeDashArray="2 2" />
-
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="PART_FocusRectangle" Property="Stroke" Value="Black" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
 
                             </ControlTemplate>
                         </Setter.Value>
