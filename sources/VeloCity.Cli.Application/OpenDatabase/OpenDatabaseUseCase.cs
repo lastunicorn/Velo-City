@@ -17,8 +17,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Domain.Configuring;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Application.OpenDatabase

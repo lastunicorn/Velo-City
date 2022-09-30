@@ -17,7 +17,7 @@
 using System;
 using System.IO;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Ports.DataAccess;
 using Newtonsoft.Json;
 
 namespace DustInTheWind.VeloCity.JsonFiles

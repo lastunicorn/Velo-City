@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Ports.SettingsAccess
 {
-    public enum DataGridStyle
+    public enum ErrorMessageLevel
     {
-        PlusMinus,
-        SingleLine,
-        DoubleLine
+        Verbose,
+        Simple
     }
 }

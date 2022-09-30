@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentConfig;
-using DustInTheWind.VeloCity.Domain.Configuring;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Config

@@ -20,7 +20,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.SystemAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations

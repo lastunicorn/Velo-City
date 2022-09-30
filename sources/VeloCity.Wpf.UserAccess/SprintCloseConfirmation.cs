@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.UserAccess
 {
-    public class SprintCloseDataProvider : ISprintCloseDataProvider
+    public class SprintCloseConfirmation : ISprintCloseConfirmation
     {
-        public CloseSprintConfirmationResponse ConfirmCloseSprint(CloseSprintConfirmationRequest request)
+        public SprintCloseConfirmationResponse ConfirmCloseSprint(SprintCloseConfirmationRequest request)
         {
             CloseSprintConfirmationViewModel viewModel = new()
             {
@@ -36,7 +36,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation
 
             bool? response = window.ShowDialog();
 
-            return new CloseSprintConfirmationResponse
+            return new SprintCloseConfirmationResponse
             {
                 IsAccepted = response == true,
                 ActualStoryPoints = viewModel.ActualStoryPoints,

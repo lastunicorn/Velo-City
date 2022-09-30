@@ -18,10 +18,11 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
-using DustInTheWind.VeloCity.Domain.DataAccess;
-using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
+using DustInTheWind.VeloCity.Ports.SystemAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint

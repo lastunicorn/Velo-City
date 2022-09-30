@@ -18,9 +18,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
-using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using MediatR;
 
@@ -31,18 +31,16 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
-        private readonly ISprintStartDataProvider sprintStartDataProvider;
-        private readonly IConfig config;
+        private readonly ISprintStartConfirmation sprintStartConfirmation;
         private readonly IMediator mediator;
 
         public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
-            ISprintStartDataProvider sprintStartDataProvider, IConfig config, IMediator mediator)
+            ISprintStartConfirmation sprintStartConfirmation, IMediator mediator)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            this.sprintStartDataProvider = sprintStartDataProvider ?? throw new ArgumentNullException(nameof(sprintStartDataProvider));
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            this.sprintStartConfirmation = sprintStartConfirmation ?? throw new ArgumentNullException(nameof(sprintStartConfirmation));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
@@ -54,7 +52,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             ValidateNoSprintIsInProgress(selectedSprint);
             ValidateSprintIsNextInLine(selectedSprint);
 
-            StartSprintConfirmationResponse sprintStartConfirmationResponse = await RequestUserConfirmation(selectedSprint);
+            SprintStartConfirmationResponse sprintStartConfirmationResponse = await RequestUserConfirmation(selectedSprint);
 
             if (sprintStartConfirmationResponse.IsAccepted)
             {
@@ -114,7 +112,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
                 throw new Exception($"The sprint {sprint.Number} cannot be started because sprint {sprintInProgress.Number} is already in progress.");
         }
 
-        private async Task<StartSprintConfirmationResponse> RequestUserConfirmation(Sprint selectedSprint)
+        private async Task<SprintStartConfirmationResponse> RequestUserConfirmation(Sprint selectedSprint)
         {
             AnalyzeSprintRequest request = new()
             {
@@ -122,7 +120,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             };
             AnalyzeSprintResponse response = await mediator.Send(request);
 
-            StartSprintConfirmationRequest startSprintConfirmationRequest = new()
+            SprintStartConfirmationRequest sprintStartConfirmationRequest = new()
             {
                 SprintName = selectedSprint.Name,
                 SprintNumber = selectedSprint.Number,
@@ -131,10 +129,10 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
                 SprintGoal = selectedSprint.Goal
             };
 
-            return sprintStartDataProvider.ConfirmStartSprint(startSprintConfirmationRequest);
+            return sprintStartConfirmation.ConfirmStartSprint(sprintStartConfirmationRequest);
         }
 
-        private static void UpdateSprint(Sprint selectedSprint, StartSprintConfirmationResponse sprintStartConfirmationResponse)
+        private static void UpdateSprint(Sprint selectedSprint, SprintStartConfirmationResponse sprintStartConfirmationResponse)
         {
             selectedSprint.State = SprintState.InProgress;
             selectedSprint.CommitmentStoryPoints = sprintStartConfirmationResponse.CommitmentStoryPoints;

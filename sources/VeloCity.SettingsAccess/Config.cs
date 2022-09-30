@@ -17,8 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using Microsoft.Extensions.Configuration;
 
 namespace DustInTheWind.VeloCity.SettingsAccess

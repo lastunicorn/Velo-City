@@ -16,8 +16,9 @@
 
 using System;
 using System.Collections.Generic;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain.DataAccess
+namespace DustInTheWind.VeloCity.Ports.DataAccess
 {
     public interface ITeamMemberRepository
     {

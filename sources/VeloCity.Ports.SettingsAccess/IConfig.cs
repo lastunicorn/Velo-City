@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace DustInTheWind.VeloCity.Domain.Configuring
+namespace DustInTheWind.VeloCity.Ports.SettingsAccess
 {
     public interface IConfig
     {

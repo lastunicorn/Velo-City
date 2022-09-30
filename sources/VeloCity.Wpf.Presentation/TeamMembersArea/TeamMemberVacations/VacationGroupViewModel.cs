@@ -16,7 +16,7 @@
 
 using System;
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+using DustInTheWind.VeloCity.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
 {

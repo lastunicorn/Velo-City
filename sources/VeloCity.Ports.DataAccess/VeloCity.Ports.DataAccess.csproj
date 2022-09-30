@@ -20,8 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>DustInTheWind.VeloCity.DataAccessPort</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.DataAccessPort</RootNamespace>
+        <AssemblyName>DustInTheWind.VeloCity.Ports.DataAccess</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Ports.DataAccess</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

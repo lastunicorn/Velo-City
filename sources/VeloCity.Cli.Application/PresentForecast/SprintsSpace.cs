@@ -18,8 +18,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
 {
     public class SprintsSpace : IEnumerable<Sprint>
     {

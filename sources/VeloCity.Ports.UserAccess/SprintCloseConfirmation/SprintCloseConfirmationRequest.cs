@@ -14,15 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace DustInTheWind.VeloCity.Domain.Configuring
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation
 {
-    public class ConfigurationOpenException : ConfigurationException
+    public class SprintCloseConfirmationRequest
     {
-        public ConfigurationOpenException(Exception innerException)
-            : base(Resources.ConfigurationOpen_DefaultErrorMessage, innerException)
-        {
-        }
+        public string SprintName { get; set; }
+
+        public int SprintNumber { get; set; }
     }
 }

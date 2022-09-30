@@ -14,10 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
+using System;
+
+namespace DustInTheWind.VeloCity.Ports.SettingsAccess
 {
-    public interface ISprintStartDataProvider
+    public class ConfigurationOpenException : ConfigurationException
     {
-        StartSprintConfirmationResponse ConfirmStartSprint(StartSprintConfirmationRequest request);
+        public ConfigurationOpenException(Exception innerException)
+            : base(Resources.ConfigurationOpen_DefaultErrorMessage, innerException)
+        {
+        }
     }
 }

@@ -18,7 +18,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 using Autofac;
-using DustInTheWind.VeloCity.Domain.Configuring;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 
 namespace DustInTheWind.VeloCity.Wpf.Bootstrapper

@@ -14,12 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
-{
-    public class CloseSprintConfirmationRequest
-    {
-        public string SprintName { get; set; }
+using DustInTheWind.VeloCity.Domain;
 
-        public int SprintNumber { get; set; }
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation
+{
+    public class SprintStartConfirmationResponse
+    {
+        public bool IsAccepted { get; set; }
+
+        public StoryPoints CommitmentStoryPoints { get; set; }
+
+        public string SprintGoal { get; set; }
     }
 }

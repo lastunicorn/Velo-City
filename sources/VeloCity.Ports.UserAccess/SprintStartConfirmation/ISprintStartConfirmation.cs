@@ -14,12 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation
 {
-    public interface ISystemClock
+    public interface ISprintStartConfirmation
     {
-        DateTime Today { get; }
+        SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request);
     }
 }

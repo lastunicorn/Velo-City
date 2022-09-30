@@ -80,7 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             x:Name="TextBoxActualStoryPoints"
             Text="{Binding ActualStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
             TabIndex="1"
-            FontSize="20"/>
+            FontSize="20" />
 
         <Label
             Grid.Row="1"

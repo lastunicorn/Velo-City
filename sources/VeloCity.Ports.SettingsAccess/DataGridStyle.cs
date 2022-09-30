@@ -14,16 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
-
-namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
+namespace DustInTheWind.VeloCity.Ports.SettingsAccess
 {
-    public class CloseSprintConfirmationResponse
+    public enum DataGridStyle
     {
-        public bool IsAccepted { get; set; }
-
-        public StoryPoints ActualStoryPoints { get; set; }
-
-        public string Comments { get; set; }
+        PlusMinus,
+        SingleLine,
+        DoubleLine
     }
 }

@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Ports.DataAccess;
 using FluentAssertions;
 using Xunit;
 
@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTest
         {
             DataAccessException dataAccessException = new();
 
-            dataAccessException.Message.Should().Be(DustInTheWind.VeloCity.DataAccessPort.Resources.DataAccess_DefaultErrorMessage);
+            dataAccessException.Message.Should().Be(DustInTheWind.VeloCity.Ports.DataAccess.Resources.DataAccess_DefaultErrorMessage);
         }
 
         [Fact]

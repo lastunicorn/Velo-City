@@ -94,7 +94,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             x:Name="TextBoxCommitmentStoryPoints"
             Text="{Binding CommitmentStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
             TabIndex="1"
-            Margin="0 3 0 0" />
+            Margin="0 3 0 0"
+            FontSize="20" />
 
         <Label
             Grid.Row="2"

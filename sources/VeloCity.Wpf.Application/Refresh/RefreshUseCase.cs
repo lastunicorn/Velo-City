@@ -17,8 +17,8 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.Refresh

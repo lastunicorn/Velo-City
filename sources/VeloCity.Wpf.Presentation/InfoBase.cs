@@ -17,7 +17,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
+namespace DustInTheWind.VeloCity.Wpf.Presentation
 {
     internal abstract class InfoBase : IEnumerable<string>
     {

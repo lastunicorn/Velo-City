@@ -14,14 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirmation;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.UserAccess
 {
-    public class SprintStartDataProvider : ISprintStartDataProvider
+    public class SprintStartConfirmation : ISprintStartConfirmation
     {
-        public StartSprintConfirmationResponse ConfirmStartSprint(StartSprintConfirmationRequest request)
+        public SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request)
         {
             StartSprintConfirmationViewModel viewModel = new()
             {
@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation
 
             bool? response = window.ShowDialog();
 
-            return new StartSprintConfirmationResponse
+            return new SprintStartConfirmationResponse
             {
                 IsAccepted = response == true,
                 CommitmentStoryPoints = viewModel.CommitmentStoryPoints,

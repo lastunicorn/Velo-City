@@ -16,14 +16,14 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation
 {
-    public class StartSprintConfirmationResponse
+    public class SprintCloseConfirmationResponse
     {
         public bool IsAccepted { get; set; }
 
-        public StoryPoints CommitmentStoryPoints { get; set; }
+        public StoryPoints ActualStoryPoints { get; set; }
 
-        public string SprintGoal { get; set; }
+        public string Comments { get; set; }
     }
 }

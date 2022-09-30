@@ -15,10 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using FluentAssertions;
 using Xunit;
+using Resources = DustInTheWind.VeloCity.Domain.Resources;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExceptionTests
 {
@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExcep
         {
             ConfigurationOpenException configurationOpenException = new(null);
 
-            configurationOpenException.Message.Should().Be(Resources.ConfigurationOpen_DefaultErrorMessage);
+            configurationOpenException.Message.Should().Be(DustInTheWind.VeloCity.Ports.SettingsAccess.Resources.ConfigurationOpen_DefaultErrorMessage);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExcep
             Exception innerException = new();
             ConfigurationOpenException configurationOpenException = new(innerException);
 
-            configurationOpenException.Message.Should().Be(Resources.ConfigurationOpen_DefaultErrorMessage);
+            configurationOpenException.Message.Should().Be(DustInTheWind.VeloCity.Ports.SettingsAccess.Resources.ConfigurationOpen_DefaultErrorMessage);
         }
 
         [Fact]
