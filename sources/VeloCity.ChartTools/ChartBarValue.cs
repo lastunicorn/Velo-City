@@ -18,7 +18,7 @@ using System;
 
 namespace DustInTheWind.VeloCity.ChartTools
 {
-    public class ChartBarValue
+    public class ChartBarValue<T> : IChartBarValue
     {
         private int? actualSpace;
         private int? actualMaxValue;
@@ -26,7 +26,9 @@ namespace DustInTheWind.VeloCity.ChartTools
         private int? actualEmptyValue;
         private int? actualEmptySpace;
 
-        public Chart Container { get; set; }
+        public Chart<T> Container { get; set; }
+
+        public T Item { get; set; }
 
         public int MaxValue { get; set; }
 

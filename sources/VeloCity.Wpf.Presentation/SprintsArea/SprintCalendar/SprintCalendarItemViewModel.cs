@@ -24,7 +24,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
     public class SprintCalendarItemViewModel : DataGridRowViewModel
     {
-        private ChartBarValue chartBarValue;
+        private ChartBarValue<SprintCalendarItemViewModel> chartBarValue;
 
         public override bool IsSelectable => true;
 
@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
         public bool HasWorkHours => WorkHours?.Value > 0;
 
-        public ChartBarValue ChartBarValue
+        public ChartBarValue<SprintCalendarItemViewModel> ChartBarValue
         {
             get => IsWorkDay ? chartBarValue : null;
             set => chartBarValue = value;

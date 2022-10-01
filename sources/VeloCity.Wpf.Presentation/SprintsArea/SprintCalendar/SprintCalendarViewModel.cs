@@ -104,31 +104,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
         private static void CreateChartBars(IEnumerable<SprintCalendarItemViewModel> calendarItems)
         {
-            Chart chart = new()
+            SprintWorkChart chart = new(calendarItems);
+
+            foreach (ChartBarValue<SprintCalendarItemViewModel> chartBarValue in chart)
             {
-                ActualSize = 100
-            };
-
-            IEnumerable<ChartBarValue> chartBars = calendarItems
-                .Select(x =>
-                {
-                    int workHours = x.WorkHours?.Value ?? 0;
-                    int absenceHours = x.AbsenceHours?.Value ?? 0;
-
-                    ChartBarValue chartBarValue = new()
-                    {
-                        MaxValue = workHours + absenceHours,
-                        FillValue = workHours
-                    };
-
-                    if (x.IsWorkDay)
-                        x.ChartBarValue = chartBarValue;
-
-                    return chartBarValue;
-                });
-
-            chart.AddRange(chartBars);
-            chart.Calculate();
+                if (chartBarValue.Item?.IsWorkDay == true)
+                    chartBarValue.Item.ChartBarValue = chartBarValue;
+            }
         }
     }
 }

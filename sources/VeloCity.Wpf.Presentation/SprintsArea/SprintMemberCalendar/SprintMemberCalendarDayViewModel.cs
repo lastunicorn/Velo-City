@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.ComponentModel;
 using System.Text;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
@@ -23,9 +24,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
 {
     public class SprintMemberCalendarDayViewModel : DataGridRowViewModel
     {
-        private ChartBarValue chartBarValue;
+        private ChartBarValue<SprintMemberCalendarDayViewModel> chartBarValue;
         private bool canAddVacation;
         private bool canRemoveVacation;
+        private HoursValue? absenceHours;
+        private bool hasAbsenceHours;
 
         public override bool IsSelectable => true;
 
@@ -37,16 +40,34 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
 
         public bool HasWorkHours => WorkHours?.Value > 0;
 
-        public ChartBarValue ChartBarValue
+        public ChartBarValue<SprintMemberCalendarDayViewModel> ChartBarValue
         {
             get => IsWorkDay ? chartBarValue : null;
             set => chartBarValue = value;
         }
 
-        public HoursValue? AbsenceHours { get; }
+        public HoursValue? AbsenceHours
+        {
+            get => absenceHours;
+            set
+            {
+                absenceHours = value;
+                OnPropertyChanged();
 
-        public bool HasAbsenceHours => AbsenceHours?.Value > 0;
-        
+                HasAbsenceHours = AbsenceHours?.Value > 0;
+            }
+        }
+
+        public bool HasAbsenceHours
+        {
+            get => hasAbsenceHours;
+            set
+            {
+                hasAbsenceHours = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string AbsenceDetails { get; }
 
         public bool CanAddVacation
@@ -98,29 +119,29 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
                     return string.Empty;
 
                 case AbsenceReason.OfficialHoliday:
-                {
-                    StringBuilder sb = new();
+                    {
+                        StringBuilder sb = new();
 
-                    if (sprintMemberDay.AbsenceComments != null)
-                        sb.Append(sprintMemberDay.AbsenceComments);
+                        if (sprintMemberDay.AbsenceComments != null)
+                            sb.Append(sprintMemberDay.AbsenceComments);
 
-                    return sb.ToString();
-                }
+                        return sb.ToString();
+                    }
 
                 case AbsenceReason.Vacation:
                 case AbsenceReason.Unemployed:
                 case AbsenceReason.Contract:
-                {
-                    StringBuilder sb = new();
+                    {
+                        StringBuilder sb = new();
 
-                    string absenceReason = ToString(sprintMemberDay.AbsenceReason);
-                    sb.Append(absenceReason);
+                        string absenceReason = ToString(sprintMemberDay.AbsenceReason);
+                        sb.Append(absenceReason);
 
-                    if (sprintMemberDay.AbsenceComments != null)
-                        sb.Append($" ({sprintMemberDay.AbsenceComments})");
+                        if (sprintMemberDay.AbsenceComments != null)
+                            sb.Append($" ({sprintMemberDay.AbsenceComments})");
 
-                    return sb.ToString();
-                }
+                        return sb.ToString();
+                    }
 
                 default:
                     throw new ArgumentOutOfRangeException();

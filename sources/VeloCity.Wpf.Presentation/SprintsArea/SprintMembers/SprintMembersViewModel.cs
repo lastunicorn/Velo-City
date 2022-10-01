@@ -89,27 +89,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         private static void CreateChartBars(IEnumerable<SprintMemberViewModel> sprintMemberViewModels)
         {
-            Chart chart = new()
+            SprintMembersWorkChart chart = new(sprintMemberViewModels);
+
+            foreach (ChartBarValue<SprintMemberViewModel> chartBarValue in chart)
             {
-                ActualSize = 100
-            };
-
-            IEnumerable<ChartBarValue> chartBars = sprintMemberViewModels
-                .Select(x =>
-                {
-                    ChartBarValue chartBarValue = new()
-                    {
-                        MaxValue = x.WorkHours + x.AbsenceHours,
-                        FillValue = x.WorkHours
-                    };
-
-                    x.ChartBarValue = chartBarValue;
-
-                    return chartBarValue;
-                });
-
-            chart.AddRange(chartBars);
-            chart.Calculate();
+                if (chartBarValue.Item != null)
+                    chartBarValue.Item.ChartBarValue = chartBarValue;
+            }
         }
     }
 }

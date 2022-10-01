@@ -116,5 +116,11 @@ namespace DustInTheWind.VeloCity.Domain
         {
             return hoursValue1 - hoursValue2.Value;
         }
+
+        public static HoursValue Parse(string stringValue)
+        {
+            int intValue = int.Parse(stringValue);
+            return new HoursValue(intValue);
+        }
     }
 }

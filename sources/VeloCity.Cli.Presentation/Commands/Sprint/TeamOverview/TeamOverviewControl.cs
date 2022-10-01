@@ -67,17 +67,17 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
 
         private void AddContentData(DataGrid dataGrid)
         {
-            Chart chart = CreateChart();
-            using IEnumerator<ChartBarValue> chartBarEnumerator = chart.GetEnumerator();
+            TeamMembersChart chart = new(ViewModel.TeamMembers);
+            using IEnumerator<ChartBarValue<TeamMemberViewModel>> chartBarEnumerator = chart.GetEnumerator();
 
             IEnumerable<ContentRow> rows = ViewModel.TeamMembers
                 .Select(x =>
                 {
                     bool success = chartBarEnumerator.MoveNext();
 
-                    ChartBarValue chartBarValue = success
+                    ChartBarValue<TeamMemberViewModel> chartBarValue = success
                         ? chartBarEnumerator.Current
-                        : new ChartBarValue();
+                        : new ChartBarValue<TeamMemberViewModel>();
 
                     return CreateContentRow(x, chartBarValue);
                 });
@@ -86,27 +86,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
                 dataGrid.Rows.Add(row);
         }
 
-        private Chart CreateChart()
-        {
-            Chart chart = new()
-            {
-                ActualSize = 24
-            };
-
-            IEnumerable<ChartBarValue> chartBars = ViewModel.TeamMembers
-                .Select(x => new ChartBarValue
-                {
-                    MaxValue = x.WorkHours + x.AbsenceHours,
-                    FillValue = x.WorkHours
-                });
-
-            chart.AddRange(chartBars);
-            chart.Calculate();
-
-            return chart;
-        }
-
-        private static ContentRow CreateContentRow(TeamMemberViewModel teamMember, ChartBarValue chartBarValue)
+        private static ContentRow CreateContentRow(TeamMemberViewModel teamMember, ChartBarValue<TeamMemberViewModel> chartBarValue)
         {
             ContentRow dataRow = new();
 
@@ -144,7 +124,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
             };
         }
 
-        private static ContentCell CreateChartCell(ChartBarValue chartBarValue)
+        private static ContentCell CreateChartCell(ChartBarValue<TeamMemberViewModel> chartBarValue)
         {
             return new ContentCell
             {

@@ -18,7 +18,6 @@ using System;
 using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 {
@@ -36,7 +35,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         public bool HasAbsenceHours => AbsenceHours.Value > 0;
 
-        public ChartBarValue ChartBarValue { get; set; }
+        public ChartBarValue<SprintMemberViewModel> ChartBarValue { get; set; }
         
         public ShowSprintMemberCalendarCommand ShowSprintMemberCalendarCommand { get; }
 

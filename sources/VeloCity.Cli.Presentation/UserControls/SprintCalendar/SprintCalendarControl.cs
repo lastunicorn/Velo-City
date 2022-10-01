@@ -82,17 +82,17 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
 
         private void AddContentData(DataGrid dataGrid)
         {
-            Chart chart = CreateChart();
-            using IEnumerator<ChartBarValue> chartBarEnumerator = chart.GetEnumerator();
+            SprintWorkChart chart = new(ViewModel.CalendarItems);
+            using IEnumerator<ChartBarValue<CalendarItemViewModel>> chartBarEnumerator = chart.GetEnumerator();
 
             IEnumerable<ContentRow> rows = ViewModel.CalendarItems
                 .Select(x =>
                 {
                     bool success = chartBarEnumerator.MoveNext();
 
-                    ChartBarValue chartBarValue = success
+                    ChartBarValue<CalendarItemViewModel> chartBarValue = success
                         ? chartBarEnumerator.Current
-                        : new ChartBarValue();
+                        : new ChartBarValue<CalendarItemViewModel>();
 
                     return CreateContentRow(x, chartBarValue);
                 });
@@ -101,28 +101,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
                 dataGrid.Rows.Add(dataRow);
         }
 
-        private Chart CreateChart()
-        {
-            Chart chart = new()
-            {
-                ActualSize = 24
-            };
-
-            IEnumerable<ChartBarValue> chartBars = ViewModel.CalendarItems
-                .Select(x => new ChartBarValue
-                {
-                    MaxValue = x.WorkHours + x.AbsenceHours,
-                    FillValue = x.WorkHours
-                });
-
-            chart.AddRange(chartBars);
-
-            chart.Calculate();
-
-            return chart;
-        }
-
-        private ContentRow CreateContentRow(CalendarItemViewModel calendarItem, ChartBarValue chartBarValue)
+        private ContentRow CreateContentRow(CalendarItemViewModel calendarItem, ChartBarValue<CalendarItemViewModel> chartBarValue)
         {
             ContentRow dataRow = new();
 
@@ -179,7 +158,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
             };
         }
 
-        private static ContentCell CreateChartCell(ChartBarValue chartBarValue)
+        private static ContentCell CreateChartCell(ChartBarValue<CalendarItemViewModel> chartBarValue)
         {
             return new ContentCell
             {

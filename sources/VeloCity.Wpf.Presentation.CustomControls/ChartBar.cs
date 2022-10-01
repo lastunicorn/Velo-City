@@ -24,13 +24,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
     {
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
             nameof(Value),
-            typeof(ChartBarValue),
+            typeof(IChartBarValue),
             typeof(ChartBar)
         );
 
-        public ChartBarValue Value
+        public IChartBarValue Value
         {
-            get => (ChartBarValue)GetValue(ValueProperty);
+            get => (IChartBarValue)GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
         }
 

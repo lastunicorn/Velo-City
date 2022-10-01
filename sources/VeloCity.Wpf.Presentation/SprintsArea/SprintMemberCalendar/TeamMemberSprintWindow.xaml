@@ -47,6 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/RemoveVacationIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ChartBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <sprintMemberCalendar:HoursValueConverter x:Key="HoursValueConverter" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -123,8 +125,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </DataGridTemplateColumn>
 
             <DataGridTextColumn
-                Binding="{Binding AbsenceHours}"
-                CanUserSort="False">
+                Binding="{Binding AbsenceHours, Converter={StaticResource HoursValueConverter}}"
+                CanUserSort="False"
+                IsReadOnly="False">
 
                 <DataGridTextColumn.Header>
                     <DataGridColumnHeader
