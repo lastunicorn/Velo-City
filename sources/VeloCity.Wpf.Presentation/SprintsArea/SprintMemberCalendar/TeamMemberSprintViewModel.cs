@@ -14,15 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
+using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
 {
     public class TeamMemberSprintViewModel : ViewModelBase
     {
+        private readonly IMediator mediator;
         private string title;
         private List<SprintMemberCalendarDayViewModel> days;
 
@@ -46,11 +49,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             }
         }
 
+        public TeamMemberSprintViewModel(IMediator mediator)
+        {
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
+
         public void SetSprintMember(SprintMember sprintMember)
         {
             Title = sprintMember.TeamMember.Name;
             Days = sprintMember.Days
-                .Select(x => new SprintMemberCalendarDayViewModel(x))
+                .Select(x => new SprintMemberCalendarDayViewModel(mediator, x))
                 .ToList();
 
             CreateChartBars(Days);

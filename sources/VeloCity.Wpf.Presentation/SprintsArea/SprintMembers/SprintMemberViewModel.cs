@@ -18,6 +18,7 @@ using System;
 using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
+using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 {
@@ -39,7 +40,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
         
         public ShowSprintMemberCalendarCommand ShowSprintMemberCalendarCommand { get; }
 
-        public SprintMemberViewModel(SprintMember sprintMember)
+        public SprintMemberViewModel(IMediator mediator, SprintMember sprintMember)
         {
             if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
 
@@ -49,7 +50,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
                 .Where(IsAbsenceDay)
                 .Sum(x => x.AbsenceHours);
 
-            ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand
+            ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand(mediator)
             {
                 SprintMember = sprintMember
             };

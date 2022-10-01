@@ -62,14 +62,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <DataGrid
         ItemsSource="{Binding Days}"
-        AutoGenerateColumns="False"
-        IsReadOnly="True">
+        AutoGenerateColumns="False">
 
         <DataGrid.Columns>
 
             <DataGridTextColumn
                 Binding="{Binding Date, StringFormat={}{0:dddd}}"
-                CanUserSort="False">
+                CanUserSort="False"
+                IsReadOnly="True">
 
                 <DataGridTextColumn.Header>
                     <DataGridColumnHeader
@@ -87,11 +87,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <DataGridTextColumn
                 Header="Date"
                 Binding="{Binding Date, StringFormat={}{0:yyyy MM dd}}"
-                CanUserSort="False" />
+                CanUserSort="False"
+                IsReadOnly="True" />
 
             <DataGridTextColumn
                 Binding="{Binding WorkHours}"
-                CanUserSort="False">
+                CanUserSort="False"
+                IsReadOnly="True">
 
                 <DataGridTextColumn.Header>
                     <DataGridColumnHeader
@@ -114,7 +116,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <DataGridTemplateColumn
                 CanUserSort="False"
-                Width="250">
+                Width="250"
+                IsReadOnly="True">
 
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -152,9 +155,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Header="Absence Details"
                 Binding="{Binding AbsenceDetails}"
                 CanUserSort="False"
-                Foreground="#F9F1A5" />
+                Foreground="#F9F1A5"
+                IsReadOnly="True" />
 
-            <DataGridTemplateColumn>
+            <!--<DataGridTemplateColumn
+                IsReadOnly="True">
+
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -205,7 +211,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
+            </DataGridTemplateColumn>-->
 
         </DataGrid.Columns>
 

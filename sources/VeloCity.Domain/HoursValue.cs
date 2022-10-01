@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Text.RegularExpressions;
 
 namespace DustInTheWind.VeloCity.Domain
 {
@@ -26,9 +27,26 @@ namespace DustInTheWind.VeloCity.Domain
 
         public static HoursValue Zero { get; } = new(0);
 
+        public bool IsZero => Value == 0;
+
         public HoursValue(int value)
         {
             Value = value;
+        }
+
+        public bool Equals(HoursValue other)
+        {
+            return Value == other.Value;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is HoursValue other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value;
         }
 
         public string ToString(string format, IFormatProvider formatProvider)
@@ -46,6 +64,7 @@ namespace DustInTheWind.VeloCity.Domain
                 ? $"{DefaultZeroCharacter} h"
                 : $"{Value} h";
         }
+
 
         public static implicit operator HoursValue(int value)
         {
@@ -117,9 +136,60 @@ namespace DustInTheWind.VeloCity.Domain
             return hoursValue1 - hoursValue2.Value;
         }
 
+        public static bool operator ==(int hoursValue1, HoursValue hoursValue2)
+        {
+            return hoursValue1 == hoursValue2.Value;
+        }
+
+        public static bool operator !=(int hoursValue1, HoursValue hoursValue2)
+        {
+            return hoursValue1 != hoursValue2.Value;
+        }
+
+        public static bool operator ==(HoursValue hoursValue1, int hoursValue2)
+        {
+            return hoursValue1.Value == hoursValue2;
+        }
+
+        public static bool operator !=(HoursValue hoursValue1, int hoursValue2)
+        {
+            return hoursValue1.Value != hoursValue2;
+        }
+
+        public static bool operator >(int hoursValue1, HoursValue hoursValue2)
+        {
+            return hoursValue1 > hoursValue2.Value;
+        }
+
+        public static bool operator <(int hoursValue1, HoursValue hoursValue2)
+        {
+            return hoursValue1 < hoursValue2.Value;
+        }
+
+        public static bool operator >(HoursValue hoursValue1, int hoursValue2)
+        {
+            return hoursValue1.Value > hoursValue2;
+        }
+
+        public static bool operator <(HoursValue hoursValue1, int hoursValue2)
+        {
+            return hoursValue1.Value < hoursValue2;
+        }
+
         public static HoursValue Parse(string stringValue)
         {
-            int intValue = int.Parse(stringValue);
+            Regex regex = new(@"^\s*([0-9]*|-)\s*h?\s*$");
+            Match match = regex.Match(stringValue);
+
+            if (!match.Success)
+                throw new ArgumentException("The string does not represent an hour value.", nameof(stringValue));
+
+            string numberString = match.Groups[1].Value;
+
+            if (numberString == "-")
+                return Zero;
+
+            int intValue = int.Parse(numberString);
             return new HoursValue(intValue);
         }
     }

@@ -83,7 +83,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
         private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMember> sprintMembers)
         {
             return sprintMembers
-                .Select(x => new SprintMemberViewModel(x))
+                .Select(x => new SprintMemberViewModel(mediator, x))
                 .ToList();
         }
 

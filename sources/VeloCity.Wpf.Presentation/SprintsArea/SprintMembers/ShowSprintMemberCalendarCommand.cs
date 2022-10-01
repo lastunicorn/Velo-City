@@ -19,14 +19,22 @@ using System.Windows;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
+using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 {
     public class ShowSprintMemberCalendarCommand : ICommand
     {
+        private readonly IMediator mediator;
+
         public SprintMember SprintMember { get; set; }
 
         public event EventHandler CanExecuteChanged;
+
+        public ShowSprintMemberCalendarCommand(IMediator mediator)
+        {
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        }
 
         public bool CanExecute(object parameter)
         {
@@ -35,7 +43,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         public void Execute(object parameter)
         {
-            TeamMemberSprintViewModel viewModel = new();
+            TeamMemberSprintViewModel viewModel = new(mediator);
             viewModel.SetSprintMember(SprintMember);
 
             Window owner = System.Windows.Application.Current.MainWindow;

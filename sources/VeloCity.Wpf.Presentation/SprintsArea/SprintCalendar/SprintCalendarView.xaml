@@ -102,30 +102,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <customControls:ChartBar Value="{Binding ChartBarValue}" />
-                            <!--<Grid
-                                Visibility="{Binding ChartBarValue, Converter={StaticResource NullToVisibilityConverter}}"
-                                HorizontalAlignment="Stretch">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding ChartBarValue.ActualFillValue, Converter={StaticResource IntToGridLengthConverter}}" />
-                                    <ColumnDefinition Width="{Binding ChartBarValue.ActualEmptyValue, Converter={StaticResource IntToGridLengthConverter}}" />
-                                    <ColumnDefinition Width="{Binding ChartBarValue.ActualEmptySpace, Converter={StaticResource IntToGridLengthConverter}}" />
-                                </Grid.ColumnDefinitions>
-
-                                <Border
-                                    Grid.Column="0"
-                                    Background="{StaticResource SuccessBrush}"
-                                    Height="3" />
-
-                                <Border
-                                    Grid.Column="1"
-                                    Height="1"
-                                    Background="#40F9F1A5" />
-
-                                <Border
-                                    Grid.Column="2" />
-
-                            </Grid>-->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 

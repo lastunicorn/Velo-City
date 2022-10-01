@@ -30,6 +30,8 @@ namespace DustInTheWind.VeloCity.Domain
 
         public bool IsZero => StartDate != null && EndDate != null && StartDate.Value == EndDate.Value;
 
+        public int TotalDays => (int)((EndDate ?? DateTime.MaxValue) - (StartDate ?? DateTime.MinValue)).TotalDays + 1;
+
         public DateInterval(DateTime? startDate = null, DateTime? endDate = null)
         {
             StartDate = startDate?.Date;
@@ -81,6 +83,40 @@ namespace DustInTheWind.VeloCity.Domain
             string startDateString = StartDate?.ToString("d") ?? "<<<";
             string endDateString = EndDate?.ToString("d") ?? ">>>";
             return $"{startDateString} - {endDateString}";
+        }
+
+        public DateInterval InflateLeft(uint dayCount)
+        {
+            DateTime? newStartDate = StartDate == null
+                ? null
+                : (StartDate - DateTime.MinValue > TimeSpan.FromDays(dayCount))
+                    ? StartDate.Value.AddDays(-dayCount)
+                    : DateTime.MinValue;
+
+            return new DateInterval(newStartDate, EndDate);
+        }
+
+        public DateInterval InflateRight(uint dayCount)
+        {
+            DateTime? newEndDate = EndDate == null
+                ? null
+                : (DateTime.MaxValue - EndDate > TimeSpan.FromDays(dayCount))
+                    ? EndDate.Value.AddDays(dayCount)
+                    : DateTime.MaxValue;
+
+            return new DateInterval(StartDate, newEndDate);
+        }
+
+        public DateInterval ChangeStartDate(DateTime? date)
+        {
+            DateTime? newStartDate = date?.Date;
+            return new DateInterval(newStartDate, EndDate);
+        }
+
+        public DateInterval ChangeEndDate(DateTime? date)
+        {
+            DateTime? newEndDate = date?.Date;
+            return new DateInterval(StartDate, newEndDate);
         }
     }
 }
