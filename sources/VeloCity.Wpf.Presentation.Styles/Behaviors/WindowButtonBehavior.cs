@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
         public static readonly DependencyProperty IsDefaultProperty = DependencyProperty.RegisterAttached(
             "IsDefault",
             typeof(bool),
-            typeof(WindowMoveBehavior),
+            typeof(WindowButtonBehavior),
             new UIPropertyMetadata(false, HandleIsDefaultChanged));
 
         public static bool GetIsDefault(DependencyObject obj)

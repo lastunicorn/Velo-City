@@ -62,8 +62,8 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             containerBuilder.RegisterType<MainWindow>().AsSelf();
             containerBuilder.RegisterType<MainViewModel>().AsSelf();
 
-            containerBuilder.RegisterType<SprintStartConfirmation>().As<ISprintStartConfirmation>();
-            containerBuilder.RegisterType<SprintCloseConfirmation>().As<ISprintCloseConfirmation>();
+            containerBuilder.RegisterType<SprintStartConfirmationDisplay>().As<ISprintStartConfirmation>();
+            containerBuilder.RegisterType<SprintCloseConfirmationDisplay>().As<ISprintCloseConfirmation>();
         }
     }
 }

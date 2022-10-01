@@ -19,11 +19,11 @@ using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirmatio
 
 namespace DustInTheWind.VeloCity.Wpf.UserAccess
 {
-    public class SprintStartConfirmation : ISprintStartConfirmation
+    public class SprintStartConfirmationDisplay : ISprintStartConfirmation
     {
         public SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request)
         {
-            StartSprintConfirmationViewModel viewModel = new()
+            SprintStartConfirmationViewModel viewModel = new()
             {
                 SprintName = request.SprintName,
                 SprintNumber = request.SprintNumber,
@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Wpf.UserAccess
                 CommitmentStoryPoints = request.CommitmentStoryPoints,
                 SprintGoal = request.SprintGoal
             };
-            StartSprintConfirmationWindow window = new()
+            SprintStartConfirmationWindow window = new()
             {
                 DataContext = viewModel,
                 Owner = System.Windows.Application.Current.MainWindow

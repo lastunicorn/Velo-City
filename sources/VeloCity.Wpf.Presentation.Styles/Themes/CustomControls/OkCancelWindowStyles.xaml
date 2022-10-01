@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters1:ResizeModeToGripVisibilityConverter x:Key="ResizeModeToGripVisibilityConverter" />
 
     <Style TargetType="{x:Type customControls:OkCancelWindow}">
@@ -37,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="ShowInTaskbar" Value="False" />
         <Setter Property="Width" Value="640" />
         <Setter Property="Height" Value="480" />
+        <Setter Property="Margin" Value="40" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -50,7 +52,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             MinHeight="90"
                             Background="{StaticResource PrimaryDarkBrush}"
                             Padding="30 0"
-                            behaviors:WindowMoveBehavior.IsWindowMover="True"
+                            behaviors:WindowBehavior.IsWindowMover="True"
+                            behaviors:WindowBehavior.IsWindowMaximizer="True"
                             BorderThickness="0 0 0 1"
                             BorderBrush="{StaticResource PrimaryLightBrush}">
 
@@ -60,7 +63,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     DockPanel.Dock="Left"
                                     Width="32"
                                     Height="32"
-                                    Margin="0 0 20 0">
+                                    Margin="0 0 20 0"
+                                    Visibility="{Binding IsTitleIconVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                                     <ContentPresenter Content="{TemplateBinding TitleIcon}" />
 
@@ -97,17 +101,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     Margin="30 0">
 
                                     <Button
-                                        Content="Ok"
+                                        Content="{TemplateBinding OkButtonContent}"
                                         IsDefault="True"
                                         MinWidth="100"
                                         behaviors:WindowButtonBehavior.IsDefault="True"
-                                        TabIndex="3" />
+                                        TabIndex="3"
+                                        Visibility="{Binding IsOkButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                     <Button
-                                        Content="Cancel"
+                                        Content="{TemplateBinding CancelButtonContent}"
                                         IsCancel="True"
                                         MinWidth="100"
-                                        TabIndex="4" />
+                                        TabIndex="4"
+                                        Visibility="{Binding IsCancelButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                 </StackPanel>
 
@@ -115,12 +121,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
                                     Visibility="{Binding ResizeMode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ResizeModeToGripVisibilityConverter}}"
-                                    IsTabStop="False"/>
+                                    IsTabStop="False" />
                             </Grid>
 
                         </Border>
 
-                        <ContentPresenter Margin="30" />
+                        <ContentPresenter Margin="{TemplateBinding Margin}" />
 
                     </DockPanel>
 

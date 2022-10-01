@@ -19,7 +19,7 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirmation
 {
-    public class StartSprintConfirmationViewModel : ViewModelBase
+    public class SprintStartConfirmationViewModel : ViewModelBase
     {
         private string title;
         private string sprintName;

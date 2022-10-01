@@ -19,11 +19,11 @@ using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation
 {
     /// <summary>
-    /// Interaction logic for CloseSprintConfirmationWindow.xaml
+    /// Interaction logic for SprintCloseConfirmationWindow.xaml
     /// </summary>
-    public partial class CloseSprintConfirmationWindow : OkCancelWindow
+    public partial class SprintCloseConfirmationWindow : OkCancelWindow
     {
-        public CloseSprintConfirmationWindow()
+        public SprintCloseConfirmationWindow()
         {
             InitializeComponent();
         }

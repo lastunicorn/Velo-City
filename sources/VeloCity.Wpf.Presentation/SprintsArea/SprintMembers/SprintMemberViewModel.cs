@@ -19,13 +19,12 @@ using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
+using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 {
-    public class SprintMemberOverviewViewModel : DataGridRowViewModel
+    public class SprintMemberViewModel : DataGridRowViewModel
     {
-        private readonly SprintMember sprintMember;
-
         public override bool IsSelectable => true;
 
         public PersonName Name { get; }
@@ -42,9 +41,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         public SprintMemberCalendarViewModel SprintMemberCalendarViewModel { get; }
 
-        public SprintMemberOverviewViewModel(SprintMember sprintMember)
+        public ShowSprintMemberCalendarCommand ShowSprintMemberCalendarCommand { get; }
+
+        public SprintMemberViewModel(IMediator mediator, SprintMember sprintMember)
         {
-            this.sprintMember = sprintMember ?? throw new ArgumentNullException(nameof(sprintMember));
+            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
+            if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
 
             Name = sprintMember.Name;
             WorkHours = sprintMember.WorkHours;
@@ -52,12 +54,17 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
                 .Where(IsAbsenceDay)
                 .Sum(x => x.AbsenceHours);
 
+            ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand(mediator)
+            {
+                SprintMember = sprintMember
+            };
+
             SprintMemberCalendarViewModel = new SprintMemberCalendarViewModel(sprintMember);
         }
 
         private static bool IsAbsenceDay(SprintMemberDay sprintMemberDay)
         {
-            bool isWeekEnd = sprintMemberDay.SprintDay.Date.DayOfWeek is (DayOfWeek.Saturday or DayOfWeek.Sunday);
+            bool isWeekEnd = sprintMemberDay.SprintDay.Date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
             if (!isWeekEnd)
                 return true;
 

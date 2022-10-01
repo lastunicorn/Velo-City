@@ -19,16 +19,17 @@ using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmatio
 
 namespace DustInTheWind.VeloCity.Wpf.UserAccess
 {
-    public class SprintCloseConfirmation : ISprintCloseConfirmation
+    public class SprintCloseConfirmationDisplay : ISprintCloseConfirmation
     {
         public SprintCloseConfirmationResponse ConfirmCloseSprint(SprintCloseConfirmationRequest request)
         {
-            CloseSprintConfirmationViewModel viewModel = new()
+            SprintCloseConfirmationViewModel viewModel = new()
             {
                 SprintName = request.SprintName,
                 SprintNumber = request.SprintNumber
             };
-            CloseSprintConfirmationWindow window = new()
+
+            SprintCloseConfirmationWindow window = new()
             {
                 DataContext = viewModel,
                 Owner = System.Windows.Application.Current.MainWindow

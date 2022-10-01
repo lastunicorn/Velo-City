@@ -47,17 +47,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <ScrollViewer Padding="0 0 0 0">
 
         <DataGrid
-            ItemsSource="{Binding SprintMembersOverview}"
+            ItemsSource="{Binding SprintMemberViewModels}"
             AutoGenerateColumns="False"
             IsReadOnly="True"
             PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
 
             <DataGrid.Columns>
 
-                <DataGridTextColumn
-                    Header="Name"
-                    Binding="{Binding Name}"
-                    CanUserSort="False" />
+                <DataGridTemplateColumn CanUserSort="False">
+
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock
+                            Text="Name"
+                            Margin="20 0" />
+                    </DataGridTemplateColumn.Header>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                Command="{Binding ShowSprintMemberCalendarCommand}"
+                                CommandParameter="{Binding SprintMemberCalendarViewModel}"
+                                Content="{Binding Name}"
+                                HorizontalContentAlignment="Left" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
 
                 <DataGridTextColumn
                     Binding="{Binding WorkHours}"
@@ -148,7 +163,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </Style>
             </DataGrid.CellStyle>
 
-            <DataGrid.RowDetailsTemplate>
+            <!--<DataGrid.RowDetailsTemplate>
                 <DataTemplate>
 
                     <DockPanel
@@ -167,7 +182,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </DockPanel>
 
                 </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
+            </DataGrid.RowDetailsTemplate>-->
 
             <DataGrid.ItemContainerStyle>
                 <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">

@@ -16,11 +16,10 @@
 
 using System.Text;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation
 {
-    public class CloseSprintConfirmationViewModel : ViewModelBase
+    public class SprintCloseConfirmationViewModel : ViewModelBase
     {
         private string title;
         private string sprintName;

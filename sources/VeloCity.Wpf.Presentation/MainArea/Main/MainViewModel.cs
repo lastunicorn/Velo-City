@@ -96,7 +96,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
 
             await Task.Delay(1000);
 
-            PopupPageViewModel = new CloseSprintConfirmationViewModel
+            PopupPageViewModel = new SprintCloseConfirmationViewModel
             {
                 SprintNumber = 23,
                 SprintName = "My sprint"
