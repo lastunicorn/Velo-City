@@ -3,7 +3,9 @@ Velo City
 
 v1.13.0
 ----------------------------------------------------------------------------------------------------
-
+- [feature] [wpf] Improved the info texts from the info bubbles.
+- [feature] [wpf] Display the sprint member calendar in a popup window.
+- [install] [wpf] Changed the install directory from "Velo City" to "VeloCity".
 
 
 v1.12.0

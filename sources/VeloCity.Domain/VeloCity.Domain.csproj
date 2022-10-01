@@ -1,5 +1,5 @@
-<!--
-Velo City
+﻿<!--
+VeloCity
 Copyright (C) 2022 Dust in the Wind
 
 This program is free software: you can redistribute it and/or modify
@@ -47,10 +47,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>DustInTheWind.VeloCity.Tests</_Parameter1>
         </AssemblyAttribute>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Configuring\" />
     </ItemGroup>
 
 </Project>
