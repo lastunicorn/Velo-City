@@ -23,9 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:converters1="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
-    xmlns:sprintMemberCalendar="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar"
     xmlns:sprintMembers="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -36,10 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/DataGridStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ChartBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <converters1:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters1:IntToGridLengthConverter x:Key="IntToGridLengthConverter" GridUnitType="Star" />
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -66,7 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <DataTemplate>
                             <Button
                                 Command="{Binding ShowSprintMemberCalendarCommand}"
-                                CommandParameter="{Binding SprintMemberCalendarViewModel}"
                                 Content="{Binding Name}"
                                 HorizontalContentAlignment="Left" />
                         </DataTemplate>
@@ -103,30 +99,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid
-                                Visibility="{Binding ChartBar, Converter={StaticResource NullToVisibilityConverter}}"
-                                HorizontalAlignment="Stretch">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding ChartBar.ActualFillValue, Converter={StaticResource IntToGridLengthConverter}}" />
-                                    <ColumnDefinition Width="{Binding ChartBar.ActualEmptyValue, Converter={StaticResource IntToGridLengthConverter}}" />
-                                    <ColumnDefinition Width="{Binding ChartBar.ActualEmptySpace, Converter={StaticResource IntToGridLengthConverter}}" />
-                                </Grid.ColumnDefinitions>
-
-                                <Border
-                                    Grid.Column="0"
-                                    Background="LimeGreen"
-                                    Height="3" />
-
-                                <Border
-                                    Grid.Column="1"
-                                    Height="1"
-                                    Background="#40F9F1A5" />
-
-                                <Border
-                                    Grid.Column="2" />
-
-                            </Grid>
+                            <customControls:ChartBar Value="{Binding ChartBarValue}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 
@@ -162,27 +135,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <Setter Property="IsTabStop" Value="False" />
                 </Style>
             </DataGrid.CellStyle>
-
-            <!--<DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-
-                    <DockPanel
-                        Margin="40"
-                        Visibility="{Binding SprintMemberCalendarViewModel, Converter={StaticResource NullToVisibilityConverter}}">
-
-                        <TextBlock
-                            DockPanel.Dock="Top"
-                            Text="{Binding Name}"
-                            FontSize="25"
-                            Margin="0 0 0 20" />
-
-                        <sprintMemberCalendar:SprintMemberCalendarControl
-                            DataContext="{Binding SprintMemberCalendarViewModel}" />
-
-                    </DockPanel>
-
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>-->
 
             <DataGrid.ItemContainerStyle>
                 <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">

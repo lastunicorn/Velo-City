@@ -26,11 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="Images\sprints.png" />
-        <None Remove="Images\team-members.png" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
         <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
@@ -42,10 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ProjectReference Include="..\VeloCity.Wpf.Infrastructure\VeloCity.Infrastructure.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Resource Include="Images\sprints.png" />
     </ItemGroup>
 
     <ItemGroup>

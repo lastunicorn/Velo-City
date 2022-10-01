@@ -163,7 +163,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Margin="0 20 0 0" />
                     </TabItem>
 
-                    <TabItem Header="Calendar">
+                    <TabItem Header="Sprint Calendar">
                         <sprintCalendar:SprintCalendarView
                             DataContext="{Binding SprintCalendarViewModel}"
                             Margin="0 20 0 0" />

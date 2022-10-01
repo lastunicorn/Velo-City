@@ -83,18 +83,18 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
         private void AddContentData(DataGrid dataGrid)
         {
             Chart chart = CreateChart();
-            using IEnumerator<ChartBar> chartBarEnumerator = chart.GetEnumerator();
+            using IEnumerator<ChartBarValue> chartBarEnumerator = chart.GetEnumerator();
 
             IEnumerable<ContentRow> rows = ViewModel.CalendarItems
                 .Select(x =>
                 {
                     bool success = chartBarEnumerator.MoveNext();
 
-                    ChartBar chartBar = success
+                    ChartBarValue chartBarValue = success
                         ? chartBarEnumerator.Current
-                        : new ChartBar();
+                        : new ChartBarValue();
 
-                    return CreateContentRow(x, chartBar);
+                    return CreateContentRow(x, chartBarValue);
                 });
 
             foreach (ContentRow dataRow in rows)
@@ -108,8 +108,8 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
                 ActualSize = 24
             };
 
-            IEnumerable<ChartBar> chartBars = ViewModel.CalendarItems
-                .Select(x => new ChartBar
+            IEnumerable<ChartBarValue> chartBars = ViewModel.CalendarItems
+                .Select(x => new ChartBarValue
                 {
                     MaxValue = x.WorkHours + x.AbsenceHours,
                     FillValue = x.WorkHours
@@ -122,7 +122,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
             return chart;
         }
 
-        private ContentRow CreateContentRow(CalendarItemViewModel calendarItem, ChartBar chartBar)
+        private ContentRow CreateContentRow(CalendarItemViewModel calendarItem, ChartBarValue chartBarValue)
         {
             ContentRow dataRow = new();
 
@@ -132,7 +132,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
             ContentCell workHoursCell = CreateWorkHoursCell(calendarItem);
             dataRow.AddCell(workHoursCell);
 
-            ContentCell chartCell = CreateChartCell(chartBar);
+            ContentCell chartCell = CreateChartCell(chartBarValue);
             dataRow.AddCell(chartCell);
 
             ContentCell absenceCell = CreateAbsenceCell(calendarItem);
@@ -179,11 +179,11 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
             };
         }
 
-        private static ContentCell CreateChartCell(ChartBar chartBar)
+        private static ContentCell CreateChartCell(ChartBarValue chartBarValue)
         {
             return new ContentCell
             {
-                Content = chartBar.ToString(),
+                Content = chartBarValue.ToString(),
                 ForegroundColor = ConsoleColor.Green
             };
         }

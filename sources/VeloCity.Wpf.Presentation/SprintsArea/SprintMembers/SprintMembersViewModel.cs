@@ -83,7 +83,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
         private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMember> sprintMembers)
         {
             return sprintMembers
-                .Select(x => new SprintMemberViewModel(mediator, x))
+                .Select(x => new SprintMemberViewModel(x))
                 .ToList();
         }
 
@@ -94,18 +94,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
                 ActualSize = 100
             };
 
-            IEnumerable<ChartBar> chartBars = sprintMemberViewModels
+            IEnumerable<ChartBarValue> chartBars = sprintMemberViewModels
                 .Select(x =>
                 {
-                    ChartBar chartBar = new()
+                    ChartBarValue chartBarValue = new()
                     {
                         MaxValue = x.WorkHours + x.AbsenceHours,
                         FillValue = x.WorkHours
                     };
 
-                    x.ChartBar = chartBar;
+                    x.ChartBarValue = chartBarValue;
 
-                    return chartBar;
+                    return chartBarValue;
                 });
 
             chart.AddRange(chartBars);

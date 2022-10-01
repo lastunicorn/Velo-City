@@ -23,8 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:sprintCalendar="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -36,11 +36,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/DataGridStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ChartBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-            <converters:IntToGridLengthConverter x:Key="IntToGridLengthConverter" GridUnitType="Star" />
-
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -104,14 +101,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid
-                                Visibility="{Binding ChartBar, Converter={StaticResource NullToVisibilityConverter}}"
+                            <customControls:ChartBar Value="{Binding ChartBarValue}" />
+                            <!--<Grid
+                                Visibility="{Binding ChartBarValue, Converter={StaticResource NullToVisibilityConverter}}"
                                 HorizontalAlignment="Stretch">
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding ChartBar.ActualFillValue, Converter={StaticResource IntToGridLengthConverter}}" />
-                                    <ColumnDefinition Width="{Binding ChartBar.ActualEmptyValue, Converter={StaticResource IntToGridLengthConverter}}" />
-                                    <ColumnDefinition Width="{Binding ChartBar.ActualEmptySpace, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding ChartBarValue.ActualFillValue, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding ChartBarValue.ActualEmptyValue, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding ChartBarValue.ActualEmptySpace, Converter={StaticResource IntToGridLengthConverter}}" />
                                 </Grid.ColumnDefinitions>
 
                                 <Border
@@ -127,7 +125,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <Border
                                     Grid.Column="2" />
 
-                            </Grid>
+                            </Grid>-->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 

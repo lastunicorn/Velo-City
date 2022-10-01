@@ -43,6 +43,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/OkCancelWindowStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/TeamMemberIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/AddVacationIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/RemoveVacationIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ChartBarStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -107,6 +110,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </DataGridTextColumn.ElementStyle>
             </DataGridTextColumn>
 
+            <DataGridTemplateColumn
+                CanUserSort="False"
+                Width="250">
+
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <customControls:ChartBar Value="{Binding ChartBarValue}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+
+            </DataGridTemplateColumn>
+
             <DataGridTextColumn
                 Binding="{Binding AbsenceHours}"
                 CanUserSort="False">
@@ -135,6 +150,59 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Binding="{Binding AbsenceDetails}"
                 CanUserSort="False"
                 Foreground="#F9F1A5" />
+
+            <DataGridTemplateColumn>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Padding="8"
+                                Margin="0"
+                                MinHeight="0"
+                                MinWidth="0"
+                                Visibility="{Binding CanAddVacation, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                                <customControls:GenericIcon
+                                    Style="{StaticResource AddVacationIconStyle}"
+                                    Width="16"
+                                    Height="16"
+                                    Foreground="{StaticResource SuccessBrush}">
+
+                                    <Control.Effect>
+                                        <DropShadowEffect
+                                            Color="{StaticResource PrimaryColor}"
+                                            Direction="0"
+                                            ShadowDepth="0"
+                                            BlurRadius="10" />
+                                    </Control.Effect>
+                                </customControls:GenericIcon>
+                            </Button>
+                            <Button
+                                Padding="8"
+                                Margin="0"
+                                MinHeight="0"
+                                MinWidth="0"
+                                Visibility="{Binding CanRemoveVacation, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                                <customControls:GenericIcon
+                                    Style="{StaticResource RemoveVacationIconStyle}"
+                                    Width="16"
+                                    Height="16"
+                                    Foreground="{StaticResource ErrorBrush}">
+
+                                    <Control.Effect>
+                                        <DropShadowEffect
+                                            Color="{StaticResource PrimaryColor}"
+                                            Direction="0"
+                                            ShadowDepth="0"
+                                            BlurRadius="10" />
+                                    </Control.Effect>
+                                </customControls:GenericIcon>
+                            </Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
         </DataGrid.Columns>
 

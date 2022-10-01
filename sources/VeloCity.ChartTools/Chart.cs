@@ -21,9 +21,9 @@ using System.Linq;
 
 namespace DustInTheWind.VeloCity.ChartTools
 {
-    public class Chart : IEnumerable<ChartBar>
+    public class Chart : IEnumerable<ChartBarValue>
     {
-        private readonly List<ChartBar> chartBars = new();
+        private readonly List<ChartBarValue> chartBars = new();
         private int? actualSize;
 
         public int ActualSize
@@ -34,20 +34,20 @@ namespace DustInTheWind.VeloCity.ChartTools
 
         public int MaxValue { get; private set; }
 
-        public ChartBar this[int index] => chartBars[index];
+        public ChartBarValue this[int index] => chartBars[index];
 
-        public void Add(ChartBar chartBar)
+        public void Add(ChartBarValue chartBarValue)
         {
-            if (chartBar.Container != null)
-                throw new ArgumentException("The chart bar is already part of another chart.", nameof(chartBar));
+            if (chartBarValue.Container != null)
+                throw new ArgumentException("The chart bar is already part of another chart.", nameof(chartBarValue));
 
-            chartBar.Container = this;
-            chartBars.Add(chartBar);
+            chartBarValue.Container = this;
+            chartBars.Add(chartBarValue);
         }
 
-        public void AddRange(IEnumerable<ChartBar> chartBars)
+        public void AddRange(IEnumerable<ChartBarValue> chartBars)
         {
-            foreach (ChartBar chartBar in chartBars)
+            foreach (ChartBarValue chartBar in chartBars)
                 Add(chartBar);
         }
 
@@ -57,11 +57,11 @@ namespace DustInTheWind.VeloCity.ChartTools
                 .Select(x => x.MaxValue)
                 .Max();
 
-            foreach (ChartBar chartBar in chartBars)
+            foreach (ChartBarValue chartBar in chartBars)
                 chartBar.Calculate();
         }
 
-        public IEnumerator<ChartBar> GetEnumerator()
+        public IEnumerator<ChartBarValue> GetEnumerator()
         {
             return chartBars.GetEnumerator();
         }

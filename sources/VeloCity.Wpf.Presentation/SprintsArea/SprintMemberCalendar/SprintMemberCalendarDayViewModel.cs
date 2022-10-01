@@ -16,12 +16,17 @@
 
 using System;
 using System.Text;
+using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
 {
-    public class SprintMemberDetailsDayViewModel : DataGridRowViewModel
+    public class SprintMemberCalendarDayViewModel : DataGridRowViewModel
     {
+        private ChartBarValue chartBarValue;
+        private bool canAddVacation;
+        private bool canRemoveVacation;
+
         public override bool IsSelectable => true;
 
         public DateTime Date { get; }
@@ -32,13 +37,39 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
 
         public bool HasWorkHours => WorkHours?.Value > 0;
 
+        public ChartBarValue ChartBarValue
+        {
+            get => IsWorkDay ? chartBarValue : null;
+            set => chartBarValue = value;
+        }
+
         public HoursValue? AbsenceHours { get; }
 
         public bool HasAbsenceHours => AbsenceHours?.Value > 0;
         
         public string AbsenceDetails { get; }
 
-        public SprintMemberDetailsDayViewModel(SprintMemberDay sprintMemberDay)
+        public bool CanAddVacation
+        {
+            get => canAddVacation;
+            set
+            {
+                canAddVacation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool CanRemoveVacation
+        {
+            get => canRemoveVacation;
+            set
+            {
+                canRemoveVacation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public SprintMemberCalendarDayViewModel(SprintMemberDay sprintMemberDay)
         {
             if (sprintMemberDay == null) throw new ArgumentNullException(nameof(sprintMemberDay));
 
@@ -53,6 +84,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             }
 
             AbsenceDetails = CreateAbsenceDetails(sprintMemberDay);
+
+            CanAddVacation = IsWorkDay && WorkHours > 0;
+            CanRemoveVacation = IsWorkDay && AbsenceHours > 0 && sprintMemberDay.AbsenceReason == AbsenceReason.Vacation;
         }
 
         private static string CreateAbsenceDetails(SprintMemberDay sprintMemberDay)

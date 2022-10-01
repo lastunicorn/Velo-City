@@ -25,4 +25,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <RootNamespace>DustInTheWind.VeloCity.Wpf.Presentation.CustomControls</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\VeloCity.ChartTools\VeloCity.ChartTools.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
 </Project>

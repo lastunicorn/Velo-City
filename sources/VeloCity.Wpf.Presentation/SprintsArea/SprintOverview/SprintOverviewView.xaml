@@ -171,7 +171,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <customControls:LabeledContent.Label>
                                 <StackPanel Orientation="Horizontal">
 
-                                    <TextBlock Text="Estimated Story Points" />
+                                    <TextBlock Text="Estimated Capacity" />
 
                                     <customControls:InfoPoint Margin="5 0 0 0">
 
@@ -195,7 +195,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <StackPanel Orientation="Horizontal">
 
-                                        <TextBlock Text="Estimated Story Points" />
+                                        <TextBlock Text="Estimated Capacity" />
 
                                         <customControls:InfoPoint Margin="5 0 0 0">
 

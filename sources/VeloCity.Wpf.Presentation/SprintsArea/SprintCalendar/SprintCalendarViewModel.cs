@@ -109,22 +109,22 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
                 ActualSize = 100
             };
 
-            IEnumerable<ChartBar> chartBars = calendarItems
+            IEnumerable<ChartBarValue> chartBars = calendarItems
                 .Select(x =>
                 {
                     int workHours = x.WorkHours?.Value ?? 0;
                     int absenceHours = x.AbsenceHours?.Value ?? 0;
 
-                    ChartBar chartBar = new()
+                    ChartBarValue chartBarValue = new()
                     {
                         MaxValue = workHours + absenceHours,
                         FillValue = workHours
                     };
 
                     if (x.IsWorkDay)
-                        x.ChartBar = chartBar;
+                        x.ChartBarValue = chartBarValue;
 
-                    return chartBar;
+                    return chartBarValue;
                 });
 
             chart.AddRange(chartBars);

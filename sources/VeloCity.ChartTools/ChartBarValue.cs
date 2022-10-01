@@ -18,7 +18,7 @@ using System;
 
 namespace DustInTheWind.VeloCity.ChartTools
 {
-    public class ChartBar
+    public class ChartBarValue
     {
         private int? actualSpace;
         private int? actualMaxValue;

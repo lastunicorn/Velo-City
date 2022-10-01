@@ -14,18 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
 {
     public class TeamMemberSprintViewModel : ViewModelBase
     {
         private string title;
-        private List<SprintMemberDetailsDayViewModel> days;
+        private List<SprintMemberCalendarDayViewModel> days;
 
         public string Title
         {
@@ -37,7 +36,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             }
         }
 
-        public List<SprintMemberDetailsDayViewModel> Days
+        public List<SprintMemberCalendarDayViewModel> Days
         {
             get => days;
             private set
@@ -47,14 +46,43 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             }
         }
 
-        //public SprintMemberCalendarViewModel SprintMemberCalendarViewModel { get; set; }
-        
         public void SetSprintMember(SprintMember sprintMember)
         {
             Title = sprintMember.TeamMember.Name;
             Days = sprintMember.Days
-                .Select(x => new SprintMemberDetailsDayViewModel(x))
+                .Select(x => new SprintMemberCalendarDayViewModel(x))
                 .ToList();
+
+            CreateChartBars(Days);
+        }
+
+        private static void CreateChartBars(IEnumerable<SprintMemberCalendarDayViewModel> calendarItems)
+        {
+            Chart chart = new()
+            {
+                ActualSize = 100
+            };
+
+            IEnumerable<ChartBarValue> chartBars = calendarItems
+                .Select(x =>
+                {
+                    int workHours = x.WorkHours?.Value ?? 0;
+                    int absenceHours = x.AbsenceHours?.Value ?? 0;
+
+                    ChartBarValue chartBarValue = new()
+                    {
+                        MaxValue = workHours + absenceHours,
+                        FillValue = workHours
+                    };
+
+                    if (x.IsWorkDay)
+                        x.ChartBarValue = chartBarValue;
+
+                    return chartBarValue;
+                });
+
+            chart.AddRange(chartBars);
+            chart.Calculate();
         }
     }
 }

@@ -14,22 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
+using System.Windows;
+using System.Windows.Controls;
+using DustInTheWind.VeloCity.ChartTools;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class SprintMemberDetailsViewModel
+    public class ChartBar : Control
     {
-        public string Name { get; }
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+            nameof(Value),
+            typeof(ChartBarValue),
+            typeof(ChartBar)
+        );
 
-        public SprintMemberCalendarViewModel SprintMemberCalendar { get; }
-
-        public SprintMemberDetailsViewModel(SprintMember sprintMember)
+        public ChartBarValue Value
         {
-            Name = sprintMember.Name;
+            get => (ChartBarValue)GetValue(ValueProperty);
+            set => SetValue(ValueProperty, value);
+        }
 
-            SprintMemberCalendar = new SprintMemberCalendarViewModel(sprintMember);
+        static ChartBar()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ChartBar), new FrameworkPropertyMetadata(typeof(ChartBar)));
         }
     }
 }

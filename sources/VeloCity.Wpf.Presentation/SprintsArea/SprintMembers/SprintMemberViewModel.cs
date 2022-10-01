@@ -19,7 +19,6 @@ using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 {
@@ -37,15 +36,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         public bool HasAbsenceHours => AbsenceHours.Value > 0;
 
-        public ChartBar ChartBar { get; set; }
-
-        public SprintMemberCalendarViewModel SprintMemberCalendarViewModel { get; }
-
+        public ChartBarValue ChartBarValue { get; set; }
+        
         public ShowSprintMemberCalendarCommand ShowSprintMemberCalendarCommand { get; }
 
-        public SprintMemberViewModel(IMediator mediator, SprintMember sprintMember)
+        public SprintMemberViewModel(SprintMember sprintMember)
         {
-            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
 
             Name = sprintMember.Name;
@@ -58,8 +54,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
             {
                 SprintMember = sprintMember
             };
-
-            SprintMemberCalendarViewModel = new SprintMemberCalendarViewModel(sprintMember);
         }
 
         private static bool IsAbsenceDay(SprintMemberDay sprintMemberDay)
