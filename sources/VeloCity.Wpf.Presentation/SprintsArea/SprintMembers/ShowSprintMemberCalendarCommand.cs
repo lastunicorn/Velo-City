@@ -15,25 +15,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Windows;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 {
     public class ShowSprintMemberCalendarCommand : ICommand
     {
-        private readonly IMediator mediator;
-        
         public SprintMember SprintMember { get; set; }
 
         public event EventHandler CanExecuteChanged;
-
-        public ShowSprintMemberCalendarCommand(IMediator mediator)
-        {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
 
         public bool CanExecute(object parameter)
         {
@@ -45,11 +38,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
             TeamMemberSprintViewModel viewModel = new();
             viewModel.SetSprintMember(SprintMember);
 
+            Window owner = System.Windows.Application.Current.MainWindow;
+
             TeamMemberSprintWindow window = new()
             {
                 DataContext = viewModel,
-                Owner = System.Windows.Application.Current.MainWindow
+                Owner = owner
             };
+            
+            if (owner != null)
+            {
+                window.Width = owner.ActualWidth - 150;
+                window.Height = owner.ActualHeight - 100;
+            }
 
             window.ShowDialog();
         }

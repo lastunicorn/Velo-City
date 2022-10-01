@@ -54,7 +54,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
                 .Where(IsAbsenceDay)
                 .Sum(x => x.AbsenceHours);
 
-            ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand(mediator)
+            ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand
             {
                 SprintMember = sprintMember
             };

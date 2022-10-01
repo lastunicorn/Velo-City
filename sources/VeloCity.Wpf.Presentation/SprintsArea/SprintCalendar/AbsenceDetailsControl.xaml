@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/FourDotsIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/InfoPartialVacationIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/InfoPointStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ParagraphsBlockStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -55,7 +56,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             IconGeometry="{StaticResource FourDotsIconGeometry}">
 
             <customControls:InfoPoint.InfoContent>
-                <ItemsControl ItemsSource="{Binding OfficialHolidays}" />
+                <customControls:ParagraphsBlock ItemsSource="{Binding OfficialHolidays}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate d:DataContext="{d:DesignInstance sprintCalendar:OfficialHolidayAbsenceDetails}">
+                            <StackPanel Orientation="Horizontal">
+                                <customControls:GenericIcon
+                                    Style="{StaticResource FourDotsIconStyle}"
+                                    Width="12"
+                                    Height="12"
+                                    Margin="0 0 10 0"
+                                    Foreground="Chocolate" />
+
+                                <TextBlock>
+                                    <Run Text="{Binding HolidayName, Mode=OneWay}" />
+                                    <Run Text="{Binding HolidayCountry, Mode=OneWay, StringFormat=({0})}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </customControls:ParagraphsBlock>
             </customControls:InfoPoint.InfoContent>
 
         </customControls:InfoPoint>
@@ -85,7 +104,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 Margin="5 0 0 0">
 
                                 <customControls:InfoPoint.InfoContent>
-                                    <TextBlock Text="absent by contract" />
+                                    <customControls:ParagraphsBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <customControls:GenericIcon
+                                                Style="{StaticResource InfoContractIconStyle}"
+                                                Width="12"
+                                                Height="12"
+                                                Margin="0 0 5 0"
+                                                Foreground="Chocolate" />
+                                            <TextBlock Text="Absent by contract" />
+                                        </StackPanel>
+                                        <TextBlock Text="The user is not working in this day according to the contract." />
+                                    </customControls:ParagraphsBlock>
                                 </customControls:InfoPoint.InfoContent>
 
                             </customControls:InfoPoint>
@@ -97,7 +127,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 Margin="5 0 0 0">
 
                                 <customControls:InfoPoint.InfoContent>
-                                    <TextBlock Text="partial-day vacation" />
+                                    <customControls:ParagraphsBlock>
+                                        <StackPanel Orientation="Horizontal">
+                                            <customControls:GenericIcon
+                                                Style="{StaticResource InfoPartialVacationIconStyle}"
+                                                Width="12"
+                                                Height="12"
+                                                Margin="0 0 5 0"
+                                                Foreground="Chocolate" />
+                                            <TextBlock Text="Partial-day vacation" />
+                                        </StackPanel>
+                                        <TextBlock Text="The user is missing a few hours in this day. Not the whole day." />
+                                    </customControls:ParagraphsBlock>
                                 </customControls:InfoPoint.InfoContent>
 
                             </customControls:InfoPoint>
