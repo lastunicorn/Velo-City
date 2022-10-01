@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Domain.Configuring;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 
 namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig
 {

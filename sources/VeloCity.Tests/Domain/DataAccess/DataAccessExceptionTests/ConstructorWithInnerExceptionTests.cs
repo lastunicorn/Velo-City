@@ -16,7 +16,7 @@
 
 using System;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Ports.DataAccess;
 using FluentAssertions;
 using Xunit;
 
@@ -30,7 +30,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTest
             Exception innerException = new();
             DataAccessException dataAccessException = new(innerException);
 
-            dataAccessException.Message.Should().Be(Resources.DataAccess_DefaultErrorMessage);
+            dataAccessException.Message.Should().Be(DustInTheWind.VeloCity.Ports.DataAccess.Resources.DataAccess_DefaultErrorMessage);
         }
 
         [Fact]

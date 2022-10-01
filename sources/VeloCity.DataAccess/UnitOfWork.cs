@@ -16,7 +16,7 @@
 
 using System;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Ports.DataAccess;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {

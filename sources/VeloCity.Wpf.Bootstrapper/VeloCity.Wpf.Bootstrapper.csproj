@@ -33,6 +33,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.DataAccess\VeloCity.Ports.DataAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.SettingsAccess\VeloCity.Ports.SettingsAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.SystemAccess\VeloCity.Ports.SystemAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.UserAccess\VeloCity.Ports.UserAccess.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
@@ -41,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ProjectReference Include="..\VeloCity.Wpf.Infrastructure\VeloCity.Infrastructure.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation\VeloCity.Wpf.Presentation.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Wpf.UserAccess\VeloCity.Wpf.UserAccess.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

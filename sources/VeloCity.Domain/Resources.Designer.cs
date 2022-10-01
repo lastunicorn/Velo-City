@@ -61,47 +61,11 @@ namespace DustInTheWind.VeloCity.Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error reading the {0} value from the configuration file..
-        /// </summary>
-        internal static string ConfigurationElement_DefaultErrorMessage {
-            get {
-                return ResourceManager.GetString("ConfigurationElement_DefaultErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Could not open the configuration file..
-        /// </summary>
-        internal static string ConfigurationOpen_DefaultErrorMessage {
-            get {
-                return ResourceManager.GetString("ConfigurationOpen_DefaultErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error reading the database..
-        /// </summary>
-        internal static string DataAccess_DefaultErrorMessage {
-            get {
-                return ResourceManager.GetString("DataAccess_DefaultErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Database file does not exist: &apos;{0}&apos;.
         /// </summary>
         internal static string DatabaseFileNotFound_DefaultErrorMessage {
             get {
                 return ResourceManager.GetString("DatabaseFileNotFound_DefaultErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Database was not found. Connection string: {0}.
-        /// </summary>
-        internal static string DatabaseNotFound_DefaultErrorMessage {
-            get {
-                return ResourceManager.GetString("DatabaseNotFound_DefaultErrorMessage", resourceCulture);
             }
         }
         

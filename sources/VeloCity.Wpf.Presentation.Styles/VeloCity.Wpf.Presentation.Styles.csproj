@@ -30,6 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+      <Page Update="Themes\CustomControls\OkCancelPopupStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
       <Page Update="Themes\Icons\FourDotsIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
@@ -64,6 +68,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <SubType>Designer</SubType>
       </Page>
       <Page Update="Themes\Icons\ChartIconStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Themes\Icons\TeamMemberIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>

@@ -18,17 +18,18 @@ using System.Reflection;
 using Autofac;
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
-using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
+using DustInTheWind.VeloCity.Ports.SystemAccess;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
-using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using DustInTheWind.VeloCity.Wpf.Presentation;
 using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
+using DustInTheWind.VeloCity.Wpf.UserAccess;
 using MediatR;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
@@ -61,8 +62,8 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             containerBuilder.RegisterType<MainWindow>().AsSelf();
             containerBuilder.RegisterType<MainViewModel>().AsSelf();
 
-            containerBuilder.RegisterType<SprintStartDataProvider>().As<ISprintStartDataProvider>();
-            containerBuilder.RegisterType<SprintCloseDataProvider>().As<ISprintCloseDataProvider>();
+            containerBuilder.RegisterType<SprintStartConfirmationDisplay>().As<ISprintStartConfirmation>();
+            containerBuilder.RegisterType<SprintCloseConfirmationDisplay>().As<ISprintCloseConfirmation>();
         }
     }
 }

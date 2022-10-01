@@ -18,9 +18,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
-using DustInTheWind.VeloCity.Domain.DataAccess;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using MediatR;
 
@@ -31,17 +31,15 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
-        private readonly ISprintCloseDataProvider sprintCloseDataProvider;
-        private readonly IConfig config;
+        private readonly ISprintCloseConfirmation sprintCloseConfirmation;
 
         public CloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
-            ISprintCloseDataProvider sprintCloseDataProvider, IConfig config)
+            ISprintCloseConfirmation sprintCloseConfirmation)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            this.sprintCloseDataProvider = sprintCloseDataProvider ?? throw new ArgumentNullException(nameof(sprintCloseDataProvider));
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            this.sprintCloseConfirmation = sprintCloseConfirmation ?? throw new ArgumentNullException(nameof(sprintCloseConfirmation));
         }
 
         public async Task<Unit> Handle(CloseSprintRequest request, CancellationToken cancellationToken)
@@ -50,11 +48,11 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
 
             ValidateSprintState(selectedSprint);
 
-            CloseSprintConfirmationResponse closeSprintConfirmationResponse = RequestUserConfirmation(selectedSprint);
+            SprintCloseConfirmationResponse sprintCloseConfirmationResponse = RequestUserConfirmation(selectedSprint);
 
-            if (closeSprintConfirmationResponse.IsAccepted)
+            if (sprintCloseConfirmationResponse.IsAccepted)
             {
-                UpdateSprint(selectedSprint, closeSprintConfirmationResponse);
+                UpdateSprint(selectedSprint, sprintCloseConfirmationResponse);
                 unitOfWork.SaveChanges();
 
                 await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
@@ -94,24 +92,24 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
             }
         }
 
-        private CloseSprintConfirmationResponse RequestUserConfirmation(Sprint selectedSprint)
+        private SprintCloseConfirmationResponse RequestUserConfirmation(Sprint selectedSprint)
         {
-            CloseSprintConfirmationRequest startSprintConfirmationRequest = new()
+            SprintCloseConfirmationRequest startConfirmationRequest = new()
             {
                 SprintName = selectedSprint.Name,
                 SprintNumber = selectedSprint.Number
             };
 
-            return sprintCloseDataProvider.ConfirmCloseSprint(startSprintConfirmationRequest);
+            return sprintCloseConfirmation.ConfirmCloseSprint(startConfirmationRequest);
         }
 
-        private static void UpdateSprint(Sprint selectedSprint, CloseSprintConfirmationResponse closeSprintConfirmationResponse)
+        private static void UpdateSprint(Sprint selectedSprint, SprintCloseConfirmationResponse sprintCloseConfirmationResponse)
         {
             selectedSprint.State = SprintState.Closed;
-            selectedSprint.ActualStoryPoints = closeSprintConfirmationResponse.ActualStoryPoints;
-            selectedSprint.Comments = string.IsNullOrWhiteSpace(closeSprintConfirmationResponse.Comments)
+            selectedSprint.ActualStoryPoints = sprintCloseConfirmationResponse.ActualStoryPoints;
+            selectedSprint.Comments = string.IsNullOrWhiteSpace(sprintCloseConfirmationResponse.Comments)
                 ? null
-                : closeSprintConfirmationResponse.Comments;
+                : sprintCloseConfirmationResponse.Comments;
         }
 
         private async Task RaiseSprintUpdatedEvent(Sprint sprint, CancellationToken cancellationToken)

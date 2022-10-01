@@ -16,8 +16,7 @@
 
 using System;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation
 {

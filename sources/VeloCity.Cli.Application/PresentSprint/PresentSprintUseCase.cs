@@ -18,9 +18,11 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
+using DustInTheWind.VeloCity.Ports.SystemAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
@@ -30,29 +32,22 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
         private readonly IUnitOfWork unitOfWork;
         private readonly IConfig config;
         private readonly ISystemClock systemClock;
+        private readonly IMediator mediator;
 
-        public PresentSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock)
+        public PresentSprintUseCase(IUnitOfWork unitOfWork, IConfig config, ISystemClock systemClock, IMediator mediator)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public Task<PresentSprintResponse> Handle(PresentSprintRequest request, CancellationToken cancellationToken)
+        public async Task<PresentSprintResponse> Handle(PresentSprintRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = RetrieveSprintToAnalyze(request);
+            Sprint sprintToAnalyze = RetrieveSprintToAnalyze(request);
+            AnalyzeSprintResponse analyzeSprintResponse = await AnalyzeSprint(sprintToAnalyze, request);
 
-            SprintAnalysis sprintAnalysis = new(unitOfWork)
-            {
-                ExcludedSprints = request.ExcludedSprints,
-                ExcludedTeamMembers = request.ExcludedTeamMembers,
-                AnalysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack
-            };
-            sprintAnalysis.Analyze(currentSprint);
-
-            PresentSprintResponse response = CreateResponse(sprintAnalysis);
-
-            return Task.FromResult(response);
+            return CreateResponse(sprintToAnalyze, request, analyzeSprintResponse);
         }
 
         private Sprint RetrieveSprintToAnalyze(PresentSprintRequest request)
@@ -86,30 +81,43 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
             return sprint;
         }
 
-        private PresentSprintResponse CreateResponse(SprintAnalysis sprintAnalysis)
+        private async Task<AnalyzeSprintResponse> AnalyzeSprint(Sprint sprintToAnalyze, PresentSprintRequest presentSprintRequest)
+        {
+            AnalyzeSprintRequest request = new()
+            {
+                Sprint = sprintToAnalyze,
+                ExcludedSprints = presentSprintRequest.ExcludedSprints,
+                ExcludedTeamMembers = presentSprintRequest.ExcludedTeamMembers,
+                AnalysisLookBack = presentSprintRequest.AnalysisLookBack ?? config.AnalysisLookBack
+            };
+
+            return await mediator.Send(request);
+        }
+
+        private PresentSprintResponse CreateResponse(Sprint sprint, PresentSprintRequest presentSprintRequest, AnalyzeSprintResponse analyzeSprintResponse)
         {
             return new PresentSprintResponse
             {
-                SprintName = sprintAnalysis.Sprint.Name,
-                SprintState = sprintAnalysis.Sprint.State,
-                SprintDateInterval = sprintAnalysis.Sprint.DateInterval,
-                SprintDays = sprintAnalysis.Sprint.EnumerateAllDays()?.ToList(),
-                WorkDaysCount = sprintAnalysis.Sprint.CountWorkDays(),
-                SprintMembers = sprintAnalysis.Sprint.SprintMembersOrderedByEmployment?.ToList(),
-                TotalWorkHours = sprintAnalysis.Sprint.TotalWorkHours,
-                EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
-                EstimatedStoryPointsWithVelocityPenalties = sprintAnalysis.EstimatedStoryPointsWithVelocityPenalties,
-                EstimatedVelocity = sprintAnalysis.EstimatedVelocity,
-                VelocityPenalties = sprintAnalysis.VelocityPenalties?
+                SprintName = sprint.Name,
+                SprintState = sprint.State,
+                SprintDateInterval = sprint.DateInterval,
+                SprintDays = sprint.EnumerateAllDays()?.ToList(),
+                WorkDaysCount = sprint.CountWorkDays(),
+                SprintMembers = sprint.SprintMembersOrderedByEmployment?.ToList(),
+                TotalWorkHours = sprint.TotalWorkHours,
+                EstimatedStoryPoints = analyzeSprintResponse.EstimatedStoryPoints,
+                EstimatedStoryPointsWithVelocityPenalties = analyzeSprintResponse.EstimatedStoryPointsWithVelocityPenalties,
+                EstimatedVelocity = analyzeSprintResponse.EstimatedVelocity,
+                VelocityPenalties = analyzeSprintResponse.VelocityPenalties?
                     .Select(x => new VelocityPenaltyInfo(x))
                     .ToList(),
-                CommitmentStoryPoints = sprintAnalysis.Sprint.CommitmentStoryPoints,
-                ActualStoryPoints = sprintAnalysis.Sprint.ActualStoryPoints,
-                ActualVelocity = sprintAnalysis.Sprint.Velocity,
-                PreviouslyClosedSprints = sprintAnalysis.HistorySprints?
+                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+                ActualStoryPoints = sprint.ActualStoryPoints,
+                ActualVelocity = sprint.Velocity,
+                PreviouslyClosedSprints = analyzeSprintResponse.HistorySprints?
                     .Select(x => x.Number)
                     .ToList(),
-                ExcludedSprints = sprintAnalysis.ExcludedSprints?.ToList(),
+                ExcludedSprints = presentSprintRequest.ExcludedSprints?.ToList(),
                 CurrentDay = systemClock.Today
             };
         }

@@ -35,8 +35,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
         public HoursValue? AbsenceHours { get; }
 
         public bool HasAbsenceHours => AbsenceHours?.Value > 0;
-
-
+        
         public string AbsenceDetails { get; }
 
         public SprintMemberDetailsDayViewModel(SprintMemberDay sprintMemberDay)

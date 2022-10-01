@@ -117,20 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConfigurationElement_DefaultErrorMessage" xml:space="preserve">
-    <value>Error reading the {0} value from the configuration file.</value>
-  </data>
-  <data name="ConfigurationOpen_DefaultErrorMessage" xml:space="preserve">
-    <value>Could not open the configuration file.</value>
-  </data>
-  <data name="DataAccess_DefaultErrorMessage" xml:space="preserve">
-    <value>Error reading the database.</value>
-  </data>
   <data name="DatabaseFileNotFound_DefaultErrorMessage" xml:space="preserve">
     <value>Database file does not exist: '{0}'</value>
-  </data>
-  <data name="DatabaseNotFound_DefaultErrorMessage" xml:space="preserve">
-    <value>Database was not found. Connection string: {0}</value>
   </data>
   <data name="DatabaseOpen_DefaultErrorMessage" xml:space="preserve">
     <value>Failed to open the database file.</value>

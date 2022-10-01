@@ -19,8 +19,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
@@ -28,29 +28,24 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
     internal class PresentSprintOverviewUseCase : IRequestHandler<PresentSprintOverviewRequest, PresentSprintOverviewResponse>
     {
         private readonly IUnitOfWork unitOfWork;
-        private readonly IConfig config;
         private readonly ApplicationState applicationState;
+        private readonly IMediator mediator;
 
-        public PresentSprintOverviewUseCase(IUnitOfWork unitOfWork, IConfig config, ApplicationState applicationState)
+        public PresentSprintOverviewUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, IMediator mediator)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        public Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
+        public async Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
         {
             Sprint currentSprint = RetrieveSprintToAnalyze();
+            AnalyzeSprintResponse analyzeSprintResponse = await AnalyzeSprint(currentSprint);
 
-            SprintAnalysis sprintAnalysis = new(unitOfWork)
-            {
-                AnalysisLookBack = config.AnalysisLookBack
-            };
-            sprintAnalysis.Analyze(currentSprint);
+            PresentSprintOverviewResponse response = CreateResponse(currentSprint, analyzeSprintResponse);
 
-            PresentSprintOverviewResponse response = CreateResponse(sprintAnalysis);
-
-            return Task.FromResult(response);
+            return response;
         }
 
         private Sprint RetrieveSprintToAnalyze()
@@ -80,29 +75,39 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
             return sprint;
         }
 
-        private PresentSprintOverviewResponse CreateResponse(SprintAnalysis sprintAnalysis)
+        private async Task<AnalyzeSprintResponse> AnalyzeSprint(Sprint sprint)
+        {
+            AnalyzeSprintRequest request = new()
+            {
+                Sprint = sprint
+            };
+
+            return await mediator.Send(request);
+        }
+
+        private static PresentSprintOverviewResponse CreateResponse(Sprint sprint, AnalyzeSprintResponse analyzeSprintResponse)
         {
             return new PresentSprintOverviewResponse
             {
-                SprintState = sprintAnalysis.Sprint.State,
-                SprintDateInterval = sprintAnalysis.Sprint.DateInterval,
-                SprintGoal = sprintAnalysis.Sprint.Goal,
-                WorkDaysCount = sprintAnalysis.Sprint.CountWorkDays(),
-                TotalWorkHours = sprintAnalysis.Sprint.TotalWorkHours,
-                EstimatedStoryPoints = sprintAnalysis.EstimatedStoryPoints,
-                EstimatedStoryPointsWithVelocityPenalties = sprintAnalysis.EstimatedStoryPointsWithVelocityPenalties,
-                EstimatedVelocity = sprintAnalysis.EstimatedVelocity,
-                VelocityPenalties = sprintAnalysis.VelocityPenalties?
+                SprintState = sprint.State,
+                SprintDateInterval = sprint.DateInterval,
+                SprintGoal = sprint.Goal,
+                WorkDaysCount = sprint.CountWorkDays(),
+                TotalWorkHours = sprint.TotalWorkHours,
+                EstimatedStoryPoints = analyzeSprintResponse.EstimatedStoryPoints,
+                EstimatedStoryPointsWithVelocityPenalties = analyzeSprintResponse.EstimatedStoryPointsWithVelocityPenalties,
+                EstimatedVelocity = analyzeSprintResponse.EstimatedVelocity,
+                VelocityPenalties = analyzeSprintResponse.VelocityPenalties?
                     .Select(x => new VelocityPenaltyInfo(x))
                     .ToList(),
-                CommitmentStoryPoints = sprintAnalysis.Sprint.CommitmentStoryPoints,
-                ActualStoryPoints = sprintAnalysis.Sprint.ActualStoryPoints,
-                ActualVelocity = sprintAnalysis.Sprint.Velocity,
-                PreviouslyClosedSprints = sprintAnalysis.HistorySprints?
+                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+                ActualStoryPoints = sprint.ActualStoryPoints,
+                ActualVelocity = sprint.Velocity,
+                PreviouslyClosedSprints = analyzeSprintResponse.HistorySprints?
                     .Select(x => x.Number)
                     .ToList(),
-                ExcludedSprints = sprintAnalysis.ExcludedSprints?.ToList(),
-                SprintComments = sprintAnalysis.Sprint.Comments,
+                ExcludedSprints = null,
+                SprintComments = sprint.Comments,
             };
         }
     }

@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Domain.DataAccess;
+using DustInTheWind.VeloCity.Ports.DataAccess;
 using FluentAssertions;
 using Xunit;
 

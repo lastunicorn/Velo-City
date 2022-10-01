@@ -49,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="SprintsArea\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml.cs">
+        <Compile Update="SprintsArea\CloseSprintConfirmation\SprintCloseConfirmationWindow.xaml.cs">
             <SubType>Code</SubType>
         </Compile>
     </ItemGroup>
@@ -59,10 +59,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
-        <Page Update="SprintsArea\CloseSprintConfirmation\CloseSprintConfirmationWindow.xaml">
+        <Page Update="SprintsArea\CloseSprintConfirmation\SprintCloseConfirmationWindow.xaml">
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="SprintsArea\TeamMemberSprint\" />
     </ItemGroup>
 
 </Project>

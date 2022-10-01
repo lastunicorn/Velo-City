@@ -16,7 +16,7 @@
 
 using System;
 using DustInTheWind.ConsoleTools.Commando;
-using DustInTheWind.VeloCity.Domain.Configuring;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Config
 {

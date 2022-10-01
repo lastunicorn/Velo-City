@@ -1,0 +1,42 @@
+﻿<!--
+Velo City
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/GenericIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Geometry x:Key="TeamMemberIconGeometry">
+        m 259.03074,0.03050633 c -5.14391,-0.122793 -10.34165,0.124104 -15.55112,0.758935 C 217.00912,4.0153413 195.37241,14.74014 176.24198,33.996346 c -15.31977,15.42047 -24.91982,32.1379 -30.03859,52.56962 -14.6171,58.344914 20.96162,119.163864 79.16338,135.849294 3.48379,0.99875 7.26916,1.58795 11.32759,2.06239 -4.6621,0.33588 -9.18853,0.74894 -13.07117,1.42759 -89.5934,15.65977 -156.897445,87.15627 -166.652425,177.17877 -1.277,11.78434 -2.86955,17.73811 -0.65456,26.47807 1.1075,4.36998 3.87227,8.67728 6.46083,11.35016 2.58854,2.67289 4.88238,4.34508 7.49623,6.43543 41.579705,33.2522 93.302585,54.95598 148.364665,62.48091 30.7777,4.20621 70.19812,2.18468 103.51415,-5.05016 40.88685,-8.87885 86.01775,-30.68057 119.82703,-57.71852 a 14.446593,14.446593 0 0 0 0.003,0 l 9.3837,-7.5047 a 14.446593,14.446593 0 0 0 5.38872,-12.26992 l -0.93385,-13.58746 c -3.00874,-43.78494 -17.03827,-80.84199 -43.59219,-114.9264 -29.5371,-37.91363 -74.61578,-64.24191 -123.95743,-72.86618 -4.21955,-0.73753 -9.0842,-1.2152 -14.20533,-1.55173 10.91329,-1.34843 20.30976,-4.03963 30.66773,-9.00001 47.80718,-22.89569 73.80909,-77.65938 60.9461,-128.798814 C 353.09421,36.519666 308.73449,1.2165943 259.03074,0.03050633 Z
+    </Geometry>
+
+    <Style
+        x:Key="TeamMemberIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Geometry" Value="{StaticResource TeamMemberIconGeometry}" />
+
+    </Style>
+
+</ResourceDictionary>

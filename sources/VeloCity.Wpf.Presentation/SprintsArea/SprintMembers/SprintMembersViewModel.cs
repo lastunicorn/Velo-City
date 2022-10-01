@@ -32,14 +32,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
     public class SprintMembersViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private List<SprintMemberOverviewViewModel> sprintMembersOverview;
+        private List<SprintMemberViewModel> sprintMemberViewModels;
 
-        public List<SprintMemberOverviewViewModel> SprintMembersOverview
+        public List<SprintMemberViewModel> SprintMemberViewModels
         {
-            get => sprintMembersOverview;
+            get => sprintMemberViewModels;
             set
             {
-                sprintMembersOverview = value;
+                sprintMemberViewModels = value;
                 OnPropertyChanged();
             }
         }
@@ -74,27 +74,27 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         private void DisplayResponse(PresentSprintMembersResponse response)
         {
-            List<SprintMemberOverviewViewModel> sprintMembersOverview = CreateSprintMemberOverviewItems(response.SprintMembers);
-            CreateChartBars(sprintMembersOverview);
+            List<SprintMemberViewModel> sprintMemberViewModels = CreateViewModels(response.SprintMembers);
+            CreateChartBars(sprintMemberViewModels);
 
-            SprintMembersOverview = sprintMembersOverview;
+            SprintMemberViewModels = sprintMemberViewModels;
         }
 
-        private static List<SprintMemberOverviewViewModel> CreateSprintMemberOverviewItems(IEnumerable<SprintMember> sprintMembers)
+        private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMember> sprintMembers)
         {
             return sprintMembers
-                .Select(x => new SprintMemberOverviewViewModel(x))
+                .Select(x => new SprintMemberViewModel(mediator, x))
                 .ToList();
         }
 
-        private static void CreateChartBars(IEnumerable<SprintMemberOverviewViewModel> sprintMembersOverview)
+        private static void CreateChartBars(IEnumerable<SprintMemberViewModel> sprintMemberViewModels)
         {
             Chart chart = new()
             {
                 ActualSize = 100
             };
 
-            IEnumerable<ChartBar> chartBars = sprintMembersOverview
+            IEnumerable<ChartBar> chartBars = sprintMemberViewModels
                 .Select(x =>
                 {
                     ChartBar chartBar = new()

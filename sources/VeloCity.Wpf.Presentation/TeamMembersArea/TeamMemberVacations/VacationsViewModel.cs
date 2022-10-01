@@ -20,7 +20,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;

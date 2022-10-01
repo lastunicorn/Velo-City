@@ -21,8 +21,7 @@ using Autofac;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.ConsoleTools.Controls;
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.Configuring;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using log4net;
 
 namespace DustInTheWind.VeloCity.Cli.Bootstrapper
