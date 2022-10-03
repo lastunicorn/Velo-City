@@ -108,6 +108,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             set => SetValue(IsCancelButtonVisibleProperty, value);
         }
 
+        public static readonly DependencyProperty IsFooterVisibleProperty = DependencyProperty.Register(
+            nameof(IsFooterVisible),
+            typeof(bool),
+            typeof(OkCancelWindow),
+            new PropertyMetadata(true)
+        );
+
+        public bool IsFooterVisible
+        {
+            get => (bool)GetValue(IsFooterVisibleProperty);
+            set => SetValue(IsFooterVisibleProperty, value);
+        }
+
         static OkCancelWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(OkCancelWindow), new FrameworkPropertyMetadata(typeof(OkCancelWindow)));

@@ -34,7 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     WindowStartupLocation="CenterOwner"
     d:DataContext="{d:DesignInstance sprintMemberCalendar:SprintMemberCalendarViewModel}"
     CancelButtonContent="Close"
-    IsOkButtonVisible="False">
+    IsOkButtonVisible="False"
+    IsFooterVisible="False">
 
     <Window.Resources>
         <ResourceDictionary>

@@ -47,6 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <DockPanel
                         Background="{TemplateBinding Background}">
 
+                        <!-- Header -->
+
                         <Border
                             DockPanel.Dock="Top"
                             MinHeight="90"
@@ -58,6 +60,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             BorderBrush="{StaticResource PrimaryLightBrush}">
 
                             <DockPanel VerticalAlignment="Center">
+
+                                <Button
+                                    DockPanel.Dock="Right"
+                                    Width="32"
+                                    Height="32"
+                                    Margin="20 0 0 0"
+                                    Padding="0"
+                                    Background="IndianRed"
+                                    IsCancel="True"
+                                    Content="X"
+                                    behaviors:WindowButtonBehavior.IsCloseButton="True" />
 
                                 <Viewbox
                                     DockPanel.Dock="Left"
@@ -86,12 +99,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         </Border>
 
+                        <!-- Footer -->
+
                         <Border
                             DockPanel.Dock="Bottom"
                             Background="{StaticResource PrimaryDarkBrush}"
                             MinHeight="70"
                             BorderThickness="0 1 0 0"
-                            BorderBrush="{StaticResource PrimaryLightBrush}">
+                            BorderBrush="{StaticResource PrimaryLightBrush}"
+                            Visibility="{Binding IsFooterVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                             <Grid>
                                 <StackPanel
@@ -125,6 +141,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </Grid>
 
                         </Border>
+
+                        <!-- Content -->
 
                         <ContentPresenter Margin="{TemplateBinding Margin}" />
 
