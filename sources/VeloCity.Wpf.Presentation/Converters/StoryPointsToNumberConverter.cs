@@ -42,8 +42,15 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
                 if (string.IsNullOrEmpty(stringValue))
                     return StoryPoints.Empty;
 
-                floatValue = float.Parse(stringValue);
-                return (StoryPoints)floatValue;
+                try
+                {
+                    floatValue = float.Parse(stringValue);
+                    return (StoryPoints)floatValue;
+                }
+                catch
+                {
+                    return null;
+                }
             }
 
             return DependencyProperty.UnsetValue;

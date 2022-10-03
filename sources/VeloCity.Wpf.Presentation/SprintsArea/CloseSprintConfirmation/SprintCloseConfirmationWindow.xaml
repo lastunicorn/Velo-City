@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     mc:Ignorable="d"
     Title="{Binding Title}"
+    Subtitle="{Binding SprintName}"
     WindowStartupLocation="CenterOwner"
     ResizeMode="CanResizeWithGrip"
     d:DataContext="{d:DesignInstance closeSprintConfirmation:SprintCloseConfirmationViewModel}"

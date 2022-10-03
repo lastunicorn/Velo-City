@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Text;
 using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation
@@ -81,14 +80,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirm
 
         private void RefreshTitle()
         {
-            StringBuilder sb = new();
-
-            sb.Append($"Close Sprint {sprintNumber}");
-
-            if (sprintName != null)
-                sb.Append($" - {sprintName}");
-
-            Title = sb.ToString();
+            Title = $"Close Sprint {sprintNumber}";
         }
     }
 }
