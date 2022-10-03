@@ -34,6 +34,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
         private string title;
         private List<SprintMemberCalendarDayViewModel> days;
         private SprintMember sprintMember;
+        private string subtitle;
 
         public string Title
         {
@@ -41,6 +42,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             private set
             {
                 title = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Subtitle
+        {
+            get => subtitle;
+            set
+            {
+                subtitle = value;
                 OnPropertyChanged();
             }
         }
@@ -92,6 +103,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             sprintMember = response.SprintMembers;
 
             Title = sprintMember.TeamMember.Name;
+
+            int sprintNumber = sprintMember.Sprint.Number;
+            Subtitle = $"Sprint {sprintNumber}";
+
             Days = sprintMember.Days
                 .Select(x => new SprintMemberCalendarDayViewModel(mediator, x))
                 .ToList();

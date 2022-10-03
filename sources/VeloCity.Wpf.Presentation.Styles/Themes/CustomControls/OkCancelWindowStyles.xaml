@@ -63,14 +63,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                 <Button
                                     DockPanel.Dock="Right"
-                                    Width="32"
-                                    Height="32"
+                                    Width="48"
+                                    Height="48"
                                     Margin="20 0 0 0"
                                     Padding="0"
-                                    Background="IndianRed"
                                     IsCancel="True"
                                     Content="X"
-                                    behaviors:WindowButtonBehavior.IsCloseButton="True" />
+                                    Style="{StaticResource XButtonStyle}"
+                                    behaviors:WindowButtonBehavior.IsCloseButton="True"
+                                    Visibility="{Binding IsXButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                                 <Viewbox
                                     DockPanel.Dock="Left"
@@ -83,18 +84,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                 </Viewbox>
 
-                                <ContentPresenter
-                                    Content="{TemplateBinding Title}"
-                                    VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
 
-                                    <ContentPresenter.Resources>
-                                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                            <Setter Property="FontSize" Value="24" />
-                                        </Style>
-                                    </ContentPresenter.Resources>
+                                    <TextBlock
+                                        Text="{TemplateBinding Title}"
+                                        VerticalAlignment="Center"
+                                        FontSize="24" />
 
-                                </ContentPresenter>
+                                    <TextBlock
+                                        Text="{TemplateBinding Subtitle}"
+                                        VerticalAlignment="Center"
+                                        Margin="20 0 0 0"
+                                        FontSize="20"
+                                        Foreground="{StaticResource FontDimBrush}"/>
 
+                                </StackPanel>
                             </DockPanel>
 
                         </Border>

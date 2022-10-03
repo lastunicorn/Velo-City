@@ -56,6 +56,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             private set => SetValue(IsTitleIconVisiblePropertyKey, value);
         }
 
+        public static readonly DependencyProperty SubtitleProperty = DependencyProperty.Register(
+            nameof(Subtitle),
+            typeof(string),
+            typeof(OkCancelWindow)
+        );
+
+        public string Subtitle
+        {
+            get => (string)GetValue(SubtitleProperty);
+            set => SetValue(SubtitleProperty, value);
+        }
+
         public static readonly DependencyProperty OkButtonContentProperty = DependencyProperty.Register(
             nameof(OkButtonContent),
             typeof(object),
@@ -119,6 +131,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
         {
             get => (bool)GetValue(IsFooterVisibleProperty);
             set => SetValue(IsFooterVisibleProperty, value);
+        }
+
+        public static readonly DependencyProperty IsXButtonVisibleProperty = DependencyProperty.Register(
+            nameof(IsXButtonVisible),
+            typeof(bool),
+            typeof(OkCancelWindow),
+            new PropertyMetadata(false)
+        );
+
+        public bool IsXButtonVisible
+        {
+            get => (bool)GetValue(IsXButtonVisibleProperty);
+            set => SetValue(IsXButtonVisibleProperty, value);
         }
 
         static OkCancelWindow()

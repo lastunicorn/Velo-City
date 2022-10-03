@@ -21,6 +21,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers;
@@ -35,6 +36,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
         private readonly IMediator mediator;
         private string title;
         private bool isSprintSelected;
+        private int sprintId;
 
         public string Title
         {
@@ -83,6 +85,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+            eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
         }
 
         private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
@@ -95,11 +98,20 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
             await RetrieveSprintDetails();
         }
 
+        private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
+        {
+            if (sprintId == ev.SprintId)
+                Title = BuildTitle(ev.SprintNumber, ev.SprintTitle);
+
+            return Task.CompletedTask;
+        }
+
         private async Task RetrieveSprintDetails()
         {
             PresentSprintDetailRequest request = new();
             PresentSprintDetailResponse response = await mediator.Send(request);
 
+            sprintId = response.SprintId;
             Title = BuildTitle(response);
             IsSprintSelected = true;
         }
@@ -108,9 +120,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
         {
             return response == null
                 ? null
-                : string.IsNullOrEmpty(response.SprintName)
-                    ? $"Sprint {response.SprintNumber}"
-                    : $"Sprint {response.SprintNumber} - {response.SprintName}";
+                : BuildTitle(response.SprintNumber, response.SprintTitle);
+        }
+
+        private static string BuildTitle(int sprintNumber, string sprintTitle)
+        {
+            return string.IsNullOrEmpty(sprintTitle)
+                ? $"Sprint {sprintNumber}"
+                : $"Sprint {sprintNumber} - {sprintTitle}";
         }
     }
 }

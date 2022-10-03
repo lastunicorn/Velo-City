@@ -31,7 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     Title="{Binding Title}"
     WindowStartupLocation="CenterOwner"
     ResizeMode="CanResizeWithGrip"
-    d:DataContext="{d:DesignInstance closeSprintConfirmation:SprintCloseConfirmationViewModel}">
+    d:DataContext="{d:DesignInstance closeSprintConfirmation:SprintCloseConfirmationViewModel}"
+    IsXButtonVisible="False"
+    Width="800"
+    Height="600">
 
     <Window.Resources>
         <ResourceDictionary>

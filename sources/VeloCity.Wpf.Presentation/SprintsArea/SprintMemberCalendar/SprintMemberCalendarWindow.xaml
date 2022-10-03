@@ -28,14 +28,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     mc:Ignorable="d"
     Title="{Binding Title}"
+    Subtitle="{Binding Subtitle}"
     Height="768"
     Width="1024"
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterOwner"
     d:DataContext="{d:DesignInstance sprintMemberCalendar:SprintMemberCalendarViewModel}"
-    CancelButtonContent="Close"
-    IsOkButtonVisible="False"
-    IsFooterVisible="False">
+    IsFooterVisible="False"
+    IsXButtonVisible="True">
 
     <Window.Resources>
         <ResourceDictionary>

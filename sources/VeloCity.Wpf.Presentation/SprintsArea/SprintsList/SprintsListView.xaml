@@ -197,7 +197,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                             <TextBlock
                                                 x:Name="TextBlock1"
-                                                Text="{Binding SprintName}"
+                                                Text="{Binding SprintTitle}"
                                                 FontSize="12"
                                                 Margin="0 2 0 0" />
 

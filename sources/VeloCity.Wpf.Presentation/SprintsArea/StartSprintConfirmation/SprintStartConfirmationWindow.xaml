@@ -30,7 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     mc:Ignorable="d"
     Title="{Binding Title}"
     WindowStartupLocation="CenterOwner"
-    d:DataContext="{d:DesignInstance startSprintConfirmation:SprintStartConfirmationViewModel}">
+    d:DataContext="{d:DesignInstance startSprintConfirmation:SprintStartConfirmationViewModel}"
+    Width="800"
+    Height="600">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -63,6 +65,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="80" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -97,15 +101,38 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Margin="0 3 0 0"
             FontSize="20" />
 
-        <Label
+        <Border
             Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Height="2"
+            Background="{StaticResource BorderBrush}"
+            VerticalAlignment="Center"/>
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Sprint _Title:"
+            VerticalAlignment="Center"
+            Target="TextBoxSprintTitle" />
+
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="2"
+            x:Name="TextBoxSprintTitle"
+            Text="{Binding SprintTitle}"
+            TabIndex="1"
+            FontSize="20" />
+
+        <Label
+            Grid.Row="4"
             Grid.Column="0"
             Content="Sprint's _Goal:"
             VerticalAlignment="Center"
             Target="TextBoxSprintGoal" />
 
         <TextBox
-            Grid.Row="2"
+            Grid.Row="4"
             Grid.Column="2"
             x:Name="TextBoxSprintGoal"
             Text="{Binding SprintGoal}"

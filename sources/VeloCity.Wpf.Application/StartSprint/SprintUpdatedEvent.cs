@@ -20,7 +20,11 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
 {
     public class SprintUpdatedEvent
     {
-        public int? SprintId { get; set; }
+        public int SprintId { get; set; }
+        
+        public int SprintNumber { get; set; }
+
+        public string SprintTitle { get; set; }
 
         public SprintState SprintState { get; set; }
         
