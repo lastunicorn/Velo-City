@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 
 namespace DustInTheWind.VeloCity.Domain
@@ -21,6 +22,7 @@ namespace DustInTheWind.VeloCity.Domain
     public class TeamMember
     {
         private List<VelocityPenalty> velocityPenalties;
+        private VacationCollection vacations;
 
         public int Id { get; set; }
 
@@ -39,7 +41,20 @@ namespace DustInTheWind.VeloCity.Domain
 
         public string Comments { get; set; }
 
-        public VacationCollection Vacations { get; set; }
+        public VacationCollection Vacations
+        {
+            get => vacations;
+            set
+            {
+                if (vacations != null)
+                    vacations.Changed -= HandleVacationsChanged;
+
+                vacations = value;
+                
+                if(vacations != null)
+                    vacations.Changed += HandleVacationsChanged;
+            }
+        }
 
         public List<VelocityPenalty> VelocityPenalties
         {
@@ -62,6 +77,13 @@ namespace DustInTheWind.VeloCity.Domain
             }
         }
 
+        public event EventHandler VacationsChanged;
+
+        private void HandleVacationsChanged(object sender, EventArgs e)
+        {
+            OnVacationsChanged();
+        }
+
         public SprintMember ToSprintMember(Sprint sprint)
         {
             return new SprintMember(this, sprint);
@@ -70,6 +92,11 @@ namespace DustInTheWind.VeloCity.Domain
         public override string ToString()
         {
             return Name.FullName;
+        }
+
+        protected virtual void OnVacationsChanged()
+        {
+            VacationsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

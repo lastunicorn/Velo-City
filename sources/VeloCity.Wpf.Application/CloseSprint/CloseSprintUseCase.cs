@@ -96,7 +96,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
         {
             SprintCloseConfirmationRequest startConfirmationRequest = new()
             {
-                SprintName = selectedSprint.Name,
+                SprintName = selectedSprint.Title,
                 SprintNumber = selectedSprint.Number
             };
 

@@ -14,31 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
 {
-    public class SprintCalendar
+    /// <summary>
+    /// Interaction logic for SprintMemberCalendarWindow.xaml
+    /// </summary>
+    public partial class SprintMemberCalendarWindow : OkCancelWindow
     {
-        public string SprintName { get; }
-
-        public DateTime StartDate { get; }
-
-        public DateTime EndDate { get; }
-
-        public List<SprintDay> Days { get; }
-
-        public List<SprintMember> SprintMembers { get; }
-
-        public SprintCalendar(Sprint sprint)
+        public SprintMemberCalendarWindow()
         {
-            SprintName = sprint.Title;
-            StartDate = sprint.StartDate;
-            EndDate = sprint.EndDate;
-            Days = sprint.EnumerateAllDays().ToList();
-            SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList();
+            InitializeComponent();
         }
     }
 }

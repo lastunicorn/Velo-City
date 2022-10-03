@@ -25,6 +25,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
@@ -32,12 +33,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
     public class SprintMembersViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
+        private readonly EventBus eventBus;
         private List<SprintMemberViewModel> sprintMemberViewModels;
 
         public List<SprintMemberViewModel> SprintMemberViewModels
         {
             get => sprintMemberViewModels;
-            set
+            private set
             {
                 sprintMemberViewModels = value;
                 OnPropertyChanged();
@@ -46,11 +48,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         public SprintMembersViewModel(IMediator mediator, EventBus eventBus)
         {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+            eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
         }
 
         private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
@@ -59,6 +62,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
         }
 
         private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintMembers();
+        }
+
+        private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
         {
             await RetrieveSprintMembers();
         }
@@ -83,7 +91,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
         private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMember> sprintMembers)
         {
             return sprintMembers
-                .Select(x => new SprintMemberViewModel(mediator, x))
+                .Select(x => new SprintMemberViewModel(mediator, eventBus, x))
                 .ToList();
         }
 

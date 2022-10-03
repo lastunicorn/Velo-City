@@ -33,7 +33,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
         public SprintInfo(Sprint sprint)
         {
             Id = sprint.Id;
-            Name = sprint.Name;
+            Name = sprint.Title;
             Number = sprint.Number;
             DateInterval = sprint.DateInterval;
             State = sprint.State;

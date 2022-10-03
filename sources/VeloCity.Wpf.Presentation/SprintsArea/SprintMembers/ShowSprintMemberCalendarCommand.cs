@@ -18,6 +18,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
 using MediatR;
 
@@ -26,14 +27,20 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
     public class ShowSprintMemberCalendarCommand : ICommand
     {
         private readonly IMediator mediator;
+        private readonly EventBus eventBus;
 
         public SprintMember SprintMember { get; set; }
+        
+        public int TeamMemberId { get; set; }
+        
+        public int SprintId { get; set; }
 
         public event EventHandler CanExecuteChanged;
 
-        public ShowSprintMemberCalendarCommand(IMediator mediator)
+        public ShowSprintMemberCalendarCommand(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
         public bool CanExecute(object parameter)
@@ -43,12 +50,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         public void Execute(object parameter)
         {
-            TeamMemberSprintViewModel viewModel = new(mediator);
-            viewModel.SetSprintMember(SprintMember);
+            SprintMemberCalendarViewModel viewModel = new(mediator, eventBus);
+            viewModel.SetSprintMember(TeamMemberId, SprintId);
 
             Window owner = System.Windows.Application.Current.MainWindow;
 
-            TeamMemberSprintWindow window = new()
+            SprintMemberCalendarWindow window = new()
             {
                 DataContext = viewModel,
                 Owner = owner

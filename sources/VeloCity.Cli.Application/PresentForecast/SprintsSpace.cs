@@ -148,7 +148,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
                 Sprint nextSprint = sprintsSpace.sprintFactory.GenerateImaginarySprint(nextStartDate, sprintEndDate);
                 lastSprintNumber++;
                 nextSprint.Number = lastSprintNumber;
-                nextSprint.Name = $"Sprint {lastSprintNumber} (Presumed)";
+                nextSprint.Title = $"Sprint {lastSprintNumber} (Presumed)";
                 Current = nextSprint;
 
                 nextStartDate = sprintEndDate.AddDays(1);

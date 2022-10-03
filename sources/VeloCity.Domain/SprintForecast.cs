@@ -51,7 +51,7 @@ namespace DustInTheWind.VeloCity.Domain
                 ? StoryPoints.Empty
                 : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
 
-            SprintName = sprint.Name;
+            SprintName = sprint.Title;
             StartDate = sprint.StartDate;
             EndDate = sprint.EndDate;
             Days = sprint.EnumerateAllDays().ToList();

@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <customControls:OkCancelWindow
-    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar.TeamMemberSprintWindow"
+    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar.SprintMemberCalendarWindow"
 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     Width="1024"
     ResizeMode="CanResizeWithGrip"
     WindowStartupLocation="CenterOwner"
-    d:DataContext="{d:DesignInstance sprintMemberCalendar:TeamMemberSprintViewModel}"
+    d:DataContext="{d:DesignInstance sprintMemberCalendar:SprintMemberCalendarViewModel}"
     CancelButtonContent="Close"
     IsOkButtonVisible="False">
 

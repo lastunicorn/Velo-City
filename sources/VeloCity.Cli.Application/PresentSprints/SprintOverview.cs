@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
 
         public SprintOverview(Sprint sprint)
         {
-            Name = sprint.Name;
+            Name = sprint.Title;
             SprintNumber = sprint.Number;
             StartDate = sprint.StartDate;
             EndDate = sprint.EndDate;

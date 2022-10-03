@@ -23,19 +23,83 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class VacationCollection : Collection<Vacation>
     {
+        public event EventHandler Changed;
+
         public VacationCollection()
         {
         }
 
         public VacationCollection(IEnumerable<Vacation> vacations)
         {
-            foreach (Vacation vacation in vacations)
+            if (vacations == null) throw new ArgumentNullException(nameof(vacations));
+
+            IEnumerable<Vacation> nonNullVacations = vacations.Where(x => x != null);
+
+            foreach (Vacation vacation in nonNullVacations)
+            {
                 Items.Add(vacation);
+                vacation.Changed += HandleVacationChanged;
+            }
+        }
+
+        protected override void InsertItem(int index, Vacation item)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
+            base.InsertItem(index, item);
+
+            item.Changed += HandleVacationChanged;
+
+            OnChanged();
+        }
+
+        protected override void RemoveItem(int index)
+        {
+            Vacation vacation = Items[index];
+            vacation.Changed -= HandleVacationChanged;
+
+            base.RemoveItem(index);
+
+            OnChanged();
+        }
+
+        protected override void SetItem(int index, Vacation item)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
+            Vacation vacation = Items[index];
+            vacation.Changed -= HandleVacationChanged;
+
+            base.SetItem(index, item);
+
+            item.Changed += HandleVacationChanged;
+
+            OnChanged();
+        }
+
+        protected override void ClearItems()
+        {
+            foreach (Vacation vacation in Items)
+                vacation.Changed -= HandleVacationChanged;
+
+            base.ClearItems();
+
+            OnChanged();
+        }
+
+        private void HandleVacationChanged(object sender, EventArgs e)
+        {
+            OnChanged();
         }
 
         public IEnumerable<Vacation> GetVacationsFor(DateTime date)
         {
             return Items.Where(x => x.Match(date));
+        }
+
+        protected virtual void OnChanged()
+        {
+            Changed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

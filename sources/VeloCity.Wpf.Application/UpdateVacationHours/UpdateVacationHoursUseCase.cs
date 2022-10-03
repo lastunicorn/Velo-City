@@ -1,4 +1,20 @@
-﻿using System;
+﻿// VeloCity
+// Copyright (C) 2022 Dust in the Wind
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,6 +50,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
             Vacation existingVacation = teamMember.Vacations
                 .FirstOrDefault(x => x.Match(date));
 
+            Employment employment = teamMember.Employments.GetEmploymentFor(date);
+
+            if(employment == null)
+                return Unit.Value;
+
+            int maxHourPerDay = employment.HoursPerDay;
+
             // no vacation exists
             if (existingVacation == null)
             {
@@ -44,7 +67,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
                 }
 
                 // partial day vacation is required
-                else if (request.Hours.Value > 0 && request.Hours.Value < 8)
+                else if (request.Hours.Value > 0 && request.Hours.Value < maxHourPerDay)
                 {
                     // create new once vacation
 
@@ -61,7 +84,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
                 }
 
                 // full day vacation is required
-                else if (request.Hours.Value >= 8)
+                else if (request.Hours.Value >= maxHourPerDay)
                 {
                     Vacation previousDayVacation = teamMember.Vacations
                         .FirstOrDefault(x => x.Match(previousDate));
@@ -212,7 +235,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
                     }
 
                     // partial day vacation is required
-                    else if (request.Hours.Value > 0 && request.Hours.Value < 8)
+                    else if (request.Hours.Value > 0 && request.Hours.Value < maxHourPerDay)
                     {
                         // change the hours count on existing.
 
@@ -223,9 +246,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
                     }
 
                     // full day vacation is required
-                    else if (request.Hours.Value >= 8)
+                    else if (request.Hours.Value >= maxHourPerDay)
                     {
-                        // change the hours count on existing to 8.
+                        // change the hours count on existing to full.
 
                         existingVacationOnce.HourCount = null;
                     }
@@ -309,7 +332,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
                     }
 
                     // partial day vacation is required
-                    else if (request.Hours.Value > 0 && request.Hours.Value < 8)
+                    else if (request.Hours.Value > 0 && request.Hours.Value < maxHourPerDay)
                     {
                         // change the hours count on existing.
 
@@ -317,11 +340,11 @@ namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
                     }
 
                     // full day vacation is required
-                    else if (request.Hours.Value > 8)
+                    else if (request.Hours.Value > maxHourPerDay)
                     {
-                        // change the hours count on existing to 8.
+                        // change the hours count on existing to full.
 
-                        existingVacationDaily.HourCount = 8;
+                        existingVacationDaily.HourCount = null;
                     }
                 }
 
@@ -335,7 +358,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
             }
 
             unitOfWork.SaveChanges();
-
+            
             TeamMemberVacationChangedEvent teamMemberVacationChangedEvent = new();
             await eventBus.Publish(teamMemberVacationChangedEvent, cancellationToken);
 

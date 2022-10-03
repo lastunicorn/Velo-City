@@ -37,7 +37,7 @@ namespace DustInTheWind.VeloCity.DataAccess
             {
                 Id = sprint.Id,
                 Number = sprint.Number,
-                Name = sprint.Name,
+                Name = sprint.Title,
                 StartDate = sprint.StartDate,
                 EndDate = sprint.EndDate,
                 Goal = sprint.Goal,
@@ -71,7 +71,7 @@ namespace DustInTheWind.VeloCity.DataAccess
             {
                 Id = sprint.Id,
                 Number = sprint.Number,
-                Name = sprint.Name,
+                Title = sprint.Name,
                 DateInterval = new DateInterval(sprint.StartDate, sprint.EndDate),
                 Goal = sprint.Goal,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,

@@ -20,12 +20,38 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public abstract class Vacation
     {
+        private int? hourCount;
+        private string comments;
+
         public TeamMember TeamMember { get; set; }
 
-        public int? HourCount { get; set; }
+        public int? HourCount
+        {
+            get => hourCount;
+            set
+            {
+                hourCount = value;
+                OnChanged();
+            }
+        }
 
-        public string Comments { get; set; }
+        public string Comments
+        {
+            get => comments;
+            set
+            {
+                comments = value;
+                OnChanged();
+            }
+        }
+
+        public event EventHandler Changed;
 
         public abstract bool Match(DateTime date);
+
+        protected virtual void OnChanged()
+        {
+            Changed?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

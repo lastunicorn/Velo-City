@@ -17,17 +17,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
+using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
 {
-    public class TeamMemberSprintViewModel : ViewModelBase
+    public class SprintMemberCalendarViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
         private string title;
         private List<SprintMemberCalendarDayViewModel> days;
+        private SprintMember sprintMember;
 
         public string Title
         {
@@ -49,13 +55,42 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             }
         }
 
-        public TeamMemberSprintViewModel(IMediator mediator)
+        public SprintMemberCalendarViewModel(IMediator mediator, EventBus eventBus)
         {
+            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+
+            eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
         }
 
-        public void SetSprintMember(SprintMember sprintMember)
+        private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
         {
+            if (sprintMember is { Sprint: { }, TeamMember: { } })
+            {
+                int teamMemberId = sprintMember.TeamMember.Id;
+                int sprintId = sprintMember.Sprint.Id;
+
+                await RefreshData(teamMemberId, sprintId, cancellationToken);
+            }
+        }
+
+        public void SetSprintMember(int teamMemberId, int sprintId)
+        {
+            _ = RefreshData(teamMemberId, sprintId);
+        }
+
+        private async Task RefreshData(int teamMemberId, int sprintId, CancellationToken cancellationToken = default)
+        {
+            PresentSprintMemberCalendarRequest request = new()
+            {
+                TeamMemberId = teamMemberId,
+                SprintId = sprintId
+            };
+
+            PresentSprintMemberCalendarResponse response = await mediator.Send(request, cancellationToken);
+
+            sprintMember = response.SprintMembers;
+
             Title = sprintMember.TeamMember.Name;
             Days = sprintMember.Days
                 .Select(x => new SprintMemberCalendarDayViewModel(mediator, x))

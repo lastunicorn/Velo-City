@@ -122,7 +122,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
 
             SprintStartConfirmationRequest sprintStartConfirmationRequest = new()
             {
-                SprintName = selectedSprint.Name,
+                SprintName = selectedSprint.Title,
                 SprintNumber = selectedSprint.Number,
                 EstimatedStoryPoints = response.EstimatedStoryPoints,
                 CommitmentStoryPoints = StoryPoints.Empty,
