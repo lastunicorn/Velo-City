@@ -86,7 +86,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <DataGridTextColumn
                 Header="Date"
-                Binding="{Binding Date, StringFormat={}{0:yyyy MM dd}}"
+                Binding="{Binding Date, StringFormat={}{0:d}}"
                 CanUserSort="False"
                 IsReadOnly="True" />
 

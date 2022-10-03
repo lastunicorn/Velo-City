@@ -21,7 +21,7 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
 {
-    public class HoursValueConverter :IValueConverter
+    public class HoursValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -42,7 +42,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             {
                 if (targetType == typeof(HoursValue) || targetType == typeof(HoursValue?))
                 {
-                    return HoursValue.Parse(stringValue);
+                    try
+                    {
+                        return HoursValue.Parse(stringValue);
+                    }
+                    catch
+                    {
+                        return null;
+                    }
                 }
             }
 

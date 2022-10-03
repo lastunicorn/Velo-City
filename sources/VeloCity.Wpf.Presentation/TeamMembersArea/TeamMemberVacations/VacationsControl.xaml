@@ -66,9 +66,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                                     <TextBlock
                                                         Text="Day:"
-                                                        Margin="0 0 10 0" />
+                                                        Margin="0 0 10 0"
+                                                        VerticalAlignment="Center" />
 
                                                     <TextBlock Text="{Binding Date, StringFormat=d}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 
@@ -82,6 +88,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                         Margin="0 0 10 0" />
 
                                                     <TextBlock Text="{Binding DateInterval}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 
@@ -120,6 +131,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                         Margin="5 0" />
 
                                                     <TextBlock Text="{Binding DateInterval}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 
@@ -131,6 +147,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                     <TextBlock Text="Monthly: " />
                                                     <TextBlock Text="{Binding MonthDays}" />
                                                     <TextBlock Text="{Binding DateInterval}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 
@@ -142,6 +163,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                     <TextBlock Text="Yearly: " />
                                                     <TextBlock Text="{Binding Dates}" />
                                                     <TextBlock Text="{Binding DateInterval}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 
