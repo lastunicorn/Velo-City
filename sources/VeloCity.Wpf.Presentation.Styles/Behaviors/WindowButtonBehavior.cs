@@ -59,5 +59,43 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
             if (parentWindow != null)
                 parentWindow.DialogResult = true;
         }
+
+        public static readonly DependencyProperty IsCloseButtonProperty = DependencyProperty.RegisterAttached(
+            "IsCloseButton",
+            typeof(bool),
+            typeof(WindowButtonBehavior),
+            new UIPropertyMetadata(false, HandleIsCloseButtonChanged));
+
+        public static bool GetIsCloseButton(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsCloseButtonProperty);
+        }
+
+        public static void SetIsCloseButton(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsCloseButtonProperty, value);
+        }
+
+        private static void HandleIsCloseButtonChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            if (obj is Button button)
+            {
+                if ((bool)e.NewValue)
+                    button.Click += HandleCloseButtonClick;
+                else
+                    button.Click -= HandleCloseButtonClick;
+            }
+        }
+
+        private static void HandleCloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not UIElement uiElement)
+                return;
+
+            Window parentWindow = Window.GetWindow(uiElement);
+
+            if (parentWindow != null)
+                parentWindow.DialogResult = false;
+        }
     }
 }

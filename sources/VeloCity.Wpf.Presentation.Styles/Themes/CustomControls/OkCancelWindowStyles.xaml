@@ -47,6 +47,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <DockPanel
                         Background="{TemplateBinding Background}">
 
+                        <!-- Header -->
+
                         <Border
                             DockPanel.Dock="Top"
                             MinHeight="90"
@@ -59,6 +61,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                             <DockPanel VerticalAlignment="Center">
 
+                                <Button
+                                    DockPanel.Dock="Right"
+                                    Width="48"
+                                    Height="48"
+                                    Margin="20 0 0 0"
+                                    Padding="0"
+                                    IsCancel="True"
+                                    Content="X"
+                                    Style="{StaticResource XButtonStyle}"
+                                    behaviors:WindowButtonBehavior.IsCloseButton="True"
+                                    Visibility="{Binding IsXButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
                                 <Viewbox
                                     DockPanel.Dock="Left"
                                     Width="32"
@@ -70,28 +84,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                 </Viewbox>
 
-                                <ContentPresenter
-                                    Content="{TemplateBinding Title}"
-                                    VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
 
-                                    <ContentPresenter.Resources>
-                                        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                            <Setter Property="FontSize" Value="24" />
-                                        </Style>
-                                    </ContentPresenter.Resources>
+                                    <TextBlock
+                                        Text="{TemplateBinding Title}"
+                                        VerticalAlignment="Center"
+                                        FontSize="24" />
 
-                                </ContentPresenter>
+                                    <TextBlock
+                                        Text="{TemplateBinding Subtitle}"
+                                        VerticalAlignment="Center"
+                                        Margin="20 0 0 0"
+                                        FontSize="20"
+                                        Foreground="{StaticResource FontDimBrush}"/>
 
+                                </StackPanel>
                             </DockPanel>
 
                         </Border>
+
+                        <!-- Footer -->
 
                         <Border
                             DockPanel.Dock="Bottom"
                             Background="{StaticResource PrimaryDarkBrush}"
                             MinHeight="70"
                             BorderThickness="0 1 0 0"
-                            BorderBrush="{StaticResource PrimaryLightBrush}">
+                            BorderBrush="{StaticResource PrimaryLightBrush}"
+                            Visibility="{Binding IsFooterVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                             <Grid>
                                 <StackPanel
@@ -125,6 +145,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </Grid>
 
                         </Border>
+
+                        <!-- Content -->
 
                         <ContentPresenter Margin="{TemplateBinding Margin}" />
 

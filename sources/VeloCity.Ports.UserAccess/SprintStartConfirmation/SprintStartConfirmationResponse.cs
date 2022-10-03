@@ -24,6 +24,8 @@ namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation
 
         public StoryPoints CommitmentStoryPoints { get; set; }
 
+        public string SprintTitle { get; set; }
+        
         public string SprintGoal { get; set; }
     }
 }

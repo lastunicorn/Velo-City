@@ -78,7 +78,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
         {
             return new PresentSprintDetailResponse
             {
-                SprintName = sprint.Title,
+                SprintId = sprint.Id,
+                SprintTitle = sprint.Title,
                 SprintNumber = sprint.Number,
             };
         }

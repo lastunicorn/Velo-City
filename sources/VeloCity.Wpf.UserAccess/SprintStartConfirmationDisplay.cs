@@ -43,6 +43,7 @@ namespace DustInTheWind.VeloCity.Wpf.UserAccess
             {
                 IsAccepted = response == true,
                 CommitmentStoryPoints = viewModel.CommitmentStoryPoints,
+                SprintTitle = viewModel.SprintTitle,
                 SprintGoal = viewModel.SprintGoal
             };
         }

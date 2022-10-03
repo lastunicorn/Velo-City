@@ -31,6 +31,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
     public class SprintsListViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
+        private readonly EventBus eventBus;
         private List<SprintViewModel> sprints;
         private SprintViewModel selectedSprint;
         private bool hasSprints;
@@ -74,6 +75,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
         public SprintsListViewModel(IMediator mediator, EventBus eventBus)
         {
             this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
@@ -112,7 +114,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
             RunInInitializeMode(() =>
             {
                 Sprints = response.Sprints
-                    .Select(x => new SprintViewModel(x))
+                    .Select(x => new SprintViewModel(x, eventBus))
                     .ToList();
 
                 SelectedSprint = response.CurrentSprintId == null

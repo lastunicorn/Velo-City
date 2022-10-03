@@ -136,6 +136,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
         {
             selectedSprint.State = SprintState.InProgress;
             selectedSprint.CommitmentStoryPoints = sprintStartConfirmationResponse.CommitmentStoryPoints;
+            selectedSprint.Title = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.SprintTitle)
+                ? null
+                : sprintStartConfirmationResponse.SprintTitle;
             selectedSprint.Goal = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.SprintGoal)
                 ? null
                 : sprintStartConfirmationResponse.SprintGoal;
@@ -146,6 +149,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             SprintUpdatedEvent sprintUpdatedEvent = new()
             {
                 SprintId = sprint.Id,
+                SprintNumber = sprint.Number,
+                SprintTitle = sprint.Title,
                 SprintState = sprint.State,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 SprintGoal = sprint.Goal,
