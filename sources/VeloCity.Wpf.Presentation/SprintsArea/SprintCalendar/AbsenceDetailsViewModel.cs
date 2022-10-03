@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
     {
         public List<TeamMemberAbsenceDetails> TeamMemberVacationDetails { get; }
 
-        public List<OfficialHolidayAbsenceDetails> OfficialHolidays { get; }
+        public List<DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.OfficialHoliday> OfficialHolidays { get; }
 
         public bool HasVacationsAndHolidays => TeamMemberVacationDetails?.Count > 0 && OfficialHolidays?.Count > 0;
 
@@ -53,27 +53,31 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
                 OfficialHolidays = sprintDay.OfficialHolidays
                     .Where(x => countries.Contains(x.Country))
-                    .Select(x => new OfficialHolidayAbsenceDetails(x))
+                    .Select(x => new DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.OfficialHoliday
+                    {
+                        HolidayName = x.Name,
+                        HolidayCountry = x.Country
+                    })
                     .ToList();
             }
         }
 
-        public override string ToString()
-        {
-            IEnumerable<string> teamMembersAbsenceInfos = TeamMemberVacationDetails == null
-                ? Enumerable.Empty<string>()
-                : TeamMemberVacationDetails
-                    .Select(x => x.ToString());
+        //public override string ToString()
+        //{
+        //    IEnumerable<string> teamMembersAbsenceInfos = TeamMemberVacationDetails == null
+        //        ? Enumerable.Empty<string>()
+        //        : TeamMemberVacationDetails
+        //            .Select(x => x.ToString());
 
-            IEnumerable<string> officialHolidaysAbsenceInfos = OfficialHolidays == null
-                ? Enumerable.Empty<string>()
-                : OfficialHolidays
-                    .Select(x => x.ToString());
+        //    IEnumerable<string> officialHolidaysAbsenceInfos = OfficialHolidays == null
+        //        ? Enumerable.Empty<string>()
+        //        : OfficialHolidays
+        //            .Select(x => x.ToString());
 
-            IEnumerable<string> items = teamMembersAbsenceInfos
-                .Concat(officialHolidaysAbsenceInfos);
+        //    IEnumerable<string> items = teamMembersAbsenceInfos
+        //        .Concat(officialHolidaysAbsenceInfos);
 
-            return string.Join(", ", items);
-        }
+        //    return string.Join(", ", items);
+        //}
     }
 }

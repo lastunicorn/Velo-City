@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/InfoPartialVacationIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/InfoPointStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ParagraphsBlockStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/OfficialHolidaysInfoPointStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -48,7 +49,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <DockPanel>
 
-        <customControls:InfoPoint
+        <customControls:OfficialHolidaysInfoPoint
+            DockPanel.Dock="Left"
+            Margin="0 0 10 0"
+            Visibility="{Binding HasVacationsAndHolidays, Converter={StaticResource BooleanToVisibilityConverter}}"
+            OfficialHolidays="{Binding OfficialHolidays}" />
+
+        <!--<customControls:InfoPoint
             DockPanel.Dock="Left"
             Margin="0 0 10 0"
             Visibility="{Binding HasVacationsAndHolidays, Converter={StaticResource BooleanToVisibilityConverter}}"
@@ -77,7 +84,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </customControls:ParagraphsBlock>
             </customControls:InfoPoint.InfoContent>
 
-        </customControls:InfoPoint>
+        </customControls:InfoPoint>-->
 
         <WrapPanel Orientation="Horizontal">
 

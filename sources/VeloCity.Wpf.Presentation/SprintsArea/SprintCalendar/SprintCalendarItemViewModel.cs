@@ -50,6 +50,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
         public AbsenceDetailsViewModel AbsenceDetails { get; }
 
+        //public List<OfficialHolidayAbsenceDetails> OfficialHolidays { get; }
+
         public SprintCalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
         {
             if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
@@ -66,6 +68,29 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
                     .Sum(x => x.AbsenceHours)
                 : null;
             AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
+
+            //if (!sprintDay.IsWeekEnd)
+            //{
+            //    //TeamMemberVacationDetails = sprintMemberDays
+            //    //    .Where(x => x.AbsenceHours > 0 || x.AbsenceReason == AbsenceReason.Contract)
+            //    //    .Select(x => new TeamMemberAbsenceDetails(x))
+            //    //    .ToList();
+
+            //    string[] countries = sprintMemberDays
+            //        .Select(x =>
+            //        {
+            //            Employment employment = x.TeamMember.Employments?.GetEmploymentFor(x.SprintDay.Date);
+            //            return employment?.Country;
+            //        })
+            //        .Where(x => x != null)
+            //        .Distinct()
+            //        .ToArray();
+
+            //    OfficialHolidays = sprintDay.OfficialHolidays
+            //        .Where(x => countries.Contains(x.Country))
+            //        .Select(x => new OfficialHolidayAbsenceDetails(x))
+            //        .ToList();
+            //}
         }
     }
 }
