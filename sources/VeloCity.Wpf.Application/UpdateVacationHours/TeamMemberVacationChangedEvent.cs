@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,22 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
-
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours
 {
-    public class SprintMemberDetailsViewModel
+    public class TeamMemberVacationChangedEvent
     {
-        public string Name { get; }
 
-        public SprintMemberCalendarViewModel SprintMemberCalendar { get; }
-
-        public SprintMemberDetailsViewModel(SprintMember sprintMember)
-        {
-            Name = sprintMember.Name;
-
-            SprintMemberCalendar = new SprintMemberCalendarViewModel(sprintMember);
-        }
     }
 }

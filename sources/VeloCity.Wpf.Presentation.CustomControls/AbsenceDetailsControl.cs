@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,15 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    internal class PartialDayVacationNote : NoteBase
+    internal class AbsenceDetailsControl
     {
-        protected override IEnumerable<string> BuildMessage()
-        {
-            yield return "(*) partial day vacation";
-        }
     }
 }

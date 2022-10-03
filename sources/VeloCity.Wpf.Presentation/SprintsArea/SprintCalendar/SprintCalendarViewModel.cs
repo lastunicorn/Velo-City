@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
@@ -51,6 +52,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+            eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
         }
 
         private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
@@ -59,6 +61,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         }
 
         private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintCalendar();
+        }
+
+        private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
         {
             await RetrieveSprintCalendar();
         }
@@ -104,31 +111,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
         private static void CreateChartBars(IEnumerable<SprintCalendarItemViewModel> calendarItems)
         {
-            Chart chart = new()
+            SprintWorkChart chart = new(calendarItems);
+
+            foreach (ChartBarValue<SprintCalendarItemViewModel> chartBarValue in chart)
             {
-                ActualSize = 100
-            };
-
-            IEnumerable<ChartBar> chartBars = calendarItems
-                .Select(x =>
-                {
-                    int workHours = x.WorkHours?.Value ?? 0;
-                    int absenceHours = x.AbsenceHours?.Value ?? 0;
-
-                    ChartBar chartBar = new()
-                    {
-                        MaxValue = workHours + absenceHours,
-                        FillValue = workHours
-                    };
-
-                    if (x.IsWorkDay)
-                        x.ChartBar = chartBar;
-
-                    return chartBar;
-                });
-
-            chart.AddRange(chartBars);
-            chart.Calculate();
+                if (chartBarValue.Item?.IsWorkDay == true)
+                    chartBarValue.Item.ChartBarValue = chartBarValue;
+            }
         }
     }
 }

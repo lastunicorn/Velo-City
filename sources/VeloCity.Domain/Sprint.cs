@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 
 namespace DustInTheWind.VeloCity.Domain
@@ -26,7 +28,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         public int Number { get; set; }
 
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         public DateTime StartDate { get; private set; } = DateTime.Today;
 
@@ -53,7 +55,7 @@ namespace DustInTheWind.VeloCity.Domain
             set
             {
                 actualStoryPoints = value;
-                
+
                 velocity = null;
             }
         }
@@ -68,7 +70,9 @@ namespace DustInTheWind.VeloCity.Domain
 
         private readonly List<SprintMember> allSprintMembers = new();
 
-        private IEnumerable<SprintMember> SprintMembers
+        public ObservableCollection<SprintMember> SprintMembers { get; } = new();
+
+        private IEnumerable<SprintMember> SprintMembersWithoutExcluded
         {
             get
             {
@@ -80,7 +84,7 @@ namespace DustInTheWind.VeloCity.Domain
             }
         }
 
-        public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembers
+        public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembersWithoutExcluded
             .OrderBy(x => x.TeamMember.Employments.GetLastEmploymentBatch()?.StartDate)
             .ThenBy(x => x.Name);
 
@@ -117,7 +121,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         private HoursValue CalculateTotalWorkHours()
         {
-            return SprintMembers
+            return SprintMembersWithoutExcluded
                 .Sum(x => x.WorkHours.Value);
         }
 
@@ -135,9 +139,13 @@ namespace DustInTheWind.VeloCity.Domain
 
         public IReadOnlyCollection<string> ExcludedTeamMembers { get; set; }
 
+        public Sprint()
+        {
+        }
+
         private HoursValue CalculateTotalWorkHoursWithVelocityPenalties()
         {
-            return SprintMembers
+            return SprintMembersWithoutExcluded
                 .Sum(x => x.WorkHoursWithVelocityPenalties.Value);
         }
 
@@ -179,7 +187,7 @@ namespace DustInTheWind.VeloCity.Domain
 
             if (sprintDay.IsOfficialHoliday)
             {
-                List<SprintMemberDay> sprintMemberDays = SprintMembers
+                List<SprintMemberDay> sprintMemberDays = SprintMembersWithoutExcluded
                     .SelectMany(x => x.Days)
                     .Where(x => x.SprintDay.Date == sprintDay.Date)
                     .Where(x =>
@@ -200,8 +208,7 @@ namespace DustInTheWind.VeloCity.Domain
         {
             if (teamMember == null) throw new ArgumentNullException(nameof(teamMember));
 
-            SprintMember sprintMember = teamMember.ToSprintMember(this);
-            allSprintMembers.Add(sprintMember);
+            AddSprintMemberInternal(teamMember);
         }
 
         public void AddSprintMembers(IEnumerable<TeamMember> teamMembers)
@@ -209,15 +216,24 @@ namespace DustInTheWind.VeloCity.Domain
             if (teamMembers == null) throw new ArgumentNullException(nameof(teamMembers));
 
             foreach (TeamMember teamMember in teamMembers)
-            {
-                SprintMember sprintMember = teamMember.ToSprintMember(this);
-                allSprintMembers.Add(sprintMember);
-            }
+                AddSprintMemberInternal(teamMember);
+        }
+
+        private void AddSprintMemberInternal(TeamMember teamMember)
+        {
+            SprintMember sprintMember = teamMember.ToSprintMember(this);
+            sprintMember.VacationsChanged += HandleSprintMemberVacationsChanged;
+            allSprintMembers.Add(sprintMember);
+        }
+
+        private void HandleSprintMemberVacationsChanged(object sender, EventArgs e)
+        {
+            totalWorkHours = null;
         }
 
         public List<VelocityPenaltyInstance> GetVelocityPenalties()
         {
-            return SprintMembers
+            return SprintMembersWithoutExcluded
                 .Where(x => x.VelocityPenaltyPercentage > 0)
                 .Select(x => new VelocityPenaltyInstance
                 {
@@ -230,7 +246,12 @@ namespace DustInTheWind.VeloCity.Domain
 
         public override string ToString()
         {
-            return $"{Number}: {Name}";
+            return $"{Number}: {Title}";
+        }
+
+        public SprintMember GetSprintMember(int teamMemberId)
+        {
+            return allSprintMembers.FirstOrDefault(x => x.TeamMember?.Id == teamMemberId);
         }
     }
 }

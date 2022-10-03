@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -98,7 +98,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
         {
             return new PresentSprintResponse
             {
-                SprintName = sprint.Name,
+                SprintName = sprint.Title,
                 SprintState = sprint.State,
                 SprintDateInterval = sprint.DateInterval,
                 SprintDays = sprint.EnumerateAllDays()?.ToList(),

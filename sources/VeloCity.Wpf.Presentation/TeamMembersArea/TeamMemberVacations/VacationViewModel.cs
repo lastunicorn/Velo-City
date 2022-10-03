@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -15,13 +15,14 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
 {
     public abstract class VacationViewModel
     {
-        public int? HourCount { get; set; }
+        public HoursValue? HourCount { get; set; }
 
         public string Comments { get; set; }
 
@@ -39,7 +40,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
                     return new VacationOnceViewModel
                     {
                         Date = vacationOnce.Date,
-                        HourCount = vacationOnce.HourCount,
+                        HourCount = vacationOnce.HourCount.HasValue
+                            ? vacationOnce.HourCount
+                            : (HoursValue?)null,
                         Comments = vacationOnce.Comments
                     };
 
@@ -47,7 +50,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
                     return new VacationDailyViewModel
                     {
                         DateInterval = vacationDaily.DateInterval,
-                        HourCount = vacationDaily.HourCount,
+                        HourCount = vacationDaily.HourCount.HasValue
+                            ? vacationDaily.HourCount
+                            : (HoursValue?)null,
                         Comments = vacationDaily.Comments
                     };
 
@@ -56,7 +61,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
                     {
                         WeekDays = vacationWeekly.WeekDays,
                         DateInterval = vacationWeekly.DateInterval,
-                        HourCount = vacationWeekly.HourCount,
+                        HourCount = vacationWeekly.HourCount.HasValue
+                            ? vacationWeekly.HourCount
+                            : (HoursValue?)null,
                         Comments = vacationWeekly.Comments
                     };
 
@@ -65,7 +72,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
                     {
                         MonthDays = vacationMonthly.MonthDays,
                         DateInterval = vacationMonthly.DateInterval,
-                        HourCount = vacationMonthly.HourCount,
+                        HourCount = vacationMonthly.HourCount.HasValue
+                            ? vacationMonthly.HourCount
+                            : (HoursValue?)null,
                         Comments = vacationMonthly.Comments
                     };
 
@@ -74,7 +83,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
                     {
                         Dates = vacationYearly.Dates,
                         DateInterval = vacationYearly.DateInterval,
-                        HourCount = vacationYearly.HourCount,
+                        HourCount = vacationYearly.HourCount.HasValue
+                            ? vacationYearly.HourCount
+                            : (HoursValue?)null,
                         Comments = vacationYearly.Comments
                     };
 

@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -96,7 +96,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
         {
             SprintCloseConfirmationRequest startConfirmationRequest = new()
             {
-                SprintName = selectedSprint.Name,
+                SprintName = selectedSprint.Title,
                 SprintNumber = selectedSprint.Number
             };
 

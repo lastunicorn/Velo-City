@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -21,9 +21,9 @@ using System.Linq;
 
 namespace DustInTheWind.VeloCity.ChartTools
 {
-    public class Chart : IEnumerable<ChartBar>
+    public abstract class Chart<T> : IEnumerable<ChartBarValue<T>>
     {
-        private readonly List<ChartBar> chartBars = new();
+        private readonly List<ChartBarValue<T>> chartBars = new();
         private int? actualSize;
 
         public int ActualSize
@@ -34,20 +34,37 @@ namespace DustInTheWind.VeloCity.ChartTools
 
         public int MaxValue { get; private set; }
 
-        public ChartBar this[int index] => chartBars[index];
+        public ChartBarValue<T> this[int index] => chartBars[index];
 
-        public void Add(ChartBar chartBar)
+        public void Add(ChartBarValue<T> chartBarValue)
         {
-            if (chartBar.Container != null)
-                throw new ArgumentException("The chart bar is already part of another chart.", nameof(chartBar));
+            if (chartBarValue.Container != null)
+                throw new ArgumentException("The chart bar is already part of another chart.", nameof(chartBarValue));
 
-            chartBar.Container = this;
-            chartBars.Add(chartBar);
+            chartBarValue.Container = this;
+            chartBars.Add(chartBarValue);
         }
 
-        public void AddRange(IEnumerable<ChartBar> chartBars)
+        public void AddRange(IEnumerable<T> items)
         {
-            foreach (ChartBar chartBar in chartBars)
+            foreach (T item in items)
+            {
+                ChartBarValue<T> chartBarValue = ToChartBarValue(item);
+                Add(chartBarValue);
+            }
+        }
+
+        protected abstract ChartBarValue<T> ToChartBarValue(T item);
+        //{
+        //    return new ChartBarValue<T>
+        //    {
+        //        Item = item
+        //    };
+        //}
+
+        public void AddRange(IEnumerable<ChartBarValue<T>> chartBars)
+        {
+            foreach (ChartBarValue<T> chartBar in chartBars)
                 Add(chartBar);
         }
 
@@ -57,11 +74,11 @@ namespace DustInTheWind.VeloCity.ChartTools
                 .Select(x => x.MaxValue)
                 .Max();
 
-            foreach (ChartBar chartBar in chartBars)
+            foreach (ChartBarValue<T> chartBar in chartBars)
                 chartBar.Calculate();
         }
 
-        public IEnumerator<ChartBar> GetEnumerator()
+        public IEnumerator<ChartBarValue<T>> GetEnumerator()
         {
             return chartBars.GetEnumerator();
         }

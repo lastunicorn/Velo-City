@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@ using System;
 using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
+using DustInTheWind.VeloCity.Infrastructure;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
@@ -37,15 +37,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 
         public bool HasAbsenceHours => AbsenceHours.Value > 0;
 
-        public ChartBar ChartBar { get; set; }
-
-        public SprintMemberCalendarViewModel SprintMemberCalendarViewModel { get; }
-
+        public ChartBarValue<SprintMemberViewModel> ChartBarValue { get; set; }
+        
         public ShowSprintMemberCalendarCommand ShowSprintMemberCalendarCommand { get; }
 
-        public SprintMemberViewModel(IMediator mediator, SprintMember sprintMember)
+        public SprintMemberViewModel(IMediator mediator, EventBus eventBus, SprintMember sprintMember)
         {
-            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
             if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
 
             Name = sprintMember.Name;
@@ -54,12 +51,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
                 .Where(IsAbsenceDay)
                 .Sum(x => x.AbsenceHours);
 
-            ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand(mediator)
+            ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand(mediator, eventBus)
             {
-                SprintMember = sprintMember
+                TeamMemberId = sprintMember.TeamMember?.Id ?? 0,
+                SprintId = sprintMember.Sprint?.Id ?? 0
             };
-
-            SprintMemberCalendarViewModel = new SprintMemberCalendarViewModel(sprintMember);
         }
 
         private static bool IsAbsenceDay(SprintMemberDay sprintMemberDay)

@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,18 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar
 {
-    /// <summary>
-    /// Interaction logic for TeamMemberSprintWindow.xaml
-    /// </summary>
-    public partial class TeamMemberSprintWindow : OkCancelWindow
+    public class PresentSprintMemberCalendarRequest : IRequest<PresentSprintMemberCalendarResponse>
     {
-        public TeamMemberSprintWindow()
-        {
-            InitializeComponent();
-        }
+        public int SprintId { get; set; }
+        
+        public int TeamMemberId { get; set; }
     }
 }

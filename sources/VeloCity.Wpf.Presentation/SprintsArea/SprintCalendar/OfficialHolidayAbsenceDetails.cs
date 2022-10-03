@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -21,16 +21,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
     public class OfficialHolidayAbsenceDetails
     {
-        private readonly OfficialHolidayInstance officialHolidayInstance;
+        public string HolidayName { get; }
+        
+        public string HolidayCountry { get; }
 
         public OfficialHolidayAbsenceDetails(OfficialHolidayInstance officialHolidayInstance)
         {
-            this.officialHolidayInstance = officialHolidayInstance ?? throw new ArgumentNullException(nameof(officialHolidayInstance));
-        }
+            if (officialHolidayInstance == null) throw new ArgumentNullException(nameof(officialHolidayInstance));
 
-        public override string ToString()
-        {
-            return $"{officialHolidayInstance.Name} ({officialHolidayInstance.Country})";
+            HolidayName = officialHolidayInstance.Name;
+            HolidayCountry = officialHolidayInstance.Country;
         }
     }
 }

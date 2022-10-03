@@ -1,5 +1,5 @@
 ﻿<!--
-Velo City
+VeloCity
 Copyright (C) 2022 Dust in the Wind
 
 This program is free software: you can redistribute it and/or modify
@@ -60,53 +60,114 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         <ContentControl.Resources>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationOnceViewModel}">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Day: " />
+                                                <StackPanel
+                                                    Orientation="Horizontal"
+                                                    Margin="0 0 0 10">
+
+                                                    <TextBlock
+                                                        Text="Day:"
+                                                        Margin="0 0 10 0"
+                                                        VerticalAlignment="Center" />
+
                                                     <TextBlock Text="{Binding Date, StringFormat=d}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationDailyViewModel}">
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Interval: " />
+                                                <StackPanel
+                                                    Orientation="Horizontal"
+                                                    Margin="0 0 0 10">
+
+                                                    <TextBlock
+                                                        Text="Interval:"
+                                                        Margin="0 0 10 0" />
+
                                                     <TextBlock Text="{Binding DateInterval}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationWeeklyViewModel}">
-                                                <TextBlock>
-                                                    <TextBlock Text="Weekly:" />
-                                                    <ItemsControl ItemsSource="{Binding WeekDays}">
+                                                <StackPanel
+                                                    Orientation="Horizontal"
+                                                    Margin="0 0 0 10">
+                                                    <TextBlock
+                                                        Text="Weekly:"
+                                                        Margin="0 0 10 0" />
+
+                                                    <ItemsControl
+                                                        ItemsSource="{Binding WeekDays}"
+                                                        VerticalContentAlignment="Center"
+                                                        VerticalAlignment="Center">
+
+                                                        <ItemsControl.Resources>
+                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
+                                                        </ItemsControl.Resources>
+
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate>
                                                                 <DataTemplate.Resources>
                                                                     <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
                                                                 </DataTemplate.Resources>
-                                                                <TextBlock Text="{Binding}" />
+                                                                <TextBlock
+                                                                    Text="{Binding}"
+                                                                    VerticalAlignment="Center" />
                                                             </DataTemplate>
                                                         </ItemsControl.ItemTemplate>
-                                                        <ItemsControl.Resources>
-                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
-                                                        </ItemsControl.Resources>
+
                                                     </ItemsControl>
-                                                    <TextBlock Text="|" />
+
+                                                    <TextBlock
+                                                        Text="|"
+                                                        Margin="5 0" />
+
                                                     <TextBlock Text="{Binding DateInterval}" />
-                                                </TextBlock>
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
+                                                </StackPanel>
                                             </DataTemplate>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationMonthlyViewModel}">
-                                                <StackPanel Orientation="Horizontal">
+                                                <StackPanel
+                                                    Orientation="Horizontal"
+                                                    Margin="0 0 0 10">
+
                                                     <TextBlock Text="Monthly: " />
                                                     <TextBlock Text="{Binding MonthDays}" />
                                                     <TextBlock Text="{Binding DateInterval}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationYearlyViewModel}">
-                                                <StackPanel Orientation="Horizontal">
+                                                <StackPanel
+                                                    Orientation="Horizontal"
+                                                    Margin="0 0 0 10">
+
                                                     <TextBlock Text="Yearly: " />
                                                     <TextBlock Text="{Binding Dates}" />
                                                     <TextBlock Text="{Binding DateInterval}" />
+
+                                                    <TextBlock
+                                                        Text="{Binding HourCount}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="10 0 0 0" />
                                                 </StackPanel>
                                             </DataTemplate>
 

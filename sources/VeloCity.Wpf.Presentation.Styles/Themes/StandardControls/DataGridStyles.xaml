@@ -1,5 +1,5 @@
 ﻿<!--
-Velo City
+VeloCity
 Copyright (C) 2022 Dust in the Wind
 
 This program is free software: you can redistribute it and/or modify
@@ -273,6 +273,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
                 <Setter Property="Background" Value="Transparent" />
             </Trigger>
+
+            <Trigger Property="IsEditing" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="DataGridCell">
+                            <TextBox
+                                Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.Text, Mode=TwoWay, UpdateSourceTrigger=Default}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Padding="0"
+                                BorderThickness="1"
+                                Background="{StaticResource PrimaryLightBrush}"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
 
         </Style.Triggers>
     </Style>

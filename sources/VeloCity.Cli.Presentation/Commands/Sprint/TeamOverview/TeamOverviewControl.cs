@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -67,46 +67,26 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
 
         private void AddContentData(DataGrid dataGrid)
         {
-            Chart chart = CreateChart();
-            using IEnumerator<ChartBar> chartBarEnumerator = chart.GetEnumerator();
+            TeamMembersChart chart = new(ViewModel.TeamMembers);
+            using IEnumerator<ChartBarValue<TeamMemberViewModel>> chartBarEnumerator = chart.GetEnumerator();
 
             IEnumerable<ContentRow> rows = ViewModel.TeamMembers
                 .Select(x =>
                 {
                     bool success = chartBarEnumerator.MoveNext();
 
-                    ChartBar chartBar = success
+                    ChartBarValue<TeamMemberViewModel> chartBarValue = success
                         ? chartBarEnumerator.Current
-                        : new ChartBar();
+                        : new ChartBarValue<TeamMemberViewModel>();
 
-                    return CreateContentRow(x, chartBar);
+                    return CreateContentRow(x, chartBarValue);
                 });
 
             foreach (ContentRow row in rows)
                 dataGrid.Rows.Add(row);
         }
 
-        private Chart CreateChart()
-        {
-            Chart chart = new()
-            {
-                ActualSize = 24
-            };
-
-            IEnumerable<ChartBar> chartBars = ViewModel.TeamMembers
-                .Select(x => new ChartBar
-                {
-                    MaxValue = x.WorkHours + x.AbsenceHours,
-                    FillValue = x.WorkHours
-                });
-
-            chart.AddRange(chartBars);
-            chart.Calculate();
-
-            return chart;
-        }
-
-        private static ContentRow CreateContentRow(TeamMemberViewModel teamMember, ChartBar chartBar)
+        private static ContentRow CreateContentRow(TeamMemberViewModel teamMember, ChartBarValue<TeamMemberViewModel> chartBarValue)
         {
             ContentRow dataRow = new();
 
@@ -116,7 +96,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
             ContentCell workHoursCell = CreateWorkHoursCell(teamMember);
             dataRow.AddCell(workHoursCell);
 
-            ContentCell chartCell = CreateChartCell(chartBar);
+            ContentCell chartCell = CreateChartCell(chartBarValue);
             dataRow.AddCell(chartCell);
 
             ContentCell absenceCell = CreateAbsenceCell(teamMember);
@@ -144,11 +124,11 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
             };
         }
 
-        private static ContentCell CreateChartCell(ChartBar chartBar)
+        private static ContentCell CreateChartCell(ChartBarValue<TeamMemberViewModel> chartBarValue)
         {
             return new ContentCell
             {
-                Content = chartBar.ToString(),
+                Content = chartBarValue.ToString(),
                 ForegroundColor = ConsoleColor.Green
             };
         }

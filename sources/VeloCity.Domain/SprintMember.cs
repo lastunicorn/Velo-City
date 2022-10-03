@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -22,13 +22,15 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class SprintMember
     {
+        private SprintMemberDayCollection days;
+
         public PersonName Name => TeamMember.Name;
 
         public Sprint Sprint { get; }
 
         public TeamMember TeamMember { get; }
 
-        public SprintMemberDayCollection Days { get; }
+        public SprintMemberDayCollection Days => days ??= RegenerateDays();
 
         public bool IsEmployed => Days
             .Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
@@ -75,20 +77,39 @@ namespace DustInTheWind.VeloCity.Domain
             }
         }
 
+        public event EventHandler VacationsChanged;
+
         public SprintMember(TeamMember teamMember, Sprint sprint)
         {
             TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
             Sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
 
+            teamMember.VacationsChanged += HandleTeamMemberVacationsChanged;
+        }
+
+        private void HandleTeamMemberVacationsChanged(object? sender, EventArgs e)
+        {
+            days = null;
+
+            OnVacationsChanged();
+        }
+
+        private SprintMemberDayCollection RegenerateDays()
+        {
             IEnumerable<SprintMemberDay> sprintMemberDays = Sprint.EnumerateAllDays()
                 .Select(x => new SprintMemberDay(TeamMember, x));
 
-            Days = new SprintMemberDayCollection(sprintMemberDays);
+            return new SprintMemberDayCollection(sprintMemberDays);
         }
 
         public override string ToString()
         {
             return Name;
+        }
+
+        protected virtual void OnVacationsChanged()
+        {
+            VacationsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ namespace DustInTheWind.VeloCity.Domain
                 ? StoryPoints.Empty
                 : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
 
-            SprintName = sprint.Name;
+            SprintName = sprint.Title;
             StartDate = sprint.StartDate;
             EndDate = sprint.EndDate;
             Days = sprint.EnumerateAllDays().ToList();

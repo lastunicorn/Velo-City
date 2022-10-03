@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
@@ -30,7 +29,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
 
-        public PresentSprintMembersUseCase(IUnitOfWork unitOfWork, IConfig config, ApplicationState applicationState)
+        public PresentSprintMembersUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
@@ -38,9 +37,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
 
         public Task<PresentSprintMembersResponse> Handle(PresentSprintMembersRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = RetrieveSprintToAnalyze();
+            Sprint sprint = RetrieveSprintToAnalyze();
 
-            PresentSprintMembersResponse response = CreateResponse(currentSprint);
+            PresentSprintMembersResponse response = CreateResponse(sprint);
 
             return Task.FromResult(response);
         }

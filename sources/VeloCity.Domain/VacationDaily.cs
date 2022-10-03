@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,17 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class VacationDaily : Vacation
     {
-        public DateInterval DateInterval { get; set; }
+        private DateInterval dateInterval;
+
+        public DateInterval DateInterval
+        {
+            get => dateInterval;
+            set
+            {
+                dateInterval = value;
+                OnChanged();
+            }
+        }
 
         public override bool Match(DateTime date)
         {

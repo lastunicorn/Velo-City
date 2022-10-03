@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -122,7 +122,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
 
             SprintStartConfirmationRequest sprintStartConfirmationRequest = new()
             {
-                SprintName = selectedSprint.Name,
+                SprintName = selectedSprint.Title,
                 SprintNumber = selectedSprint.Number,
                 EstimatedStoryPoints = response.EstimatedStoryPoints,
                 CommitmentStoryPoints = StoryPoints.Empty,

@@ -1,5 +1,5 @@
 ﻿<!--
-Velo City
+VeloCity
 Copyright (C) 2022 Dust in the Wind
 
 This program is free software: you can redistribute it and/or modify
@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj" />
         <ProjectReference Include="..\VeloCity.Ports.DataAccess\VeloCity.Ports.DataAccess.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Ports.SettingsAccess\VeloCity.Ports.SettingsAccess.csproj" PrivateAssets="All" />

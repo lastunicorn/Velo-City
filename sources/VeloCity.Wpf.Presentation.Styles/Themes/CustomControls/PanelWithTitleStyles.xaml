@@ -1,5 +1,5 @@
 ﻿<!--
-Velo City
+VeloCity
 Copyright (C) 2022 Dust in the Wind
 
 This program is free software: you can redistribute it and/or modify
@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <ContentPresenter.Resources>
                                     <Style TargetType="{x:Type TextBlock}">
                                         <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="FontSize" Value="20" />
+                                        <Setter Property="FontSize" Value="24" />
                                         <Setter Property="FontWeight" Value="DemiBold" />
                                     </Style>
                                 </ContentPresenter.Resources>

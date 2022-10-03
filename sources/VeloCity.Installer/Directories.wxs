@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-Velo City
+VeloCity
 Copyright (C) 2022 Dust in the Wind
 
 This program is free software: you can redistribute it and/or modify
@@ -23,13 +23,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFilesFolder">
-                <Directory Id="INSTALLDIR" Name="Velo City">
+                <Directory Id="INSTALLDIR" Name="VeloCity">
                     <Directory Id="INSTALLDIR_CLI" Name="cli" />
                     <Directory Id="INSTALLDIR_GUI" Name="gui" />
                 </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">
-                <Directory Id="ApplicationProgramsFolder" Name="Velo City"/>
+                <Directory Id="ApplicationProgramsFolder" Name="VeloCity"/>
             </Directory>
         </Directory>
 

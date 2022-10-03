@@ -1,4 +1,4 @@
-﻿// Velo City
+﻿// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
 
         public SprintOverview(Sprint sprint)
         {
-            Name = sprint.Name;
+            Name = sprint.Title;
             SprintNumber = sprint.Number;
             StartDate = sprint.StartDate;
             EndDate = sprint.EndDate;
