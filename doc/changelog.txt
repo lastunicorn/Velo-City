@@ -6,6 +6,7 @@ v1.13.0
 - [feature] [wpf] Improved the info texts from the info bubbles.
 - [feature] [wpf] Display the sprint member calendar in a popup window.
 - [install] [wpf] Changed the install directory from "Velo City" to "VeloCity".
+- [feature] [wpf] Edit vacation time (add/remove) in the Sprint Member Calendar.
 
 
 v1.12.0
