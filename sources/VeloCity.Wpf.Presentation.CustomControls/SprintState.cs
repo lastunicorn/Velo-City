@@ -13,19 +13,15 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-using DustInTheWind.VeloCity.Domain;
-
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public class PresentSprintDetailResponse
+    public enum SprintState
     {
-        public int SprintId { get; set; }
-        
-        public string SprintTitle { get; set; }
-
-        public int SprintNumber { get; set; }
-
-        public SprintState SprintState { get; set; }
+        Unknown = 0,
+        New,
+        InProgress,
+        Closed
     }
 }

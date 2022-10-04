@@ -23,6 +23,7 @@ using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
@@ -34,10 +35,21 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
     public class SprintsPageViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private string title;
         private bool isContentDisplayed;
         private int displayedSprintId;
+        private string title;
         private string subtitle;
+        private SprintState sprintState;
+
+        public bool IsContentDisplayed
+        {
+            get => isContentDisplayed;
+            set
+            {
+                isContentDisplayed = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Title
         {
@@ -59,12 +71,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
             }
         }
 
-        public bool IsContentDisplayed
+        public SprintState SprintState
         {
-            get => isContentDisplayed;
+            get => sprintState;
             set
             {
-                isContentDisplayed = value;
+                sprintState = value;
                 OnPropertyChanged();
             }
         }
@@ -115,6 +127,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
             {
                 Title = $"Sprint {ev.SprintNumber}";
                 Subtitle = ev.SprintTitle;
+                SprintState = ev.SprintState.ToPresentationModel();
             }
 
             return Task.CompletedTask;
@@ -127,9 +140,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
 
             displayedSprintId = response.SprintId;
 
+            IsContentDisplayed = true;
             Title = $"Sprint {response.SprintNumber}";
             Subtitle = response.SprintTitle;
-            IsContentDisplayed = true;
+            SprintState = response.SprintState.ToPresentationModel();
         }
     }
 }
