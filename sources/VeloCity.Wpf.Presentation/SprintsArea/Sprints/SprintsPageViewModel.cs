@@ -35,8 +35,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
     {
         private readonly IMediator mediator;
         private string title;
-        private bool isSprintSelected;
-        private int sprintId;
+        private bool isContentDisplayed;
+        private int displayedSprintId;
+        private string subtitle;
 
         public string Title
         {
@@ -48,12 +49,22 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
             }
         }
 
-        public bool IsSprintSelected
+        public string Subtitle
         {
-            get => isSprintSelected;
+            get => subtitle;
             set
             {
-                isSprintSelected = value;
+                subtitle = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsContentDisplayed
+        {
+            get => isContentDisplayed;
+            set
+            {
+                isContentDisplayed = value;
                 OnPropertyChanged();
             }
         }
@@ -100,8 +111,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
 
         private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
         {
-            if (sprintId == ev.SprintId)
-                Title = BuildTitle(ev.SprintNumber, ev.SprintTitle);
+            if (displayedSprintId == ev.SprintId)
+            {
+                Title = $"Sprint {ev.SprintNumber}";
+                Subtitle = ev.SprintTitle;
+            }
 
             return Task.CompletedTask;
         }
@@ -111,23 +125,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
             PresentSprintDetailRequest request = new();
             PresentSprintDetailResponse response = await mediator.Send(request);
 
-            sprintId = response.SprintId;
-            Title = BuildTitle(response);
-            IsSprintSelected = true;
-        }
+            displayedSprintId = response.SprintId;
 
-        private static string BuildTitle(PresentSprintDetailResponse response)
-        {
-            return response == null
-                ? null
-                : BuildTitle(response.SprintNumber, response.SprintTitle);
-        }
-
-        private static string BuildTitle(int sprintNumber, string sprintTitle)
-        {
-            return string.IsNullOrEmpty(sprintTitle)
-                ? $"Sprint {sprintNumber}"
-                : $"Sprint {sprintNumber} - {sprintTitle}";
+            Title = $"Sprint {response.SprintNumber}";
+            Subtitle = response.SprintTitle;
+            IsContentDisplayed = true;
         }
     }
 }

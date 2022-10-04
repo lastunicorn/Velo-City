@@ -99,7 +99,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <customControls:ChartBar Value="{Binding ChartBarValue}" />
+                            <customControls:ChartBar
+                                Value="{Binding ChartBarValue}"
+                                IsTabStop="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 

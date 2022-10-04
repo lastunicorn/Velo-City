@@ -172,7 +172,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             Margin="0 3 15 3"
                                             Value="{Binding SprintState}"
                                             IsLabelVisible="False"
-                                            VerticalAlignment="Top" />
+                                            VerticalAlignment="Top"
+                                            IsTabStop="False"/>
 
                                         <StackPanel
                                             Margin="0 2">
