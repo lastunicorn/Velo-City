@@ -1,4 +1,4 @@
-VeloCity 1.13.0
+VeloCity 1.14.0
 ====================================================================================================
 
 This is a tool that calculates the velocity of a scrum team and helps planning the sprints.
