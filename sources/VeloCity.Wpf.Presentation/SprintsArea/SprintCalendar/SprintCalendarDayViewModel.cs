@@ -15,16 +15,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
-    public class SprintCalendarItemViewModel : DataGridRowViewModel
+    public class SprintCalendarDayViewModel : DataGridRowViewModel
     {
-        private ChartBarValue<SprintCalendarItemViewModel> chartBarValue;
+        private ChartBarValue<SprintCalendarDayViewModel> chartBarValue;
 
         public override bool IsSelectable => true;
 
@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
         public bool HasWorkHours => WorkHours?.Value > 0;
 
-        public ChartBarValue<SprintCalendarItemViewModel> ChartBarValue
+        public ChartBarValue<SprintCalendarDayViewModel> ChartBarValue
         {
             get => IsWorkDay ? chartBarValue : null;
             set => chartBarValue = value;
@@ -48,24 +48,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
         public bool HasAbsenceHours => AbsenceHours?.Value > 0;
 
-        public AbsenceDetailsViewModel AbsenceDetails { get; }
+        public ObservableCollection<TeamMemberAbsenceViewModel> TeamMemberAbsences { get; }
 
-        public SprintCalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
+        public ObservableCollection<OfficialHolidayAbsenceViewModel> OfficialHolidayAbsences { get; }
+
+        public SprintCalendarDayViewModel(SprintCalendarDay sprintCalendarDay)
         {
-            if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
-            if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
-
-            Date = sprintDay.Date;
-            IsWorkDay = sprintMemberDays.Any(x => x.AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday);
-            WorkHours = IsWorkDay
-                ? sprintMemberDays.Sum(x => x.WorkHours)
-                : null;
-            AbsenceHours = IsWorkDay
-                ? sprintMemberDays
-                    .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
-                    .Sum(x => x.AbsenceHours)
-                : null;
-            AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
+            Date = sprintCalendarDay.Date;
+            IsWorkDay = sprintCalendarDay.IsWorkDay;
+            WorkHours = sprintCalendarDay.WorkHours;
+            AbsenceHours = sprintCalendarDay.AbsenceHours;
+            TeamMemberAbsences = new ObservableCollection<TeamMemberAbsenceViewModel>(sprintCalendarDay.TeamMemberAbsences.ToViewModels());
+            OfficialHolidayAbsences = new ObservableCollection<OfficialHolidayAbsenceViewModel>(sprintCalendarDay.OfficialHolidayAbsences.ToViewModels());
         }
     }
 }

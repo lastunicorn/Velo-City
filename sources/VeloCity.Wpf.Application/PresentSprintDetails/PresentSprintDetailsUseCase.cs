@@ -81,6 +81,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
                 SprintId = sprint.Id,
                 SprintTitle = sprint.Title,
                 SprintNumber = sprint.Number,
+                SprintState = sprint.State
             };
         }
     }

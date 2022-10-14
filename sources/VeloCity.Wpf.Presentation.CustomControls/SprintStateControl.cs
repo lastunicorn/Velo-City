@@ -20,14 +20,6 @@ using System.Windows.Controls;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    public enum SprintState
-    {
-        Unknown = 0,
-        New,
-        InProgress,
-        Closed
-    }
-
     public class SprintStateControl : Control
     {
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
@@ -54,6 +46,32 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
         {
             get => (bool)GetValue(IsIconVisibleProperty);
             set => SetValue(IsIconVisibleProperty, value);
+        }
+
+        public static readonly DependencyProperty IconWidthProperty = DependencyProperty.Register(
+            nameof(IconWidth),
+            typeof(double),
+            typeof(SprintStateControl),
+            new PropertyMetadata(16d)
+        );
+
+        public double IconWidth
+        {
+            get => (double)GetValue(IconWidthProperty);
+            set => SetValue(IconWidthProperty, value);
+        }
+
+        public static readonly DependencyProperty IconHeightProperty = DependencyProperty.Register(
+            nameof(IconHeight),
+            typeof(double),
+            typeof(SprintStateControl),
+            new PropertyMetadata(16d)
+        );
+
+        public double IconHeight
+        {
+            get => (double)GetValue(IconHeightProperty);
+            set => SetValue(IconHeightProperty, value);
         }
 
         public static readonly DependencyProperty IsLabelVisibleProperty = DependencyProperty.Register(

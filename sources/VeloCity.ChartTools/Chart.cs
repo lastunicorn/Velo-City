@@ -55,12 +55,6 @@ namespace DustInTheWind.VeloCity.ChartTools
         }
 
         protected abstract ChartBarValue<T> ToChartBarValue(T item);
-        //{
-        //    return new ChartBarValue<T>
-        //    {
-        //        Item = item
-        //    };
-        //}
 
         public void AddRange(IEnumerable<ChartBarValue<T>> chartBars)
         {

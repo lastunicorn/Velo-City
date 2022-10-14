@@ -13,13 +13,28 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-using System.Collections.Generic;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
-    public class PresentSprintCalendarResponse
+    public class TeamMemberAbsenceViewModel
     {
-        public List<SprintCalendarDay> SprintCalendarDays { get; set; }
+        public string Name { get; init; }
+
+        public bool IsPartialVacation { get; init; }
+
+        public bool IsMissingByContract { get; init; }
+
+        public TeamMemberAbsenceViewModel(TeamMemberAbsence teamMemberAbsence)
+        {
+            if (teamMemberAbsence == null)
+                return;
+
+            Name = teamMemberAbsence.Name;
+            IsPartialVacation = teamMemberAbsence.IsPartialVacation;
+            IsMissingByContract = teamMemberAbsence.IsMissingByContract;
+        }
     }
 }

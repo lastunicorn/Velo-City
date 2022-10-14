@@ -33,8 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="DisabledForeground" Value="{StaticResource IconDisabledBrush}" />
         <Setter Property="DisabledBackground" Value="Transparent" />
-        <Setter Property="Width" Value="64" />
-        <Setter Property="Height" Value="64" />
         <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">

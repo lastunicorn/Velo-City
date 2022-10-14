@@ -13,19 +13,15 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-using System.Windows.Controls;
-
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
-    /// <summary>
-    /// Interaction logic for AbsenceDetailsControl.xaml
-    /// </summary>
-    public partial class AbsenceDetailsControl : UserControl
+    public enum SprintState
     {
-        public AbsenceDetailsControl()
-        {
-            InitializeComponent();
-        }
+        Unknown = 0,
+        New,
+        InProgress,
+        Closed
     }
 }

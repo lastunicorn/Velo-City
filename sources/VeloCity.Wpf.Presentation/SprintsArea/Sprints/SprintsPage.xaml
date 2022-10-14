@@ -46,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/IconButtonStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/MissingContentPanelStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/SprintIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
@@ -145,10 +146,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DockPanel>
 
+                        <customControls:SprintStateControl
+                            Value="{Binding SprintState}"
+                            IsLabelVisible="False"
+                            Margin="0 0 20 0"
+                            IconWidth="28"
+                            IconHeight="28"
+                            VerticalAlignment="Center" />
+
                         <TextBlock
                             DockPanel.Dock="Left"
                             Text="{Binding Title}"
-                            FontSize="36"
+                            FontSize="32"
                             Foreground="{StaticResource FontPrimaryBrush}"
                             VerticalAlignment="Center"
                             TextTrimming="CharacterEllipsis"

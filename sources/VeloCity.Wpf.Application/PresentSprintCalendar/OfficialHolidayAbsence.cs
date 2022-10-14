@@ -13,13 +13,14 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-using System.Collections.Generic;
+// using System;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
 {
-    public class PresentSprintCalendarResponse
+    public class OfficialHolidayAbsence
     {
-        public List<SprintCalendarDay> SprintCalendarDays { get; set; }
+        public string HolidayName { get; init; }
+
+        public string HolidayCountry { get; init; }
     }
 }

@@ -20,9 +20,9 @@ using DustInTheWind.VeloCity.ChartTools;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
-    internal class SprintWorkChart : Chart<SprintCalendarItemViewModel>
+    internal class SprintWorkChart : Chart<SprintCalendarDayViewModel>
     {
-        public SprintWorkChart(IEnumerable<SprintCalendarItemViewModel> items)
+        public SprintWorkChart(IEnumerable<SprintCalendarDayViewModel> items)
         {
             if (items == null) throw new ArgumentNullException(nameof(items));
 
@@ -32,16 +32,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
             Calculate();
         }
 
-        protected override ChartBarValue<SprintCalendarItemViewModel> ToChartBarValue(SprintCalendarItemViewModel item)
+        protected override ChartBarValue<SprintCalendarDayViewModel> ToChartBarValue(SprintCalendarDayViewModel sprintCalendarDayViewModel)
         {
-            int workHours = item.WorkHours?.Value ?? 0;
-            int absenceHours = item.AbsenceHours?.Value ?? 0;
+            int workHours = sprintCalendarDayViewModel.WorkHours?.Value ?? 0;
+            int absenceHours = sprintCalendarDayViewModel.AbsenceHours?.Value ?? 0;
 
-            return new ChartBarValue<SprintCalendarItemViewModel>
+            return new ChartBarValue<SprintCalendarDayViewModel>
             {
                 MaxValue = workHours + absenceHours,
                 FillValue = workHours,
-                Item = item
+                Item = sprintCalendarDayViewModel
             };
         }
     }

@@ -60,8 +60,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <Viewbox
                             x:Name="PART_ViewPort"
-                            Width="16"
-                            Height="16"
+                            Width="{TemplateBinding IconWidth}"
+                            Height="{TemplateBinding IconHeight}"
                             VerticalAlignment="Center"
                             Visibility="{Binding IsIconVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}">
 

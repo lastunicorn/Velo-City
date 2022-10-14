@@ -15,11 +15,16 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Linq;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
-    public class PresentSprintCalendarResponse
+    internal static class OfficialHolidayAbsenceViewModelExtensions
     {
-        public List<SprintCalendarDay> SprintCalendarDays { get; set; }
+        public static IEnumerable<OfficialHolidayAbsenceViewModel> ToViewModels(this IEnumerable<OfficialHolidayAbsence> officialHolidayAbsences)
+        {
+            return officialHolidayAbsences?.Select(x => new OfficialHolidayAbsenceViewModel(x));
+        }
     }
 }

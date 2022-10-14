@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,8 +38,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
 
         public Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = RetrieveSprintToAnalyze();
-            PresentSprintCalendarResponse response = CreateResponse(currentSprint);
+            Sprint sprintToAnalyze = RetrieveSprintToAnalyze();
+            List<SprintCalendarDay> sprintCalendarDays = CreateCalendarDays(sprintToAnalyze);
+
+            PresentSprintCalendarResponse response = new()
+            {
+                SprintCalendarDays = sprintCalendarDays
+            };
 
             return Task.FromResult(response);
         }
@@ -70,13 +76,29 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
             return sprint;
         }
 
-        private static PresentSprintCalendarResponse CreateResponse(Sprint sprint)
+        private static List<SprintCalendarDay> CreateCalendarDays(Sprint sprint)
         {
-            return new PresentSprintCalendarResponse
-            {
-                SprintDays = sprint.EnumerateAllDays()?.ToList(),
-                SprintMembers = sprint.SprintMembersOrderedByEmployment?.ToList()
-            };
+            IEnumerable<SprintDay> sprintDays = sprint.EnumerateAllDays();
+            IEnumerable<SprintMember> sprintMembers = sprint.SprintMembersOrderedByEmployment;
+
+            return sprintDays
+                .Select(x =>
+                {
+                    List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(x.Date, sprintMembers);
+                    return new SprintCalendarDay(x, sprintMemberDays);
+                })
+                .ToList();
+        }
+
+        private static List<SprintMemberDay> GetAllSprintMemberDays(DateTime date, IEnumerable<SprintMember> sprintMembers)
+        {
+            if (sprintMembers == null)
+                return new List<SprintMemberDay>();
+
+            return sprintMembers
+                .Select(x => x.Days[date])
+                .Where(x => x != null)
+                .ToList();
         }
     }
 }
