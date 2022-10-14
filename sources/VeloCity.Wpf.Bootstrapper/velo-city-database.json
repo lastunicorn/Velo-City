@@ -6,7 +6,7 @@
         {
             "Id": 1,
             "Number": 1,
-            "Name": "Sprint 1",
+            "Name": "Empty app with CI/CD in place",
             "StartDate": "2022-02-21T00:00:00",
             "EndDate": "2022-03-06T00:00:00",
             "CommitmentStoryPoints": 27,
@@ -16,7 +16,7 @@
         {
             "Id": 2,
             "Number": 2,
-            "Name": "Sprint 2",
+            "Name": "Implement main page",
             "StartDate": "2022-03-07T00:00:00",
             "EndDate": "2022-03-20T00:00:00",
             "CommitmentStoryPoints": 22,
@@ -26,7 +26,7 @@
         {
             "Id": 3,
             "Number": 3,
-            "Name": "Sprint 3",
+            "Name": "Implement authentication",
             "StartDate": "2022-03-21T00:00:00",
             "EndDate": "2022-04-03T00:00:00",
             "CommitmentStoryPoints": 24,
@@ -36,7 +36,7 @@
         {
             "Id": 4,
             "Number": 4,
-            "Name": "Sprint 4",
+            "Name": "The validations",
             "StartDate": "2022-04-04T00:00:00",
             "EndDate": "2022-04-17T00:00:00",
             "CommitmentStoryPoints": 29,
@@ -46,7 +46,7 @@
         {
             "Id": 5,
             "Number": 5,
-            "Name": "Sprint 5",
+            "Name": "Email notification mechanism",
             "StartDate": "2022-04-18T00:00:00",
             "EndDate": "2022-05-01T00:00:00",
             "CommitmentStoryPoints": 34,
@@ -69,6 +69,66 @@
             "Name": "Sprint 7",
             "StartDate": "2022-05-16T00:00:00",
             "EndDate": "2022-05-29T00:00:00",
+            "CommitmentStoryPoints": 0,
+            "ActualStoryPoints": 0,
+            "State": "new"
+        },
+        {
+            "Id": 8,
+            "Number": 8,
+            "Name": "Sprint 8",
+            "StartDate": "2022-05-30T00:00:00",
+            "EndDate": "2022-06-12T00:00:00",
+            "CommitmentStoryPoints": 0,
+            "ActualStoryPoints": 0,
+            "State": "new"
+        },
+        {
+            "Id": 9,
+            "Number": 9,
+            "Name": "Sprint 9",
+            "StartDate": "2022-06-13T00:00:00",
+            "EndDate": "2022-06-26T00:00:00",
+            "CommitmentStoryPoints": 0,
+            "ActualStoryPoints": 0,
+            "State": "new"
+        },
+        {
+            "Id": 10,
+            "Number": 10,
+            "Name": "Sprint 10",
+            "StartDate": "2022-06-27T00:00:00",
+            "EndDate": "2022-07-10T00:00:00",
+            "CommitmentStoryPoints": 0,
+            "ActualStoryPoints": 0,
+            "State": "new"
+        },
+        {
+            "Id": 11,
+            "Number": 11,
+            "Name": "Sprint 11",
+            "StartDate": "2022-07-11T00:00:00",
+            "EndDate": "2022-07-24T00:00:00",
+            "CommitmentStoryPoints": 0,
+            "ActualStoryPoints": 0,
+            "State": "new"
+        },
+        {
+            "Id": 12,
+            "Number": 12,
+            "Name": "Sprint 12",
+            "StartDate": "2022-07-25T00:00:00",
+            "EndDate": "2022-08-07T00:00:00",
+            "CommitmentStoryPoints": 0,
+            "ActualStoryPoints": 0,
+            "State": "new"
+        },
+        {
+            "Id": 13,
+            "Number": 13,
+            "Name": "Sprint 13",
+            "StartDate": "2022-08-08T00:00:00",
+            "EndDate": "2022-08-28T00:00:00",
             "CommitmentStoryPoints": 0,
             "ActualStoryPoints": 0,
             "State": "new"

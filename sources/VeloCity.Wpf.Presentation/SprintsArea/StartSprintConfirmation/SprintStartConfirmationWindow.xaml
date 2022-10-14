@@ -89,7 +89,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Label
             Grid.Row="1"
             Grid.Column="0"
-            Content="_Commitment Story Points:"
+            Content="_Commitment (Story Points):"
             VerticalAlignment="Center"
             Target="TextBoxCommitmentStoryPoints" />
 

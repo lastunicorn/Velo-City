@@ -13,19 +13,25 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-using System.Windows.Controls;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
-    /// <summary>
-    /// Interaction logic for AbsenceDetailsControl.xaml
-    /// </summary>
-    public partial class AbsenceDetailsControl : UserControl
+    public class OfficialHolidayAbsenceViewModel
     {
-        public AbsenceDetailsControl()
+        public string HolidayName { get; init; }
+
+        public string HolidayCountry { get; init; }
+
+        public OfficialHolidayAbsenceViewModel(OfficialHolidayAbsence officialHolidayAbsence)
         {
-            InitializeComponent();
+            if (officialHolidayAbsence == null)
+                return;
+
+            HolidayName = officialHolidayAbsence.HolidayName;
+            HolidayCountry = officialHolidayAbsence.HolidayCountry;
         }
     }
 }

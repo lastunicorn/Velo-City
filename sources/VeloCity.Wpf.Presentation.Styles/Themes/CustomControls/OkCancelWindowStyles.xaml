@@ -66,9 +66,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     Width="48"
                                     Height="48"
                                     Margin="20 0 0 0"
-                                    Padding="0"
                                     IsCancel="True"
-                                    Content="X"
+                                    VerticalContentAlignment="Center"
+                                    HorizontalContentAlignment="Center"
                                     Style="{StaticResource XButtonStyle}"
                                     behaviors:WindowButtonBehavior.IsCloseButton="True"
                                     Visibility="{Binding IsXButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />

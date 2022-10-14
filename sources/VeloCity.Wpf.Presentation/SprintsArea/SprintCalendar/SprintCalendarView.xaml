@@ -37,6 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/DataGridStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ChartBarStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/AbsenceDetailsControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/OfficialHolidayAbsenceControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -44,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <DockPanel>
 
         <DataGrid
-            ItemsSource="{Binding CalendarItems}"
+            ItemsSource="{Binding SprintCalendarDays}"
             AutoGenerateColumns="False"
             IsReadOnly="True">
 
@@ -136,7 +138,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <sprintCalendar:AbsenceDetailsControl DataContext="{Binding AbsenceDetails}" />
+                            <customControls:AbsenceDetailsControl
+                                ItemsSource="{Binding TeamMemberAbsences}"
+                                OfficialHolidays="{Binding OfficialHolidayAbsences}">
+
+                                <customControls:AbsenceDetailsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type sprintCalendar:TeamMemberAbsenceViewModel}">
+
+                                        <customControls:TeamMemberAbsenceControl
+                                            IsPartialVacation="{Binding IsPartialVacation}"
+                                            IsMissingByContract="{Binding IsMissingByContract}"
+                                            Content="{Binding Name}" />
+
+                                    </DataTemplate>
+                                </customControls:AbsenceDetailsControl.ItemTemplate>
+
+                                <customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
+                                    <DataTemplate DataType="{x:Type sprintCalendar:OfficialHolidayAbsenceViewModel}">
+                                        <customControls:OfficialHolidayAbsenceControl
+                                            HolidayName="{Binding HolidayName}"
+                                            HolidayCountry="{Binding HolidayCountry}" />
+                                    </DataTemplate>
+                                </customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
+
+                            </customControls:AbsenceDetailsControl>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -72,7 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </StackPanel.Resources>
 
                 <customControls:PanelWithTitle
-                    Title="Identity"
+                    Title="General Info"
                     Margin="0">
 
                     <StackPanel
@@ -87,29 +87,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <customControls:SprintStateControl
                                 Value="{Binding SprintState, Mode=OneWay}" />
                         </customControls:LabeledContent>
-
-                    </StackPanel>
-
-                </customControls:PanelWithTitle>
-
-                <customControls:PanelWithTitle
-                    Title="Goal"
-                    Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}">
-
-                    <TextBlock
-                        Text="{Binding SprintGoal}"
-                        TextWrapping="Wrap"
-                        HorizontalAlignment="Left"
-                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
-                        Margin="0 0 0 8" />
-
-                </customControls:PanelWithTitle>
-
-                <customControls:PanelWithTitle Title="Size">
-
-                    <StackPanel
-                        HorizontalAlignment="Stretch"
-                        Orientation="Vertical">
 
                         <customControls:LabeledContent>
                             <customControls:LabeledContent.Label>
@@ -158,6 +135,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         </customControls:LabeledContent>
 
                     </StackPanel>
+
+                </customControls:PanelWithTitle>
+
+                <customControls:PanelWithTitle
+                    Title="Goal"
+                    Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}">
+
+                    <TextBlock
+                        Text="{Binding SprintGoal}"
+                        TextWrapping="Wrap"
+                        HorizontalAlignment="Left"
+                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
+                        Margin="0 0 0 8" />
 
                 </customControls:PanelWithTitle>
 
@@ -236,7 +226,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <TextBlock Text="{Binding EstimatedVelocity, StringFormat=standard}" />
                         </customControls:LabeledContent>
 
-                        <customControls:LabeledContent Label="Commitment Story Points">
+                        <customControls:LabeledContent Label="Commitment">
                             <TextBlock Text="{Binding CommitmentStoryPoints, StringFormat=standard}" />
                         </customControls:LabeledContent>
 

@@ -150,14 +150,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Value="{Binding SprintState}"
                             IsLabelVisible="False"
                             Margin="0 0 20 0"
-                            IconWidth="32"
-                            IconHeight="32"
+                            IconWidth="28"
+                            IconHeight="28"
                             VerticalAlignment="Center" />
 
                         <TextBlock
                             DockPanel.Dock="Left"
                             Text="{Binding Title}"
-                            FontSize="36"
+                            FontSize="32"
                             Foreground="{StaticResource FontPrimaryBrush}"
                             VerticalAlignment="Center"
                             TextTrimming="CharacterEllipsis"

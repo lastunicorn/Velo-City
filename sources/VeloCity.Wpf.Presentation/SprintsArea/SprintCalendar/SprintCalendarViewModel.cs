@@ -20,7 +20,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
@@ -33,18 +32,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
     public class SprintCalendarViewModel : ViewModelBase
     {
         private readonly IMediator mediator;
-        private List<SprintCalendarItemViewModel> calendarItems;
+        private List<SprintCalendarDayViewModel> sprintCalendarDays;
 
-        public List<SprintCalendarItemViewModel> CalendarItems
+        public List<SprintCalendarDayViewModel> SprintCalendarDays
         {
-            get => calendarItems;
+            get => sprintCalendarDays;
             private set
             {
-                calendarItems = value;
+                sprintCalendarDays = value;
                 OnPropertyChanged();
             }
         }
-        
+
         public SprintCalendarViewModel(IMediator mediator, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
@@ -81,39 +80,24 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
         private void DisplayResponse(PresentSprintCalendarResponse response)
         {
-            List<SprintCalendarItemViewModel> calendarItems = CreateCalendarItems(response.SprintDays, response.SprintMembers);
-            CreateChartBars(calendarItems);
+            List<SprintCalendarDayViewModel> sprintCalendarDays = CreateCalendarItems(response.SprintCalendarDays);
+            CreateChartBars(sprintCalendarDays);
 
-            CalendarItems = calendarItems;
+            SprintCalendarDays = sprintCalendarDays;
         }
 
-        private static List<SprintCalendarItemViewModel> CreateCalendarItems(IEnumerable<SprintDay> sprintDays, IEnumerable<SprintMember> sprintMembers)
+        private static List<SprintCalendarDayViewModel> CreateCalendarItems(IEnumerable<SprintCalendarDay> sprintCalendarDays)
         {
-            return sprintDays
-                .Select(x =>
-                {
-                    List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(x.Date, sprintMembers);
-                    return new SprintCalendarItemViewModel(x, sprintMemberDays);
-                })
+            return sprintCalendarDays
+                .Select(x => new SprintCalendarDayViewModel(x))
                 .ToList();
         }
 
-        private static List<SprintMemberDay> GetAllSprintMemberDays(DateTime date, IEnumerable<SprintMember> sprintMembers)
-        {
-            if (sprintMembers == null)
-                return new List<SprintMemberDay>();
-
-            return sprintMembers
-                .Select(x => x.Days[date])
-                .Where(x => x != null)
-                .ToList();
-        }
-
-        private static void CreateChartBars(IEnumerable<SprintCalendarItemViewModel> calendarItems)
+        private static void CreateChartBars(IEnumerable<SprintCalendarDayViewModel> calendarItems)
         {
             SprintWorkChart chart = new(calendarItems);
 
-            foreach (ChartBarValue<SprintCalendarItemViewModel> chartBarValue in chart)
+            foreach (ChartBarValue<SprintCalendarDayViewModel> chartBarValue in chart)
             {
                 if (chartBarValue.Item?.IsWorkDay == true)
                     chartBarValue.Item.ChartBarValue = chartBarValue;

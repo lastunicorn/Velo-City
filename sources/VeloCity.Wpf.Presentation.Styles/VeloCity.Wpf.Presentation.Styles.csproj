@@ -30,6 +30,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+      <Page Update="Themes\CustomControls\OfficialHolidayAbsenceControlStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Themes\CustomControls\TeamMemberAbsenceControlStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
       <Page Update="Themes\CustomControls\OkCancelPopupStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
