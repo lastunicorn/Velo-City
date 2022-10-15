@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
         protected override IEnumerable<string> BuildMessage()
         {
             string previousSprints = string.Join(", ", PreviousSprintNumbers);
-            yield return $"The average velocity calculated using the last {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
+            yield return $"The average burn velocity from the last {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
         }
     }
 }

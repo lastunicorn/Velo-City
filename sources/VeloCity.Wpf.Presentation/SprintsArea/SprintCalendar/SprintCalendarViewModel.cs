@@ -71,7 +71,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         private async Task RetrieveSprintCalendar()
         {
             PresentSprintCalendarRequest request = new();
-
             PresentSprintCalendarResponse response = await requestBus.Send<PresentSprintCalendarRequest, PresentSprintCalendarResponse>(request);
 
             DisplayResponse(response);

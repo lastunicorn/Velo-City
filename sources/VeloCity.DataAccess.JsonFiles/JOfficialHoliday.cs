@@ -35,6 +35,8 @@ namespace DustInTheWind.VeloCity.JsonFiles
 
         public string Country { get; set; }
 
+        public string ShortDescription { get; set; }
+        
         public string Description { get; set; }
     }
 }

@@ -71,7 +71,9 @@ namespace DustInTheWind.VeloCity.Domain
             {
                 Date = new DateTime(year, Date.Month, Date.Day),
                 Name = Name,
-                Country = Country
+                Country = Country,
+                ShortDescription = ShortDescription,
+                Description = Description
             };
         }
     }

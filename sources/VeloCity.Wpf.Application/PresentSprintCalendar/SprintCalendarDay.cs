@@ -61,7 +61,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
                     {
                         Name = x.TeamMember.Name.ShortName,
                         IsPartialVacation = x.WorkHours > 0,
-                        IsMissingByContract = x.AbsenceReason == AbsenceReason.Contract
+                        IsMissingByContract = x.AbsenceReason == AbsenceReason.Contract,
+                        AbsenceHours = x.AbsenceHours
                     })
                 : Enumerable.Empty<TeamMemberAbsence>();
             TeamMemberAbsences = absenceDetailsItems.ToList();
@@ -82,7 +83,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
                     .Select(x => new OfficialHolidayAbsence
                     {
                         HolidayName = x.Name,
-                        HolidayCountry = x.Country
+                        HolidayCountry = x.Country,
+                        HolidayDescription = x.ShortDescription
                     })
                 : Enumerable.Empty<OfficialHolidayAbsence>();
             OfficialHolidayAbsences = officialHolidayAbsenceDetailsList.ToList();

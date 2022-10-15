@@ -24,6 +24,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         public string HolidayName { get; init; }
 
         public string HolidayCountry { get; init; }
+        
+        public string HolidayDescription { get; init; }
 
         public OfficialHolidayAbsenceViewModel(OfficialHolidayAbsence officialHolidayAbsence)
         {
@@ -32,6 +34,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
             HolidayName = officialHolidayAbsence.HolidayName;
             HolidayCountry = officialHolidayAbsence.HolidayCountry;
+            HolidayDescription = officialHolidayAbsence.HolidayDescription;
         }
     }
 }

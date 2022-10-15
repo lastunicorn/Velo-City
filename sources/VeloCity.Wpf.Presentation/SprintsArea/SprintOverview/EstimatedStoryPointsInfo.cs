@@ -25,9 +25,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
         protected override IEnumerable<string> BuildMessage()
         {
             string previousSprints = string.Join(", ", PreviousSprintNumbers);
-            yield return $"Story points that the team can burn if they will have the same velocity as the average one from the last {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
+            yield return $"Story points that the team can burn if they will have the same velocity as the average from the last {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
 
-            yield return "Estimated Story Points = Estimated Velocity * Total Work Hours";
+            yield return "Estimated Burn Capacity = Estimated Burn Velocity * Total Work Hours";
         }
     }
 }
