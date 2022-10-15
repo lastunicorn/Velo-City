@@ -41,7 +41,9 @@ namespace DustInTheWind.VeloCity.Domain
             {
                 Date = Date,
                 Name = Name,
-                Country = Country
+                Country = Country,
+                ShortDescription = ShortDescription,
+                Description = Description
             };
         }
     }

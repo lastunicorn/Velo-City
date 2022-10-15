@@ -47,6 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                             <customControls:InfoPoint.InfoContent>
                                 <customControls:ParagraphsBlock>
+
                                     <StackPanel Orientation="Horizontal">
                                         <customControls:GenericIcon
                                             Style="{StaticResource InfoContractIconStyle}"
@@ -56,7 +57,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             Foreground="Chocolate" />
                                         <TextBlock Text="Absent by contract" />
                                     </StackPanel>
-                                    <TextBlock Text="The user is not working in this day according to the contract." />
+
+                                    <TextBlock
+                                        Text="The user is not working in this day according to the contract."
+                                        FontSize="13"
+                                        Foreground="{StaticResource FontDimBrush}" />
+
                                 </customControls:ParagraphsBlock>
                             </customControls:InfoPoint.InfoContent>
 
@@ -70,6 +76,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                             <customControls:InfoPoint.InfoContent>
                                 <customControls:ParagraphsBlock>
+
                                     <StackPanel Orientation="Horizontal">
                                         <customControls:GenericIcon
                                             Style="{StaticResource InfoPartialVacationIconStyle}"
@@ -79,7 +86,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             Foreground="Chocolate" />
                                         <TextBlock Text="Partial-day vacation" />
                                     </StackPanel>
-                                    <TextBlock Text="The user is missing a few hours in this day. Not the whole day." />
+
+                                    <TextBlock
+                                        FontSize="13"
+                                        Foreground="{StaticResource FontDimBrush}">
+
+                                        <!--<TextBlock Text="The user is missing a few hours in this day. Not the whole day." />-->
+                                        <Run Text="The user is missing" />
+                                        <Run Text="{Binding AbsenceHours, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Run Text="hours. Not the whole day." />
+
+                                    </TextBlock>
+
                                 </customControls:ParagraphsBlock>
                             </customControls:InfoPoint.InfoContent>
 

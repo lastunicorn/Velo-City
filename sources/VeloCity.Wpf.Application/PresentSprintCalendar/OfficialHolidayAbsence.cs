@@ -22,5 +22,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
         public string HolidayName { get; init; }
 
         public string HolidayCountry { get; init; }
+        
+        public string HolidayDescription { get; init; }
     }
 }

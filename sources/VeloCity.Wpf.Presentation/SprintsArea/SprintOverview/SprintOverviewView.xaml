@@ -118,12 +118,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <customControls:InfoPoint Margin="5 0 0 0">
 
                                         <customControls:InfoPoint.InfoContent>
-                                            <StackPanel>
+                                            <customControls:ParagraphsBlock>
                                                 <TextBlock Text="The total number of working hours from all the team members." />
-                                                <TextBlock
-                                                    Text="The vacations and official holidays are excluded."
-                                                    Margin="0 10 0 0" />
-                                            </StackPanel>
+                                                <TextBlock Text="The vacations and official holidays are excluded." />
+                                            </customControls:ParagraphsBlock>
                                         </customControls:InfoPoint.InfoContent>
 
                                     </customControls:InfoPoint>
@@ -161,7 +159,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <customControls:LabeledContent.Label>
                                 <StackPanel Orientation="Horizontal">
 
-                                    <TextBlock Text="Estimated Capacity" />
+                                    <TextBlock Text="Estimated Burn Capacity" />
 
                                     <customControls:InfoPoint Margin="5 0 0 0">
 
@@ -185,7 +183,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <StackPanel Orientation="Horizontal">
 
-                                        <TextBlock Text="Estimated Capacity" />
+                                        <TextBlock Text="Estimated Burn Capacity" />
 
                                         <customControls:InfoPoint Margin="5 0 0 0">
 
@@ -210,7 +208,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <customControls:LabeledContent.Label>
                                 <StackPanel Orientation="Horizontal">
 
-                                    <TextBlock Text="Estimated Velocity" />
+                                    <TextBlock Text="Estimated Burn Velocity" />
 
                                     <customControls:InfoPoint Margin="5 0 0 0">
 
@@ -240,7 +238,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
 
-                        <customControls:LabeledContent Label="Actual Story Points">
+                        <customControls:LabeledContent Label="Actual Burn">
                             <TextBlock Text="{Binding ActualStoryPoints, StringFormat=standard}" />
                         </customControls:LabeledContent>
 
@@ -248,17 +246,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <customControls:LabeledContent.Label>
                                 <StackPanel Orientation="Horizontal">
 
-                                    <TextBlock Text="Actual Velocity" />
+                                    <TextBlock Text="Actual Burn Velocity" />
 
                                     <customControls:InfoPoint Margin="5 0 0 0">
 
                                         <customControls:InfoPoint.InfoContent>
-                                            <StackPanel>
-                                                <TextBlock Text="It is calculated only for the closed sprints that have the 'Actual Story Points' specified." />
-                                                <TextBlock
-                                                    Text="Actual Velocity = Actual Story Points / Total Work Hours"
-                                                    Margin="0 10 0 0" />
-                                            </StackPanel>
+                                            <customControls:ParagraphsBlock>
+                                                <TextBlock Text="The number of story points the team can burn in an hour." />
+                                                <TextBlock Text="It is calculated only for the closed sprints that have the 'Actual Burn' value specified." />
+                                                <TextBlock Text="Actual Burn Velocity = Actual Burn / Total Work Hours" />
+                                            </customControls:ParagraphsBlock>
                                         </customControls:InfoPoint.InfoContent>
 
                                     </customControls:InfoPoint>

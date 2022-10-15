@@ -52,6 +52,21 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             set => SetValue(HolidayCountryProperty, value);
         }
 
+        public static readonly DependencyProperty HolidayDescriptionProperty = DependencyProperty.Register(
+            nameof(HolidayDescription),
+            typeof(string),
+            typeof(OfficialHolidayAbsenceControl),
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.AffectsArrange |
+                FrameworkPropertyMetadataOptions.AffectsMeasure |
+                FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+
+        public string HolidayDescription
+        {
+            get => (string)GetValue(HolidayDescriptionProperty);
+            set => SetValue(HolidayDescriptionProperty, value);
+        }
+
         static OfficialHolidayAbsenceControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(OfficialHolidayAbsenceControl), new FrameworkPropertyMetadata(typeof(OfficialHolidayAbsenceControl)));

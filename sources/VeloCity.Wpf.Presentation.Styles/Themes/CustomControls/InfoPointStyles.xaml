@@ -110,11 +110,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <Grid.Effect>
                                         <DropShadowEffect
-                                            Color="{StaticResource PrimaryColor}"
+                                            Color="Black"
                                             Direction="0"
                                             ShadowDepth="0"
-                                            BlurRadius="10"
-                                            Opacity="0.5" />
+                                            BlurRadius="15"
+                                            Opacity="0.75" />
                                     </Grid.Effect>
 
                                 </Grid>

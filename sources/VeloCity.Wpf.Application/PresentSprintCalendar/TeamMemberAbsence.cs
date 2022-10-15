@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // using System;
 
+using DustInTheWind.VeloCity.Domain;
+
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
 {
     public class TeamMemberAbsence
@@ -24,5 +26,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
         public bool IsPartialVacation { get; init; }
 
         public bool IsMissingByContract { get; init; }
+        
+        public HoursValue AbsenceHours { get; init; }
     }
 }

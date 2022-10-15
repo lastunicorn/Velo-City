@@ -23,8 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-    xmlns:behaviors="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Behaviors;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:charts="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts"
     xmlns:velocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart"
     xmlns:commitmentChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart"
@@ -53,12 +51,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             HorizontalAlignment="Left"
             MinWidth="300"
             Margin="0 0 0 40">
-
-            <!--<ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>-->
 
         </ComboBox>
 

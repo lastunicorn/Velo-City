@@ -52,6 +52,21 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             set => SetValue(IsMissingByContractProperty, value);
         }
 
+        public static readonly DependencyProperty AbsenceHoursProperty = DependencyProperty.Register(
+            nameof(AbsenceHours),
+            typeof(int),
+            typeof(TeamMemberAbsenceControl),
+            new FrameworkPropertyMetadata(0,
+                FrameworkPropertyMetadataOptions.AffectsArrange |
+                FrameworkPropertyMetadataOptions.AffectsMeasure |
+                FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+
+        public int AbsenceHours
+        {
+            get => (int)GetValue(AbsenceHoursProperty);
+            set => SetValue(AbsenceHoursProperty, value);
+        }
+
         static TeamMemberAbsenceControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TeamMemberAbsenceControl), new FrameworkPropertyMetadata(typeof(TeamMemberAbsenceControl)));

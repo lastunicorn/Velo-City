@@ -74,7 +74,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Label
             Grid.Row="0"
             Grid.Column="0"
-            Content="_Actual Story Points:"
+            Content="_Actual Burn (SP):"
             VerticalAlignment="Center"
             Target="TextBoxActualStoryPoints" />
 

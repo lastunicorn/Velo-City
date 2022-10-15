@@ -47,7 +47,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
             {
                 new()
                 {
-                    Title = "Velocity Chart",
+                    Title = "Burn Velocity Chart",
                     ViewModel = new VelocityChartViewModel(requestBus, eventBus)
                 },
                 new()
