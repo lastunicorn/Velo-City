@@ -21,6 +21,7 @@ using Autofac;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.ConsoleTools.Controls;
+using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using log4net;
 
@@ -37,7 +38,11 @@ namespace DustInTheWind.VeloCity.Cli.Bootstrapper
             try
             {
                 DisplayApplicationHeader();
+                
                 IContainer container = SetupServices.BuildContainer();
+
+                OpenDatabase(container);
+
                 await using ILifetimeScope lifetimeScope = container.BeginLifetimeScope();
                 errorMessageLevel = GetErrorMessageLevel(lifetimeScope);
                 await ProcessRequest(args, lifetimeScope);
@@ -57,6 +62,12 @@ namespace DustInTheWind.VeloCity.Cli.Bootstrapper
         {
             ApplicationHeader applicationHeader = new();
             applicationHeader.Display();
+        }
+
+        private static void OpenDatabase(IComponentContext container)
+        {
+            JsonDatabase jsonDatabase = container.Resolve<JsonDatabase>();
+            jsonDatabase.Open();
         }
 
         private static ErrorMessageLevel GetErrorMessageLevel(IComponentContext container)

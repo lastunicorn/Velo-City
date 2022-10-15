@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using MediatR;
@@ -29,13 +30,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
 
-        public PresentSprintOverviewUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, IMediator mediator)
+        public PresentSprintOverviewUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, IRequestBus requestBus)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
         }
 
         public async Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
@@ -82,7 +83,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
                 Sprint = sprint
             };
 
-            return await mediator.Send(request);
+            return await requestBus.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(request);
         }
 
         private static PresentSprintOverviewResponse CreateResponse(Sprint sprint, AnalyzeSprintResponse analyzeSprintResponse)

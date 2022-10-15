@@ -24,13 +24,12 @@ using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private readonly EventBus eventBus;
         private string databaseConnectionString;
         private SprintsPageViewModel sprintsPageViewModel;
@@ -61,11 +60,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
             }
         }
 
-        public SprintsPageViewModel SprintsPageViewModel => sprintsPageViewModel ??= new SprintsPageViewModel(mediator, eventBus);
+        public SprintsPageViewModel SprintsPageViewModel => sprintsPageViewModel ??= new SprintsPageViewModel(requestBus, eventBus);
 
-        public TeamPageViewModel TeamPageViewModel => teamPageViewModel ??= new TeamPageViewModel(mediator, eventBus);
+        public TeamPageViewModel TeamPageViewModel => teamPageViewModel ??= new TeamPageViewModel(requestBus, eventBus);
 
-        public ChartsPageViewModel ChartsPageViewModel => chartsPageViewModel ??= new ChartsPageViewModel(mediator, eventBus);
+        public ChartsPageViewModel ChartsPageViewModel => chartsPageViewModel ??= new ChartsPageViewModel(requestBus, eventBus);
 
         public ViewModelBase PopupPageViewModel
         {
@@ -77,11 +76,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
             }
         }
 
-        public RefreshCommand RefreshCommand => refreshCommand ??= new RefreshCommand(mediator);
+        public RefreshCommand RefreshCommand => refreshCommand ??= new RefreshCommand(requestBus);
 
-        public MainViewModel(IMediator mediator, EventBus eventBus)
+        public MainViewModel(IRequestBus requestBus, EventBus eventBus)
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
             _ = Initialize();
@@ -90,7 +89,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
         private async Task Initialize()
         {
             PresentMainRequest request = new();
-            PresentMainResponse response = await mediator.Send(request);
+            PresentMainResponse response = await requestBus.Send<PresentMainRequest, PresentMainResponse>(request);
 
             DatabaseConnectionString = response.DatabaseConnectionString;
 

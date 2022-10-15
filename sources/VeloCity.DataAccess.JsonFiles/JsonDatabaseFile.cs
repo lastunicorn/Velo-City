@@ -22,15 +22,15 @@ using Newtonsoft.Json;
 
 namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public class DatabaseFile
+    internal class JsonDatabaseFile
     {
         private readonly string filePath;
 
-        public DatabaseDocument Document { get; set; }
+        public JsonDatabaseDocument Document { get; set; }
 
         public WarningException LastWarning { get; private set; }
 
-        public DatabaseFile(string filePath)
+        public JsonDatabaseFile(string filePath)
         {
             this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
         }
@@ -43,7 +43,7 @@ namespace DustInTheWind.VeloCity.JsonFiles
                 throw new DatabaseNotFoundException(filePath);
 
             string json = File.ReadAllText(filePath);
-            Document = JsonConvert.DeserializeObject<DatabaseDocument>(json);
+            Document = JsonConvert.DeserializeObject<JsonDatabaseDocument>(json);
 
             DatabaseVersionValidator databaseVersionValidator = new();
 

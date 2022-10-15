@@ -25,20 +25,19 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
 {
     public class VacationsViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
 
         public ObservableCollection<VacationGroupViewModel> VacationGroups { get; } = new();
 
-        public VacationsViewModel(IMediator mediator, EventBus eventBus)
+        public VacationsViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
@@ -63,7 +62,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
         private async Task ReloadVacations()
         {
             PresentTeamMemberVacationsRequest request = new();
-            PresentTeamMemberVacationsResponse response = await mediator.Send(request);
+            PresentTeamMemberVacationsResponse response = await requestBus.Send<PresentTeamMemberVacationsRequest, PresentTeamMemberVacationsResponse>(request);
 
             VacationGroups.Clear();
             GroupVacationsByMonth(response.Vacations);

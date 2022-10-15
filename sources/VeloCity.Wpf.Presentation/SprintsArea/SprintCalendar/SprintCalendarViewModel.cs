@@ -25,13 +25,12 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
     public class SprintCalendarViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private List<SprintCalendarDayViewModel> sprintCalendarDays;
 
         public List<SprintCalendarDayViewModel> SprintCalendarDays
@@ -44,10 +43,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
             }
         }
 
-        public SprintCalendarViewModel(IMediator mediator, EventBus eventBus)
+        public SprintCalendarViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
@@ -73,7 +72,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         {
             PresentSprintCalendarRequest request = new();
 
-            PresentSprintCalendarResponse response = await mediator.Send(request);
+            PresentSprintCalendarResponse response = await requestBus.Send<PresentSprintCalendarRequest, PresentSprintCalendarResponse>(request);
 
             DisplayResponse(response);
         }

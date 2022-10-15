@@ -26,23 +26,21 @@ namespace DustInTheWind.VeloCity.Wpf.Application.Refresh
     public class RefreshUseCase : IRequestHandler<RefreshRequest, Unit>
     {
         private readonly EventBus eventBus;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IDataStorage dataStorage;
 
-        public RefreshUseCase(IUnitOfWork unitOfWork, EventBus eventBus)
+        public RefreshUseCase(EventBus eventBus, IDataStorage dataStorage)
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+            this.dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
         }
 
         public async Task<Unit> Handle(RefreshRequest request, CancellationToken cancellationToken)
         {
             try
             {
-                unitOfWork.InvalidateCash();
+                dataStorage.Reopen();
             }
-            catch (Exception ex)
-            {
-            }
+            catch { }
 
             ReloadEvent reloadEvent = new();
             await eventBus.Publish(reloadEvent, cancellationToken);

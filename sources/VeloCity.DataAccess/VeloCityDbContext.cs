@@ -20,136 +20,107 @@ using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using DustInTheWind.VeloCity.Ports.SettingsAccess;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
     public class VeloCityDbContext
     {
-        private readonly IConfig config;
-        private DatabaseFile databaseFile;
+        private readonly JsonDatabase jsonDatabase;
+        private Guid databaseId = Guid.Empty;
 
-        public DatabaseState State { get; private set; }
+        private List<Sprint> sprints;
+        private List<TeamMember> teamMembers;
+        private List<OfficialHoliday> officialHolidays;
 
-        public DataAccessException LastError { get; private set; }
+        public DataAccessException LastError => jsonDatabase.LastError;
 
-        public WarningException LastWarning { get; private set; }
+        public WarningException LastWarning => jsonDatabase.LastWarning;
 
-        public List<TeamMember> TeamMembers { get; } = new();
+        public List<Sprint> Sprints => sprints ??= LoadAllSprints();
 
-        public List<OfficialHoliday> OfficialHolidays { get; } = new();
+        public List<TeamMember> TeamMembers => teamMembers ??= LoadAllTeamMembers();
 
-        public List<Vacation> Vacations { get; } = new();
+        public List<OfficialHoliday> OfficialHolidays => officialHolidays ??= LoadAllOfficialHolidays();
 
-        public List<Sprint> Sprints { get; } = new();
-
-        public VeloCityDbContext(IConfig config)
+        public VeloCityDbContext(JsonDatabase jsonDatabase)
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            this.jsonDatabase = jsonDatabase ?? throw new ArgumentNullException(nameof(jsonDatabase));
+
+            jsonDatabase.Opened += HandleJsonDatabaseOpened;
+
+            if (jsonDatabase.State == DatabaseState.Opened)
+                databaseId = jsonDatabase.InstanceId;
         }
 
-        /// <exception cref="DataAccessException">In case the database could not be opened.</exception>
-        public void Open()
+        private void HandleJsonDatabaseOpened(object sender, EventArgs e)
         {
-            if (State == DatabaseState.Opened)
-                return;
-
-            try
-            {
-                CloseInternal();
-
-                databaseFile = new DatabaseFile(config.DatabaseLocation);
-                databaseFile.Open();
-
-                LoadAllData();
-                PopulateSprints();
-
-                State = DatabaseState.Opened;
-            }
-            catch (DataAccessException ex)
-            {
-                LastError = ex;
-                State = DatabaseState.Error;
-                throw;
-            }
-            catch (Exception ex)
-            {
-                DataAccessException dataAccessException = new(ex);
-                LastError = dataAccessException;
-                State = DatabaseState.Error;
-
-                throw dataAccessException;
-            }
-            finally
-            {
-                LastWarning = databaseFile.LastWarning;
-            }
+            if (databaseId == Guid.Empty && sender is JsonDatabase jsonDatabase)
+                databaseId = jsonDatabase.InstanceId;
         }
 
-        private void LoadAllData()
+        private List<Sprint> LoadAllSprints()
         {
-            IEnumerable<Sprint> sprints = databaseFile.Document.Sprints.ToEntities();
-            Sprints.AddRange(sprints);
+            if (jsonDatabase.State != DatabaseState.Opened)
+                throw new DataAccessException("The database is not accessible.");
 
-            IEnumerable<TeamMember> teamMembers = databaseFile.Document.TeamMembers.ToEntities(this);
-            TeamMembers.AddRange(teamMembers);
+            IEnumerable<Sprint> databaseSprints = jsonDatabase.Sprints.ToEntities();
+            List<Sprint> fullyLoadedSprints = new();
 
-            IEnumerable<OfficialHoliday> officialHolidays = databaseFile.Document.OfficialHolidays.ToEntities();
-            OfficialHolidays.AddRange(officialHolidays);
-        }
-
-        private void PopulateSprints()
-        {
-            foreach (Sprint sprint in Sprints)
+            foreach (Sprint sprint in databaseSprints)
             {
                 AddHolidays(sprint);
                 AddTeamMembers(sprint);
+
+                fullyLoadedSprints.Add(sprint);
             }
+
+            return fullyLoadedSprints;
+        }
+
+        private List<TeamMember> LoadAllTeamMembers()
+        {
+            if (jsonDatabase.State != DatabaseState.Opened)
+                throw new DataAccessException("The database is not accessible.");
+
+            return jsonDatabase.TeamMembers.ToEntities(this).ToList();
+        }
+
+        private List<OfficialHoliday> LoadAllOfficialHolidays()
+        {
+            if (jsonDatabase.State != DatabaseState.Opened)
+                throw new DataAccessException("The database is not accessible.");
+
+            return jsonDatabase.OfficialHolidays.ToEntities().ToList();
         }
 
         private void AddHolidays(Sprint sprint)
         {
-            List<OfficialHoliday> officialHolidays = OfficialHolidays
+            List<OfficialHoliday> matchedOfficialHolidays = OfficialHolidays
                 .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
                 .ToList();
 
-            sprint.OfficialHolidays.AddRange(officialHolidays);
+            sprint.OfficialHolidays.AddRange(matchedOfficialHolidays);
         }
 
         private void AddTeamMembers(Sprint sprint)
         {
-            IEnumerable<TeamMember> teamMembers = TeamMembers
+            IEnumerable<TeamMember> matchedTeamMembers = TeamMembers
                 .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(sprint.DateInterval)) ?? false);
 
-            foreach (TeamMember teamMember in teamMembers)
+            foreach (TeamMember teamMember in matchedTeamMembers)
                 sprint.AddSprintMember(teamMember);
         }
 
-        public void Close()
+        public void SaveChanges()
         {
-            CloseInternal();
-        }
+            if (jsonDatabase.InstanceId != databaseId)
+                throw new Exception("The database was change, current context cannot save the data.");
 
-        private void CloseInternal()
-        {
-            TeamMembers.Clear();
-            OfficialHolidays.Clear();
-            Vacations.Clear();
-            Sprints.Clear();
+            jsonDatabase.Sprints = Sprints.ToJEntities().ToList();
+            jsonDatabase.TeamMembers = TeamMembers.ToJEntities().ToList();
+            jsonDatabase.OfficialHolidays = OfficialHolidays.ToJEntities().ToList();
 
-            LastError = null;
-            LastWarning = null;
-
-            State = DatabaseState.Closed;
-        }
-
-        public void Save()
-        {
-            databaseFile.Document.Sprints = Sprints.ToJEntities().ToList();
-            databaseFile.Document.TeamMembers = TeamMembers.ToJEntities().ToList();
-            databaseFile.Document.OfficialHolidays = OfficialHolidays.ToJEntities().ToList();
-
-            databaseFile.Save();
+            jsonDatabase.Persist();
         }
     }
 }

@@ -24,13 +24,12 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using LiveCharts;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
 {
     public class VelocityChartViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private ChartValues<float> values;
         private uint sprintCount;
         private List<string> sprintsLabels;
@@ -73,10 +72,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
 
         public Func<double, string> AxisYLabelFormatter { get; } = x => ((Velocity)x).ToString("standard");
 
-        public VelocityChartViewModel(IMediator mediator, EventBus eventBus)
+        public VelocityChartViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
 
@@ -98,7 +97,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
                         ? null
                         : SprintCount
                 };
-                PresentVelocityResponse response = await mediator.Send(request);
+                PresentVelocityResponse response = await requestBus.Send<PresentVelocityRequest, PresentVelocityResponse>(request);
 
                 SprintCount = response.RequestedSprintCount;
 

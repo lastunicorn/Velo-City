@@ -15,19 +15,18 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
 {
     public class SprintMemberCalendarDayViewModel : DataGridRowViewModel
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private readonly SprintMemberDay sprintMemberDay;
         private ChartBarValue<SprintMemberCalendarDayViewModel> chartBarValue;
         private bool canAddVacation;
@@ -79,7 +78,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
                 Hours = value
             };
 
-            await mediator.Send(request);
+            await requestBus.Send(request);
         }
 
         public bool HasAbsenceHours
@@ -114,9 +113,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             }
         }
 
-        public SprintMemberCalendarDayViewModel(IMediator mediator, SprintMemberDay sprintMemberDay)
+        public SprintMemberCalendarDayViewModel(IRequestBus requestBus, SprintMemberDay sprintMemberDay)
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
             this.sprintMemberDay = sprintMemberDay ?? throw new ArgumentNullException(nameof(sprintMemberDay));
 
             RunInInitializeMode(() =>
@@ -147,29 +146,29 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
                     return string.Empty;
 
                 case AbsenceReason.OfficialHoliday:
-                    {
-                        StringBuilder sb = new();
+                {
+                    StringBuilder sb = new();
 
-                        if (sprintMemberDay.AbsenceComments != null)
-                            sb.Append(sprintMemberDay.AbsenceComments);
+                    if (sprintMemberDay.AbsenceComments != null)
+                        sb.Append(sprintMemberDay.AbsenceComments);
 
-                        return sb.ToString();
-                    }
+                    return sb.ToString();
+                }
 
                 case AbsenceReason.Vacation:
                 case AbsenceReason.Unemployed:
                 case AbsenceReason.Contract:
-                    {
-                        StringBuilder sb = new();
+                {
+                    StringBuilder sb = new();
 
-                        string absenceReason = ToString(sprintMemberDay.AbsenceReason);
-                        sb.Append(absenceReason);
+                    string absenceReason = ToString(sprintMemberDay.AbsenceReason);
+                    sb.Append(absenceReason);
 
-                        if (sprintMemberDay.AbsenceComments != null)
-                            sb.Append($" ({sprintMemberDay.AbsenceComments})");
+                    if (sprintMemberDay.AbsenceComments != null)
+                        sb.Append($" ({sprintMemberDay.AbsenceComments})");
 
-                        return sb.ToString();
-                    }
+                    return sb.ToString();
+                }
 
                 default:
                     throw new ArgumentOutOfRangeException();

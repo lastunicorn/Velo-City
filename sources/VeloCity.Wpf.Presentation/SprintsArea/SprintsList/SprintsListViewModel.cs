@@ -24,13 +24,12 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
 {
     public class SprintsListViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private readonly EventBus eventBus;
         private List<SprintViewModel> sprints;
         private SprintViewModel selectedSprint;
@@ -72,9 +71,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
             }
         }
 
-        public SprintsListViewModel(IMediator mediator, EventBus eventBus)
+        public SprintsListViewModel(IRequestBus requestBus, EventBus eventBus)
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
@@ -109,7 +108,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
         private async Task Initialize()
         {
             PresentSprintsRequest request = new();
-            PresentSprintsResponse response = await mediator.Send(request);
+            PresentSprintsResponse response = await requestBus.Send<PresentSprintsRequest, PresentSprintsResponse>(request);
 
             RunInInitializeMode(() =>
             {
@@ -132,7 +131,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
                 SprintId = sprintId
             };
 
-            await mediator.Send(request);
+            await requestBus.Send(request);
         }
     }
 }

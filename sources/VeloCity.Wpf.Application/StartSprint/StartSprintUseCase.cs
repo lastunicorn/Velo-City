@@ -32,16 +32,16 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
         private readonly ISprintStartConfirmation sprintStartConfirmation;
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
 
         public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
-            ISprintStartConfirmation sprintStartConfirmation, IMediator mediator)
+            ISprintStartConfirmation sprintStartConfirmation, IRequestBus requestBus)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
             this.sprintStartConfirmation = sprintStartConfirmation ?? throw new ArgumentNullException(nameof(sprintStartConfirmation));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
         }
 
         public async Task<Unit> Handle(StartSprintRequest request, CancellationToken cancellationToken)
@@ -118,7 +118,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             {
                 Sprint = selectedSprint
             };
-            AnalyzeSprintResponse response = await mediator.Send(request);
+            AnalyzeSprintResponse response = await requestBus.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(request);
 
             SprintStartConfirmationRequest sprintStartConfirmationRequest = new()
             {

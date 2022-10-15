@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
 {
@@ -39,9 +38,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
             }
         }
 
-        public ChartsPageViewModel(IMediator mediator, EventBus eventBus)
+        public ChartsPageViewModel(IRequestBus requestBus, EventBus eventBus)
         {
-            if (mediator == null) throw new ArgumentNullException(nameof(mediator));
+            if (requestBus == null) throw new ArgumentNullException(nameof(requestBus));
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
 
             ChartItemViewModels = new List<ChartItemViewModel>
@@ -49,12 +48,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
                 new()
                 {
                     Title = "Velocity Chart",
-                    ViewModel = new VelocityChartViewModel(mediator, eventBus)
+                    ViewModel = new VelocityChartViewModel(requestBus, eventBus)
                 },
                 new()
                 {
                     Title = "Commitment Chart",
-                    ViewModel = new CommitmentChartViewModel(mediator, eventBus)
+                    ViewModel = new CommitmentChartViewModel(requestBus, eventBus)
                 }
             };
 

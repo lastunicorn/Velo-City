@@ -24,13 +24,12 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList
 {
     public class TeamMembersListViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private List<TeamMemberViewModel> teamMembers;
         private TeamMemberViewModel selectedTeamMember;
         private bool hasTeamMembers;
@@ -71,9 +70,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersLis
             }
         }
 
-        public TeamMembersListViewModel(IMediator mediator, EventBus eventBus)
+        public TeamMembersListViewModel(IRequestBus requestBus, EventBus eventBus)
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
@@ -107,7 +106,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersLis
         private async Task Initialize()
         {
             PresentTeamMembersRequest request = new();
-            PresentTeamMembersResponse response = await mediator.Send(request);
+            PresentTeamMembersResponse response = await requestBus.Send<PresentTeamMembersRequest, PresentTeamMembersResponse>(request);
 
             RunInInitializeMode(() =>
             {
@@ -130,7 +129,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersLis
                 TeamMemberId = teamMemberId
             };
 
-            await mediator.Send(request);
+            await requestBus.Send(request);
         }
     }
 }

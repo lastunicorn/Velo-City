@@ -14,23 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using DustInTheWind.VeloCity.Domain;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess
+namespace DustInTheWind.VeloCity.Infrastructure
 {
-    public interface IUnitOfWork
+    public interface IRequestBus
     {
-        public WarningException DatabaseWarning { get; }
-
-        public Exception DatabaseError { get; }
-
-        public IOfficialHolidayRepository OfficialHolidayRepository { get; }
-
-        public ISprintRepository SprintRepository { get; }
-
-        public ITeamMemberRepository TeamMemberRepository { get; }
-
-        void SaveChanges();
+        Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default);
+        
+        Task Send<TRequest>(TRequest request, CancellationToken cancellationToken = default);
     }
 }

@@ -24,20 +24,19 @@ using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 {
     public class CloseSprintCommand : ICommand
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
 
         public event EventHandler CanExecuteChanged;
 
-        public CloseSprintCommand(IMediator mediator, EventBus eventBus)
+        public CloseSprintCommand(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
@@ -73,7 +72,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
         private async Task<bool> CanCloseCurrentSprint()
         {
             CanCloseSprintRequest request = new();
-            CanCloseSprintResponse response = await mediator.Send(request);
+            CanCloseSprintResponse response = await requestBus.Send<CanCloseSprintRequest, CanCloseSprintResponse>(request);
 
             return response.CanCloseSprint;
         }
@@ -81,7 +80,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
         public void Execute(object parameter)
         {
             CloseSprintRequest request = new();
-            _ = mediator.Send(request);
+            _ = requestBus.Send(request);
         }
 
         protected virtual void OnCanExecuteChanged()

@@ -16,19 +16,19 @@
 
 using System;
 using System.Windows.Input;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 {
     public class RefreshCommand : ICommand
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         public event EventHandler CanExecuteChanged;
 
-        public RefreshCommand(IMediator mediator)
+        public RefreshCommand(IRequestBus requestBus)
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
         }
 
         public bool CanExecute(object parameter)
@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
         public void Execute(object parameter)
         {
             RefreshRequest request = new();
-            _ = mediator.Send(request);
+            _ = requestBus.Send(request);
         }
     }
 }

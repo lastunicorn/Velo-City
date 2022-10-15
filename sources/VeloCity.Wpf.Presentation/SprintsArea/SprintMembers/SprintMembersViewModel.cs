@@ -26,13 +26,12 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 {
     public class SprintMembersViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private readonly EventBus eventBus;
         private List<SprintMemberViewModel> sprintMemberViewModels;
 
@@ -46,9 +45,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
             }
         }
 
-        public SprintMembersViewModel(IMediator mediator, EventBus eventBus)
+        public SprintMembersViewModel(IRequestBus requestBus, EventBus eventBus)
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
@@ -75,7 +74,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
         {
             PresentSprintMembersRequest request = new();
 
-            PresentSprintMembersResponse response = await mediator.Send(request);
+            PresentSprintMembersResponse response = await requestBus.Send<PresentSprintMembersRequest, PresentSprintMembersResponse>(request);
 
             DisplayResponse(response);
         }
@@ -91,7 +90,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
         private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMember> sprintMembers)
         {
             return sprintMembers
-                .Select(x => new SprintMemberViewModel(mediator, eventBus, x))
+                .Select(x => new SprintMemberViewModel(requestBus, eventBus, x))
                 .ToList();
         }
 

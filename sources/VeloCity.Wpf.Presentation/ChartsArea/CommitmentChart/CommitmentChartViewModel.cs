@@ -23,17 +23,15 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
-using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using LiveCharts;
 using LiveCharts.Wpf;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart
 {
     internal class CommitmentChartViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private ChartValues<float> values;
         private ChartValues<float> actualValues;
         private uint sprintCount;
@@ -89,10 +87,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart
 
         public Func<double, string> AxisYLabelFormatter { get; } = x => ((Velocity)x).ToString("standard");
 
-        public CommitmentChartViewModel(IMediator mediator, EventBus eventBus)
+        public CommitmentChartViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
 
@@ -114,7 +112,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart
                         ? null
                         : SprintCount
                 };
-                PresentCommitmentResponse response = await mediator.Send(request);
+                PresentCommitmentResponse response = await requestBus.Send<PresentCommitmentRequest, PresentCommitmentResponse>(request);
 
                 SprintCount = response.RequestedSprintCount;
 

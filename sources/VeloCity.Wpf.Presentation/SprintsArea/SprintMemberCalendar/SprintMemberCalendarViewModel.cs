@@ -24,13 +24,12 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
 {
     public class SprintMemberCalendarViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private string title;
         private List<SprintMemberCalendarDayViewModel> days;
         private SprintMember sprintMember;
@@ -66,10 +65,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             }
         }
 
-        public SprintMemberCalendarViewModel(IMediator mediator, EventBus eventBus)
+        public SprintMemberCalendarViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
         }
@@ -98,7 +97,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
                 SprintId = sprintId
             };
 
-            PresentSprintMemberCalendarResponse response = await mediator.Send(request, cancellationToken);
+            PresentSprintMemberCalendarResponse response = await requestBus.Send<PresentSprintMemberCalendarRequest, PresentSprintMemberCalendarResponse>(request, cancellationToken);
 
             sprintMember = response.SprintMembers;
 
@@ -108,7 +107,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             Subtitle = $"Sprint {sprintNumber}";
 
             Days = sprintMember.Days
-                .Select(x => new SprintMemberCalendarDayViewModel(mediator, x))
+                .Select(x => new SprintMemberCalendarDayViewModel(requestBus, x))
                 .ToList();
 
             CreateChartBars(Days);

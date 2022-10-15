@@ -23,13 +23,12 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments
 {
     public class EmploymentsViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private List<EmploymentViewModel> employments;
 
         public List<EmploymentViewModel> Employments
@@ -42,10 +41,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmpl
             }
         }
 
-        public EmploymentsViewModel(IMediator mediator, EventBus eventBus)
+        public EmploymentsViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
@@ -64,7 +63,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmpl
         private async Task ReloadEmployments()
         {
             PresentTeamMemberEmploymentsRequest request = new();
-            PresentTeamMemberEmploymentsResponse response = await mediator.Send(request);
+            PresentTeamMemberEmploymentsResponse response = await requestBus.Send<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>(request);
 
             Employments = response.Employments
                 .Select(x => new EmploymentViewModel(x))

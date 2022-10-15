@@ -14,12 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.DataAccess
+using System.Collections.Generic;
+
+namespace DustInTheWind.VeloCity.JsonFiles
 {
-    public enum DatabaseState
+    internal class JsonDatabaseDocument
     {
-        Closed = 0,
-        Opened,
-        Error
+        public JDatabaseInfo DatabaseInfo { get; set; }
+
+        public List<JSprint> Sprints { get; set; }
+
+        public List<JTeamMember> TeamMembers { get; set; }
+
+        public List<JOfficialHoliday> OfficialHolidays { get; set; }
     }
 }

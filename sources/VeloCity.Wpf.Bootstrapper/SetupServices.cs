@@ -17,8 +17,8 @@
 using System.Reflection;
 using Autofac;
 using DustInTheWind.VeloCity.DataAccess;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
@@ -51,10 +51,26 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             containerBuilder.RegisterMediatR(assembly);
             containerBuilder.RegisterGeneric(typeof(ExceptionHandlingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 
+            containerBuilder.RegisterType<MediatRRequestBus>().As<IRequestBus>().SingleInstance();
+
             containerBuilder.RegisterType<ApplicationState>().AsSelf().SingleInstance();
             containerBuilder.RegisterType<EventBus>().AsSelf().SingleInstance();
             containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
             containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
+
+            containerBuilder
+                .Register(context =>
+                {
+                    IConfig config = context.Resolve<IConfig>();
+
+                    return new JsonDatabase
+                    {
+                        PersistenceLocation = config.DatabaseLocation
+                    };
+                })
+                .AsSelf()
+                .As<IDataStorage>()
+                .SingleInstance();
 
             containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();

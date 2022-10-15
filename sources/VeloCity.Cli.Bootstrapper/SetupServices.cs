@@ -21,7 +21,7 @@ using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint;
 using DustInTheWind.VeloCity.DataAccess;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
@@ -51,6 +51,20 @@ namespace DustInTheWind.VeloCity.Cli.Bootstrapper
 
             containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
             containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
+
+            containerBuilder
+                .Register(context =>
+                {
+                    IConfig config = context.Resolve<IConfig>();
+
+                    return new JsonDatabase
+                    {
+                        PersistenceLocation = config.DatabaseLocation
+                    };
+                })
+                .AsSelf()
+                .As<IDataStorage>()
+                .SingleInstance();
 
             containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
             containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();

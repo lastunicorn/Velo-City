@@ -28,13 +28,12 @@ using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
 {
     public class SprintsPageViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private bool isContentDisplayed;
         private int displayedSprintId;
         private string title;
@@ -93,18 +92,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
 
         public SprintsListViewModel SprintsListViewModel { get; }
 
-        public SprintsPageViewModel(IMediator mediator, EventBus eventBus)
+        public SprintsPageViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
-            SprintsListViewModel = new SprintsListViewModel(mediator, eventBus);
-            SprintOverviewViewModel = new SprintOverviewViewModel(mediator, eventBus);
-            SprintCalendarViewModel = new SprintCalendarViewModel(mediator, eventBus);
-            SprintMembersViewModel = new SprintMembersViewModel(mediator, eventBus);
+            SprintsListViewModel = new SprintsListViewModel(requestBus, eventBus);
+            SprintOverviewViewModel = new SprintOverviewViewModel(requestBus, eventBus);
+            SprintCalendarViewModel = new SprintCalendarViewModel(requestBus, eventBus);
+            SprintMembersViewModel = new SprintMembersViewModel(requestBus, eventBus);
 
-            StartSprintCommand = new StartSprintCommand(mediator, eventBus);
-            CloseSprintCommand = new CloseSprintCommand(mediator, eventBus);
+            StartSprintCommand = new StartSprintCommand(requestBus, eventBus);
+            CloseSprintCommand = new CloseSprintCommand(requestBus, eventBus);
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
@@ -136,7 +135,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
         private async Task RetrieveSprintDetails()
         {
             PresentSprintDetailRequest request = new();
-            PresentSprintDetailResponse response = await mediator.Send(request);
+            PresentSprintDetailResponse response = await requestBus.Send<PresentSprintDetailRequest, PresentSprintDetailResponse>(request);
 
             displayedSprintId = response.SprintId;
 

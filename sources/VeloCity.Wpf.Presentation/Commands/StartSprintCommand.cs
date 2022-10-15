@@ -19,25 +19,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.CanStartSprint;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 {
     public class StartSprintCommand : ICommand
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
 
         public event EventHandler CanExecuteChanged;
 
-        public StartSprintCommand(IMediator mediator, EventBus eventBus)
+        public StartSprintCommand(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
@@ -73,7 +71,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
         private async Task<bool> CanStartCurrentSprint()
         {
             CanStartSprintRequest request = new();
-            CanStartSprintResponse response = await mediator.Send(request);
+            CanStartSprintResponse response = await requestBus.Send<CanStartSprintRequest, CanStartSprintResponse>(request);
 
             return response.CanStartSprint;
         }
@@ -81,7 +79,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
         public void Execute(object parameter)
         {
             StartSprintRequest request = new();
-            _ = mediator.Send(request);
+            _ = requestBus.Send(request);
         }
 
         protected virtual void OnCanExecuteChanged()

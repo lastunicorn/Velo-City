@@ -26,14 +26,13 @@ using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
-using MediatR;
 using SprintState = DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.SprintState;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
 {
     public class SprintOverviewViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private DateInterval timeInterval;
         private SprintState sprintState;
         private string sprintGoal;
@@ -233,10 +232,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             }
         }
 
-        public SprintOverviewViewModel(IMediator mediator, EventBus eventBus)
+        public SprintOverviewViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
@@ -263,7 +262,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
         {
             PresentSprintOverviewRequest request = new();
 
-            PresentSprintOverviewResponse response = await mediator.Send(request);
+            //PresentSprintOverviewResponse response = await mediator.Send(request);
+            PresentSprintOverviewResponse response = await requestBus.Send<PresentSprintOverviewRequest, PresentSprintOverviewResponse>(request);
 
             DisplayResponse(response);
         }

@@ -23,45 +23,29 @@ namespace DustInTheWind.VeloCity.DataAccess
     public class UnitOfWork : IUnitOfWork
     {
         private readonly VeloCityDbContext dbContext;
+
         private OfficialHolidayRepository officialHolidayRepository;
         private SprintRepository sprintRepository;
         private TeamMemberRepository teamMemberRepository;
-
-        private VeloCityDbContext DbContext
-        {
-            get
-            {
-                if (dbContext.State == DatabaseState.Closed)
-                    dbContext.Open();
-
-                return dbContext;
-            }
-        }
 
         public Exception DatabaseError => dbContext.LastError;
 
         public WarningException DatabaseWarning => dbContext.LastWarning;
 
-        public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(DbContext);
+        public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(dbContext);
 
-        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(DbContext);
+        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(dbContext);
 
-        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(DbContext);
+        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(dbContext);
 
         public UnitOfWork(VeloCityDbContext dbContext)
         {
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public void InvalidateCash()
-        {
-            dbContext.Close();
-            dbContext.Open();
-        }
-
         public void SaveChanges()
         {
-            dbContext.Save();
+            dbContext.SaveChanges();
         }
     }
 }

@@ -31,7 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ItemGroup>
         <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-        <PackageReference Include="MediatR" Version="10.0.1" />
     </ItemGroup>
 
     <ItemGroup>

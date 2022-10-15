@@ -24,13 +24,12 @@ using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
-using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team
 {
     public class TeamPageViewModel : ViewModelBase
     {
-        private readonly IMediator mediator;
+        private readonly IRequestBus requestBus;
         private string title;
         private bool isTeamMemberSelected;
 
@@ -60,14 +59,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team
 
         public TeamMembersListViewModel TeamMembersListViewModel { get; }
 
-        public TeamPageViewModel(IMediator mediator, EventBus eventBus)
+        public TeamPageViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
-            TeamMembersListViewModel = new TeamMembersListViewModel(mediator, eventBus);
-            EmploymentsViewModel = new EmploymentsViewModel(mediator, eventBus);
-            VacationsViewModel = new VacationsViewModel(mediator, eventBus);
+            TeamMembersListViewModel = new TeamMembersListViewModel(requestBus, eventBus);
+            EmploymentsViewModel = new EmploymentsViewModel(requestBus, eventBus);
+            VacationsViewModel = new VacationsViewModel(requestBus, eventBus);
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<TeamMemberChangedEvent>(HandleTeamMemberChangedEvent);
@@ -89,7 +88,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team
         {
             PresentTeamMemberDetailsRequest request = new();
 
-            PresentTeamMemberDetailsResponse response = await mediator.Send(request);
+            PresentTeamMemberDetailsResponse response = await requestBus.Send<PresentTeamMemberDetailsRequest, PresentTeamMemberDetailsResponse>(request);
 
             Title = BuildTitle(response);
             IsTeamMemberSelected = response.IsAnyTeamMemberSelected;

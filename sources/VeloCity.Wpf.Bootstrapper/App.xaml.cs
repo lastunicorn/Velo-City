@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Markup;
 using Autofac;
+using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 
@@ -33,7 +34,8 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             IContainer container = SetupServices.BuildContainer();
 
             SetCurrentCulture(container);
-            
+            OpenDatabase(container);
+
             MainWindow mainWindow = container.Resolve<MainWindow>();
             mainWindow.Show();
 
@@ -52,6 +54,12 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             XmlLanguage xmlLanguage = XmlLanguage.GetLanguage(currentCultureTag);
             FrameworkPropertyMetadata frameworkPropertyMetadata = new(xmlLanguage);
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), frameworkPropertyMetadata);
+        }
+
+        private static void OpenDatabase(IComponentContext container)
+        {
+            JsonDatabase jsonDatabase = container.Resolve<JsonDatabase>();
+            jsonDatabase.Open();
         }
     }
 }
