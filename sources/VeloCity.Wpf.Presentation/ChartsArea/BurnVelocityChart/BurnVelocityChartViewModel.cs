@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,17 +21,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
+using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Wpf.Application.Refresh;
 using LiveCharts;
-using LiveCharts.Wpf;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart
 {
-    internal class VelocityChartViewModel : ViewModelBase
+    public class BurnVelocityChartViewModel : ViewModelBase
     {
         private readonly IRequestBus requestBus;
-        private ChartValues<float> actualValues;
+        private ChartValues<float> values;
         private uint sprintCount;
         private List<string> sprintsLabels;
 
@@ -52,14 +50,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
             }
         }
 
-        public SeriesCollection SeriesCollection { get; private set; }
-        
-        public ChartValues<float> ActualValues
+        public ChartValues<float> Values
         {
-            get => actualValues;
+            get => values;
             private set
             {
-                actualValues = value;
+                values = value;
                 OnPropertyChanged();
             }
         }
@@ -74,9 +70,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
             }
         }
 
-        public Func<double, string> AxisYLabelFormatter { get; } = x => ((StoryPoints)x).ToString("standard");
+        public Func<double, string> AxisYLabelFormatter { get; } = x => ((Velocity)x).ToString("standard");
 
-        public VelocityChartViewModel(IRequestBus requestBus, EventBus eventBus)
+        public BurnVelocityChartViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
             this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
@@ -95,31 +91,22 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
         {
             await RunInInitializeMode(async () =>
             {
-                PresentCommitmentRequest request = new()
+                PresentVelocityRequest request = new()
                 {
                     SprintCount = SprintCount == 0
                         ? null
                         : SprintCount
                 };
-                PresentCommitmentResponse response = await requestBus.Send<PresentCommitmentRequest, PresentCommitmentResponse>(request);
+                PresentVelocityResponse response = await requestBus.Send<PresentVelocityRequest, PresentVelocityResponse>(request);
 
                 SprintCount = response.RequestedSprintCount;
-                
-                IEnumerable<float> actualValues1 = response.SprintsCommitments
-                    .Select(x => x.ActualStoryPoints.Value);
 
-                ActualValues = new ChartValues<float>(actualValues1);
+                IEnumerable<float> velocityValues = response.SprintVelocities
+                    .Select(x => x.Velocity.Value);
 
-                SeriesCollection = new SeriesCollection
-                {
-                    new ColumnSeries
-                    {
-                        Title = "Actual Burn",
-                        Values = ActualValues
-                    }
-                };
+                Values = new ChartValues<float>(velocityValues);
 
-                SprintsLabels = response.SprintsCommitments
+                SprintsLabels = response.SprintVelocities
                     .Select(x => $"Sprint {x.SprintNumber}")
                     .ToList();
             });

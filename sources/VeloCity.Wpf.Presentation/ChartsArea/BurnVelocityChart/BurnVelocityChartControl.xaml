@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <UserControl
-    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart.VelocityChartControl"
+    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart.BurnVelocityChartControl"
 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -25,12 +25,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:behaviors="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Behaviors;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-    xmlns:velocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart"
+    xmlns:burnVelocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    d:DataContext="{d:DesignInstance velocityChart:VelocityChartViewModel}">
+    d:DataContext="{d:DesignInstance burnVelocityChart:BurnVelocityChartViewModel}">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -79,7 +79,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <wpf:CartesianChart.Series>
 
                 <wpf:ColumnSeries
-                    Values="{Binding ActualValues}"
+                    Values="{Binding Values}"
                     Fill="{StaticResource SuccessBrush}" />
 
             </wpf:CartesianChart.Series>
@@ -109,7 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <wpf:Separator
                             StrokeThickness="0.5"
                             Stroke="#404F56"
-                            UseLayoutRounding="False" />
+                            UseLayoutRounding="False"/>
                     </wpf:Axis.Separator>
 
                 </wpf:Axis>

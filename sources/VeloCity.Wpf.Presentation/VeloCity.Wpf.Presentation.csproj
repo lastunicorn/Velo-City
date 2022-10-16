@@ -43,12 +43,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Update="ChartsArea\VelocityChart\VelocityChartControl.xaml.cs">
+          <SubType>Code</SubType>
+        </Compile>
         <Compile Update="SprintsArea\CloseSprintConfirmation\SprintCloseConfirmationWindow.xaml.cs">
             <SubType>Code</SubType>
         </Compile>
     </ItemGroup>
 
     <ItemGroup>
+        <Page Update="ChartsArea\VelocityChart\VelocityChartControl.xaml">
+          <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+          <SubType>Designer</SubType>
+        </Page>
         <Page Update="MainArea\Main\MainWindow.xaml">
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>

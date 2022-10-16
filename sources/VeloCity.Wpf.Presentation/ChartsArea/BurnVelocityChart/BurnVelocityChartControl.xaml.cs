@@ -16,14 +16,14 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart
 {
     /// <summary>
-    /// Interaction logic for CommitmentChartControl.xaml
+    /// Interaction logic for BurnVelocityChartControl.xaml
     /// </summary>
-    public partial class VelocityChartControl : UserControl
+    public partial class BurnVelocityChartControl : UserControl
     {
-        public VelocityChartControl()
+        public BurnVelocityChartControl()
         {
             InitializeComponent();
         }

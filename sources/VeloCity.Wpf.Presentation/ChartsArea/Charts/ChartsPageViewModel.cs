@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart;
 
@@ -48,12 +49,17 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
                 new()
                 {
                     Title = "Burn Velocity Chart",
-                    ViewModel = new VelocityChartViewModel(requestBus, eventBus)
+                    ViewModel = new BurnVelocityChartViewModel(requestBus, eventBus)
                 },
                 new()
                 {
                     Title = "Commitment Chart",
                     ViewModel = new CommitmentChartViewModel(requestBus, eventBus)
+                },
+                new()
+                {
+                    Title = "Velocity Chart",
+                    ViewModel = new VelocityChartViewModel(requestBus, eventBus)
                 }
             };
 
