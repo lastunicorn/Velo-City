@@ -49,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         CornerRadius="2"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="1">
+                        BorderThickness="{TemplateBinding BorderThickness}">
 
                         <ScrollViewer
                             x:Name="PART_ContentHost"
@@ -92,6 +92,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="AcceptsReturn" Value="True" />
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <Style x:Key="TextBlockTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontFamily" Value="{StaticResource DefaultFontFamily}" />
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
+        <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="Padding" Value="0" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+
+                    <ScrollViewer
+                        x:Name="PART_ContentHost"
+                        Margin="0" />
+
+                    <ControlTemplate.Triggers>
+
+                        <!-- Disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource DisabledBrush}" />
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+
+            <!-- Disabled -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource DisabledBrush}" />
+            </Trigger>
+
+        </Style.Triggers>
+
     </Style>
 
 </ResourceDictionary>
