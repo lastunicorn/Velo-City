@@ -35,6 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/PanelWithTitleStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/LabeledContentStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/NotesBlockStyles.xaml" />
@@ -140,12 +141,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Title="Goal"
                     Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}">
 
-                    <TextBlock
+                    <TextBox
                         Text="{Binding SprintGoal}"
-                        TextWrapping="Wrap"
-                        HorizontalAlignment="Left"
                         MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
-                        Margin="0 0 0 8" />
+                        Margin="0 0 0 8"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBlockTextBoxStyle}" />
 
                 </customControls:PanelWithTitle>
 
@@ -274,11 +275,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     Title="Comments"
                     Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}">
 
-                    <TextBlock
+                    <TextBox
                         Text="{Binding SprintComments}"
-                        TextWrapping="Wrap"
-                        HorizontalAlignment="Left"
-                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}" />
+                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
+                        Style="{StaticResource TextBlockTextBoxStyle}"
+                        HorizontalAlignment="Left" />
 
                 </customControls:PanelWithTitle>
 

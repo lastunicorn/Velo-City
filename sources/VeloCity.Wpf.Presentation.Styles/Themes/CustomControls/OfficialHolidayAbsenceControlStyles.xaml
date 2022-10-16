@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Constants.xaml" />
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/Icons/FourDotsIconStyles.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CountryFlagControlStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -56,13 +57,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Margin="0 0 10 0"
                             Foreground="Chocolate" />
 
-                        <TextBlock
+                        <StackPanel
                             Grid.Row="0"
-                            Grid.Column="1">
+                            Grid.Column="1"
+                            Orientation="Horizontal">
 
-                            <Run Text="{TemplateBinding HolidayName}" />
-                            <Run Text="{Binding HolidayCountry, RelativeSource={RelativeSource TemplatedParent}, StringFormat=({0})}" />
-                        </TextBlock>
+                            <TextBlock>
+                                <Run Text="{TemplateBinding HolidayName}" />
+                                <Run Text="-" />
+                                <Run Text="{Binding HolidayCountry, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </TextBlock>
+
+                            <customControls:CountryFlagControl
+                                BorderThickness="1"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                Height="16"
+                                CountryCode="{TemplateBinding HolidayCountry}"
+                                Margin="8 0 0 0"/>
+
+                        </StackPanel>
 
                         <TextBlock
                             Grid.Row="1"
