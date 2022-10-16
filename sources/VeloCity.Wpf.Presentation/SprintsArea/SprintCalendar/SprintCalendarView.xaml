@@ -148,6 +148,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         <customControls:TeamMemberAbsenceControl
                                             IsPartialVacation="{Binding IsPartialVacation}"
                                             IsMissingByContract="{Binding IsMissingByContract}"
+                                            AbsenceHours="{Binding AbsenceHours}"
                                             Content="{Binding Name}" />
 
                                     </DataTemplate>
@@ -157,7 +158,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <DataTemplate DataType="{x:Type sprintCalendar:OfficialHolidayAbsenceViewModel}">
                                         <customControls:OfficialHolidayAbsenceControl
                                             HolidayName="{Binding HolidayName}"
-                                            HolidayCountry="{Binding HolidayCountry}" />
+                                            HolidayCountry="{Binding HolidayCountry}"
+                                            HolidayDescription="{Binding HolidayDescription}"/>
                                     </DataTemplate>
                                 </customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
 

@@ -27,6 +27,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 
         public bool IsMissingByContract { get; init; }
 
+        public int AbsenceHours { get; init; }
+
         public TeamMemberAbsenceViewModel(TeamMemberAbsence teamMemberAbsence)
         {
             if (teamMemberAbsence == null)
@@ -35,6 +37,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
             Name = teamMemberAbsence.Name;
             IsPartialVacation = teamMemberAbsence.IsPartialVacation;
             IsMissingByContract = teamMemberAbsence.IsMissingByContract;
+            AbsenceHours = teamMemberAbsence.AbsenceHours;
         }
     }
 }

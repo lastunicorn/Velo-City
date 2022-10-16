@@ -36,11 +36,38 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public WarningException LastWarning => jsonDatabase.LastWarning;
 
-        public List<Sprint> Sprints => sprints ??= LoadAllSprints();
+        public List<Sprint> Sprints
+        {
+            get
+            {
+                if (sprints == null)
+                    LoadAllSprints();
 
-        public List<TeamMember> TeamMembers => teamMembers ??= LoadAllTeamMembers();
+                return sprints;
+            }
+        }
 
-        public List<OfficialHoliday> OfficialHolidays => officialHolidays ??= LoadAllOfficialHolidays();
+        public List<TeamMember> TeamMembers
+        {
+            get
+            {
+                if (teamMembers == null)
+                    LoadAllTeamMembers();
+
+                return teamMembers;
+            }
+        }
+
+        public List<OfficialHoliday> OfficialHolidays
+        {
+            get
+            {
+                if (officialHolidays == null)
+                    LoadAllOfficialHolidays();
+
+                return officialHolidays;
+            }
+        }
 
         public VeloCityDbContext(JsonDatabase jsonDatabase)
         {
@@ -58,39 +85,34 @@ namespace DustInTheWind.VeloCity.DataAccess
                 databaseId = jsonDatabase.InstanceId;
         }
 
-        private List<Sprint> LoadAllSprints()
+        private void LoadAllSprints()
         {
             if (jsonDatabase.State != DatabaseState.Opened)
                 throw new DataAccessException("The database is not accessible.");
 
-            IEnumerable<Sprint> databaseSprints = jsonDatabase.Sprints.ToEntities();
-            List<Sprint> fullyLoadedSprints = new();
+            sprints = jsonDatabase.Sprints.ToEntities().ToList();
 
-            foreach (Sprint sprint in databaseSprints)
+            foreach (Sprint sprint in sprints)
             {
                 AddHolidays(sprint);
                 AddTeamMembers(sprint);
-
-                fullyLoadedSprints.Add(sprint);
             }
-
-            return fullyLoadedSprints;
         }
 
-        private List<TeamMember> LoadAllTeamMembers()
+        private void LoadAllTeamMembers()
         {
             if (jsonDatabase.State != DatabaseState.Opened)
                 throw new DataAccessException("The database is not accessible.");
 
-            return jsonDatabase.TeamMembers.ToEntities(this).ToList();
+            teamMembers = jsonDatabase.TeamMembers.ToEntities(this).ToList();
         }
 
-        private List<OfficialHoliday> LoadAllOfficialHolidays()
+        private void LoadAllOfficialHolidays()
         {
             if (jsonDatabase.State != DatabaseState.Opened)
                 throw new DataAccessException("The database is not accessible.");
 
-            return jsonDatabase.OfficialHolidays.ToEntities().ToList();
+            officialHolidays = jsonDatabase.OfficialHolidays.ToEntities().ToList();
         }
 
         private void AddHolidays(Sprint sprint)

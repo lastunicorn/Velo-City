@@ -41,6 +41,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                         Date = officialHolidayOnce.Date,
                         Name = officialHolidayOnce.Name,
                         Country = officialHolidayOnce.Country,
+                        ShortDescription = officialHolidayOnce.ShortDescription,
                         Description = officialHolidayOnce.Description
                     };
 
@@ -53,6 +54,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                         Country = officialHolidayYearly.Country,
                         StartYear = officialHolidayYearly.StartYear,
                         EndYear = officialHolidayYearly.EndYear,
+                        ShortDescription = officialHolidayYearly.ShortDescription,
                         Description = officialHolidayYearly.Description
                     };
 
@@ -77,6 +79,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                         Date = officialHoliday.Date,
                         Name = officialHoliday.Name,
                         Country = officialHoliday.Country,
+                        ShortDescription = officialHoliday.ShortDescription,
                         Description = officialHoliday.Description
                     };
 
@@ -88,6 +91,7 @@ namespace DustInTheWind.VeloCity.DataAccess
                         Country = officialHoliday.Country,
                         StartYear = officialHoliday.StartYear,
                         EndYear = officialHoliday.EndYear,
+                        ShortDescription = officialHoliday.ShortDescription,
                         Description = officialHoliday.Description
                     };
 

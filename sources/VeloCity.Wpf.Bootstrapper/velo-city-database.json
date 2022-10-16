@@ -334,6 +334,7 @@
             "Date": "100-12-01T00:00:00",
             "Name": "Romania's National Day",
             "StartYear": 1990,
+            "ShortDescription": "It is a national holiday in Romania, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918.",
             "Description": "Great Union Day (Romanian: Ziua Marii Uniri, also called Unification Day or National Day) is a national holiday in Romania, celebrated on 1 December, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918, something that is known as the Great Union. This holiday was declared after the Romanian Revolution and commemorates the assembly of the delegates of ethnic Romanians held in Alba Iulia, who declared the Union of Transylvania with Romania. (https://en.wikipedia.org/wiki/Great_Union_Day)",
             "Country": "RO"
         },
@@ -406,14 +407,17 @@
         {
             "Recurrence": "Yearly",
             "Date": "100-08-11T00:00:00",
-            "Name": "Rakshabanhan",
-            "Country": "IN"
+            "Name": "Raksha Bandhan",
+            "Country": "IN",
+            "ShortDescription": "The festival symbolizes the eternal love of brother-sister relationship",
+            "Description": "The festival is made up of two words, namely \"Raksha\" and \"Bandhan.\" As per the Sanskrit terminology, the occasion means \"the tie or knot of protection\" where \"Raksha\" stands for the protection and \"Bandhan\" signifies the verb to tie. Together, the festival symbolizes the eternal love of brother-sister relationship which does not mean just the blood relationships only. It is also celebrated among cousins, sister and sister-in-law (Bhabhi), fraternal aunt (Bua) and nephew (Bhatija) and other such relations."
         },
         {
             "Recurrence": "Yearly",
             "Date": "100-08-15T00:00:00",
             "Name": "Indian Independence Day",
-            "Country": "IN"
+            "Country": "IN",
+            "ShortDescription": "Commemorates the nation's independence from the United Kingdom on 15 August 1947."
         },
         {
             "Recurrence": "Yearly",

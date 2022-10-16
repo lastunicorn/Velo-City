@@ -49,12 +49,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DockPanel>
 
-                        <!--<Control
-                            Template="{TemplateBinding OfficialHolidayItemTemplate}"
-                            DockPanel.Dock="Left"
-                            Margin="0 0 10 0"
-                            Visibility="{Binding HasOfficialHolidays, RelativeSource={RelativeSource TemplatedParent} , Converter={StaticResource BooleanToVisibilityConverter}}" />-->
-
                         <customControls:InfoPoint
                             DockPanel.Dock="Left"
                             Margin="0 0 10 0"
@@ -69,62 +63,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </customControls:InfoPoint.InfoContent>
 
                         </customControls:InfoPoint>
-
-                        <!--<customControls:InfoPoint
-                            DockPanel.Dock="Left"
-                            Margin="0 0 10 0"
-                            Visibility="{Binding HasOfficialHolidays, RelativeSource={RelativeSource TemplatedParent} , Converter={StaticResource BooleanToVisibilityConverter}}"
-                            IconForeground="Chocolate"
-                            IconGeometry="{StaticResource FourDotsIconGeometry}">
-
-                            <customControls:InfoPoint.InfoContent>
-                                <customControls:ParagraphsBlock ItemsSource="{TemplateBinding OfficialHolidays}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type customControls:OfficialHolidayAbsence}">
-                                            <StackPanel Orientation="Horizontal">
-                                                <customControls:GenericIcon
-                                                    Style="{StaticResource FourDotsIconStyle}"
-                                                    Width="12"
-                                                    Height="12"
-                                                    Margin="0 0 10 0"
-                                                    Foreground="Chocolate" />
-
-                                                <TextBlock>
-                                                    <Run Text="{Binding HolidayName, Mode=OneWay}" />
-                                                    <Run Text="{Binding HolidayCountry, Mode=OneWay, StringFormat=({0})}" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </customControls:ParagraphsBlock>
-                            </customControls:InfoPoint.InfoContent>
-
-                        </customControls:InfoPoint>-->
-
-                        <!--<WrapPanel Orientation="Horizontal">
-
-                            <ItemsControl
-                                ItemsSource="{TemplateBinding Items}"
-                                Foreground="#F9F1A5">
-
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-
-                                --><!--<ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type customControls:TeamMemberAbsence}">
-                                        <customControls:TeamMemberAbsenceControl
-                                            IsPartialVacation="{Binding IsPartialVacation}"
-                                            IsMissingByContract="{Binding IsMissingByContract}"
-                                            Content="{Binding Name}" />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>--><!--
-
-                            </ItemsControl>
-
-                        </WrapPanel>-->
 
                         <ItemsPresenter />
 
