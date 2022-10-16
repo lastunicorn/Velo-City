@@ -26,8 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:behaviors="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Behaviors;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:charts="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts"
-    xmlns:velocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart"
     xmlns:commitmentChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart"
+    xmlns:burnVelocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart"
+    xmlns:velocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -64,12 +65,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <ContentControl Content="{Binding SelectedChartItemViewModel.ViewModel}">
             <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type velocityChart:VelocityChartViewModel}">
-                    <velocityChart:VelocityChartControl />
+                
+                <DataTemplate DataType="{x:Type burnVelocityChart:BurnVelocityChartViewModel}">
+                    <burnVelocityChart:BurnVelocityChartControl />
                 </DataTemplate>
+                
                 <DataTemplate DataType="{x:Type commitmentChart:CommitmentChartViewModel}">
                     <commitmentChart:CommitmentChartControl />
                 </DataTemplate>
+                
+                <DataTemplate DataType="{x:Type velocityChart:VelocityChartViewModel}">
+                    <velocityChart:VelocityChartControl />
+                </DataTemplate>
+
             </ContentControl.Resources>
         </ContentControl>
 

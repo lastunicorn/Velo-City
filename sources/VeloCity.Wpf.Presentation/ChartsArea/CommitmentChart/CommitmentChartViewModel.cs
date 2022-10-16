@@ -85,7 +85,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart
             }
         }
 
-        public Func<double, string> AxisYLabelFormatter { get; } = x => ((Velocity)x).ToString("standard");
+        public Func<double, string> AxisYLabelFormatter { get; } = x => ((StoryPoints)x).ToString("standard");
 
         public CommitmentChartViewModel(IRequestBus requestBus, EventBus eventBus)
         {
@@ -130,12 +130,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart
                 {
                     new ColumnSeries
                     {
-                        Title = "asd",
+                        Title = "Commitment",
                         Values = Values
                     },
                     new ColumnSeries
                     {
-                        Title = "qwe",
+                        Title = "Actual Burn",
                         Values = ActualValues
                     }
                 };
