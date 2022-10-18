@@ -159,61 +159,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 Foreground="#F9F1A5"
                 IsReadOnly="True" />
 
-            <!--<DataGridTemplateColumn
-                IsReadOnly="True">
-
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Button
-                                Padding="8"
-                                Margin="0"
-                                MinHeight="0"
-                                MinWidth="0"
-                                Visibility="{Binding CanAddVacation, Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                                <customControls:GenericIcon
-                                    Style="{StaticResource AddVacationIconStyle}"
-                                    Width="16"
-                                    Height="16"
-                                    Foreground="{StaticResource SuccessBrush}">
-
-                                    <Control.Effect>
-                                        <DropShadowEffect
-                                            Color="{StaticResource PrimaryColor}"
-                                            Direction="0"
-                                            ShadowDepth="0"
-                                            BlurRadius="10" />
-                                    </Control.Effect>
-                                </customControls:GenericIcon>
-                            </Button>
-                            <Button
-                                Padding="8"
-                                Margin="0"
-                                MinHeight="0"
-                                MinWidth="0"
-                                Visibility="{Binding CanRemoveVacation, Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                                <customControls:GenericIcon
-                                    Style="{StaticResource RemoveVacationIconStyle}"
-                                    Width="16"
-                                    Height="16"
-                                    Foreground="{StaticResource ErrorBrush}">
-
-                                    <Control.Effect>
-                                        <DropShadowEffect
-                                            Color="{StaticResource PrimaryColor}"
-                                            Direction="0"
-                                            ShadowDepth="0"
-                                            BlurRadius="10" />
-                                    </Control.Effect>
-                                </customControls:GenericIcon>
-                            </Button>
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>-->
-
         </DataGrid.Columns>
 
         <DataGrid.RowStyle>

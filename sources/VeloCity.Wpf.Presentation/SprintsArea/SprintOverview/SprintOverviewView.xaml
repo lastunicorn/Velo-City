@@ -98,7 +98,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <customControls:InfoPoint Margin="5 0 0 0">
 
                                         <customControls:InfoPoint.InfoContent>
-                                            <TextBlock Text="All sprint days that are not week-ends or official holidays." />
+                                            <customControls:ParagraphsBlock>
+
+                                                <DockPanel>
+                                                    <customControls:GenericIcon
+                                                        DockPanel.Dock="Left"
+                                                        Style="{StaticResource InfoIconStyle}"
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="0 0 10 0" />
+                                                    <TextBlock Text="Work Days" />
+                                                </DockPanel>
+
+                                                <TextBlock
+                                                    FontSize="13"
+                                                    Text="All sprint days that are not week-ends or official holidays." />
+                                            </customControls:ParagraphsBlock>
                                         </customControls:InfoPoint.InfoContent>
 
                                     </customControls:InfoPoint>
@@ -120,8 +135,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                         <customControls:InfoPoint.InfoContent>
                                             <customControls:ParagraphsBlock>
-                                                <TextBlock Text="The total number of working hours from all the team members." />
-                                                <TextBlock Text="The vacations and official holidays are excluded." />
+
+                                                <DockPanel>
+                                                    <customControls:GenericIcon
+                                                        DockPanel.Dock="Left"
+                                                        Style="{StaticResource InfoIconStyle}"
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="0 0 10 0" />
+                                                    <TextBlock Text="Total Work Hours" />
+                                                </DockPanel>
+
+                                                <customControls:ParagraphsBlock FontSize="13">
+                                                    <TextBlock Text="The total number of working hours from all the team members." />
+                                                    <TextBlock Text="The vacations and official holidays are excluded." />
+                                                </customControls:ParagraphsBlock>
                                             </customControls:ParagraphsBlock>
                                         </customControls:InfoPoint.InfoContent>
 
@@ -160,12 +188,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <customControls:LabeledContent.Label>
                                 <StackPanel Orientation="Horizontal">
 
-                                    <TextBlock Text="Estimated Burn Capacity" />
+                                    <TextBlock Text="Estimated Capacity" />
 
                                     <customControls:InfoPoint Margin="5 0 0 0">
 
                                         <customControls:InfoPoint.InfoContent>
-                                            <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedStoryPointsInfo}" />
+                                            <customControls:ParagraphsBlock>
+
+                                                <DockPanel>
+                                                    <customControls:GenericIcon
+                                                        DockPanel.Dock="Left"
+                                                        Style="{StaticResource InfoIconStyle}"
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="0 0 10 0" />
+                                                    <TextBlock Text="Estimated Burn Capacity" />
+                                                </DockPanel>
+
+                                                <customControls:ParagraphsBlock
+                                                    FontSize="13"
+                                                    ItemsSource="{Binding EstimatedStoryPointsInfo}" />
+
+                                            </customControls:ParagraphsBlock>
                                         </customControls:InfoPoint.InfoContent>
 
                                     </customControls:InfoPoint>
@@ -184,12 +228,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                     <StackPanel Orientation="Horizontal">
 
-                                        <TextBlock Text="Estimated Burn Capacity" />
+                                        <TextBlock Text="Estimated Capacity" />
 
                                         <customControls:InfoPoint Margin="5 0 0 0">
 
                                             <customControls:InfoPoint.InfoContent>
-                                                <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedStoryPointsWithVelocityPenaltiesInfo}" />
+                                                <customControls:ParagraphsBlock>
+
+                                                    <DockPanel>
+                                                        <customControls:GenericIcon
+                                                            DockPanel.Dock="Left"
+                                                            Style="{StaticResource InfoIconStyle}"
+                                                            Width="12"
+                                                            Height="12"
+                                                            Margin="0 0 10 0" />
+                                                        <TextBlock Text="Estimated Burn Capacity" />
+                                                    </DockPanel>
+
+                                                    <customControls:ParagraphsBlock
+                                                        FontSize="13"
+                                                        ItemsSource="{Binding EstimatedStoryPointsWithVelocityPenaltiesInfo}" />
+
+                                                </customControls:ParagraphsBlock>
                                             </customControls:InfoPoint.InfoContent>
 
                                         </customControls:InfoPoint>
@@ -214,7 +274,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <customControls:InfoPoint Margin="5 0 0 0">
 
                                         <customControls:InfoPoint.InfoContent>
-                                            <customControls:ParagraphsBlock ItemsSource="{Binding EstimatedVelocityInfo}" />
+                                            <customControls:ParagraphsBlock>
+
+                                                <DockPanel>
+                                                    <customControls:GenericIcon
+                                                        DockPanel.Dock="Left"
+                                                        Style="{StaticResource InfoIconStyle}"
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="0 0 10 0" />
+                                                    <TextBlock Text="Estimated Burn Velocity" />
+                                                </DockPanel>
+
+                                                <customControls:ParagraphsBlock
+                                                    FontSize="13"
+                                                    ItemsSource="{Binding EstimatedVelocityInfo}" />
+
+                                            </customControls:ParagraphsBlock>
                                         </customControls:InfoPoint.InfoContent>
 
                                     </customControls:InfoPoint>
@@ -253,9 +329,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                         <customControls:InfoPoint.InfoContent>
                                             <customControls:ParagraphsBlock>
-                                                <TextBlock Text="The number of story points the team can burn in an hour." />
-                                                <TextBlock Text="It is calculated only for the closed sprints that have the 'Actual Burn' value specified." />
-                                                <TextBlock Text="Actual Burn Velocity = Actual Burn / Total Work Hours" />
+
+                                                <DockPanel>
+                                                    <customControls:GenericIcon
+                                                        DockPanel.Dock="Left"
+                                                        Style="{StaticResource InfoIconStyle}"
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="0 0 10 0" />
+                                                    <TextBlock Text="Actual Burn Velocity" />
+                                                </DockPanel>
+
+                                                <customControls:ParagraphsBlock FontSize="13">
+                                                    <TextBlock Text="The number of story points the team can burn in an hour." />
+                                                    <TextBlock Text="Can be calculated only for the closed sprints that have the 'Actual Burn' value specified." />
+                                                    <TextBlock Text="Actual Burn Velocity = Actual Burn / Total Work Hours" />
+                                                </customControls:ParagraphsBlock>
                                             </customControls:ParagraphsBlock>
                                         </customControls:InfoPoint.InfoContent>
 

@@ -33,17 +33,24 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
         {
             if (d is CountryFlagControl countryFlagControl)
             {
-                if (e.NewValue is string)
+                if (e.NewValue is string newCountryCode)
                 {
-                    string resourceName = "CountryFlag_" + e.NewValue;
+                    string newCountryCodeUpperCase = newCountryCode.ToUpper();
 
-                    ResourceDictionary resourceDictionary = new()
+                    Uri resourceUri = new($"Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CountryFlags/{newCountryCodeUpperCase}.xaml");
+                    string resourceName = "CountryFlag_" + newCountryCodeUpperCase;
+
+                    try
                     {
-                        Source = new Uri("Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/CountryFlagControlStyles.xaml", UriKind.RelativeOrAbsolute)
-                    };
+                        ResourceDictionary resourceDictionary = new()
+                        {
+                            Source = resourceUri
+                        };
 
-                    object resource = resourceDictionary[resourceName];
-                    countryFlagControl.FlagTemplate = resource as ControlTemplate;
+                        object resource = resourceDictionary[resourceName];
+                        countryFlagControl.FlagTemplate = resource as ControlTemplate;
+                    }
+                    catch { }
                 }
                 else
                 {

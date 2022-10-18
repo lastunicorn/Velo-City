@@ -59,9 +59,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     </StackPanel>
 
                                     <TextBlock
-                                        Text="The user is not working in this day according to the contract."
-                                        FontSize="13"
-                                        Foreground="{StaticResource FontDimBrush}" />
+                                        Text="The user is not working in this day, according to their contract."
+                                        FontSize="13" />
 
                                 </customControls:ParagraphsBlock>
                             </customControls:InfoPoint.InfoContent>
@@ -87,14 +86,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         <TextBlock Text="Partial-day vacation" />
                                     </StackPanel>
 
-                                    <TextBlock
-                                        FontSize="13"
-                                        Foreground="{StaticResource FontDimBrush}">
-
+                                    <TextBlock FontSize="13">
                                         <Run Text="The team member is missing" />
                                         <Run Text="{Binding AbsenceHours, RelativeSource={RelativeSource TemplatedParent}}" />
                                         <Run Text="hours." />
-
                                     </TextBlock>
 
                                 </customControls:ParagraphsBlock>

@@ -29,11 +29,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
         {
             if (VelocityPenalties == null)
             {
-                yield return "Same as the 'Estimated Burn Capacity', but velocity penalties are applied for each team member.";
+                yield return "Same as the 'Estimated Capacity', but velocity penalties are applied for each team member.";
             }
             else
             {
-                yield return "Same as the 'Estimated Burn Capacity', but velocity penalties are applied for each team member:";
+                yield return "Same as the 'Estimated Capacity', but velocity penalties are applied for each team member:";
 
                 IEnumerable<string> items = VelocityPenalties
                     .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");

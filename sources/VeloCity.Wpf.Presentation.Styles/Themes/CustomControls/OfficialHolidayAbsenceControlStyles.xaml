@@ -62,10 +62,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Grid.Column="1"
                             Orientation="Horizontal">
 
-                            <TextBlock>
+                            <TextBlock VerticalAlignment="Center">
                                 <Run Text="{TemplateBinding HolidayName}" />
                                 <Run Text="-" />
-                                <Run Text="{Binding HolidayCountry, RelativeSource={RelativeSource TemplatedParent}}" />
                             </TextBlock>
 
                             <customControls:CountryFlagControl
@@ -73,7 +72,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 BorderBrush="{StaticResource BorderBrush}"
                                 Height="16"
                                 CountryCode="{TemplateBinding HolidayCountry}"
-                                Margin="8 0 0 0"/>
+                                Margin="5 0 0 0"/>
 
                         </StackPanel>
 
