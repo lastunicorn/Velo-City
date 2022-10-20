@@ -113,7 +113,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <ScrollViewer
                         x:Name="PART_ContentHost"
-                        Margin="0" />
+                        Margin="0"
+                        Background="{TemplateBinding Background}"/>
 
                     <ControlTemplate.Triggers>
 
@@ -127,15 +128,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <Style.Triggers>
-
-            <!-- Disabled -->
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource DisabledBrush}" />
-            </Trigger>
-
-        </Style.Triggers>
 
     </Style>
 

@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
-    xmlns:converters1="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
     xmlns:sprintOverview="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview"
 
     mc:Ignorable="d"
@@ -42,9 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/SprintStateControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/InfoPointStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ParagraphsBlockStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CustomControls/ValueBlockStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <converters1:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         </ResourceDictionary>
@@ -80,150 +79,222 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         HorizontalAlignment="Stretch"
                         Orientation="Vertical">
 
-                        <customControls:LabeledContent Label="Time Interval">
-                            <TextBlock Text="{Binding TimeInterval}" />
+                        <customControls:LabeledContent
+                            Label="Time Interval"
+                            Content="{Binding TimeInterval}" />
+
+                        <customControls:LabeledContent
+                            Label="State"
+                            Margin="0 8 0 0">
+
+                            <customControls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
+
                         </customControls:LabeledContent>
 
-                        <customControls:LabeledContent Label="State">
-                            <customControls:SprintStateControl
-                                Value="{Binding SprintState, Mode=OneWay}" />
-                        </customControls:LabeledContent>
+                        <customControls:LabeledContent
+                            Label="Work Days"
+                            Margin="0 8 0 0">
 
-                        <customControls:LabeledContent>
-                            <customControls:LabeledContent.Label>
-                                <StackPanel Orientation="Horizontal">
+                            <customControls:LabeledContent.InfoContent>
+                                <customControls:ParagraphsBlock>
 
-                                    <TextBlock Text="Work Days" />
+                                    <DockPanel>
 
-                                    <customControls:InfoPoint Margin="5 0 0 0">
+                                        <customControls:GenericIcon
+                                            DockPanel.Dock="Left"
+                                            Style="{StaticResource InfoIconStyle}"
+                                            Width="12"
+                                            Height="12"
+                                            Margin="0 0 10 0" />
 
-                                        <customControls:InfoPoint.InfoContent>
-                                            <customControls:ParagraphsBlock>
+                                        <TextBlock
+                                            Text="Work Days"
+                                            FontSize="15" />
 
-                                                <DockPanel>
-                                                    <customControls:GenericIcon
-                                                        DockPanel.Dock="Left"
-                                                        Style="{StaticResource InfoIconStyle}"
-                                                        Width="12"
-                                                        Height="12"
-                                                        Margin="0 0 10 0" />
-                                                    <TextBlock Text="Work Days" />
-                                                </DockPanel>
+                                    </DockPanel>
 
-                                                <TextBlock
-                                                    FontSize="13"
-                                                    Text="All sprint days that are not week-ends or official holidays." />
-                                            </customControls:ParagraphsBlock>
-                                        </customControls:InfoPoint.InfoContent>
+                                    <TextBlock
+                                        Text="All sprint days that are not week-ends or official holidays."
+                                        FontSize="13" />
 
-                                    </customControls:InfoPoint>
-
-                                </StackPanel>
-
-                            </customControls:LabeledContent.Label>
+                                </customControls:ParagraphsBlock>
+                            </customControls:LabeledContent.InfoContent>
 
                             <TextBlock Text="{Binding WorkDays, StringFormat={}{0} days}" />
+
                         </customControls:LabeledContent>
 
-                        <customControls:LabeledContent>
-                            <customControls:LabeledContent.Label>
-                                <StackPanel Orientation="Horizontal">
+                        <customControls:LabeledContent
+                            Label="Total Work Hours"
+                            Margin="0 8 0 0"
+                            Content="{Binding TotalWorkHours}">
 
-                                    <TextBlock Text="Total Work Hours" />
+                            <customControls:LabeledContent.InfoContent>
+                                <customControls:ParagraphsBlock>
 
-                                    <customControls:InfoPoint Margin="5 0 0 0">
+                                    <DockPanel>
 
-                                        <customControls:InfoPoint.InfoContent>
-                                            <customControls:ParagraphsBlock>
+                                        <customControls:GenericIcon
+                                            DockPanel.Dock="Left"
+                                            Style="{StaticResource InfoIconStyle}"
+                                            Width="12"
+                                            Height="12"
+                                            Margin="0 0 10 0" />
 
-                                                <DockPanel>
-                                                    <customControls:GenericIcon
-                                                        DockPanel.Dock="Left"
-                                                        Style="{StaticResource InfoIconStyle}"
-                                                        Width="12"
-                                                        Height="12"
-                                                        Margin="0 0 10 0" />
-                                                    <TextBlock Text="Total Work Hours" />
-                                                </DockPanel>
+                                        <TextBlock
+                                            Text="Total Work Hours"
+                                            FontSize="15" />
 
-                                                <customControls:ParagraphsBlock FontSize="13">
-                                                    <TextBlock Text="The total number of working hours from all the team members." />
-                                                    <TextBlock Text="The vacations and official holidays are excluded." />
-                                                </customControls:ParagraphsBlock>
-                                            </customControls:ParagraphsBlock>
-                                        </customControls:InfoPoint.InfoContent>
+                                    </DockPanel>
 
-                                    </customControls:InfoPoint>
+                                    <customControls:ParagraphsBlock FontSize="13">
+                                        <TextBlock Text="The total number of working hours from all the team members." />
+                                        <TextBlock Text="The vacations and official holidays are excluded." />
+                                    </customControls:ParagraphsBlock>
 
-                                </StackPanel>
-                            </customControls:LabeledContent.Label>
+                                </customControls:ParagraphsBlock>
+                            </customControls:LabeledContent.InfoContent>
 
-                            <TextBlock Text="{Binding TotalWorkHours}" />
                         </customControls:LabeledContent>
 
                     </StackPanel>
 
                 </customControls:PanelWithTitle>
 
-                <customControls:PanelWithTitle
-                    Title="Goal"
-                    Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}">
+                <Grid Margin="0 25 0 0">
 
-                    <TextBox
-                        Text="{Binding SprintGoal}"
-                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
-                        Margin="0 0 0 8"
-                        HorizontalAlignment="Left"
-                        Style="{StaticResource TextBlockTextBoxStyle}" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
 
-                </customControls:PanelWithTitle>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                <customControls:PanelWithTitle Title="Before Starting">
+                    <Border
+                        BorderThickness="0 0 0 4"
+                        BorderBrush="{StaticResource PrimaryLightBrush}"
+                        Grid.Row="0"
+                        Grid.Column="0">
 
-                    <StackPanel
-                        HorizontalAlignment="Stretch"
-                        Orientation="Vertical">
+                        <TextBlock
+                            Text="Before Start"
+                            HorizontalAlignment="Center"
+                            Margin="0 0 0 3"
+                            FontSize="24" />
 
-                        <customControls:LabeledContent>
-                            <customControls:LabeledContent.Label>
-                                <StackPanel Orientation="Horizontal">
+                    </Border>
 
-                                    <TextBlock Text="Estimated Capacity" />
+                    <Border
+                        BorderThickness="0 0 0 4"
+                        BorderBrush="{StaticResource PrimaryLightBrush}"
+                        Grid.Row="0"
+                        Grid.Column="1">
 
-                                    <customControls:InfoPoint Margin="5 0 0 0">
+                        <TextBlock
+                            Text="Planning"
+                            HorizontalAlignment="Center"
+                            Margin="0 0 0 3"
+                            FontSize="24" />
+
+                    </Border>
+
+                    <Border
+                        BorderThickness="0 0 0 4"
+                        BorderBrush="{StaticResource PrimaryLightBrush}"
+                        Grid.Row="0"
+                        Grid.Column="2">
+
+                        <TextBlock
+                            Text="After Close"
+                            HorizontalAlignment="Center"
+                            Margin="0 0 0 3"
+                            FontSize="24" />
+
+                    </Border>
+
+                    <Grid
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        Margin="0 0 1 1">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <customControls:ValueBlock
+                            Grid.Column="0">
+
+                            <customControls:ValueBlock.Content>
+                                <TextBlock
+                                    Text="{Binding EstimatedStoryPoints, StringFormat=standard}"
+                                    FontSize="24" />
+                            </customControls:ValueBlock.Content>
+
+                            <customControls:ValueBlock.DescriptionContent>
+
+                                <DockPanel>
+
+                                    <customControls:InfoPoint
+                                        DockPanel.Dock="Right"
+                                        Margin="5 0 0 0"
+                                        VerticalAlignment="Center">
 
                                         <customControls:InfoPoint.InfoContent>
                                             <customControls:ParagraphsBlock>
 
                                                 <DockPanel>
+
                                                     <customControls:GenericIcon
                                                         DockPanel.Dock="Left"
                                                         Style="{StaticResource InfoIconStyle}"
                                                         Width="12"
                                                         Height="12"
                                                         Margin="0 0 10 0" />
-                                                    <TextBlock Text="Estimated Burn Capacity" />
+
+                                                    <TextBlock
+                                                        Text="Estimated Capacity"
+                                                        FontSize="15" />
+
                                                 </DockPanel>
 
                                                 <customControls:ParagraphsBlock
-                                                    FontSize="13"
-                                                    ItemsSource="{Binding EstimatedStoryPointsInfo}" />
+                                                    ItemsSource="{Binding EstimatedStoryPointsInfo}"
+                                                    FontSize="13" />
 
                                             </customControls:ParagraphsBlock>
                                         </customControls:InfoPoint.InfoContent>
 
                                     </customControls:InfoPoint>
 
-                                </StackPanel>
-                            </customControls:LabeledContent.Label>
+                                    <TextBlock
+                                        Text="Estimated Capacity"
+                                        VerticalAlignment="Center"
+                                        TextAlignment="Center" />
 
-                            <TextBlock Text="{Binding EstimatedStoryPoints, StringFormat=standard}" />
-                        </customControls:LabeledContent>
+                                </DockPanel>
 
-                        <customControls:LabeledContent
+                            </customControls:ValueBlock.DescriptionContent>
+
+                        </customControls:ValueBlock>
+
+                        <customControls:ValueBlock
+                            Grid.Column="1"
                             Visibility="{Binding EstimatedStoryPointsWithVelocityPenaltiesVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                            <customControls:LabeledContent.Label>
+                            <customControls:ValueBlock.Content>
+                                <TextBlock
+                                    Text="{Binding EstimatedStoryPointsWithVelocityPenalties, StringFormat=standard}"
+                                    FontSize="24" />
+                            </customControls:ValueBlock.Content>
+
+                            <customControls:ValueBlock.DescriptionContent>
+
                                 <StackPanel>
 
                                     <StackPanel Orientation="Horizontal">
@@ -236,18 +307,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                 <customControls:ParagraphsBlock>
 
                                                     <DockPanel>
+
                                                         <customControls:GenericIcon
                                                             DockPanel.Dock="Left"
                                                             Style="{StaticResource InfoIconStyle}"
                                                             Width="12"
                                                             Height="12"
                                                             Margin="0 0 10 0" />
-                                                        <TextBlock Text="Estimated Burn Capacity" />
+
+                                                        <TextBlock
+                                                            Text="Estimated Capacity"
+                                                            FontSize="15" />
+
                                                     </DockPanel>
 
                                                     <customControls:ParagraphsBlock
-                                                        FontSize="13"
-                                                        ItemsSource="{Binding EstimatedStoryPointsWithVelocityPenaltiesInfo}" />
+                                                        ItemsSource="{Binding EstimatedStoryPointsWithVelocityPenaltiesInfo}"
+                                                        FontSize="13" />
 
                                                 </customControls:ParagraphsBlock>
                                             </customControls:InfoPoint.InfoContent>
@@ -260,119 +336,175 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         Foreground="{StaticResource FontDimBrush}"
                                         FontSize="12" />
                                 </StackPanel>
-                            </customControls:LabeledContent.Label>
 
-                            <TextBlock Text="{Binding EstimatedStoryPointsWithVelocityPenalties, StringFormat=standard}" />
-                        </customControls:LabeledContent>
+                            </customControls:ValueBlock.DescriptionContent>
 
-                        <customControls:LabeledContent>
-                            <customControls:LabeledContent.Label>
-                                <StackPanel Orientation="Horizontal">
+                        </customControls:ValueBlock>
 
-                                    <TextBlock Text="Estimated Burn Velocity" />
+                    </Grid>
 
-                                    <customControls:InfoPoint Margin="5 0 0 0">
+                    <customControls:ValueBlock
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        Margin="0 1 1 0"
+                        FontSize="16"
+                        DescriptionFontSize="12"
+                        Foreground="Gray">
 
-                                        <customControls:InfoPoint.InfoContent>
-                                            <customControls:ParagraphsBlock>
+                        <customControls:ValueBlock.Content>
+                            <TextBlock
+                                Text="{Binding EstimatedVelocity, StringFormat=standard}"
+                                Foreground="Gray"
+                                FontSize="16" />
+                        </customControls:ValueBlock.Content>
 
-                                                <DockPanel>
-                                                    <customControls:GenericIcon
-                                                        DockPanel.Dock="Left"
-                                                        Style="{StaticResource InfoIconStyle}"
-                                                        Width="12"
-                                                        Height="12"
-                                                        Margin="0 0 10 0" />
-                                                    <TextBlock Text="Estimated Burn Velocity" />
-                                                </DockPanel>
+                        <customControls:ValueBlock.DescriptionContent>
+                            <StackPanel Orientation="Horizontal">
 
-                                                <customControls:ParagraphsBlock
-                                                    FontSize="13"
-                                                    ItemsSource="{Binding EstimatedVelocityInfo}" />
+                                <TextBlock Text="Estimated Burn Velocity" />
 
+                                <customControls:InfoPoint Margin="5 0 0 0">
+
+                                    <customControls:InfoPoint.InfoContent>
+                                        <customControls:ParagraphsBlock>
+
+                                            <DockPanel>
+
+                                                <customControls:GenericIcon
+                                                    DockPanel.Dock="Left"
+                                                    Style="{StaticResource InfoIconStyle}"
+                                                    Width="12"
+                                                    Height="12"
+                                                    Margin="0 0 10 0" />
+
+                                                <TextBlock
+                                                    Text="Estimated Burn Velocity"
+                                                    FontSize="15" />
+
+                                            </DockPanel>
+
+                                            <customControls:ParagraphsBlock
+                                                FontSize="13"
+                                                ItemsSource="{Binding EstimatedVelocityInfo}" />
+
+                                        </customControls:ParagraphsBlock>
+                                    </customControls:InfoPoint.InfoContent>
+
+                                </customControls:InfoPoint>
+
+                            </StackPanel>
+                        </customControls:ValueBlock.DescriptionContent>
+
+                    </customControls:ValueBlock>
+
+                    <customControls:ValueBlock
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Margin="1 0 1 1"
+                        DescriptionContent="Commitment">
+
+                        <TextBlock
+                            Text="{Binding CommitmentStoryPoints, StringFormat=standard}"
+                            FontSize="24" />
+
+                    </customControls:ValueBlock>
+
+                    <customControls:ValueBlock
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        Margin="1 0 0 1"
+                        DescriptionContent="Actual Burn">
+
+                        <TextBlock
+                            Text="{Binding ActualStoryPoints, StringFormat=standard}"
+                            FontSize="24" />
+
+                    </customControls:ValueBlock>
+
+                    <customControls:ValueBlock
+                        Grid.Column="2"
+                        Grid.Row="2"
+                        Margin="1 1 0 0"
+                        FontSize="16"
+                        DescriptionFontSize="12"
+                        Foreground="Gray">
+
+                        <customControls:ValueBlock.Content>
+                            <TextBlock
+                                Text="{Binding ActualVelocity, StringFormat=standard}"
+                                Foreground="Gray"
+                                FontSize="16" />
+                        </customControls:ValueBlock.Content>
+
+                        <customControls:ValueBlock.DescriptionContent>
+                            <StackPanel Orientation="Horizontal">
+
+                                <TextBlock Text="Actual Burn Velocity" />
+
+                                <customControls:InfoPoint Margin="5 0 0 0">
+
+                                    <customControls:InfoPoint.InfoContent>
+                                        <customControls:ParagraphsBlock>
+
+                                            <DockPanel>
+                                                <customControls:GenericIcon
+                                                    DockPanel.Dock="Left"
+                                                    Style="{StaticResource InfoIconStyle}"
+                                                    Width="12"
+                                                    Height="12"
+                                                    Margin="0 0 10 0" />
+
+                                                <TextBlock
+                                                    Text="Actual Burn Velocity"
+                                                    FontSize="15" />
+                                            </DockPanel>
+
+                                            <customControls:ParagraphsBlock FontSize="13">
+                                                <TextBlock Text="The number of story points the team can burn in an hour." />
+                                                <TextBlock Text="Can be calculated only for the closed sprints that have the 'Actual Burn' value specified." />
+                                                <TextBlock Text="Actual Burn Velocity = Actual Burn / Total Work Hours" />
                                             </customControls:ParagraphsBlock>
-                                        </customControls:InfoPoint.InfoContent>
 
-                                    </customControls:InfoPoint>
+                                        </customControls:ParagraphsBlock>
+                                    </customControls:InfoPoint.InfoContent>
 
-                                </StackPanel>
-                            </customControls:LabeledContent.Label>
+                                </customControls:InfoPoint>
 
-                            <TextBlock Text="{Binding EstimatedVelocity, StringFormat=standard}" />
-                        </customControls:LabeledContent>
+                            </StackPanel>
+                        </customControls:ValueBlock.DescriptionContent>
 
-                        <customControls:LabeledContent Label="Commitment">
-                            <TextBlock Text="{Binding CommitmentStoryPoints, StringFormat=standard}" />
-                        </customControls:LabeledContent>
+                    </customControls:ValueBlock>
 
-                    </StackPanel>
+                </Grid>
 
-                </customControls:PanelWithTitle>
+                <customControls:PanelWithTitle
+                    Title="Goal"
+                    Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}"
+                    Width="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
+                    HorizontalAlignment="Left">
 
-                <customControls:PanelWithTitle Title="After Close">
-
-                    <StackPanel
-                        HorizontalAlignment="Stretch"
-                        Orientation="Vertical">
-
-                        <customControls:LabeledContent Label="Actual Burn">
-                            <TextBlock Text="{Binding ActualStoryPoints, StringFormat=standard}" />
-                        </customControls:LabeledContent>
-
-                        <customControls:LabeledContent>
-                            <customControls:LabeledContent.Label>
-                                <StackPanel Orientation="Horizontal">
-
-                                    <TextBlock Text="Actual Burn Velocity" />
-
-                                    <customControls:InfoPoint Margin="5 0 0 0">
-
-                                        <customControls:InfoPoint.InfoContent>
-                                            <customControls:ParagraphsBlock>
-
-                                                <DockPanel>
-                                                    <customControls:GenericIcon
-                                                        DockPanel.Dock="Left"
-                                                        Style="{StaticResource InfoIconStyle}"
-                                                        Width="12"
-                                                        Height="12"
-                                                        Margin="0 0 10 0" />
-                                                    <TextBlock Text="Actual Burn Velocity" />
-                                                </DockPanel>
-
-                                                <customControls:ParagraphsBlock FontSize="13">
-                                                    <TextBlock Text="The number of story points the team can burn in an hour." />
-                                                    <TextBlock Text="Can be calculated only for the closed sprints that have the 'Actual Burn' value specified." />
-                                                    <TextBlock Text="Actual Burn Velocity = Actual Burn / Total Work Hours" />
-                                                </customControls:ParagraphsBlock>
-                                            </customControls:ParagraphsBlock>
-                                        </customControls:InfoPoint.InfoContent>
-
-                                    </customControls:InfoPoint>
-
-                                </StackPanel>
-                            </customControls:LabeledContent.Label>
-
-                            <TextBlock Text="{Binding ActualVelocity, StringFormat=standard}" />
-                        </customControls:LabeledContent>
-
-                    </StackPanel>
+                    <TextBox
+                        Text="{Binding SprintGoal}"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource TextBlockTextBoxStyle}" />
 
                 </customControls:PanelWithTitle>
 
                 <customControls:PanelWithTitle
                     Title="Comments"
-                    Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}">
+                    Visibility="{Binding SprintComments, Converter={StaticResource NullToVisibilityConverter}}"
+                    Width="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
+                    HorizontalAlignment="Left">
 
                     <TextBox
                         Text="{Binding SprintComments}"
-                        MaxWidth="{Binding Path=ViewportWidth, ElementName=ScrollViewer1}"
                         Style="{StaticResource TextBlockTextBoxStyle}"
                         HorizontalAlignment="Left" />
 
                 </customControls:PanelWithTitle>
 
             </StackPanel>
+
         </ScrollViewer>
 
     </DockPanel>

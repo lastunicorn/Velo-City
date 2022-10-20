@@ -49,13 +49,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <customControls:ParagraphsBlock>
 
                                     <StackPanel Orientation="Horizontal">
+
                                         <customControls:GenericIcon
                                             Style="{StaticResource InfoContractIconStyle}"
                                             Width="12"
                                             Height="12"
-                                            Margin="0 0 5 0"
+                                            Margin="0 0 10 0"
                                             Foreground="Chocolate" />
-                                        <TextBlock Text="Absent by contract" />
+
+                                        <TextBlock
+                                            Text="Absent by contract"
+                                            FontSize="15"/>
+
                                     </StackPanel>
 
                                     <TextBlock
@@ -77,13 +82,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <customControls:ParagraphsBlock>
 
                                     <StackPanel Orientation="Horizontal">
+
                                         <customControls:GenericIcon
                                             Style="{StaticResource InfoPartialVacationIconStyle}"
                                             Width="12"
                                             Height="12"
-                                            Margin="0 0 5 0"
+                                            Margin="0 0 10 0"
                                             Foreground="Chocolate" />
-                                        <TextBlock Text="Partial-day vacation" />
+
+                                        <TextBlock
+                                            Text="Partial-day vacation"
+                                            FontSize="15"/>
+
                                     </StackPanel>
 
                                     <TextBlock FontSize="13">
