@@ -35,6 +35,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             set => SetValue(TitleProperty, value);
         }
 
+        public static readonly DependencyProperty ContentPaddingProperty = DependencyProperty.Register(
+            nameof(ContentPadding),
+            typeof(Thickness),
+            typeof(PanelWithTitle),
+            new PropertyMetadata(new Thickness())
+        );
+
+        public Thickness ContentPadding
+        {
+            get => (Thickness)GetValue(ContentPaddingProperty);
+            set => SetValue(ContentPaddingProperty, value);
+        }
+
         static PanelWithTitle()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PanelWithTitle), new FrameworkPropertyMetadata(typeof(PanelWithTitle)));
