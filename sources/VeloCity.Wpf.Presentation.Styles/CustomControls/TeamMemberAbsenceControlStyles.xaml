@@ -30,7 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
+
+
     <Style TargetType="{x:Type customControls:TeamMemberAbsenceControl}">
+        <Setter Property="Foreground" Value="{StaticResource AbsenceBrush}" />
+        <Setter Property="IconForeground" Value="{StaticResource SprintCalendarInfoIconBrush}" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -42,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <customControls:InfoPoint
                             IconGeometry="{StaticResource InfoContractIconGeometry}"
                             Visibility="{Binding IsMissingByContract, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                            IconForeground="Chocolate"
+                            IconForeground="{TemplateBinding IconForeground}"
                             Margin="5 0 0 0">
 
                             <customControls:InfoPoint.InfoContent>
@@ -55,7 +59,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             Width="12"
                                             Height="12"
                                             Margin="0 0 10 0"
-                                            Foreground="Chocolate" />
+                                            Foreground="{StaticResource SprintCalendarInfoIconBrush}" />
 
                                         <TextBlock
                                             Text="Absent by contract"
@@ -75,7 +79,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <customControls:InfoPoint
                             IconGeometry="{StaticResource InfoPartialVacationIconGeometry}"
                             Visibility="{Binding IsPartialVacation, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
-                            IconForeground="Chocolate"
+                            IconForeground="{StaticResource SprintCalendarInfoIconBrush}"
                             Margin="5 0 0 0">
 
                             <customControls:InfoPoint.InfoContent>
@@ -88,7 +92,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             Width="12"
                                             Height="12"
                                             Margin="0 0 10 0"
-                                            Foreground="Chocolate" />
+                                            Foreground="{StaticResource SprintCalendarInfoIconBrush}" />
 
                                         <TextBlock
                                             Text="Partial-day vacation"

@@ -93,7 +93,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <Setter Property="Effect" TargetName="PART_ViewPort">
                                 <Setter.Value>
                                     <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
+                                        Color="{StaticResource ShadowColor}"
                                         Direction="0"
                                         ShadowDepth="0"
                                         BlurRadius="10" />

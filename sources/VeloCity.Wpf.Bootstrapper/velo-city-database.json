@@ -128,10 +128,11 @@
             "Number": 13,
             "Name": "Sprint 13",
             "StartDate": "2022-08-08T00:00:00",
-            "EndDate": "2022-08-28T00:00:00",
+            "EndDate": "2022-08-21T00:00:00",
             "CommitmentStoryPoints": 0,
             "ActualStoryPoints": 0,
-            "State": "new"
+            "State": "new",
+            "Comments":  "Some comments here." 
         }
     ],
     "TeamMembers": [
@@ -231,7 +232,7 @@
             ]
         },
         {
-            "Id": 5,
+            "Id": 6,
             "FirstName": "Puneet",
             "LastName": "Akbar",
             "Employments": [
@@ -246,206 +247,223 @@
                     "Recurrence": "daily",
                     "StartDate": "2022-04-07T00:00:00",
                     "EndDate": "2022-04-08T00:00:00"
+                },
+                {
+                    "Recurrence": "once",
+                    "Date": "2022-08-17T00:00:00",
+                    "HourCount": 4
                 }
             ]
         }
     ],
     "OfficialHolidays": [
         {
-            "Recurrence": "Yearly",
-            "Date": "100-01-01T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-01-01T00:00:00",
             "Name": "New Year",
             "Country": "RO"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-01-02T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-01-02T00:00:00",
             "Name": "New Year - Second day",
             "Country": "RO"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-01-24T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-01-24T00:00:00",
             "Name": "Union of the Romanian Principalities",
             "StartYear": 1859,
-            "Description": "Unirea Principatelor Române a avut loc la jumătatea secolului al XIX-lea prin unirea statelor Moldova și Țara Românească sub numele Principatele Unite ale Moldovei și Țării Românești. Procesul unirii, bazat pe puternica apropiere culturală și economică între cele două țări, a cunoscut o etapă decisivă, care s-a dovedit a fi ireversibilă, prin alegerea colonelului moldovean Alexandru Ioan Cuza ca domnitor al ambelor principate, la 5 ianuarie 1859 în Moldova și la 24 ianuarie 1859 în Țara Românească. (https://ro.wikipedia.org/wiki/Unirea_Principatelor_Rom%C3%A2ne)",
-            "Country": "RO"
+            "Country": "RO",
+            "Description": "Unirea Principatelor Române a avut loc la jumătatea secolului al XIX-lea prin unirea statelor Moldova și Țara Românească sub numele Principatele Unite ale Moldovei și Țării Românești. Procesul unirii, bazat pe puternica apropiere culturală și economică între cele două țări, a cunoscut o etapă decisivă, care s-a dovedit a fi ireversibilă, prin alegerea colonelului moldovean Alexandru Ioan Cuza ca domnitor al ambelor principate, la 5 ianuarie 1859 în Moldova și la 24 ianuarie 1859 în Țara Românească. (https://ro.wikipedia.org/wiki/Unirea_Principatelor_Rom%C3%A2ne)"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-05-01T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-05-01T00:00:00",
             "Name": "Labor Day",
             "StartYear": 1889,
-            "Description": "International Workers' Day, also known as Labour Day in most countries and often referred to as May Day, is a celebration of labourers and the working classes that is promoted by the international labour movement and occurs every year on May Day (1 May). (https://en.wikipedia.org/wiki/International_Workers%27_Day)",
-            "Country": "RO"
+            "Country": "RO",
+            "Description": "International Workers' Day, also known as Labour Day in most countries and often referred to as May Day, is a celebration of labourers and the working classes that is promoted by the international labour movement and occurs every year on May Day (1 May). (https://en.wikipedia.org/wiki/International_Workers%27_Day)"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2021-04-30T00:00:00",
             "Name": "The Friday before Easter",
             "Country": "RO"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2021-05-02T00:00:00",
             "Name": "Easter Day",
             "Country": "RO"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2021-05-03T00:00:00",
             "Name": "Easter - Second Day",
             "Country": "RO"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-06-01T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-06-01T00:00:00",
             "Name": "Children’s day",
             "StartYear": 1925,
-            "Description": "Children's Day is a commemorative date celebrated annually in honor of children, whose date of observance varies by country. In 1925, International Children's Day was first proclaimed in Geneva during the World Conference on Child Welfare. Since 1950, it is celebrated on June 1 in most Communist and post-Communist countries. (https://en.wikipedia.org/wiki/Children%27s_Day)",
-            "Country": "RO"
+            "Country": "RO",
+            "ShortDescription": "Children's Day is a commemorative date celebrated annually in honor of children.",
+            "Description": "Children's Day is a commemorative date celebrated annually in honor of children. Its date of observance varies by country. In 1925, International Children's Day was first proclaimed in Geneva during the World Conference on Child Welfare. Since 1950, it is celebrated on June 1 in most Communist and post-Communist countries. (https://en.wikipedia.org/wiki/Children%27s_Day)"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2021-06-20T00:00:00",
             "Name": "Pentecost",
             "Country": "RO"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2021-06-21T00:00:00",
             "Name": "Pentecost - Second Day",
             "Country": "RO"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-08-15T00:00:00",
-            "Name": "Saint Mary’s Day",
-            "Country": "RO"
+            "Recurrence": "yearly",
+            "Date": "0100-08-15T00:00:00",
+            "Name": "Assumption of Mary",
+            "Country": "RO",
+            "ShortDescription": "A dogma saying that, the immaculate Mother of God, Mary ever virgin, when the course of her earthly life was finished, was taken up body and soul into the glory of heaven."
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-11-30T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-11-30T00:00:00",
             "Name": "Saint Andrew’s Day",
             "Country": "RO"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-12-01T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-12-01T00:00:00",
             "Name": "Romania's National Day",
             "StartYear": 1990,
-            "ShortDescription": "It is a national holiday in Romania, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918.",
-            "Description": "Great Union Day (Romanian: Ziua Marii Uniri, also called Unification Day or National Day) is a national holiday in Romania, celebrated on 1 December, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918, something that is known as the Great Union. This holiday was declared after the Romanian Revolution and commemorates the assembly of the delegates of ethnic Romanians held in Alba Iulia, who declared the Union of Transylvania with Romania. (https://en.wikipedia.org/wiki/Great_Union_Day)",
-            "Country": "RO"
+            "Country": "RO",
+            "ShortDescription": "Great Union Day (Romanian: Ziua Marii Uniri, also called Unification Day or National Day) is a national holiday in Romania, celebrated on 1 December, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918.",
+            "Description": "Great Union Day (Romanian: Ziua Marii Uniri, also called Unification Day or National Day) is a national holiday in Romania, celebrated on 1 December, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918, something that is known as the Great Union. This holiday was declared after the Romanian Revolution and commemorates the assembly of the delegates of ethnic Romanians held in Alba Iulia, who declared the Union of Transylvania with Romania. (https://en.wikipedia.org/wiki/Great_Union_Day)"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-12-25T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-12-25T00:00:00",
             "Name": "Christmas",
             "Country": "RO"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-12-26T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-12-26T00:00:00",
             "Name": "Christmas - Second Day",
             "Country": "RO"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2022-04-22T00:00:00",
             "Name": "The Friday before Easter",
             "Country": "RO"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2022-04-24T00:00:00",
             "Name": "Easter",
             "Country": "RO"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2022-04-25T00:00:00",
             "Name": "Easter - Second Day",
             "Country": "RO"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
             "Date": "2022-06-12T00:00:00",
             "Name": "Pentecost",
             "Country": "RO"
         },
         {
-            "Recurrence": "Once",
+            "Recurrence": "once",
+            "Date": "2022-09-23T00:00:00",
+            "Name": "Waters Party",
+            "Country": "RO",
+            "ShortDescription": "Waters invited us at their anual party."
+        },
+        {
+            "Recurrence": "once",
             "Date": "2022-06-13T00:00:00",
             "Name": "Pentecost - Second Day",
             "Country": "RO"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-01-01T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-01-01T00:00:00",
             "Name": "New Year",
             "Country": "IN"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-01-26T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-01-26T00:00:00",
             "Name": "Republic Day",
             "Country": "IN"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-02-05T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-02-05T00:00:00",
             "Name": "Vasant Panchami",
             "Country": "IN"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-03-18T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-03-18T00:00:00",
             "Name": "Holi",
             "Country": "IN"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-08-11T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-08-11T00:00:00",
             "Name": "Raksha Bandhan",
             "Country": "IN",
-            "ShortDescription": "The festival symbolizes the eternal love of brother-sister relationship",
+            "ShortDescription": "As per the Sanskrit terminology, the occasion means \"the tie or knot of protection\" where \"Raksha\" stands for the protection and \"Bandhan\" signifies the verb to tie. Together, the festival symbolizes the eternal love of brother-sister relationship.",
             "Description": "The festival is made up of two words, namely \"Raksha\" and \"Bandhan.\" As per the Sanskrit terminology, the occasion means \"the tie or knot of protection\" where \"Raksha\" stands for the protection and \"Bandhan\" signifies the verb to tie. Together, the festival symbolizes the eternal love of brother-sister relationship which does not mean just the blood relationships only. It is also celebrated among cousins, sister and sister-in-law (Bhabhi), fraternal aunt (Bua) and nephew (Bhatija) and other such relations."
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-08-15T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-08-15T00:00:00",
             "Name": "Indian Independence Day",
             "Country": "IN",
             "ShortDescription": "Commemorates the nation's independence from the United Kingdom on 15 August 1947."
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-10-02T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-10-02T00:00:00",
             "Name": "Gandhi Jayanti",
             "Country": "IN"
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-10-05T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-10-05T00:00:00",
             "Name": "Dussehra",
-            "Country": "IN"
+            "Country": "IN",
+            "ShortDescription": "Also known as Vijayādaśamī (विजयादशमी),  compound of the two words vijaya (विजय, 'victory') and daśamī (दशमी, 'tenth'), connoting the festival on the tenth day celebrating the victory of good over evil.\r\n\r\nThe word dussehra is the British English spelling of the Indo-Aryan tadbhava Dasahrā. It is derived daśaharā (दशहरा), which is a Sanskrit compound word composed of daśama (दशम, 'tenth') and ahar (अहर्, 'day')."
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-10-24T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-10-24T00:00:00",
             "Name": "Diwali",
-            "Country": "IN"
+            "Country": "IN",
+            "ShortDescription": "One of the most popular festivals of Hinduism, Diwali symbolizes the spiritual \"victory of light over darkness, good over evil, and knowledge over ignorance\"."
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-10-25T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-10-25T00:00:00",
             "Name": "Diwali",
-            "Country": "IN"
+            "Country": "IN",
+            "ShortDescription": "One of the most popular festivals of Hinduism, Diwali symbolizes the spiritual \"victory of light over darkness, good over evil, and knowledge over ignorance\"."
         },
         {
-            "Recurrence": "Yearly",
-            "Date": "100-12-25T00:00:00",
+            "Recurrence": "yearly",
+            "Date": "0100-12-25T00:00:00",
             "Name": "Christmas",
             "Country": "IN"
         }

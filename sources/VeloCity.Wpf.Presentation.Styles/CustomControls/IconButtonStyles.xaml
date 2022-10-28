@@ -52,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 x:Name="PART_Icon"
                                 Content="{TemplateBinding Icon}"
                                 Margin="0 0 8 0"
-                                VerticalAlignment="Center"/>
+                                VerticalAlignment="Center" />
 
                             <ContentPresenter
                                 Content="{TemplateBinding Content}"

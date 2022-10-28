@@ -46,8 +46,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <Grid>
 
-                            <ContentPresenter
+                            <!--<ContentPresenter
                                 Content="{TemplateBinding MissingContent}"
+                                IsEnabled="False"
+                                Visibility="{TemplateBinding IsContentVisible, Converter={StaticResource BooleanToVisibilityInverseConverter}}">-->
+
+                            <ContentPresenter
+                                ContentSource="MissingContent"
                                 IsEnabled="False"
                                 Visibility="{TemplateBinding IsContentVisible, Converter={StaticResource BooleanToVisibilityInverseConverter}}">
 
@@ -60,7 +65,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </ContentPresenter>
 
                             <ContentPresenter
-                                Content="{TemplateBinding Content}"
                                 Visibility="{TemplateBinding IsContentVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                         </Grid>

@@ -55,7 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Width="12"
                             Height="12"
                             Margin="0 0 10 0"
-                            Foreground="Chocolate" />
+                            Foreground="{StaticResource SprintCalendarInfoIconBrush}" />
 
                         <StackPanel
                             Grid.Row="0"

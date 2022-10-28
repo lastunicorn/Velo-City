@@ -43,7 +43,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="Margin" Value="0 15 0 0"/>
     </Style>
 
-
     <customControls:ListItemStyleSelector
         x:Key="ListItemStyleSelector"
         FirstItemStyle="{StaticResource ParagraphsBlockFirstItemStyle}"

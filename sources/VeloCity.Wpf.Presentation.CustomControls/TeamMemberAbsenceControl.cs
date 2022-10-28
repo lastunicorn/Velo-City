@@ -17,6 +17,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
@@ -65,6 +66,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
         {
             get => (int)GetValue(AbsenceHoursProperty);
             set => SetValue(AbsenceHoursProperty, value);
+        }
+
+        public static readonly DependencyProperty IconForegroundProperty = DependencyProperty.Register(
+            nameof(IconForeground),
+            typeof(Brush),
+            typeof(TeamMemberAbsenceControl)
+        );
+
+        public Brush IconForeground
+        {
+            get => (Brush)GetValue(IconForegroundProperty);
+            set => SetValue(IconForegroundProperty, value);
         }
 
         static TeamMemberAbsenceControl()

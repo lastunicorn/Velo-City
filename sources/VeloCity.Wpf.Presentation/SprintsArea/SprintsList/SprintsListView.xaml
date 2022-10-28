@@ -86,81 +86,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     Background="Transparent"
                                     MinHeight="40">
 
-                                    <VisualStateManager.VisualStateGroups>
-
-                                        <VisualStateGroup x:Name="CommonStates">
-                                            <VisualState x:Name="Normal">
-                                                <Storyboard AutoReverse="True">
-
-                                                    <ColorAnimationUsingKeyFrames
-                                                        Storyboard.TargetName="TextBlock1"
-                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
-
-                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource FontDimColor}" />
-                                                    </ColorAnimationUsingKeyFrames>
-
-                                                </Storyboard>
-                                            </VisualState>
-                                        </VisualStateGroup>
-
-                                        <VisualStateGroup x:Name="SelectionStates">
-
-                                            <VisualState x:Name="Unselected">
-                                                <Storyboard>
-
-                                                    <ColorAnimationUsingKeyFrames
-                                                        Storyboard.TargetName="TextBlock1"
-                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
-
-                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource FontDimColor}" />
-                                                    </ColorAnimationUsingKeyFrames>
-
-                                                </Storyboard>
-                                            </VisualState>
-
-                                            <VisualState x:Name="Selected">
-                                                <Storyboard>
-
-                                                    <ColorAnimationUsingKeyFrames
-                                                        Storyboard.TargetName="PART_Border"
-                                                        Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-
-                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource AccentColor}" />
-                                                    </ColorAnimationUsingKeyFrames>
-
-                                                    <ColorAnimationUsingKeyFrames
-                                                        Storyboard.TargetName="TextBlock1"
-                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
-
-                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource FontPrimaryColor}" />
-                                                    </ColorAnimationUsingKeyFrames>
-
-                                                </Storyboard>
-                                            </VisualState>
-
-                                            <VisualState x:Name="SelectedUnfocused">
-                                                <Storyboard>
-
-                                                    <ColorAnimationUsingKeyFrames
-                                                        Storyboard.TargetName="PART_Border"
-                                                        Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-
-                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource PrimaryLightColor}" />
-                                                    </ColorAnimationUsingKeyFrames>
-
-                                                    <ColorAnimationUsingKeyFrames
-                                                        Storyboard.TargetName="TextBlock1"
-                                                        Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
-
-                                                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource FontDimColor}" />
-                                                    </ColorAnimationUsingKeyFrames>
-
-                                                </Storyboard>
-                                            </VisualState>
-
-                                        </VisualStateGroup>
-                                    </VisualStateManager.VisualStateGroups>
-
                                     <DockPanel
                                         x:Name="DockPanel1"
                                         Margin="10 0"
@@ -173,32 +98,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             Value="{Binding SprintState}"
                                             IsLabelVisible="False"
                                             VerticalAlignment="Top"
-                                            IsTabStop="False"/>
+                                            IsTabStop="False" />
 
                                         <StackPanel
                                             Margin="0 2">
 
-                                            <StackPanel
-                                                Orientation="Horizontal">
+                                            <StackPanel Orientation="Horizontal">
 
                                                 <TextBlock
-                                                    Text="Sprint"
-                                                    FontSize="16" />
-
-                                                <TextBlock
-                                                    Text="{Binding SprintNumber}"
+                                                    x:Name="PART_Title"
                                                     FontSize="16"
-                                                    Margin="3 0 0 0" />
+                                                    Text="{Binding Title}" />
 
                                                 <TextBlock
+                                                    x:Name="PART_DateInterval"
                                                     Text="{Binding SprintDateInterval, StringFormat={}[{0}]}"
                                                     Margin="10 0 0 0"
                                                     VerticalAlignment="Center" />
+
                                             </StackPanel>
 
                                             <TextBlock
-                                                x:Name="TextBlock1"
-                                                Text="{Binding SprintTitle}"
+                                                x:Name="PART_Subtitle"
+                                                Text="{Binding Subtitle}"
                                                 FontSize="12"
                                                 Margin="0 2 0 0" />
 
@@ -209,15 +131,48 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 </Border>
 
                                 <ControlTemplate.Triggers>
+
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontDimBrush}" />
+                                    </Trigger>
+
                                     <MultiTrigger>
                                         <MultiTrigger.Conditions>
                                             <Condition Property="IsSelected" Value="True" />
                                             <Condition Property="Selector.IsSelectionActive" Value="True" />
                                         </MultiTrigger.Conditions>
                                         <MultiTrigger.Setters>
+                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource AccentBrush}" />
+                                            <Setter TargetName="PART_Title" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
+                                            <Setter TargetName="PART_DateInterval" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
+                                            <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
                                             <Setter TargetName="SprintStateControl1" Property="IsIconShadowVisible" Value="True" />
                                         </MultiTrigger.Setters>
                                     </MultiTrigger>
+
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="True" />
+                                            <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.Setters>
+                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+                                            <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontDimBrush}" />
+                                        </MultiTrigger.Setters>
+                                    </MultiTrigger>
+                                    
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="False" />
+                                            <Condition Property="IsMouseOver" Value="True" />
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.Setters>
+                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+                                            <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontDimBrush}" />
+                                        </MultiTrigger.Setters>
+                                    </MultiTrigger>
+                                    
+
                                 </ControlTemplate.Triggers>
 
                             </ControlTemplate>

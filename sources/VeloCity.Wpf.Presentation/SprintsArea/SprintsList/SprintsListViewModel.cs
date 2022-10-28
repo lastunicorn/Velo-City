@@ -78,7 +78,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
 
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
-            eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
 
             _ = Initialize();
         }
@@ -91,16 +90,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
         private Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
         {
             SelectedSprint = sprints.FirstOrDefault(x => x.SprintId == ev.NewSprintId);
-
-            return Task.CompletedTask;
-        }
-
-        private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
-        {
-            SprintViewModel sprintViewModel = sprints.FirstOrDefault(x => x.SprintId == ev.SprintId);
-
-            if (sprintViewModel != null)
-                sprintViewModel.SprintState = ev.SprintState.ToPresentationModel();
 
             return Task.CompletedTask;
         }

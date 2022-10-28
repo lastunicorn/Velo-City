@@ -28,28 +28,37 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
     public class SprintViewModel : ViewModelBase
     {
         private SprintState sprintState;
-        private string sprintTitle;
+        private string title;
+        private string subtitle;
 
         public int SprintId { get; }
 
-        public string SprintTitle
+        public string Title
         {
-            get => sprintTitle;
-            set
+            get => title;
+            private set
             {
-                sprintTitle = value;
+                title = value;
                 OnPropertyChanged();
             }
         }
 
-        public int SprintNumber { get; }
+        public string Subtitle
+        {
+            get => subtitle;
+            private set
+            {
+                subtitle = value;
+                OnPropertyChanged();
+            }
+        }
 
         public DateInterval SprintDateInterval { get; }
 
         public SprintState SprintState
         {
             get => sprintState;
-            set
+            private set
             {
                 sprintState = value;
                 OnPropertyChanged();
@@ -61,8 +70,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
             if (sprintInfo == null) throw new ArgumentNullException(nameof(sprintInfo));
 
             SprintId = sprintInfo.Id;
-            sprintTitle = sprintInfo.Name;
-            SprintNumber = sprintInfo.Number;
+            subtitle = sprintInfo.Name;
+            Title = "Sprint " + sprintInfo.Number;
             SprintState = sprintInfo.State.ToPresentationModel();
             SprintDateInterval = sprintInfo.DateInterval;
 
@@ -72,14 +81,17 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
         private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
         {
             if (ev.SprintId == SprintId)
-                SprintTitle = ev.SprintTitle;
+            {
+                SprintState = ev.SprintState.ToPresentationModel();
+                Subtitle = ev.SprintTitle;
+            }
 
             return Task.CompletedTask;
         }
 
         public override string ToString()
         {
-            return $"{SprintTitle} [{SprintDateInterval}]";
+            return $"{Subtitle} [{SprintDateInterval}]";
         }
     }
 }

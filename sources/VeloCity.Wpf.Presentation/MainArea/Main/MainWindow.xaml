@@ -48,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/HolidaysIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/RefreshIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/ChartIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/SideNavigatorStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -110,251 +111,145 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </ContentControl>
             </customControls:MainFrameControl.PopupContent>-->
 
-            <Grid>
-
-                <TabControl TabStripPlacement="Left">
-
-                    <TabControl.Template>
-                        <ControlTemplate TargetType="{x:Type TabControl}">
-                            <DockPanel>
-
-                                <Border
-                                    DockPanel.Dock="Left"
-                                    BorderThickness="0 0 1 0"
-                                    BorderBrush="{StaticResource BorderBrush}"
-                                    Background="{StaticResource PrimaryDarkBrush}"
-                                    ClipToBounds="True"
-                                    Padding="5 10">
+        <Grid>
 
-                                    <TabPanel
-                                        IsItemsHost="true"
-                                        Background="Transparent" />
-                                </Border>
+            <customControls:SideNavigator>
 
-                                <Border
-                                    BorderThickness="0"
-                                    BorderBrush="{TemplateBinding BorderBrush}">
+                <TabItem>
 
-                                    <ContentPresenter ContentSource="SelectedContent" />
+                    <TabItem.Header>
 
-                                </Border>
+                        <customControls:GenericIcon
+                            Width="40"
+                            Height="40"
+                            Style="{StaticResource SprintIconStyle}">
 
-                            </DockPanel>
-                        </ControlTemplate>
-                    </TabControl.Template>
+                            <Control.Effect>
+                                <DropShadowEffect
+                                    Color="{StaticResource ShadowColor}"
+                                    Direction="0"
+                                    ShadowDepth="0"
+                                    BlurRadius="10" />
+                            </Control.Effect>
 
-                    <TabControl.Resources>
-                        <Style TargetType="{x:Type TabItem}">
+                        </customControls:GenericIcon>
 
-                            <Setter Property="HeaderTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <ContentControl
-                                            Content="{TemplateBinding Content}"
-                                            FontSize="{StaticResource DefaultFontSize}"
-                                            IsTabStop="False">
+                    </TabItem.Header>
 
-                                            <ContentControl.Style>
-                                                <Style TargetType="{x:Type ContentControl}">
-                                                    <Style.Triggers>
+                    <sprints:SprintsPage
+                        DataContext="{Binding SprintsPageViewModel}" />
 
-                                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="True">
-                                                            <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
-                                                            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
-                                                        </DataTrigger>
+                </TabItem>
 
-                                                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=TabItem}}" Value="False">
-                                                            <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}" />
-                                                            <Setter Property="Background" Value="{StaticResource AccentBrush}" />
-                                                        </DataTrigger>
+                <TabItem>
 
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </ContentControl.Style>
-                                        </ContentControl>
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
+                    <TabItem.Header>
 
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <customControls:GenericIcon
+                            Width="40"
+                            Height="40"
+                            Style="{StaticResource TeamIconStyle}">
 
-                                        <Border
-                                            Name="PART_Panel"
-                                            Margin="5"
-                                            CornerRadius="2">
+                            <Control.Effect>
+                                <DropShadowEffect
+                                    Color="{StaticResource ShadowColor}"
+                                    Direction="0"
+                                    ShadowDepth="0"
+                                    BlurRadius="10" />
+                            </Control.Effect>
 
-                                            <ContentPresenter
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Center"
-                                                ContentSource="Header"
-                                                Margin="10" />
+                        </customControls:GenericIcon>
 
-                                        </Border>
+                    </TabItem.Header>
 
-                                        <ControlTemplate.Triggers>
+                    <team:TeamPage
+                        DataContext="{Binding TeamPageViewModel}" />
 
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="PART_Panel" Property="Background" Value="{StaticResource AccentBrush}" />
-                                            </Trigger>
+                </TabItem>
 
-                                            <Trigger Property="IsSelected" Value="False">
-                                                <Setter TargetName="PART_Panel" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
-                                            </Trigger>
+                <TabItem Visibility="Collapsed">
 
-                                            <MultiTrigger>
+                    <TabItem.Header>
 
-                                                <MultiTrigger.Conditions>
-                                                    <Condition Property="IsSelected" Value="False" />
-                                                    <Condition Property="IsMouseOver" Value="True" />
-                                                </MultiTrigger.Conditions>
+                        <customControls:GenericIcon
+                            Width="40"
+                            Height="40"
+                            Style="{StaticResource HolidaysIconStyle}">
 
-                                                <MultiTrigger.Setters>
-                                                    <Setter TargetName="PART_Panel" Property="Background" Value="{StaticResource AccentBrush}" />
-                                                </MultiTrigger.Setters>
+                            <Control.Effect>
+                                <DropShadowEffect
+                                    Color="{StaticResource ShadowColor}"
+                                    Direction="0"
+                                    ShadowDepth="0"
+                                    BlurRadius="10" />
+                            </Control.Effect>
 
-                                            </MultiTrigger>
+                        </customControls:GenericIcon>
 
-                                        </ControlTemplate.Triggers>
+                    </TabItem.Header>
 
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
+                    <holidays:HolidaysPage
+                        DataContext="{Binding TeamPageViewModel}" />
 
-                        </Style>
-                    </TabControl.Resources>
+                </TabItem>
 
-                    <TabItem>
+                <TabItem>
 
-                        <TabItem.Header>
+                    <TabItem.Header>
 
-                            <customControls:GenericIcon
-                                Width="40"
-                                Height="40"
-                                Style="{StaticResource SprintIconStyle}">
+                        <customControls:GenericIcon
+                            Width="40"
+                            Height="40"
+                            Style="{StaticResource ChartIconStyle}">
 
-                                <Control.Effect>
-                                    <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
-                                        Direction="0"
-                                        ShadowDepth="0"
-                                        BlurRadius="10" />
-                                </Control.Effect>
+                            <Control.Effect>
+                                <DropShadowEffect
+                                    Color="{StaticResource ShadowColor}"
+                                    Direction="0"
+                                    ShadowDepth="0"
+                                    BlurRadius="10" />
+                            </Control.Effect>
 
-                            </customControls:GenericIcon>
+                        </customControls:GenericIcon>
 
-                        </TabItem.Header>
+                    </TabItem.Header>
 
-                        <sprints:SprintsPage
-                            DataContext="{Binding SprintsPageViewModel}" />
+                    <charts:ChartsPage
+                        DataContext="{Binding ChartsPageViewModel}" />
 
-                    </TabItem>
+                </TabItem>
 
-                    <TabItem>
+                <customControls:SideNavigator.Buttons>
 
-                        <TabItem.Header>
+                    <Button
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Left"
+                        Padding="10"
+                        Margin="5"
+                        Command="{Binding RefreshCommand}">
 
-                            <customControls:GenericIcon
-                                Width="40"
-                                Height="40"
-                                Style="{StaticResource TeamIconStyle}">
+                        <customControls:GenericIcon
+                            Width="40"
+                            Height="40"
+                            Style="{StaticResource RefreshIconStyle}">
 
-                                <Control.Effect>
-                                    <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
-                                        Direction="0"
-                                        ShadowDepth="0"
-                                        BlurRadius="10" />
-                                </Control.Effect>
+                            <Control.Effect>
+                                <DropShadowEffect
+                                    Color="{StaticResource ShadowColor}"
+                                    Direction="0"
+                                    ShadowDepth="0"
+                                    BlurRadius="10" />
+                            </Control.Effect>
 
-                            </customControls:GenericIcon>
+                        </customControls:GenericIcon>
 
-                        </TabItem.Header>
+                    </Button>
 
-                        <team:TeamPage
-                            DataContext="{Binding TeamPageViewModel}" />
+                </customControls:SideNavigator.Buttons>
 
-                    </TabItem>
+            </customControls:SideNavigator>
 
-                    <TabItem Visibility="Collapsed">
-
-                        <TabItem.Header>
-
-                            <customControls:GenericIcon
-                                Width="40"
-                                Height="40"
-                                Style="{StaticResource HolidaysIconStyle}">
-
-                                <Control.Effect>
-                                    <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
-                                        Direction="0"
-                                        ShadowDepth="0"
-                                        BlurRadius="10" />
-                                </Control.Effect>
-
-                            </customControls:GenericIcon>
-
-                        </TabItem.Header>
-
-                        <holidays:HolidaysPage
-                            DataContext="{Binding TeamPageViewModel}" />
-
-                    </TabItem>
-
-                    <TabItem>
-
-                        <TabItem.Header>
-
-                            <customControls:GenericIcon
-                                Width="40"
-                                Height="40"
-                                Style="{StaticResource ChartIconStyle}">
-
-                                <Control.Effect>
-                                    <DropShadowEffect
-                                        Color="{StaticResource PrimaryColor}"
-                                        Direction="0"
-                                        ShadowDepth="0"
-                                        BlurRadius="10" />
-                                </Control.Effect>
-
-                            </customControls:GenericIcon>
-
-                        </TabItem.Header>
-
-                        <charts:ChartsPage
-                            DataContext="{Binding ChartsPageViewModel}" />
-
-                    </TabItem>
-
-                </TabControl>
-
-                <Button
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Left"
-                    Margin="10 0 0 10"
-                    Padding="10"
-                    Command="{Binding RefreshCommand}">
-
-                    <customControls:GenericIcon
-                        Width="40"
-                        Height="40"
-                        Style="{StaticResource RefreshIconStyle}">
-
-                        <Control.Effect>
-                            <DropShadowEffect
-                                Color="{StaticResource PrimaryColor}"
-                                Direction="0"
-                                ShadowDepth="0"
-                                BlurRadius="10" />
-                        </Control.Effect>
-
-                    </customControls:GenericIcon>
-                </Button>
-
-            </Grid>
+        </Grid>
 
     </DockPanel>
 

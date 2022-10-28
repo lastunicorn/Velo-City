@@ -141,10 +141,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_Panel" Property="CornerRadius" Value="2 2 0 0" />
                             <Setter TargetName="PART_Panel" Property="Background" Value="{StaticResource AccentBrush}" />
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="False">
+                            <Setter TargetName="PART_Panel" Property="CornerRadius" Value="2 2 0 0" />
                             <Setter TargetName="PART_Panel" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
                         </Trigger>
 

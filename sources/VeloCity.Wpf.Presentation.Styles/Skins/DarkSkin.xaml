@@ -21,13 +21,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=System.Runtime">
 
-    <!-- Primary Colors -->
+    <!--
+    ================================================================================================
+    Primary Colors
+    ================================================================================================
+    -->
 
     <Color x:Key="PrimaryColor">#2D2D30</Color>
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}" />
 
     <Color x:Key="PrimaryDarkColor">#252526</Color>
     <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDarkColor}" />
+
+    <Color x:Key="PrimaryDarkestColor">#202020</Color>
+    <SolidColorBrush x:Key="PrimaryDarkestBrush" Color="{StaticResource PrimaryDarkestColor}" />
 
     <Color x:Key="PrimaryLightColor">#3F3F46</Color>
     <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLightColor}" />
@@ -43,9 +50,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
 
-    <!-- Special Colors -->
+    <!--
+    ================================================================================================
+    Special Colors
+    ================================================================================================
+    -->
 
-    <!--<Color x:Key="SuccessColor">LimeGreen</Color>-->
     <Color x:Key="SuccessColor">#6BBA45</Color>
     <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource SuccessColor}" />
 
@@ -61,32 +71,99 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Color x:Key="DisabledColor">#E5E5E5</Color>
     <SolidColorBrush x:Key="DisabledBrush" Color="{StaticResource DisabledColor}" />
 
-    <!-- Border Constants -->
+    <Color x:Key="AbsenceColor">#F9F1A5</Color>
+    <SolidColorBrush x:Key="AbsenceBrush" Color="{StaticResource AbsenceColor}" />
+
+    <!--
+    ================================================================================================
+    Border Constants
+    ================================================================================================
+    -->
 
     <Color x:Key="BorderColor">#3F3F46</Color>
     <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
 
-    <!-- Font Constants -->
+    <Color x:Key="ShadowColor">#2D2D30</Color>
+    <SolidColorBrush x:Key="ShadowBrush" Color="{StaticResource ShadowColor}" />
+
+    <!--
+    ================================================================================================
+    Font Constants
+    ================================================================================================
+    -->
 
     <Color x:Key="FontPrimaryColor">#F1F1F1</Color>
     <SolidColorBrush x:Key="FontPrimaryBrush" Color="{StaticResource FontPrimaryColor}" />
 
+    <!--<Color x:Key="FontDimColor">#8F8F8F</Color>-->
     <Color x:Key="FontDimColor">Gray</Color>
     <SolidColorBrush x:Key="FontDimBrush" Color="{StaticResource FontDimColor}" />
 
     <Color x:Key="FontDisabledColor">#8F8F8F</Color>
     <SolidColorBrush x:Key="FontDisabledBrush" Color="{StaticResource FontDisabledColor}" />
 
+    <Color x:Key="FontAccentColor">#F1F1F1</Color>
+    <SolidColorBrush x:Key="FontAccentBrush" Color="{StaticResource FontAccentColor}" />
+
     <system:Double x:Key="DefaultFontSize">14</system:Double>
 
     <FontFamily x:Key="DefaultFontFamily">OpenSans</FontFamily>
 
-    <!-- Icon Constants -->
+    <!--
+    ================================================================================================
+    Side Navigator
+    ================================================================================================
+    -->
+
+    <Color x:Key="UnselectedNavigatorItemColor">#3F3F46</Color>
+    <SolidColorBrush x:Key="UnselectedNavigatorItemBrush" Color="{StaticResource UnselectedNavigatorItemColor}" />
+
+    <!--
+    ================================================================================================
+    Tab Constants
+    ================================================================================================
+    -->
+
+    <Color x:Key="SelectedTabFontColor">#F1F1F1</Color>
+    <SolidColorBrush x:Key="SelectedTabFontBrush" Color="{StaticResource SelectedTabFontColor}" />
+
+    <Color x:Key="UnselectedTabColor">#3F3F46</Color>
+    <SolidColorBrush x:Key="UnselectedTabBrush" Color="{StaticResource UnselectedTabColor}" />
+
+    <!--
+    ================================================================================================
+    ScrollBar
+    ================================================================================================
+    -->
+
+    <Color x:Key="ScrollThumbColor">#686868</Color>
+    <SolidColorBrush x:Key="ScrollThumbBrush" Color="{StaticResource ScrollThumbColor}" />
+
+    <Color x:Key="ScrollBarBackgroundColor">#3E3E42</Color>
+    <SolidColorBrush x:Key="ScrollBarBackgroundBrush" Color="{StaticResource ScrollBarBackgroundColor}" />
+
+    <Color x:Key="ScrollBarBorderColor">#3E3E42</Color>
+    <SolidColorBrush x:Key="ScrollBarBorderBrush" Color="{StaticResource ScrollBarBorderColor}" />
+
+    <!--
+    ================================================================================================
+    Icon Constants
+    ================================================================================================
+    -->
 
     <Color x:Key="IconPrimaryColor">#C7C7C7</Color>
     <SolidColorBrush x:Key="IconPrimaryBrush" Color="{StaticResource IconPrimaryColor}" />
 
     <Color x:Key="IconDisabledColor">#4E4E50</Color>
     <SolidColorBrush x:Key="IconDisabledBrush" Color="{StaticResource IconDisabledColor}" />
+
+    <!--
+    ================================================================================================
+    Sprint Calendar
+    ================================================================================================
+    -->
+
+    <Color x:Key="SprintCalendarInfoIconColor">Chocolate</Color>
+    <SolidColorBrush x:Key="SprintCalendarInfoIconBrush" Color="{StaticResource SprintCalendarInfoIconColor}" />
 
 </ResourceDictionary>

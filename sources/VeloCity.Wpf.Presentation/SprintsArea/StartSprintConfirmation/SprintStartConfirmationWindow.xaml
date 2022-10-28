@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </Window.Style>
 
     <customControls:OkCancelWindow.TitleIcon>
-        <customControls:GenericIcon Style="{StaticResource StartIconStyle}"/>
+        <customControls:GenericIcon Style="{StaticResource StartIconStyle}" />
     </customControls:OkCancelWindow.TitleIcon>
 
     <Grid>
@@ -84,7 +84,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Text="{Binding EstimatedStoryPoints, StringFormat=standard}"
             MinHeight="35"
             VerticalAlignment="Center"
-            FontSize="20"/>
+            FontSize="20" />
 
         <Label
             Grid.Row="1"
@@ -108,7 +108,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Grid.ColumnSpan="3"
             Height="2"
             Background="{StaticResource BorderBrush}"
-            VerticalAlignment="Center"/>
+            VerticalAlignment="Center" />
 
         <Label
             Grid.Row="3"
