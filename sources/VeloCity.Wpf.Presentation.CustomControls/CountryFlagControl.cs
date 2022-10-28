@@ -37,7 +37,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
                 {
                     string newCountryCodeUpperCase = newCountryCode.ToUpper();
 
-                    Uri resourceUri = new($"Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Themes/CountryFlags/{newCountryCodeUpperCase}.xaml");
+                    Uri resourceUri = new($"Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CountryFlags/{newCountryCodeUpperCase}.xaml");
                     string resourceName = "CountryFlag_" + newCountryCodeUpperCase;
 
                     try

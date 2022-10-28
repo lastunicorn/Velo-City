@@ -1,0 +1,42 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/GenericIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Geometry x:Key="AddVacationIconGeometry">
+        M 196 0 C 184.92001 -4.7369468e-15 176 8.9200114 176 20 L 176 176 L 20 176 C 8.9200111 176 0 184.92001 0 196 L 0 316 C 0 327.07999 8.9200111 336 20 336 L 176 336 L 176 492 C 176 503.07999 184.92001 512 196 512 L 316 512 C 327.07999 512 336 503.07999 336 492 L 336 336 L 492 336 C 503.07999 336 512 327.07999 512 316 L 512 196 C 512 184.92001 503.07999 176 492 176 L 336 176 L 336 20 C 336 8.9200114 327.07999 0 316 0 L 196 0 z
+    </Geometry>
+
+    <Style
+        x:Key="AddVacationIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Geometry" Value="{StaticResource AddVacationIconGeometry}" />
+
+    </Style>
+
+</ResourceDictionary>

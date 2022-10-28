@@ -1,0 +1,44 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/GenericIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style
+        x:Key="RefreshIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Geometry">
+            <Setter.Value>
+                <Geometry>
+                    M 125,10 C 61.665242,10 10,61.665239 10,125 h 30 c 0,-47.121638 37.878358,-85 85,-85 14.9191,0 28.90245,3.809953 41.05859,10.496094 l -15.66406,12.183594 c -5.43125,4.226219 -4.25168,12.747042 2.12305,15.339843 l 33.31054,13.542969 33.3125,13.54102 c 6.37618,2.59164 13.16547,-2.68999 12.22266,-9.507817 l -4.92773,-35.619141 -4.92774,-35.61914 c -0.94438,-6.817266 -8.91301,-10.057243 -14.3457,-5.832031 l -16.0957,12.519531 C 172.34724,17.825029 149.57135,10 125,10 Z m 76.45117,115 c 0,47.12164 -37.87836,85 -85,85 -14.91909,0 -28.902444,-3.80996 -41.058592,-10.49609 l 15.664063,-12.1836 c 5.431254,-4.22621 4.251676,-12.74704 -2.123047,-15.33984 L 55.623047,158.4375 22.310547,144.89648 c -6.376174,-2.59164 -13.1654657,2.68998 -12.222656,9.50782 l 4.927734,35.61914 4.927734,35.61914 c 0.944379,6.81726 8.913009,10.05724 14.345703,5.83203 L 50.384766,218.95508 C 69.103927,232.17496 91.879828,240 116.45117,240 c 63.33476,0 115,-51.66524 115,-115 z
+                </Geometry>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>

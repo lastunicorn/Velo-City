@@ -1,0 +1,445 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/InfoIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="CountryFlag_IN">
+        <Viewbox Stretch="Uniform">
+            <Canvas Height="150" Width="225">
+                <Rectangle Width="225" Height="150" Fill="#f93" />
+                <Rectangle Width="225" Height="50" Canvas.Top="50" Fill="#fff" />
+                <Rectangle Width="225" Height="50" Canvas.Top="100" Fill="#128807" />
+                <Canvas Height="150" Width="225">
+                    <Canvas.RenderTransform>
+                        <TransformGroup>
+                            <TranslateTransform X="112.5" Y="75" />
+                        </TransformGroup>
+                    </Canvas.RenderTransform>
+                    <Ellipse Width="40" Height="40" Fill="#000088" Canvas.Left="-20" Canvas.Top="-20" />
+                    <Ellipse Width="35" Height="35" Fill="#ffffff" Canvas.Left="-17.5" Canvas.Top="-17.5" />
+                    <Ellipse Width="7" Height="7" Fill="#000088" Canvas.Left="-3.5" Canvas.Top="-3.5" />
+                    <Canvas>
+                        <Canvas>
+                            <Canvas>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                            <Canvas>
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="30" />
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                        </Canvas>
+                        <Canvas>
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="60" />
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Canvas>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                            <Canvas>
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="30" />
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                        </Canvas>
+                    </Canvas>
+                    <Canvas>
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="120" />
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                        <Canvas>
+                            <Canvas>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                            <Canvas>
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="30" />
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                        </Canvas>
+                        <Canvas>
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="60" />
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Canvas>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                            <Canvas>
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="30" />
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                        </Canvas>
+                    </Canvas>
+                    <Canvas>
+                        <Canvas.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="-120" />
+                            </TransformGroup>
+                        </Canvas.RenderTransform>
+                        <Canvas>
+                            <Canvas>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                            <Canvas>
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="30" />
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                        </Canvas>
+                        <Canvas>
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="60" />
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Canvas>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                            <Canvas>
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="30" />
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Canvas>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                                <Canvas>
+                                    <Canvas.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="15" />
+                                        </TransformGroup>
+                                    </Canvas.RenderTransform>
+                                    <Ellipse Width="1.75" Height="1.75" Fill="#000088" Canvas.Left="-0.875" Canvas.Top="-0.875">
+                                        <Ellipse.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="7.5" />
+                                            </TransformGroup>
+                                        </Ellipse.RenderTransform>
+                                    </Ellipse>
+                                    <Path Fill="#000088" Data="M 0,17.5 0.6,7 C 0.6,7 0,2 0,2 0,2 -0.6,7 -0.6,7 Z" />
+                                </Canvas>
+                            </Canvas>
+                        </Canvas>
+                    </Canvas>
+                </Canvas>
+            </Canvas>
+        </Viewbox>
+    </ControlTemplate>
+
+</ResourceDictionary>

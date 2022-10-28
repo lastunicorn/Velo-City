@@ -30,79 +30,79 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="Themes\CountryFlags\RO.xaml">
+      <Page Update="CountryFlags\RO.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CountryFlags\IN.xaml">
+      <Page Update="CountryFlags\IN.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\OfficialHolidayAbsenceControlStyles.xaml">
+      <Page Update="CustomControls\OfficialHolidayAbsenceControlStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\TeamMemberAbsenceControlStyles.xaml">
+      <Page Update="CustomControls\TeamMemberAbsenceControlStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\OkCancelPopupStyles.xaml">
+      <Page Update="CustomControls\OkCancelPopupStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\Icons\RemoveVacationIconStyles.xaml">
+      <Page Update="Icons\RemoveVacationIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\Icons\FourDotsIconStyles.xaml">
+      <Page Update="Icons\FourDotsIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
-      <Page Update="Themes\Icons\InfoPartialVacationIconStyles.xaml">
-        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-        <SubType>Designer</SubType>
-      </Page>
-      <Page Update="Themes\CustomControls\InfoPointStyles.xaml">
-        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      </Page>
-      <Page Update="Themes\Icons\RefreshIconStyles.xaml">
+      <Page Update="Icons\InfoPartialVacationIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\Icons\CloseIconStyles.xaml">
+      <Page Update="CustomControls\InfoPointStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
+      <Page Update="Icons\RefreshIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\IconButtonStyles.xaml">
+      <Page Update="Icons\CloseIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\CustomControls\SprintStateControlStyles.xaml">
+      <Page Update="CustomControls\IconButtonStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\Icons\StartIconStyles.xaml">
-        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      </Page>
-      <Page Update="Themes\Icons\HolidaysIconStyles.xaml">
+      <Page Update="CustomControls\SprintStateControlStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\Icons\ChartIconStyles.xaml">
+      <Page Update="Icons\StartIconStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
+      <Page Update="Icons\HolidaysIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\Icons\AddVacationIconStyles.xaml">
+      <Page Update="Icons\ChartIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\Icons\TeamMemberIconStyles.xaml">
+      <Page Update="Icons\AddVacationIconStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Themes\StandardControls\Buttons\XButtonStyles.xaml">
+      <Page Update="Icons\TeamMemberIconStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="StandardControls\Buttons\XButtonStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
-      <Page Update="Themes\StandardControls\Buttons\ToolBarButtonStyles.xaml">
+      <Page Update="StandardControls\Buttons\ToolBarButtonStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
     </ItemGroup>

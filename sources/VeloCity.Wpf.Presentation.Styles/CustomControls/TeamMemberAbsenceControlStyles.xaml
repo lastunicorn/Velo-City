@@ -1,0 +1,119 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/InfoPointStyles.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/InfoContrctIconStyles.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/InfoPartialVacationIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+    <Style TargetType="{x:Type customControls:TeamMemberAbsenceControl}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControls:TeamMemberAbsenceControl}">
+                    <StackPanel Orientation="Horizontal">
+
+                        <ContentPresenter />
+
+                        <customControls:InfoPoint
+                            IconGeometry="{StaticResource InfoContractIconGeometry}"
+                            Visibility="{Binding IsMissingByContract, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            IconForeground="Chocolate"
+                            Margin="5 0 0 0">
+
+                            <customControls:InfoPoint.InfoContent>
+                                <customControls:ParagraphsBlock>
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <customControls:GenericIcon
+                                            Style="{StaticResource InfoContractIconStyle}"
+                                            Width="12"
+                                            Height="12"
+                                            Margin="0 0 10 0"
+                                            Foreground="Chocolate" />
+
+                                        <TextBlock
+                                            Text="Absent by contract"
+                                            FontSize="15"/>
+
+                                    </StackPanel>
+
+                                    <TextBlock
+                                        Text="The user is not working in this day, according to their contract."
+                                        FontSize="13" />
+
+                                </customControls:ParagraphsBlock>
+                            </customControls:InfoPoint.InfoContent>
+
+                        </customControls:InfoPoint>
+
+                        <customControls:InfoPoint
+                            IconGeometry="{StaticResource InfoPartialVacationIconGeometry}"
+                            Visibility="{Binding IsPartialVacation, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            IconForeground="Chocolate"
+                            Margin="5 0 0 0">
+
+                            <customControls:InfoPoint.InfoContent>
+                                <customControls:ParagraphsBlock>
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <customControls:GenericIcon
+                                            Style="{StaticResource InfoPartialVacationIconStyle}"
+                                            Width="12"
+                                            Height="12"
+                                            Margin="0 0 10 0"
+                                            Foreground="Chocolate" />
+
+                                        <TextBlock
+                                            Text="Partial-day vacation"
+                                            FontSize="15"/>
+
+                                    </StackPanel>
+
+                                    <TextBlock FontSize="13">
+                                        <Run Text="The team member is missing" />
+                                        <Run Text="{Binding AbsenceHours, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        <Run Text="hours." />
+                                    </TextBlock>
+
+                                </customControls:ParagraphsBlock>
+                            </customControls:InfoPoint.InfoContent>
+
+                        </customControls:InfoPoint>
+
+                        <TextBlock x:Name="Separator" Text="   " />
+
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>

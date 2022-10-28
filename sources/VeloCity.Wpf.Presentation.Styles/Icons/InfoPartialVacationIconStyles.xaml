@@ -1,0 +1,43 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/GenericIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Geometry x:Key="InfoPartialVacationIconGeometry">
+        M 256 0 C 114.9523 1.8595155e-06 1.8595156e-06 114.9523 0 256 C 0 397.04771 114.95229 512 256 512 C 397.04771 512 512 397.04771 512 256 C 512 114.95229 397.04771 0 256 0 z M 396.91992 115.08008 C 432.90986 151.07002 455.11133 200.84864 455.11133 256 C 455.11133 366.30272 366.30272 455.11133 256 455.11133 C 200.84864 455.11133 151.07002 432.90986 115.08008 396.91992 L 149.96094 362.03906 L 181.01953 330.98047 L 330.98047 181.01953 L 362.03906 149.96094 L 396.91992 115.08008 z
+    </Geometry>
+
+    <Style
+        x:Key="InfoPartialVacationIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Foreground" Value="CornflowerBlue" />
+        <Setter Property="Geometry" Value="{StaticResource InfoPartialVacationIconGeometry}" />
+
+    </Style>
+
+</ResourceDictionary>

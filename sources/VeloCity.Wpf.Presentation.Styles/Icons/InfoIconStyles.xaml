@@ -1,0 +1,43 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/GenericIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Geometry x:Key="InfoIconGeometry">
+        M 256 0 C 115.04134 0 0 115.04133 0 256 C 0 396.95867 115.04134 512 256 512 C 396.95866 512 512 396.95867 512 256 C 512 115.04133 396.95866 0 256 0 z M 256 71.923828 C 358.08823 71.923828 440.07617 153.91176 440.07617 256 C 440.07617 358.08824 358.08823 440.07617 256 440.07617 C 153.91177 440.07617 71.923828 358.08824 71.923828 256 C 71.923828 153.91176 153.91177 71.923828 256 71.923828 z M 224 112 L 224 176 L 288 176 L 288 112 L 224 112 z M 224 208 L 224 400 L 288 400 L 288 208 L 224 208 z
+    </Geometry>
+
+    <Style
+        x:Key="InfoIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Foreground" Value="{StaticResource InfoBrush}" />
+        <Setter Property="Geometry" Value="{StaticResource InfoIconGeometry}" />
+
+    </Style>
+
+</ResourceDictionary>
