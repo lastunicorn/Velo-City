@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.CanStartSprint;
-using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 

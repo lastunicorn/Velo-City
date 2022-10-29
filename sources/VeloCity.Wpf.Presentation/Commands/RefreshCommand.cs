@@ -17,7 +17,7 @@
 using System;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Wpf.Application.Refresh;
+using DustInTheWind.VeloCity.Wpf.Application.Reload;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 {
@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 
         public void Execute(object parameter)
         {
-            RefreshRequest request = new();
+            ReloadRequest request = new();
             _ = requestBus.Send(request);
         }
     }
