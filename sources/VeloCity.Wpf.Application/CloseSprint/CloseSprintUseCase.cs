@@ -117,6 +117,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
             SprintUpdatedEvent sprintUpdatedEvent = new()
             {
                 SprintId = sprint.Id,
+                SprintNumber = sprint.Number,
+                SprintTitle = sprint.Title,
                 SprintState = sprint.State,
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 SprintGoal = sprint.Goal,

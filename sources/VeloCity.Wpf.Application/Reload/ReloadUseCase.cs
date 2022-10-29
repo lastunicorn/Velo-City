@@ -21,20 +21,20 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.Refresh
+namespace DustInTheWind.VeloCity.Wpf.Application.Reload
 {
-    public class RefreshUseCase : IRequestHandler<RefreshRequest, Unit>
+    public class ReloadUseCase : IRequestHandler<ReloadRequest, Unit>
     {
         private readonly EventBus eventBus;
         private readonly IDataStorage dataStorage;
 
-        public RefreshUseCase(EventBus eventBus, IDataStorage dataStorage)
+        public ReloadUseCase(EventBus eventBus, IDataStorage dataStorage)
         {
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
             this.dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
         }
 
-        public async Task<Unit> Handle(RefreshRequest request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ReloadRequest request, CancellationToken cancellationToken)
         {
             try
             {

@@ -21,7 +21,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirm
     public class SprintStartConfirmationViewModel : ViewModelBase
     {
         private string title;
-        private string sprintName;
         private int sprintNumber;
         private StoryPoints estimatedStoryPoints;
         private StoryPoints commitmentStoryPoints;
@@ -37,18 +36,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirm
                 OnPropertyChanged();
             }
         }
-
-        public string SprintName
-        {
-            get => sprintName;
-            set
-            {
-                sprintName = value;
-
-                RefreshTitle();
-            }
-        }
-
+        
         public int SprintNumber
         {
             get => sprintNumber;
