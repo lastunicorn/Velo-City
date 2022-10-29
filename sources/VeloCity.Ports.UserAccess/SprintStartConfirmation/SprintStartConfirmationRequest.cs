@@ -20,7 +20,7 @@ namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation
 {
     public class SprintStartConfirmationRequest
     {
-        public string SprintName { get; set; }
+        public string SprintTitle { get; set; }
 
         public int SprintNumber { get; set; }
         

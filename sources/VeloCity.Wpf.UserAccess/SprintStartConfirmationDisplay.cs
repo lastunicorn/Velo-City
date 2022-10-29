@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Wpf.UserAccess
         {
             SprintStartConfirmationViewModel viewModel = new()
             {
-                SprintName = request.SprintName,
+                SprintTitle = request.SprintTitle,
                 SprintNumber = request.SprintNumber,
                 EstimatedStoryPoints = request.EstimatedStoryPoints,
                 CommitmentStoryPoints = request.CommitmentStoryPoints,

@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     mc:Ignorable="d"
     Title="{Binding Title}"
-    Subtitle="{Binding SprintName}"
+    Subtitle="{Binding SprintTitle, Mode=OneWay}"
     WindowStartupLocation="CenterOwner"
     d:DataContext="{d:DesignInstance startSprintConfirmation:SprintStartConfirmationViewModel}"
     Width="800"
