@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/LabeledContentStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/PanelWithTitleStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/CountryFlagControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
@@ -48,27 +49,64 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             ItemsSource="{Binding Employments}"
             Grid.IsSharedSizeScope="True">
 
+            <ItemsControl.ItemContainerStyleSelector>
+                <customControls:ListItemStyleSelector>
+
+                    <customControls:ListItemStyleSelector.FirstItemStyle>
+                        <Style>
+                            <Setter Property="Control.Margin" Value="0" />
+                        </Style>
+                    </customControls:ListItemStyleSelector.FirstItemStyle>
+
+                    <customControls:ListItemStyleSelector.NormalItemStyle>
+                        <Style>
+                            <Setter Property="Control.Margin" Value="0 20 0 0" />
+                        </Style>
+                    </customControls:ListItemStyleSelector.NormalItemStyle>
+
+                    <customControls:ListItemStyleSelector.LastItemStyle>
+                        <Style>
+                            <Setter Property="Control.Margin" Value="0 20 0 0" />
+                        </Style>
+                    </customControls:ListItemStyleSelector.LastItemStyle>
+
+                </customControls:ListItemStyleSelector>
+            </ItemsControl.ItemContainerStyleSelector>
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
 
                     <customControls:PanelWithTitle
-                        Title="{Binding TimeInterval}"
-                        Margin="0 0 0 20">
+                        Title="{Binding TimeInterval}">
 
                         <StackPanel
                             HorizontalAlignment="Stretch"
                             Orientation="Vertical">
 
-                            <customControls:LabeledContent Label="Hours per day">
+                            <customControls:LabeledContent
+                                Label="Hours per day"
+                                Margin="0 4 0 0">
+
                                 <TextBlock Text="{Binding HoursPerDay}" />
                             </customControls:LabeledContent>
 
-                            <customControls:LabeledContent Label="Employment week">
+                            <customControls:LabeledContent
+                                Label="Employment week"
+                                Margin="0 4 0 0">
+
                                 <TextBlock Text="{Binding EmploymentWeek}" />
                             </customControls:LabeledContent>
 
-                            <customControls:LabeledContent Label="Country">
-                                <TextBlock Text="{Binding Country}" />
+                            <customControls:LabeledContent
+                                Label="Country"
+                                Margin="0 4 0 0">
+
+                                <customControls:CountryFlagControl
+                                    CountryCode="{Binding Country}"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource BorderBrush}"
+                                    Height="16"
+                                    VerticalAlignment="Center"/>
                             </customControls:LabeledContent>
 
                         </StackPanel>

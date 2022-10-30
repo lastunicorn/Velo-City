@@ -40,11 +40,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <Border
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            BorderBrush="{TemplateBinding BorderBrush}">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            VerticalAlignment="Center">
 
                             <Control
                                 Height="{TemplateBinding Height}"
-                                Template="{TemplateBinding FlagTemplate}" />
+                                Template="{TemplateBinding FlagTemplate}"
+                                VerticalAlignment="Center"/>
                         </Border>
 
                     </StackPanel>
