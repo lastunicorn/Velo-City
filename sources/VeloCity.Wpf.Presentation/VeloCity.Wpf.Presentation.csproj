@@ -43,6 +43,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Update="ChartsArea\CapacityChart\CapacityChartControl.xaml.cs">
+          <SubType>Code</SubType>
+        </Compile>
         <Compile Update="ChartsArea\VelocityChart\VelocityChartControl.xaml.cs">
           <SubType>Code</SubType>
         </Compile>
@@ -52,6 +55,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+        <Page Update="ChartsArea\CapacityChart\CapacityChartControl.xaml">
+          <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+          <SubType>Designer</SubType>
+        </Page>
         <Page Update="ChartsArea\VelocityChart\VelocityChartControl.xaml">
           <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
           <SubType>Designer</SubType>

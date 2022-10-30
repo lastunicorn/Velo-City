@@ -26,7 +26,8 @@ namespace DustInTheWind.VeloCity.Wpf.UserAccess
             SprintCloseConfirmationViewModel viewModel = new()
             {
                 SprintName = request.SprintName,
-                SprintNumber = request.SprintNumber
+                SprintNumber = request.SprintNumber,
+                Comments = request.Comments
             };
 
             SprintCloseConfirmationWindow window = new()

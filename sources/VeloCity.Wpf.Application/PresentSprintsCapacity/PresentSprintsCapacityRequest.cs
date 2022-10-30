@@ -14,14 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation
+using MediatR;
+
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity
 {
-    public class SprintCloseConfirmationRequest
+    public class PresentSprintsCapacityRequest : IRequest<PresentSprintsCapacityResponse>
     {
-        public string SprintName { get; set; }
-
-        public int SprintNumber { get; set; }
-
-        public string Comments { get; set; }
+        public uint? SprintCount { get; set; }
     }
 }

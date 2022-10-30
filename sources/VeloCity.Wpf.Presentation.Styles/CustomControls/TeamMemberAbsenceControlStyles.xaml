@@ -68,7 +68,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     </StackPanel>
 
                                     <TextBlock
-                                        Text="The user is not working in this day, according to their contract."
+                                        Text="The team member is not working in this day, according to their contract."
                                         FontSize="13" />
 
                                 </customControls:ParagraphsBlock>
