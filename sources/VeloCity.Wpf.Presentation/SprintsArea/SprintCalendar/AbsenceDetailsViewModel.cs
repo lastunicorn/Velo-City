@@ -13,22 +13,15 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// using System;
 
-using DustInTheWind.VeloCity.Domain;
+using System.Collections.ObjectModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
-    public class TeamMemberAbsence
+    public class AbsenceDetailsViewModel
     {
-        public string Name { get; init; }
+        public ObservableCollection<OfficialHolidayAbsenceViewModel> OfficialHolidayAbsences { get; set; }
 
-        public bool IsPartialVacation { get; init; }
-
-        public bool IsMissingByContract { get; init; }
-        
-        public OfficialHolidayAbsence OfficialHoliday { get; init; }
-        
-        public HoursValue AbsenceHours { get; init; }
+        public ObservableCollection<TeamMemberAbsenceViewModel> TeamMemberAbsences { get; set; }
     }
 }

@@ -15,7 +15,9 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
@@ -47,10 +49,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         public HoursValue? AbsenceHours { get; }
 
         public bool HasAbsenceHours => AbsenceHours?.Value > 0;
-
-        public ObservableCollection<TeamMemberAbsenceViewModel> TeamMemberAbsences { get; }
-
-        public ObservableCollection<OfficialHolidayAbsenceViewModel> OfficialHolidayAbsences { get; }
+        
+        public List<AbsenceDetailsViewModel> Absences { get; }
 
         public SprintCalendarDayViewModel(SprintCalendarDay sprintCalendarDay)
         {
@@ -58,8 +58,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
             IsWorkDay = sprintCalendarDay.IsWorkDay;
             WorkHours = sprintCalendarDay.WorkHours;
             AbsenceHours = sprintCalendarDay.AbsenceHours;
-            TeamMemberAbsences = new ObservableCollection<TeamMemberAbsenceViewModel>(sprintCalendarDay.TeamMemberAbsences.ToViewModels());
-            OfficialHolidayAbsences = new ObservableCollection<OfficialHolidayAbsenceViewModel>(sprintCalendarDay.OfficialHolidayAbsences.ToViewModels());
+            Absences = sprintCalendarDay.TeamMemberAbsences
+                .GroupBy(x => x.OfficialHoliday)
+                .OrderByDescending(x => x.Key?.HolidayCountry)
+                .Select(x => new AbsenceDetailsViewModel
+                {
+                    OfficialHolidayAbsences = x.Key != null
+                        ? new ObservableCollection<OfficialHolidayAbsenceViewModel> { new OfficialHolidayAbsenceViewModel(x.Key) }
+                        : null,
+                    TeamMemberAbsences = x
+                        .Select(z => new TeamMemberAbsenceViewModel(z))
+                        .ToObservableCollection()
+                })
+                .ToList();
         }
     }
 }

@@ -128,7 +128,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <Border
                         Name="PART_Panel"
-                        Margin="0">
+                        Margin="0"
+                        CornerRadius="2 2 0 0">
 
                         <ContentPresenter
                             VerticalAlignment="Center"

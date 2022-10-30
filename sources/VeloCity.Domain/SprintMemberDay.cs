@@ -152,6 +152,16 @@ namespace DustInTheWind.VeloCity.Domain
                 : null;
         }
 
+        public Employment GetEmployment()
+        {
+            return TeamMember.Employments?.GetEmploymentFor(SprintDay.Date);
+        }
+
+        public string GetCountry()
+        {
+            return GetEmployment()?.Country;
+        }
+
         public override string ToString()
         {
             return $"{SprintDay.Date} - {TeamMember.Name.FullName}";

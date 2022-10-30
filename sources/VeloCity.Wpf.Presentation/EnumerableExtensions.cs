@@ -13,22 +13,17 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// using System;
 
-using DustInTheWind.VeloCity.Domain;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation
 {
-    public class TeamMemberAbsence
+    internal static class EnumerableExtensions
     {
-        public string Name { get; init; }
-
-        public bool IsPartialVacation { get; init; }
-
-        public bool IsMissingByContract { get; init; }
-        
-        public OfficialHolidayAbsence OfficialHoliday { get; init; }
-        
-        public HoursValue AbsenceHours { get; init; }
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> enumerable)
+        {
+            return new ObservableCollection<T>(enumerable);
+        }
     }
 }
