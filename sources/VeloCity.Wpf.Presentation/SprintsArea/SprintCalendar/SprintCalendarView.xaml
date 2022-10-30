@@ -138,32 +138,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <customControls:AbsenceDetailsControl
-                                ItemsSource="{Binding TeamMemberAbsences}"
-                                OfficialHolidays="{Binding OfficialHolidayAbsences}">
+                            <ItemsControl ItemsSource="{Binding Absences}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
 
-                                <customControls:AbsenceDetailsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type sprintCalendar:TeamMemberAbsenceViewModel}">
+                                        <customControls:AbsenceDetailsControl
+                                            ItemsSource="{Binding TeamMemberAbsences}"
+                                            OfficialHolidays="{Binding OfficialHolidayAbsences}"
+                                            Margin="0 2">
 
-                                        <customControls:TeamMemberAbsenceControl
-                                            IsPartialVacation="{Binding IsPartialVacation}"
-                                            IsMissingByContract="{Binding IsMissingByContract}"
-                                            AbsenceHours="{Binding AbsenceHours}"
-                                            Content="{Binding Name}" />
+                                            <customControls:AbsenceDetailsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type sprintCalendar:TeamMemberAbsenceViewModel}">
+
+                                                    <customControls:TeamMemberAbsenceControl
+                                                        IsPartialVacation="{Binding IsPartialVacation}"
+                                                        IsMissingByContract="{Binding IsMissingByContract}"
+                                                        AbsenceHours="{Binding AbsenceHours}"
+                                                        Content="{Binding Name}" />
+
+                                                </DataTemplate>
+                                            </customControls:AbsenceDetailsControl.ItemTemplate>
+
+                                            <customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
+                                                <DataTemplate DataType="{x:Type sprintCalendar:OfficialHolidayAbsenceViewModel}">
+                                                    <customControls:OfficialHolidayAbsenceControl
+                                                        HolidayName="{Binding HolidayName}"
+                                                        HolidayCountry="{Binding HolidayCountry}"
+                                                        HolidayDescription="{Binding HolidayDescription}"/>
+                                                </DataTemplate>
+                                            </customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
+
+                                        </customControls:AbsenceDetailsControl>
 
                                     </DataTemplate>
-                                </customControls:AbsenceDetailsControl.ItemTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
 
-                                <customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
-                                    <DataTemplate DataType="{x:Type sprintCalendar:OfficialHolidayAbsenceViewModel}">
-                                        <customControls:OfficialHolidayAbsenceControl
-                                            HolidayName="{Binding HolidayName}"
-                                            HolidayCountry="{Binding HolidayCountry}"
-                                            HolidayDescription="{Binding HolidayDescription}"/>
-                                    </DataTemplate>
-                                </customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
-
-                            </customControls:AbsenceDetailsControl>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
