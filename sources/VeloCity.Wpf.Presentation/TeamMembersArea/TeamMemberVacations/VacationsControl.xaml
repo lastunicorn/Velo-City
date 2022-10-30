@@ -38,7 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/PanelWithTitleStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -46,23 +45,69 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ItemsControl
             ItemsSource="{Binding VacationGroups}">
 
+            <ItemsControl.ItemContainerStyleSelector>
+                <customControls:ListItemStyleSelector>
+
+                    <customControls:ListItemStyleSelector.FirstItemStyle>
+                        <Style>
+                            <Setter Property="Control.Margin" Value="0" />
+                        </Style>
+                    </customControls:ListItemStyleSelector.FirstItemStyle>
+
+                    <customControls:ListItemStyleSelector.NormalItemStyle>
+                        <Style>
+                            <Setter Property="Control.Margin" Value="0 20 0 0" />
+                        </Style>
+                    </customControls:ListItemStyleSelector.NormalItemStyle>
+
+                    <customControls:ListItemStyleSelector.LastItemStyle>
+                        <Style>
+                            <Setter Property="Control.Margin" Value="0 20 0 0" />
+                        </Style>
+                    </customControls:ListItemStyleSelector.LastItemStyle>
+
+                </customControls:ListItemStyleSelector>
+            </ItemsControl.ItemContainerStyleSelector>
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
 
                     <customControls:PanelWithTitle
-                        Title="{Binding Month}"
-                        Margin="0 0 0 20">
+                        Title="{Binding Month}">
 
                         <ItemsControl ItemsSource="{Binding Vacations}">
+
+                            <ItemsControl.ItemContainerStyleSelector>
+                                <customControls:ListItemStyleSelector>
+
+                                    <customControls:ListItemStyleSelector.FirstItemStyle>
+                                        <Style>
+                                            <Setter Property="Control.Margin" Value="0" />
+                                        </Style>
+                                    </customControls:ListItemStyleSelector.FirstItemStyle>
+
+                                    <customControls:ListItemStyleSelector.NormalItemStyle>
+                                        <Style>
+                                            <Setter Property="Control.Margin" Value="0 10 0 0" />
+                                        </Style>
+                                    </customControls:ListItemStyleSelector.NormalItemStyle>
+
+                                    <customControls:ListItemStyleSelector.LastItemStyle>
+                                        <Style>
+                                            <Setter Property="Control.Margin" Value="0 10 0 0" />
+                                        </Style>
+                                    </customControls:ListItemStyleSelector.LastItemStyle>
+
+                                </customControls:ListItemStyleSelector>
+                            </ItemsControl.ItemContainerStyleSelector>
+
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <ContentControl Content="{Binding}">
                                         <ContentControl.Resources>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationOnceViewModel}">
-                                                <StackPanel
-                                                    Orientation="Horizontal"
-                                                    Margin="0 0 0 10">
+                                                <StackPanel Orientation="Horizontal">
 
                                                     <TextBlock
                                                         Text="Day:"
@@ -75,13 +120,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                         Text="{Binding HourCount}"
                                                         VerticalAlignment="Center"
                                                         Margin="10 0 0 0" />
+
                                                 </StackPanel>
                                             </DataTemplate>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationDailyViewModel}">
-                                                <StackPanel
-                                                    Orientation="Horizontal"
-                                                    Margin="0 0 0 10">
+                                                <StackPanel Orientation="Horizontal">
 
                                                     <TextBlock
                                                         Text="Interval:"
@@ -93,13 +137,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                         Text="{Binding HourCount}"
                                                         VerticalAlignment="Center"
                                                         Margin="10 0 0 0" />
+
                                                 </StackPanel>
                                             </DataTemplate>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationWeeklyViewModel}">
-                                                <StackPanel
-                                                    Orientation="Horizontal"
-                                                    Margin="0 0 0 10">
+                                                <StackPanel Orientation="Horizontal">
+
                                                     <TextBlock
                                                         Text="Weekly:"
                                                         Margin="0 0 10 0" />
@@ -136,13 +180,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                         Text="{Binding HourCount}"
                                                         VerticalAlignment="Center"
                                                         Margin="10 0 0 0" />
+
                                                 </StackPanel>
                                             </DataTemplate>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationMonthlyViewModel}">
-                                                <StackPanel
-                                                    Orientation="Horizontal"
-                                                    Margin="0 0 0 10">
+                                                <StackPanel Orientation="Horizontal">
 
                                                     <TextBlock Text="Monthly: " />
                                                     <TextBlock Text="{Binding MonthDays}" />
@@ -152,13 +195,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                         Text="{Binding HourCount}"
                                                         VerticalAlignment="Center"
                                                         Margin="10 0 0 0" />
+
                                                 </StackPanel>
                                             </DataTemplate>
 
                                             <DataTemplate DataType="{x:Type teamMemberVacations:VacationYearlyViewModel}">
-                                                <StackPanel
-                                                    Orientation="Horizontal"
-                                                    Margin="0 0 0 10">
+                                                <StackPanel Orientation="Horizontal">
 
                                                     <TextBlock Text="Yearly: " />
                                                     <TextBlock Text="{Binding Dates}" />
@@ -168,6 +210,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                         Text="{Binding HourCount}"
                                                         VerticalAlignment="Center"
                                                         Margin="10 0 0 0" />
+
                                                 </StackPanel>
                                             </DataTemplate>
 
