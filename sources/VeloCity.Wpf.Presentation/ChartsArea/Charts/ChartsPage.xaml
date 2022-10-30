@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:commitmentChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart"
     xmlns:burnVelocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart"
     xmlns:velocityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart"
+    xmlns:capacityChart="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CapacityChart"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -68,6 +69,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 
                 <DataTemplate DataType="{x:Type velocityChart:VelocityChartViewModel}">
                     <velocityChart:VelocityChartControl />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type capacityChart:CapacityChartViewModel}">
+                    <capacityChart:CapacityChartControl />
                 </DataTemplate>
 
             </ContentControl.Resources>
