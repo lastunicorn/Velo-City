@@ -1,15 +1,19 @@
 Velo City
 ====================================================================================================
 
+v1.15.0
+----------------------------------------------------------------------------------------------------
+
+
 v1.14.0
 ----------------------------------------------------------------------------------------------------
 - [feature] [wpf] Added the sprint status icon in the sprint page title.
-- [feature] [wpf] Displayed a description and a flag for the official holiday in the Sprtint
+- [feature] [wpf] Displayed a description and a flag for the official holiday in the Sprint
                   Calendar screen.
 - [feature] [wpf] Added a velocity chart (per sprint) and a sprint capacity chart.
 - [feature] [wpf] Displayed the country flag for the team members in the Team Members Employment
                   screen.
-- [bug fix] [wpf] Preserved the sprint title and goal if they exist fefore starting the sprint.
+- [bug fix] [wpf] Preserved the sprint title and goal if they exist before starting the sprint.
 - [feature] [wpf] Displayed the team members grouped by absence reason (official holiday or
                   vacation) in Sprint Calendar.
 
