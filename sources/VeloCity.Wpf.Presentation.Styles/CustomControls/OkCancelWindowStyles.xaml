@@ -67,8 +67,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     Height="48"
                                     Margin="20 0 0 0"
                                     IsCancel="True"
-                                    VerticalContentAlignment="Center"
-                                    HorizontalContentAlignment="Center"
                                     Style="{StaticResource XButtonStyle}"
                                     behaviors:WindowButtonBehavior.IsCloseButton="True"
                                     Visibility="{Binding IsXButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -84,21 +82,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                 </Viewbox>
 
-                                <StackPanel Orientation="Horizontal">
+                                <DockPanel>
 
                                     <TextBlock
+                                        DockPanel.Dock="Left"
                                         Text="{TemplateBinding Title}"
                                         VerticalAlignment="Center"
-                                        FontSize="24" />
+                                        FontSize="24"
+                                        TextTrimming="CharacterEllipsis" />
 
                                     <TextBlock
+                                        DockPanel.Dock="Left"
                                         Text="{TemplateBinding Subtitle}"
                                         VerticalAlignment="Center"
                                         Margin="20 0 0 0"
                                         FontSize="20"
-                                        Foreground="{StaticResource FontDimBrush}"/>
+                                        Foreground="{StaticResource FontDimBrush}"
+                                        TextTrimming="CharacterEllipsis" />
 
-                                </StackPanel>
+                                </DockPanel>
                             </DockPanel>
 
                         </Border>
