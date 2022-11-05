@@ -26,6 +26,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/InfoIconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
     <Style TargetType="{x:Type customControls:CountryFlagControl}">
 
         <Setter Property="Template">
@@ -36,7 +38,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <TextBlock
                             Text="{TemplateBinding CountryCode}"
                             Margin="0 0 10 0"
-                            VerticalAlignment="Center"/>
+                            VerticalAlignment="Center"
+                            Visibility="{Binding ShowCountryCode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                         <Border
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -46,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <Control
                                 Height="{TemplateBinding Height}"
                                 Template="{TemplateBinding FlagTemplate}"
-                                VerticalAlignment="Center"/>
+                                VerticalAlignment="Center" />
                         </Border>
 
                     </StackPanel>
