@@ -106,7 +106,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     BorderThickness="1"
                                     BorderBrush="{StaticResource BorderBrush}"
                                     Height="16"
-                                    VerticalAlignment="Center"/>
+                                    VerticalAlignment="Center"
+                                    ShowCountryCode="True" />
+
                             </customControls:LabeledContent>
 
                         </StackPanel>

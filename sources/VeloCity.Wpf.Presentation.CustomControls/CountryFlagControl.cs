@@ -65,6 +65,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             set => SetValue(CountryCodeProperty, value);
         }
 
+        public static readonly DependencyProperty ShowCountryCodeProperty = DependencyProperty.Register(
+            nameof(ShowCountryCode),
+            typeof(bool),
+            typeof(CountryFlagControl),
+            new PropertyMetadata(false)
+        );
+
+        public bool ShowCountryCode
+        {
+            get => (bool)GetValue(ShowCountryCodeProperty);
+            set => SetValue(ShowCountryCodeProperty, value);
+        }
+
         private static readonly DependencyPropertyKey FlagTemplatePropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(FlagTemplate),
             typeof(ControlTemplate),
