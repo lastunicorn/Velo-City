@@ -20,7 +20,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
@@ -30,9 +29,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
     public class SprintMemberCalendarViewModel : ViewModelBase
     {
         private readonly IRequestBus requestBus;
+        private int? currentTeamMemberId = 0;
+        private int? currentSprintId = 0;
         private string title;
         private List<SprintMemberCalendarDayViewModel> days;
-        private SprintMember sprintMember;
         private string subtitle;
 
         public string Title
@@ -75,10 +75,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
 
         private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
         {
-            if (sprintMember is { Sprint: { }, TeamMember: { } })
+            if (currentTeamMemberId != null && currentSprintId != null)
             {
-                int teamMemberId = sprintMember.TeamMember.Id;
-                int sprintId = sprintMember.Sprint.Id;
+                int teamMemberId = currentTeamMemberId.Value;
+                int sprintId = currentSprintId.Value;
 
                 await RefreshData(teamMemberId, sprintId, cancellationToken);
             }
@@ -99,14 +99,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
 
             PresentSprintMemberCalendarResponse response = await requestBus.Send<PresentSprintMemberCalendarRequest, PresentSprintMemberCalendarResponse>(request, cancellationToken);
 
-            sprintMember = response.SprintMembers;
+            currentTeamMemberId = response.TeamMemberId;
+            currentSprintId = response.SprintId;
 
-            Title = sprintMember.TeamMember.Name;
+            Title = response.TeamMemberName;
+            Subtitle = $"Sprint {response.SprintNumber}";
 
-            int sprintNumber = sprintMember.Sprint.Number;
-            Subtitle = $"Sprint {sprintNumber}";
-
-            Days = sprintMember.Days
+            Days = response.Days
                 .Select(x => new SprintMemberCalendarDayViewModel(requestBus, x))
                 .ToList();
 

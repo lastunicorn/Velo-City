@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
@@ -27,7 +28,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
     public class SprintMemberCalendarDayViewModel : DataGridRowViewModel
     {
         private readonly IRequestBus requestBus;
-        private readonly SprintMemberDay sprintMemberDay;
+        private int teamMemberId = -1;
         private ChartBarValue<SprintMemberCalendarDayViewModel> chartBarValue;
         private bool canAddVacation;
         private bool canRemoveVacation;
@@ -37,6 +38,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
         public override bool IsSelectable => true;
 
         public DateTime Date { get; private set; }
+
+        public bool IsCurrentDay { get; private set; }
 
         public bool IsWorkDay { get; private set; }
 
@@ -73,7 +76,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
         {
             UpdateVacationHoursRequest request = new()
             {
-                TeamMemberId = sprintMemberDay.TeamMember?.Id ?? -1,
+                TeamMemberId = teamMemberId,
                 Date = Date,
                 Hours = value
             };
@@ -113,31 +116,28 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalend
             }
         }
 
-        public SprintMemberCalendarDayViewModel(IRequestBus requestBus, SprintMemberDay sprintMemberDay)
+        public SprintMemberCalendarDayViewModel(IRequestBus requestBus, SprintMemberDayDto sprintMemberDay)
         {
+            if (sprintMemberDay == null) throw new ArgumentNullException(nameof(sprintMemberDay));
             this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-            this.sprintMemberDay = sprintMemberDay ?? throw new ArgumentNullException(nameof(sprintMemberDay));
 
             RunInInitializeMode(() =>
             {
-                Date = sprintMemberDay.SprintDay.Date;
+                teamMemberId = sprintMemberDay.TeamMemberId;
 
+                Date = sprintMemberDay.Date;
+                IsCurrentDay = sprintMemberDay.IsCurrentDay;
                 IsWorkDay = sprintMemberDay.IsWorkDay;
-
-                if (IsWorkDay)
-                {
-                    WorkHours = sprintMemberDay.WorkHours;
-                    AbsenceHours = sprintMemberDay.AbsenceHours;
-                }
-
+                WorkHours = sprintMemberDay.WorkHours;
+                AbsenceHours = sprintMemberDay.AbsenceHours;
                 AbsenceDetails = CreateAbsenceDetails(sprintMemberDay);
 
-                CanAddVacation = IsWorkDay && WorkHours > 0;
-                CanRemoveVacation = IsWorkDay && AbsenceHours > 0 && sprintMemberDay.AbsenceReason == AbsenceReason.Vacation;
+                CanAddVacation = sprintMemberDay.CanAddVacation;
+                CanRemoveVacation = sprintMemberDay.CanRemoveVacation;
             });
         }
 
-        private static string CreateAbsenceDetails(SprintMemberDay sprintMemberDay)
+        private static string CreateAbsenceDetails(SprintMemberDayDto sprintMemberDay)
         {
             switch (sprintMemberDay.AbsenceReason)
             {

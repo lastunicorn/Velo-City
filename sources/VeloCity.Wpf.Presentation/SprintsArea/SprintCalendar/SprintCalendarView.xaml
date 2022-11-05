@@ -40,6 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/AbsenceDetailsControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/OfficialHolidayAbsenceControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -51,6 +53,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             IsReadOnly="True">
 
             <DataGrid.Columns>
+
+                <DataGridTemplateColumn
+                    CanUserSort="False"
+                    CanUserResize="False"
+                    CanUserReorder="False">
+
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                            <Setter Property="Width" Value="5" />
+                            <Setter Property="Margin" Value="0" />
+                            <Setter Property="Padding" Value="0" />
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border
+                                Background="{StaticResource AccentBrush}"
+                                Height="30"
+                                CornerRadius="2"
+                                Visibility="{Binding IsCurrentDay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
                 <DataGridTextColumn
                     Binding="{Binding Date, StringFormat={}{0:dddd}}"
@@ -164,7 +190,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                     <customControls:OfficialHolidayAbsenceControl
                                                         HolidayName="{Binding HolidayName}"
                                                         HolidayCountry="{Binding HolidayCountry}"
-                                                        HolidayDescription="{Binding HolidayDescription}"/>
+                                                        HolidayDescription="{Binding HolidayDescription}" />
                                                 </DataTemplate>
                                             </customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
 

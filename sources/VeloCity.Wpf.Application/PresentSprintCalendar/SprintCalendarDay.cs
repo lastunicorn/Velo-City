@@ -25,6 +25,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
     {
         public DateTime Date { get; }
 
+        public bool IsCurrentDay { get; set; }
+
         public bool IsWorkDay { get; }
 
         public HoursValue? WorkHours { get; }
@@ -33,12 +35,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
 
         public List<TeamMemberAbsence> TeamMemberAbsences { get; }
 
-        public SprintCalendarDay(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
+        public SprintCalendarDay(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays, DateTime currentDate)
         {
             if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
             if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
 
             Date = sprintDay.Date;
+            IsCurrentDay = sprintDay.Date == currentDate;
 
             IsWorkDay = sprintMemberDays.Any(x => x.AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday);
 

@@ -15,10 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.SystemAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar
@@ -26,20 +28,29 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar
     public class PresentSprintMemberCalendarUseCase : IRequestHandler<PresentSprintMemberCalendarRequest, PresentSprintMemberCalendarResponse>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly ISystemClock systemClock;
 
-        public PresentSprintMemberCalendarUseCase(IUnitOfWork unitOfWork)
+        public PresentSprintMemberCalendarUseCase(IUnitOfWork unitOfWork, ISystemClock systemClock)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
         }
 
         public Task<PresentSprintMemberCalendarResponse> Handle(PresentSprintMemberCalendarRequest request, CancellationToken cancellationToken)
         {
             Sprint sprint = RetrieveSprint(request.SprintId);
-
             SprintMember sprintMember = sprint.GetSprintMember(request.TeamMemberId);
+            DateTime currentDate = systemClock.Today;
 
             PresentSprintMemberCalendarResponse response = new()
             {
+                TeamMemberId = sprintMember.TeamMember.Id,
+                TeamMemberName = sprintMember.Name,
+                SprintId = sprintMember.Sprint.Id,
+                SprintNumber = sprintMember.Sprint.Number,
+                Days = sprintMember.Days
+                    .Select(x => new SprintMemberDayDto(x, currentDate))
+                    .ToList(),
                 SprintMembers = sprintMember
             };
 

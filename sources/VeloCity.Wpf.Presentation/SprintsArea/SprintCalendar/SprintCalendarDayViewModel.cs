@@ -33,6 +33,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         public override bool IsEnabled => IsWorkDay;
 
         public DateTime Date { get; }
+        
+        public bool IsCurrentDay { get; }
 
         public bool IsWorkDay { get; }
 
@@ -55,6 +57,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         public SprintCalendarDayViewModel(SprintCalendarDay sprintCalendarDay)
         {
             Date = sprintCalendarDay.Date;
+            IsCurrentDay = sprintCalendarDay.IsCurrentDay;
             IsWorkDay = sprintCalendarDay.IsWorkDay;
             WorkHours = sprintCalendarDay.WorkHours;
             AbsenceHours = sprintCalendarDay.AbsenceHours;
