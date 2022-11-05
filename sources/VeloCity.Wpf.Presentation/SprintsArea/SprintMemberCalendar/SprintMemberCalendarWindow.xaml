@@ -50,6 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </ResourceDictionary.MergedDictionaries>
 
             <sprintMemberCalendar:HoursValueConverter x:Key="HoursValueConverter" />
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -66,6 +67,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         AutoGenerateColumns="False">
 
         <DataGrid.Columns>
+
+            <DataGridTemplateColumn
+                CanUserSort="False"
+                CanUserResize="False"
+                CanUserReorder="False">
+
+                <DataGridTemplateColumn.CellStyle>
+                    <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                        <Setter Property="Width" Value="5" />
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="Padding" Value="0" />
+                    </Style>
+                </DataGridTemplateColumn.CellStyle>
+
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Border
+                            Background="{StaticResource AccentBrush}"
+                            Height="30"
+                            CornerRadius="2"
+                            Visibility="{Binding IsCurrentDay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
             <DataGridTextColumn
                 Binding="{Binding Date, StringFormat={}{0:dddd}}"

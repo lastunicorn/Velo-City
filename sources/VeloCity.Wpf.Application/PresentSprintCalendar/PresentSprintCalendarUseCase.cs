@@ -21,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.SystemAccess;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
@@ -29,11 +30,13 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
+        private readonly ISystemClock systemClock;
 
-        public PresentSprintCalendarUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+        public PresentSprintCalendarUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, ISystemClock systemClock)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+            this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
         }
 
         public Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
@@ -76,7 +79,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
             return sprint;
         }
 
-        private static List<SprintCalendarDay> CreateCalendarDays(Sprint sprint)
+        private List<SprintCalendarDay> CreateCalendarDays(Sprint sprint)
         {
             IEnumerable<SprintDay> sprintDays = sprint.EnumerateAllDays();
             IEnumerable<SprintMember> sprintMembers = sprint.SprintMembersOrderedByEmployment;
@@ -85,7 +88,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
                 .Select(x =>
                 {
                     List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(x.Date, sprintMembers);
-                    return new SprintCalendarDay(x, sprintMemberDays);
+                    return new SprintCalendarDay(x, sprintMemberDays, systemClock.Today);
                 })
                 .ToList();
         }
