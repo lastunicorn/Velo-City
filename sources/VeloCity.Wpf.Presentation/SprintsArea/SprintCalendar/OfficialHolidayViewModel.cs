@@ -13,18 +13,28 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// using System;
 
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
-    internal static class OfficialHolidayAbsenceViewModelExtensions
+    public class OfficialHolidayViewModel
     {
-        public static IEnumerable<OfficialHolidayAbsenceViewModel> ToViewModels(this IEnumerable<OfficialHolidayAbsence> officialHolidayAbsences)
+        public string HolidayName { get; init; }
+
+        public string HolidayCountry { get; init; }
+        
+        public string HolidayDescription { get; init; }
+
+        public OfficialHolidayViewModel(OfficialHolidayDto officialHolidayDto)
         {
-            return officialHolidayAbsences?.Select(x => new OfficialHolidayAbsenceViewModel(x));
+            if (officialHolidayDto == null)
+                return;
+
+            HolidayName = officialHolidayDto.HolidayName;
+            HolidayCountry = officialHolidayDto.HolidayCountry;
+            HolidayDescription = officialHolidayDto.HolidayDescription;
         }
     }
 }
