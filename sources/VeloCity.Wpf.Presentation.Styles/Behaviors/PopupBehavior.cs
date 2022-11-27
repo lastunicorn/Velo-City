@@ -35,7 +35,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
             return (Popup)d.GetValue(PopupProperty);
         }
 
-        public static void SetPopup(DependencyObject d, bool value)
+        public static void SetPopup(DependencyObject d, Popup value)
         {
             d.SetValue(PopupProperty, value);
         }

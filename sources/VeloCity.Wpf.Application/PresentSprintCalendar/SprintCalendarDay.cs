@@ -32,8 +32,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
         public HoursValue? WorkHours { get; }
 
         public HoursValue? AbsenceHours { get; }
-
-        public List<TeamMemberAbsence> TeamMemberAbsences { get; }
+        
+        public AbsenceGroupCollection AbsenceGroups { get; }
 
         public SprintCalendarDay(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays, DateTime currentDate)
         {
@@ -43,7 +43,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
             Date = sprintDay.Date;
             IsCurrentDay = sprintDay.Date == currentDate;
 
-            IsWorkDay = sprintMemberDays.Any(x => x.AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday);
+            IsWorkDay = sprintMemberDays.Any(x => x.IsWorkDay);
 
             WorkHours = IsWorkDay
                 ? sprintMemberDays.Sum(x => x.WorkHours)
@@ -54,42 +54,30 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
                     .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
                     .Sum(x => x.AbsenceHours)
                 : null;
-
-            TeamMemberAbsences = IsWorkDay
-                ? CalculateTeamMemberAbsences(sprintDay, sprintMemberDays)
-                : new List<TeamMemberAbsence>();
-        }
-
-        private static List<TeamMemberAbsence> CalculateTeamMemberAbsences(SprintDay sprintDay, IReadOnlyCollection<SprintMemberDay> sprintMemberDays)
-        {
-            string[] countries = sprintMemberDays
-                .Select(x => x.GetCountry())
-                .Where(x => x != null)
-                .Distinct()
-                .ToArray();
-
-            List<OfficialHolidayAbsence> officialHolidayAbsenceDetailsList = sprintDay.OfficialHolidays
-                .Where(x => countries.Contains(x.Country))
-                .Select(x => new OfficialHolidayAbsence
+            
+            AbsenceGroups = sprintDay.OfficialHolidays
+                .Select(x => new AbsenceGroup
                 {
-                    HolidayName = x.Name,
-                    HolidayCountry = x.Country,
-                    HolidayDescription = x.ShortDescription
+                    OfficialHoliday = new OfficialHolidayDto(x)
                 })
-                .ToList();
+                .ToAbsenceGroupCollection();
 
-            return sprintMemberDays
-                .Where(x => x.AbsenceHours > 0 || x.AbsenceReason == AbsenceReason.Contract)
-                .Select(x => new TeamMemberAbsence
+            IEnumerable<SprintMemberDay> sprintMemberDaysWithAbsences = sprintMemberDays
+                .Where(x => x.AbsenceHours > 0 || x.AbsenceReason == AbsenceReason.Contract);
+
+            foreach (SprintMemberDay sprintMemberDay in sprintMemberDaysWithAbsences)
+            {
+                TeamMemberAbsence teamMemberAbsence = new()
                 {
-                    Name = x.TeamMember.Name.ShortName,
-                    IsPartialVacation = x.WorkHours > 0,
-                    IsMissingByContract = x.AbsenceReason == AbsenceReason.Contract,
-                    OfficialHoliday = officialHolidayAbsenceDetailsList
-                        .FirstOrDefault(z => z.HolidayCountry == x.GetCountry()),
-                    AbsenceHours = x.AbsenceHours
-                })
-                .ToList();
+                    Name = sprintMemberDay.TeamMember.Name.ShortName,
+                    IsPartialVacation = sprintMemberDay.WorkHours > 0,
+                    IsMissingByContract = sprintMemberDay.AbsenceReason == AbsenceReason.Contract,
+                    AbsenceHours = sprintMemberDay.AbsenceHours
+                };
+
+                string teamMemberCountry = sprintMemberDay.GetCountry();
+                AbsenceGroups.Add(teamMemberAbsence, teamMemberCountry);
+            }
         }
     }
 }

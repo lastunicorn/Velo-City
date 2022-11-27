@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:sprintCalendar="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:behaviors="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors;assembly=DustInTheWind.VeloCity.Wpf.Presentation.Styles"
 
     mc:Ignorable="d"
     d:DesignHeight="450"
@@ -50,7 +51,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <DataGrid
             ItemsSource="{Binding SprintCalendarDays}"
             AutoGenerateColumns="False"
-            IsReadOnly="True">
+            IsReadOnly="True"
+            behaviors:DataGridSelectionBehavior.EnableSelection="False">
 
             <DataGrid.Columns>
 
@@ -186,7 +188,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             </customControls:AbsenceDetailsControl.ItemTemplate>
 
                                             <customControls:AbsenceDetailsControl.OfficialHolidayItemTemplate>
-                                                <DataTemplate DataType="{x:Type sprintCalendar:OfficialHolidayAbsenceViewModel}">
+                                                <DataTemplate DataType="{x:Type sprintCalendar:OfficialHolidayViewModel}">
                                                     <customControls:OfficialHolidayAbsenceControl
                                                         HolidayName="{Binding HolidayName}"
                                                         HolidayCountry="{Binding HolidayCountry}"
@@ -210,7 +212,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsEnabled}" Value="False">
-                            <Setter Property="IsEnabled" Value="False" />
+                            <Setter Property="Foreground" Value="{StaticResource FontDisabledBrush}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

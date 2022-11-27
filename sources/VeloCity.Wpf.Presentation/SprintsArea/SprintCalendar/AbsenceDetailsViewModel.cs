@@ -20,7 +20,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
 {
     public class AbsenceDetailsViewModel
     {
-        public ObservableCollection<OfficialHolidayAbsenceViewModel> OfficialHolidayAbsences { get; set; }
+        public ObservableCollection<OfficialHolidayViewModel> OfficialHolidayAbsences { get; set; }
 
         public ObservableCollection<TeamMemberAbsenceViewModel> TeamMemberAbsences { get; set; }
     }

@@ -61,13 +61,15 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
             IsWorkDay = sprintCalendarDay.IsWorkDay;
             WorkHours = sprintCalendarDay.WorkHours;
             AbsenceHours = sprintCalendarDay.AbsenceHours;
-            Absences = sprintCalendarDay.TeamMemberAbsences
-                .GroupBy(x => x.OfficialHoliday)
-                .OrderByDescending(x => x.Key?.HolidayCountry)
+            Absences = sprintCalendarDay.AbsenceGroups
+                .OrderByDescending(x => x.OfficialHoliday?.HolidayCountry)
                 .Select(x => new AbsenceDetailsViewModel
                 {
-                    OfficialHolidayAbsences = x.Key != null
-                        ? new ObservableCollection<OfficialHolidayAbsenceViewModel> { new OfficialHolidayAbsenceViewModel(x.Key) }
+                    OfficialHolidayAbsences = x.OfficialHoliday != null
+                        ? new ObservableCollection<OfficialHolidayViewModel>
+                        {
+                            new(x.OfficialHoliday)
+                        }
                         : null,
                     TeamMemberAbsences = x
                         .Select(z => new TeamMemberAbsenceViewModel(z))

@@ -1,0 +1,16 @@
+VeloCity
+
+- Velocity (easy)
+	- SP / sprint
+
+- Sprint Completion Ratio (easy)
+	- completed SP / total SP
+
+- Resource Utilization (?)
+	- Q: What type of resources?
+
+- Sprint Stability Story Points (very hard)
+	- unchnaged SP / total SP
+
+- Effort Variance
+	- Actual effort - Estimated effort) / Estimated effort​
