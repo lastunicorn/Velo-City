@@ -13,16 +13,14 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// using System;
+
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
 {
-    public class OfficialHolidayAbsence
+    public class AbsenceGroup : Collection<TeamMemberAbsence>
     {
-        public string HolidayName { get; init; }
-
-        public string HolidayCountry { get; init; }
-
-        public string HolidayDescription { get; init; }
+        public OfficialHolidayDto OfficialHoliday { get; init; }
     }
 }

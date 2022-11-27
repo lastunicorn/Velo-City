@@ -35,6 +35,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <Style TargetType="{x:Type customControls:AbsenceDetailsControl}">
         <Setter Property="Foreground" Value="{StaticResource AbsenceBrush}" />
+        <Setter Property="IsTabStop" Value="False" />
+
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -51,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <customControls:InfoPoint
                             DockPanel.Dock="Left"
-                            Margin="0 0 10 0"
+                            Margin="0 1 10 1"
                             Visibility="{Binding HasOfficialHolidays, RelativeSource={RelativeSource TemplatedParent} , Converter={StaticResource BooleanToVisibilityConverter}}"
                             IconForeground="{StaticResource SprintCalendarInfoIconBrush}"
                             IconGeometry="{StaticResource FourDotsIconGeometry}">

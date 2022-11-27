@@ -27,8 +27,6 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
 
         public bool IsMissingByContract { get; init; }
         
-        public OfficialHolidayAbsence OfficialHoliday { get; init; }
-        
         public HoursValue AbsenceHours { get; init; }
     }
 }

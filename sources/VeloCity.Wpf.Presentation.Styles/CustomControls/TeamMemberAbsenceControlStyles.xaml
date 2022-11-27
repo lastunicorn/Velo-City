@@ -30,8 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-
-
     <Style TargetType="{x:Type customControls:TeamMemberAbsenceControl}">
         <Setter Property="Foreground" Value="{StaticResource AbsenceBrush}" />
         <Setter Property="IconForeground" Value="{StaticResource SprintCalendarInfoIconBrush}" />
