@@ -19,11 +19,14 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
     public class AbsenceDetailsControl : ItemsControl
     {
+        #region OfficialHolidays
+
         public static readonly DependencyProperty OfficialHolidaysProperty = DependencyProperty.Register(
             nameof(OfficialHolidays),
             typeof(IEnumerable),
@@ -63,6 +66,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             }
         }
 
+        #endregion
+
+        #region HasOfficialHolidays
+
         private static readonly DependencyPropertyKey HasOfficialHolidaysPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(HasOfficialHolidays),
             typeof(bool),
@@ -77,6 +84,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             get => (bool)GetValue(HasOfficialHolidaysProperty);
             private set => SetValue(HasOfficialHolidaysPropertyKey, value);
         }
+
+        #endregion
+
+        #region OfficialHolidayItemTemplate
 
         public static readonly DependencyProperty OfficialHolidayItemTemplateProperty = DependencyProperty.Register(
             nameof(OfficialHolidayItemTemplate),
@@ -98,6 +109,24 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
                 absenceDetailsControl.OnOfficialHolidayItemTemplateChanged((DataTemplate)e.OldValue, (DataTemplate)e.NewValue);
             }
         }
+
+        #endregion
+
+        #region Text
+
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            nameof(Text),
+            typeof(string),
+            typeof(AbsenceDetailsControl)
+        );
+
+        public string Text
+        {
+            get => (string)GetValue(OfficialHolidaysProperty);
+            set => SetValue(OfficialHolidaysProperty, value);
+        }
+
+        #endregion
 
         protected virtual void OnOfficialHolidayItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
         {

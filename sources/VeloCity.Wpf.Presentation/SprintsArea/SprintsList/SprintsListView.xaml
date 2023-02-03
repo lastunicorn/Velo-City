@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/StartIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/CloseIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/SprintIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/SprintStateControlStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -67,121 +68,162 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </Border>
         </customControls:MissingContentPanel.MissingContent>
 
-        <ListView
-            ItemsSource="{Binding Sprints}"
-            SelectedItem="{Binding SelectedSprint}"
-            SelectionMode="Single"
-            BorderThickness="0">
+        <DockPanel>
 
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+            <Button
+                DockPanel.Dock="Top"
+                MinHeight="50"
+                Padding="8"
+                Margin="10">
 
-                                <Border
-                                    x:Name="PART_Border"
-                                    Padding="8"
-                                    SnapsToDevicePixels="true"
-                                    Background="Transparent"
-                                    MinHeight="40">
+                <DockPanel>
 
-                                    <DockPanel
-                                        x:Name="DockPanel1"
-                                        Margin="10 0"
+                    <customControls:GenericIcon
+                        DockPanel.Dock="Left"
+                        Geometry="{StaticResource SprintIconGeometry}"
+                        Width="16"
+                        Height="16"
+                        Margin="0 0 8 0"
+                        VerticalAlignment="Center">
+
+                        <customControls:GenericIcon.Effect>
+                            <DropShadowEffect
+                                Color="{StaticResource ShadowColor}"
+                                Direction="0"
+                                ShadowDepth="0"
+                                BlurRadius="10" />
+                        </customControls:GenericIcon.Effect>
+
+                    </customControls:GenericIcon>
+
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        Text="New Sprint"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center" />
+
+                </DockPanel>
+
+            </Button>
+
+
+            <ListView
+                ItemsSource="{Binding Sprints}"
+                SelectedItem="{Binding SelectedSprint}"
+                SelectionMode="Single"
+                BorderThickness="0">
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+
+                                    <Border
+                                        x:Name="PART_Border"
+                                        Padding="8"
+                                        SnapsToDevicePixels="true"
+                                        Background="Transparent"
                                         MinHeight="40">
 
-                                        <customControls:SprintStateControl
-                                            x:Name="SprintStateControl1"
-                                            DockPanel.Dock="Left"
-                                            Margin="0 3 15 3"
-                                            Value="{Binding SprintState}"
-                                            IsLabelVisible="False"
-                                            VerticalAlignment="Top"
-                                            IsTabStop="False" />
+                                        <DockPanel
+                                            x:Name="DockPanel1"
+                                            Margin="10 0"
+                                            MinHeight="40">
 
-                                        <StackPanel
-                                            Margin="0 2">
+                                            <customControls:SprintStateControl
+                                                x:Name="SprintStateControl1"
+                                                DockPanel.Dock="Left"
+                                                Margin="0 3 15 3"
+                                                Value="{Binding SprintState}"
+                                                IsLabelVisible="False"
+                                                VerticalAlignment="Top"
+                                                IsTabStop="False" />
 
-                                            <StackPanel Orientation="Horizontal">
+                                            <StackPanel
+                                                Margin="0 2">
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock
+                                                        x:Name="PART_Title"
+                                                        FontSize="16"
+                                                        Text="{Binding Title}" />
+
+                                                    <TextBlock
+                                                        x:Name="PART_DateInterval"
+                                                        Text="{Binding SprintDateInterval, StringFormat={}[{0}]}"
+                                                        Margin="10 0 0 0"
+                                                        VerticalAlignment="Center" />
+
+                                                </StackPanel>
 
                                                 <TextBlock
-                                                    x:Name="PART_Title"
-                                                    FontSize="16"
-                                                    Text="{Binding Title}" />
-
-                                                <TextBlock
-                                                    x:Name="PART_DateInterval"
-                                                    Text="{Binding SprintDateInterval, StringFormat={}[{0}]}"
-                                                    Margin="10 0 0 0"
-                                                    VerticalAlignment="Center" />
+                                                    x:Name="PART_Subtitle"
+                                                    Text="{Binding Subtitle}"
+                                                    FontSize="12"
+                                                    Margin="0 2 0 0" />
 
                                             </StackPanel>
 
-                                            <TextBlock
-                                                x:Name="PART_Subtitle"
-                                                Text="{Binding Subtitle}"
-                                                FontSize="12"
-                                                Margin="0 2 0 0" />
+                                        </DockPanel>
 
-                                        </StackPanel>
+                                    </Border>
 
-                                    </DockPanel>
+                                    <ControlTemplate.Triggers>
 
-                                </Border>
-
-                                <ControlTemplate.Triggers>
-
-                                    <Trigger Property="IsSelected" Value="False">
-                                        <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontDimBrush}" />
-                                    </Trigger>
-
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="True" />
-                                            <Condition Property="Selector.IsSelectionActive" Value="True" />
-                                        </MultiTrigger.Conditions>
-                                        <MultiTrigger.Setters>
-                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource AccentBrush}" />
-                                            <Setter TargetName="PART_Title" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
-                                            <Setter TargetName="PART_DateInterval" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
-                                            <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
-                                            <Setter TargetName="SprintStateControl1" Property="IsIconShadowVisible" Value="True" />
-                                        </MultiTrigger.Setters>
-                                    </MultiTrigger>
-
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="True" />
-                                            <Condition Property="Selector.IsSelectionActive" Value="False" />
-                                        </MultiTrigger.Conditions>
-                                        <MultiTrigger.Setters>
-                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+                                        <Trigger Property="IsSelected" Value="False">
                                             <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontDimBrush}" />
-                                        </MultiTrigger.Setters>
-                                    </MultiTrigger>
-                                    
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="False" />
-                                            <Condition Property="IsMouseOver" Value="True" />
-                                        </MultiTrigger.Conditions>
-                                        <MultiTrigger.Setters>
-                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
-                                            <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontDimBrush}" />
-                                        </MultiTrigger.Setters>
-                                    </MultiTrigger>
-                                    
+                                        </Trigger>
 
-                                </ControlTemplate.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource AccentBrush}" />
+                                                <Setter TargetName="PART_Title" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
+                                                <Setter TargetName="PART_DateInterval" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
+                                                <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
+                                                <Setter TargetName="SprintStateControl1" Property="IsIconShadowVisible" Value="True" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
 
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+                                                <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontDimBrush}" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
 
-        </ListView>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="False" />
+                                                <Condition Property="IsMouseOver" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+                                                <Setter TargetName="PART_Subtitle" Property="Foreground" Value="{StaticResource FontDimBrush}" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+
+
+                                    </ControlTemplate.Triggers>
+
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
+            </ListView>
+
+        </DockPanel>
 
     </customControls:MissingContentPanel>
 

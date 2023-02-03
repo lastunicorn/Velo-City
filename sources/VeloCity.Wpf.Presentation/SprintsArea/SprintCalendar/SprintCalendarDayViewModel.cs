@@ -68,9 +68,12 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
                     OfficialHolidayAbsences = x.OfficialHoliday != null
                         ? new ObservableCollection<OfficialHolidayViewModel>
                         {
-                            new(x.OfficialHoliday)
+                            new OfficialHolidayViewModel(x.OfficialHoliday)
                         }
                         : null,
+                    Text = sprintCalendarDay.IsWorkDay
+                        ? null
+                        : x.OfficialHoliday?.HolidayName,
                     TeamMemberAbsences = x
                         .Select(z => new TeamMemberAbsenceViewModel(z))
                         .ToObservableCollection()

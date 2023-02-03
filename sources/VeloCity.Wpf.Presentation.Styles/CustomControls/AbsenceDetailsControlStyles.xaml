@@ -66,6 +66,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         </customControls:InfoPoint>
 
+                        <TextBlock
+                            Text="{Binding Text}"
+                            Foreground="{StaticResource SprintCalendarInfoIconBrush}"/>
+
                         <ItemsPresenter />
 
                     </DockPanel>

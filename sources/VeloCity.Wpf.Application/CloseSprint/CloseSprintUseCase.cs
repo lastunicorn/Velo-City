@@ -52,7 +52,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
 
             if (sprintCloseConfirmationResponse.IsAccepted)
             {
-                UpdateSprint(selectedSprint, sprintCloseConfirmationResponse);
+                CloseSprint(selectedSprint, sprintCloseConfirmationResponse);
                 unitOfWork.SaveChanges();
 
                 await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
@@ -104,7 +104,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
             return sprintCloseConfirmation.ConfirmCloseSprint(startConfirmationRequest);
         }
 
-        private static void UpdateSprint(Sprint selectedSprint, SprintCloseConfirmationResponse sprintCloseConfirmationResponse)
+        private static void CloseSprint(Sprint selectedSprint, SprintCloseConfirmationResponse sprintCloseConfirmationResponse)
         {
             selectedSprint.State = SprintState.Closed;
             selectedSprint.ActualStoryPoints = sprintCloseConfirmationResponse.ActualStoryPoints;
