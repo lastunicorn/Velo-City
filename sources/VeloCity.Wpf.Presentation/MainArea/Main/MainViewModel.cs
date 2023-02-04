@@ -21,7 +21,6 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
-using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
 
@@ -36,7 +35,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
         private TeamPageViewModel teamPageViewModel;
         private ChartsPageViewModel chartsPageViewModel;
         private RefreshCommand refreshCommand;
-        private ViewModelBase popupPageViewModel;
 
         public string Title
         {
@@ -65,17 +63,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
         public TeamPageViewModel TeamPageViewModel => teamPageViewModel ??= new TeamPageViewModel(requestBus, eventBus);
 
         public ChartsPageViewModel ChartsPageViewModel => chartsPageViewModel ??= new ChartsPageViewModel(requestBus, eventBus);
-
-        public ViewModelBase PopupPageViewModel
-        {
-            get => popupPageViewModel;
-            set
-            {
-                popupPageViewModel = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public RefreshCommand RefreshCommand => refreshCommand ??= new RefreshCommand(requestBus);
 
         public MainViewModel(IRequestBus requestBus, EventBus eventBus)
@@ -92,14 +80,6 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
             PresentMainResponse response = await requestBus.Send<PresentMainRequest, PresentMainResponse>(request);
 
             DatabaseConnectionString = response.DatabaseConnectionString;
-
-            await Task.Delay(1000);
-
-            PopupPageViewModel = new SprintCloseConfirmationViewModel
-            {
-                SprintNumber = 23,
-                SprintName = "My sprint"
-            };
         }
     }
 }

@@ -14,13 +14,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Ports.UserAccess;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
-using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirmation;
+using DustInTheWind.VeloCity.Wpf.UserAccess.CloseSprintConfirmation;
+using DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation;
+using DustInTheWind.VeloCity.Wpf.UserAccess.StartSprintConfirmation;
 
 namespace DustInTheWind.VeloCity.Wpf.UserAccess
 {
-    public class SprintStartConfirmationDisplay : ISprintStartConfirmation
+    public class UserInterface : IUserInterface
     {
+        public SprintNewConfirmationResponse ConfirmNewSprint(SprintNewConfirmationRequest request)
+        {
+            SprintNewConfirmationViewModel viewModel = new();
+            NewSprintConfirmationWindow window = new()
+            {
+                DataContext = viewModel,
+                Owner = System.Windows.Application.Current.MainWindow
+            };
+
+            bool? response = window.ShowDialog();
+
+            return new SprintNewConfirmationResponse
+            {
+                IsAccepted = response == true
+            };
+        }
+
         public SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request)
         {
             SprintStartConfirmationViewModel viewModel = new()
@@ -45,6 +67,31 @@ namespace DustInTheWind.VeloCity.Wpf.UserAccess
                 CommitmentStoryPoints = viewModel.CommitmentStoryPoints,
                 SprintTitle = viewModel.SprintTitle,
                 SprintGoal = viewModel.SprintGoal
+            };
+        }
+
+        public SprintCloseConfirmationResponse ConfirmCloseSprint(SprintCloseConfirmationRequest request)
+        {
+            SprintCloseConfirmationViewModel viewModel = new()
+            {
+                SprintName = request.SprintName,
+                SprintNumber = request.SprintNumber,
+                Comments = request.Comments
+            };
+
+            SprintCloseConfirmationWindow window = new()
+            {
+                DataContext = viewModel,
+                Owner = System.Windows.Application.Current.MainWindow
+            };
+
+            bool? response = window.ShowDialog();
+
+            return new SprintCloseConfirmationResponse
+            {
+                IsAccepted = response == true,
+                ActualStoryPoints = viewModel.ActualStoryPoints,
+                Comments = viewModel.Comments
             };
         }
     }

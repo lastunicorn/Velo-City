@@ -17,22 +17,19 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
-using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
-using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint
 {
     public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
     {
-        private readonly ISprintNewConfirmation sprintNewConfirmation;
+        private readonly IUserInterface userInterface;
 
-        public CreateNewSprintUseCase(ISprintNewConfirmation sprintNewConfirmation)
+        public CreateNewSprintUseCase(IUserInterface userInterface)
         {
-            this.sprintNewConfirmation = sprintNewConfirmation ?? throw new ArgumentNullException(nameof(sprintNewConfirmation));
+            this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
         }
 
         public async Task<Unit> Handle(CreateNewSprintRequest request, CancellationToken cancellationToken)
@@ -49,7 +46,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint
         private async Task<SprintNewConfirmationResponse> RequestUserConfirmation()
         {
             SprintNewConfirmationRequest sprintNewConfirmationRequest = new();
-            return sprintNewConfirmation.ConfirmNewSprint(sprintNewConfirmationRequest);
+            return userInterface.ConfirmNewSprint(sprintNewConfirmationRequest);
         }
     }
 }

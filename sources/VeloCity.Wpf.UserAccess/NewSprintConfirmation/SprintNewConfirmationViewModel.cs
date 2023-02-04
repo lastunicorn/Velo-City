@@ -14,10 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation
+using DustInTheWind.VeloCity.Wpf.Presentation;
+
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation
 {
-    public interface ISprintStartConfirmation
+    public class SprintNewConfirmationViewModel : ViewModelBase
     {
-        SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request);
+        private string title = "New Sprint";
+
+        public string Title
+        {
+            get => title;
+            private set
+            {
+                title = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

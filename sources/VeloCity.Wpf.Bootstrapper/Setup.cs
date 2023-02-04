@@ -22,9 +22,7 @@ using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
-using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
-using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
-using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
+using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
@@ -81,9 +79,7 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             containerBuilder.RegisterType<MainViewModel>().AsSelf();
             containerBuilder.RegisterType<NewSprintCommand>().AsSelf();
 
-            containerBuilder.RegisterType<SprintStartConfirmationDisplay>().As<ISprintStartConfirmation>();
-            containerBuilder.RegisterType<SprintCloseConfirmationDisplay>().As<ISprintCloseConfirmation>();
-            containerBuilder.RegisterType<SprintNewConfirmationDisplay>().As<ISprintNewConfirmation>();
+            containerBuilder.RegisterType<UserInterface>().As<IUserInterface>();
         }
     }
 }

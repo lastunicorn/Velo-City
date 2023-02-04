@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using MediatR;
@@ -31,15 +32,14 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
-        private readonly ISprintCloseConfirmation sprintCloseConfirmation;
+        private readonly IUserInterface userInterface;
 
-        public CloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
-            ISprintCloseConfirmation sprintCloseConfirmation)
+        public CloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus, IUserInterface userInterface)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            this.sprintCloseConfirmation = sprintCloseConfirmation ?? throw new ArgumentNullException(nameof(sprintCloseConfirmation));
+            this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
         }
 
         public async Task<Unit> Handle(CloseSprintRequest request, CancellationToken cancellationToken)
@@ -101,7 +101,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
                 Comments = selectedSprint.Comments
             };
 
-            return sprintCloseConfirmation.ConfirmCloseSprint(startConfirmationRequest);
+            return userInterface.ConfirmCloseSprint(startConfirmationRequest);
         }
 
         private static void CloseSprint(Sprint selectedSprint, SprintCloseConfirmationResponse sprintCloseConfirmationResponse)
