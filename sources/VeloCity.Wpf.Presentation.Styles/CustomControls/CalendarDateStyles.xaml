@@ -28,6 +28,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
     <Style TargetType="{x:Type customControls:CalendarDate}">
+        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
+        <Setter Property="MonthFontSize" Value="{StaticResource DefaultFontSize}" />
+        <Setter Property="WeekFontSize" Value="{StaticResource DefaultFontSize}" />
+        <Setter Property="Padding" Value="8" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -44,18 +48,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </Border.Background>
 
                             <StackPanel
-                                Margin="8"
+                                Margin="{TemplateBinding Padding}"
                                 Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
 
                                 <TextBlock
                                     Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:dd}}"
                                     FontWeight="DemiBold"
+                                    FontSize="{TemplateBinding FontSize}"
                                     HorizontalAlignment="Center" />
 
                                 <TextBlock
                                     Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:MMM}}"
                                     FontWeight="DemiBold"
-                                    FontSize="12"
+                                    FontSize="{TemplateBinding MonthFontSize}"
                                     HorizontalAlignment="Center" />
 
                             </StackPanel>
@@ -64,7 +69,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <TextBlock
                             Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:dddd}}"
-                            FontSize="12"
+                            FontSize="{TemplateBinding WeekFontSize}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Margin="10 0 0 0"

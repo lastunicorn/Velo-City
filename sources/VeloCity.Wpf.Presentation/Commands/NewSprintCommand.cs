@@ -15,15 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
-using DustInTheWind.VeloCity.Wpf.Application.Reload;
-using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
-using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 {
@@ -45,7 +40,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
 
         public void Execute(object parameter)
         {
-            CloseSprintRequest request = new();
+            CreateNewSprintRequest request = new();
             _ = requestBus.Send(request);
         }
     }

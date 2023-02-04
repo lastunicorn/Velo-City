@@ -54,6 +54,38 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 
         #endregion
 
+        #region MonthFontSize
+
+        public static readonly DependencyProperty MonthFontSizeProperty = DependencyProperty.Register(
+            nameof(MonthFontSize),
+            typeof(double),
+            typeof(CalendarDate)
+        );
+
+        public double MonthFontSize
+        {
+            get => (double)GetValue(MonthFontSizeProperty);
+            set => SetValue(MonthFontSizeProperty, value);
+        }
+
+        #endregion
+
+        #region WeekFontSize
+
+        public static readonly DependencyProperty WeekFontSizeProperty = DependencyProperty.Register(
+            nameof(WeekFontSize),
+            typeof(double),
+            typeof(CalendarDate)
+        );
+
+        public double WeekFontSize
+        {
+            get => (double)GetValue(WeekFontSizeProperty);
+            set => SetValue(WeekFontSizeProperty, value);
+        }
+
+        #endregion
+
         static CalendarDate()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CalendarDate), new FrameworkPropertyMetadata(typeof(CalendarDate)));

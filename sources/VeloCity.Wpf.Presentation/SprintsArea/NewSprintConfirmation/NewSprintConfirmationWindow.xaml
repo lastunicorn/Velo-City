@@ -17,23 +17,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <customControls:OkCancelWindow
-    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation.SprintCloseConfirmationWindow"
+    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.NewSprintConfirmation.NewSprintConfirmationWindow"
 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
+    xmlns:local="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.NewSprintConfirmation"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
-    xmlns:closeSprintConfirmation="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation"
 
     mc:Ignorable="d"
     Title="{Binding Title}"
-    Subtitle="{Binding SprintName}"
     WindowStartupLocation="CenterOwner"
-    ResizeMode="CanResizeWithGrip"
-    d:DataContext="{d:DesignInstance closeSprintConfirmation:SprintCloseConfirmationViewModel}"
-    IsXButtonVisible="False"
+    d:DataContext="{d:DesignInstance local:SprintNewConfirmationViewModel}"
     Width="800"
     Height="600">
 
@@ -45,8 +41,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/SprintStateIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/OkCancelWindowStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <converters:StoryPointsToNumberConverter x:Key="StoryPointsToNumberConverter" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -55,52 +49,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </Window.Style>
 
     <customControls:OkCancelWindow.TitleIcon>
-        <customControls:GenericIcon Style="{StaticResource CloseIconStyle}" />
+        <customControls:GenericIcon Style="{StaticResource SprintNewIconStyle}" />
     </customControls:OkCancelWindow.TitleIcon>
 
-    <Grid>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Label
-            Grid.Row="0"
-            Grid.Column="0"
-            Content="_Actual Burn (SP):"
-            VerticalAlignment="Center"
-            Target="TextBoxActualStoryPoints" />
-
-        <TextBox
-            Grid.Row="0"
-            Grid.Column="2"
-            x:Name="TextBoxActualStoryPoints"
-            Text="{Binding ActualStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
-            TabIndex="1"
-            FontSize="20" />
-
-        <Label
-            Grid.Row="1"
-            Grid.Column="0"
-            Content="_Comments:"
-            VerticalAlignment="Center"
-            Target="TextBoxComments" />
-
-        <TextBox
-            Grid.Row="1"
-            Grid.Column="2"
-            x:Name="TextBoxComments"
-            Text="{Binding Comments}"
-            Style="{StaticResource MultilineTextBoxStyle}"
-            Margin="0 20 0 0"
-            TabIndex="2" />
-    </Grid>
+    <Grid />
 
 </customControls:OkCancelWindow>

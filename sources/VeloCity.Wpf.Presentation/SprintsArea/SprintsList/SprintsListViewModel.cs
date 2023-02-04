@@ -23,7 +23,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
-using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
 {
@@ -71,13 +71,17 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
             }
         }
 
+        public NewSprintCommand NewSprintCommand { get; }
+
         public SprintsListViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-
+            
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+
+            NewSprintCommand = new NewSprintCommand(requestBus);
 
             _ = Initialize();
         }

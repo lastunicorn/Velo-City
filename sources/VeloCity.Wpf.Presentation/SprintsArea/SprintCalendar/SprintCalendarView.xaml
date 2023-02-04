@@ -80,7 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 <Border.Background>
                                     <SolidColorBrush
                                         Color="{StaticResource AccentColor}"
-                                        Opacity=".5"/>
+                                        Opacity=".5" />
                                 </Border.Background>
                             </Border>
                         </DataTemplate>
@@ -98,7 +98,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             <customControls:CalendarDate
                                 Value="{Binding Date}"
                                 ShowWeekDay="True"
-                                Margin="2"/>
+                                Margin="5"
+                                MonthFontSize="10" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 
@@ -176,7 +177,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         <customControls:AbsenceDetailsControl
                                             ItemsSource="{Binding TeamMemberAbsences}"
                                             OfficialHolidays="{Binding OfficialHolidayAbsences}"
-                                            Text ="{Binding Text}"
+                                            Text="{Binding Text}"
                                             Margin="0 2">
 
                                             <customControls:AbsenceDetailsControl.ItemTemplate>

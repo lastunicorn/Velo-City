@@ -1,0 +1,55 @@
+﻿// VeloCity
+// Copyright (C) 2022 Dust in the Wind
+// 
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
+using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
+using MediatR;
+
+namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint
+{
+    public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
+    {
+        private readonly ISprintNewConfirmation sprintNewConfirmation;
+
+        public CreateNewSprintUseCase(ISprintNewConfirmation sprintNewConfirmation)
+        {
+            this.sprintNewConfirmation = sprintNewConfirmation ?? throw new ArgumentNullException(nameof(sprintNewConfirmation));
+        }
+
+        public async Task<Unit> Handle(CreateNewSprintRequest request, CancellationToken cancellationToken)
+        {
+            SprintNewConfirmationResponse sprintStartConfirmationResponse = await RequestUserConfirmation();
+
+            if (sprintStartConfirmationResponse.IsAccepted)
+            {
+            }
+
+            return Unit.Value;
+        }
+
+        private async Task<SprintNewConfirmationResponse> RequestUserConfirmation()
+        {
+            SprintNewConfirmationRequest sprintNewConfirmationRequest = new();
+            return sprintNewConfirmation.ConfirmNewSprint(sprintNewConfirmationRequest);
+        }
+    }
+}
