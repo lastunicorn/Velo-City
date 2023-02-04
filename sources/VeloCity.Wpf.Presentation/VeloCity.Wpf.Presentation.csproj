@@ -27,21 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ItemGroup>
       <Compile Remove="Converters\**" />
-      <Compile Remove="SprintsArea\CloseSprintConfirmation\**" />
-      <Compile Remove="SprintsArea\NewSprintConfirmation\**" />
-      <Compile Remove="SprintsArea\StartSprintConfirmation\**" />
       <EmbeddedResource Remove="Converters\**" />
-      <EmbeddedResource Remove="SprintsArea\CloseSprintConfirmation\**" />
-      <EmbeddedResource Remove="SprintsArea\NewSprintConfirmation\**" />
-      <EmbeddedResource Remove="SprintsArea\StartSprintConfirmation\**" />
-      <None Remove="Converters\**" />
-      <None Remove="SprintsArea\CloseSprintConfirmation\**" />
-      <None Remove="SprintsArea\NewSprintConfirmation\**" />
-      <None Remove="SprintsArea\StartSprintConfirmation\**" />
-      <Page Remove="Converters\**" />
-      <Page Remove="SprintsArea\CloseSprintConfirmation\**" />
-      <Page Remove="SprintsArea\NewSprintConfirmation\**" />
-      <Page Remove="SprintsArea\StartSprintConfirmation\**" />
     </ItemGroup>
 
     <ItemGroup>
