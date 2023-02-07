@@ -21,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
@@ -51,6 +52,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
+            eventBus.Subscribe<SprintsListChangedEvent>(HandleSprintsListChangedEvent);
         }
 
         private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
@@ -64,6 +66,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
         }
 
         private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintCalendar();
+        }
+
+        private async Task HandleSprintsListChangedEvent(SprintsListChangedEvent ev, CancellationToken cancellationToken)
         {
             await RetrieveSprintCalendar();
         }

@@ -29,7 +29,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
       <ProjectReference Include="..\VeloCity.Ports.UserAccess\VeloCity.Ports.UserAccess.csproj" PrivateAssets="All" />
       <ProjectReference Include="..\VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj" />
-      <ProjectReference Include="..\VeloCity.Wpf.Presentation\VeloCity.Wpf.Presentation.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="CloseSprintConfirmation\SprintCloseConfirmationWindow.xaml.cs">
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="NewSprintConfirmation\NewSprintConfirmationWindow.xaml.cs">
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="CloseSprintConfirmation\CloseSprintConfirmationPopup.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
+      <Page Update="CloseSprintConfirmation\SprintCloseConfirmationWindow.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="NewSprintConfirmation\NewSprintConfirmationWindow.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="StartSprintConfirmation\SprintStartConfirmationWindow.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
     </ItemGroup>
 
 </Project>

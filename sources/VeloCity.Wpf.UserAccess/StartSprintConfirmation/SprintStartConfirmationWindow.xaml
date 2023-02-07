@@ -17,23 +17,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <customControls:OkCancelWindow
-    x:Class="DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation.SprintCloseConfirmationWindow"
+    x:Class="DustInTheWind.VeloCity.Wpf.UserAccess.StartSprintConfirmation.SprintStartConfirmationWindow"
 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Converters"
     xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
-    xmlns:closeSprintConfirmation="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation"
+    xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.UserAccess.Converters"
+    xmlns:startSprintConfirmation="clr-namespace:DustInTheWind.VeloCity.Wpf.UserAccess.StartSprintConfirmation"
 
     mc:Ignorable="d"
     Title="{Binding Title}"
-    Subtitle="{Binding SprintName}"
+    Subtitle="{Binding SprintTitle, Mode=OneWay}"
     WindowStartupLocation="CenterOwner"
-    ResizeMode="CanResizeWithGrip"
-    d:DataContext="{d:DesignInstance closeSprintConfirmation:SprintCloseConfirmationViewModel}"
-    IsXButtonVisible="False"
+    d:DataContext="{d:DesignInstance startSprintConfirmation:SprintStartConfirmationViewModel}"
     Width="800"
     Height="600">
 
@@ -42,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/StandardControls/StandardControlStyles.xaml" />
-                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/CloseIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/SprintStateIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/OkCancelWindowStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
@@ -55,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </Window.Style>
 
     <customControls:OkCancelWindow.TitleIcon>
-        <customControls:GenericIcon Style="{StaticResource CloseIconStyle}" />
+        <customControls:GenericIcon Style="{StaticResource StartIconStyle}" />
     </customControls:OkCancelWindow.TitleIcon>
 
     <Grid>
@@ -68,39 +66,80 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label
+        <TextBlock
             Grid.Row="0"
             Grid.Column="0"
-            Content="_Actual Burn (SP):"
-            VerticalAlignment="Center"
-            Target="TextBoxActualStoryPoints" />
+            Text="Estimated Capacity:"
+            VerticalAlignment="Top" />
 
-        <TextBox
+        <TextBlock
             Grid.Row="0"
             Grid.Column="2"
-            x:Name="TextBoxActualStoryPoints"
-            Text="{Binding ActualStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
-            TabIndex="1"
+            Text="{Binding EstimatedStoryPoints, StringFormat=standard}"
+            MinHeight="35"
+            VerticalAlignment="Center"
             FontSize="20" />
 
         <Label
             Grid.Row="1"
             Grid.Column="0"
-            Content="_Comments:"
+            Content="_Commitment (Story Points):"
             VerticalAlignment="Center"
-            Target="TextBoxComments" />
+            Target="TextBoxCommitmentStoryPoints" />
 
         <TextBox
             Grid.Row="1"
             Grid.Column="2"
-            x:Name="TextBoxComments"
-            Text="{Binding Comments}"
+            x:Name="TextBoxCommitmentStoryPoints"
+            Text="{Binding CommitmentStoryPoints, Converter={StaticResource StoryPointsToNumberConverter}}"
+            TabIndex="1"
+            Margin="0 3 0 0"
+            FontSize="20" />
+
+        <Border
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Height="2"
+            Background="{StaticResource BorderBrush}"
+            VerticalAlignment="Center" />
+
+        <Label
+            Grid.Row="3"
+            Grid.Column="0"
+            Content="Sprint _Title:"
+            VerticalAlignment="Center"
+            Target="TextBoxSprintTitle" />
+
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="2"
+            x:Name="TextBoxSprintTitle"
+            Text="{Binding SprintTitle}"
+            TabIndex="1"
+            FontSize="20" />
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            Content="Sprint's _Goal:"
+            VerticalAlignment="Center"
+            Target="TextBoxSprintGoal" />
+
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="2"
+            x:Name="TextBoxSprintGoal"
+            Text="{Binding SprintGoal}"
+            TabIndex="2"
             Style="{StaticResource MultilineTextBoxStyle}"
-            Margin="0 20 0 0"
-            TabIndex="2" />
+            Margin="0 20 0 0" />
     </Grid>
 
 </customControls:OkCancelWindow>

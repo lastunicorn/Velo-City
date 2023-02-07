@@ -18,6 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
@@ -108,6 +109,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
+            eventBus.Subscribe<SprintsListChangedEvent>(HandleSprintsListChangedEvent);
         }
 
         private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
@@ -130,6 +132,11 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints
             }
 
             return Task.CompletedTask;
+        }
+
+        private async Task HandleSprintsListChangedEvent(SprintsListChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintDetails();
         }
 
         private async Task RetrieveSprintDetails()

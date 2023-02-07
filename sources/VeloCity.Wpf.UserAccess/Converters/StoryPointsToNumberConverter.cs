@@ -20,7 +20,7 @@ using System.Windows;
 using System.Windows.Data;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Converters
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.Converters
 {
     internal class StoryPointsToNumberConverter : IValueConverter
     {

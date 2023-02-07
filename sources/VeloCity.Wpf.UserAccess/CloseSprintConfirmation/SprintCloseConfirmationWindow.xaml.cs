@@ -14,12 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.ObjectModel;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.CloseSprintConfirmation
 {
-    public class AbsenceGroup : Collection<TeamMemberAbsence>
+    /// <summary>
+    /// Interaction logic for SprintCloseConfirmationWindow.xaml
+    /// </summary>
+    public partial class SprintCloseConfirmationWindow : OkCancelWindow
     {
-        public OfficialHolidayDto OfficialHoliday { get; init; }
+        public SprintCloseConfirmationWindow()
+        {
+            InitializeComponent();
+        }
     }
 }

@@ -21,6 +21,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
@@ -241,6 +242,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
             eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
             eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
+            eventBus.Subscribe<SprintsListChangedEvent>(HandleSprintsListChangedEvent);
         }
 
         private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
@@ -258,11 +260,15 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             await RetrieveSprintOverview();
         }
 
+        private async Task HandleSprintsListChangedEvent(SprintsListChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await RetrieveSprintOverview();
+        }
+
         private async Task RetrieveSprintOverview()
         {
             PresentSprintOverviewRequest request = new();
-
-            //PresentSprintOverviewResponse response = await mediator.Send(request);
+            
             PresentSprintOverviewResponse response = await requestBus.Send<PresentSprintOverviewRequest, PresentSprintOverviewResponse>(request);
 
             DisplayResponse(response);

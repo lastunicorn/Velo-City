@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/ChartBarStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/AbsenceDetailsControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/OfficialHolidayAbsenceControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/CalendarDateStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -72,35 +73,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border
-                                Background="{StaticResource AccentBrush}"
                                 Height="30"
                                 CornerRadius="2"
-                                Visibility="{Binding IsCurrentDay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                Visibility="{Binding IsCurrentDay, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                                <Border.Background>
+                                    <SolidColorBrush
+                                        Color="{StaticResource AccentColor}"
+                                        Opacity=".5" />
+                                </Border.Background>
+                            </Border>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn
-                    Binding="{Binding Date, StringFormat={}{0:dddd}}"
-                    CanUserSort="False">
-
-                    <DataGridTextColumn.Header>
-                        <DataGridColumnHeader
-                            Content="Week Day"
-                            HorizontalAlignment="Center" />
-                    </DataGridTextColumn.Header>
-
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-
-                <DataGridTextColumn
+                <DataGridTemplateColumn
                     Header="Date"
-                    Binding="{Binding Date, StringFormat=d}"
-                    CanUserSort="False" />
+                    CanUserSort="False"
+                    IsReadOnly="True">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <customControls:CalendarDate
+                                Value="{Binding Date}"
+                                ShowWeekDay="True"
+                                Margin="5"
+                                MonthFontSize="10" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
 
                 <DataGridTextColumn
                     Binding="{Binding WorkHours}"
@@ -123,6 +126,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             </Style.Triggers>
                         </Style>
                     </DataGridTextColumn.ElementStyle>
+
                 </DataGridTextColumn>
 
                 <DataGridTemplateColumn
@@ -173,6 +177,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         <customControls:AbsenceDetailsControl
                                             ItemsSource="{Binding TeamMemberAbsences}"
                                             OfficialHolidays="{Binding OfficialHolidayAbsences}"
+                                            Text="{Binding Text}"
                                             Margin="0 2">
 
                                             <customControls:AbsenceDetailsControl.ItemTemplate>
@@ -204,6 +209,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+
                 </DataGridTemplateColumn>
 
             </DataGrid.Columns>

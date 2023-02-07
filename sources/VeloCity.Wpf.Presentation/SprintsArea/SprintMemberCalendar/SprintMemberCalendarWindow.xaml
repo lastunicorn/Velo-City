@@ -47,6 +47,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/AddVacationIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/RemoveVacationIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/ChartBarStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/CalendarDateStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <sprintMemberCalendar:HoursValueConverter x:Key="HoursValueConverter" />
@@ -84,37 +85,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <Border
-                            Background="{StaticResource AccentBrush}"
                             Height="30"
                             CornerRadius="2"
-                            Visibility="{Binding IsCurrentDay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            Visibility="{Binding IsCurrentDay, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                            <Border.Background>
+                                <SolidColorBrush
+                                    Color="{StaticResource AccentColor}"
+                                    Opacity=".5" />
+                            </Border.Background>
+                        </Border>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-            <DataGridTextColumn
-                Binding="{Binding Date, StringFormat={}{0:dddd}}"
+            <DataGridTemplateColumn
+                Header="Date"
                 CanUserSort="False"
                 IsReadOnly="True">
 
-                <DataGridTextColumn.Header>
-                    <DataGridColumnHeader
-                        Content="Week Day"
-                        HorizontalAlignment="Center" />
-                </DataGridTextColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <customControls:CalendarDate
+                            Value="{Binding Date}"
+                            ShowWeekDay="True"
+                            Margin="5"
+                            MonthFontSize="10" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
 
-                <DataGridTextColumn.ElementStyle>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="HorizontalAlignment" Value="Center" />
-                    </Style>
-                </DataGridTextColumn.ElementStyle>
-            </DataGridTextColumn>
-
-            <DataGridTextColumn
-                Header="Date"
-                Binding="{Binding Date, StringFormat={}{0:d}}"
-                CanUserSort="False"
-                IsReadOnly="True" />
+            </DataGridTemplateColumn>
 
             <DataGridTextColumn
                 Binding="{Binding WorkHours}"

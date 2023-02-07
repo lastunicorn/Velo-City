@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using MediatR;
@@ -31,16 +32,16 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
         private readonly IUnitOfWork unitOfWork;
         private readonly ApplicationState applicationState;
         private readonly EventBus eventBus;
-        private readonly ISprintStartConfirmation sprintStartConfirmation;
+        private readonly IUserInterface userInterface;
         private readonly IRequestBus requestBus;
 
         public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
-            ISprintStartConfirmation sprintStartConfirmation, IRequestBus requestBus)
+            IUserInterface userInterface, IRequestBus requestBus)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            this.sprintStartConfirmation = sprintStartConfirmation ?? throw new ArgumentNullException(nameof(sprintStartConfirmation));
+            this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
             this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
         }
 
@@ -129,7 +130,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
                 SprintGoal = selectedSprint.Goal
             };
 
-            return sprintStartConfirmation.ConfirmStartSprint(sprintStartConfirmationRequest);
+            return userInterface.ConfirmStartSprint(sprintStartConfirmationRequest);
         }
 
         private static void UpdateSprint(Sprint selectedSprint, SprintStartConfirmationResponse sprintStartConfirmationResponse)

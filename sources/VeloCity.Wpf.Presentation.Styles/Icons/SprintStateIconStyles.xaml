@@ -26,6 +26,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/GenericIconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- New Icon -->
+
+    <Geometry x:Key="SprintNewGeometry">
+        M 256 0 A 256 256 0 0 0 0 256 A 256 256 0 0 0 256 512 A 256 256 0 0 0 512 256 A 256 256 0 0 0 256 0 z M 256 106 A 150 150 0 0 1 406 256 A 150 150 0 0 1 256 406 A 150 150 0 0 1 106 256 A 150 150 0 0 1 256 106 z
+    </Geometry>
+
+    <Style
+        x:Key="SprintNewIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Foreground" Value="{StaticResource IconPrimaryBrush}" />
+        <Setter Property="Geometry" Value="{StaticResource SprintNewGeometry}" />
+
+    </Style>
+
+    <!-- Start Icon -->
+
     <Geometry x:Key="StartIconGeometry">
         M 256 0 A 256 256 0 0 0 0 256 A 256 256 0 0 0 256 512 A 256 256 0 0 0 512 256 A 256 256 0 0 0 256 0 z M 256 106 A 150 150 0 0 1 406 256 A 150 150 0 0 1 256 406 A 150 150 0 0 1 106 256 A 150 150 0 0 1 256 106 z
     </Geometry>
@@ -37,6 +55,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
         <Setter Property="Geometry" Value="{StaticResource StartIconGeometry}" />
+
+    </Style>
+
+    <!-- Close Icon -->
+
+    <EllipseGeometry
+        x:Key="CloseIconGeometry"
+        Center="128,128"
+        RadiusX="128"
+        RadiusY="128" />
+
+    <Style
+        x:Key="CloseIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
+        <Setter Property="Geometry" Value="{StaticResource CloseIconGeometry}" />
 
     </Style>
 

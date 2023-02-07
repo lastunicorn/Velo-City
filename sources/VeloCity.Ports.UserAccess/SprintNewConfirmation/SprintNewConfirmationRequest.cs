@@ -14,18 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Windows.Controls;
+using System;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.CloseSprintConfirmation
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation
 {
-    /// <summary>
-    /// Interaction logic for CloseSprintConfirmationPopup.xaml
-    /// </summary>
-    public partial class CloseSprintConfirmationPopup : UserControl
+    public class SprintNewConfirmationRequest
     {
-        public CloseSprintConfirmationPopup()
-        {
-            InitializeComponent();
-        }
+        public string SprintTitle { get; set; }
+
+        public int SprintNumber { get; set; }
+        
+        public DateTime SprintStartDate { get; set; }
+        
+        public uint SprintLength { get; set; }
     }
 }

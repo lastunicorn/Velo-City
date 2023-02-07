@@ -16,14 +16,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
-using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
 {
@@ -71,13 +73,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
             }
         }
 
+        public NewSprintCommand NewSprintCommand { get; }
+
         public SprintsListViewModel(IRequestBus requestBus, EventBus eventBus)
         {
             this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
             this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-
+            
             eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
             eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+            eventBus.Subscribe<SprintsListChangedEvent>(HandleSprintsListChangedEvent);
+
+            NewSprintCommand = new NewSprintCommand(requestBus);
 
             _ = Initialize();
         }
@@ -92,6 +99,13 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
             SelectedSprint = sprints.FirstOrDefault(x => x.SprintId == ev.NewSprintId);
 
             return Task.CompletedTask;
+        }
+
+        private async Task HandleSprintsListChangedEvent(SprintsListChangedEvent ev, CancellationToken cancellationToken)
+        {
+            await Initialize();
+
+            SelectedSprint = sprints.FirstOrDefault(x => x.SprintId == ev.NewSprintId);
         }
 
         private async Task Initialize()

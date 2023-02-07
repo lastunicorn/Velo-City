@@ -14,12 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.ObjectModel;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Ports.UserAccess
 {
-    public class AbsenceGroup : Collection<TeamMemberAbsence>
+    public interface IUserInterface
     {
-        public OfficialHolidayDto OfficialHoliday { get; init; }
+        SprintNewConfirmationResponse ConfirmNewSprint(SprintNewConfirmationRequest request);
+
+        SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request);
+
+        SprintCloseConfirmationResponse ConfirmCloseSprint(SprintCloseConfirmationRequest request);
     }
 }

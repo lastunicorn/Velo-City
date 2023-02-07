@@ -14,10 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation
+using DustInTheWind.VeloCity.Domain;
+
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation
 {
-    public interface ISprintStartConfirmation
+    public class SprintNewConfirmationResponse
     {
-        SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request);
+        public bool IsAccepted { get; set; }
+
+        public string SprintTitle { get; set; }
+
+        public DateInterval SprintTimeInterval { get; set; }
     }
 }

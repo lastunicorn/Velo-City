@@ -148,5 +148,12 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .OrderByDescending(x => x.StartDate)
                 .Where(x => x.EndDate >= startDate && x.StartDate <= endDate);
         }
+
+        public void Add(Sprint sprint)
+        {
+            if (sprint == null) throw new ArgumentNullException(nameof(sprint));
+
+            dbContext.Sprints.Add(sprint);
+        }
     }
 }

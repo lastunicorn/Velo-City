@@ -15,17 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Presentation;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.CloseSprintConfirmation
 {
-    public class SprintStartConfirmationViewModel : ViewModelBase
+    public class SprintCloseConfirmationViewModel : ViewModelBase
     {
         private string title;
+        private string sprintName;
         private int sprintNumber;
-        private StoryPoints estimatedStoryPoints;
-        private StoryPoints commitmentStoryPoints;
-        private string sprintTitle;
-        private string sprintGoal;
+        private StoryPoints actualStoryPoints;
+        private string comments;
 
         public string Title
         {
@@ -36,7 +36,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirm
                 OnPropertyChanged();
             }
         }
-        
+
+        public string SprintName
+        {
+            get => sprintName;
+            set
+            {
+                sprintName = value;
+
+                RefreshTitle();
+            }
+        }
+
         public int SprintNumber
         {
             get => sprintNumber;
@@ -48,49 +59,29 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.StartSprintConfirm
             }
         }
 
-        public StoryPoints EstimatedStoryPoints
+        public StoryPoints ActualStoryPoints
         {
-            get => estimatedStoryPoints;
+            get => actualStoryPoints;
             set
             {
-                estimatedStoryPoints = value;
+                actualStoryPoints = value;
                 OnPropertyChanged();
             }
         }
 
-        public StoryPoints CommitmentStoryPoints
+        public string Comments
         {
-            get => commitmentStoryPoints;
+            get => comments;
             set
             {
-                commitmentStoryPoints = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string SprintTitle
-        {
-            get => sprintTitle;
-            set
-            {
-                sprintTitle = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string SprintGoal
-        {
-            get => sprintGoal;
-            set
-            {
-                sprintGoal = value;
+                comments = value;
                 OnPropertyChanged();
             }
         }
 
         private void RefreshTitle()
         {
-            Title = $"Start Sprint {sprintNumber}";
+            Title = $"Close Sprint {sprintNumber}";
         }
     }
 }

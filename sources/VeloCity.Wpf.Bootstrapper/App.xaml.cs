@@ -31,7 +31,7 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            IContainer container = SetupServices.BuildContainer();
+            IContainer container = Setup.BuildContainer();
 
             SetCurrentCulture(container);
             OpenDatabase(container);

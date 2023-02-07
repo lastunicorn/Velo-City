@@ -1,0 +1,117 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<customControls:OkCancelWindow
+    x:Class="DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation.NewSprintConfirmationWindow"
+
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls"
+    xmlns:newSprintConfirmation="clr-namespace:DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation"
+
+    mc:Ignorable="d"
+    Title="{Binding Title}"
+    WindowStartupLocation="CenterOwner"
+    d:DataContext="{d:DesignInstance newSprintConfirmation:SprintNewConfirmationViewModel}"
+    Width="800"
+    Height="600">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/StandardControls/StandardControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/SprintStateIconStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/OkCancelWindowStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/CalendarDateStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.Style>
+        <StaticResource ResourceKey="{x:Type customControls:OkCancelWindow}" />
+    </Window.Style>
+
+    <customControls:OkCancelWindow.TitleIcon>
+        <customControls:GenericIcon Style="{StaticResource SprintNewIconStyle}" />
+    </customControls:OkCancelWindow.TitleIcon>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Text="Title"
+            Margin="0 0 0 8" />
+
+        <TextBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Text="{Binding SprintTitle}" />
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="0"
+            Text="Length (Days)"
+            Margin="0 30 0 8" />
+
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="0"
+            Text="{Binding SprintLength, UpdateSourceTrigger=PropertyChanged}" />
+
+        <StackPanel
+            Grid.Row="5"
+            Grid.Column="0"
+            Orientation="Horizontal"
+            Margin="0 40 0 0"
+            HorizontalAlignment="Center">
+
+            <customControls:CalendarDate
+                Value="{Binding StartDate}"
+                ShowWeekDay="True"
+                MonthFontSize="10"
+                FontSize="20"
+                Padding="10"/>
+
+            <customControls:CalendarDate
+                Value="{Binding EndDate}"
+                ShowWeekDay="True"
+                Margin="60 0 0 0"
+                MonthFontSize="10"
+                FontSize="20" />
+
+        </StackPanel>
+
+    </Grid>
+
+</customControls:OkCancelWindow>

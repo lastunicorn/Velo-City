@@ -25,21 +25,21 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
 {
     internal class MediatRRequestBus : IRequestBus
     {
-        private readonly ILifetimeScope componentContext;
+        private readonly ILifetimeScope lifetimeScope;
 
-        public MediatRRequestBus(ILifetimeScope componentContext)
+        public MediatRRequestBus(ILifetimeScope lifetimeScope)
         {
-            this.componentContext = componentContext ?? throw new ArgumentNullException(nameof(componentContext));
+            this.lifetimeScope = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
         }
 
         public async Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default)
         {
-            await using ILifetimeScope lifetimeScope = componentContext.BeginLifetimeScope();
+            await using ILifetimeScope localLifetimeScope = lifetimeScope.BeginLifetimeScope();
 
-            IMediator mediator = lifetimeScope.Resolve<IMediator>();
+            IMediator mediator = localLifetimeScope.Resolve<IMediator>();
 
-            if (request is IRequest<TResponse> mediatRRequest)
-                return await mediator.Send(mediatRRequest, cancellationToken);
+            if (request is IRequest<TResponse> mediatorRequest)
+                return await mediator.Send(mediatorRequest, cancellationToken);
 
             object rawResponse = await mediator.Send(request, cancellationToken);
 
@@ -52,12 +52,12 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
 
         public async Task Send<TRequest>(TRequest request, CancellationToken cancellationToken)
         {
-            await using ILifetimeScope lifetimeScope = componentContext.BeginLifetimeScope();
+            await using ILifetimeScope localLifetimeScope = lifetimeScope.BeginLifetimeScope();
 
-            IMediator mediator = lifetimeScope.Resolve<IMediator>();
+            IMediator mediator = localLifetimeScope.Resolve<IMediator>();
 
-            if (request is IRequest mediatRRequest)
-                await mediator.Send(mediatRRequest, cancellationToken);
+            if (request is IRequest mediatorRequest)
+                await mediator.Send(mediatorRequest, cancellationToken);
             else
                 await mediator.Send(request, cancellationToken);
         }

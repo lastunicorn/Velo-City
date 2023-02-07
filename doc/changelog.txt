@@ -3,6 +3,11 @@ Velo City
 
 v1.15.0
 ----------------------------------------------------------------------------------------------------
+- [feature] [wpf] Added button for creating a new sprint.
+- [feature] [wpf] Changed the design of a date displayed in the calendar.
+- [feature] [wpf] Displayed holiday information in the calendar even in the week-ends.
+- [bug fix] [wpf] In info bobble: Wrap holiday title if it is too long.
+- [feature] [wpf] Display a mark on the current day in the calendar.
 
 
 v1.14.0
