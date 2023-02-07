@@ -20,7 +20,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 

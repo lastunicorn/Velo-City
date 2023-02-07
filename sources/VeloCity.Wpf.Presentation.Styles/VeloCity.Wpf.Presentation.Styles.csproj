@@ -104,6 +104,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <Page Update="StandardControls\Buttons\ToolBarButtonStyles.xaml">
         <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       </Page>
+      <Page Update="StandardControls\DatePickerStyles.xaml">
+        <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      </Page>
     </ItemGroup>
 
 </Project>

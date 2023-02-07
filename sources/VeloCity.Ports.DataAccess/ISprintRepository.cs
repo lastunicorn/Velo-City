@@ -51,5 +51,7 @@ namespace DustInTheWind.VeloCity.Ports.DataAccess
         bool IsAnyInProgress();
 
         bool IsFirstNewSprint(int sprintId);
+        
+        void Add(Sprint sprint);
     }
 }

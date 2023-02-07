@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
@@ -28,18 +29,24 @@ namespace DustInTheWind.VeloCity.Wpf.UserAccess
     {
         public SprintNewConfirmationResponse ConfirmNewSprint(SprintNewConfirmationRequest request)
         {
-            SprintNewConfirmationViewModel viewModel = new();
+            SprintNewConfirmationViewModel viewModel = new(request.SprintNumber, request.SprintStartDate)
+            {
+                SprintTitle = request.SprintTitle,
+                SprintLength = request.SprintLength
+            };
             NewSprintConfirmationWindow window = new()
             {
                 DataContext = viewModel,
                 Owner = System.Windows.Application.Current.MainWindow
             };
 
-            bool? response = window.ShowDialog();
+            bool? isAccepted = window.ShowDialog();
 
             return new SprintNewConfirmationResponse
             {
-                IsAccepted = response == true
+                IsAccepted = isAccepted == true,
+                SprintTitle = viewModel.SprintTitle,
+                SprintTimeInterval = new DateInterval(viewModel.StartDate, viewModel.EndDate)
             };
         }
 

@@ -21,6 +21,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
     public class LabeledContent : ContentControl
     {
+        #region Label
+
         public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
             nameof(Label),
             typeof(object),
@@ -33,6 +35,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             get => GetValue(LabelProperty);
             set => SetValue(LabelProperty, value);
         }
+
+        #endregion
+
+        #region InfoContent
 
         public static readonly DependencyProperty InfoContentProperty = DependencyProperty.Register(
             nameof(InfoContent),
@@ -47,6 +53,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             set => SetValue(InfoContentProperty, value);
         }
 
+        #endregion
+
+        #region BetweenSpace
+
         public static readonly DependencyProperty BetweenSpaceProperty = DependencyProperty.Register(
             nameof(BetweenSpace),
             typeof(GridLength),
@@ -59,6 +69,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
             get => (GridLength)GetValue(LabelProperty);
             set => SetValue(LabelProperty, value);
         }
+
+        #endregion
 
         static LabeledContent()
         {
