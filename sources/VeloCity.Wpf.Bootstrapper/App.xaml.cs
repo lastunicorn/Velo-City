@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Globalization;
+using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
 using Autofac;
@@ -40,7 +41,7 @@ namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
             mainWindow.Show();
 
             MainWindow = mainWindow;
-
+            
             base.OnStartup(e);
         }
 

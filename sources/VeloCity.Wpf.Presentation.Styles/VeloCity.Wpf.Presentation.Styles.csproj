@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0-windows</TargetFramework>
+        <TargetFramework>net6.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
         <AssemblyName>DustInTheWind.VeloCity.Wpf.Presentation.Styles</AssemblyName>
         <RootNamespace>DustInTheWind.VeloCity.Wpf.Presentation.Styles</RootNamespace>

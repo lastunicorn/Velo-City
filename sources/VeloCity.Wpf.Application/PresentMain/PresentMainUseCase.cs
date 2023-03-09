@@ -22,7 +22,7 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentMain
 {
-    public class PresentMainUseCase : IRequestHandler<PresentMainRequest, PresentMainResponse>
+    internal class PresentMainUseCase : IRequestHandler<PresentMainRequest, PresentMainResponse>
     {
         private readonly IConfig config;
 

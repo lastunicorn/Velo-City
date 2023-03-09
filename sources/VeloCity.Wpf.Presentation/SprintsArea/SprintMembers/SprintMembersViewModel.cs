@@ -27,6 +27,7 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
 {

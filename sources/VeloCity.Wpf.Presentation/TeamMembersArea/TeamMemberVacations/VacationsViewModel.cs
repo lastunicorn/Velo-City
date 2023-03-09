@@ -25,6 +25,7 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
 {

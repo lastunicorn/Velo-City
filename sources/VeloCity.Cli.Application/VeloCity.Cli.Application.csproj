@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <AssemblyName>DustInTheWind.VeloCity.Cli.Application</AssemblyName>
         <RootNamespace>DustInTheWind.VeloCity.Cli.Application</RootNamespace>
     </PropertyGroup>

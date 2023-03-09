@@ -24,6 +24,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using LiveCharts;
 using LiveCharts.Wpf;
 

@@ -21,6 +21,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
 

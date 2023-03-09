@@ -23,6 +23,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList

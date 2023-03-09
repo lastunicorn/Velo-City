@@ -87,7 +87,7 @@ namespace DustInTheWind.VeloCity.Domain
             teamMember.VacationsChanged += HandleTeamMemberVacationsChanged;
         }
 
-        private void HandleTeamMemberVacationsChanged(object? sender, EventArgs e)
+        private void HandleTeamMemberVacationsChanged(object sender, EventArgs e)
         {
             days = null;
 

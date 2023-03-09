@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <AssemblyName>velo</AssemblyName>
         <RootNamespace>DustInTheWind.VeloCity.Cli.Bootstrapper</RootNamespace>
         <ApplicationIcon>icon.ico</ApplicationIcon>

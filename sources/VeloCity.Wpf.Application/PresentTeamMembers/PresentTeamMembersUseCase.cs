@@ -46,23 +46,24 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers
 
             foreach (TeamMember teamMember in allTeamMembers)
             {
-                if (teamMember.IsEmployed)
+                if (teamMember.HasActiveEmployment)
                     employedTeamMembers.Add(teamMember);
                 else
                     unemployedTeamMembers.Add(teamMember);
             }
 
-            IEnumerable<TeamMember> orderedEmployedTeamMembers = employedTeamMembers
-                .OrderByEmployment();
+            IEnumerable<TeamMemberInfo> orderedEmployedTeamMembers = employedTeamMembers
+                .OrderByEmployment()
+                .Select(x => new TeamMemberInfo(x, true));
 
-            IEnumerable<TeamMember> orderedUnemployedTeamMembers = unemployedTeamMembers
-                .OrderByDescending(x => x.Employments.GetLastEmployment().EndDate);
+            IEnumerable<TeamMemberInfo> orderedUnemployedTeamMembers = unemployedTeamMembers
+                .OrderByDescending(x => x.Employments.GetLastEmployment().EndDate)
+                .Select(x => new TeamMemberInfo(x, false));
 
             PresentTeamMembersResponse response = new()
             {
                 TeamMembers = orderedEmployedTeamMembers
                     .Concat(orderedUnemployedTeamMembers)
-                    .Select(x => new TeamMemberInfo(x))
                     .ToList(),
                 CurrentTeamMemberId = applicationState.SelectedTeamMemberId
             };

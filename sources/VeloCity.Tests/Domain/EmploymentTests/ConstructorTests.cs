@@ -51,7 +51,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.EmploymentTests
         {
             Employment employment = new();
 
-            employment.HoursPerDay.Should().Be(0);
+            employment.HoursPerDay.Should().Be(HoursValue.Zero);
         }
 
         [Fact]

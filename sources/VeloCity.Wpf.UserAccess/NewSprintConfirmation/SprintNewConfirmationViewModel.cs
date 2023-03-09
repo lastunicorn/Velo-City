@@ -20,7 +20,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Windows.Controls;
-using DustInTheWind.VeloCity.Wpf.Presentation;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using ValidationResult = System.Windows.Controls.ValidationResult;
 
 namespace DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation

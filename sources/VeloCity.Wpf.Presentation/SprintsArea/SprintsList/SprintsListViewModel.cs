@@ -26,6 +26,7 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
 {

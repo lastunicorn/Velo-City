@@ -29,7 +29,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExcep
         {
             ConfigurationOpenException configurationOpenException = new(null);
 
-            configurationOpenException.Message.Should().Be(DustInTheWind.VeloCity.Ports.SettingsAccess.Resources.ConfigurationOpen_DefaultErrorMessage);
+            configurationOpenException.Message.Should().Be(Ports.SettingsAccess.Resources.ConfigurationOpen_DefaultErrorMessage);
         }
 
         [Fact]
@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExcep
             Exception innerException = new();
             ConfigurationOpenException configurationOpenException = new(innerException);
 
-            configurationOpenException.Message.Should().Be(DustInTheWind.VeloCity.Ports.SettingsAccess.Resources.ConfigurationOpen_DefaultErrorMessage);
+            configurationOpenException.Message.Should().Be(Ports.SettingsAccess.Resources.ConfigurationOpen_DefaultErrorMessage);
         }
 
         [Fact]

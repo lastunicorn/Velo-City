@@ -24,13 +24,13 @@ namespace DustInTheWind.VeloCity.Domain
         private List<VelocityPenalty> velocityPenalties;
         private VacationCollection vacations;
 
-        public int Id { get; set; }
+        public int Id { get; init; }
 
-        public PersonName Name { get; set; }
+        public PersonName Name { get; init; }
 
-        public EmploymentCollection Employments { get; set; }
+        public EmploymentCollection Employments { get; init; }
 
-        public bool IsEmployed
+        public bool HasActiveEmployment
         {
             get
             {
@@ -50,8 +50,8 @@ namespace DustInTheWind.VeloCity.Domain
                     vacations.Changed -= HandleVacationsChanged;
 
                 vacations = value;
-                
-                if(vacations != null)
+
+                if (vacations != null)
                     vacations.Changed += HandleVacationsChanged;
             }
         }

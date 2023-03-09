@@ -21,6 +21,7 @@ using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CapacityChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
 {

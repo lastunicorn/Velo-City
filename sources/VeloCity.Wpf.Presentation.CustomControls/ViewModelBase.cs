@@ -19,7 +19,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

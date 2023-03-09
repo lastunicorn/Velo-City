@@ -21,6 +21,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;

@@ -1,0 +1,36 @@
+
+
+1 AD - 325 AD
+The Easter was not clearly regulated
+	(a) on or just after the first day of the Jewish Passover (no matter on which day of the week that Easter Day occurred), or
+	(b) on a Sunday close to or on the first Passover Day.
+
+
+
+326 AD - 1582 AD
+Easter Sunday date was based on the Julian calendar.
+The Sunday following the Paschal Full Moon date for the year, using a simple "19 PFM dates" table.
+
+
+
+October 1582
+Gregorian chalendar was introduced
+The Julian calendar date Thursday October 4, 1582 was followed by the Gregorian calendar date Friday October 15, 1582. The 10 dates October 5 to 14 were removed.
+
+           October 1582
+           mo tu we th fr st su
+Julian      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 
+          >------------
+                       ----------------------------------->
+Gregorian  11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+           mo tu we th fr st su
+
+This replacement did not occur until later in many countries e.g. in September 1752 in England.
+
+
+
+1054 AD
+Orthodox church was born
+
+1054 AD - 1582 AD (Orthodox)
+- Easter same as Chatholic

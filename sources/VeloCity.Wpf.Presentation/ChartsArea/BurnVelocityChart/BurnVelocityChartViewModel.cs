@@ -23,6 +23,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using LiveCharts;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart
