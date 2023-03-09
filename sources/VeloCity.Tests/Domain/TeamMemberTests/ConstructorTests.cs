@@ -16,28 +16,28 @@
 
 using DustInTheWind.VeloCity.Domain;
 using FluentAssertions;
-using FluentAssertions.Execution;
-using FluentAssertions.Numeric;
-using FluentAssertions.Primitives;
 using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberTests
 {
     public class ConstructorTests
     {
+        private readonly TeamMember teamMember;
+
+        public ConstructorTests()
+        {
+            teamMember = new TeamMember();
+        }
+
         [Fact]
         public void WhenNewInstanceIsCreated_ThenIdIsZero()
         {
-            TeamMember teamMember = new();
-
             teamMember.Id.Should().Be(0);
         }
 
         [Fact]
         public void WhenNewInstanceIsCreated_ThenNameIsEmpty()
         {
-            TeamMember teamMember = new();
-
             teamMember.Name.FirstName.Should().BeNull();
             teamMember.Name.MiddleName.Should().BeNull();
             teamMember.Name.LastName.Should().BeNull();
@@ -47,9 +47,13 @@ namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberTests
         [Fact]
         public void WhenNewInstanceIsCreated_ThenEmploymentsIsNull()
         {
-            TeamMember teamMember = new();
-
             teamMember.Employments.Should().BeNull();
+        }
+
+        [Fact]
+        public void WhenNewInstanceIsCreated_ThenCommentsIsNull()
+        {
+            teamMember.Comments.Should().BeNull();
         }
     }
 }

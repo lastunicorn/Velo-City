@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,7 +31,9 @@ namespace DustInTheWind.VeloCity.Infrastructure
             List<object> actions;
 
             if (subscribers.ContainsKey(typeof(TEvent)))
+            {
                 actions = subscribers[typeof(TEvent)];
+            }
             else
             {
                 actions = new List<object>();
@@ -40,11 +43,12 @@ namespace DustInTheWind.VeloCity.Infrastructure
             actions.Add(action);
         }
 
-        public async Task Publish<TEvent>(TEvent @event, CancellationToken cancellationToken)
+        public async Task Publish<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
         {
             if (subscribers.ContainsKey(typeof(TEvent)))
             {
-                List<object> actions = subscribers[typeof(TEvent)];
+                IEnumerable<Func<TEvent, CancellationToken, Task>> actions = subscribers[typeof(TEvent)]
+                    .Cast<Func<TEvent, CancellationToken, Task>>();
 
                 foreach (Func<TEvent, CancellationToken, Task> action in actions)
                     await action(@event, cancellationToken);

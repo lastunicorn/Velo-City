@@ -21,34 +21,34 @@ using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
 {
-    public class ZeroInstanceTests
+    public class StaticZeroTests
     {
         [Fact]
-        public void HavingTheZeroStaticInstance_ThenValueIsZero()
+        public void HavingTheStaticZeroInstance_ThenValueIsZero()
         {
             StoryPoints.Zero.Value.Should().Be(0);
         }
 
         [Fact]
-        public void HavingTheZeroStaticInstance_ThenIsNullIsFalse()
+        public void HavingTheStaticZeroInstance_ThenIsNullIsFalse()
         {
             StoryPoints.Zero.IsEmpty.Should().BeFalse();
         }
 
         [Fact]
-        public void HavingTheZeroStaticInstance_ThenIsNotNullIsTrue()
+        public void HavingTheStaticZeroInstance_ThenIsNotNullIsTrue()
         {
             StoryPoints.Zero.IsNotEmpty.Should().BeTrue();
         }
 
         [Fact]
-        public void HavingTheZeroStaticInstance_ThenIsEmptyIsTrue()
+        public void HavingTheStaticZeroInstance_ThenIsZeroIsTrue()
         {
             StoryPoints.Zero.IsZero.Should().BeTrue();
         }
 
         [Fact]
-        public void HavingTheZeroStaticInstance_WhenSerialized_ThenStringContainsZeroSP()
+        public void HavingTheStaticZeroInstance_WhenSerialized_ThenStringContainsZeroSP()
         {
             string actual = StoryPoints.Zero.ToString();
 
@@ -56,7 +56,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         }
 
         [Fact]
-        public void HavingTheZeroStaticInstanceInEnUsCulture_WhenSerializedWithF2Formatting_ThenStringContainsZerosWithTwoDigitsSP()
+        public void HavingTheStaticZeroInstanceInEnUsCulture_WhenSerializedWithF2Formatting_ThenStringContainsZerosWithTwoDigitsSP()
         {
             CultureInfo.CurrentCulture = new CultureInfo("en-US");
             string actual = StoryPoints.Zero.ToString("F2");
@@ -65,7 +65,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         }
 
         [Fact]
-        public void HavingTheZeroStaticInstanceInEnUsCulture_WhenSerializedToStandardDigitsString_ThenStringContainsZeroSP()
+        public void HavingTheStaticZeroInstanceInEnUsCulture_WhenSerializedToStandardDigitsString_ThenStringContainsZeroSP()
         {
             CultureInfo.CurrentCulture = new CultureInfo("en-US");
             string actual = StoryPoints.Zero.ToStandardDigitsString();
@@ -74,7 +74,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         }
 
         [Fact]
-        public void HavingTheZeroStaticInstance_WhenImplicitlyCastToFloat_ThenZeroIsReturned()
+        public void HavingTheStaticZeroInstance_WhenImplicitlyCastToFloat_ThenZeroIsReturned()
         {
             float actual = StoryPoints.Zero;
 
@@ -82,7 +82,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         }
 
         [Fact]
-        public void HavingTheZeroStaticInstance_WhenImplicitlyCastToNullableFloat_ThenZeroIsReturned()
+        public void HavingTheStaticZeroInstance_WhenImplicitlyCastToNullableFloat_ThenZeroIsReturned()
         {
             float? actual = StoryPoints.Zero;
 

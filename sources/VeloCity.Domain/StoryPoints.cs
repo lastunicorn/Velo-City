@@ -91,11 +91,12 @@ namespace DustInTheWind.VeloCity.Domain
         public static implicit operator StoryPoints(float? storyPoints)
         {
             if (storyPoints == null)
+            {
                 return new StoryPoints
                 {
-                    Value = 0,
                     IsEmpty = true
                 };
+            }
 
             return new StoryPoints
             {

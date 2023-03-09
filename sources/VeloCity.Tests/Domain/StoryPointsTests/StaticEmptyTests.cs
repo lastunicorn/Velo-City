@@ -20,34 +20,34 @@ using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
 {
-    public class EmptyInstanceTests
+    public class StaticEmptyTests
     {
         [Fact]
-        public void HavingTheEmptyStaticInstance_ThenValueIsZero()
+        public void HavingTheStaticEmptyInstance_ThenValueIsZero()
         {
             StoryPoints.Empty.Value.Should().Be(0);
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_ThenIsNullIsTrue()
+        public void HavingTheStaticEmptyInstance_ThenIsNullIsTrue()
         {
             StoryPoints.Empty.IsEmpty.Should().BeTrue();
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_ThenIsNotNullIsFalse()
+        public void HavingTheStaticEmptyInstance_ThenIsNotNullIsFalse()
         {
             StoryPoints.Empty.IsNotEmpty.Should().BeFalse();
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_ThenIsEmptyIsTrue()
+        public void HavingTheStaticEmptyInstance_ThenIsEmptyIsTrue()
         {
             StoryPoints.Empty.IsEmpty.Should().BeTrue();
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_WhenSerialized_ThenDashIsUsedInsteadOfValue()
+        public void HavingTheStaticEmptyInstance_WhenSerialized_ThenDashIsUsedInsteadOfValue()
         {
             string actual = StoryPoints.Empty.ToString();
 
@@ -55,7 +55,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_WhenSerializedWithFormatting_ThenDashIsUsedInsteadOfValueAndFormatIsIgnored()
+        public void HavingTheStaticEmptyInstance_WhenSerializedWithFormatting_ThenDashIsUsedInsteadOfValueAndFormatIsIgnored()
         {
             string actual = StoryPoints.Empty.ToString("D5");
 
@@ -63,7 +63,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_WhenSerializedToStandardDigitsString_ThenDashIsUsedInsteadOfValueAndFormatIsIgnored()
+        public void HavingTheStaticEmptyInstance_WhenSerializedToStandardDigitsString_ThenDashIsUsedInsteadOfValueAndFormatIsIgnored()
         {
             string actual = StoryPoints.Empty.ToStandardDigitsString();
 
@@ -71,7 +71,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_WhenImplicitlyCastToFloat_ThenZeroIsReturned()
+        public void HavingTheStaticEmptyInstance_WhenImplicitlyCastToFloat_ThenZeroIsReturned()
         {
             float actual = StoryPoints.Empty;
 
@@ -79,7 +79,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
         }
 
         [Fact]
-        public void HavingTheEmptyStaticInstance_WhenImplicitlyCastToNullableFloat_ThenNullIsReturned()
+        public void HavingTheStaticEmptyInstance_WhenImplicitlyCastToNullableFloat_ThenNullIsReturned()
         {
             float? actual = StoryPoints.Empty;
 
