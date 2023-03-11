@@ -21,7 +21,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers

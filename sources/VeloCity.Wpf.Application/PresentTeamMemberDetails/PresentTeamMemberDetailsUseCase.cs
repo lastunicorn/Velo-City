@@ -21,7 +21,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails
 {
     internal class PresentTeamMemberDetailsUseCase : IRequestHandler<PresentTeamMemberDetailsRequest, PresentTeamMemberDetailsResponse>
     {
@@ -36,21 +36,33 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
 
         public Task<PresentTeamMemberDetailsResponse> Handle(PresentTeamMemberDetailsRequest request, CancellationToken cancellationToken)
         {
-            PresentTeamMemberDetailsResponse response = new();
+            TeamMember currentTeamMember = RetrieveCurrentTeamMember();
+            PresentTeamMemberDetailsResponse response = BuildResponse(currentTeamMember);
 
+            return Task.FromResult(response);
+        }
+
+        private TeamMember RetrieveCurrentTeamMember()
+        {
             if (applicationState.SelectedTeamMemberId != null)
             {
                 int teamMemberId = applicationState.SelectedTeamMemberId.Value;
-                TeamMember currentTeamMember = unitOfWork.TeamMemberRepository.Get(teamMemberId);
-
-                if (currentTeamMember != null)
-                {
-                    response.IsAnyTeamMemberSelected = true;
-                    response.TeamMemberName = currentTeamMember.Name;
-                }
+                return unitOfWork.TeamMemberRepository.Get(teamMemberId);
             }
+            else
+            {
+                return null;
+            }
+        }
 
-            return Task.FromResult(response);
+        private static PresentTeamMemberDetailsResponse BuildResponse(TeamMember currentTeamMember)
+        {
+            PresentTeamMemberDetailsResponse response = new();
+
+            if (currentTeamMember != null)
+                response.TeamMemberName = currentTeamMember.Name;
+
+            return response;
         }
     }
 }

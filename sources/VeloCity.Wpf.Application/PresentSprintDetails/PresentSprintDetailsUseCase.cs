@@ -44,11 +44,11 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
 
         private Sprint RetrieveSprintToAnalyze(PresentSprintDetailRequest request)
         {
-            return request.SprintNumber == null
-                ? applicationState.SelectedSprintNumber == null
+            return request.SprintId == null
+                ? applicationState.SelectedSprintId == null
                     ? RetrieveDefaultSprintToAnalyze()
-                    : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintNumber.Value)
-                : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
+                    : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value)
+                : RetrieveSpecificSprintToAnalyze(request.SprintId.Value);
         }
 
         private Sprint RetrieveDefaultSprintToAnalyze()
@@ -61,12 +61,12 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
             return sprint;
         }
 
-        private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber)
+        private Sprint RetrieveSpecificSprintToAnalyze(int sprintId)
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+            Sprint sprint = unitOfWork.SprintRepository.Get(sprintId);
 
             if (sprint == null)
-                throw new SprintDoesNotExistException(sprintNumber);
+                throw new SprintDoesNotExistException(sprintId);
 
             return sprint;
         }

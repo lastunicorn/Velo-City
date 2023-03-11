@@ -35,16 +35,25 @@ namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember
 
         public async Task<Unit> Handle(SetCurrentTeamMemberRequest request, CancellationToken cancellationToken)
         {
-            applicationState.SelectedTeamMemberId = request.TeamMemberId;
+            SetTeamMember(request);
+            await RaiseEvent(request, cancellationToken);
 
+            return Unit.Value;
+        }
+
+        private void SetTeamMember(SetCurrentTeamMemberRequest request)
+        {
+            applicationState.SelectedTeamMemberId = request.TeamMemberId;
+        }
+
+        private async Task RaiseEvent(SetCurrentTeamMemberRequest request, CancellationToken cancellationToken)
+        {
             TeamMemberChangedEvent ev = new()
             {
                 NewTeamMemberId = request.TeamMemberId
             };
 
             await eventBus.Publish(ev, cancellationToken);
-
-            return Unit.Value;
         }
     }
 }

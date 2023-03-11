@@ -62,7 +62,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint
 
                 unitOfWork.SaveChanges();
 
-                applicationState.SelectedSprintNumber = newSprint.Id;
+                applicationState.SelectedSprintId = newSprint.Id;
 
                 SprintsListChangedEvent sprintChangedEvent = new()
                 {

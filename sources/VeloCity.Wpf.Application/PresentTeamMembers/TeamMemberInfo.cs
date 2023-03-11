@@ -16,12 +16,12 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers
 {
     public class TeamMemberInfo
     {
         public int Id { get; }
-        
+
         public string Name { get; }
 
         public bool IsEmployed { get; }

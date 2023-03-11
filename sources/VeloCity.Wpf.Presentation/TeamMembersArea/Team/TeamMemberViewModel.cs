@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team
 {

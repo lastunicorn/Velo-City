@@ -45,22 +45,17 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
 
             applicationState = new ApplicationState();
 
-            useCase = new(unitOfWork.Object, applicationState);
+            useCase = new PresentSprintDetailsUseCase(unitOfWork.Object, applicationState);
         }
 
         [Fact]
-        public async Task HavingSprintNumberSpecifiedInApplicationStateButNotExistingInStorage_WhenUseCaseIsExecuted_ThenThrows()
+        public async Task HavingSprintIdSpecifiedInApplicationStateButNotExistingInStorage_WhenUseCaseIsExecuted_ThenThrows()
         {
-            Sprint sprintFromStorage = new()
-            {
-                Number = 101
-            };
-
             sprintRepository
-                .Setup(x => x.GetByNumber(101))
+                .Setup(x => x.Get(101))
                 .Returns(null as Sprint);
 
-            applicationState.SelectedSprintNumber = 101;
+            applicationState.SelectedSprintId = 101;
 
             PresentSprintDetailRequest request = new();
 
@@ -73,59 +68,35 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
         }
 
         [Fact]
-        public async Task HavingSprintNumberSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenSprintWithSpecifiedNumberIsRequestedFromUnitOfWork()
+        public async Task HavingSprintIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenSprintWithSpecifiedIdIsRequestedFromUnitOfWork()
         {
-            Sprint sprintFromStorage = new()
-            {
-                Number = 101
-            };
+            Sprint sprintFromStorage = new();
 
             sprintRepository
-                .Setup(x => x.GetByNumber(101))
+                .Setup(x => x.Get(101))
                 .Returns(sprintFromStorage);
 
-            applicationState.SelectedSprintNumber = 101;
+            applicationState.SelectedSprintId = 101;
 
             PresentSprintDetailRequest request = new();
             PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            sprintRepository.Verify(x => x.GetByNumber(101), Times.Once);
+            sprintRepository.Verify(x => x.Get(101), Times.Once);
         }
 
         [Fact]
-        public async Task HavingSprintNumberSpecifiedInTheApplicationState_WhenUseCaseIsExecuted_ThenSpecifiedSprintNumberIsReturnedInTheResponse()
+        public async Task HavingSprintIdSpecifiedInTheApplicationState_WhenUseCaseIsExecuted_ThenSprintIdFromStorageIsReturnedInTheResponse()
         {
             Sprint sprintFromStorage = new()
             {
-                Number = 101
+                Id = 54
             };
 
             sprintRepository
-                .Setup(x => x.GetByNumber(101))
+                .Setup(x => x.Get(101))
                 .Returns(sprintFromStorage);
 
-            applicationState.SelectedSprintNumber = 101;
-
-            PresentSprintDetailRequest request = new();
-            PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.SprintNumber.Should().Be(101);
-        }
-
-        [Fact]
-        public async Task HavingSprintNumberSpecifiedInTheApplicationState_WhenUseCaseIsExecuted_ThenSprintIdFromStorageIsReturnedInTheResponse()
-        {
-            Sprint sprintFromStorage = new()
-            {
-                Id = 54,
-                Number = 101
-            };
-
-            sprintRepository
-                .Setup(x => x.GetByNumber(101))
-                .Returns(sprintFromStorage);
-
-            applicationState.SelectedSprintNumber = 101;
+            applicationState.SelectedSprintId = 101;
 
             PresentSprintDetailRequest request = new();
             PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -134,19 +105,18 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
         }
 
         [Fact]
-        public async Task HavingSprintNumberSpecifiedInTheApplicationState_WhenUseCaseIsExecuted_ThenSprintTitleFromStorageIsReturnedInTheResponse()
+        public async Task HavingSprintIdSpecifiedInTheApplicationState_WhenUseCaseIsExecuted_ThenSprintTitleFromStorageIsReturnedInTheResponse()
         {
             Sprint sprintFromStorage = new()
             {
-                Number = 101,
                 Title = "this is a title"
             };
 
             sprintRepository
-                .Setup(x => x.GetByNumber(101))
+                .Setup(x => x.Get(101))
                 .Returns(sprintFromStorage);
 
-            applicationState.SelectedSprintNumber = 101;
+            applicationState.SelectedSprintId = 101;
 
             PresentSprintDetailRequest request = new();
             PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -155,19 +125,38 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
         }
 
         [Fact]
-        public async Task HavingSprintNumberSpecifiedInTheApplicationState_WhenUseCaseIsExecuted_ThenSprintStateFromStorageIsReturnedInTheResponse()
+        public async Task HavingSprintIdSpecifiedInTheApplicationState_WhenUseCaseIsExecuted_ThenSprintNumberFromStorageIsReturnedInTheResponse()
         {
             Sprint sprintFromStorage = new()
             {
-                Number = 101,
+                Number = 278
+            };
+
+            sprintRepository
+                .Setup(x => x.Get(101))
+                .Returns(sprintFromStorage);
+
+            applicationState.SelectedSprintId = 101;
+
+            PresentSprintDetailRequest request = new();
+            PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
+
+            response.SprintNumber.Should().Be(278);
+        }
+
+        [Fact]
+        public async Task HavingSprintIdSpecifiedInTheApplicationState_WhenUseCaseIsExecuted_ThenSprintStateFromStorageIsReturnedInTheResponse()
+        {
+            Sprint sprintFromStorage = new()
+            {
                 State = SprintState.New
             };
 
             sprintRepository
-                .Setup(x => x.GetByNumber(101))
+                .Setup(x => x.Get(101))
                 .Returns(sprintFromStorage);
 
-            applicationState.SelectedSprintNumber = 101;
+            applicationState.SelectedSprintId = 101;
 
             PresentSprintDetailRequest request = new();
             PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);

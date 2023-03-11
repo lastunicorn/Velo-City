@@ -14,29 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Threading;
-using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Infrastructure;
-
-namespace DustInTheWind.VeloCity.Tests.Infrastructure
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails
 {
-    internal class MockSubscriber<T>
+    public class PresentTeamMemberDetailsResponse
     {
-        public bool EventWasTriggered { get; private set; }
-
-        public T Event { get; private set; }
-
-        public void SubscribeTo(EventBus eventBus)
-        {
-            eventBus.Subscribe<T>(HandleEvent);
-        }
-
-        private Task HandleEvent(T ev, CancellationToken cancelationToken)
-        {
-            EventWasTriggered = true;
-            Event = ev;
-
-            return Task.CompletedTask;
-        }
+        public string TeamMemberName { get; set; }
     }
 }

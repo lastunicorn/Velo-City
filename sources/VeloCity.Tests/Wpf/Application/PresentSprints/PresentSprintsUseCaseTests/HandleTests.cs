@@ -60,7 +60,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprints.PresentSpr
         [Fact]
         public async Task HavingASprintIdInApplicationState_WhenUseCaseIsExecuted_ThenReturnsThatSprintAsCurrentSprint()
         {
-            applicationState.SelectedSprintNumber = 659;
+            applicationState.SelectedSprintId = 659;
             PresentSprintsRequest request = new();
 
             PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);

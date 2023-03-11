@@ -15,38 +15,38 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
+using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.PresentSprintDetailsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.Reload.ReloadUseCaseTests
 {
     public class ConstructorTests
     {
         [Fact]
-        public void HavingNullUnitOfWork_WhenInstantiationgUseCase_ThenThrows()
+        public void HavingNullEventBus()
         {
-            ApplicationState applicationState = new();
+            Mock<IDataStorage> dataStorage = new();
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(null, applicationState);
+                _ = new ReloadUseCase(null, dataStorage.Object);
             };
 
             action.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
-        public void HavingNullApplicationState_WhenInstantiationgUseCase_ThenThrows()
+        public void HavingNullDataStorage_WhenInstantiationgUseCase_ThenThrows()
         {
-            Mock<IUnitOfWork> unitOfWork = new();
+            EventBus eventBus = new();
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(unitOfWork.Object, null);
+                _ = new ReloadUseCase(eventBus, null);
             };
 
             action.Should().Throw<ArgumentNullException>();
@@ -55,12 +55,12 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
         [Fact]
         public void HavingAllDependencies_WhenInstantiationgUseCase_ThenDoesNotThrow()
         {
-            Mock<IUnitOfWork> unitOfWork = new();
-            ApplicationState applicationState = new();
+            EventBus eventBus = new();
+            Mock<IDataStorage> dataStorage = new();
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(unitOfWork.Object, applicationState);
+                _ = new ReloadUseCase(eventBus, dataStorage.Object);
             };
 
             action.Should().NotThrow();

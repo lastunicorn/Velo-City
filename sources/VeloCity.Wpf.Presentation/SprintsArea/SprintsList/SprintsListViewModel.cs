@@ -97,7 +97,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
 
         private Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
         {
-            SelectedSprint = sprints.FirstOrDefault(x => x.SprintId == ev.NewSprintId);
+            SelectedSprint = sprints.FirstOrDefault(x => x.SprintId == ev.NewSprintNumber);
 
             return Task.CompletedTask;
         }

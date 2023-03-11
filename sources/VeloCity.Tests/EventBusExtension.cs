@@ -14,11 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using MediatR;
+using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Tests
 {
-    public class PresentTeamMemberDetailsRequest : IRequest<PresentTeamMemberDetailsResponse>
+    internal static class EventBusExtension
     {
+        public static EventBusClient<T> CreateMockClientFor<T>(this EventBus eventBus)
+        {
+            return new EventBusClient<T>(eventBus);
+        }
     }
 }

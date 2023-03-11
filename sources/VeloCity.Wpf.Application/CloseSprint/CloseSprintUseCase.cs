@@ -63,7 +63,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
 
         private Sprint RetrieveSelectedSprint()
         {
-            int? selectedSprintId = applicationState.SelectedSprintNumber;
+            int? selectedSprintId = applicationState.SelectedSprintId;
 
             if (selectedSprintId == null)
                 throw new Exception("No sprint is selected.");

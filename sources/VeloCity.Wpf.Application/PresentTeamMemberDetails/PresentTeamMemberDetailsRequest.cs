@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeam
-{
-    public class PresentTeamMemberDetailsResponse
-    {
-        public bool IsAnyTeamMemberSelected { get; set; }
+using MediatR;
 
-        public string TeamMemberName { get; set; }
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails
+{
+    public class PresentTeamMemberDetailsRequest : IRequest<PresentTeamMemberDetailsResponse>
+    {
     }
 }

@@ -45,7 +45,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
 
             applicationState = new ApplicationState();
 
-            useCase = new(unitOfWork.Object, applicationState);
+            useCase = new PresentSprintDetailsUseCase(unitOfWork.Object, applicationState);
         }
 
         [Fact]

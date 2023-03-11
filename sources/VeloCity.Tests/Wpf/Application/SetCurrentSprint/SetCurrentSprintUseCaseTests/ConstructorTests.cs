@@ -15,38 +15,37 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
+using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.PresentSprintDetailsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentSprint.SetCurrentSprintUseCaseTests
 {
     public class ConstructorTests
     {
         [Fact]
-        public void HavingNullUnitOfWork_WhenInstantiationgUseCase_ThenThrows()
+        public void HavingNullApplicationState_WhenInstantiationgUseCase_ThenThrows()
         {
-            ApplicationState applicationState = new();
+            EventBus eventBus = new();
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(null, applicationState);
+                _ = new SetCurrentSprintUseCase(null, eventBus);
             };
 
             action.Should().Throw<ArgumentNullException>();
         }
 
         [Fact]
-        public void HavingNullApplicationState_WhenInstantiationgUseCase_ThenThrows()
+        public void HavingNullEventBus()
         {
-            Mock<IUnitOfWork> unitOfWork = new();
+            ApplicationState applicationState = new ApplicationState();
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(unitOfWork.Object, null);
+                _ = new SetCurrentSprintUseCase(applicationState, null);
             };
 
             action.Should().Throw<ArgumentNullException>();
@@ -55,12 +54,12 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
         [Fact]
         public void HavingAllDependencies_WhenInstantiationgUseCase_ThenDoesNotThrow()
         {
-            Mock<IUnitOfWork> unitOfWork = new();
-            ApplicationState applicationState = new();
+            ApplicationState applicationState = new ApplicationState();
+            EventBus eventBus = new();
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(unitOfWork.Object, applicationState);
+                _ = new SetCurrentSprintUseCase(applicationState, eventBus);
             };
 
             action.Should().NotThrow();

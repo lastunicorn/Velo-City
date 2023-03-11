@@ -20,6 +20,6 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
 {
     public class PresentSprintDetailRequest : IRequest<PresentSprintDetailResponse>
     {
-        public int? SprintNumber { get; set; }
+        public int? SprintId { get; set; }
     }
 }

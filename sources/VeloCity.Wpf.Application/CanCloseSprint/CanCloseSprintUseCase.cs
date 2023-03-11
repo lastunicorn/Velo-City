@@ -53,7 +53,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint
 
         private Sprint RetrieveSelectedSprint()
         {
-            int? sprintId = applicationState.SelectedSprintNumber;
+            int? sprintId = applicationState.SelectedSprintId;
 
             return sprintId != null
                 ? unitOfWork.SprintRepository.Get(sprintId.Value)
@@ -64,11 +64,11 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint
         {
             return sprint.State switch
             {
-                SprintState.New => false,
                 SprintState.Unknown => false,
+                SprintState.New => false,
                 SprintState.InProgress => true,
                 SprintState.Closed => false,
-                _ => throw new ArgumentOutOfRangeException()
+                _ => false
             };
         }
     }

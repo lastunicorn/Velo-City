@@ -38,7 +38,6 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
         public Task<PresentSprintMembersResponse> Handle(PresentSprintMembersRequest request, CancellationToken cancellationToken)
         {
             Sprint sprint = RetrieveSprintToAnalyze();
-
             PresentSprintMembersResponse response = CreateResponse(sprint);
 
             return Task.FromResult(response);
@@ -46,9 +45,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
 
         private Sprint RetrieveSprintToAnalyze()
         {
-            return applicationState.SelectedSprintNumber == null
+            return applicationState.SelectedSprintId == null
                 ? RetrieveDefaultSprintToAnalyze()
-                : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintNumber.Value);
+                : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
         }
 
         private Sprint RetrieveDefaultSprintToAnalyze()
@@ -63,7 +62,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
 
         private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber)
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+            Sprint sprint = unitOfWork.SprintRepository.Get(sprintNumber);
 
             if (sprint == null)
                 throw new SprintDoesNotExistException(sprintNumber);

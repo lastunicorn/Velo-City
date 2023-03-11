@@ -36,16 +36,31 @@ namespace DustInTheWind.VeloCity.Wpf.Application.Reload
 
         public async Task<Unit> Handle(ReloadRequest request, CancellationToken cancellationToken)
         {
+            bool success = ReloadData();
+
+            if (success)
+                await RaiseEvent(cancellationToken);
+
+            return Unit.Value;
+        }
+
+        private bool ReloadData()
+        {
             try
             {
                 dataStorage.Reopen();
+                return true;
             }
-            catch { }
+            catch
+            {
+                return false;
+            }
+        }
 
+        private async Task RaiseEvent(CancellationToken cancellationToken)
+        {
             ReloadEvent reloadEvent = new();
             await eventBus.Publish(reloadEvent, cancellationToken);
-
-            return Unit.Value;
         }
     }
 }

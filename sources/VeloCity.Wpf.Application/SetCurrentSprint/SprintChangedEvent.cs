@@ -18,6 +18,6 @@ namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint
 {
     public class SprintChangedEvent
     {
-        public int? NewSprintId { get; set; }
+        public int? NewSprintNumber { get; set; }
     }
 }

@@ -35,16 +35,25 @@ namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint
 
         public async Task<Unit> Handle(SetCurrentSprintRequest request, CancellationToken cancellationToken)
         {
-            applicationState.SelectedSprintNumber = request.SprintId;
+            SetCurrentSprint(request.SprintId);
+            await RaiseEvent(request.SprintId, cancellationToken);
 
+            return Unit.Value;
+        }
+
+        private void SetCurrentSprint(int? sprintNumber)
+        {
+            applicationState.SelectedSprintId = sprintNumber;
+        }
+
+        private async Task RaiseEvent(int? sprintNumber, CancellationToken cancellationToken)
+        {
             SprintChangedEvent ev = new()
             {
-                NewSprintId = request.SprintId
+                NewSprintNumber = sprintNumber
             };
 
             await eventBus.Publish(ev, cancellationToken);
-
-            return Unit.Value;
         }
     }
 }

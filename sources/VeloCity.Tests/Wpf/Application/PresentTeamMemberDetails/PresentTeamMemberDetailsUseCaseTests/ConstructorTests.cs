@@ -17,12 +17,12 @@
 using System;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.PresentSprintDetailsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberDetails.PresentTeamMemberDetailsUseCaseTests
 {
     public class ConstructorTests
     {
@@ -33,7 +33,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(null, applicationState);
+                _ = new PresentTeamMemberDetailsUseCase(null, applicationState);
             };
 
             action.Should().Throw<ArgumentNullException>();
@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(unitOfWork.Object, null);
+                _ = new PresentTeamMemberDetailsUseCase(unitOfWork.Object, null);
             };
 
             action.Should().Throw<ArgumentNullException>();
@@ -60,7 +60,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.Pres
 
             Action action = () =>
             {
-                _ = new PresentSprintDetailsUseCase(unitOfWork.Object, applicationState);
+                _ = new PresentTeamMemberDetailsUseCase(unitOfWork.Object, applicationState);
             };
 
             action.Should().NotThrow();

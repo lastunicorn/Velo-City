@@ -18,7 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Wpf.Application.PresentTeam;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
@@ -91,13 +91,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team
 
             PresentTeamMemberDetailsResponse response = await requestBus.Send<PresentTeamMemberDetailsRequest, PresentTeamMemberDetailsResponse>(request);
 
-            Title = BuildTitle(response);
-            IsTeamMemberSelected = response.IsAnyTeamMemberSelected;
-        }
-
-        private static string BuildTitle(PresentTeamMemberDetailsResponse response)
-        {
-            return response.TeamMemberName;
+            Title = response.TeamMemberName;
+            IsTeamMemberSelected = response.TeamMemberName != null;
         }
     }
 }
