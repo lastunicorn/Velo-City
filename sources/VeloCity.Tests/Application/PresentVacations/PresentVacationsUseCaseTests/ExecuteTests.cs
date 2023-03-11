@@ -25,14 +25,15 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Application.PresentVacations
+namespace DustInTheWind.VeloCity.Tests.Application.PresentVacations.PresentVacationsUseCaseTests
 {
-    public class PresentVacationsUseCaseTests
+
+    public class ExecuteTests
     {
         private readonly PresentVacationsUseCase useCase;
         private readonly Mock<ITeamMemberRepository> teamMemberRepository;
 
-        public PresentVacationsUseCaseTests()
+        public ExecuteTests()
         {
             teamMemberRepository = new Mock<ITeamMemberRepository>();
 

@@ -19,13 +19,19 @@ using System.Globalization;
 
 namespace DustInTheWind.VeloCity.Infrastructure
 {
-    public readonly struct DateTimeMonth : IComparable<DateTimeMonth>, IFormattable
+    public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
     {
         public int Year { get; }
 
         public int Month { get; }
 
-        public DateTimeMonth(int year, int month)
+        public DateMonth()
+        {       
+            Year = 0;
+            Month = 1;
+        }
+
+        public DateMonth(int year, int month)
         {
             if (month is <= 0 or > 12) throw new ArgumentOutOfRangeException(nameof(month));
 
@@ -33,29 +39,29 @@ namespace DustInTheWind.VeloCity.Infrastructure
             Month = month;
         }
 
-        public DateTimeMonth(DateTime dateTime)
+        public DateMonth(DateTime dateTime)
         {
             Year = dateTime.Year;
             Month = dateTime.Month;
         }
 
-        public DateTimeMonth(DateTime? dateTime)
+        public DateMonth(DateTime? dateTime)
         {
-            Year = dateTime?.Year ?? 1;
+            Year = dateTime?.Year ?? 0;
             Month = dateTime?.Month ?? 1;
         }
 
-        public int CompareTo(DateTimeMonth other)
+        public int CompareTo(DateMonth other)
         {
             int yearComparison = Year.CompareTo(other.Year);
             if (yearComparison != 0) return yearComparison;
             return Month.CompareTo(other.Month);
         }
 
-        public DateTimeMonth AddMonths(int count)
+        public DateMonth AddMonths(int count)
         {
             if (count == 0)
-                return new DateTimeMonth(Year, Month);
+                return new DateMonth(Year, Month);
 
             int totalMonthsToAdd = (Month - 1) + count;
 
@@ -68,17 +74,17 @@ namespace DustInTheWind.VeloCity.Infrastructure
                 newMonth += 12;
             }
 
-            return new DateTimeMonth(newYear, newMonth + 1);
+            return new DateMonth(newYear, newMonth + 1);
         }
 
-        public bool Equals(DateTimeMonth other)
+        public bool Equals(DateMonth other)
         {
             return Year == other.Year && Month == other.Month;
         }
 
         public override bool Equals(object obj)
         {
-            return obj is DateTimeMonth other && Equals(other);
+            return obj is DateMonth other && Equals(other);
         }
 
         public override int GetHashCode()
@@ -133,19 +139,19 @@ namespace DustInTheWind.VeloCity.Infrastructure
             }
         }
 
-        public static bool operator ==(DateTimeMonth dateTimeMonth1, DateTimeMonth dateTimeMonth2)
+        public static bool operator ==(DateMonth dateTimeMonth1, DateMonth dateTimeMonth2)
         {
             return dateTimeMonth1.Year == dateTimeMonth2.Year &&
                    dateTimeMonth1.Month == dateTimeMonth2.Month;
         }
 
-        public static bool operator !=(DateTimeMonth dateTimeMonth1, DateTimeMonth dateTimeMonth2)
+        public static bool operator !=(DateMonth dateTimeMonth1, DateMonth dateTimeMonth2)
         {
             return dateTimeMonth1.Year != dateTimeMonth2.Year ||
                    dateTimeMonth1.Month != dateTimeMonth2.Month;
         }
 
-        public static bool operator >(DateTimeMonth dateTimeMonth, DateTime dateTime)
+        public static bool operator >(DateMonth dateTimeMonth, DateTime dateTime)
         {
             int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
@@ -159,7 +165,7 @@ namespace DustInTheWind.VeloCity.Infrastructure
             return monthComparison > 0;
         }
 
-        public static bool operator <(DateTimeMonth dateTimeMonth, DateTime dateTime)
+        public static bool operator <(DateMonth dateTimeMonth, DateTime dateTime)
         {
             int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
@@ -173,7 +179,7 @@ namespace DustInTheWind.VeloCity.Infrastructure
             return monthComparison < 0;
         }
 
-        public static bool operator >=(DateTimeMonth dateTimeMonth, DateTime dateTime)
+        public static bool operator >=(DateMonth dateTimeMonth, DateTime dateTime)
         {
             int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
@@ -187,7 +193,7 @@ namespace DustInTheWind.VeloCity.Infrastructure
             return monthComparison >= 0;
         }
 
-        public static bool operator <=(DateTimeMonth dateTimeMonth, DateTime dateTime)
+        public static bool operator <=(DateMonth dateTimeMonth, DateTime dateTime)
         {
             int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 

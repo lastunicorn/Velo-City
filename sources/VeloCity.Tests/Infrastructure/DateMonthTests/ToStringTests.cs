@@ -14,32 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
 {
-    public class ConstructorFromDateTimeTests
+    public class ToStringTests
     {
-        [Fact]
-        public void WhenCreatingNewInstanceWithSpecificDateTime_ThenYearIsSetToTheDateTimeYearValue()
+        [Theory]
+        [InlineData(2025, 04, "2025 04")]
+        [InlineData(3458, 01, "3458 01")]
+        [InlineData(1, 03, "0001 03")]
+        [InlineData(100, 12, "0100 12")]
+        public void HavingAnInstance_WhenSerialized_ThenReturnsYearAndMonthAsNumbers(int year, int month, string expected)
         {
-            DateTime dateTime = new(2020, 09, 03);
-            DateTimeMonth dateTimeMonth = new(dateTime);
+            DateMonth dateMonth = new(year, month);
 
-            dateTimeMonth.Year.Should().Be(2020);
-        }
+            string actual = dateMonth.ToString();
 
-        [Fact]
-        public void WhenCreatingNewInstanceWithSpecificDateTime_ThenMonthIsSetToTheDateTimeMonthValue()
-        {
-            DateTime dateTime = new(2020, 09, 03);
-            DateTimeMonth dateTimeMonth = new(dateTime);
-
-            dateTimeMonth.Month.Should().Be(09);
+            actual.Should().Be(expected);
         }
     }
 }

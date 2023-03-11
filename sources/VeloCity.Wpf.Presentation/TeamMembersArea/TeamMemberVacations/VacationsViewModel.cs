@@ -82,14 +82,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
                     DateTime? date = vacationViewModel.SignificantDate;
                     if (date != null)
                     {
-                        DateTimeMonth dateTimeMonth = new(date.Value);
+                        DateMonth dateTimeMonth = new(date.Value);
                         AddVacation(dateTimeMonth, vacationViewModel);
                     }
                 }
                 else
                 {
                     DateTime date = vacationViewModel.StartDate.Value;
-                    DateTimeMonth dateTimeMonth = new(date);
+                    DateMonth dateTimeMonth = new(date);
 
                     while (dateTimeMonth <= vacationViewModel.EndDate.Value)
                     {
@@ -101,7 +101,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
             }
         }
 
-        private void AddVacation(DateTimeMonth dateTimeMonth, VacationViewModel vacationViewModel)
+        private void AddVacation(DateMonth dateTimeMonth, VacationViewModel vacationViewModel)
         {
             VacationGroupViewModel vacationGroupViewModel = VacationGroups.FirstOrDefault(x => x.Month == dateTimeMonth);
 

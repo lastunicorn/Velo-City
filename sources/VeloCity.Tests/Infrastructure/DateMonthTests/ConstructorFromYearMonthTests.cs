@@ -15,26 +15,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
 {
+
     public class ConstructorFromYearMonthTests
     {
         [Theory]
-        [InlineData(2022)]
-        [InlineData(1000000)]
-        [InlineData(1)]
+        [InlineData(-345987234)]
+        [InlineData(-200)]
         [InlineData(0)]
-        [InlineData(-1)]
-        public void WhenCreatingNewInstanceWithSpecificYearAndMonth_ThenYearPropertyIsSetToProvidedYear(int year)
+        [InlineData(1320)]
+        [InlineData(248964875)]
+        public void HavingANumberAsYear_WhenCreatintingAnInstanceWithThatYear_ThenYearHasSpecifiedValue(int year)
         {
-            DateTimeMonth dateTimeMonth = new(year, 7);
+            DateMonth dateMonth = new(year, 1);
 
-            dateTimeMonth.Year.Should().Be(year);
+            dateMonth.Year.Should().Be(year);
         }
 
         [Theory]
@@ -50,40 +50,37 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
         [InlineData(10)]
         [InlineData(11)]
         [InlineData(12)]
-        public void WhenCreatingNewInstanceWithSpecificYearAndMonth_ThenMonthPropertyIsSetToProvidedMonth(int month)
+        public void HavingANumberAsMonth_WhenCreatintingAnInstanceWithThatMonth_ThenMonthHasSpecifiedValue(int month)
         {
-            DateTimeMonth dateTimeMonth = new(2002, month);
+            DateMonth dateMonth = new(0, month);
 
-            dateTimeMonth.Month.Should().Be(month);
+            dateMonth.Month.Should().Be(month);
         }
 
         [Theory]
+        [InlineData(0)]
         [InlineData(-1)]
-        [InlineData(-2)]
-        [InlineData(-10)]
         [InlineData(-100)]
-        public void WhenCreatingNewInstanceWithSpecificYearAndNegativeMonth_ThenThrows(int month)
+        public void HavingANumberLessThan1AsMonth_WhenCreateInstanceWithThatMonth_ThenThrows(int month)
         {
-            Action action = () => new DateTimeMonth(2002, month);
-
-            action.Should().Throw<ArgumentOutOfRangeException>();
-        }
-
-        [Fact]
-        public void WhenCreatingNewInstanceWithSpecificYearAndMonthEqualToZero_ThenThrows()
-        {
-            Action action = () => new DateTimeMonth(2002, 0);
+            Action action = () =>
+            {
+                _ = new DateMonth(0, month);
+            };
 
             action.Should().Throw<ArgumentOutOfRangeException>();
         }
 
         [Theory]
         [InlineData(13)]
-        [InlineData(14)]
+        [InlineData(20)]
         [InlineData(100)]
-        public void WhenCreatingNewInstanceWithSpecificYearAndMonthGreaterThan12_ThenThrows(int month)
+        public void HavingANumberGreaterThan12AsMonth_WhenCreateInstanceWithThatMonth_ThenThrows(int month)
         {
-            Action action = () => new DateTimeMonth(2002, month);
+            Action action = () =>
+            {
+                _ = new DateMonth(0, month);
+            };
 
             action.Should().Throw<ArgumentOutOfRangeException>();
         }

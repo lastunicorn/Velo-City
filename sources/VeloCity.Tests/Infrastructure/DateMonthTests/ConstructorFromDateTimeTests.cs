@@ -14,21 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System;
 using DustInTheWind.VeloCity.Infrastructure;
+using FluentAssertions;
+using Xunit;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
 {
-    public class MonthOfVacationsViewModel
+    public class ConstructorFromDateTimeTests
     {
-        public DateMonth DateTimeMonth { get; }
-
-        public List<VacationViewModel> Vacations { get; }
-
-        public MonthOfVacationsViewModel(DateMonth dateTimeMonth)
+        [Fact]
+        public void HavingADateTime_WhenCreatintingAnInstanceWithThatDateTime_ThenYearHasTheYearOfOriginalDateTime()
         {
-            DateTimeMonth = dateTimeMonth;
-            Vacations = new List<VacationViewModel>();
+            DateTime dateTime = new(2001, 05, 02);
+
+            DateMonth dateMonth = new(dateTime);
+
+            dateMonth.Year.Should().Be(2001);
+        }
+
+        [Fact]
+        public void HavingADateTime_WhenCreatintingAnInstanceWithThatDateTime_ThenMonthHasTheYearOfOriginalDateTime()
+        {
+            DateTime dateTime = new(2001, 05, 02);
+
+            DateMonth dateMonth = new(dateTime);
+
+            dateMonth.Month.Should().Be(5);
         }
     }
 }

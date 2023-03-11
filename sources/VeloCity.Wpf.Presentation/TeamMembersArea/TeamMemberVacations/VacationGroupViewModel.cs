@@ -23,10 +23,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
 {
     public class VacationGroupViewModel : ViewModelBase
     {
-        private DateTimeMonth month;
+        private DateMonth month;
         private List<VacationViewModel> vacations;
 
-        public DateTimeMonth Month
+        public DateMonth Month
         {
             get => month;
             set

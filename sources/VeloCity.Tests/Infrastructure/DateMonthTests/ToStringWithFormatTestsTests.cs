@@ -15,26 +15,24 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Globalization;
-using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
 {
-    public class ToStringWithFormatAndCultureTests
+    public class ToStringWithFormatTestsTests
     {
         [Theory]
         [InlineData(2025, 04, "2025 04")]
         [InlineData(3458, 01, "3458 01")]
         [InlineData(1, 03, "0001 03")]
         [InlineData(100, 12, "0100 12")]
-        public void HavingAnInstance_WhenSerializedWithShortNumberFormatForRomanianCulture_ReturnsYearAndMonthAsNumbers(int year, int month, string expected)
+        public void HavingAnInstance_WhenSerializedWithShortNumberFormatForRomanianCulture_ThenReturnsYearAndMonthAsNumbers(int year, int month, string expected)
         {
-            DateTimeMonth dateTimeMonth = new(year, month);
+            DateMonth dateMonth = new(year, month);
 
-            CultureInfo cultureInfo = new("ro-RO");
-            string actual = dateTimeMonth.ToString("number", cultureInfo);
+            string actual = CultureSpecific.RunUsingCulture(new CultureInfo("ro-RO"), () => dateMonth.ToString("number"));
 
             actual.Should().Be(expected);
         }
@@ -44,12 +42,11 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
         [InlineData(3458, 01, "3458 ian.")]
         [InlineData(1, 03, "0001 mar.")]
         [InlineData(100, 12, "0100 dec.")]
-        public void HavingAnInstance_WhenSerializedWithShortNameFormatForRomanianCulture_ReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
+        public void HavingAnInstance_WhenSerializedWithShortNameFormatForRomanianCulture_ThenReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
         {
-            DateTimeMonth dateTimeMonth = new(year, month);
+            DateMonth dateMonth = new(year, month);
 
-            CultureInfo cultureInfo = new("ro-RO");
-            string actual = dateTimeMonth.ToString("short-name", cultureInfo);
+            string actual = CultureSpecific.RunUsingCulture(new CultureInfo("ro-RO"), () => dateMonth.ToString("short-name"));
 
             actual.Should().Be(expected);
         }
@@ -59,12 +56,11 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
         [InlineData(3458, 01, "3458 ianuarie")]
         [InlineData(1, 03, "0001 martie")]
         [InlineData(100, 12, "0100 decembrie")]
-        public void HavingAnInstance_WhenSerializedWithLongNameFormatForRomanianCulture_ReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
+        public void HavingAnInstance_WhenSerializedWithLongNameFormatForRomanianCulture_ThenReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
         {
-            DateTimeMonth dateTimeMonth = new(year, month);
+            DateMonth dateMonth = new(year, month);
 
-            CultureInfo cultureInfo = new("ro-RO");
-            string actual = dateTimeMonth.ToString("long-name", cultureInfo);
+            string actual = CultureSpecific.RunUsingCulture(new CultureInfo("ro-RO"), () => dateMonth.ToString("long-name"));
 
             actual.Should().Be(expected);
         }
@@ -74,12 +70,11 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
         [InlineData(3458, 01, "3458 01")]
         [InlineData(1, 03, "0001 03")]
         [InlineData(100, 12, "0100 12")]
-        public void HavingAnInstance_WhenSerializedWithShortNumberFormatForUSCulture_ReturnsYearAndMonthAsNumbers(int year, int month, string expected)
+        public void HavingAnInstance_WhenSerializedWithShortNumberFormatForUSCulture_ThenReturnsYearAndMonthAsNumbers(int year, int month, string expected)
         {
-            DateTimeMonth dateTimeMonth = new(year, month);
+            DateMonth dateMonth = new(year, month);
 
-            CultureInfo cultureInfo = new("en-US");
-            string actual = dateTimeMonth.ToString("number", cultureInfo);
+            string actual = CultureSpecific.RunUsingCulture(new CultureInfo("en-US"), () => dateMonth.ToString("number"));
 
             actual.Should().Be(expected);
         }
@@ -89,12 +84,11 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
         [InlineData(3458, 01, "3458 Jan")]
         [InlineData(1, 03, "0001 Mar")]
         [InlineData(100, 12, "0100 Dec")]
-        public void HavingAnInstance_WhenSerializedWithShortNameFormatForUSCulture_ReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
+        public void HavingAnInstance_WhenSerializedWithShortNameFormatForUSCulture_ThenReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
         {
-            DateTimeMonth dateTimeMonth = new(year, month);
+            DateMonth dateMonth = new(year, month);
 
-            CultureInfo cultureInfo = new("en-US");
-            string actual = dateTimeMonth.ToString("short-name", cultureInfo);
+            string actual = CultureSpecific.RunUsingCulture(new CultureInfo("en-US"), () => dateMonth.ToString("short-name"));
 
             actual.Should().Be(expected);
         }
@@ -104,12 +98,11 @@ namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeM
         [InlineData(3458, 01, "3458 January")]
         [InlineData(1, 03, "0001 March")]
         [InlineData(100, 12, "0100 December")]
-        public void HavingAnInstance_WhenSerializedWithLongNameFormatForUSCulture_ReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
+        public void HavingAnInstance_WhenSerializedWithLongNameFormatForUSCulture_ThenReturnsYearAsNumberAndMonthAsName(int year, int month, string expected)
         {
-            DateTimeMonth dateTimeMonth = new(year, month);
+            DateMonth dateMonth = new(year, month);
 
-            CultureInfo cultureInfo = new("en-US");
-            string actual = dateTimeMonth.ToString("long-name", cultureInfo);
+            string actual = CultureSpecific.RunUsingCulture(new CultureInfo("en-US"), () => dateMonth.ToString("long-name"));
 
             actual.Should().Be(expected);
         }

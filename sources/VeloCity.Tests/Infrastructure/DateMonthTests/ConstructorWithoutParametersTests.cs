@@ -14,27 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Presentation.Commands.Vacations.DateTimeMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
 {
-    public class ToStringTests
+    public class ConstructorWithoutParametersTests
     {
-        [Theory]
-        [InlineData(2025, 04, "2025 04")]
-        [InlineData(3458, 01, "3458 01")]
-        [InlineData(1, 03, "0001 03")]
-        [InlineData(100, 12, "0100 12")]
-        public void HavingAnInstance_WhenSerialized_ReturnsYearAndMonthAsNumbers(int year, int month, string expected)
+        DateMonth dateMonth;
+
+        public ConstructorWithoutParametersTests()
         {
-            DateTimeMonth dateTimeMonth = new(year, month);
+            dateMonth = new DateMonth();
+        }
 
-            string actual = dateTimeMonth.ToString();
+        [Fact]
+        public void WhenCreateInstanceWithoutParameters_ThenYearIsZero()
+        {
+            dateMonth.Year.Should().Be(0);
+        }
 
-            actual.Should().Be(expected);
+        [Fact]
+        public void WhenCreateInstanceWithoutParameters_ThenMonthIsOne()
+        {
+            dateMonth.Month.Should().Be(1);
         }
     }
 }

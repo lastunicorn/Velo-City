@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using FluentAssertions;
 using Xunit;
@@ -30,7 +29,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationElementEx
             Exception innerException = new();
             ConfigurationElementException configurationElementException = new("element1", innerException);
 
-            string expected = string.Format(DustInTheWind.VeloCity.Ports.SettingsAccess.Resources.ConfigurationElement_DefaultErrorMessage, "element1");
+            string expected = string.Format(Resources.ConfigurationElement_DefaultErrorMessage, "element1");
             configurationElementException.Message.Should().Be(expected);
         }
 
@@ -40,7 +39,7 @@ namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationElementEx
             Exception innerException = new();
             ConfigurationElementException configurationElementException = new(null, innerException);
 
-            string expected = string.Format(DustInTheWind.VeloCity.Ports.SettingsAccess.Resources.ConfigurationElement_DefaultErrorMessage, null as string);
+            string expected = string.Format(Resources.ConfigurationElement_DefaultErrorMessage, null as string);
             configurationElementException.Message.Should().Be(expected);
         }
 
