@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
                     .OrderByDescending(x => x.StartDate)
                     .Select(x => new SprintInfo(x))
                     .ToList(),
-                CurrentSprintId = applicationState.SelectedSprintId
+                CurrentSprintId = applicationState.SelectedSprintNumber
             };
 
             return Task.FromResult(response);

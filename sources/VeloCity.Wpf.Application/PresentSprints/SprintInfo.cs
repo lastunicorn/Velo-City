@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
     {
         public int Id { get; }
 
-        public string Name { get; }
+        public string Title { get; }
 
         public int Number { get; }
 
@@ -33,7 +33,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
         public SprintInfo(Sprint sprint)
         {
             Id = sprint.Id;
-            Name = sprint.Title;
+            Title = sprint.Title;
             Number = sprint.Number;
             DateInterval = sprint.DateInterval;
             State = sprint.State;

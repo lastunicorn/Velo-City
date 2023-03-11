@@ -37,7 +37,6 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
         public Task<PresentSprintDetailResponse> Handle(PresentSprintDetailRequest request, CancellationToken cancellationToken)
         {
             Sprint currentSprint = RetrieveSprintToAnalyze(request);
-
             PresentSprintDetailResponse response = CreateResponse(currentSprint);
 
             return Task.FromResult(response);
@@ -45,13 +44,11 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
 
         private Sprint RetrieveSprintToAnalyze(PresentSprintDetailRequest request)
         {
-            Sprint sprint = request.SprintNumber == null
-                ? applicationState.SelectedSprintId == null
+            return request.SprintNumber == null
+                ? applicationState.SelectedSprintNumber == null
                     ? RetrieveDefaultSprintToAnalyze()
-                    : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value)
+                    : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintNumber.Value)
                 : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
-
-            return sprint;
         }
 
         private Sprint RetrieveDefaultSprintToAnalyze()

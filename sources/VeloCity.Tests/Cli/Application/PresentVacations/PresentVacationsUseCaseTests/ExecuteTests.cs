@@ -25,7 +25,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Application.PresentVacations.PresentVacationsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Cli.Application.PresentVacations.PresentVacationsUseCaseTests
 {
 
     public class ExecuteTests

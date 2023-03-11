@@ -71,7 +71,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
             if (sprintInfo == null) throw new ArgumentNullException(nameof(sprintInfo));
 
             SprintId = sprintInfo.Id;
-            subtitle = sprintInfo.Name;
+            subtitle = sprintInfo.Title;
             Title = "Sprint " + sprintInfo.Number;
             SprintState = sprintInfo.State.ToPresentationModel();
             SprintDateInterval = sprintInfo.DateInterval;
