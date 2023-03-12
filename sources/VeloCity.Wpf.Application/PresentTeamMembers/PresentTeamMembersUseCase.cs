@@ -23,51 +23,49 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
+
+internal class PresentTeamMembersUseCase : IRequestHandler<PresentTeamMembersRequest, PresentTeamMembersResponse>
 {
-    internal class PresentTeamMembersUseCase : IRequestHandler<PresentTeamMembersRequest, PresentTeamMembersResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+
+    public PresentTeamMembersUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+    }
 
-        public PresentTeamMembersUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+    public Task<PresentTeamMembersResponse> Handle(PresentTeamMembersRequest request, CancellationToken cancellationToken)
+    {
+        IEnumerable<TeamMember> teamMembers = RetrieveTeamMembers();
+        IEnumerable<TeamMember> orderedTeamMembers = OrderTeamMembers(teamMembers);
+        PresentTeamMembersResponse response = CreateResponse(orderedTeamMembers);
+
+        return Task.FromResult(response);
+    }
+
+    private IEnumerable<TeamMember> RetrieveTeamMembers()
+    {
+        return unitOfWork.TeamMemberRepository.GetAll();
+    }
+
+    private static IEnumerable<TeamMember> OrderTeamMembers(IEnumerable<TeamMember> allTeamMembers)
+    {
+        TeamMemberList teamMemberList = new(allTeamMembers);
+        teamMemberList.OrderEmployedFirst();
+        
+        return teamMemberList;
+    }
+
+    private PresentTeamMembersResponse CreateResponse(IEnumerable<TeamMember> teamMembers)
+    {
+        return new PresentTeamMembersResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
-
-        public Task<PresentTeamMembersResponse> Handle(PresentTeamMembersRequest request, CancellationToken cancellationToken)
-        {
-            IEnumerable<TeamMember> allTeamMembers = unitOfWork.TeamMemberRepository.GetAll();
-
-            List<TeamMember> employedTeamMembers = new();
-            List<TeamMember> unemployedTeamMembers = new();
-
-            foreach (TeamMember teamMember in allTeamMembers)
-            {
-                if (teamMember.HasActiveEmployment)
-                    employedTeamMembers.Add(teamMember);
-                else
-                    unemployedTeamMembers.Add(teamMember);
-            }
-
-            IEnumerable<TeamMemberInfo> orderedEmployedTeamMembers = employedTeamMembers
-                .OrderByEmployment()
-                .Select(x => new TeamMemberInfo(x, true));
-
-            IEnumerable<TeamMemberInfo> orderedUnemployedTeamMembers = unemployedTeamMembers
-                .OrderByDescending(x => x.Employments.GetLastEmployment().EndDate)
-                .Select(x => new TeamMemberInfo(x, false));
-
-            PresentTeamMembersResponse response = new()
-            {
-                TeamMembers = orderedEmployedTeamMembers
-                    .Concat(orderedUnemployedTeamMembers)
-                    .ToList(),
-                CurrentTeamMemberId = applicationState.SelectedTeamMemberId
-            };
-
-            return Task.FromResult(response);
-        }
+            TeamMembers = teamMembers
+                .Select(x => new TeamMemberInfo(x))
+                .ToList(),
+            CurrentTeamMemberId = applicationState.SelectedTeamMemberId
+        };
     }
 }

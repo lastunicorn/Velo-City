@@ -27,7 +27,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberDetails.
     public class ConstructorTests
     {
         [Fact]
-        public void HavingNullUnitOfWork_WhenInstantiationgUseCase_ThenThrows()
+        public void HavingNullUnitOfWork_WhenInstantiatingUseCase_ThenThrows()
         {
             ApplicationState applicationState = new();
 
@@ -40,7 +40,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberDetails.
         }
 
         [Fact]
-        public void HavingNullApplicationState_WhenInstantiationgUseCase_ThenThrows()
+        public void HavingNullApplicationState_WhenInstantiatingUseCase_ThenThrows()
         {
             Mock<IUnitOfWork> unitOfWork = new();
 
@@ -53,7 +53,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberDetails.
         }
 
         [Fact]
-        public void HavingAllDependencies_WhenInstantiationgUseCase_ThenDoesNotThrow()
+        public void HavingAllDependencies_WhenInstantiatingUseCase_ThenDoesNotThrow()
         {
             Mock<IUnitOfWork> unitOfWork = new();
             ApplicationState applicationState = new();

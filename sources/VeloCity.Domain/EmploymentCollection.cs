@@ -28,10 +28,13 @@ public class EmploymentCollection : IEnumerable<Employment>
     public EmploymentCollection()
     {
     }
-
+    
     public EmploymentCollection(IEnumerable<Employment> employments)
     {
+        if (employments == null) throw new ArgumentNullException(nameof(employments));
+
         IEnumerable<Employment> orderedEmployments = employments
+            .Where(x => x != null)
             .OrderByDescending(x => x.TimeInterval.StartDate);
 
         foreach (Employment employment in orderedEmployments)

@@ -26,11 +26,11 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers
 
         public bool IsEmployed { get; }
 
-        public TeamMemberInfo(TeamMember teamMember, bool isEmployed)
+        public TeamMemberInfo(TeamMember teamMember)
         {
             Id = teamMember.Id;
             Name = teamMember.Name;
-            IsEmployed = isEmployed;
+            IsEmployed = teamMember.HasActiveEmployment;
         }
     }
 }
