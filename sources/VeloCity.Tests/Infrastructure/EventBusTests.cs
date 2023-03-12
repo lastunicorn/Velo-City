@@ -49,7 +49,7 @@ namespace DustInTheWind.VeloCity.Tests.Infrastructure
         public async Task HavingOneSubscriberToDummyEvent1_WhenThatEventIsPublished_ThenSubscriberIsAnnounced()
         {
             // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockClientFor<DummyEvent1>();
+            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
 
             // Act
             DummyEvent1 dummyEvent1 = new();
@@ -63,7 +63,7 @@ namespace DustInTheWind.VeloCity.Tests.Infrastructure
         public async Task HavingOneSubscriberToDummyEvent1_WhenThatEventIsPublished_ThenSameEventInstanceIsReceivedBySubscriber()
         {
             // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockClientFor<DummyEvent1>();
+            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
 
             // Act
             DummyEvent1 dummyEvent1 = new();
@@ -77,7 +77,7 @@ namespace DustInTheWind.VeloCity.Tests.Infrastructure
         public async Task HavingOneSubscriberToDummyEvent1_WhenAnotherEventIsPublished_ThenSubscriberNotAnnounced()
         {
             // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockClientFor<DummyEvent1>();
+            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
 
             // Act
             DummyEvent2 dummyEvent2 = new();
@@ -91,8 +91,8 @@ namespace DustInTheWind.VeloCity.Tests.Infrastructure
         public async Task HavingTwoSubscribersToTwoDifferentEvents_WhenOneEventIsPublished_ThenCorrespondingSubscriberIsAnnounced()
         {
             // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockClientFor<DummyEvent1>();
-            EventBusClient<DummyEvent2> eventBusClient2 = eventBus.CreateMockClientFor<DummyEvent2>();
+            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
+            EventBusClient<DummyEvent2> eventBusClient2 = eventBus.CreateMockSubscriberFor<DummyEvent2>();
 
             // Act
             DummyEvent2 dummyEvent2 = new();
@@ -107,8 +107,8 @@ namespace DustInTheWind.VeloCity.Tests.Infrastructure
         public async Task HavingTwoSubscribersToSameEvent_WhenThatEventIsPublished_ThenBothSubscriberAreAnnounced()
         {
             // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockClientFor<DummyEvent1>();
-            EventBusClient<DummyEvent1> eventBusClient2 = eventBus.CreateMockClientFor<DummyEvent1>();
+            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
+            EventBusClient<DummyEvent1> eventBusClient2 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
 
             // Act
             DummyEvent1 dummyEvent1 = new();

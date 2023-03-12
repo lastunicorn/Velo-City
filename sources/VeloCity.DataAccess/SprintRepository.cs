@@ -153,7 +153,19 @@ namespace DustInTheWind.VeloCity.DataAccess
         {
             if (sprint == null) throw new ArgumentNullException(nameof(sprint));
 
+            if (sprint.Id == 0)
+                sprint.Id = CreateNewId();
+
             dbContext.Sprints.Add(sprint);
+        }
+
+        private int CreateNewId()
+        {
+            Sprint sprintWithBiggestId = dbContext.Sprints.MaxBy(x => x.Id);
+
+            return sprintWithBiggestId == null
+                ? 1
+                : sprintWithBiggestId.Id + 1;
         }
     }
 }

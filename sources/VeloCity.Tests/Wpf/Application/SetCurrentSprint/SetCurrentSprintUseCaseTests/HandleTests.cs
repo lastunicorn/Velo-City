@@ -64,18 +64,18 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentSprint.SetCurre
         [Fact]
         public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenRaiseSprintChangedEvent()
         {
-            EventBusClient<SprintChangedEvent> eventBusClient = eventBus.CreateMockClientFor<SprintChangedEvent>();
+            EventBusClient<SprintChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintChangedEvent>();
 
             SetCurrentSprintRequest request = new();
             await useCase.Handle(request, CancellationToken.None);
 
-            eventBusClient.AssertEventWasTriggered(1);
+            eventBusClient.VerifyEventWasTriggered(1);
         }
 
         [Fact]
         public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenSprintChangedEventContainSprintNumber()
         {
-            EventBusClient<SprintChangedEvent> eventBusClient = eventBus.CreateMockClientFor<SprintChangedEvent>();
+            EventBusClient<SprintChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintChangedEvent>();
 
             SetCurrentSprintRequest request = new()
             {

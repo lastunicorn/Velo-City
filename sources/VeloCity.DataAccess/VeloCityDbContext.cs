@@ -23,7 +23,31 @@ using DustInTheWind.VeloCity.Ports.DataAccess;
 
 namespace DustInTheWind.VeloCity.DataAccess
 {
-    public class VeloCityDbContext
+    // internal class SprintCollection : Collection<Sprint>
+    // {
+    //     protected override void InsertItem(int index, Sprint item)
+    //     {
+    //         if (item == null) throw new ArgumentNullException(nameof(item));
+    //
+    //         bool alreadyExist = Items.Any(x => ReferenceEquals(x, item));
+    //
+    //         if (alreadyExist)
+    //             return;
+    //
+    //         if (item.Id == 0)
+    //         {
+    //             
+    //         }
+    //         else
+    //         {
+    //             
+    //         }
+    //
+    //         base.InsertItem(index, item);
+    //     }
+    // }
+
+    internal class VeloCityDbContext
     {
         private readonly JsonDatabase jsonDatabase;
         private Guid databaseId = Guid.Empty;

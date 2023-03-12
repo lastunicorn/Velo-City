@@ -42,7 +42,7 @@ namespace DustInTheWind.VeloCity.Tests
             return Task.CompletedTask;
         }
 
-        public void AssertEventWasTriggered(int? times = null)
+        public void VerifyEventWasTriggered(int? times = null)
         {
             if (times == null)
                 EventWasTriggered.Should().BeTrue();

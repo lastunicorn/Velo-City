@@ -1,4 +1,4 @@
-﻿// VeloCity
+// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -14,15 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Infrastructure;
+namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 
-namespace DustInTheWind.VeloCity.Tests
+public class SprintsListChangedEvent
 {
-    internal static class EventBusExtension
-    {
-        public static EventBusClient<T> CreateMockSubscriberFor<T>(this EventBus eventBus)
-        {
-            return new EventBusClient<T>(eventBus);
-        }
-    }
+    public int? NewSprintId { get; set; }
 }

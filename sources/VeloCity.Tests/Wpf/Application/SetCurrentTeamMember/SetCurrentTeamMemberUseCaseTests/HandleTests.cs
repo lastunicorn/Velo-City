@@ -63,18 +63,18 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentTeamMember.SetC
         [Fact]
         public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenTeamMemberChangedEvent()
         {
-            EventBusClient<TeamMemberChangedEvent> eventBusClient = eventBus.CreateMockClientFor<TeamMemberChangedEvent>();
+            EventBusClient<TeamMemberChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<TeamMemberChangedEvent>();
 
             SetCurrentTeamMemberRequest request = new();
             await useCase.Handle(request, CancellationToken.None);
 
-            eventBusClient.AssertEventWasTriggered(1);
+            eventBusClient.VerifyEventWasTriggered(1);
         }
 
         [Fact]
         public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenTeamMemberChangedEventContainTeamMemberId()
         {
-            EventBusClient<TeamMemberChangedEvent> eventBusClient = eventBus.CreateMockClientFor<TeamMemberChangedEvent>();
+            EventBusClient<TeamMemberChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<TeamMemberChangedEvent>();
 
             SetCurrentTeamMemberRequest request = new()
             {

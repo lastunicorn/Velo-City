@@ -69,18 +69,18 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.Reload.ReloadUseCaseTests
         [Fact]
         public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenRaiseReloadEvent()
         {
-            EventBusClient<ReloadEvent> eventBusClient = eventBus.CreateMockClientFor<ReloadEvent>();
+            EventBusClient<ReloadEvent> eventBusClient = eventBus.CreateMockSubscriberFor<ReloadEvent>();
 
             ReloadRequest request = new();
             await useCase.Handle(request, CancellationToken.None);
 
-            eventBusClient.AssertEventWasTriggered(1);
+            eventBusClient.VerifyEventWasTriggered(1);
         }
 
         [Fact]
         public async Task HavingDataStorageThatThrows_WhenUseCaseIsExecuted_ThenDoesNotRaiseReloadEvent()
         {
-            EventBusClient<ReloadEvent> eventBusClient = eventBus.CreateMockClientFor<ReloadEvent>();
+            EventBusClient<ReloadEvent> eventBusClient = eventBus.CreateMockSubscriberFor<ReloadEvent>();
 
             dataStorage
                 .Setup(x => x.Reopen())
@@ -90,7 +90,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.Reload.ReloadUseCaseTests
 
             await useCase.Handle(request, CancellationToken.None);
 
-            eventBusClient.AssertEventWasTriggered(0);
+            eventBusClient.VerifyEventWasTriggered(0);
         }
     }
 }

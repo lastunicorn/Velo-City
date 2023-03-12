@@ -24,70 +24,84 @@ using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
+
+public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
 {
-    public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly IUserInterface userInterface;
+    private readonly EventBus eventBus;
+    private readonly ApplicationState applicationState;
+
+    public CreateNewSprintUseCase(IUnitOfWork unitOfWork, IUserInterface userInterface, EventBus eventBus, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IUserInterface userInterface;
-        private readonly EventBus eventBus;
-        private readonly ApplicationState applicationState;
-
-        public CreateNewSprintUseCase(IUnitOfWork unitOfWork, IUserInterface userInterface, EventBus eventBus, ApplicationState applicationState)
-        {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
-
-        public async Task<Unit> Handle(CreateNewSprintRequest request, CancellationToken cancellationToken)
-        {
-            Sprint sprint = unitOfWork.SprintRepository.GetLast();
-
-            SprintNewConfirmationResponse sprintNewConfirmationResponse = await RequestUserConfirmation(sprint);
-
-            if (sprintNewConfirmationResponse.IsAccepted)
-            {
-                Sprint newSprint = new()
-                {
-                    Title = sprintNewConfirmationResponse.SprintTitle,
-                    Number = sprint.Number + 1,
-                    Id = sprint.Id + 1,
-                    DateInterval = sprintNewConfirmationResponse.SprintTimeInterval,
-                    State = SprintState.New
-                };
-
-                unitOfWork.SprintRepository.Add(newSprint);
-
-                unitOfWork.SaveChanges();
-
-                applicationState.SelectedSprintId = newSprint.Id;
-
-                SprintsListChangedEvent sprintChangedEvent = new()
-                {
-                    NewSprintId = newSprint.Id
-                };
-                await eventBus.Publish(sprintChangedEvent, cancellationToken);
-            }
-
-            return Unit.Value;
-        }
-
-        private async Task<SprintNewConfirmationResponse> RequestUserConfirmation(Sprint sprint)
-        {
-            SprintNewConfirmationRequest sprintNewConfirmationRequest = new()
-            {
-                SprintNumber = sprint.Number + 1,
-                SprintStartDate = sprint.EndDate.AddDays(1),
-                SprintLength = 14
-            };
-            return userInterface.ConfirmNewSprint(sprintNewConfirmationRequest);
-        }
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
+        this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
     }
 
-    public class SprintsListChangedEvent
+    public async Task<Unit> Handle(CreateNewSprintRequest request, CancellationToken cancellationToken)
     {
-        public int? NewSprintId { get; set; }
+        Sprint lastSprint = RetrieveLastSprintFromStorage();
+        SprintNewConfirmationResponse sprintNewConfirmationResponse = RequestUserConfirmationToCreateNewSprint(lastSprint);
+
+        if (sprintNewConfirmationResponse?.IsAccepted == true)
+        {
+            Sprint newSprint = CreateNewSprint(sprintNewConfirmationResponse, lastSprint);
+            unitOfWork.SaveChanges();
+
+            SetTheNewSprintAsCurrent(newSprint);
+            await RaiseSprintListChangedEvent(newSprint, cancellationToken);
+        }
+
+        return Unit.Value;
+    }
+
+    private Sprint RetrieveLastSprintFromStorage()
+    {
+        return unitOfWork.SprintRepository.GetLast();
+    }
+
+    private SprintNewConfirmationResponse RequestUserConfirmationToCreateNewSprint(Sprint lastSprint)
+    {
+        SprintNewConfirmationRequest sprintNewConfirmationRequest = new()
+        {
+            SprintNumber = lastSprint?.Number + 1 ?? 1,
+            SprintStartDate = lastSprint?.EndDate.AddDays(1) ?? DateTime.Today,
+            SprintLength = 14
+        };
+        return userInterface.ConfirmNewSprint(sprintNewConfirmationRequest);
+    }
+
+    private Sprint CreateNewSprint(SprintNewConfirmationResponse sprintNewConfirmationResponse, Sprint lastSprint)
+    {
+        Sprint newSprint = new()
+        {
+            Title = sprintNewConfirmationResponse.SprintTitle,
+            Number = lastSprint?.Number + 1 ?? 1,
+            Id = lastSprint?.Id + 1 ?? 0,
+            DateInterval = sprintNewConfirmationResponse.SprintTimeInterval,
+            State = SprintState.New
+        };
+
+        unitOfWork.SprintRepository.Add(newSprint);
+
+        return newSprint;
+    }
+
+    private void SetTheNewSprintAsCurrent(Sprint newSprint)
+    {
+        applicationState.SelectedSprintId = newSprint.Id;
+    }
+
+    private async Task RaiseSprintListChangedEvent(Sprint newSprint, CancellationToken cancellationToken)
+    {
+        SprintsListChangedEvent sprintChangedEvent = new()
+        {
+            NewSprintId = newSprint.Id
+        };
+
+        await eventBus.Publish(sprintChangedEvent, cancellationToken);
     }
 }
