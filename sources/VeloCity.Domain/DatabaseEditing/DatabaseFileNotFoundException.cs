@@ -16,13 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
+namespace DustInTheWind.VeloCity.Domain.DatabaseEditing;
+
+public class DatabaseFileNotFoundException : Exception
 {
-    public class DatabaseFileNotFoundException : Exception
+    public DatabaseFileNotFoundException(string databaseFilePath)
+        : base(string.Format(Resources.DatabaseFileNotFound_DefaultErrorMessage, databaseFilePath))
     {
-        public DatabaseFileNotFoundException(string databaseFilePath)
-            : base(string.Format(Resources.DatabaseFileNotFound_DefaultErrorMessage, databaseFilePath))
-        {
-        }
     }
 }

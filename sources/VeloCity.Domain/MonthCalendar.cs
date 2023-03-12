@@ -18,68 +18,67 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class MonthCalendar
 {
-    public class MonthCalendar
+    private readonly DateTime startDate;
+    private readonly DateTime endDate;
+
+    public int Year { get; }
+
+    public int Month { get; }
+
+    public List<OfficialHoliday> OfficialHolidays { get; set; }
+
+    public List<TeamMember> TeamMembers { get; set; }
+
+    public IEnumerable<MonthMember> MonthMembers
     {
-        private readonly DateTime startDate;
-        private readonly DateTime endDate;
-
-        public int Year { get; }
-
-        public int Month { get; }
-
-        public List<OfficialHoliday> OfficialHolidays { get; set; }
-
-        public List<TeamMember> TeamMembers { get; set; }
-
-        public IEnumerable<MonthMember> MonthMembers
+        get
         {
-            get
+            return TeamMembers
+                .Select(x => new MonthMember(x, this))
+                .OrderBy(x => x.TeamMember.Employments.GetLastEmploymentBatch()?.StartDate)
+                .ThenBy(x => x.Name);
+        }
+    }
+
+    public MonthCalendar(DateTime startDate, DateTime endDate)
+    {
+        this.startDate = startDate;
+        this.endDate = endDate;
+
+        Year = startDate.Year;
+        Month = startDate.Month;
+    }
+
+    public IEnumerable<SprintDay> EnumerateAllDays()
+    {
+        return EnumerateDays(startDate, endDate);
+    }
+
+    private IEnumerable<SprintDay> EnumerateDays(DateTime startDate, DateTime endDate)
+    {
+        int totalDaysCount = (int)(endDate.Date - startDate.Date).TotalDays + 1;
+
+        return Enumerable.Range(0, totalDaysCount)
+            .Select(x =>
             {
-                return TeamMembers
-                    .Select(x => new MonthMember(x, this))
-                    .OrderBy(x => x.TeamMember.Employments.GetLastEmploymentBatch()?.StartDate)
-                    .ThenBy(x => x.Name);
-            }
-        }
+                DateTime date = startDate.AddDays(x);
+                return ToSprintDay(date);
+            });
+    }
 
-        public MonthCalendar(DateTime startDate, DateTime endDate)
+    private SprintDay ToSprintDay(DateTime date)
+    {
+        return new SprintDay
         {
-            this.startDate = startDate;
-            this.endDate = endDate;
-
-            Year = startDate.Year;
-            Month = startDate.Month;
-        }
-
-        public IEnumerable<SprintDay> EnumerateAllDays()
-        {
-            return EnumerateDays(startDate, endDate);
-        }
-
-        private IEnumerable<SprintDay> EnumerateDays(DateTime startDate, DateTime endDate)
-        {
-            int totalDaysCount = (int)(endDate.Date - startDate.Date).TotalDays + 1;
-
-            return Enumerable.Range(0, totalDaysCount)
-                .Select(x =>
-                {
-                    DateTime date = startDate.AddDays(x);
-                    return ToSprintDay(date);
-                });
-        }
-
-        private SprintDay ToSprintDay(DateTime date)
-        {
-            return new SprintDay
-            {
-                Date = date,
-                OfficialHolidays = OfficialHolidays
-                    .Where(x => x.Match(date))
-                    .Select(x => x.GetInstanceFor(date.Year))
-                    .ToList()
-            };
-        }
+            Date = date,
+            OfficialHolidays = OfficialHolidays
+                .Where(x => x.Match(date))
+                .Select(x => x.GetInstanceFor(date.Year))
+                .ToList()
+        };
     }
 }

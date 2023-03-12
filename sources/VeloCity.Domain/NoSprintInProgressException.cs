@@ -16,13 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class NoSprintInProgressException : Exception
 {
-    public class NoSprintInProgressException : Exception
+    public NoSprintInProgressException()
+        : base(Resources.NoSprintInProgress_DefaultErrorMessage)
     {
-        public NoSprintInProgressException()
-            : base(Resources.NoSprintInProgress_DefaultErrorMessage)
-        {
-        }
     }
 }

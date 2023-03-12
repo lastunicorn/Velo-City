@@ -16,107 +16,106 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public readonly struct DateInterval
 {
-    public readonly struct DateInterval
+    public DateTime? StartDate { get; }
+
+    public DateTime? EndDate { get; }
+
+    public bool IsFullInfinite => StartDate == null && EndDate == null;
+
+    public bool IsHalfInfinite => StartDate == null || EndDate == null;
+
+    public bool IsZero => StartDate != null && EndDate != null && StartDate.Value == EndDate.Value;
+
+    public int TotalDays => (int)((EndDate ?? DateTime.MaxValue) - (StartDate ?? DateTime.MinValue)).TotalDays + 1;
+
+    public DateInterval(DateTime? startDate = null, DateTime? endDate = null)
     {
-        public DateTime? StartDate { get; }
+        StartDate = startDate?.Date;
+        EndDate = endDate?.Date;
 
-        public DateTime? EndDate { get; }
+        if (StartDate > EndDate)
+            throw new ArgumentException($"End date ({endDate}) must be after start date ({startDate}).", nameof(endDate));
+    }
 
-        public bool IsFullInfinite => StartDate == null && EndDate == null;
+    public bool IsIntersecting(DateInterval dateInterval)
+    {
+        if (dateInterval.IsFullInfinite)
+            return true;
 
-        public bool IsHalfInfinite => StartDate == null || EndDate == null;
+        if (dateInterval.StartDate == null)
+            return StartDate == null || dateInterval.EndDate!.Value >= StartDate.Value;
 
-        public bool IsZero => StartDate != null && EndDate != null && StartDate.Value == EndDate.Value;
+        if (dateInterval.EndDate == null)
+            return EndDate == null || dateInterval.StartDate!.Value <= EndDate.Value;
 
-        public int TotalDays => (int)((EndDate ?? DateTime.MaxValue) - (StartDate ?? DateTime.MinValue)).TotalDays + 1;
+        return ContainsDate(dateInterval.EndDate.Value) ||
+               ((EndDate == null || dateInterval.EndDate.Value > EndDate.Value) && dateInterval.StartDate.Value <= EndDate);
+    }
 
-        public DateInterval(DateTime? startDate = null, DateTime? endDate = null)
-        {
-            StartDate = startDate?.Date;
-            EndDate = endDate?.Date;
+    public bool IsIntersecting(DateTime? startDate, DateTime? endDate)
+    {
+        DateInterval dateInterval = new(startDate, endDate);
+        return IsIntersecting(dateInterval);
+    }
 
-            if (StartDate > EndDate)
-                throw new ArgumentException($"End date ({endDate}) must be after start date ({startDate}).", nameof(endDate));
-        }
+    public bool ContainsDate(DateTime dateTime)
+    {
+        DateTime date = dateTime.Date;
 
-        public bool IsIntersecting(DateInterval dateInterval)
-        {
-            if (dateInterval.IsFullInfinite)
-                return true;
+        return (StartDate == null || date >= StartDate.Value) &&
+               (EndDate == null || date <= EndDate.Value);
+    }
 
-            if (dateInterval.StartDate == null)
-                return StartDate == null || dateInterval.EndDate!.Value >= StartDate.Value;
+    public bool DoesContinueWith(DateInterval dateInterval)
+    {
+        if (EndDate == null || EndDate.Value == DateTime.MaxValue.Date || dateInterval.StartDate == null)
+            return false;
 
-            if (dateInterval.EndDate == null)
-                return EndDate == null || dateInterval.StartDate!.Value <= EndDate.Value;
+        return EndDate.Value.AddDays(1) == dateInterval.StartDate.Value;
+    }
 
-            return ContainsDate(dateInterval.EndDate.Value) ||
-                   ((EndDate == null || dateInterval.EndDate.Value > EndDate.Value) && dateInterval.StartDate.Value <= EndDate);
-        }
+    public override string ToString()
+    {
+        string startDateString = StartDate?.ToString("d") ?? "<<<";
+        string endDateString = EndDate?.ToString("d") ?? ">>>";
+        return $"{startDateString} - {endDateString}";
+    }
 
-        public bool IsIntersecting(DateTime? startDate, DateTime? endDate)
-        {
-            DateInterval dateInterval = new(startDate, endDate);
-            return IsIntersecting(dateInterval);
-        }
+    public DateInterval InflateLeft(uint dayCount)
+    {
+        DateTime? newStartDate = StartDate == null
+            ? null
+            : (StartDate - DateTime.MinValue > TimeSpan.FromDays(dayCount))
+                ? StartDate.Value.AddDays(-dayCount)
+                : DateTime.MinValue;
 
-        public bool ContainsDate(DateTime dateTime)
-        {
-            DateTime date = dateTime.Date;
+        return new DateInterval(newStartDate, EndDate);
+    }
 
-            return (StartDate == null || date >= StartDate.Value) &&
-                   (EndDate == null || date <= EndDate.Value);
-        }
+    public DateInterval InflateRight(uint dayCount)
+    {
+        DateTime? newEndDate = EndDate == null
+            ? null
+            : (DateTime.MaxValue - EndDate > TimeSpan.FromDays(dayCount))
+                ? EndDate.Value.AddDays(dayCount)
+                : DateTime.MaxValue;
 
-        public bool DoesContinueWith(DateInterval dateInterval)
-        {
-            if (EndDate == null || EndDate.Value == DateTime.MaxValue.Date || dateInterval.StartDate == null)
-                return false;
+        return new DateInterval(StartDate, newEndDate);
+    }
 
-            return EndDate.Value.AddDays(1) == dateInterval.StartDate.Value;
-        }
+    public DateInterval ChangeStartDate(DateTime? date)
+    {
+        DateTime? newStartDate = date?.Date;
+        return new DateInterval(newStartDate, EndDate);
+    }
 
-        public override string ToString()
-        {
-            string startDateString = StartDate?.ToString("d") ?? "<<<";
-            string endDateString = EndDate?.ToString("d") ?? ">>>";
-            return $"{startDateString} - {endDateString}";
-        }
-
-        public DateInterval InflateLeft(uint dayCount)
-        {
-            DateTime? newStartDate = StartDate == null
-                ? null
-                : (StartDate - DateTime.MinValue > TimeSpan.FromDays(dayCount))
-                    ? StartDate.Value.AddDays(-dayCount)
-                    : DateTime.MinValue;
-
-            return new DateInterval(newStartDate, EndDate);
-        }
-
-        public DateInterval InflateRight(uint dayCount)
-        {
-            DateTime? newEndDate = EndDate == null
-                ? null
-                : (DateTime.MaxValue - EndDate > TimeSpan.FromDays(dayCount))
-                    ? EndDate.Value.AddDays(dayCount)
-                    : DateTime.MaxValue;
-
-            return new DateInterval(StartDate, newEndDate);
-        }
-
-        public DateInterval ChangeStartDate(DateTime? date)
-        {
-            DateTime? newStartDate = date?.Date;
-            return new DateInterval(newStartDate, EndDate);
-        }
-
-        public DateInterval ChangeEndDate(DateTime? date)
-        {
-            DateTime? newEndDate = date?.Date;
-            return new DateInterval(StartDate, newEndDate);
-        }
+    public DateInterval ChangeEndDate(DateTime? date)
+    {
+        DateTime? newEndDate = date?.Date;
+        return new DateInterval(StartDate, newEndDate);
     }
 }

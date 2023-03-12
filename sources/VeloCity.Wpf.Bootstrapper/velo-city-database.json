@@ -275,8 +275,7 @@
       "Name": "Union of the Romanian Principalities",
       "StartYear": 1859,
       "Country": "RO",
-      "Description":
-        "Unirea Principatelor Române a avut loc la jumătatea secolului al XIX-lea prin unirea statelor Moldova și Țara Românească sub numele Principatele Unite ale Moldovei și Țării Românești. Procesul unirii, bazat pe puternica apropiere culturală și economică între cele două țări, a cunoscut o etapă decisivă, care s-a dovedit a fi ireversibilă, prin alegerea colonelului moldovean Alexandru Ioan Cuza ca domnitor al ambelor principate, la 5 ianuarie 1859 în Moldova și la 24 ianuarie 1859 în Țara Românească. (https://ro.wikipedia.org/wiki/Unirea_Principatelor_Rom%C3%A2ne)"
+      "Description": "Unirea Principatelor Române a avut loc la jumătatea secolului al XIX-lea prin unirea statelor Moldova și Țara Românească sub numele Principatele Unite ale Moldovei și Țării Românești. Procesul unirii, bazat pe puternica apropiere culturală și economică între cele două țări, a cunoscut o etapă decisivă, care s-a dovedit a fi ireversibilă, prin alegerea colonelului moldovean Alexandru Ioan Cuza ca domnitor al ambelor principate, la 5 ianuarie 1859 în Moldova și la 24 ianuarie 1859 în Țara Românească. (https://ro.wikipedia.org/wiki/Unirea_Principatelor_Rom%C3%A2ne)"
     },
     {
       "Recurrence": "yearly",
@@ -284,8 +283,7 @@
       "Name": "Labor Day",
       "StartYear": 1889,
       "Country": "RO",
-      "Description":
-        "International Workers' Day, also known as Labour Day in most countries and often referred to as May Day, is a celebration of labourers and the working classes that is promoted by the international labour movement and occurs every year on May Day (1 May). (https://en.wikipedia.org/wiki/International_Workers%27_Day)"
+      "Description": "International Workers' Day, also known as Labour Day in most countries and often referred to as May Day, is a celebration of labourers and the working classes that is promoted by the international labour movement and occurs every year on May Day (1 May). (https://en.wikipedia.org/wiki/International_Workers%27_Day)"
     },
     {
       "Recurrence": "once",
@@ -312,8 +310,7 @@
       "StartYear": 1925,
       "Country": "RO",
       "ShortDescription": "Children's Day is a commemorative date celebrated annually in honor of children.",
-      "Description":
-        "Children's Day is a commemorative date celebrated annually in honor of children. Its date of observance varies by country. In 1925, International Children's Day was first proclaimed in Geneva during the World Conference on Child Welfare. Since 1950, it is celebrated on June 1 in most Communist and post-Communist countries. (https://en.wikipedia.org/wiki/Children%27s_Day)"
+      "Description": "Children's Day is a commemorative date celebrated annually in honor of children. Its date of observance varies by country. In 1925, International Children's Day was first proclaimed in Geneva during the World Conference on Child Welfare. Since 1950, it is celebrated on June 1 in most Communist and post-Communist countries. (https://en.wikipedia.org/wiki/Children%27s_Day)"
     },
     {
       "Recurrence": "once",
@@ -332,8 +329,7 @@
       "Date": "0100-08-15T00:00:00",
       "Name": "Assumption of Mary",
       "Country": "RO",
-      "ShortDescription":
-        "A dogma saying that, the immaculate Mother of God, Mary ever virgin, when the course of her earthly life was finished, was taken up body and soul into the glory of heaven."
+      "ShortDescription": "A dogma saying that, the immaculate Mother of God, Mary ever virgin, when the course of her earthly life was finished, was taken up body and soul into the glory of heaven."
     },
     {
       "Recurrence": "yearly",
@@ -347,10 +343,8 @@
       "Name": "Romania's National Day",
       "StartYear": 1990,
       "Country": "RO",
-      "ShortDescription":
-        "Great Union Day (Romanian: Ziua Marii Uniri, also called Unification Day or National Day) is a national holiday in Romania, celebrated on 1 December, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918.",
-      "Description":
-        "Great Union Day (Romanian: Ziua Marii Uniri, also called Unification Day or National Day) is a national holiday in Romania, celebrated on 1 December, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918, something that is known as the Great Union. This holiday was declared after the Romanian Revolution and commemorates the assembly of the delegates of ethnic Romanians held in Alba Iulia, who declared the Union of Transylvania with Romania. (https://en.wikipedia.org/wiki/Great_Union_Day)"
+      "ShortDescription": "Great Union Day (Romanian: Ziua Marii Uniri, also called Unification Day or National Day) is a national holiday in Romania, celebrated on 1 December, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918.",
+      "Description": "Great Union Day (Romanian: Ziua Marii Uniri, also called Unification Day or National Day) is a national holiday in Romania, celebrated on 1 December, marking the unification of Transylvania, Bessarabia, and Bukovina with the Romanian Kingdom in 1918, something that is known as the Great Union. This holiday was declared after the Romanian Revolution and commemorates the assembly of the delegates of ethnic Romanians held in Alba Iulia, who declared the Union of Transylvania with Romania. (https://en.wikipedia.org/wiki/Great_Union_Day)"
     },
     {
       "Recurrence": "yearly",
@@ -430,10 +424,8 @@
       "Date": "0100-08-11T00:00:00",
       "Name": "Raksha Bandhan",
       "Country": "IN",
-      "ShortDescription":
-        "As per the Sanskrit terminology, the occasion means \"the tie or knot of protection\" where \"Raksha\" stands for the protection and \"Bandhan\" signifies the verb to tie. Together, the festival symbolizes the eternal love of brother-sister relationship.",
-      "Description":
-        "The festival is made up of two words, namely \"Raksha\" and \"Bandhan.\" As per the Sanskrit terminology, the occasion means \"the tie or knot of protection\" where \"Raksha\" stands for the protection and \"Bandhan\" signifies the verb to tie. Together, the festival symbolizes the eternal love of brother-sister relationship which does not mean just the blood relationships only. It is also celebrated among cousins, sister and sister-in-law (Bhabhi), fraternal aunt (Bua) and nephew (Bhatija) and other such relations."
+      "ShortDescription": "As per the Sanskrit terminology, the occasion means \"the tie or knot of protection\" where \"Raksha\" stands for the protection and \"Bandhan\" signifies the verb to tie. Together, the festival symbolizes the eternal love of brother-sister relationship.",
+      "Description": "The festival is made up of two words, namely \"Raksha\" and \"Bandhan.\" As per the Sanskrit terminology, the occasion means \"the tie or knot of protection\" where \"Raksha\" stands for the protection and \"Bandhan\" signifies the verb to tie. Together, the festival symbolizes the eternal love of brother-sister relationship which does not mean just the blood relationships only. It is also celebrated among cousins, sister and sister-in-law (Bhabhi), fraternal aunt (Bua) and nephew (Bhatija) and other such relations."
     },
     {
       "Recurrence": "yearly",
@@ -453,24 +445,21 @@
       "Date": "0100-10-05T00:00:00",
       "Name": "Dussehra",
       "Country": "IN",
-      "ShortDescription":
-        "Also known as Vijayādaśamī (विजयादशमी),  compound of the two words vijaya (विजय, 'victory') and daśamī (दशमी, 'tenth'), connoting the festival on the tenth day celebrating the victory of good over evil.\r\n\r\nThe word dussehra is the British English spelling of the Indo-Aryan tadbhava Dasahrā. It is derived daśaharā (दशहरा), which is a Sanskrit compound word composed of daśama (दशम, 'tenth') and ahar (अहर्, 'day')."
+      "ShortDescription": "Also known as Vijayādaśamī (विजयादशमी),  compound of the two words vijaya (विजय, 'victory') and daśamī (दशमी, 'tenth'), connoting the festival on the tenth day celebrating the victory of good over evil.\r\n\r\nThe word dussehra is the British English spelling of the Indo-Aryan tadbhava Dasahrā. It is derived daśaharā (दशहरा), which is a Sanskrit compound word composed of daśama (दशम, 'tenth') and ahar (अहर्, 'day')."
     },
     {
       "Recurrence": "yearly",
       "Date": "0100-10-24T00:00:00",
       "Name": "Diwali",
       "Country": "IN",
-      "ShortDescription":
-        "One of the most popular festivals of Hinduism, Diwali symbolizes the spiritual \"victory of light over darkness, good over evil, and knowledge over ignorance\"."
+      "ShortDescription": "One of the most popular festivals of Hinduism, Diwali symbolizes the spiritual \"victory of light over darkness, good over evil, and knowledge over ignorance\"."
     },
     {
       "Recurrence": "yearly",
       "Date": "0100-10-25T00:00:00",
       "Name": "Diwali",
       "Country": "IN",
-      "ShortDescription":
-        "One of the most popular festivals of Hinduism, Diwali symbolizes the spiritual \"victory of light over darkness, good over evil, and knowledge over ignorance\"."
+      "ShortDescription": "One of the most popular festivals of Hinduism, Diwali symbolizes the spiritual \"victory of light over darkness, good over evil, and knowledge over ignorance\"."
     },
     {
       "Recurrence": "yearly",

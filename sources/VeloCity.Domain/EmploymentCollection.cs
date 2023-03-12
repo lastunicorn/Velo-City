@@ -19,101 +19,100 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class EmploymentCollection : IEnumerable<Employment>
 {
-    public class EmploymentCollection : IEnumerable<Employment>
+    private readonly SortedList<DateTime, Employment> employments = new(new ReverseDuplicateKeyComparer<DateTime>());
+
+    public EmploymentCollection()
     {
-        private readonly SortedList<DateTime, Employment> employments = new(new ReverseDuplicateKeyComparer<DateTime>());
+    }
 
-        public EmploymentCollection()
-        {
-        }
+    public EmploymentCollection(IEnumerable<Employment> employments)
+    {
+        IEnumerable<Employment> orderedEmployments = employments
+            .OrderByDescending(x => x.TimeInterval.StartDate);
 
-        public EmploymentCollection(IEnumerable<Employment> employments)
-        {
-            IEnumerable<Employment> orderedEmployments = employments
-                .OrderByDescending(x => x.TimeInterval.StartDate);
-
-            foreach (Employment employment in orderedEmployments)
-                AddInternal(employment);
-        }
-
-        public void Add(Employment employment)
-        {
-            if (employment == null) throw new ArgumentNullException(nameof(employment));
-
+        foreach (Employment employment in orderedEmployments)
             AddInternal(employment);
-        }
+    }
 
-        private void AddInternal(Employment employment)
+    public void Add(Employment employment)
+    {
+        if (employment == null) throw new ArgumentNullException(nameof(employment));
+
+        AddInternal(employment);
+    }
+
+    private void AddInternal(Employment employment)
+    {
+        DateTime key = employment.TimeInterval.StartDate ?? DateTime.MinValue;
+        employments.Add(key, employment);
+    }
+
+    public Employment GetFirstEmployment()
+    {
+        return employments.Values.LastOrDefault();
+    }
+
+    public Employment GetLastEmployment()
+    {
+        return employments.Values.FirstOrDefault();
+    }
+
+    public Employment GetEmploymentFor(DateTime date)
+    {
+        return employments.Values.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
+    }
+
+    public EmploymentBatch GetEmploymentBatchFor(DateTime date)
+    {
+        EmploymentBatch matchingBatch = GetEmploymentBatches()
+            .FirstOrDefault(x => x.ContainsDate(date));
+
+        return matchingBatch ?? new EmploymentBatch();
+    }
+
+    public EmploymentBatch GetLastEmploymentBatch()
+    {
+        EmploymentBatch lastEmploymentBatch = GetEmploymentBatches().FirstOrDefault();
+        return lastEmploymentBatch ?? new EmploymentBatch();
+    }
+
+    private IEnumerable<EmploymentBatch> GetEmploymentBatches()
+    {
+        EmploymentBatch batch = null;
+
+        foreach (Employment employment in employments.Values)
         {
-            DateTime key = employment.TimeInterval.StartDate ?? DateTime.MinValue;
-            employments.Add(key, employment);
-        }
-
-        public Employment GetFirstEmployment()
-        {
-            return employments.Values.LastOrDefault();
-        }
-
-        public Employment GetLastEmployment()
-        {
-            return employments.Values.FirstOrDefault();
-        }
-
-        public Employment GetEmploymentFor(DateTime date)
-        {
-            return employments.Values.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
-        }
-
-        public EmploymentBatch GetEmploymentBatchFor(DateTime date)
-        {
-            EmploymentBatch matchingBatch = GetEmploymentBatches()
-                .FirstOrDefault(x => x.ContainsDate(date));
-
-            return matchingBatch ?? new EmploymentBatch();
-        }
-
-        public EmploymentBatch GetLastEmploymentBatch()
-        {
-            EmploymentBatch lastEmploymentBatch = GetEmploymentBatches().FirstOrDefault();
-            return lastEmploymentBatch ?? new EmploymentBatch();
-        }
-
-        private IEnumerable<EmploymentBatch> GetEmploymentBatches()
-        {
-            EmploymentBatch batch = null;
-
-            foreach (Employment employment in employments.Values)
+            if (batch == null)
             {
-                if (batch == null)
+                batch = new EmploymentBatch(employment);
+            }
+            else
+            {
+                bool success = batch.TryAddBeforeOldest(employment);
+
+                if (!success)
                 {
+                    yield return batch;
                     batch = new EmploymentBatch(employment);
                 }
-                else
-                {
-                    bool success = batch.TryAddBeforeOldest(employment);
-
-                    if (!success)
-                    {
-                        yield return batch;
-                        batch = new EmploymentBatch(employment);
-                    }
-                }
             }
-
-            if (batch != null)
-                yield return batch;
         }
 
-        public IEnumerator<Employment> GetEnumerator()
-        {
-            return employments.Values.GetEnumerator();
-        }
+        if (batch != null)
+            yield return batch;
+    }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+    public IEnumerator<Employment> GetEnumerator()
+    {
+        return employments.Values.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

@@ -18,64 +18,63 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
+namespace DustInTheWind.VeloCity.Domain.DatabaseEditing;
+
+public class DatabaseEditor
 {
-    public class DatabaseEditor
+    public string Editor { get; set; }
+
+    public string EditorArguments { get; set; }
+
+    public DatabaseEditorType EditorType => string.IsNullOrEmpty(Editor)
+        ? DatabaseEditorType.Default
+        : DatabaseEditorType.Custom;
+
+    public string DatabaseFilePath { get; set; }
+
+    public void OpenDatabase()
     {
-        public string Editor { get; set; }
+        if (!File.Exists(DatabaseFilePath))
+            throw new DatabaseFileNotFoundException(DatabaseFilePath);
 
-        public string EditorArguments { get; set; }
-
-        public DatabaseEditorType EditorType => string.IsNullOrEmpty(Editor)
-            ? DatabaseEditorType.Default
-            : DatabaseEditorType.Custom;
-
-        public string DatabaseFilePath { get; set; }
-
-        public void OpenDatabase()
+        try
         {
-            if (!File.Exists(DatabaseFilePath))
-                throw new DatabaseFileNotFoundException(DatabaseFilePath);
-
-            try
+            Process process = new()
             {
-                Process process = new()
+                StartInfo = new ProcessStartInfo
                 {
-                    StartInfo = new ProcessStartInfo
-                    {
-                        FileName = CalculateFileNameToExecute(),
-                        Arguments = CalculateArguments(),
-                        UseShellExecute = true,
-                    }
-                };
+                    FileName = CalculateFileNameToExecute(),
+                    Arguments = CalculateArguments(),
+                    UseShellExecute = true,
+                }
+            };
 
-                process.Start();
-            }
-            catch (Exception ex)
-            {
-                throw new DatabaseOpenException(ex);
-            }
+            process.Start();
         }
-
-        private string CalculateFileNameToExecute()
+        catch (Exception ex)
         {
-            bool isCustomEditorProvided = !string.IsNullOrEmpty(Editor);
-
-            return isCustomEditorProvided
-                ? Editor
-                : $@"""{DatabaseFilePath}""";
+            throw new DatabaseOpenException(ex);
         }
+    }
 
-        private string CalculateArguments()
-        {
-            bool isCustomEditorProvided = !string.IsNullOrEmpty(Editor);
-            if (!isCustomEditorProvided)
-                return string.Empty;
+    private string CalculateFileNameToExecute()
+    {
+        bool isCustomEditorProvided = !string.IsNullOrEmpty(Editor);
 
-            bool areCustomArgumentsProvided = !string.IsNullOrEmpty(EditorArguments);
-            return areCustomArgumentsProvided
-                ? string.Format(EditorArguments, DatabaseFilePath)
-                : $@"""{DatabaseFilePath}""";
-        }
+        return isCustomEditorProvided
+            ? Editor
+            : $@"""{DatabaseFilePath}""";
+    }
+
+    private string CalculateArguments()
+    {
+        bool isCustomEditorProvided = !string.IsNullOrEmpty(Editor);
+        if (!isCustomEditorProvided)
+            return string.Empty;
+
+        bool areCustomArgumentsProvided = !string.IsNullOrEmpty(EditorArguments);
+        return areCustomArgumentsProvided
+            ? string.Format(EditorArguments, DatabaseFilePath)
+            : $@"""{DatabaseFilePath}""";
     }
 }

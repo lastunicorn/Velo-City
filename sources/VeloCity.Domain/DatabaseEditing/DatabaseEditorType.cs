@@ -14,11 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
+namespace DustInTheWind.VeloCity.Domain.DatabaseEditing;
+
+public enum DatabaseEditorType
 {
-    public enum DatabaseEditorType
-    {
-        Default,
-        Custom
-    }
+    Default,
+    Custom
 }

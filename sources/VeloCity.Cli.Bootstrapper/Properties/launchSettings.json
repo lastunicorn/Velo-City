@@ -1,8 +1,8 @@
 {
-    "profiles": {
-        "VeloCity.Bootstrapper": {
-            "commandName": "Project",
-            "commandLineArgs": "sprint"
-        }
+  "profiles": {
+    "VeloCity.Bootstrapper": {
+      "commandName": "Project",
+      "commandLineArgs": "sprint"
     }
+  }
 }

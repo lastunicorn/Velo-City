@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">
-                <Directory Id="ApplicationProgramsFolder" Name="Velo City"/>
+                <Directory Id="ApplicationProgramsFolder" Name="Velo City" />
             </Directory>
         </Directory>
 

@@ -18,83 +18,82 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+/// <summary>
+/// An employment batch is a list of continuous employments.
+/// </summary>
+public class EmploymentBatch : IEnumerable<Employment>
 {
-    /// <summary>
-    /// An employment batch is a list of continuous employments.
-    /// </summary>
-    public class EmploymentBatch : IEnumerable<Employment>
+    private readonly List<Employment> employments = new();
+
+    public DateTime? StartDate
     {
-        private readonly List<Employment> employments = new();
-
-        public DateTime? StartDate
-        {
-            get
-            {
-                if (employments.Count == 0)
-                    return null;
-
-                Employment oldestEmployment = employments[^1];
-                return oldestEmployment.TimeInterval.StartDate;
-            }
-        }
-
-        public EmploymentBatch()
-        {
-        }
-
-        public EmploymentBatch(Employment employment)
-        {
-            if (employment == null) throw new ArgumentNullException(nameof(employment));
-
-            employments.Add(employment);
-        }
-
-        public bool TryAddBeforeOldest(Employment employment)
-        {
-            if (employment == null) throw new ArgumentNullException(nameof(employment));
-
-            if (employments.Count == 0)
-            {
-                employments.Add(employment);
-                return true;
-            }
-
-            Employment lastEmployment = employments[^1];
-
-            if (employment.DoesContinueWith(lastEmployment))
-            {
-                employments.Add(employment);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool ContainsDate(DateTime date)
+        get
         {
             if (employments.Count == 0)
-                return false;
+                return null;
 
             Employment oldestEmployment = employments[^1];
-            DateTime? batchStartDate = oldestEmployment.TimeInterval.StartDate;
-
-            Employment newestEmployment = employments[0];
-            DateTime? batchEndDate = newestEmployment.TimeInterval.EndDate;
-
-            DateInterval batchTimeInterval = new(batchStartDate, batchEndDate);
-
-            return batchTimeInterval.ContainsDate(date);
+            return oldestEmployment.TimeInterval.StartDate;
         }
+    }
 
-        public IEnumerator<Employment> GetEnumerator()
+    public EmploymentBatch()
+    {
+    }
+
+    public EmploymentBatch(Employment employment)
+    {
+        if (employment == null) throw new ArgumentNullException(nameof(employment));
+
+        employments.Add(employment);
+    }
+
+    public bool TryAddBeforeOldest(Employment employment)
+    {
+        if (employment == null) throw new ArgumentNullException(nameof(employment));
+
+        if (employments.Count == 0)
         {
-            return employments.GetEnumerator();
+            employments.Add(employment);
+            return true;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        Employment lastEmployment = employments[^1];
+
+        if (employment.DoesContinueWith(lastEmployment))
         {
-            return GetEnumerator();
+            employments.Add(employment);
+            return true;
         }
+
+        return false;
+    }
+
+    public bool ContainsDate(DateTime date)
+    {
+        if (employments.Count == 0)
+            return false;
+
+        Employment oldestEmployment = employments[^1];
+        DateTime? batchStartDate = oldestEmployment.TimeInterval.StartDate;
+
+        Employment newestEmployment = employments[0];
+        DateTime? batchEndDate = newestEmployment.TimeInterval.EndDate;
+
+        DateInterval batchTimeInterval = new(batchStartDate, batchEndDate);
+
+        return batchTimeInterval.ContainsDate(date);
+    }
+
+    public IEnumerator<Employment> GetEnumerator()
+    {
+        return employments.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

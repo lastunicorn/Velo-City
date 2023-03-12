@@ -18,58 +18,57 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class EmploymentWeek : IEnumerable<DayOfWeek>
 {
-    public class EmploymentWeek : IEnumerable<DayOfWeek>
+    private readonly SortedSet<DayOfWeek> workDays;
+
+    public bool IsDefault { get; }
+
+    public EmploymentWeek()
     {
-        private readonly SortedSet<DayOfWeek> workDays;
+        workDays = GetDefaultWorkDays();
+        IsDefault = true;
+    }
 
-        public bool IsDefault { get; }
-
-        public EmploymentWeek()
+    public EmploymentWeek(IEnumerable<DayOfWeek> workDays)
+    {
+        if (workDays == null)
         {
-            workDays = GetDefaultWorkDays();
+            this.workDays = GetDefaultWorkDays();
             IsDefault = true;
         }
-
-        public EmploymentWeek(IEnumerable<DayOfWeek> workDays)
+        else
         {
-            if (workDays == null)
-            {
-                this.workDays = GetDefaultWorkDays();
-                IsDefault = true;
-            }
-            else
-            {
-                this.workDays = new SortedSet<DayOfWeek>(workDays);
-            }
+            this.workDays = new SortedSet<DayOfWeek>(workDays);
         }
+    }
 
-        private static SortedSet<DayOfWeek> GetDefaultWorkDays()
+    private static SortedSet<DayOfWeek> GetDefaultWorkDays()
+    {
+        return new SortedSet<DayOfWeek>
         {
-            return new SortedSet<DayOfWeek>
-            {
-                DayOfWeek.Monday,
-                DayOfWeek.Tuesday,
-                DayOfWeek.Wednesday,
-                DayOfWeek.Thursday,
-                DayOfWeek.Friday
-            };
-        }
+            DayOfWeek.Monday,
+            DayOfWeek.Tuesday,
+            DayOfWeek.Wednesday,
+            DayOfWeek.Thursday,
+            DayOfWeek.Friday
+        };
+    }
 
-        public bool IsWorkDay(DayOfWeek dayOfWeek)
-        {
-            return workDays.Contains(dayOfWeek);
-        }
+    public bool IsWorkDay(DayOfWeek dayOfWeek)
+    {
+        return workDays.Contains(dayOfWeek);
+    }
 
-        public IEnumerator<DayOfWeek> GetEnumerator()
-        {
-            return workDays.GetEnumerator();
-        }
+    public IEnumerator<DayOfWeek> GetEnumerator()
+    {
+        return workDays.GetEnumerator();
+    }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

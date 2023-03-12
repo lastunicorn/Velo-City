@@ -16,13 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class NoSprintException : Exception
 {
-    public class NoSprintException : Exception
+    public NoSprintException()
+        : base(Resources.NoSprint_DefaultErrorMessage)
     {
-        public NoSprintException()
-            : base(Resources.NoSprint_DefaultErrorMessage)
-        {
-        }
     }
 }

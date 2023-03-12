@@ -14,15 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public enum AbsenceReason
 {
-    public enum AbsenceReason
-    {
-        None,
-        WeekEnd,
-        OfficialHoliday,
-        Vacation,
-        Unemployed,
-        Contract
-    }
+    None,
+    WeekEnd,
+    OfficialHoliday,
+    Vacation,
+    Unemployed,
+    Contract
 }

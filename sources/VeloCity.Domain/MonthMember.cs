@@ -18,39 +18,38 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class MonthMember
 {
-    public class MonthMember
+    private readonly MonthCalendar monthCalendar;
+
+    public PersonName Name => TeamMember.Name;
+
+    public TeamMember TeamMember { get; }
+
+    public SprintMemberDayCollection Days { get; }
+
+    public bool IsEmployed => Days
+        .Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
+
+    public HoursValue WorkHours => Days
+        .Select(x => x.WorkHours)
+        .Sum(x => x.Value);
+
+    public MonthMember(TeamMember teamMember, MonthCalendar monthCalendar)
     {
-        private readonly MonthCalendar monthCalendar;
+        this.monthCalendar = monthCalendar ?? throw new ArgumentNullException(nameof(monthCalendar));
+        TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
 
-        public PersonName Name => TeamMember.Name;
+        IEnumerable<SprintMemberDay> sprintMemberDays = monthCalendar.EnumerateAllDays()
+            .Select(x => new SprintMemberDay(TeamMember, x));
 
-        public TeamMember TeamMember { get; }
+        Days = new SprintMemberDayCollection(sprintMemberDays);
+    }
 
-        public SprintMemberDayCollection Days { get; }
-
-        public bool IsEmployed => Days
-            .Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
-
-        public HoursValue WorkHours => Days
-            .Select(x => x.WorkHours)
-            .Sum(x => x.Value);
-
-        public MonthMember(TeamMember teamMember, MonthCalendar monthCalendar)
-        {
-            this.monthCalendar = monthCalendar ?? throw new ArgumentNullException(nameof(monthCalendar));
-            TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
-
-            IEnumerable<SprintMemberDay> sprintMemberDays = monthCalendar.EnumerateAllDays()
-                .Select(x => new SprintMemberDay(TeamMember, x));
-
-            Days = new SprintMemberDayCollection(sprintMemberDays);
-        }
-
-        public override string ToString()
-        {
-            return Name;
-        }
+    public override string ToString()
+    {
+        return Name;
     }
 }

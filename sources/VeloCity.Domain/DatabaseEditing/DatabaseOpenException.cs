@@ -16,13 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain.DatabaseEditing
+namespace DustInTheWind.VeloCity.Domain.DatabaseEditing;
+
+internal class DatabaseOpenException : Exception
 {
-    internal class DatabaseOpenException : Exception
+    public DatabaseOpenException(Exception innerException)
+        : base(Resources.DatabaseOpen_DefaultErrorMessage, innerException)
     {
-        public DatabaseOpenException(Exception innerException)
-            : base(Resources.DatabaseOpen_DefaultErrorMessage, innerException)
-        {
-        }
     }
 }

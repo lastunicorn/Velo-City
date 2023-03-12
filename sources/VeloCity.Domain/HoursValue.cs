@@ -17,180 +17,179 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public readonly struct HoursValue : IFormattable
 {
-    public readonly struct HoursValue : IFormattable
+    public static char DefaultZeroCharacter { get; set; } = '-';
+
+    public int Value { get; init; }
+
+    public static HoursValue Zero { get; } = new(0);
+
+    public bool IsZero => Value == 0;
+
+    public HoursValue(int value)
     {
-        public static char DefaultZeroCharacter { get; set; } = '-';
+        Value = value;
+    }
 
-        public int Value { get; init; }
+    public bool Equals(HoursValue other)
+    {
+        return Value == other.Value;
+    }
 
-        public static HoursValue Zero { get; } = new(0);
+    public override bool Equals(object obj)
+    {
+        return obj is HoursValue other && Equals(other);
+    }
 
-        public bool IsZero => Value == 0;
+    public override int GetHashCode()
+    {
+        return Value;
+    }
 
-        public HoursValue(int value)
-        {
-            Value = value;
-        }
-
-        public bool Equals(HoursValue other)
-        {
-            return Value == other.Value;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is HoursValue other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return Value;
-        }
-
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return Value == 0
-                ? format == null
-                    ? $"{DefaultZeroCharacter} h"
-                    : $"{format} h"
-                : $"{Value} h";
-        }
-
-        public override string ToString()
-        {
-            return Value == 0
+    public string ToString(string format, IFormatProvider formatProvider)
+    {
+        return Value == 0
+            ? format == null
                 ? $"{DefaultZeroCharacter} h"
-                : $"{Value} h";
-        }
+                : $"{format} h"
+            : $"{Value} h";
+    }
+
+    public override string ToString()
+    {
+        return Value == 0
+            ? $"{DefaultZeroCharacter} h"
+            : $"{Value} h";
+    }
 
 
-        public static implicit operator HoursValue(int value)
+    public static implicit operator HoursValue(int value)
+    {
+        return new HoursValue
         {
-            return new HoursValue
-            {
-                Value = value
-            };
-        }
+            Value = value
+        };
+    }
 
-        public static implicit operator int(HoursValue hoursValue)
+    public static implicit operator int(HoursValue hoursValue)
+    {
+        return hoursValue.Value;
+    }
+
+    public static implicit operator HoursValue(int? value)
+    {
+        return new HoursValue
         {
-            return hoursValue.Value;
-        }
+            Value = value ?? 0
+        };
+    }
 
-        public static implicit operator HoursValue(int? value)
+    public static implicit operator int?(HoursValue hoursValue)
+    {
+        return hoursValue.Value == 0
+            ? null
+            : hoursValue.Value;
+    }
+
+    public static HoursValue operator +(HoursValue hoursValue1, HoursValue hoursValue2)
+    {
+        return new HoursValue
         {
-            return new HoursValue
-            {
-                Value = value ?? 0
-            };
-        }
+            Value = hoursValue1.Value + hoursValue2.Value
+        };
+    }
 
-        public static implicit operator int?(HoursValue hoursValue)
+    public static HoursValue operator +(HoursValue hoursValue1, int hoursValue2)
+    {
+        return new HoursValue
         {
-            return hoursValue.Value == 0
-                ? null
-                : hoursValue.Value;
-        }
+            Value = hoursValue1.Value + hoursValue2
+        };
+    }
 
-        public static HoursValue operator +(HoursValue hoursValue1, HoursValue hoursValue2)
+    public static int operator +(int hoursValue1, HoursValue hoursValue2)
+    {
+        return hoursValue1 + hoursValue2.Value;
+    }
+
+    public static HoursValue operator -(HoursValue hoursValue1, HoursValue hoursValue2)
+    {
+        return new HoursValue
         {
-            return new HoursValue
-            {
-                Value = hoursValue1.Value + hoursValue2.Value
-            };
-        }
+            Value = hoursValue1.Value - hoursValue2.Value
+        };
+    }
 
-        public static HoursValue operator +(HoursValue hoursValue1, int hoursValue2)
+    public static HoursValue operator -(HoursValue hoursValue1, int hoursValue2)
+    {
+        return new HoursValue
         {
-            return new HoursValue
-            {
-                Value = hoursValue1.Value + hoursValue2
-            };
-        }
+            Value = hoursValue1.Value - hoursValue2
+        };
+    }
 
-        public static int operator +(int hoursValue1, HoursValue hoursValue2)
-        {
-            return hoursValue1 + hoursValue2.Value;
-        }
+    public static int operator -(int hoursValue1, HoursValue hoursValue2)
+    {
+        return hoursValue1 - hoursValue2.Value;
+    }
 
-        public static HoursValue operator -(HoursValue hoursValue1, HoursValue hoursValue2)
-        {
-            return new HoursValue
-            {
-                Value = hoursValue1.Value - hoursValue2.Value
-            };
-        }
+    public static bool operator ==(int hoursValue1, HoursValue hoursValue2)
+    {
+        return hoursValue1 == hoursValue2.Value;
+    }
 
-        public static HoursValue operator -(HoursValue hoursValue1, int hoursValue2)
-        {
-            return new HoursValue
-            {
-                Value = hoursValue1.Value - hoursValue2
-            };
-        }
+    public static bool operator !=(int hoursValue1, HoursValue hoursValue2)
+    {
+        return hoursValue1 != hoursValue2.Value;
+    }
 
-        public static int operator -(int hoursValue1, HoursValue hoursValue2)
-        {
-            return hoursValue1 - hoursValue2.Value;
-        }
+    public static bool operator ==(HoursValue hoursValue1, int hoursValue2)
+    {
+        return hoursValue1.Value == hoursValue2;
+    }
 
-        public static bool operator ==(int hoursValue1, HoursValue hoursValue2)
-        {
-            return hoursValue1 == hoursValue2.Value;
-        }
+    public static bool operator !=(HoursValue hoursValue1, int hoursValue2)
+    {
+        return hoursValue1.Value != hoursValue2;
+    }
 
-        public static bool operator !=(int hoursValue1, HoursValue hoursValue2)
-        {
-            return hoursValue1 != hoursValue2.Value;
-        }
+    public static bool operator >(int hoursValue1, HoursValue hoursValue2)
+    {
+        return hoursValue1 > hoursValue2.Value;
+    }
 
-        public static bool operator ==(HoursValue hoursValue1, int hoursValue2)
-        {
-            return hoursValue1.Value == hoursValue2;
-        }
+    public static bool operator <(int hoursValue1, HoursValue hoursValue2)
+    {
+        return hoursValue1 < hoursValue2.Value;
+    }
 
-        public static bool operator !=(HoursValue hoursValue1, int hoursValue2)
-        {
-            return hoursValue1.Value != hoursValue2;
-        }
+    public static bool operator >(HoursValue hoursValue1, int hoursValue2)
+    {
+        return hoursValue1.Value > hoursValue2;
+    }
 
-        public static bool operator >(int hoursValue1, HoursValue hoursValue2)
-        {
-            return hoursValue1 > hoursValue2.Value;
-        }
+    public static bool operator <(HoursValue hoursValue1, int hoursValue2)
+    {
+        return hoursValue1.Value < hoursValue2;
+    }
 
-        public static bool operator <(int hoursValue1, HoursValue hoursValue2)
-        {
-            return hoursValue1 < hoursValue2.Value;
-        }
+    public static HoursValue Parse(string stringValue)
+    {
+        Regex regex = new(@"^\s*([0-9]*|-)\s*h?\s*$");
+        Match match = regex.Match(stringValue);
 
-        public static bool operator >(HoursValue hoursValue1, int hoursValue2)
-        {
-            return hoursValue1.Value > hoursValue2;
-        }
+        if (!match.Success)
+            throw new ArgumentException("The string does not represent an hour value.", nameof(stringValue));
 
-        public static bool operator <(HoursValue hoursValue1, int hoursValue2)
-        {
-            return hoursValue1.Value < hoursValue2;
-        }
+        string numberString = match.Groups[1].Value;
 
-        public static HoursValue Parse(string stringValue)
-        {
-            Regex regex = new(@"^\s*([0-9]*|-)\s*h?\s*$");
-            Match match = regex.Match(stringValue);
+        if (numberString == "-")
+            return Zero;
 
-            if (!match.Success)
-                throw new ArgumentException("The string does not represent an hour value.", nameof(stringValue));
-
-            string numberString = match.Groups[1].Value;
-
-            if (numberString == "-")
-                return Zero;
-
-            int intValue = int.Parse(numberString);
-            return new HoursValue(intValue);
-        }
+        int intValue = int.Parse(numberString);
+        return new HoursValue(intValue);
     }
 }

@@ -16,13 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class InvalidDateIntervalException : Exception
 {
-    public class InvalidDateIntervalException : Exception
+    public InvalidDateIntervalException(int sprintNumber)
+        : base(string.Format(Resources.InvalidDateInterval_DefaultErrorMessage, sprintNumber))
     {
-        public InvalidDateIntervalException(int sprintNumber)
-            : base(string.Format(Resources.InvalidDateInterval_DefaultErrorMessage, sprintNumber))
-        {
-        }
     }
 }

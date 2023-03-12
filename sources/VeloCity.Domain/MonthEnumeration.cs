@@ -18,80 +18,79 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class MonthEnumeration : IEnumerable<DateInterval>
 {
-    public class MonthEnumeration : IEnumerable<DateInterval>
+    public DateTime? StartDate { get; set; }
+
+    public DateTime? EndDate { get; set; }
+
+    public int? Count { get; set; }
+
+    public IEnumerator<DateInterval> GetEnumerator()
     {
-        public DateTime? StartDate { get; set; }
+        return new MonthEnumerator(this);
+    }
 
-        public DateTime? EndDate { get; set; }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
-        public int? Count { get; set; }
+    private class MonthEnumerator : IEnumerator<DateInterval>
+    {
+        private DateTime date;
+        private int actualCount;
 
-        public IEnumerator<DateInterval> GetEnumerator()
+        private readonly MonthEnumeration monthEnumeration;
+
+        public MonthEnumerator(MonthEnumeration monthEnumeration)
         {
-            return new MonthEnumerator(this);
+            this.monthEnumeration = monthEnumeration ?? throw new ArgumentNullException(nameof(monthEnumeration));
+
+            Reset();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public DateInterval Current { get; private set; }
+
+        object IEnumerator.Current => Current;
+
+        public bool MoveNext()
         {
-            return GetEnumerator();
+            if (monthEnumeration.Count != null && actualCount >= monthEnumeration.Count)
+                return false;
+
+            if (date > monthEnumeration.EndDate)
+                return false;
+
+            Current = CreateNextMonthInterval(date);
+
+            date = Current.EndDate.Value.AddDays(1);
+            actualCount++;
+
+            return true;
         }
 
-        private class MonthEnumerator : IEnumerator<DateInterval>
+        public void Reset()
         {
-            private DateTime date;
-            private int actualCount;
+            date = monthEnumeration.StartDate ?? DateTime.MinValue;
+            actualCount = 0;
+        }
 
-            private readonly MonthEnumeration monthEnumeration;
+        public void Dispose()
+        {
+        }
 
-            public MonthEnumerator(MonthEnumeration monthEnumeration)
-            {
-                this.monthEnumeration = monthEnumeration ?? throw new ArgumentNullException(nameof(monthEnumeration));
+        private DateInterval CreateNextMonthInterval(DateTime startDate)
+        {
+            int daysInMonth = DateTime.DaysInMonth(startDate.Year, startDate.Month);
+            DateTime endDate = new(startDate.Year, startDate.Month, daysInMonth);
 
-                Reset();
-            }
+            if (endDate > monthEnumeration.EndDate)
+                endDate = monthEnumeration.EndDate.Value;
 
-            public DateInterval Current { get; private set; }
-
-            object IEnumerator.Current => Current;
-
-            public bool MoveNext()
-            {
-                if (monthEnumeration.Count != null && actualCount >= monthEnumeration.Count)
-                    return false;
-
-                if (date > monthEnumeration.EndDate)
-                    return false;
-
-                Current = CreateNextMonthInterval(date);
-
-                date = Current.EndDate.Value.AddDays(1);
-                actualCount++;
-
-                return true;
-            }
-
-            public void Reset()
-            {
-                date = monthEnumeration.StartDate ?? DateTime.MinValue;
-                actualCount = 0;
-            }
-
-            public void Dispose()
-            {
-            }
-
-            private DateInterval CreateNextMonthInterval(DateTime startDate)
-            {
-                int daysInMonth = DateTime.DaysInMonth(startDate.Year, startDate.Month);
-                DateTime endDate = new(startDate.Year, startDate.Month, daysInMonth);
-
-                if (endDate > monthEnumeration.EndDate)
-                    endDate = monthEnumeration.EndDate.Value;
-
-                return new DateInterval(startDate, endDate);
-            }
+            return new DateInterval(startDate, endDate);
         }
     }
 }

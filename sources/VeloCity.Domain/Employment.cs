@@ -16,45 +16,44 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class Employment
 {
-    public class Employment
+    public DateTime? StartDate
     {
-        public DateTime? StartDate
-        {
-            get => TimeInterval.StartDate;
-            set => TimeInterval = new DateInterval(value, TimeInterval.EndDate);
-        }
+        get => TimeInterval.StartDate;
+        set => TimeInterval = new DateInterval(value, TimeInterval.EndDate);
+    }
 
-        public DateTime? EndDate
-        {
-            get => TimeInterval.EndDate;
-            set => TimeInterval = new DateInterval(TimeInterval.StartDate, value);
-        }
+    public DateTime? EndDate
+    {
+        get => TimeInterval.EndDate;
+        set => TimeInterval = new DateInterval(TimeInterval.StartDate, value);
+    }
 
-        public DateInterval TimeInterval { get; set; }
+    public DateInterval TimeInterval { get; set; }
 
-        public HoursValue HoursPerDay { get; set; }
+    public HoursValue HoursPerDay { get; set; }
 
-        public EmploymentWeek EmploymentWeek { get; set; }
+    public EmploymentWeek EmploymentWeek { get; set; }
 
-        public string Country { get; set; }
+    public string Country { get; set; }
 
-        public bool ContainsDate(DateTime dateTime)
-        {
-            return TimeInterval.ContainsDate(dateTime);
-        }
+    public bool ContainsDate(DateTime dateTime)
+    {
+        return TimeInterval.ContainsDate(dateTime);
+    }
 
-        public bool IsWorkDay(DayOfWeek dayOfWeek)
-        {
-            return EmploymentWeek?.IsWorkDay(dayOfWeek) ?? false;
-        }
+    public bool IsWorkDay(DayOfWeek dayOfWeek)
+    {
+        return EmploymentWeek?.IsWorkDay(dayOfWeek) ?? false;
+    }
 
-        public bool DoesContinueWith(Employment employment)
-        {
-            if (employment == null) throw new ArgumentNullException(nameof(employment));
+    public bool DoesContinueWith(Employment employment)
+    {
+        if (employment == null) throw new ArgumentNullException(nameof(employment));
 
-            return TimeInterval.DoesContinueWith(employment.TimeInterval);
-        }
+        return TimeInterval.DoesContinueWith(employment.TimeInterval);
     }
 }
