@@ -22,7 +22,7 @@ namespace DustInTheWind.VeloCity.Ports.DataAccess
 {
     public interface ISprintRepository
     {
-        List<Sprint> GetAll();
+        IEnumerable<Sprint> GetAll();
 
         Sprint Get(int id);
 

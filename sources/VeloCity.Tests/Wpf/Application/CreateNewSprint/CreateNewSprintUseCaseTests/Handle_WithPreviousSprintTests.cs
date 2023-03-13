@@ -30,7 +30,7 @@ using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CreateNewSprint.CreateNewSprintUseCaseTests;
 
-public class Handle_NoPreviousSprintTests
+public class Handle_WithPreviousSprintTests
 {
     private readonly Mock<IUnitOfWork> unitOfWork;
     private readonly Mock<IUserInterface> userInterface;
@@ -38,9 +38,10 @@ public class Handle_NoPreviousSprintTests
     private readonly ApplicationState applicationState;
     private readonly Mock<ISprintRepository> sprintRepository;
     private readonly CreateNewSprintUseCase useCase;
+    private readonly Sprint lastSprint;
     private readonly SprintNewConfirmationResponse confirmationResponse;
 
-    public Handle_NoPreviousSprintTests()
+    public Handle_WithPreviousSprintTests()
     {
         unitOfWork = new Mock<IUnitOfWork>();
         sprintRepository = new Mock<ISprintRepository>();
@@ -49,9 +50,11 @@ public class Handle_NoPreviousSprintTests
             .Setup(x => x.SprintRepository)
             .Returns(sprintRepository.Object);
 
+        lastSprint = new Sprint();
+        
         sprintRepository
             .Setup(x => x.GetLast())
-            .Returns(null as Sprint);
+            .Returns(lastSprint);
 
         userInterface = new Mock<IUserInterface>();
         
@@ -60,7 +63,7 @@ public class Handle_NoPreviousSprintTests
         userInterface
             .Setup(x => x.ConfirmNewSprint(It.IsAny<SprintNewConfirmationRequest>()))
             .Returns(confirmationResponse);
-        
+
         eventBus = new EventBus();
         applicationState = new ApplicationState();
 
@@ -70,9 +73,6 @@ public class Handle_NoPreviousSprintTests
     [Fact]
     public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenAttemptsToRetrieveLastSprintFromRepository()
     {
-        // confirmationResponse.IsAccepted = true;
-        // confirmationResponse.SprintTimeInterval = new DateInterval(new DateTime(2021, 10, 01), new DateTime(2021, 10, 14));
-        
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 
@@ -80,7 +80,7 @@ public class Handle_NoPreviousSprintTests
     }
 
     [Fact]
-    public async Task HavingNoSprintInRepository_WhenUseCaseIsExecuted_ThenAskTheUserForPermission()
+    public async Task HavingASprintInRepository_WhenUseCaseIsExecuted_ThenAskTheUserForPermission()
     {
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
@@ -89,35 +89,44 @@ public class Handle_NoPreviousSprintTests
     }
 
     [Fact]
-    public async Task HavingNoSprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenNewSprintIsAddedInTheRepository()
+    public async Task HavingASprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenNewSprintIsAddedInTheRepository()
     {
+        // Arrange
+        
+        lastSprint.Id = 34;
+        lastSprint.Number = 129;
+        
         confirmationResponse.IsAccepted = true;
         confirmationResponse.SprintTitle = "new sprint title";
         confirmationResponse.SprintTimeInterval = new DateInterval(new DateTime(2021, 10, 01), new DateTime(2021, 10, 14));
 
-        Sprint actualSprint = null;
+        Sprint actualNewSprint = null;
 
         sprintRepository
             .Setup(x => x.Add(It.IsAny<Sprint>()))
-            .Callback<Sprint>(sprint => actualSprint = sprint);
+            .Callback<Sprint>(sprint => actualNewSprint = sprint);
 
+        // Act
+        
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 
+        // Assert
+        
         Sprint expectedSprint = new()
         {
             Id = 0,
-            Number = 1,
+            Number = 130,
             Title = "new sprint title",
             DateInterval = new DateInterval(new DateTime(2021, 10, 01), new DateTime(2021, 10, 14)),
             State = SprintState.New
         };
 
-        AssertSprintEquals(expectedSprint, actualSprint);
+        AssertSprintEquals(expectedSprint, actualNewSprint);
     }
 
     [Fact]
-    public async Task HavingNoSprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenUnitOfWorkIsSaved()
+    public async Task HavingASprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenUnitOfWorkIsSaved()
     {
         confirmationResponse.IsAccepted = true;
         confirmationResponse.SprintTimeInterval = new DateInterval(new DateTime(2021, 10, 01), new DateTime(2021, 10, 14));
@@ -129,7 +138,7 @@ public class Handle_NoPreviousSprintTests
     }
 
     [Fact]
-    public async Task HavingNoSprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenSprintIdIsSetInApplicationState()
+    public async Task HavingASprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenSprintIdIsSetInApplicationState()
     {
         confirmationResponse.IsAccepted = true;
         confirmationResponse.SprintTimeInterval = new DateInterval(new DateTime(2021, 10, 01), new DateTime(2021, 10, 14));
@@ -147,7 +156,7 @@ public class Handle_NoPreviousSprintTests
     }
 
     [Fact]
-    public async Task HavingNoSprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenSprintListChangedEventIsRaised()
+    public async Task HavingASprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenSprintListChangedEventIsRaised()
     {
         confirmationResponse.IsAccepted = true;
         confirmationResponse.SprintTimeInterval = new DateInterval(new DateTime(2021, 10, 01), new DateTime(2021, 10, 14));

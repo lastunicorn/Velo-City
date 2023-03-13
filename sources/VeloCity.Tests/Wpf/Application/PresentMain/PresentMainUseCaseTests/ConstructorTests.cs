@@ -21,32 +21,31 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentMain.PresentMainUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentMain.PresentMainUseCaseTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void HavingNullConfig_WhenInstantiationgUseCase_ThenThrows()
     {
-        [Fact]
-        public void HavingNullConfig_WhenInstantiationgUseCase_ThenThrows()
+        Action action = () =>
         {
-            Action action = () =>
-            {
-                PresentMainUseCase useCase = new(null);
-            };
+            PresentMainUseCase useCase = new(null);
+        };
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-        [Fact]
-        public void HavingConfigInstance_WhenInstantiationgUseCase_ThenDoesNotThrow()
+    [Fact]
+    public void HavingConfigInstance_WhenInstantiationgUseCase_ThenDoesNotThrow()
+    {
+        Mock<IConfig> config = new();
+
+        Action action = () =>
         {
-            Mock<IConfig> config = new();
+            PresentMainUseCase useCase = new(config.Object);
+        };
 
-            Action action = () =>
-            {
-                PresentMainUseCase useCase = new(config.Object);
-            };
-
-            action.Should().NotThrow();
-        }
+        action.Should().NotThrow();
     }
 }

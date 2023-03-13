@@ -91,5 +91,10 @@ namespace DustInTheWind.VeloCity.DataAccess
                 _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
             };
         }
+
+        public static SprintCollection ToSprintCollection(this IEnumerable<Sprint> sprints)
+        {
+            return new SprintCollection(sprints);
+        }
     }
 }

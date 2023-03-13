@@ -35,19 +35,14 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment
 
         public Task<PresentCommitmentResponse> Handle(PresentCommitmentRequest request, CancellationToken cancellationToken)
         {
-            uint sprintCount = CalculateSprintCount(request);
+            uint sprintCount = ComputeSprintCount(request);
             List<SprintCommitment> sprintVelocities = RetrieveSprintCommitment(sprintCount);
-
-            PresentCommitmentResponse response = new()
-            {
-                RequestedSprintCount = sprintCount,
-                SprintsCommitments = sprintVelocities
-            };
+            PresentCommitmentResponse response = CreateResponse(sprintCount, sprintVelocities);
 
             return Task.FromResult(response);
         }
 
-        private static uint CalculateSprintCount(PresentCommitmentRequest request)
+        private static uint ComputeSprintCount(PresentCommitmentRequest request)
         {
             return request.SprintCount is null or < 1
                 ? 10
@@ -57,9 +52,18 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment
         private List<SprintCommitment> RetrieveSprintCommitment(uint sprintCount)
         {
             return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
+                .OrderByDescending(x=>x.StartDate)
                 .Select(x => new SprintCommitment(x))
-                .Reverse()
                 .ToList();
+        }
+
+        private static PresentCommitmentResponse CreateResponse(uint sprintCount, List<SprintCommitment> sprintVelocities)
+        {
+            return new PresentCommitmentResponse
+            {
+                RequestedSprintCount = sprintCount,
+                SprintsCommitments = sprintVelocities
+            };
         }
     }
 }

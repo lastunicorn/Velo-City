@@ -23,8 +23,19 @@ namespace DustInTheWind.VeloCity.Domain
     {
         private List<VelocityPenalty> velocityPenalties;
         private VacationCollection vacations;
+        private int id;
 
-        public int Id { get; init; }
+        public int Id
+        {
+            get => id;
+            set
+            {
+                if (id != 0)
+                    throw new InvalidOperationException("Once assigned, the id of a team member cannot be changed.");
+                
+                id = value;
+            }
+        }
 
         public PersonName Name { get; init; }
 

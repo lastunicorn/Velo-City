@@ -25,149 +25,148 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.PresentSprintDetailsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.PresentSprintDetailsUseCaseTests;
+
+public class Handle_SprintNumberFromRequestTests
 {
-    public class Handle_SprintNumberFromRequestTests
+    private readonly Mock<IUnitOfWork> unitOfWork;
+    private readonly Mock<ISprintRepository> sprintRepository;
+    private readonly ApplicationState applicationState;
+    private readonly PresentSprintDetailsUseCase useCase;
+
+    public Handle_SprintNumberFromRequestTests()
     {
-        private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly Mock<ISprintRepository> sprintRepository;
-        private readonly ApplicationState applicationState;
-        private readonly PresentSprintDetailsUseCase useCase;
+        unitOfWork = new Mock<IUnitOfWork>();
+        sprintRepository = new Mock<ISprintRepository>();
 
-        public Handle_SprintNumberFromRequestTests()
+        unitOfWork
+            .Setup(x => x.SprintRepository)
+            .Returns(sprintRepository.Object);
+
+        applicationState = new ApplicationState();
+
+        useCase = new PresentSprintDetailsUseCase(unitOfWork.Object, applicationState);
+    }
+
+    [Fact]
+    public async Task HavingSprintNumberSpecifiedInTheRequestButNotExistingInStorage_WhenUseCaseIsExecuted_ThenThrows()
+    {
+        sprintRepository
+            .Setup(x => x.Get(101))
+            .Returns(null as Sprint);
+
+        PresentSprintDetailRequest request = new()
         {
-            unitOfWork = new Mock<IUnitOfWork>();
-            sprintRepository = new Mock<ISprintRepository>();
+            SprintId = 101
+        };
 
-            unitOfWork
-                .Setup(x => x.SprintRepository)
-                .Returns(sprintRepository.Object);
-
-            applicationState = new ApplicationState();
-
-            useCase = new PresentSprintDetailsUseCase(unitOfWork.Object, applicationState);
-        }
-
-        [Fact]
-        public async Task HavingSprintNumberSpecifiedInTheRequestButNotExistingInStorage_WhenUseCaseIsExecuted_ThenThrows()
+        Func<Task> action = async () =>
         {
-            sprintRepository
-                .Setup(x => x.Get(101))
-                .Returns(null as Sprint);
+            await useCase.Handle(request, CancellationToken.None);
+        };
 
-            PresentSprintDetailRequest request = new()
-            {
-                SprintId = 101
-            };
+        await action.Should().ThrowAsync<SprintDoesNotExistException>();
+    }
 
-            Func<Task> action = async () =>
-            {
-                await useCase.Handle(request, CancellationToken.None);
-            };
+    [Fact]
+    public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSprintWithSpecifiedIdIsRequestedFromUnitOfWork()
+    {
+        Sprint sprintFromStorage = new();
 
-            await action.Should().ThrowAsync<SprintDoesNotExistException>();
-        }
+        sprintRepository
+            .Setup(x => x.Get(101))
+            .Returns(sprintFromStorage);
 
-        [Fact]
-        public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSprintWithSpecifiedIdIsRequestedFromUnitOfWork()
+        PresentSprintDetailRequest request = new()
         {
-            Sprint sprintFromStorage = new();
+            SprintId = 101
+        };
+        PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            sprintRepository
-                .Setup(x => x.Get(101))
-                .Returns(sprintFromStorage);
+        sprintRepository.Verify(x => x.Get(101), Times.Once);
+    }
 
-            PresentSprintDetailRequest request = new()
-            {
-                SprintId = 101
-            };
-            PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            sprintRepository.Verify(x => x.Get(101), Times.Once);
-        }
-
-        [Fact]
-        public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSpecifiedSprintNumberIsReturnedInTheResponse()
+    [Fact]
+    public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSpecifiedSprintNumberIsReturnedInTheResponse()
+    {
+        Sprint sprintFromStorage = new()
         {
-            Sprint sprintFromStorage = new()
-            {
-                Number = 849
-            };
+            Number = 849
+        };
 
-            sprintRepository
-                .Setup(x => x.Get(101))
-                .Returns(sprintFromStorage);
+        sprintRepository
+            .Setup(x => x.Get(101))
+            .Returns(sprintFromStorage);
 
-            PresentSprintDetailRequest request = new()
-            {
-                SprintId = 101
-            };
-            PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.SprintNumber.Should().Be(849);
-        }
-
-        [Fact]
-        public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSprintIdFromStorageIsReturnedInTheResponse()
+        PresentSprintDetailRequest request = new()
         {
-            Sprint sprintFromStorage = new()
-            {
-                Id = 54
-            };
+            SprintId = 101
+        };
+        PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            sprintRepository
-                .Setup(x => x.Get(101))
-                .Returns(sprintFromStorage);
+        response.SprintNumber.Should().Be(849);
+    }
 
-            PresentSprintDetailRequest request = new()
-            {
-                SprintId = 101
-            };
-            PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.SprintId.Should().Be(54);
-        }
-
-        [Fact]
-        public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSprintTitleFromStorageIsReturnedInTheResponse()
+    [Fact]
+    public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSprintIdFromStorageIsReturnedInTheResponse()
+    {
+        Sprint sprintFromStorage = new()
         {
-            Sprint sprintFromStorage = new()
-            {
-                Title = "this is a title"
-            };
+            Id = 54
+        };
 
-            sprintRepository
-                .Setup(x => x.Get(101))
-                .Returns(sprintFromStorage);
+        sprintRepository
+            .Setup(x => x.Get(101))
+            .Returns(sprintFromStorage);
 
-            PresentSprintDetailRequest request = new()
-            {
-                SprintId = 101
-            };
-            PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.SprintTitle.Should().Be("this is a title");
-        }
-
-        [Fact]
-        public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSprintStateFromStorageIsReturnedInTheResponse()
+        PresentSprintDetailRequest request = new()
         {
-            Sprint sprintFromStorage = new()
-            {
-                State = SprintState.New
-            };
+            SprintId = 101
+        };
+        PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            sprintRepository
-                .Setup(x => x.Get(101))
-                .Returns(sprintFromStorage);
+        response.SprintId.Should().Be(54);
+    }
 
-            PresentSprintDetailRequest request = new()
-            {
-                SprintId = 101
-            };
-            PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
+    [Fact]
+    public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSprintTitleFromStorageIsReturnedInTheResponse()
+    {
+        Sprint sprintFromStorage = new()
+        {
+            Title = "this is a title"
+        };
 
-            response.SprintState.Should().Be(SprintState.New);
-        }
+        sprintRepository
+            .Setup(x => x.Get(101))
+            .Returns(sprintFromStorage);
+
+        PresentSprintDetailRequest request = new()
+        {
+            SprintId = 101
+        };
+        PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
+
+        response.SprintTitle.Should().Be("this is a title");
+    }
+
+    [Fact]
+    public async Task HavingSprintIdSpecifiedInTheRequest_WhenUseCaseIsExecuted_ThenSprintStateFromStorageIsReturnedInTheResponse()
+    {
+        Sprint sprintFromStorage = new()
+        {
+            State = SprintState.New
+        };
+
+        sprintRepository
+            .Setup(x => x.Get(101))
+            .Returns(sprintFromStorage);
+
+        PresentSprintDetailRequest request = new()
+        {
+            SprintId = 101
+        };
+        PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
+
+        response.SprintState.Should().Be(SprintState.New);
     }
 }

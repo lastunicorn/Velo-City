@@ -16,157 +16,154 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+public class VeloCityDbContext
 {
-    // internal class SprintCollection : Collection<Sprint>
-    // {
-    //     protected override void InsertItem(int index, Sprint item)
-    //     {
-    //         if (item == null) throw new ArgumentNullException(nameof(item));
-    //
-    //         bool alreadyExist = Items.Any(x => ReferenceEquals(x, item));
-    //
-    //         if (alreadyExist)
-    //             return;
-    //
-    //         if (item.Id == 0)
-    //         {
-    //             
-    //         }
-    //         else
-    //         {
-    //             
-    //         }
-    //
-    //         base.InsertItem(index, item);
-    //     }
-    // }
+    private readonly JsonDatabase jsonDatabase;
+    private Guid databaseId = Guid.Empty;
 
-    internal class VeloCityDbContext
+    private SprintCollection sprints;
+    private TeamMemberCollection teamMembers;
+    private List<OfficialHoliday> officialHolidays;
+
+    public DataAccessException LastError => jsonDatabase.LastError;
+
+    public WarningException LastWarning => jsonDatabase.LastWarning;
+
+    public SprintCollection Sprints
     {
-        private readonly JsonDatabase jsonDatabase;
-        private Guid databaseId = Guid.Empty;
-
-        private List<Sprint> sprints;
-        private List<TeamMember> teamMembers;
-        private List<OfficialHoliday> officialHolidays;
-
-        public DataAccessException LastError => jsonDatabase.LastError;
-
-        public WarningException LastWarning => jsonDatabase.LastWarning;
-
-        public List<Sprint> Sprints
+        get
         {
-            get
-            {
-                if (sprints == null)
-                    LoadAllSprints();
+            if (sprints == null)
+                LoadAllSprints();
 
-                return sprints;
-            }
+            return sprints;
         }
+    }
 
-        public List<TeamMember> TeamMembers
+    public TeamMemberCollection TeamMembers
+    {
+        get
         {
-            get
-            {
-                if (teamMembers == null)
-                    LoadAllTeamMembers();
+            if (teamMembers == null)
+                LoadAllTeamMembers();
 
-                return teamMembers;
-            }
+            return teamMembers;
         }
+    }
 
-        public List<OfficialHoliday> OfficialHolidays
+    public List<OfficialHoliday> OfficialHolidays
+    {
+        get
         {
-            get
-            {
-                if (officialHolidays == null)
-                    LoadAllOfficialHolidays();
+            if (officialHolidays == null)
+                LoadAllOfficialHolidays();
 
-                return officialHolidays;
-            }
+            return officialHolidays;
         }
+    }
 
-        public VeloCityDbContext(JsonDatabase jsonDatabase)
+    public VeloCityDbContext(JsonDatabase jsonDatabase)
+    {
+        this.jsonDatabase = jsonDatabase ?? throw new ArgumentNullException(nameof(jsonDatabase));
+
+        jsonDatabase.Opened += HandleJsonDatabaseOpened;
+
+        if (jsonDatabase.State == DatabaseState.Opened)
+            databaseId = jsonDatabase.InstanceId;
+    }
+
+    private void HandleJsonDatabaseOpened(object sender, EventArgs e)
+    {
+        if (databaseId == Guid.Empty && sender is JsonDatabase jsonDatabase)
+            databaseId = jsonDatabase.InstanceId;
+    }
+
+    private void LoadAllSprints()
+    {
+        if (jsonDatabase.State != DatabaseState.Opened)
+            throw new DataAccessException("The database is not accessible.");
+
+        sprints = jsonDatabase.Sprints.ToEntities().ToSprintCollection();
+
+        foreach (Sprint sprint in sprints)
         {
-            this.jsonDatabase = jsonDatabase ?? throw new ArgumentNullException(nameof(jsonDatabase));
-
-            jsonDatabase.Opened += HandleJsonDatabaseOpened;
-
-            if (jsonDatabase.State == DatabaseState.Opened)
-                databaseId = jsonDatabase.InstanceId;
+            AddHolidays(sprint);
+            AddTeamMembers(sprint);
         }
+    }
 
-        private void HandleJsonDatabaseOpened(object sender, EventArgs e)
-        {
-            if (databaseId == Guid.Empty && sender is JsonDatabase jsonDatabase)
-                databaseId = jsonDatabase.InstanceId;
-        }
+    private void LoadAllTeamMembers()
+    {
+        if (jsonDatabase.State != DatabaseState.Opened)
+            throw new DataAccessException("The database is not accessible.");
 
-        private void LoadAllSprints()
-        {
-            if (jsonDatabase.State != DatabaseState.Opened)
-                throw new DataAccessException("The database is not accessible.");
+        teamMembers = jsonDatabase.TeamMembers.ToEntities(this).ToTeamMemberCollection();
+    }
 
-            sprints = jsonDatabase.Sprints.ToEntities().ToList();
+    private void LoadAllOfficialHolidays()
+    {
+        if (jsonDatabase.State != DatabaseState.Opened)
+            throw new DataAccessException("The database is not accessible.");
 
-            foreach (Sprint sprint in sprints)
-            {
-                AddHolidays(sprint);
-                AddTeamMembers(sprint);
-            }
-        }
+        officialHolidays = jsonDatabase.OfficialHolidays.ToEntities().ToList();
+    }
 
-        private void LoadAllTeamMembers()
-        {
-            if (jsonDatabase.State != DatabaseState.Opened)
-                throw new DataAccessException("The database is not accessible.");
+    private void AddHolidays(Sprint sprint)
+    {
+        List<OfficialHoliday> matchedOfficialHolidays = OfficialHolidays
+            .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
+            .ToList();
 
-            teamMembers = jsonDatabase.TeamMembers.ToEntities(this).ToList();
-        }
+        sprint.OfficialHolidays.AddRange(matchedOfficialHolidays);
+    }
 
-        private void LoadAllOfficialHolidays()
-        {
-            if (jsonDatabase.State != DatabaseState.Opened)
-                throw new DataAccessException("The database is not accessible.");
+    private void AddTeamMembers(Sprint sprint)
+    {
+        IEnumerable<TeamMember> matchedTeamMembers = TeamMembers
+            .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(sprint.DateInterval)) ?? false);
 
-            officialHolidays = jsonDatabase.OfficialHolidays.ToEntities().ToList();
-        }
+        foreach (TeamMember teamMember in matchedTeamMembers)
+            sprint.AddSprintMember(teamMember);
+    }
 
-        private void AddHolidays(Sprint sprint)
-        {
-            List<OfficialHoliday> matchedOfficialHolidays = OfficialHolidays
-                .Where(x => x.Match(sprint.StartDate, sprint.EndDate))
-                .ToList();
+    public void SaveChanges()
+    {
+        if (jsonDatabase.InstanceId != databaseId)
+            throw new Exception("The database was changed, current context cannot save the data.");
 
-            sprint.OfficialHolidays.AddRange(matchedOfficialHolidays);
-        }
+        VerifySprintIdsAreUnique();
+        VerifySTeamMemberIdsAreUnique();
 
-        private void AddTeamMembers(Sprint sprint)
-        {
-            IEnumerable<TeamMember> matchedTeamMembers = TeamMembers
-                .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(sprint.DateInterval)) ?? false);
+        jsonDatabase.Sprints = Sprints.ToJEntities().ToList();
+        jsonDatabase.TeamMembers = TeamMembers.ToJEntities().ToList();
+        jsonDatabase.OfficialHolidays = OfficialHolidays.ToJEntities().ToList();
 
-            foreach (TeamMember teamMember in matchedTeamMembers)
-                sprint.AddSprintMember(teamMember);
-        }
+        jsonDatabase.Persist();
+    }
 
-        public void SaveChanges()
-        {
-            if (jsonDatabase.InstanceId != databaseId)
-                throw new Exception("The database was change, current context cannot save the data.");
+    private void VerifySprintIdsAreUnique()
+    {
+        IEnumerable<int> duplicateIds = Sprints.GetDuplicateIds();
+        string idsString = string.Join(", ", duplicateIds);
 
-            jsonDatabase.Sprints = Sprints.ToJEntities().ToList();
-            jsonDatabase.TeamMembers = TeamMembers.ToJEntities().ToList();
-            jsonDatabase.OfficialHolidays = OfficialHolidays.ToJEntities().ToList();
+        if (!string.IsNullOrEmpty(idsString))
+            throw new DataException($"There are duplicate Sprint ids in the database context: {idsString}.");
+    }
 
-            jsonDatabase.Persist();
-        }
+    private void VerifySTeamMemberIdsAreUnique()
+    {
+        IEnumerable<int> duplicateIds = TeamMembers.GetDuplicateIds();
+        string idsString = string.Join(", ", duplicateIds);
+
+        if (!string.IsNullOrEmpty(idsString))
+            throw new DataException($"There are duplicate Team Member ids in the database context: {idsString}.");
     }
 }

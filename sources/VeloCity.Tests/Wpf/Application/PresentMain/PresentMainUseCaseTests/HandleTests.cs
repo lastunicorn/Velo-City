@@ -22,24 +22,23 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentMain.PresentMainUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentMain.PresentMainUseCaseTests;
+
+public class HandleTests
 {
-    public class HandleTests
+    [Fact]
+    public async Task HavingADatabaseLocationSpecifiedInConfig_WhenUseCaseIsExecuted_ThenReturnsThatLocationInResponse()
     {
-        [Fact]
-        public async Task HavingADatabaseLocationSpecifiedInConfig_WhenUseCaseIsExecuted_ThenReturnsThatLocationInResponse()
-        {
-            Mock<IConfig> config = new();
-            config
-                .SetupGet(x => x.DatabaseLocation)
-                .Returns("some-location");
+        Mock<IConfig> config = new();
+        config
+            .SetupGet(x => x.DatabaseLocation)
+            .Returns("some-location");
 
-            PresentMainUseCase useCase = new(config.Object);
-            PresentMainRequest request = new();
+        PresentMainUseCase useCase = new(config.Object);
+        PresentMainRequest request = new();
 
-            PresentMainResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentMainResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            response.DatabaseConnectionString.Should().Be("some-location");
-        }
+        response.DatabaseConnectionString.Should().Be("some-location");
     }
 }

@@ -1,4 +1,4 @@
-﻿// VeloCity
+// VeloCity
 // Copyright (C) 2022 Dust in the Wind
 // 
 // This program is free software: you can redistribute it and/or modify
@@ -16,37 +16,21 @@
 
 using System;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
+using DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintDetails.PresentSprintDetailsUseCaseTests;
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentCommitment.PresentCommitmentUseCaseTests;
 
 public class ConstructorTests
 {
     [Fact]
     public void HavingNullUnitOfWork_WhenInstantiatingUseCase_ThenThrows()
     {
-        ApplicationState applicationState = new();
-
         Action action = () =>
         {
-            _ = new PresentSprintDetailsUseCase(null, applicationState);
-        };
-
-        action.Should().Throw<ArgumentNullException>();
-    }
-
-    [Fact]
-    public void HavingNullApplicationState_WhenInstantiatingUseCase_ThenThrows()
-    {
-        Mock<IUnitOfWork> unitOfWork = new();
-
-        Action action = () =>
-        {
-            _ = new PresentSprintDetailsUseCase(unitOfWork.Object, null);
+            _ = new PresentCommitmentUseCase(null);
         };
 
         action.Should().Throw<ArgumentNullException>();
@@ -56,11 +40,10 @@ public class ConstructorTests
     public void HavingAllDependencies_WhenInstantiatingUseCase_ThenDoesNotThrow()
     {
         Mock<IUnitOfWork> unitOfWork = new();
-        ApplicationState applicationState = new();
 
         Action action = () =>
         {
-            _ = new PresentSprintDetailsUseCase(unitOfWork.Object, applicationState);
+            _ = new PresentCommitmentUseCase(unitOfWork.Object);
         };
 
         action.Should().NotThrow();

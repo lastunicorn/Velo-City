@@ -78,9 +78,9 @@ public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
     {
         Sprint newSprint = new()
         {
-            Title = sprintNewConfirmationResponse.SprintTitle,
+            Id = 0,
             Number = lastSprint?.Number + 1 ?? 1,
-            Id = lastSprint?.Id + 1 ?? 0,
+            Title = sprintNewConfirmationResponse.SprintTitle,
             DateInterval = sprintNewConfirmationResponse.SprintTimeInterval,
             State = SprintState.New
         };

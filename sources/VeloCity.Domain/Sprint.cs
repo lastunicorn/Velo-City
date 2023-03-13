@@ -23,7 +23,17 @@ namespace DustInTheWind.VeloCity.Domain
 {
     public class Sprint
     {
-        public int Id { get; set; }
+        public int Id
+        {
+            get => id;
+            set
+            {
+                if (id != 0)
+                    throw new InvalidOperationException("Once assigned, the id of a sprint cannot be changed.");
+
+                id = value;
+            }
+        }
 
         public int Number { get; set; }
 
@@ -126,6 +136,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         private HoursValue? totalWorkHoursWithVelocityPenalties;
         private StoryPoints actualStoryPoints;
+        private int id;
 
         public HoursValue TotalWorkHoursWithVelocityPenalties
         {
