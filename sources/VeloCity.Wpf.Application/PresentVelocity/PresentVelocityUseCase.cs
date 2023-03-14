@@ -37,12 +37,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentVelocity
         {
             uint sprintCount = CalculateSprintCount(request);
             List<SprintVelocity> sprintVelocities = RetrieveSprintVelocities(sprintCount);
-
-            PresentVelocityResponse response = new()
-            {
-                RequestedSprintCount = sprintCount,
-                SprintVelocities = sprintVelocities
-            };
+            PresentVelocityResponse response = CreateResponse(sprintCount, sprintVelocities);
 
             return Task.FromResult(response);
         }
@@ -57,9 +52,18 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentVelocity
         private List<SprintVelocity> RetrieveSprintVelocities(uint sprintCount)
         {
             return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
+                .OrderByDescending(x=>x.StartDate)
                 .Select(x => new SprintVelocity(x))
-                .Reverse()
                 .ToList();
+        }
+
+        private static PresentVelocityResponse CreateResponse(uint sprintCount, List<SprintVelocity> sprintVelocities)
+        {
+            return new PresentVelocityResponse
+            {
+                RequestedSprintCount = sprintCount,
+                SprintVelocities = sprintVelocities
+            };
         }
     }
 }

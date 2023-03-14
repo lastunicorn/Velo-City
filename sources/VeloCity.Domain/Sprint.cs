@@ -79,7 +79,7 @@ namespace DustInTheWind.VeloCity.Domain
 
         private readonly List<SprintMember> allSprintMembers = new();
 
-        public ObservableCollection<SprintMember> SprintMembers { get; } = new();
+        //public ObservableCollection<SprintMember> SprintMembers { get; } = new();
 
         private IEnumerable<SprintMember> SprintMembersWithoutExcluded
         {
@@ -107,12 +107,12 @@ namespace DustInTheWind.VeloCity.Domain
         {
             get
             {
-                velocity ??= CalculateVelocity();
+                velocity ??= ComputeVelocity();
                 return velocity.Value;
             }
         }
 
-        private Velocity CalculateVelocity()
+        private Velocity ComputeVelocity()
         {
             return ActualStoryPoints / TotalWorkHours;
         }

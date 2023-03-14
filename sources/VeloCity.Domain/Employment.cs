@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Text;
 
 namespace DustInTheWind.VeloCity.Domain;
 
@@ -55,5 +56,10 @@ public class Employment
         if (employment == null) throw new ArgumentNullException(nameof(employment));
 
         return TimeInterval.DoesContinueWith(employment.TimeInterval);
+    }
+
+    public override string ToString()
+    {
+        return $"{TimeInterval} | {HoursPerDay} | {EmploymentWeek}";
     }
 }

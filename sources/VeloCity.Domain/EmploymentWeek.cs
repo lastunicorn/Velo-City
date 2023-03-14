@@ -71,4 +71,9 @@ public class EmploymentWeek : IEnumerable<DayOfWeek>
     {
         return GetEnumerator();
     }
+
+    public override string ToString()
+    {
+        return string.Join(", ", workDays);
+    }
 }
