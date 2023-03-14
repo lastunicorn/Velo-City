@@ -21,55 +21,54 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint;
+
+internal class CanCloseSprintUseCase : IRequestHandler<CanCloseSprintRequest, CanCloseSprintResponse>
 {
-    internal class CanCloseSprintUseCase : IRequestHandler<CanCloseSprintRequest, CanCloseSprintResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+
+    public CanCloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+    }
 
-        public CanCloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+    public Task<CanCloseSprintResponse> Handle(CanCloseSprintRequest request, CancellationToken cancellationToken)
+    {
+        CanCloseSprintResponse response = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
+            CanCloseSprint = CanCloseSelectedSprint()
+        };
 
-        public Task<CanCloseSprintResponse> Handle(CanCloseSprintRequest request, CancellationToken cancellationToken)
+        return Task.FromResult(response);
+    }
+
+    private bool CanCloseSelectedSprint()
+    {
+        Sprint sprint = RetrieveSelectedSprint();
+
+        return sprint != null && IsCorrectState(sprint);
+    }
+
+    private Sprint RetrieveSelectedSprint()
+    {
+        int? sprintId = applicationState.SelectedSprintId;
+
+        return sprintId != null
+            ? unitOfWork.SprintRepository.Get(sprintId.Value)
+            : null;
+    }
+
+    private static bool IsCorrectState(Sprint sprint)
+    {
+        return sprint.State switch
         {
-            CanCloseSprintResponse response = new()
-            {
-                CanCloseSprint = CanCloseSelectedSprint()
-            };
-
-            return Task.FromResult(response);
-        }
-
-        private bool CanCloseSelectedSprint()
-        {
-            Sprint sprint = RetrieveSelectedSprint();
-
-            return sprint != null && IsCorrectState(sprint);
-        }
-
-        private Sprint RetrieveSelectedSprint()
-        {
-            int? sprintId = applicationState.SelectedSprintId;
-
-            return sprintId != null
-                ? unitOfWork.SprintRepository.Get(sprintId.Value)
-                : null;
-        }
-
-        private static bool IsCorrectState(Sprint sprint)
-        {
-            return sprint.State switch
-            {
-                SprintState.Unknown => false,
-                SprintState.New => false,
-                SprintState.InProgress => true,
-                SprintState.Closed => false,
-                _ => false
-            };
-        }
+            SprintState.Unknown => false,
+            SprintState.New => false,
+            SprintState.InProgress => true,
+            SprintState.Closed => false,
+            _ => false
+        };
     }
 }

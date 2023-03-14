@@ -79,8 +79,6 @@ namespace DustInTheWind.VeloCity.Domain
 
         private readonly List<SprintMember> allSprintMembers = new();
 
-        //public ObservableCollection<SprintMember> SprintMembers { get; } = new();
-
         private IEnumerable<SprintMember> SprintMembersWithoutExcluded
         {
             get
@@ -94,7 +92,7 @@ namespace DustInTheWind.VeloCity.Domain
         }
 
         public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembersWithoutExcluded
-            .OrderBy(x => x.TeamMember.Employments.GetLastEmploymentBatch()?.StartDate)
+            .OrderBy(x => x.TeamMember.Employments?.GetLastEmploymentBatch()?.StartDate)
             .ThenBy(x => x.Name);
 
         private Velocity? velocity;

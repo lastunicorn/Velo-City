@@ -16,12 +16,12 @@
 
 using System;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentVelocity.PresentdVelocityUseCaseTests;
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintsCapacity.PresentSprintsCapacityUseCaseTests;
 
 public class ConstructorTests
 {
@@ -30,7 +30,7 @@ public class ConstructorTests
     {
         Action action = () =>
         {
-            _ = new PresentVelocityUseCase(null);
+            _ = new PresentSprintsCapacityUseCase(null);
         };
 
         action.Should().Throw<ArgumentNullException>();
@@ -43,7 +43,7 @@ public class ConstructorTests
 
         Action action = () =>
         {
-            _ = new PresentVelocityUseCase(unitOfWork.Object);
+            _ = new PresentSprintsCapacityUseCase(unitOfWork.Object);
         };
 
         action.Should().NotThrow();

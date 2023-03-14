@@ -95,7 +95,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
             SprintMemberViewModels = sprintMemberViewModels;
         }
 
-        private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMember> sprintMembers)
+        private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMemberDto> sprintMembers)
         {
             return sprintMembers
                 .Select(x => new SprintMemberViewModel(requestBus, eventBus, x))

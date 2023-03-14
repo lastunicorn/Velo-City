@@ -23,41 +23,48 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
+
+internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>
 {
-    internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+
+    public PresentTeamMemberEmploymentsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+    }
 
-        public PresentTeamMemberEmploymentsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+    public Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
+    {
+        List<EmploymentInfo> employmentInfos = ComputeEmployments();
+        PresentTeamMemberEmploymentsResponse response = CreateResponse(employmentInfos);
+
+        return Task.FromResult(response);
+    }
+
+    private List<EmploymentInfo> ComputeEmployments()
+    {
+        if (applicationState.SelectedTeamMemberId == null)
+            return new List<EmploymentInfo>();
+
+        int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
+        TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
+
+        if (teamMember == null)
+            return new List<EmploymentInfo>();
+
+        return teamMember.Employments
+            .Select(x => new EmploymentInfo(x))
+            .ToList();
+    }
+
+    private static PresentTeamMemberEmploymentsResponse CreateResponse(List<EmploymentInfo> employmentInfos)
+    {
+        return new PresentTeamMemberEmploymentsResponse()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
-
-        public Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
-        {
-            PresentTeamMemberEmploymentsResponse response = new()
-            {
-                Employments = new List<EmploymentInfo>()
-            };
-
-            if (applicationState.SelectedTeamMemberId != null)
-            {
-                int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
-                TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
-
-                if (teamMember != null)
-                {
-                    IEnumerable<EmploymentInfo> employmentInfos = teamMember.Employments
-                        .Select(x => new EmploymentInfo(x));
-
-                    response.Employments.AddRange(employmentInfos);
-                }
-            }
-
-            return Task.FromResult(response);
-        }
+            Employments = employmentInfos
+        };
     }
 }

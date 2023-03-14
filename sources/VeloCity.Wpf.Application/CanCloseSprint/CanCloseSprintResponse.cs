@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint;
+
+public class CanCloseSprintResponse
 {
-    public class CanCloseSprintResponse
-    {
-        public bool CanCloseSprint { get; init; }
-    }
+    public bool CanCloseSprint { get; init; }
 }

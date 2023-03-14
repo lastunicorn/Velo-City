@@ -21,16 +21,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentVelocity.PresentdVelocityUseCaseTests;
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintsCapacity.PresentSprintsCapacityUseCaseTests;
 
 public class HandleTests
 {
-    private readonly PresentVelocityUseCase useCase;
+    private readonly PresentSprintsCapacityUseCase useCase;
     private readonly Mock<ISprintRepository> sprintRepository;
 
     public HandleTests()
@@ -42,37 +42,37 @@ public class HandleTests
             .Setup(x => x.SprintRepository)
             .Returns(sprintRepository.Object);
 
-        useCase = new PresentVelocityUseCase(unitOfWork.Object);
+        useCase = new PresentSprintsCapacityUseCase(unitOfWork.Object);
     }
 
     [Fact]
     public async Task HavingSprintCountSpecifiedInRequest_WhenUseCaseIsExecuted_ThenRetrieveFromRepositoryTheSpecifiedCountOfClosedSprints()
     {
-        PresentVelocityRequest request = new()
+        PresentSprintsCapacityRequest request = new()
         {
-            SprintCount = 65
+            SprintCount = 49
         };
         await useCase.Handle(request, CancellationToken.None);
 
-        sprintRepository.Verify(x => x.GetLastClosed(65), Times.Once);
+        sprintRepository.Verify(x => x.GetLastClosed(49), Times.Once);
     }
 
     [Fact]
     public async Task HavingSprintCountSpecifiedInRequest_WhenUseCaseIsExecuted_ThenThatSprintCountValueIsReturnedInTheResponse()
     {
-        PresentVelocityRequest request = new()
+        PresentSprintsCapacityRequest request = new()
         {
-            SprintCount = 48
+            SprintCount = 86
         };
-        PresentVelocityResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        response.RequestedSprintCount.Should().Be(48);
+        response.RequestedSprintCount.Should().Be(86);
     }
 
     [Fact]
     public async Task HavingNoSprintCountSpecifiedInRequest_WhenUseCaseIsExecuted_ThenRetrieveFromRepository10ClosedSprints()
     {
-        PresentVelocityRequest request = new();
+        PresentSprintsCapacityRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 
         sprintRepository.Verify(x => x.GetLastClosed(10), Times.Once);
@@ -81,8 +81,8 @@ public class HandleTests
     [Fact]
     public async Task HavingNoSprintCountSpecifiedInRequest_WhenUseCaseIsExecuted_ThenSprintCount10IsReturnedInTheResponse()
     {
-        PresentVelocityRequest request = new();
-        PresentVelocityResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsCapacityRequest request = new();
+        PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
 
         response.RequestedSprintCount.Should().Be(10);
     }
@@ -99,10 +99,10 @@ public class HandleTests
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
             .Returns(sprintsFromRepository);
 
-        PresentVelocityRequest request = new();
-        PresentVelocityResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsCapacityRequest request = new();
+        PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        response.SprintVelocities.Count.Should().Be(1);
+        response.SprintCapacities.Count.Should().Be(1);
     }
 
     [Fact]
@@ -118,10 +118,10 @@ public class HandleTests
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
             .Returns(sprintsFromRepository);
 
-        PresentVelocityRequest request = new();
-        PresentVelocityResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsCapacityRequest request = new();
+        PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        response.SprintVelocities.Count.Should().Be(2);
+        response.SprintCapacities.Count.Should().Be(2);
     }
 
     [Fact]
@@ -145,10 +145,10 @@ public class HandleTests
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
             .Returns(sprintsFromRepository);
 
-        PresentVelocityRequest request = new();
-        PresentVelocityResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsCapacityRequest request = new();
+        PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        IEnumerable<int> actualSprintNumbers = response.SprintVelocities
+        IEnumerable<int> actualSprintNumbers = response.SprintCapacities
             .Select(x => x.SprintNumber);
 
         int[] expectedSprintNumbers = new[] { 1, 2 };
@@ -176,10 +176,10 @@ public class HandleTests
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
             .Returns(sprintsFromRepository);
 
-        PresentVelocityRequest request = new();
-        PresentVelocityResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsCapacityRequest request = new();
+        PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        IEnumerable<int> actualSprintNumbers = response.SprintVelocities
+        IEnumerable<int> actualSprintNumbers = response.SprintCapacities
             .Select(x => x.SprintNumber);
 
         int[] expectedSprintNumbers = new[] { 2, 1 };

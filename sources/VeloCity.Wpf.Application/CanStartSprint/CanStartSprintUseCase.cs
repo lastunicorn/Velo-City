@@ -21,68 +21,67 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CanStartSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.CanStartSprint;
+
+internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, CanStartSprintResponse>
 {
-    internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, CanStartSprintResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+
+    public CanStartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+    }
 
-        public CanStartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+    public Task<CanStartSprintResponse> Handle(CanStartSprintRequest request, CancellationToken cancellationToken)
+    {
+        CanStartSprintResponse response = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
+            CanStartSprint = CanStartSelectedSprint()
+        };
 
-        public Task<CanStartSprintResponse> Handle(CanStartSprintRequest request, CancellationToken cancellationToken)
+        return Task.FromResult(response);
+    }
+
+    private bool CanStartSelectedSprint()
+    {
+        Sprint sprint = RetrieveSelectedSprint();
+
+        return sprint != null &&
+               IsCorrectState(sprint) &&
+               NoSprintIsInProgress() &&
+               IsFirstNewSprint(sprint);
+    }
+
+    private Sprint RetrieveSelectedSprint()
+    {
+        int? sprintId = applicationState.SelectedSprintId;
+
+        return sprintId != null
+            ? unitOfWork.SprintRepository.Get(sprintId.Value)
+            : null;
+    }
+
+    private static bool IsCorrectState(Sprint sprint)
+    {
+        return sprint.State switch
         {
-            CanStartSprintResponse response = new()
-            {
-                CanStartSprint = CanStartSelectedSprint()
-            };
+            SprintState.New => true,
+            SprintState.Unknown => false,
+            SprintState.InProgress => false,
+            SprintState.Closed => false,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
 
-            return Task.FromResult(response);
-        }
+    private bool NoSprintIsInProgress()
+    {
+        return !unitOfWork.SprintRepository.IsAnyInProgress();
+    }
 
-        private bool CanStartSelectedSprint()
-        {
-            Sprint sprint = RetrieveSelectedSprint();
-
-            return sprint != null &&
-                   IsCorrectState(sprint) &&
-                   NoSprintIsInProgress() &&
-                   IsFirstNewSprint(sprint);
-        }
-
-        private Sprint RetrieveSelectedSprint()
-        {
-            int? sprintId = applicationState.SelectedSprintId;
-
-            return sprintId != null
-                ? unitOfWork.SprintRepository.Get(sprintId.Value)
-                : null;
-        }
-
-        private static bool IsCorrectState(Sprint sprint)
-        {
-            return sprint.State switch
-            {
-                SprintState.New => true,
-                SprintState.Unknown => false,
-                SprintState.InProgress => false,
-                SprintState.Closed => false,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
-
-        private bool NoSprintIsInProgress()
-        {
-            return !unitOfWork.SprintRepository.IsAnyInProgress();
-        }
-
-        private bool IsFirstNewSprint(Sprint sprint)
-        {
-            return unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
-        }
+    private bool IsFirstNewSprint(Sprint sprint)
+    {
+        return unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
     }
 }

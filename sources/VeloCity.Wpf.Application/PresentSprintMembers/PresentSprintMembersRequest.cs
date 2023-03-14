@@ -16,9 +16,8 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
+
+public class PresentSprintMembersRequest : IRequest<PresentSprintMembersResponse>
 {
-    public class PresentSprintMembersRequest : IRequest<PresentSprintMembersResponse>
-    {
-    }
 }

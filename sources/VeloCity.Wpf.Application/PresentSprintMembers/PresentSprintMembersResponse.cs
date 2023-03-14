@@ -15,12 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
+
+public class PresentSprintMembersResponse
 {
-    public class PresentSprintMembersResponse
-    {
-        public List<SprintMember> SprintMembers { get; set; }
-    }
+    public List<SprintMemberDto> SprintMembers { get; set; }
 }

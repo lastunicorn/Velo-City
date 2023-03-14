@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,60 +23,69 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
+
+internal class PresentSprintMembersUseCase : IRequestHandler<PresentSprintMembersRequest, PresentSprintMembersResponse>
 {
-    internal class PresentSprintMembersUseCase : IRequestHandler<PresentSprintMembersRequest, PresentSprintMembersResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+
+    public PresentSprintMembersUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+    }
 
-        public PresentSprintMembersUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+    public Task<PresentSprintMembersResponse> Handle(PresentSprintMembersRequest request, CancellationToken cancellationToken)
+    {
+        Sprint sprint = RetrieveSprintToAnalyze();
+        List<SprintMember> sprintMembers = ComputeSprintMemberList(sprint);
+        PresentSprintMembersResponse response = CreateResponse(sprintMembers);
+
+        return Task.FromResult(response);
+    }
+
+    private Sprint RetrieveSprintToAnalyze()
+    {
+        int? currentSprintId = applicationState.SelectedSprintId;
+
+        return currentSprintId == null
+            ? RetrieveDefaultSprintToAnalyze()
+            : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
+    }
+
+    private Sprint RetrieveDefaultSprintToAnalyze()
+    {
+        Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+
+        if (sprint == null)
+            throw new NoSprintInProgressException();
+
+        return sprint;
+    }
+
+    private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber)
+    {
+        Sprint sprint = unitOfWork.SprintRepository.Get(sprintNumber);
+
+        if (sprint == null)
+            throw new SprintDoesNotExistException(sprintNumber);
+
+        return sprint;
+    }
+
+    private static List<SprintMember> ComputeSprintMemberList(Sprint sprint)
+    {
+        return sprint.SprintMembersOrderedByEmployment?.ToList();
+    }
+
+    private static PresentSprintMembersResponse CreateResponse(List<SprintMember> sprintMembers)
+    {
+        return new PresentSprintMembersResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
-
-        public Task<PresentSprintMembersResponse> Handle(PresentSprintMembersRequest request, CancellationToken cancellationToken)
-        {
-            Sprint sprint = RetrieveSprintToAnalyze();
-            PresentSprintMembersResponse response = CreateResponse(sprint);
-
-            return Task.FromResult(response);
-        }
-
-        private Sprint RetrieveSprintToAnalyze()
-        {
-            return applicationState.SelectedSprintId == null
-                ? RetrieveDefaultSprintToAnalyze()
-                : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
-        }
-
-        private Sprint RetrieveDefaultSprintToAnalyze()
-        {
-            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
-
-            if (sprint == null)
-                throw new NoSprintInProgressException();
-
-            return sprint;
-        }
-
-        private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber)
-        {
-            Sprint sprint = unitOfWork.SprintRepository.Get(sprintNumber);
-
-            if (sprint == null)
-                throw new SprintDoesNotExistException(sprintNumber);
-
-            return sprint;
-        }
-
-        private static PresentSprintMembersResponse CreateResponse(Sprint sprint)
-        {
-            return new PresentSprintMembersResponse
-            {
-                SprintMembers = sprint.SprintMembersOrderedByEmployment?.ToList()
-            };
-        }
+            SprintMembers = sprintMembers
+            .Select(x=> new SprintMemberDto(x))
+            .ToList()
+        };
     }
 }

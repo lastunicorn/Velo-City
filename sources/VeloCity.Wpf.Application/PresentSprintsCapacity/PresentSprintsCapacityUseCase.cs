@@ -57,8 +57,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity
         private List<SprintCapacity> RetrieveSprintCommitment(uint sprintCount)
         {
             return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
+                .OrderByDescending(x => x.StartDate)
                 .Select(x => new SprintCapacity(x))
-                .Reverse()
                 .ToList();
         }
     }

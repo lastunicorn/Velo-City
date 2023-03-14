@@ -16,24 +16,23 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
+
+public class EmploymentInfo
 {
-    public class EmploymentInfo
+    public DateInterval TimeInterval { get; }
+
+    public HoursValue HoursPerDay { get; }
+
+    public EmploymentWeek EmploymentWeek { get; }
+
+    public string Country { get; }
+
+    public EmploymentInfo(Employment employment)
     {
-        public DateInterval TimeInterval { get; }
-
-        public HoursValue HoursPerDay { get; }
-
-        public EmploymentWeek EmploymentWeek { get; }
-
-        public string Country { get; }
-
-        public EmploymentInfo(Employment employment)
-        {
-            TimeInterval = employment.TimeInterval;
-            HoursPerDay = employment.HoursPerDay;
-            EmploymentWeek = employment.EmploymentWeek;
-            Country = employment.Country;
-        }
+        TimeInterval = employment.TimeInterval;
+        HoursPerDay = employment.HoursPerDay;
+        EmploymentWeek = employment.EmploymentWeek;
+        Country = employment.Country;
     }
 }

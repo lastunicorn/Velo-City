@@ -16,10 +16,9 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
+
+public class PresentTeamMemberEmploymentsResponse
 {
-    public class PresentTeamMemberEmploymentsResponse
-    {
-        public List<EmploymentInfo> Employments { get; set; }
-    }
+    public List<EmploymentInfo> Employments { get; set; }
 }
