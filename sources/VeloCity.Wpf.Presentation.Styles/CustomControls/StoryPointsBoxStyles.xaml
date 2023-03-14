@@ -1,0 +1,75 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls" xmlns:converters="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter"/>
+
+    <Style
+        x:Key="{x:Type customControls:StoryPointsBox}"
+        TargetType="{x:Type customControls:StoryPointsBox}">
+
+        <Setter Property="IsTabStop" Value="False" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type customControls:StoryPointsBox}">
+
+                    <TextBlock
+                        Background="{TemplateBinding Background}"
+                        Padding="{TemplateBinding Padding}">
+
+                        <TextBlock
+                            FontSize="60"
+                            Text="{Binding WholePart, RelativeSource={RelativeSource TemplatedParent}}"
+                            FontWeight="DemiBold"
+                            Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}"/>
+
+                        <TextBlock
+                            FontSize="30"
+                            Text="{Binding FractionalPart, RelativeSource={RelativeSource TemplatedParent}, StringFormat=.00}"
+                            FontWeight="DemiBold"
+                            Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
+                        
+                        <TextBlock
+                            FontSize="60"
+                            Text="-"
+                            Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                        <TextBlock
+                            FontSize="60"
+                            Text="SP"
+                            Margin="10 0 0 0"
+                            FontWeight="DemiBold"/>
+
+                    </TextBlock>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

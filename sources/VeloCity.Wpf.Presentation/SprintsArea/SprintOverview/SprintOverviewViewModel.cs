@@ -41,6 +41,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
         private int workDays;
         private HoursValue totalWorkHours;
         private StoryPoints estimatedStoryPoints;
+        private float? estimatedStoryPointsValue;
         private IEnumerable<string> estimatedStoryPointsInfo;
         private StoryPoints estimatedStoryPointsWithVelocityPenalties;
         private IEnumerable<string> estimatedStoryPointsWithVelocityPenaltiesInfo;
@@ -48,7 +49,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
         private Velocity estimatedVelocity;
         private IEnumerable<string> estimatedVelocityInfo;
         private StoryPoints commitmentStoryPoints;
+        private float? commitmentStoryPointsValue;
         private StoryPoints actualStoryPoints;
+        private float? actualStoryPointsValue;
         private Velocity actualVelocity;
         private string sprintComments;
         private List<NoteBase> notes;
@@ -110,6 +113,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             private set
             {
                 estimatedStoryPoints = value;
+                OnPropertyChanged();
+
+                EstimatedStoryPointsValue = estimatedStoryPoints;
+            }
+        }
+
+        public float? EstimatedStoryPointsValue
+        {
+            get => estimatedStoryPointsValue;
+            private set
+            {
+                estimatedStoryPointsValue = value;
                 OnPropertyChanged();
             }
         }
@@ -181,6 +196,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             {
                 commitmentStoryPoints = value;
                 OnPropertyChanged();
+
+                CommitmentStoryPointsValue = commitmentStoryPoints;
+            }
+        }
+
+        public float? CommitmentStoryPointsValue
+        {
+            get => commitmentStoryPointsValue;
+            private set
+            {
+                commitmentStoryPointsValue = value;
+                OnPropertyChanged();
             }
         }
 
@@ -190,6 +217,18 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             private set
             {
                 actualStoryPoints = value;
+                OnPropertyChanged();
+
+                ActualStoryPointsValue = value;
+            }
+        }
+
+        public float? ActualStoryPointsValue
+        {
+            get => actualStoryPointsValue;
+            private set
+            {
+                actualStoryPointsValue = value;
                 OnPropertyChanged();
             }
         }

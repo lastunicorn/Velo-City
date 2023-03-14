@@ -109,6 +109,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <FontFamily x:Key="DefaultFontFamily">OpenSans</FontFamily>
 
+    <!--<FontFamily x:Key="DefaultFontFamily">Century Gothic</FontFamily>-->
+
     <!--
     ================================================================================================
     Side Navigator
