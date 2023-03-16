@@ -120,8 +120,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <TabItem.Header>
 
                         <customControls:GenericIcon
-                            Width="40"
-                            Height="40"
+                            Width="32"
+                            Height="32"
                             Style="{StaticResource SprintIconStyle}">
 
                             <Control.Effect>
@@ -146,8 +146,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <TabItem.Header>
 
                         <customControls:GenericIcon
-                            Width="40"
-                            Height="40"
+                            Width="32"
+                            Height="32"
                             Style="{StaticResource TeamIconStyle}">
 
                             <Control.Effect>
@@ -172,8 +172,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <TabItem.Header>
 
                         <customControls:GenericIcon
-                            Width="40"
-                            Height="40"
+                            Width="32"
+                            Height="32"
                             Style="{StaticResource HolidaysIconStyle}">
 
                             <Control.Effect>
@@ -198,8 +198,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <TabItem.Header>
 
                         <customControls:GenericIcon
-                            Width="40"
-                            Height="40"
+                            Width="32"
+                            Height="32"
                             Style="{StaticResource ChartIconStyle}">
 
                             <Control.Effect>
@@ -229,8 +229,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         Command="{Binding RefreshCommand}">
 
                         <customControls:GenericIcon
-                            Width="40"
-                            Height="40"
+                            Width="32"
+                            Height="32"
                             Style="{StaticResource RefreshIconStyle}">
 
                             <Control.Effect>

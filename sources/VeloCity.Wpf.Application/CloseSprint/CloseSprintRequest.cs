@@ -16,9 +16,8 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+
+public class CloseSprintRequest : IRequest
 {
-    public class CloseSprintRequest : IRequest
-    {
-    }
 }

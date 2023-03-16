@@ -36,19 +36,15 @@ internal class CanCloseSprintUseCase : IRequestHandler<CanCloseSprintRequest, Ca
 
     public Task<CanCloseSprintResponse> Handle(CanCloseSprintRequest request, CancellationToken cancellationToken)
     {
+        Sprint sprint = RetrieveSelectedSprint();
+        bool canCloseSprint = CanCloseSelectedSprint(sprint);
+
         CanCloseSprintResponse response = new()
         {
-            CanCloseSprint = CanCloseSelectedSprint()
+            CanCloseSprint = canCloseSprint
         };
 
         return Task.FromResult(response);
-    }
-
-    private bool CanCloseSelectedSprint()
-    {
-        Sprint sprint = RetrieveSelectedSprint();
-
-        return sprint != null && IsCorrectState(sprint);
     }
 
     private Sprint RetrieveSelectedSprint()
@@ -58,6 +54,11 @@ internal class CanCloseSprintUseCase : IRequestHandler<CanCloseSprintRequest, Ca
         return sprintId != null
             ? unitOfWork.SprintRepository.Get(sprintId.Value)
             : null;
+    }
+
+    private static bool CanCloseSelectedSprint(Sprint sprint)
+    {
+        return sprint != null && IsCorrectState(sprint);
     }
 
     private static bool IsCorrectState(Sprint sprint)

@@ -36,22 +36,15 @@ internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, Ca
 
     public Task<CanStartSprintResponse> Handle(CanStartSprintRequest request, CancellationToken cancellationToken)
     {
+        Sprint sprint = RetrieveSelectedSprint();
+        bool canStartSprint = CanStartSelectedSprint(sprint);
+
         CanStartSprintResponse response = new()
         {
-            CanStartSprint = CanStartSelectedSprint()
+            CanStartSprint = canStartSprint
         };
 
         return Task.FromResult(response);
-    }
-
-    private bool CanStartSelectedSprint()
-    {
-        Sprint sprint = RetrieveSelectedSprint();
-
-        return sprint != null &&
-               IsCorrectState(sprint) &&
-               NoSprintIsInProgress() &&
-               IsFirstNewSprint(sprint);
     }
 
     private Sprint RetrieveSelectedSprint()
@@ -63,6 +56,14 @@ internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, Ca
             : null;
     }
 
+    private bool CanStartSelectedSprint(Sprint sprint)
+    {
+        return sprint != null &&
+               IsCorrectState(sprint) &&
+               NoSprintIsInProgress() &&
+               IsFirstNewSprint(sprint);
+    }
+
     private static bool IsCorrectState(Sprint sprint)
     {
         return sprint.State switch
@@ -71,7 +72,7 @@ internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, Ca
             SprintState.Unknown => false,
             SprintState.InProgress => false,
             SprintState.Closed => false,
-            _ => throw new ArgumentOutOfRangeException()
+            _ => false
         };
     }
 
