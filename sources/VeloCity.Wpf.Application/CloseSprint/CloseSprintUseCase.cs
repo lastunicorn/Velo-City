@@ -65,42 +65,37 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
         int? selectedSprintId = applicationState.SelectedSprintId;
 
         if (selectedSprintId == null)
-            throw new Exception("No sprint is selected.");
+            throw new NoSprintSelectedException();
 
-        return unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+        Sprint sprint =  unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+
+        if (sprint == null)
+            throw new SprintDoesNotExistException(selectedSprintId.Value);
+
+        return sprint;
     }
 
     private static void ValidateSprintState(Sprint sprint)
     {
-        switch (sprint.State)
-        {
-            case SprintState.Unknown:
-                throw new Exception($"The sprint {sprint.Number} is in a invalid state.");
-
-            case SprintState.New:
-                throw new Exception($"The sprint {sprint.Number} is not in progress.");
-
-            case SprintState.InProgress:
-                break;
-
-            case SprintState.Closed:
-                throw new Exception($"The sprint {sprint.Number} is already closed.");
-
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        if (sprint.State != SprintState.InProgress)
+            throw new InvalidSprintStateException(sprint.Number, sprint.State);
     }
 
     private SprintCloseConfirmationResponse RequestUserConfirmation(Sprint selectedSprint)
     {
-        SprintCloseConfirmationRequest startConfirmationRequest = new()
+        SprintCloseConfirmationRequest request = new()
         {
             SprintName = selectedSprint.Title,
             SprintNumber = selectedSprint.Number,
             Comments = selectedSprint.Comments
         };
 
-        return userInterface.ConfirmCloseSprint(startConfirmationRequest);
+        SprintCloseConfirmationResponse response = userInterface.ConfirmCloseSprint(request);
+
+        if (response == null)
+            throw new InternalException("User confirmation response is null.");
+
+        return response;
     }
 
     private static void CloseSprint(Sprint selectedSprint, SprintCloseConfirmationResponse sprintCloseConfirmationResponse)
