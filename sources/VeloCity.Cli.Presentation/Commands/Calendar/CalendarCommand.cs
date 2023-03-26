@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar

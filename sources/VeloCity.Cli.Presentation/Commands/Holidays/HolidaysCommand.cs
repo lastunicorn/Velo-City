@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays

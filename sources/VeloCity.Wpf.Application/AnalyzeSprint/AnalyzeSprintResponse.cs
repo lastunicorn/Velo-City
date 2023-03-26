@@ -16,6 +16,7 @@
 
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint
 {

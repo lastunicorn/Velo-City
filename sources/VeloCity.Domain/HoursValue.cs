@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 
 namespace DustInTheWind.VeloCity.Domain;
 
-public readonly struct HoursValue : IFormattable
+public readonly partial struct HoursValue : IFormattable
 {
     public static char DefaultZeroCharacter { get; set; } = '-';
 
@@ -63,117 +63,6 @@ public readonly struct HoursValue : IFormattable
         return Value == 0
             ? $"{DefaultZeroCharacter} h"
             : $"{Value} h";
-    }
-
-
-    public static implicit operator HoursValue(int value)
-    {
-        return new HoursValue
-        {
-            Value = value
-        };
-    }
-
-    public static implicit operator int(HoursValue hoursValue)
-    {
-        return hoursValue.Value;
-    }
-
-    public static implicit operator HoursValue(int? value)
-    {
-        return new HoursValue
-        {
-            Value = value ?? 0
-        };
-    }
-
-    public static implicit operator int?(HoursValue hoursValue)
-    {
-        return hoursValue.Value == 0
-            ? null
-            : hoursValue.Value;
-    }
-
-    public static HoursValue operator +(HoursValue hoursValue1, HoursValue hoursValue2)
-    {
-        return new HoursValue
-        {
-            Value = hoursValue1.Value + hoursValue2.Value
-        };
-    }
-
-    public static HoursValue operator +(HoursValue hoursValue1, int hoursValue2)
-    {
-        return new HoursValue
-        {
-            Value = hoursValue1.Value + hoursValue2
-        };
-    }
-
-    public static int operator +(int hoursValue1, HoursValue hoursValue2)
-    {
-        return hoursValue1 + hoursValue2.Value;
-    }
-
-    public static HoursValue operator -(HoursValue hoursValue1, HoursValue hoursValue2)
-    {
-        return new HoursValue
-        {
-            Value = hoursValue1.Value - hoursValue2.Value
-        };
-    }
-
-    public static HoursValue operator -(HoursValue hoursValue1, int hoursValue2)
-    {
-        return new HoursValue
-        {
-            Value = hoursValue1.Value - hoursValue2
-        };
-    }
-
-    public static int operator -(int hoursValue1, HoursValue hoursValue2)
-    {
-        return hoursValue1 - hoursValue2.Value;
-    }
-
-    public static bool operator ==(int hoursValue1, HoursValue hoursValue2)
-    {
-        return hoursValue1 == hoursValue2.Value;
-    }
-
-    public static bool operator !=(int hoursValue1, HoursValue hoursValue2)
-    {
-        return hoursValue1 != hoursValue2.Value;
-    }
-
-    public static bool operator ==(HoursValue hoursValue1, int hoursValue2)
-    {
-        return hoursValue1.Value == hoursValue2;
-    }
-
-    public static bool operator !=(HoursValue hoursValue1, int hoursValue2)
-    {
-        return hoursValue1.Value != hoursValue2;
-    }
-
-    public static bool operator >(int hoursValue1, HoursValue hoursValue2)
-    {
-        return hoursValue1 > hoursValue2.Value;
-    }
-
-    public static bool operator <(int hoursValue1, HoursValue hoursValue2)
-    {
-        return hoursValue1 < hoursValue2.Value;
-    }
-
-    public static bool operator >(HoursValue hoursValue1, int hoursValue2)
-    {
-        return hoursValue1.Value > hoursValue2;
-    }
-
-    public static bool operator <(HoursValue hoursValue1, int hoursValue2)
-    {
-        return hoursValue1.Value < hoursValue2;
     }
 
     public static HoursValue Parse(string stringValue)

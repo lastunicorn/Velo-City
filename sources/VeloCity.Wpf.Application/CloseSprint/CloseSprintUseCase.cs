@@ -18,6 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess;
@@ -67,7 +68,7 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
         if (selectedSprintId == null)
             throw new NoSprintSelectedException();
 
-        Sprint sprint =  unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+        Sprint sprint = unitOfWork.SprintRepository.Get(selectedSprintId.Value);
 
         if (sprint == null)
             throw new SprintDoesNotExistException(selectedSprintId.Value);

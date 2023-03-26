@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint

@@ -17,6 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
+using DustInTheWind.VeloCity.Domain.SprintModel;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 namespace DustInTheWind.VeloCity.Domain;
 

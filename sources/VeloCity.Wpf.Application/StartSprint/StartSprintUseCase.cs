@@ -18,6 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess;
@@ -26,152 +27,136 @@ using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+
+internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
 {
-    internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+    private readonly EventBus eventBus;
+    private readonly IUserInterface userInterface;
+    private readonly IRequestBus requestBus;
+
+    public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
+        IUserInterface userInterface, IRequestBus requestBus)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
-        private readonly EventBus eventBus;
-        private readonly IUserInterface userInterface;
-        private readonly IRequestBus requestBus;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+        this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+        this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+    }
 
-        public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
-            IUserInterface userInterface, IRequestBus requestBus)
+    public async Task<Unit> Handle(StartSprintRequest request, CancellationToken cancellationToken)
+    {
+        Sprint selectedSprint = RetrieveSelectedSprint();
+
+        ValidateSprintState(selectedSprint);
+        ValidateNoSprintIsInProgress();
+        ValidateSprintIsNextInLine(selectedSprint);
+
+        SprintStartConfirmationResponse sprintStartConfirmationResponse = await RequestUserConfirmation(selectedSprint);
+
+        if (sprintStartConfirmationResponse.IsAccepted)
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+            UpdateSprint(selectedSprint, sprintStartConfirmationResponse);
+            unitOfWork.SaveChanges();
+
+            await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
         }
 
-        public async Task<Unit> Handle(StartSprintRequest request, CancellationToken cancellationToken)
+        return Unit.Value;
+    }
+
+    private Sprint RetrieveSelectedSprint()
+    {
+        int? selectedSprintId = applicationState.SelectedSprintId;
+
+        if (selectedSprintId == null)
+            throw new NoSprintSelectedException();
+
+        Sprint sprint = unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+
+        if (sprint == null)
+            throw new SprintDoesNotExistException(selectedSprintId.Value);
+
+        return sprint;
+    }
+
+    private static void ValidateSprintState(Sprint sprint)
+    {
+        if (sprint.State != SprintState.New)
+            throw new InvalidSprintStateException(sprint.Number, sprint.State);
+    }
+
+    private void ValidateNoSprintIsInProgress()
+    {
+        Sprint sprintInProgress = unitOfWork.SprintRepository.GetLastInProgress();
+
+        if (sprintInProgress != null)
+            throw new OtherSprintAlreadyInProgressException(sprintInProgress.Number);
+    }
+
+    private void ValidateSprintIsNextInLine(Sprint sprint)
+    {
+        bool isNextInLine = unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
+
+        if (!isNextInLine)
+            throw new SprintIsNotNextException(sprint.Number);
+    }
+
+    private async Task<SprintStartConfirmationResponse> RequestUserConfirmation(Sprint selectedSprint)
+    {
+        AnalyzeSprintRequest request = new()
         {
-            Sprint selectedSprint = RetrieveSelectedSprint();
+            Sprint = selectedSprint
+        };
+        AnalyzeSprintResponse analysisResponse = await requestBus.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(request);
 
-            ValidateSprintState(selectedSprint);
-            ValidateNoSprintIsInProgress(selectedSprint);
-            ValidateSprintIsNextInLine(selectedSprint);
-
-            SprintStartConfirmationResponse sprintStartConfirmationResponse = await RequestUserConfirmation(selectedSprint);
-
-            if (sprintStartConfirmationResponse.IsAccepted)
-            {
-                UpdateSprint(selectedSprint, sprintStartConfirmationResponse);
-                unitOfWork.SaveChanges();
-
-                await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
-            }
-
-            return Unit.Value;
-        }
-
-        private Sprint RetrieveSelectedSprint()
+        SprintStartConfirmationRequest sprintStartConfirmationRequest = new()
         {
-            int? selectedSprintId = applicationState.SelectedSprintId;
+            SprintTitle = selectedSprint.Title,
+            SprintNumber = selectedSprint.Number,
+            EstimatedStoryPoints = analysisResponse.EstimatedStoryPoints,
+            CommitmentStoryPoints = StoryPoints.Empty,
+            SprintGoal = selectedSprint.Goal
+        };
 
-            if (selectedSprintId == null)
-                throw new NoSprintSelectedException();
+        SprintStartConfirmationResponse userResponse = userInterface.ConfirmStartSprint(sprintStartConfirmationRequest);
 
-            Sprint sprint = unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+        if (userResponse == null)
+            throw new InternalException("User confirmation response is null.");
 
-            if (sprint == null)
-                throw new SprintDoesNotExistException(selectedSprintId.Value);
+        return userResponse;
+    }
 
-            return sprint;
-        }
+    private static void UpdateSprint(Sprint selectedSprint, SprintStartConfirmationResponse sprintStartConfirmationResponse)
+    {
+        selectedSprint.State = SprintState.InProgress;
+        selectedSprint.CommitmentStoryPoints = sprintStartConfirmationResponse.CommitmentStoryPoints;
+        selectedSprint.Title = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.SprintTitle)
+            ? null
+            : sprintStartConfirmationResponse.SprintTitle;
+        selectedSprint.Goal = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.SprintGoal)
+            ? null
+            : sprintStartConfirmationResponse.SprintGoal;
+    }
 
-        private static void ValidateSprintState(Sprint sprint)
+    private async Task RaiseSprintUpdatedEvent(Sprint sprint, CancellationToken cancellationToken)
+    {
+        SprintUpdatedEvent sprintUpdatedEvent = new()
         {
-            switch (sprint.State)
-            {
-                case SprintState.Unknown:
-                    throw new Exception($"The sprint {sprint.Number} is in a invalid state.");
+            SprintId = sprint.Id,
+            SprintNumber = sprint.Number,
+            SprintTitle = sprint.Title,
+            SprintState = sprint.State,
+            CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+            SprintGoal = sprint.Goal,
+            ActualStoryPoints = sprint.ActualStoryPoints,
+            ActualVelocity = sprint.Velocity,
+            Comments = sprint.Comments
+        };
 
-                case SprintState.New:
-                    break;
-
-                case SprintState.InProgress:
-                    throw new Exception($"The sprint {sprint.Number} is already in progress.");
-
-                case SprintState.Closed:
-                    throw new Exception($"The sprint {sprint.Number} is closed. A closed sprint cannot be started again.");
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        private void ValidateSprintIsNextInLine(Sprint sprint)
-        {
-            bool isNextInLine = unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
-
-            if (!isNextInLine)
-                throw new Exception($"The sprint {sprint.Number} cannot be started because it is not the next sprint.");
-        }
-
-        private void ValidateNoSprintIsInProgress(Sprint sprint)
-        {
-            Sprint sprintInProgress = unitOfWork.SprintRepository.GetLastInProgress();
-
-            if (sprintInProgress != null)
-                throw new Exception($"The sprint {sprint.Number} cannot be started because sprint {sprintInProgress.Number} is already in progress.");
-        }
-
-        private async Task<SprintStartConfirmationResponse> RequestUserConfirmation(Sprint selectedSprint)
-        {
-            AnalyzeSprintRequest request = new()
-            {
-                Sprint = selectedSprint
-            };
-            AnalyzeSprintResponse analisysResponse = await requestBus.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(request);
-
-            SprintStartConfirmationRequest sprintStartConfirmationRequest = new()
-            {
-                SprintTitle = selectedSprint.Title,
-                SprintNumber = selectedSprint.Number,
-                EstimatedStoryPoints = analisysResponse.EstimatedStoryPoints,
-                CommitmentStoryPoints = StoryPoints.Empty,
-                SprintGoal = selectedSprint.Goal
-            };
-
-            SprintStartConfirmationResponse userResponse = userInterface.ConfirmStartSprint(sprintStartConfirmationRequest);
-
-            if (userResponse == null)
-                throw new InternalException("User confirmation response is null.");
-
-            return userResponse;
-        }
-
-        private static void UpdateSprint(Sprint selectedSprint, SprintStartConfirmationResponse sprintStartConfirmationResponse)
-        {
-            selectedSprint.State = SprintState.InProgress;
-            selectedSprint.CommitmentStoryPoints = sprintStartConfirmationResponse.CommitmentStoryPoints;
-            selectedSprint.Title = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.SprintTitle)
-                ? null
-                : sprintStartConfirmationResponse.SprintTitle;
-            selectedSprint.Goal = string.IsNullOrWhiteSpace(sprintStartConfirmationResponse.SprintGoal)
-                ? null
-                : sprintStartConfirmationResponse.SprintGoal;
-        }
-
-        private async Task RaiseSprintUpdatedEvent(Sprint sprint, CancellationToken cancellationToken)
-        {
-            SprintUpdatedEvent sprintUpdatedEvent = new()
-            {
-                SprintId = sprint.Id,
-                SprintNumber = sprint.Number,
-                SprintTitle = sprint.Title,
-                SprintState = sprint.State,
-                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                SprintGoal = sprint.Goal,
-                ActualStoryPoints = sprint.ActualStoryPoints,
-                ActualVelocity = sprint.Velocity,
-                Comments = sprint.Comments
-            };
-
-            await eventBus.Publish(sprintUpdatedEvent, cancellationToken);
-        }
+        await eventBus.Publish(sprintUpdatedEvent, cancellationToken);
     }
 }

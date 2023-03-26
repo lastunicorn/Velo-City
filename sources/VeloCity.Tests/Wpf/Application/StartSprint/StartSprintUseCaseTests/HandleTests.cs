@@ -18,6 +18,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess;
@@ -57,49 +58,21 @@ public class HandleTests
     }
 
     [Fact]
-    public async Task HavingNoSprintIdSetInApplicationState_WhenUseCaseIsExecuted_ThenThrows()
+    public async Task HavingNoSprintSelected_WhenUseCaseIsExecuted_ThenThrows()
     {
         applicationState.SelectedSprintId = null;
         StartSprintRequest request = new();
 
-        Func<Task> action = async () => { await useCase.Handle(request, CancellationToken.None); };
+        Func<Task> action = async () =>
+        {
+            await useCase.Handle(request, CancellationToken.None);
+        };
 
         await action.Should().ThrowAsync<NoSprintSelectedException>();
     }
 
     [Fact]
-    public async Task HavingSprintIdSetInApplicationState_WhenUseCaseIsExecuted_ThenThatSprintIsRetrievedFromRepository()
-    {
-        applicationState.SelectedSprintId = 247;
-        Sprint sprintFromRepository = new()
-        {
-            State = SprintState.New
-        };
-
-        sprintRepository
-            .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
-
-        sprintRepository
-            .Setup(x => x.IsFirstNewSprint(It.IsAny<int>()))
-            .Returns(true);
-
-        requestBus
-            .Setup(x => x.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(It.IsAny<AnalyzeSprintRequest>(), CancellationToken.None))
-            .Returns(Task.FromResult(new AnalyzeSprintResponse()));
-
-        userInterface
-            .Setup(x => x.ConfirmStartSprint(It.IsAny<SprintStartConfirmationRequest>()))
-            .Returns(new SprintStartConfirmationResponse());
-
-        StartSprintRequest request = new();
-        await useCase.Handle(request, CancellationToken.None);
-
-        sprintRepository.Verify(x => x.Get(247), Times.Once);
-    }
-
-    [Fact]
-    public async Task HavingSprintIdSetInApplicationStateButNoSprintInRepository_WhenUseCaseIsExecuted_ThenThrows()
+    public async Task HavingNoSprintInRepository_WhenUseCaseIsExecuted_ThenThrows()
     {
         applicationState.SelectedSprintId = 247;
 
@@ -108,9 +81,104 @@ public class HandleTests
             .Returns(null as Sprint);
 
         StartSprintRequest request = new();
-        Func<Task> action = async () => { await useCase.Handle(request, CancellationToken.None); };
+        Func<Task> action = async () =>
+        {
+            await useCase.Handle(request, CancellationToken.None);
+        };
 
         await action.Should().ThrowAsync<SprintDoesNotExistException>();
+    }
+
+    [Fact]
+    public async Task HavingSprintSelected_WhenUseCaseIsExecuted_ThenThatSprintIsRetrievedFromRepository()
+    {
+        applicationState.SelectedSprintId = 247;
+
+        StartSprintRequest request = new();
+
+        try
+        {
+            await useCase.Handle(request, CancellationToken.None);
+        }
+        catch { }
+
+        sprintRepository.Verify(x => x.Get(247), Times.Once);
+    }
+
+    [Theory]
+    [InlineData(SprintState.Unknown)]
+    [InlineData(SprintState.InProgress)]
+    [InlineData(SprintState.Closed)]
+    [InlineData((SprintState)93450)]
+    public async Task HavingSprintInRepositoryWithInvalidState_WhenUseCaseIsExecuted_ThenThrows(SprintState sprintState)
+    {
+        applicationState.SelectedSprintId = 247;
+        Sprint sprintFromRepository = new()
+        {
+            State = sprintState
+        };
+        sprintRepository
+            .Setup(x => x.Get(It.IsAny<int>()))
+            .Returns(sprintFromRepository);
+
+        StartSprintRequest request = new();
+        Func<Task> action = async () =>
+        {
+            await useCase.Handle(request, CancellationToken.None);
+        };
+
+        await action.Should().ThrowAsync<InvalidSprintStateException>();
+    }
+
+    [Fact]
+    public async Task HavingAnotherSprintInProgress_WhenUseCaseIsExecuted_ThenThrows()
+    {
+        applicationState.SelectedSprintId = 247;
+        Sprint sprintFromRepository = new()
+        {
+            State = SprintState.New
+        };
+        sprintRepository
+            .Setup(x => x.Get(It.IsAny<int>()))
+            .Returns(sprintFromRepository);
+        sprintRepository
+            .Setup(x => x.GetLastInProgress())
+            .Returns(new Sprint());
+
+        StartSprintRequest request = new();
+        Func<Task> action = async () =>
+        {
+            await useCase.Handle(request, CancellationToken.None);
+        };
+
+        await action.Should().ThrowAsync<OtherSprintAlreadyInProgressException>();
+    }
+
+    [Fact]
+    public async Task HavingSprintNotBeingTheNextInLine_WhenUseCaseIsExecuted_ThenThrows()
+    {
+        applicationState.SelectedSprintId = 247;
+        Sprint sprintFromRepository = new()
+        {
+            State = SprintState.New
+        };
+        sprintRepository
+            .Setup(x => x.Get(It.IsAny<int>()))
+            .Returns(sprintFromRepository);
+        sprintRepository
+            .Setup(x => x.GetLastInProgress())
+            .Returns(null as Sprint);
+        sprintRepository
+            .Setup(x => x.IsFirstNewSprint(247))
+            .Returns(false);
+
+        StartSprintRequest request = new();
+        Func<Task> action = async () =>
+        {
+            await useCase.Handle(request, CancellationToken.None);
+        };
+
+        await action.Should().ThrowAsync<SprintIsNotNextException>();
     }
 
     [Fact]
@@ -137,10 +205,12 @@ public class HandleTests
         userInterface
             .Setup(x => x.ConfirmStartSprint(It.IsAny<SprintStartConfirmationRequest>()))
             .Returns(null as SprintStartConfirmationResponse);
-
-
+        
         StartSprintRequest request = new();
-        Func<Task> action = async () => { await useCase.Handle(request, CancellationToken.None); };
+        Func<Task> action = async () =>
+        {
+            await useCase.Handle(request, CancellationToken.None);
+        };
 
         await action.Should().ThrowAsync<InternalException>();
     }

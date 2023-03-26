@@ -17,26 +17,25 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+
+[Serializable]
+internal class NoSprintSelectedException : Exception
 {
-    [Serializable]
-    internal class NoSprintSelectedException : Exception
+    private static string DefaultMessage = "No sprint is selected.";
+
+    public NoSprintSelectedException()
+        : base(DefaultMessage)
     {
-        private static string DefaultMessage = "No sprint is selected.";
+    }
 
-        public NoSprintSelectedException()
-            : base(DefaultMessage)
-        {
-        }
+    public NoSprintSelectedException(Exception innerException)
+        : base(DefaultMessage, innerException)
+    {
+    }
 
-        public NoSprintSelectedException(Exception innerException)
-            : base(DefaultMessage, innerException)
-        {
-        }
-
-        protected NoSprintSelectedException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+    protected NoSprintSelectedException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
     }
 }

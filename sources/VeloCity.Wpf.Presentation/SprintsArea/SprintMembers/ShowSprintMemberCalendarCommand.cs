@@ -17,7 +17,7 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
 

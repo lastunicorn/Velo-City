@@ -16,9 +16,8 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+
+public class StartSprintRequest : IRequest
 {
-    public class StartSprintRequest : IRequest
-    {
-    }
 }

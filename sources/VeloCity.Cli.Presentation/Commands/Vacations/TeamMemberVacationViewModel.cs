@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Infrastructure;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations

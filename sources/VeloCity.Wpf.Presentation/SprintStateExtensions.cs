@@ -16,7 +16,7 @@
 
 using System;
 using PresentationSprintState = DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.SprintState;
-using DomainSprintState = DustInTheWind.VeloCity.Domain.SprintState;
+using DomainSprintState = DustInTheWind.VeloCity.Domain.SprintModel.SprintState;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation
 {

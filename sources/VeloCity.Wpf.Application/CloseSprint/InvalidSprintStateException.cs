@@ -16,23 +16,26 @@
 
 using System;
 using System.Runtime.Serialization;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+
+[Serializable]
+internal class InvalidSprintStateException : Exception
 {
-    [Serializable]
-    internal class InvalidSprintStateException : Exception
+    public InvalidSprintStateException(int sprintNumber, SprintState sprintState)
+        : base(BuildMessage(sprintNumber, sprintState))
     {
-        private static string DefaultMessage = "The sprint {0} is in an invalid state. Sprint state: {1}";
+    }
 
-        public InvalidSprintStateException(int sprintNumber, SprintState sprintState)
-            : base(string.Format(DefaultMessage, sprintNumber, sprintState))
-        {
-        }
+    private static string BuildMessage(int sprintNumber, SprintState sprintState)
+    {
+        const string messageTemplate = "The sprint '{0}' is in an invalid state. Sprint state: '{1}'.";
+        return string.Format(messageTemplate, sprintNumber, sprintState);
+    }
 
-        protected InvalidSprintStateException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+    protected InvalidSprintStateException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
     }
 }

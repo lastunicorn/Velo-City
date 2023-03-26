@@ -20,6 +20,7 @@ using System.Linq;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar
 {

@@ -341,14 +341,14 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             {
                 PreviousSprintNumbers = response.PreviouslyClosedSprints
             };
-            CommitmentStoryPoints = response.SprintState == Domain.SprintState.New && response.CommitmentStoryPoints.IsZero
+            CommitmentStoryPoints = response.SprintState == Domain.SprintModel.SprintState.New && response.CommitmentStoryPoints.IsZero
                 ? StoryPoints.Empty
                 : response.CommitmentStoryPoints;
 
-            ActualStoryPoints = response.SprintState != Domain.SprintState.Closed && response.ActualStoryPoints.IsZero
+            ActualStoryPoints = response.SprintState != Domain.SprintModel.SprintState.Closed && response.ActualStoryPoints.IsZero
                 ? StoryPoints.Empty
                 : response.ActualStoryPoints;
-            ActualVelocity = response.SprintState != Domain.SprintState.Closed && response.ActualVelocity.IsZero
+            ActualVelocity = response.SprintState != Domain.SprintModel.SprintState.Closed && response.ActualVelocity.IsZero
                 ? Velocity.Empty
                 : response.ActualVelocity;
 
@@ -391,10 +391,10 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
 
             CommitmentStoryPoints = ev.CommitmentStoryPoints;
 
-            ActualStoryPoints = ev.SprintState != Domain.SprintState.Closed && ev.ActualStoryPoints.IsZero
+            ActualStoryPoints = ev.SprintState != Domain.SprintModel.SprintState.Closed && ev.ActualStoryPoints.IsZero
                 ? StoryPoints.Empty
                 : ev.ActualStoryPoints;
-            ActualVelocity = ev.SprintState != Domain.SprintState.Closed && ev.ActualVelocity.IsZero
+            ActualVelocity = ev.SprintState != Domain.SprintModel.SprintState.Closed && ev.ActualVelocity.IsZero
                 ? Velocity.Empty
                 : ev.ActualVelocity;
 

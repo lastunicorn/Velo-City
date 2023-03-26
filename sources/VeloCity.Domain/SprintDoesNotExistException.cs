@@ -21,8 +21,14 @@ namespace DustInTheWind.VeloCity.Domain
     public class SprintDoesNotExistException : Exception
     {
         public SprintDoesNotExistException(int sprintNumber)
-            : base(string.Format(Resources.SprintDoesNotExist_DefaultErrorMessage, sprintNumber))
+            : base(BuildMessage(sprintNumber))
         {
+        }
+
+        private static string BuildMessage(int sprintNumber)
+        {
+            string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
+            return string.Format(messageTemplate, sprintNumber);
         }
     }
 }

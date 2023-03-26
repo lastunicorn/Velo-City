@@ -15,27 +15,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+
+public class SprintUpdatedEvent
 {
-    public class SprintUpdatedEvent
-    {
-        public int SprintId { get; set; }
+    public int SprintId { get; set; }
         
-        public int SprintNumber { get; set; }
+    public int SprintNumber { get; set; }
 
-        public string SprintTitle { get; set; }
+    public string SprintTitle { get; set; }
 
-        public SprintState SprintState { get; set; }
+    public SprintState SprintState { get; set; }
         
-        public StoryPoints CommitmentStoryPoints { get; set; }
+    public StoryPoints CommitmentStoryPoints { get; set; }
         
-        public string SprintGoal { get; set; }
+    public string SprintGoal { get; set; }
         
-        public StoryPoints ActualStoryPoints { get; set; }
+    public StoryPoints ActualStoryPoints { get; set; }
         
-        public Velocity ActualVelocity { get; set; }
+    public Velocity ActualVelocity { get; set; }
         
-        public string Comments { get; set; }
-    }
+    public string Comments { get; set; }
 }

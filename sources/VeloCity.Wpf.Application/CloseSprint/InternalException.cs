@@ -17,38 +17,37 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+
+[Serializable]
+internal class InternalException : Exception
 {
-    [Serializable]
-    internal class InternalException : Exception
+    private static string DefaultMessage = "An unexpected internal error occurred.";
+
+    public InternalException()
+        : base(DefaultMessage)
     {
-        private static string DefaultMessage = "An unexpected internal error occured.";
+    }
 
-        public InternalException()
-               : base(DefaultMessage)
-        {
-        }
+    public InternalException(string message)
+        : base(BuildMessage(message))
+    {
+    }
 
-        public InternalException(string message)
-            : base(BuildMessage(message))
-        {
-        }
+    public InternalException(string message, Exception innerException)
+        : base(BuildMessage(message), innerException)
+    {
+    }
 
-        public InternalException(string message, Exception innerException)
-            : base(BuildMessage(message), innerException)
-        {
-        }
+    protected InternalException(SerializationInfo info, StreamingContext context)
+        : base(info, context)
+    {
+    }
 
-        protected InternalException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
-        private static string BuildMessage(string message)
-        {
-            return message == null
-                ? DefaultMessage
-                : $"{DefaultMessage} {message}";
-        }
+    private static string BuildMessage(string message)
+    {
+        return message == null
+            ? DefaultMessage
+            : $"{DefaultMessage} {message}";
     }
 }

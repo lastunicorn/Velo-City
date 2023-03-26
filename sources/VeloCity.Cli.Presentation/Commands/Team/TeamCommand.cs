@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentTeam;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team

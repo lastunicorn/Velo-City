@@ -20,7 +20,7 @@ using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintMembers;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint
 {

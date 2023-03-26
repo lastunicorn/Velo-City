@@ -17,6 +17,9 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
+using DustInTheWind.VeloCity.Domain.SprintModel;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
 namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast

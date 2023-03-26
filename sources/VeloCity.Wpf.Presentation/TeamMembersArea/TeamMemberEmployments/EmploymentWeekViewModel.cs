@@ -17,7 +17,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments
 {

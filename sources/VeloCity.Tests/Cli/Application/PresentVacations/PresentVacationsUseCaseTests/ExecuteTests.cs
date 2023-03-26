@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
 using FluentAssertions;

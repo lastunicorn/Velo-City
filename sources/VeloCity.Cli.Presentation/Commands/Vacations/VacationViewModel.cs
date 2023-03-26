@@ -16,7 +16,7 @@
 
 using System;
 using System.Text;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {

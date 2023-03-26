@@ -18,7 +18,7 @@ using System;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.ConsoleTools.Controls.Tables;
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays
 {
