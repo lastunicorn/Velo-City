@@ -29,17 +29,14 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberEmployme
 
 public class Handle_EmploymentInfoTests
 {
-    private readonly Mock<IUnitOfWork> unitOfWork;
-    private readonly Mock<ITeamMemberRepository> teamMemberRepository;
-    private readonly ApplicationState applicationState;
     private readonly PresentTeamMemberEmploymentsUseCase useCase;
     private readonly TeamMember teamMemberFromRepository;
 
     public Handle_EmploymentInfoTests()
     {
-        unitOfWork = new Mock<IUnitOfWork>();
-        teamMemberRepository = new Mock<ITeamMemberRepository>();
-        applicationState = new ApplicationState();
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ITeamMemberRepository> teamMemberRepository = new();
+        ApplicationState applicationState = new();
 
         unitOfWork
             .Setup(x => x.TeamMemberRepository)
@@ -47,7 +44,7 @@ public class Handle_EmploymentInfoTests
 
         applicationState.SelectedTeamMemberId = 6;
 
-        teamMemberFromRepository = new TeamMember()
+        teamMemberFromRepository = new TeamMember
         {
             Employments = new EmploymentCollection()
         };
@@ -72,12 +69,12 @@ public class Handle_EmploymentInfoTests
 
         // Act
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         PresentTeamMemberEmploymentsResponse response = await useCase.Handle(request, CancellationToken.None);
 
         // Assert
 
-        DateInterval expectedDateInterval = new DateInterval(new DateTime(2012, 04, 01), new DateTime(2017, 07, 14));
+        DateInterval expectedDateInterval = new(new DateTime(2012, 04, 01), new DateTime(2017, 07, 14));
         response.Employments[0].TimeInterval.Should().Be(expectedDateInterval);
     }
 
@@ -94,7 +91,7 @@ public class Handle_EmploymentInfoTests
 
         // Act
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         PresentTeamMemberEmploymentsResponse response = await useCase.Handle(request, CancellationToken.None);
 
         // Assert
@@ -107,24 +104,24 @@ public class Handle_EmploymentInfoTests
     {
         // Arrange
 
-        Employment employment = new Employment()
+        Employment employment = new()
         {
             EmploymentWeek = new EmploymentWeek(new[]
             {
                 DayOfWeek.Monday,
                 DayOfWeek.Wednesday
-            }),
+            })
         };
         teamMemberFromRepository.Employments.Add(employment);
 
         // Act
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         PresentTeamMemberEmploymentsResponse response = await useCase.Handle(request, CancellationToken.None);
 
         // Assert
 
-        DayOfWeek[] expectedEmploymentWeek = new[]
+        DayOfWeek[] expectedEmploymentWeek =
         {
             DayOfWeek.Monday,
             DayOfWeek.Wednesday
@@ -137,7 +134,7 @@ public class Handle_EmploymentInfoTests
     {
         // Arrange
 
-        Employment employment = new Employment()
+        Employment employment = new()
         {
             Country = "RO"
         };
@@ -145,7 +142,7 @@ public class Handle_EmploymentInfoTests
 
         // Act
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         PresentTeamMemberEmploymentsResponse response = await useCase.Handle(request, CancellationToken.None);
 
         // Assert

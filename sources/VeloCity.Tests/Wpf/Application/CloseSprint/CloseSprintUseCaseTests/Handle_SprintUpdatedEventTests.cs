@@ -29,180 +29,178 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CloseSprint.CloseSprintUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CloseSprint.CloseSprintUseCaseTests;
+
+public class Handle_SprintUpdatedEventTests
 {
-    public class Handle_SprintUpdatedEventTests
+    private readonly SprintCloseConfirmationResponse confirmationResponse;
+    private readonly EventBus eventBus;
+    private readonly Sprint sprintFromRepository;
+    private readonly CloseSprintUseCase useCase;
+
+    public Handle_SprintUpdatedEventTests()
     {
-        private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly EventBus eventBus;
-        private readonly Sprint sprintFromRepository;
-        private readonly SprintCloseConfirmationResponse confirmationResponse;
-        private readonly CloseSprintUseCase useCase;
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
+        ApplicationState applicationState = new();
+        eventBus = new EventBus();
+        Mock<IUserInterface> userInterface = new();
 
-        public Handle_SprintUpdatedEventTests()
+        unitOfWork
+            .Setup(x => x.SprintRepository)
+            .Returns(sprintRepository.Object);
+
+        applicationState.SelectedSprintId = 247;
+        sprintFromRepository = new Sprint
         {
-            unitOfWork = new Mock<IUnitOfWork>();
-            Mock<ISprintRepository> sprintRepository = new Mock<ISprintRepository>();
-            ApplicationState applicationState = new ApplicationState();
-            eventBus = new EventBus();
-            Mock<IUserInterface> userInterface = new Mock<IUserInterface>();
+            State = SprintState.InProgress
+        };
 
-            unitOfWork
-                .Setup(x => x.SprintRepository)
-                .Returns(sprintRepository.Object);
+        sprintRepository
+            .Setup(x => x.Get(It.IsAny<int>()))
+            .Returns(sprintFromRepository);
 
-            applicationState.SelectedSprintId = 247;
-            sprintFromRepository = new Sprint
+        confirmationResponse = new SprintCloseConfirmationResponse
+        {
+            IsAccepted = true
+        };
+
+        userInterface
+            .Setup(x => x.ConfirmCloseSprint(It.IsAny<SprintCloseConfirmationRequest>()))
+            .Returns(confirmationResponse);
+
+        useCase = new CloseSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object);
+    }
+
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintId()
+    {
+        sprintFromRepository.Id = 26094;
+
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.Event.SprintId.Should().Be(26094);
+    }
+
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintNumber()
+    {
+        sprintFromRepository.Number = 364;
+
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.Event.SprintNumber.Should().Be(364);
+    }
+
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintTitle()
+    {
+        sprintFromRepository.Title = "title bla bla";
+
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.Event.SprintTitle.Should().Be("title bla bla");
+    }
+
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintState()
+    {
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.Event.SprintState.Should().Be(SprintState.Closed);
+    }
+
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsCommitmentStoryPoints()
+    {
+        sprintFromRepository.CommitmentStoryPoints = 37;
+
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.Event.CommitmentStoryPoints.Should().Be((StoryPoints)37);
+    }
+
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintGoal()
+    {
+        sprintFromRepository.Goal = "some goal here";
+
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.Event.SprintGoal.Should().Be("some goal here");
+    }
+
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsActualStoryPoints()
+    {
+        sprintFromRepository.ActualStoryPoints = 20;
+        confirmationResponse.ActualStoryPoints = 30;
+
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.Event.ActualStoryPoints.Should().Be((StoryPoints)30);
+    }
+
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsActualVelocity()
+    {
+        confirmationResponse.ActualStoryPoints = 50;
+        sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 13), new DateTime(2023, 03, 19));
+
+        TeamMember teamMember = new()
+        {
+            Employments = new EmploymentCollection
             {
-                State = SprintState.InProgress
-            };
-
-            sprintRepository
-                .Setup(x => x.Get(It.IsAny<int>()))
-                .Returns(sprintFromRepository);
-
-            confirmationResponse = new SprintCloseConfirmationResponse
-            {
-                IsAccepted = true
-            };
-
-            userInterface
-                .Setup(x => x.ConfirmCloseSprint(It.IsAny<SprintCloseConfirmationRequest>()))
-                .Returns(confirmationResponse);
-
-            useCase = new CloseSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object);
-        }
-
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintId()
-        {
-            sprintFromRepository.Id = 26094;
-
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.SprintId.Should().Be(26094);
-        }
-
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintNumber()
-        {
-            sprintFromRepository.Number = 364;
-
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.SprintNumber.Should().Be(364);
-        }
-
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintTitle()
-        {
-            sprintFromRepository.Title = "title bla bla";
-
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.SprintTitle.Should().Be("title bla bla");
-        }
-
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintState()
-        {
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.SprintState.Should().Be(SprintState.Closed);
-        }
-
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsCommitmentStoryPoints()
-        {
-            sprintFromRepository.CommitmentStoryPoints = 37;
-
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.CommitmentStoryPoints.Should().Be((StoryPoints)37);
-        }
-
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintGoal()
-        {
-            sprintFromRepository.Goal = "some goal here";
-
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.SprintGoal.Should().Be("some goal here");
-        }
-
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsActualStoryPoints()
-        {
-            sprintFromRepository.ActualStoryPoints = 20;
-            confirmationResponse.ActualStoryPoints = 30;
-
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.ActualStoryPoints.Should().Be((StoryPoints)30);
-        }
-
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsActualVelocity()
-        {
-            confirmationResponse.ActualStoryPoints = 50;
-            sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 13), new DateTime(2023, 03, 19));
-
-            TeamMember teamMember = new()
-            {
-                Employments = new EmploymentCollection
+                new()
                 {
-                    new Employment
-                    {
-                        StartDate = new DateTime(2000, 01, 13),
-                        HoursPerDay = 5,
-                        EmploymentWeek = new EmploymentWeek()
-                    }
+                    StartDate = new DateTime(2000, 01, 13),
+                    HoursPerDay = 5,
+                    EmploymentWeek = new EmploymentWeek()
                 }
-            };
-            sprintFromRepository.AddSprintMember(teamMember);
+            }
+        };
+        sprintFromRepository.AddSprintMember(teamMember);
 
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
 
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
 
-            eventBusClient.Event.ActualVelocity.Should().Be((Velocity)2);
-        }
+        eventBusClient.Event.ActualVelocity.Should().Be((Velocity)2);
+    }
 
-        [Fact]
-        public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintComments()
-        {
-            sprintFromRepository.Comments = "comments 1";
-            confirmationResponse.Comments = "comments 2";
+    [Fact]
+    public async Task HavingValidSprintInRepositoryAndUserAcceptsClosingIt_WhenUseCaseIsExecuted_ThenEventContainsSprintComments()
+    {
+        sprintFromRepository.Comments = "comments 1";
+        confirmationResponse.Comments = "comments 2";
 
-            EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
+        EventBusClient<SprintUpdatedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintUpdatedEvent>();
 
-            CloseSprintRequest request = new CloseSprintRequest();
-            await useCase.Handle(request, CancellationToken.None);
+        CloseSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
 
-            eventBusClient.Event.Comments.Should().Be("comments 2");
-        }
+        eventBusClient.Event.Comments.Should().Be("comments 2");
     }
 }

@@ -24,73 +24,72 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.Reload.ReloadUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.Reload.ReloadUseCaseTests;
+
+public class HandleTests
 {
-    public class HandleTests
+    private readonly EventBus eventBus;
+    private readonly Mock<IDataStorage> dataStorage;
+    private readonly ReloadUseCase useCase;
+
+    public HandleTests()
     {
-        private readonly EventBus eventBus;
-        private readonly Mock<IDataStorage> dataStorage;
-        private readonly ReloadUseCase useCase;
+        eventBus = new EventBus();
+        dataStorage = new Mock<IDataStorage>();
 
-        public HandleTests()
+        useCase = new ReloadUseCase(eventBus, dataStorage.Object);
+    }
+
+    [Fact]
+    public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenDataStorageIsReopened()
+    {
+        ReloadRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        dataStorage.Verify(x => x.Reopen(), Times.Once);
+    }
+
+    [Fact]
+    public async Task HavingDataStorageThatThrows_WhenUseCaseIsExecuted_ThenDoesNotThrow()
+    {
+        dataStorage
+            .Setup(x => x.Reopen())
+            .Throws<Exception>();
+
+        ReloadRequest request = new();
+
+        Func<Task> action = async () =>
         {
-            eventBus = new EventBus();
-            dataStorage = new Mock<IDataStorage>();
-
-            useCase = new ReloadUseCase(eventBus, dataStorage.Object);
-        }
-
-        [Fact]
-        public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenDataStorageIsReopened()
-        {
-            ReloadRequest request = new();
             await useCase.Handle(request, CancellationToken.None);
+        };
 
-            dataStorage.Verify(x => x.Reopen(), Times.Once);
-        }
+        await action.Should().NotThrowAsync();
+    }
 
-        [Fact]
-        public async Task HavingDataStorageThatThrows_WhenUseCaseIsExecuted_ThenDoesNotThrow()
-        {
-            dataStorage
-                .Setup(x => x.Reopen())
-                .Throws<Exception>();
+    [Fact]
+    public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenRaiseReloadEvent()
+    {
+        EventBusClient<ReloadEvent> eventBusClient = eventBus.CreateMockSubscriberFor<ReloadEvent>();
 
-            ReloadRequest request = new();
+        ReloadRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
 
-            Func<Task> action = async () =>
-            {
-                await useCase.Handle(request, CancellationToken.None);
-            };
+        eventBusClient.VerifyEventWasTriggered(1);
+    }
 
-            await action.Should().NotThrowAsync();
-        }
+    [Fact]
+    public async Task HavingDataStorageThatThrows_WhenUseCaseIsExecuted_ThenDoesNotRaiseReloadEvent()
+    {
+        EventBusClient<ReloadEvent> eventBusClient = eventBus.CreateMockSubscriberFor<ReloadEvent>();
 
-        [Fact]
-        public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenRaiseReloadEvent()
-        {
-            EventBusClient<ReloadEvent> eventBusClient = eventBus.CreateMockSubscriberFor<ReloadEvent>();
+        dataStorage
+            .Setup(x => x.Reopen())
+            .Throws<Exception>();
 
-            ReloadRequest request = new();
-            await useCase.Handle(request, CancellationToken.None);
+        ReloadRequest request = new();
 
-            eventBusClient.VerifyEventWasTriggered(1);
-        }
+        await useCase.Handle(request, CancellationToken.None);
 
-        [Fact]
-        public async Task HavingDataStorageThatThrows_WhenUseCaseIsExecuted_ThenDoesNotRaiseReloadEvent()
-        {
-            EventBusClient<ReloadEvent> eventBusClient = eventBus.CreateMockSubscriberFor<ReloadEvent>();
-
-            dataStorage
-                .Setup(x => x.Reopen())
-                .Throws<Exception>();
-
-            ReloadRequest request = new();
-
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.VerifyEventWasTriggered(0);
-        }
+        eventBusClient.VerifyEventWasTriggered(0);
     }
 }

@@ -26,7 +26,7 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentMain.PresentMainUs
 public class ConstructorTests
 {
     [Fact]
-    public void HavingNullConfig_WhenInstantiationgUseCase_ThenThrows()
+    public void HavingNullConfig_WhenInstantiatingUseCase_ThenThrows()
     {
         Action action = () =>
         {
@@ -37,7 +37,7 @@ public class ConstructorTests
     }
 
     [Fact]
-    public void HavingConfigInstance_WhenInstantiationgUseCase_ThenDoesNotThrow()
+    public void HavingConfigInstance_WhenInstantiatingUseCase_ThenDoesNotThrow()
     {
         Mock<IConfig> config = new();
 

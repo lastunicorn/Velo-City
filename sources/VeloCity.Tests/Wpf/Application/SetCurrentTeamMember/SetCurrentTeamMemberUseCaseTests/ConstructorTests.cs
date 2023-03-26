@@ -17,53 +17,51 @@
 using System;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentTeamMember.SetCurrentTeamMemberUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentTeamMember.SetCurrentTeamMemberUseCaseTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void HavingNullApplicationState_WhenInstantiatingUseCase_ThenThrows()
     {
-        [Fact]
-        public void HavingNullApplicationState_WhenInstantiationgUseCase_ThenThrows()
+        EventBus eventBus = new();
+
+        Action action = () =>
         {
-            EventBus eventBus = new();
+            _ = new SetCurrentTeamMemberUseCase(null, eventBus);
+        };
 
-            Action action = () =>
-            {
-                _ = new SetCurrentTeamMemberUseCase(null, eventBus);
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingNullEventBus()
+    {
+        ApplicationState applicationState = new();
 
-        [Fact]
-        public void HavingNullEventBus()
+        Action action = () =>
         {
-            ApplicationState applicationState = new ApplicationState();
+            _ = new SetCurrentTeamMemberUseCase(applicationState, null);
+        };
 
-            Action action = () =>
-            {
-                _ = new SetCurrentTeamMemberUseCase(applicationState, null);
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingAllDependencies_WhenInstantiatingUseCase_ThenDoesNotThrow()
+    {
+        ApplicationState applicationState = new();
+        EventBus eventBus = new();
 
-        [Fact]
-        public void HavingAllDependencies_WhenInstantiationgUseCase_ThenDoesNotThrow()
+        Action action = () =>
         {
-            ApplicationState applicationState = new ApplicationState();
-            EventBus eventBus = new();
+            _ = new SetCurrentTeamMemberUseCase(applicationState, eventBus);
+        };
 
-            Action action = () =>
-            {
-                _ = new SetCurrentTeamMemberUseCase(applicationState, eventBus);
-            };
-
-            action.Should().NotThrow();
-        }
+        action.Should().NotThrow();
     }
 }

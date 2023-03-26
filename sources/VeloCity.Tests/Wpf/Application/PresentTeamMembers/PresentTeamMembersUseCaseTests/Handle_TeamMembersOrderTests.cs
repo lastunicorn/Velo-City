@@ -31,21 +31,19 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMembers.Presen
 
 public class Handle_TeamMembersOrderTests
 {
-    private readonly Mock<IUnitOfWork> unitOfWork;
     private readonly Mock<ITeamMemberRepository> teamMemberRepository;
-    private readonly ApplicationState applicationState;
     private readonly PresentTeamMembersUseCase useCase;
 
     public Handle_TeamMembersOrderTests()
     {
-        unitOfWork = new Mock<IUnitOfWork>();
+        Mock<IUnitOfWork> unitOfWork = new();
         teamMemberRepository = new Mock<ITeamMemberRepository>();
 
         unitOfWork
             .SetupGet(x => x.TeamMemberRepository)
             .Returns(teamMemberRepository.Object);
 
-        applicationState = new ApplicationState();
+        ApplicationState applicationState = new();
 
         useCase = new PresentTeamMembersUseCase(unitOfWork.Object, applicationState);
     }
@@ -60,7 +58,7 @@ public class Handle_TeamMembersOrderTests
                 Id = 1,
                 Employments = new EmploymentCollection
                 {
-                    new Employment
+                    new()
                     {
                         StartDate = new DateTime(2020, 03, 12)
                     }
@@ -71,7 +69,7 @@ public class Handle_TeamMembersOrderTests
                 Id = 2,
                 Employments = new EmploymentCollection
                 {
-                    new Employment
+                    new()
                     {
                         StartDate = new DateTime(2019, 01, 29)
                     }
@@ -92,7 +90,7 @@ public class Handle_TeamMembersOrderTests
                 Id = 1,
                 Employments = new EmploymentCollection
                 {
-                    new Employment
+                    new()
                     {
                         StartDate = new DateTime(2019, 01, 29),
                         EndDate = new DateTime(2019, 07, 11)
@@ -104,7 +102,7 @@ public class Handle_TeamMembersOrderTests
                 Id = 2,
                 Employments = new EmploymentCollection
                 {
-                    new Employment
+                    new()
                     {
                         StartDate = new DateTime(2020, 03, 12),
                         EndDate = new DateTime(2021, 06, 25)
@@ -126,7 +124,7 @@ public class Handle_TeamMembersOrderTests
                 Id = 1,
                 Employments = new EmploymentCollection
                 {
-                    new Employment
+                    new()
                     {
                         StartDate = new DateTime(2019, 01, 29),
                         EndDate = new DateTime(2019, 07, 11)
@@ -138,7 +136,7 @@ public class Handle_TeamMembersOrderTests
                 Id = 2,
                 Employments = new EmploymentCollection
                 {
-                    new Employment
+                    new()
                     {
                         StartDate = new DateTime(2020, 03, 12)
                     }

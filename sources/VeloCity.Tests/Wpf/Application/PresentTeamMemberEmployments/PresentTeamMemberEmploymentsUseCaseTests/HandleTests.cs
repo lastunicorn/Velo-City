@@ -28,14 +28,13 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberEmployme
 
 public class HandleTests
 {
-    private readonly Mock<IUnitOfWork> unitOfWork;
     private readonly Mock<ITeamMemberRepository> teamMemberRepository;
     private readonly ApplicationState applicationState;
     private readonly PresentTeamMemberEmploymentsUseCase useCase;
 
     public HandleTests()
     {
-        unitOfWork = new Mock<IUnitOfWork>();
+        Mock<IUnitOfWork> unitOfWork = new();
         teamMemberRepository = new Mock<ITeamMemberRepository>();
         applicationState = new ApplicationState();
 
@@ -51,7 +50,7 @@ public class HandleTests
     {
         applicationState.SelectedTeamMemberId = null;
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         PresentTeamMemberEmploymentsResponse response = await useCase.Handle(request, CancellationToken.None);
 
         response.Employments.Should().BeEmpty();
@@ -62,7 +61,7 @@ public class HandleTests
     {
         applicationState.SelectedTeamMemberId = 6;
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 
         teamMemberRepository.Verify(x => x.Get(6), Times.Once);
@@ -73,7 +72,7 @@ public class HandleTests
     {
         applicationState.SelectedTeamMemberId = 387;
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         PresentTeamMemberEmploymentsResponse response = await useCase.Handle(request, CancellationToken.None);
 
         response.Employments.Should().BeEmpty();
@@ -86,11 +85,11 @@ public class HandleTests
 
         applicationState.SelectedTeamMemberId = 6;
 
-        TeamMember teamMemberFromRepository = new TeamMember()
+        TeamMember teamMemberFromRepository = new()
         {
-            Employments = new EmploymentCollection()
+            Employments = new EmploymentCollection
             {
-                new Employment()
+                new()
             }
         };
 
@@ -100,7 +99,7 @@ public class HandleTests
 
         // Act
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         PresentTeamMemberEmploymentsResponse response = await useCase.Handle(request, CancellationToken.None);
 
         // Assert
@@ -115,12 +114,12 @@ public class HandleTests
 
         applicationState.SelectedTeamMemberId = 6;
 
-        TeamMember teamMemberFromRepository = new TeamMember()
+        TeamMember teamMemberFromRepository = new()
         {
-            Employments = new EmploymentCollection()
+            Employments = new EmploymentCollection
             {
-                new Employment(),
-                new Employment()
+                new(),
+                new()
             }
         };
 
@@ -130,7 +129,7 @@ public class HandleTests
 
         // Act
 
-        PresentTeamMemberEmploymentsRequest request = new PresentTeamMemberEmploymentsRequest();
+        PresentTeamMemberEmploymentsRequest request = new();
         PresentTeamMemberEmploymentsResponse response = await useCase.Handle(request, CancellationToken.None);
 
         // Assert

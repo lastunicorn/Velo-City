@@ -18,9 +18,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -30,13 +30,12 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentVelocity.PresentVe
 public class Handle_SprintVelocityPropertiesTests
 {
     private readonly PresentVelocityUseCase useCase;
-    private readonly Mock<ISprintRepository> sprintRepository;
     private readonly List<Sprint> sprintsFromRepository;
 
     public Handle_SprintVelocityPropertiesTests()
     {
-        Mock<IUnitOfWork> unitOfWork = new Mock<IUnitOfWork>();
-        sprintRepository = new Mock<ISprintRepository>();
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
 
         unitOfWork
             .Setup(x => x.SprintRepository)
@@ -72,7 +71,7 @@ public class Handle_SprintVelocityPropertiesTests
         {
             Employments = new EmploymentCollection
             {
-                new Employment
+                new()
                 {
                     EmploymentWeek = new EmploymentWeek(),
                     HoursPerDay = 8,

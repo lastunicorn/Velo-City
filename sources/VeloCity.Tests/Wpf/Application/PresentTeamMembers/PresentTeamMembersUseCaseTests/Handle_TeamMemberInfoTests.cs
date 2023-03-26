@@ -30,21 +30,19 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMembers.Presen
 
 public class Handle_TeamMemberInfoTests
 {
-    private readonly Mock<IUnitOfWork> unitOfWork;
     private readonly Mock<ITeamMemberRepository> teamMemberRepository;
-    private readonly ApplicationState applicationState;
     private readonly PresentTeamMembersUseCase useCase;
 
     public Handle_TeamMemberInfoTests()
     {
-        unitOfWork = new Mock<IUnitOfWork>();
+        Mock<IUnitOfWork> unitOfWork = new();
         teamMemberRepository = new Mock<ITeamMemberRepository>();
 
         unitOfWork
             .SetupGet(x => x.TeamMemberRepository)
             .Returns(teamMemberRepository.Object);
 
-        applicationState = new ApplicationState();
+        ApplicationState applicationState = new();
 
         useCase = new PresentTeamMembersUseCase(unitOfWork.Object, applicationState);
     }
@@ -92,9 +90,9 @@ public class Handle_TeamMemberInfoTests
         {
             new TeamMember
             {
-                Employments = new()
+                Employments = new EmploymentCollection
                 {
-                    new Employment
+                    new()
                     {
                         StartDate = new DateTime(2022, 03, 07)
                     }

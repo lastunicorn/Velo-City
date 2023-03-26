@@ -26,7 +26,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentVelocity.PresentdVelocityUseCaseTests;
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentVelocity.PresentVelocityUseCaseTests;
 
 public class HandleTests
 {
@@ -35,7 +35,7 @@ public class HandleTests
 
     public HandleTests()
     {
-        Mock<IUnitOfWork> unitOfWork = new Mock<IUnitOfWork>();
+        Mock<IUnitOfWork> unitOfWork = new();
         sprintRepository = new Mock<ISprintRepository>();
 
         unitOfWork
@@ -132,12 +132,12 @@ public class HandleTests
             new Sprint
             {
                 Number = 1,
-                DateInterval = new(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
+                DateInterval = new DateInterval(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
             },
             new Sprint
             {
                 Number = 2,
-                DateInterval = new(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
+                DateInterval = new DateInterval(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
             }
         };
 
@@ -151,7 +151,7 @@ public class HandleTests
         IEnumerable<int> actualSprintNumbers = response.SprintVelocities
             .Select(x => x.SprintNumber);
 
-        int[] expectedSprintNumbers = new[] { 1, 2 };
+        int[] expectedSprintNumbers = { 1, 2 };
         actualSprintNumbers.Should().Equal(expectedSprintNumbers);
     }
 
@@ -163,12 +163,12 @@ public class HandleTests
             new Sprint
             {
                 Number = 1,
-                DateInterval = new(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
+                DateInterval = new DateInterval(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
             },
             new Sprint
             {
                 Number = 2,
-                DateInterval = new(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
+                DateInterval = new DateInterval(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
             }
         };
 
@@ -182,7 +182,7 @@ public class HandleTests
         IEnumerable<int> actualSprintNumbers = response.SprintVelocities
             .Select(x => x.SprintNumber);
 
-        int[] expectedSprintNumbers = new[] { 2, 1 };
+        int[] expectedSprintNumbers = { 2, 1 };
         actualSprintNumbers.Should().Equal(expectedSprintNumbers);
     }
 }

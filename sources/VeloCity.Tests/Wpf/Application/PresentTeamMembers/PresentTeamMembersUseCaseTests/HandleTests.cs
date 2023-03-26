@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -31,14 +30,13 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMembers.Presen
 
 public class HandleTests
 {
-    private readonly Mock<IUnitOfWork> unitOfWork;
     private readonly Mock<ITeamMemberRepository> teamMemberRepository;
     private readonly ApplicationState applicationState;
     private readonly PresentTeamMembersUseCase useCase;
 
     public HandleTests()
     {
-        unitOfWork = new Mock<IUnitOfWork>();
+        Mock<IUnitOfWork> unitOfWork = new();
         teamMemberRepository = new Mock<ITeamMemberRepository>();
 
         unitOfWork
@@ -90,7 +88,7 @@ public class HandleTests
         List<int> actualTeamMemberIds = response.TeamMembers
             .Select(x => x.Id)
             .ToList();
-        actualTeamMemberIds.Should().Equal(new[] { 209348 });
+        actualTeamMemberIds.Should().Equal(209348);
     }
 
     [Fact]

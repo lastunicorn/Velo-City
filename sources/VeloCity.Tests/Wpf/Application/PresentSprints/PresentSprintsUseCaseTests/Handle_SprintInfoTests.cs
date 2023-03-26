@@ -26,125 +26,121 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprints.PresentSprintsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprints.PresentSprintsUseCaseTests;
+
+public class Handle_SprintInfoTests
 {
-    public class Handle_SprintInfoTests
+    private readonly PresentSprintsUseCase useCase;
+    private readonly List<Sprint> sprintsFromRepository;
+
+    public Handle_SprintInfoTests()
     {
-        private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly Mock<ISprintRepository> sprintRepository;
-        private readonly ApplicationState applicationState;
-        private readonly PresentSprintsUseCase useCase;
-        private readonly List<Sprint> sprintsFromRepository;
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
 
-        public Handle_SprintInfoTests()
+        sprintsFromRepository = new List<Sprint>();
+
+        sprintRepository
+            .Setup(x => x.GetAll())
+            .Returns(sprintsFromRepository);
+
+        unitOfWork
+            .SetupGet(x => x.SprintRepository)
+            .Returns(sprintRepository.Object);
+
+        ApplicationState applicationState = new();
+
+        useCase = new PresentSprintsUseCase(unitOfWork.Object, applicationState);
+    }
+
+    [Fact]
+    public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintId()
+    {
+        sprintsFromRepository.AddRange(new[]
         {
-            unitOfWork = new();
-            sprintRepository = new();
-
-            sprintsFromRepository = new List<Sprint>();
-
-            sprintRepository
-                .Setup(x => x.GetAll())
-                .Returns(sprintsFromRepository);
-
-            unitOfWork
-                .SetupGet(x => x.SprintRepository)
-                .Returns(sprintRepository.Object);
-
-            applicationState = new();
-
-            useCase = new(unitOfWork.Object, applicationState);
-        }
-
-        [Fact]
-        public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintId()
-        {
-            sprintsFromRepository.AddRange(new[]
+            new Sprint
             {
-                new Sprint
-                {
-                    Id = 482
-                }
-            });
+                Id = 482
+            }
+        });
 
-            PresentSprintsRequest request = new();
+        PresentSprintsRequest request = new();
 
-            PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            response.Sprints[0].Id.Should().Be(482);
-        }
+        response.Sprints[0].Id.Should().Be(482);
+    }
 
-        [Fact]
-        public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintTitle()
+    [Fact]
+    public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintTitle()
+    {
+        sprintsFromRepository.AddRange(new[]
         {
-            sprintsFromRepository.AddRange(new[]
+            new Sprint
             {
-                new Sprint
-                {
-                    Title = "some title"
-                }
-            });
+                Title = "some title"
+            }
+        });
 
-            PresentSprintsRequest request = new();
+        PresentSprintsRequest request = new();
 
-            PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            response.Sprints[0].Title.Should().Be("some title");
-        }
+        response.Sprints[0].Title.Should().Be("some title");
+    }
 
-        [Fact]
-        public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintNumber()
+    [Fact]
+    public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintNumber()
+    {
+        sprintsFromRepository.AddRange(new[]
         {
-            sprintsFromRepository.AddRange(new[]
+            new Sprint
             {
-                new Sprint
-                {
-                    Number = 95762
-                }
-            });
+                Number = 95762
+            }
+        });
 
-            PresentSprintsRequest request = new();
+        PresentSprintsRequest request = new();
 
-            PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            response.Sprints[0].Number.Should().Be(95762);
-        }
+        response.Sprints[0].Number.Should().Be(95762);
+    }
 
-        [Fact]
-        public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintDateInterval()
+    [Fact]
+    public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintDateInterval()
+    {
+        sprintsFromRepository.AddRange(new[]
         {
-            sprintsFromRepository.AddRange(new[]
+            new Sprint
             {
-                new Sprint
-                {
-                    DateInterval = new(new DateTime(2014, 04, 02), new DateTime(2014, 04, 16))
-                }
-            });
+                DateInterval = new DateInterval(new DateTime(2014, 04, 02), new DateTime(2014, 04, 16))
+            }
+        });
 
-            PresentSprintsRequest request = new();
+        PresentSprintsRequest request = new();
 
-            PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            DateInterval expectedDateInterval = new(new DateTime(2014, 04, 02), new DateTime(2014, 04, 16));
-            response.Sprints[0].DateInterval.Should().Be(expectedDateInterval);
-        }
+        DateInterval expectedDateInterval = new(new DateTime(2014, 04, 02), new DateTime(2014, 04, 16));
+        response.Sprints[0].DateInterval.Should().Be(expectedDateInterval);
+    }
 
-        [Fact]
-        public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintState()
+    [Fact]
+    public async Task HavingSprintRepositoryReturnOneSprint_WhenUseCaseIsExecuted_ThenReturnedSprintInfoContainsSprintState()
+    {
+        sprintsFromRepository.AddRange(new[]
         {
-            sprintsFromRepository.AddRange(new[]
+            new Sprint
             {
-                new Sprint
-                {
-                    State = SprintState.Closed
-                }
-            });
+                State = SprintState.Closed
+            }
+        });
 
-            PresentSprintsRequest request = new();
+        PresentSprintsRequest request = new();
 
-            PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            response.Sprints[0].State.Should().Be(SprintState.Closed);
-        }
+        response.Sprints[0].State.Should().Be(SprintState.Closed);
     }
 }

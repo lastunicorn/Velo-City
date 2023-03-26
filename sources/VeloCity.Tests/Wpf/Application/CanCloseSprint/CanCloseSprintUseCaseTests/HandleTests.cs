@@ -24,93 +24,91 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CanCloseSprint.CanCloseSprintUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CanCloseSprint.CanCloseSprintUseCaseTests;
+
+public class HandleTests
 {
-    public class HandleTests
+    private readonly ApplicationState applicationState;
+    private readonly Mock<ISprintRepository> sprintRepository;
+    private readonly CanCloseSprintUseCase useCase;
+
+    public HandleTests()
     {
-        private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly Mock<ISprintRepository> sprintRepository;
-        private readonly ApplicationState applicationState;
-        private readonly CanCloseSprintUseCase useCase;
+        Mock<IUnitOfWork> unitOfWork = new();
+        sprintRepository = new Mock<ISprintRepository>();
 
-        public HandleTests()
+        unitOfWork
+            .Setup(x => x.SprintRepository)
+            .Returns(sprintRepository.Object);
+
+        applicationState = new ApplicationState();
+
+        useCase = new CanCloseSprintUseCase(unitOfWork.Object, applicationState);
+    }
+
+    [Fact]
+    public async Task HavingSprintIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenSprintWithSpecifiedIdIsRequestedFromStorage()
+    {
+        applicationState.SelectedSprintId = 15;
+
+        CanCloseSprintRequest request = new();
+        _ = await useCase.Handle(request, CancellationToken.None);
+
+        sprintRepository.Verify(x => x.Get(15), Times.Once);
+    }
+
+    [Fact]
+    public async Task HavingNoSprintWithIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenCanCloseSprintIsFalse()
+    {
+        applicationState.SelectedSprintId = null;
+
+        CanCloseSprintRequest request = new();
+        CanCloseSprintResponse response = await useCase.Handle(request, CancellationToken.None);
+
+        response.CanCloseSprint.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task HavingSprintWithInvalidStateInStorage_WhenUseCaseIsExecuted_ThenCanCloseSprintIsFalse()
+    {
+        applicationState.SelectedSprintId = 15;
+
+        Sprint sprintFromStorage = new()
         {
-            unitOfWork = new Mock<IUnitOfWork>();
-            sprintRepository = new Mock<ISprintRepository>();
+            State = (SprintState)98732497
+        };
 
-            unitOfWork
-                .Setup(x => x.SprintRepository)
-                .Returns(sprintRepository.Object);
+        sprintRepository
+            .Setup(x => x.Get(15))
+            .Returns(sprintFromStorage);
 
-            applicationState = new ApplicationState();
+        CanCloseSprintRequest request = new();
+        CanCloseSprintResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            useCase = new CanCloseSprintUseCase(unitOfWork.Object, applicationState);
-        }
+        response.CanCloseSprint.Should().BeFalse();
+    }
 
-        [Fact]
-        public async Task HavingSprintIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenSprintWithSpecifiedIdIsRequestedFromStorage()
+    [Theory]
+    [InlineData(SprintState.Unknown, false)]
+    [InlineData(SprintState.New, false)]
+    [InlineData(SprintState.InProgress, true)]
+    [InlineData(SprintState.Closed, false)]
+    public async Task HavingSprintWithSpecificStateInStorage_WhenUseCaseIsExecuted_ThenCanCloseSprintHasExpectedValueBasedOnState(SprintState sprintState, bool canCloseSprint)
+    {
+        applicationState.SelectedSprintId = 15;
+
+        Sprint sprintFromStorage = new()
         {
-            applicationState.SelectedSprintId = 15;
+            State = sprintState
+        };
 
-            CanCloseSprintRequest request = new();
-            _ = await useCase.Handle(request, CancellationToken.None);
+        sprintRepository
+            .Setup(x => x.Get(15))
+            .Returns(sprintFromStorage);
 
-            sprintRepository.Verify(x => x.Get(15), Times.Once);
-        }
+        CanCloseSprintRequest request = new();
+        CanCloseSprintResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        [Fact]
-        public async Task HavingNoSprintWithIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenCanCloseSprintIsFalse()
-        {
-            applicationState.SelectedSprintId = null;
-
-            CanCloseSprintRequest request = new();
-            CanCloseSprintResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.CanCloseSprint.Should().BeFalse();
-        }
-
-        [Fact]
-        public async Task HavingSprintWithInvalidStateInStorage_WhenUseCaseIsExecuted_ThenCanCloseSprintIsFalse()
-        {
-            applicationState.SelectedSprintId = 15;
-
-            Sprint sprintFromStorage = new()
-            {
-                State = (SprintState)98732497
-            };
-
-            sprintRepository
-                .Setup(x => x.Get(15))
-                .Returns(sprintFromStorage);
-
-            CanCloseSprintRequest request = new();
-            CanCloseSprintResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.CanCloseSprint.Should().BeFalse();
-        }
-
-        [Theory]
-        [InlineData(SprintState.Unknown, false)]
-        [InlineData(SprintState.New, false)]
-        [InlineData(SprintState.InProgress, true)]
-        [InlineData(SprintState.Closed, false)]
-        public async Task HavingSprintWithSpecificStateInStorage_WhenUseCaseIsExecuted_ThenCanCloseSprintHasExpectedValueBasedOnState(SprintState sprintState, bool canCloseSprint)
-        {
-            applicationState.SelectedSprintId = 15;
-
-            Sprint sprintFromStorage = new()
-            {
-                State = sprintState
-            };
-
-            sprintRepository
-                .Setup(x => x.Get(15))
-                .Returns(sprintFromStorage);
-
-            CanCloseSprintRequest request = new();
-            CanCloseSprintResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.CanCloseSprint.Should().Be(canCloseSprint);
-        }
+        response.CanCloseSprint.Should().Be(canCloseSprint);
     }
 }

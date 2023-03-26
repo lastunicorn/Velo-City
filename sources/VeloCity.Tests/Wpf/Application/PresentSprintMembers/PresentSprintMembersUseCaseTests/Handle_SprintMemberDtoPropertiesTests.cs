@@ -30,21 +30,21 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintMembers.Pres
 public class Handle_SprintMemberDtoPropertiesTests
 {
     private readonly PresentSprintMembersUseCase useCase;
-    private readonly Mock<ISprintRepository> sprintRepository;
-    private readonly ApplicationState applicationState;
     private readonly Sprint sprintFromRepository;
 
     public Handle_SprintMemberDtoPropertiesTests()
     {
-        Mock<IUnitOfWork> unitOfWork = new Mock<IUnitOfWork>();
-        sprintRepository = new Mock<ISprintRepository>();
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
 
         unitOfWork
             .Setup(x => x.SprintRepository)
             .Returns(sprintRepository.Object);
 
-        applicationState = new ApplicationState();
-        applicationState.SelectedSprintId = 42;
+        ApplicationState applicationState = new()
+        {
+            SelectedSprintId = 42
+        };
 
         useCase = new PresentSprintMembersUseCase(unitOfWork.Object, applicationState);
 
@@ -58,7 +58,7 @@ public class Handle_SprintMemberDtoPropertiesTests
     [Fact]
     public async Task HavingOneSprintWithOneSprintMemberInRepository_WhenUseCaseIsExecuted_ThenResponseContainsTeamMemberId()
     {
-        TeamMember teamMemberFromRepository = new TeamMember()
+        TeamMember teamMemberFromRepository = new()
         {
             Id = 326
         };
@@ -75,7 +75,7 @@ public class Handle_SprintMemberDtoPropertiesTests
     {
         TeamMember teamMemberFromRepository = new()
         {
-            Name = new PersonName()
+            Name = new PersonName
             {
                 FirstName = "John",
                 LastName = "Wick"
@@ -86,7 +86,7 @@ public class Handle_SprintMemberDtoPropertiesTests
         PresentSprintMembersRequest request = new();
         PresentSprintMembersResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        PersonName expectedName = new PersonName()
+        PersonName expectedName = new()
         {
             FirstName = "John",
             LastName = "Wick"
@@ -100,9 +100,9 @@ public class Handle_SprintMemberDtoPropertiesTests
         sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 13), new DateTime(2023, 03, 26));
         TeamMember teamMemberFromRepository = new()
         {
-            Employments = new EmploymentCollection()
+            Employments = new EmploymentCollection
             {
-                new Employment()
+                new()
                 {
                     EmploymentWeek = new EmploymentWeek(),
                     HoursPerDay = 4,
@@ -124,18 +124,18 @@ public class Handle_SprintMemberDtoPropertiesTests
         sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 13), new DateTime(2023, 03, 26));
         TeamMember teamMemberFromRepository = new()
         {
-            Employments = new EmploymentCollection()
+            Employments = new EmploymentCollection
             {
-                new Employment()
+                new()
                 {
                     EmploymentWeek = new EmploymentWeek(),
                     HoursPerDay = 4,
                     StartDate = new DateTime(2000, 01, 01)
                 }
             },
-            Vacations = new VacationCollection()
+            Vacations = new VacationCollection
             {
-                new VacationDaily()
+                new VacationDaily
                 {
                     HourCount = 4,
                     DateInterval = new DateInterval(new DateTime(2023, 03, 13), new DateTime(2023, 03, 17))
@@ -154,7 +154,7 @@ public class Handle_SprintMemberDtoPropertiesTests
     public async Task HavingOneSprintWithOneSprintMemberInRepository_WhenUseCaseIsExecuted_ThenResponseContainsSprintId()
     {
         sprintFromRepository.Id = 978;
-        TeamMember teamMemberFromRepository = new TeamMember();
+        TeamMember teamMemberFromRepository = new();
         sprintFromRepository.AddSprintMember(teamMemberFromRepository);
 
         PresentSprintMembersRequest request = new();

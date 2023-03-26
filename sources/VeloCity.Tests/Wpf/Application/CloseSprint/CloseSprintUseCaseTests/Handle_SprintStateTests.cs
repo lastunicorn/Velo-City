@@ -28,94 +28,97 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CloseSprint.CloseSprintUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CloseSprint.CloseSprintUseCaseTests;
+
+public class Handle_SprintStateTests
 {
-    public class Handle_SprintStateTests
+    private readonly Sprint sprintFromRepository;
+    private readonly CloseSprintUseCase useCase;
+    private readonly Mock<IUserInterface> userInterface;
+
+    public Handle_SprintStateTests()
     {
-        private readonly Mock<IUserInterface> userInterface;
-        private readonly CloseSprintUseCase useCase;
-        private readonly Sprint sprintFromRepository;
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
+        ApplicationState applicationState = new();
+        EventBus eventBus = new();
+        userInterface = new Mock<IUserInterface>();
 
-        public Handle_SprintStateTests()
+        unitOfWork
+            .Setup(x => x.SprintRepository)
+            .Returns(sprintRepository.Object);
+
+        applicationState.SelectedSprintId = 247;
+        sprintFromRepository = new Sprint();
+
+        sprintRepository
+            .Setup(x => x.Get(It.IsAny<int>()))
+            .Returns(sprintFromRepository);
+
+        useCase = new CloseSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object);
+    }
+
+    [Fact]
+    public async Task HavingSprintWithStatusUnknownInRepository_WhenUseCaseIsExecuted_ThenThrows()
+    {
+        sprintFromRepository.State = SprintState.Unknown;
+
+        CloseSprintRequest request = new();
+
+        Func<Task> action = async () =>
         {
-            Mock<IUnitOfWork> unitOfWork = new Mock<IUnitOfWork>();
-            Mock<ISprintRepository> sprintRepository = new Mock<ISprintRepository>();
-            ApplicationState applicationState = new ApplicationState();
-            EventBus eventBus = new EventBus();
-            userInterface = new Mock<IUserInterface>();
+            await useCase.Handle(request, CancellationToken.None);
+        };
 
-            unitOfWork
-                .Setup(x => x.SprintRepository)
-                .Returns(sprintRepository.Object);
+        await action.Should().ThrowAsync<InvalidSprintStateException>();
+    }
 
-            applicationState.SelectedSprintId = 247;
-            sprintFromRepository = new Sprint();
+    [Fact]
+    public async Task HavingSprintWithStatusNewInRepository_WhenUseCaseIsExecuted_ThenThrows()
+    {
+        sprintFromRepository.State = SprintState.New;
 
-            sprintRepository
-                .Setup(x => x.Get(It.IsAny<int>()))
-                .Returns(sprintFromRepository);
+        CloseSprintRequest request = new();
 
-            useCase = new CloseSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object);
-        }
-
-        [Fact]
-        public async Task HavingSprintWithStatusUnknownInRepository_WhenUsecaseIsExecuted_ThenThrows()
+        Func<Task> action = async () =>
         {
-            sprintFromRepository.State = SprintState.Unknown;
+            await useCase.Handle(request, CancellationToken.None);
+        };
 
-            CloseSprintRequest request = new CloseSprintRequest();
-            Func<Task> action = async () =>
-            {
-                await useCase.Handle(request, CancellationToken.None);
-            };
+        await action.Should().ThrowAsync<InvalidSprintStateException>();
+    }
 
-            await action.Should().ThrowAsync<InvalidSprintStateException>();
-        }
+    [Fact]
+    public async Task HavingSprintWithStatusInProgressInRepository_WhenUseCaseIsExecuted_ThenDoesNotThrow()
+    {
+        sprintFromRepository.State = SprintState.InProgress;
 
-        [Fact]
-        public async Task HavingSprintWithStatusNewInRepository_WhenUsecaseIsExecuted_ThenThrows()
+        userInterface
+            .Setup(x => x.ConfirmCloseSprint(It.IsAny<SprintCloseConfirmationRequest>()))
+            .Returns(() => new SprintCloseConfirmationResponse());
+
+        CloseSprintRequest request = new();
+
+        Func<Task> action = async () =>
         {
-            sprintFromRepository.State = SprintState.New;
+            await useCase.Handle(request, CancellationToken.None);
+        };
 
-            CloseSprintRequest request = new CloseSprintRequest();
-            Func<Task> action = async () =>
-            {
-                await useCase.Handle(request, CancellationToken.None);
-            };
+        await action.Should().NotThrowAsync();
+    }
 
-            await action.Should().ThrowAsync<InvalidSprintStateException>();
-        }
+    [Fact]
+    public async Task HavingSprintWithStatusClosedInRepository_WhenUseCaseIsExecuted_ThenThrows()
+    {
+        sprintFromRepository.State = SprintState.Closed;
 
-        [Fact]
-        public async Task HavingSprintWithStatusInProgressInRepository_WhenUsecaseIsExecuted_ThenDoesNotThrow()
+        CloseSprintRequest request = new();
+
+        Func<Task> action = async () =>
         {
-            sprintFromRepository.State = SprintState.InProgress;
+            await useCase.Handle(request, CancellationToken.None);
+        };
 
-            userInterface
-                .Setup(x => x.ConfirmCloseSprint(It.IsAny<SprintCloseConfirmationRequest>()))
-                .Returns(() => new SprintCloseConfirmationResponse());
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            Func<Task> action = async () =>
-            {
-                await useCase.Handle(request, CancellationToken.None);
-            };
-
-            await action.Should().NotThrowAsync();
-        }
-
-        [Fact]
-        public async Task HavingSprintWithStatusClosedInRepository_WhenUsecaseIsExecuted_ThenThrows()
-        {
-            sprintFromRepository.State = SprintState.Closed;
-
-            CloseSprintRequest request = new CloseSprintRequest();
-            Func<Task> action = async () =>
-            {
-                await useCase.Handle(request, CancellationToken.None);
-            };
-
-            await action.Should().ThrowAsync<InvalidSprintStateException>();
-        }
+        await action.Should().ThrowAsync<InvalidSprintStateException>();
     }
 }

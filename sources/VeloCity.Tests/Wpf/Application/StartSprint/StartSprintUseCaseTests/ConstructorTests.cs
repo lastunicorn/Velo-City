@@ -19,12 +19,12 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CloseSprint.CloseSprintUseCaseTests;
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.StartSprint.StartSprintUseCaseTests;
 
 public class ConstructorTests
 {
@@ -34,10 +34,11 @@ public class ConstructorTests
         ApplicationState applicationState = new();
         EventBus eventBus = new();
         Mock<IUserInterface> userInterface = new();
+        Mock<IRequestBus> requestBus = new();
 
         Action action = () =>
         {
-            _ = new CloseSprintUseCase(null, applicationState, eventBus, userInterface.Object);
+            _ = new StartSprintUseCase(null, applicationState, eventBus, userInterface.Object, requestBus.Object);
         };
 
         action.Should().Throw<ArgumentNullException>();
@@ -49,10 +50,11 @@ public class ConstructorTests
         Mock<IUnitOfWork> unitOfWork = new();
         EventBus eventBus = new();
         Mock<IUserInterface> userInterface = new();
+        Mock<IRequestBus> requestBus = new();
 
         Action action = () =>
         {
-            _ = new CloseSprintUseCase(unitOfWork.Object, null, eventBus, userInterface.Object);
+            _ = new StartSprintUseCase(unitOfWork.Object, null, eventBus, userInterface.Object, requestBus.Object);
         };
 
         action.Should().Throw<ArgumentNullException>();
@@ -64,10 +66,11 @@ public class ConstructorTests
         Mock<IUnitOfWork> unitOfWork = new();
         ApplicationState applicationState = new();
         Mock<IUserInterface> userInterface = new();
+        Mock<IRequestBus> requestBus = new();
 
         Action action = () =>
         {
-            _ = new CloseSprintUseCase(unitOfWork.Object, applicationState, null, userInterface.Object);
+            _ = new StartSprintUseCase(unitOfWork.Object, applicationState, null, userInterface.Object, requestBus.Object);
         };
 
         action.Should().Throw<ArgumentNullException>();
@@ -79,10 +82,27 @@ public class ConstructorTests
         Mock<IUnitOfWork> unitOfWork = new();
         ApplicationState applicationState = new();
         EventBus eventBus = new();
+        Mock<IRequestBus> requestBus = new();
 
         Action action = () =>
         {
-            _ = new CloseSprintUseCase(unitOfWork.Object, applicationState, eventBus, null);
+            _ = new StartSprintUseCase(unitOfWork.Object, applicationState, eventBus, null, requestBus.Object);
+        };
+
+        action.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void HavingNullRequestBus_WhenInstantiatingUseCase_ThenThrows()
+    {
+        Mock<IUnitOfWork> unitOfWork = new();
+        ApplicationState applicationState = new();
+        EventBus eventBus = new();
+        Mock<IUserInterface> userInterface = new();
+
+        Action action = () =>
+        {
+            _ = new StartSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object, null);
         };
 
         action.Should().Throw<ArgumentNullException>();
@@ -95,10 +115,11 @@ public class ConstructorTests
         ApplicationState applicationState = new();
         EventBus eventBus = new();
         Mock<IUserInterface> userInterface = new();
+        Mock<IRequestBus> requestBus = new();
 
         Action action = () =>
         {
-            _ = new CloseSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object);
+            _ = new StartSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object, requestBus.Object);
         };
 
         action.Should().NotThrow();

@@ -27,25 +27,23 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintMembers.PresentSprssintMembersUseCaseTests;
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintMembers.PresentSprintMembersUseCaseTests;
 
 public class Handle_WithNoSprintTests
 {
-    private readonly Mock<IUnitOfWork> unitOfWork;
     private readonly Mock<ISprintRepository> sprintRepository;
-    private readonly ApplicationState applicationState;
     private readonly PresentSprintMembersUseCase useCase;
 
     public Handle_WithNoSprintTests()
     {
-        unitOfWork = new Mock<IUnitOfWork>();
+        Mock<IUnitOfWork> unitOfWork = new();
         sprintRepository = new Mock<ISprintRepository>();
 
         unitOfWork
             .Setup(x => x.SprintRepository)
             .Returns(sprintRepository.Object);
 
-        applicationState = new ApplicationState();
+        ApplicationState applicationState = new();
 
         useCase = new PresentSprintMembersUseCase(unitOfWork.Object, applicationState);
     }
@@ -82,8 +80,8 @@ public class Handle_WithNoSprintTests
     [Fact]
     public async Task HavingSprintWithOneMemberInRepository_WhenUseCaseIsExecuted_ThenResponseContainsThatSprintMember()
     {
-        Sprint sprintFromRepository = new Sprint();
-        TeamMember teamMemberFromRepository = new TeamMember()
+        Sprint sprintFromRepository = new();
+        TeamMember teamMemberFromRepository = new()
         {
             Id = 2
         };
@@ -105,27 +103,27 @@ public class Handle_WithNoSprintTests
     [Fact]
     public async Task HavingSprintWithTwoMembersInRepositoryInAscendingOrderByEmploymentDate_WhenUseCaseIsExecuted_ThenResponseContainsBothSprintMembersInThatOrder()
     {
-        Sprint sprintFromRepository = new Sprint();
+        Sprint sprintFromRepository = new();
 
-        TeamMember teamMember1FromRepository = new TeamMember()
+        TeamMember teamMember1FromRepository = new()
         {
             Id = 2,
-            Employments = new EmploymentCollection()
+            Employments = new EmploymentCollection
             {
-                new Employment()
+                new()
                 {
-                   StartDate = new DateTime(2022, 07, 01)
+                    StartDate = new DateTime(2022, 07, 01)
                 }
             }
         };
-        TeamMember teamMember2FromRepository = new TeamMember()
+        TeamMember teamMember2FromRepository = new()
         {
             Id = 47,
-            Employments = new EmploymentCollection()
+            Employments = new EmploymentCollection
             {
-                new Employment()
+                new()
                 {
-                   StartDate = new DateTime(2022, 09, 01)
+                    StartDate = new DateTime(2022, 09, 01)
                 }
             }
         };
@@ -143,33 +141,33 @@ public class Handle_WithNoSprintTests
         IEnumerable<int> actualSprintMemberIds = response.SprintMembers
             .Select(x => x.TeamMemberId);
 
-        actualSprintMemberIds.Should().Equal(new[] { 2, 47 });
+        actualSprintMemberIds.Should().Equal(2, 47);
     }
 
     [Fact]
     public async Task HavingSprintWithTwoMembersInRepositoryInDescendingOrderByEmploymentDate_WhenUseCaseIsExecuted_ThenResponseContainsBothSprintMembersInReversedOrder()
     {
-        Sprint sprintFromRepository = new Sprint();
+        Sprint sprintFromRepository = new();
 
-        TeamMember teamMember1FromRepository = new TeamMember()
+        TeamMember teamMember1FromRepository = new()
         {
             Id = 2,
-            Employments = new EmploymentCollection()
+            Employments = new EmploymentCollection
             {
-                new Employment()
+                new()
                 {
-                   StartDate = new DateTime(2022, 09, 01)
+                    StartDate = new DateTime(2022, 09, 01)
                 }
             }
         };
-        TeamMember teamMember2FromRepository = new TeamMember()
+        TeamMember teamMember2FromRepository = new()
         {
             Id = 47,
-            Employments = new EmploymentCollection()
+            Employments = new EmploymentCollection
             {
-                new Employment()
+                new()
                 {
-                   StartDate = new DateTime(2022, 07, 01)
+                    StartDate = new DateTime(2022, 07, 01)
                 }
             }
         };
@@ -187,6 +185,6 @@ public class Handle_WithNoSprintTests
         IEnumerable<int> actualSprintMemberIds = response.SprintMembers
             .Select(x => x.TeamMemberId);
 
-        actualSprintMemberIds.Should().Equal(new[] { 47, 2 });
+        actualSprintMemberIds.Should().Equal(47, 2);
     }
 }

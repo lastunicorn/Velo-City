@@ -22,48 +22,47 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.Reload.ReloadUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.Reload.ReloadUseCaseTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void HavingNullEventBus()
     {
-        [Fact]
-        public void HavingNullEventBus()
+        Mock<IDataStorage> dataStorage = new();
+
+        Action action = () =>
         {
-            Mock<IDataStorage> dataStorage = new();
+            _ = new ReloadUseCase(null, dataStorage.Object);
+        };
 
-            Action action = () =>
-            {
-                _ = new ReloadUseCase(null, dataStorage.Object);
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingNullDataStorage_WhenInstantiationgUseCase_ThenThrows()
+    {
+        EventBus eventBus = new();
 
-        [Fact]
-        public void HavingNullDataStorage_WhenInstantiationgUseCase_ThenThrows()
+        Action action = () =>
         {
-            EventBus eventBus = new();
+            _ = new ReloadUseCase(eventBus, null);
+        };
 
-            Action action = () =>
-            {
-                _ = new ReloadUseCase(eventBus, null);
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingAllDependencies_WhenInstantiationgUseCase_ThenDoesNotThrow()
+    {
+        EventBus eventBus = new();
+        Mock<IDataStorage> dataStorage = new();
 
-        [Fact]
-        public void HavingAllDependencies_WhenInstantiationgUseCase_ThenDoesNotThrow()
+        Action action = () =>
         {
-            EventBus eventBus = new();
-            Mock<IDataStorage> dataStorage = new();
+            _ = new ReloadUseCase(eventBus, dataStorage.Object);
+        };
 
-            Action action = () =>
-            {
-                _ = new ReloadUseCase(eventBus, dataStorage.Object);
-            };
-
-            action.Should().NotThrow();
-        }
+        action.Should().NotThrow();
     }
 }

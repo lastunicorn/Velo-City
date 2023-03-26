@@ -27,102 +27,99 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprints.PresentSprintsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprints.PresentSprintsUseCaseTests;
+
+public class HandleTests
 {
-    public class HandleTests
+    private readonly ApplicationState applicationState;
+    private readonly PresentSprintsUseCase useCase;
+    private readonly List<Sprint> sprintsFromRepository;
+
+    public HandleTests()
     {
-        private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly Mock<ISprintRepository> sprintRepository;
-        private readonly ApplicationState applicationState;
-        private readonly PresentSprintsUseCase useCase;
-        private readonly List<Sprint> sprintsFromRepository;
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
 
-        public HandleTests()
+        sprintsFromRepository = new List<Sprint>();
+
+        sprintRepository
+            .Setup(x => x.GetAll())
+            .Returns(sprintsFromRepository);
+
+        unitOfWork
+            .SetupGet(x => x.SprintRepository)
+            .Returns(sprintRepository.Object);
+
+        applicationState = new ApplicationState();
+
+        useCase = new PresentSprintsUseCase(unitOfWork.Object, applicationState);
+    }
+
+    [Fact]
+    public async Task HavingASprintIdInApplicationState_WhenUseCaseIsExecuted_ThenReturnsThatSprintAsCurrentSprint()
+    {
+        applicationState.SelectedSprintId = 659;
+        PresentSprintsRequest request = new();
+
+        PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
+
+        response.CurrentSprintId.Should().Be(659);
+    }
+
+    [Fact]
+    public async Task HavingSprintRepositoryReturnTwoSprintsInOrderByStartDate_WhenUseCaseIsExecuted_ThenReturnsTwoSprintsInInverseOrderByStartDate()
+    {
+        sprintsFromRepository.AddRange(new[]
         {
-            unitOfWork = new();
-            sprintRepository = new();
-
-            sprintsFromRepository = new List<Sprint>();
-
-            sprintRepository
-                .Setup(x => x.GetAll())
-                .Returns(sprintsFromRepository);
-
-            unitOfWork
-                .SetupGet(x => x.SprintRepository)
-                .Returns(sprintRepository.Object);
-
-            applicationState = new();
-
-            useCase = new(unitOfWork.Object, applicationState);
-        }
-
-        [Fact]
-        public async Task HavingASprintIdInApplicationState_WhenUseCaseIsExecuted_ThenReturnsThatSprintAsCurrentSprint()
-        {
-            applicationState.SelectedSprintId = 659;
-            PresentSprintsRequest request = new();
-
-            PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.CurrentSprintId.Should().Be(659);
-        }
-
-        [Fact]
-        public async Task HavingSprintRepositoryReturnTwoSprintsInOrderByStartDate_WhenUseCaseIsExecuted_ThenReturnsTwoSprintsInInverseOrderByStartDate()
-        {
-            sprintsFromRepository.AddRange(new[]
+            new Sprint
             {
-                new Sprint
-                {
-                    Id = 1,
-                    DateInterval = new(new DateTime(2022, 05, 01), new DateTime(2022, 05, 31))
-                },
-                new Sprint
-                {
-                    Id = 2,
-                    DateInterval = new(new DateTime(2022, 06, 01), new DateTime(2022, 06, 30))
-                }
-            });
-
-            PresentSprintsRequest request = new();
-
-            PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            AssertSprintIds(response.Sprints, new[] { 2, 1 });
-        }
-
-        [Fact]
-        public async Task HavingSprintRepositoryReturnTwoSprintsOutOfOrderByStartDate_WhenUseCaseIsExecuted_ThenReturnsTwoSprintsInInverseOrderByStartDate()
-        {
-            sprintsFromRepository.AddRange(new[]
+                Id = 1,
+                DateInterval = new DateInterval(new DateTime(2022, 05, 01), new DateTime(2022, 05, 31))
+            },
+            new Sprint
             {
-                new Sprint
-                {
-                    Id = 1,
-                    DateInterval = new(new DateTime(2022, 06, 01), new DateTime(2022, 06, 30))
-                },
-                new Sprint
-                {
-                    Id = 2,
-                    DateInterval = new(new DateTime(2022, 05, 01), new DateTime(2022, 05, 31))
-                }
-            });
+                Id = 2,
+                DateInterval = new DateInterval(new DateTime(2022, 06, 01), new DateTime(2022, 06, 30))
+            }
+        });
 
-            PresentSprintsRequest request = new();
+        PresentSprintsRequest request = new();
 
-            PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
+        PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            AssertSprintIds(response.Sprints, new[] { 1, 2 });
-        }
+        AssertSprintIds(response.Sprints, new[] { 2, 1 });
+    }
 
-        private static void AssertSprintIds(IEnumerable<SprintInfo> actualSprints, int[] expectedSprintIds)
+    [Fact]
+    public async Task HavingSprintRepositoryReturnTwoSprintsOutOfOrderByStartDate_WhenUseCaseIsExecuted_ThenReturnsTwoSprintsInInverseOrderByStartDate()
+    {
+        sprintsFromRepository.AddRange(new[]
         {
-            int[] actualSprintIds = actualSprints
-                .Select(x => x.Id)
-                .ToArray();
+            new Sprint
+            {
+                Id = 1,
+                DateInterval = new DateInterval(new DateTime(2022, 06, 01), new DateTime(2022, 06, 30))
+            },
+            new Sprint
+            {
+                Id = 2,
+                DateInterval = new DateInterval(new DateTime(2022, 05, 01), new DateTime(2022, 05, 31))
+            }
+        });
 
-            actualSprintIds.Should().Equal(expectedSprintIds);
-        }
+        PresentSprintsRequest request = new();
+
+        PresentSprintsResponse response = await useCase.Handle(request, CancellationToken.None);
+
+        AssertSprintIds(response.Sprints, new[] { 1, 2 });
+    }
+
+    private static void AssertSprintIds(IEnumerable<SprintInfo> actualSprints, int[] expectedSprintIds)
+    {
+        int[] actualSprintIds = actualSprints
+            .Select(x => x.Id)
+            .ToArray();
+
+        actualSprintIds.Should().Equal(expectedSprintIds);
     }
 }

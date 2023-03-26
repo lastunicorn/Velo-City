@@ -23,38 +23,35 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CanStartSprint.CanStartSprintUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CanStartSprint.CanStartSprintUseCaseTests;
+
+public class Handle_NoSpecifiedSprintTests
 {
-    public class Handle_NoSpecifiedSprintTests
+    private readonly ApplicationState applicationState;
+    private readonly CanStartSprintUseCase useCase;
+
+    public Handle_NoSpecifiedSprintTests()
     {
-        private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly Mock<ISprintRepository> sprintRepository;
-        private readonly ApplicationState applicationState;
-        private readonly CanStartSprintUseCase useCase;
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
 
-        public Handle_NoSpecifiedSprintTests()
-        {
-            unitOfWork = new Mock<IUnitOfWork>();
-            sprintRepository = new Mock<ISprintRepository>();
+        unitOfWork
+            .Setup(x => x.SprintRepository)
+            .Returns(sprintRepository.Object);
 
-            unitOfWork
-                .Setup(x => x.SprintRepository)
-                .Returns(sprintRepository.Object);
+        applicationState = new ApplicationState();
 
-            applicationState = new ApplicationState();
+        useCase = new CanStartSprintUseCase(unitOfWork.Object, applicationState);
+    }
 
-            useCase = new CanStartSprintUseCase(unitOfWork.Object, applicationState);
-        }
+    [Fact]
+    public async Task HavingNoSprintWithIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenCanStartSprintIsFalse()
+    {
+        applicationState.SelectedSprintId = null;
 
-        [Fact]
-        public async Task HavingNoSprintWithIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenCanStartSprintIsFalse()
-        {
-            applicationState.SelectedSprintId = null;
+        CanStartSprintRequest request = new();
+        CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            CanStartSprintRequest request = new();
-            CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.CanStartSprint.Should().BeFalse();
-        }
+        response.CanStartSprint.Should().BeFalse();
     }
 }

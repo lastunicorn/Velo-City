@@ -21,7 +21,7 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentVelocity.PresentdVelocityUseCaseTests;
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentVelocity.PresentVelocityUseCaseTests;
 
 public class ConstructorTests
 {

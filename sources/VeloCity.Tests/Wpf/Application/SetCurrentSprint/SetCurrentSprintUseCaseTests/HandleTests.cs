@@ -22,68 +22,67 @@ using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentSprint.SetCurrentSprintUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentSprint.SetCurrentSprintUseCaseTests;
+
+public class HandleTests
 {
-    public class HandleTests
+    private readonly EventBus eventBus;
+    private readonly ApplicationState applicationState;
+    private readonly SetCurrentSprintUseCase useCase;
+
+    public HandleTests()
     {
-        private readonly EventBus eventBus;
-        private readonly ApplicationState applicationState;
-        private readonly SetCurrentSprintUseCase useCase;
+        applicationState = new ApplicationState();
+        eventBus = new EventBus();
 
-        public HandleTests()
+        useCase = new SetCurrentSprintUseCase(applicationState, eventBus);
+    }
+
+    [Fact]
+    public async Task HavingSprintIdSpecifiedInRequest_WhenUseCaseIsExecuted_ThenSprintIdIsSetInApplicationState()
+    {
+        SetCurrentSprintRequest request = new()
         {
-            applicationState = new ApplicationState();
-            eventBus = new EventBus();
+            SprintId = 3789
+        };
+        await useCase.Handle(request, CancellationToken.None);
 
-            useCase = new SetCurrentSprintUseCase(applicationState, eventBus);
-        }
+        applicationState.SelectedSprintId.Should().Be(3789);
+    }
 
-        [Fact]
-        public async Task HavingSprintIdSpecifiedInRequest_WhenUseCaseIsExecuted_ThenSprintIdIsSetInApplicationState()
+    [Fact]
+    public async Task HavingSprintIdNotSpecifiedInRequest_WhenUseCaseIsExecuted_ThenSprintIdIsSetToNullInApplicationState()
+    {
+        applicationState.SelectedSprintId = 100;
+
+        SetCurrentSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        applicationState.SelectedSprintId.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenRaiseSprintChangedEvent()
+    {
+        EventBusClient<SprintChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintChangedEvent>();
+
+        SetCurrentSprintRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.VerifyEventWasTriggered(1);
+    }
+
+    [Fact]
+    public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenSprintChangedEventContainSprintNumber()
+    {
+        EventBusClient<SprintChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintChangedEvent>();
+
+        SetCurrentSprintRequest request = new()
         {
-            SetCurrentSprintRequest request = new()
-            {
-                SprintId = 3789
-            };
-            await useCase.Handle(request, CancellationToken.None);
+            SprintId = 3789
+        };
+        await useCase.Handle(request, CancellationToken.None);
 
-            applicationState.SelectedSprintId.Should().Be(3789);
-        }
-
-        [Fact]
-        public async Task HavingSprintIdNotSpecifiedInRequest_WhenUseCaseIsExecuted_ThenSprintIdIsSetToNullInApplicationState()
-        {
-            applicationState.SelectedSprintId = 100;
-
-            SetCurrentSprintRequest request = new();
-            await useCase.Handle(request, CancellationToken.None);
-
-            applicationState.SelectedSprintId.Should().BeNull();
-        }
-
-        [Fact]
-        public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenRaiseSprintChangedEvent()
-        {
-            EventBusClient<SprintChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintChangedEvent>();
-
-            SetCurrentSprintRequest request = new();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.VerifyEventWasTriggered(1);
-        }
-
-        [Fact]
-        public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenSprintChangedEventContainSprintNumber()
-        {
-            EventBusClient<SprintChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintChangedEvent>();
-
-            SetCurrentSprintRequest request = new()
-            {
-                SprintId = 3789
-            };
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.NewSprintNumber.Should().Be(3789);
-        }
+        eventBusClient.Event.NewSprintNumber.Should().Be(3789);
     }
 }

@@ -30,13 +30,12 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintsCapacity.Pr
 public class Handle_SprintCapacityPropertiesTests
 {
     private readonly PresentSprintsCapacityUseCase useCase;
-    private readonly Mock<ISprintRepository> sprintRepository;
     private readonly List<Sprint> sprintsFromRepository;
 
     public Handle_SprintCapacityPropertiesTests()
     {
-        Mock<IUnitOfWork> unitOfWork = new Mock<IUnitOfWork>();
-        sprintRepository = new Mock<ISprintRepository>();
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
 
         unitOfWork
             .Setup(x => x.SprintRepository)
@@ -72,7 +71,7 @@ public class Handle_SprintCapacityPropertiesTests
         {
             Employments = new EmploymentCollection
             {
-                new Employment
+                new()
                 {
                     EmploymentWeek = new EmploymentWeek(),
                     HoursPerDay = 8,

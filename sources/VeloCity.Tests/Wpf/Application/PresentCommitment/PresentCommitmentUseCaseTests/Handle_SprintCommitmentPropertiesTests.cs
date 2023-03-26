@@ -29,19 +29,18 @@ namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentCommitment.Present
 public class Handle_SprintCommitmentPropertiesTests
 {
     private readonly PresentCommitmentUseCase useCase;
-    private readonly Mock<ISprintRepository> sprintRepository;
     private readonly List<Sprint> sprintsFromRepository;
 
     public Handle_SprintCommitmentPropertiesTests()
     {
-        Mock<IUnitOfWork> unitOfWork = new Mock<IUnitOfWork>();
-        sprintRepository = new Mock<ISprintRepository>();
+        Mock<IUnitOfWork> unitOfWork = new();
+        Mock<ISprintRepository> sprintRepository = new();
 
         unitOfWork
             .Setup(x => x.SprintRepository)
             .Returns(sprintRepository.Object);
 
-        useCase = new(unitOfWork.Object);
+        useCase = new PresentCommitmentUseCase(unitOfWork.Object);
 
         sprintsFromRepository = new List<Sprint>();
 

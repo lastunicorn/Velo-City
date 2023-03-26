@@ -22,48 +22,47 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberDetails.PresentTeamMemberDetailsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberDetails.PresentTeamMemberDetailsUseCaseTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void HavingNullUnitOfWork_WhenInstantiatingUseCase_ThenThrows()
     {
-        [Fact]
-        public void HavingNullUnitOfWork_WhenInstantiatingUseCase_ThenThrows()
+        ApplicationState applicationState = new();
+
+        Action action = () =>
         {
-            ApplicationState applicationState = new();
+            _ = new PresentTeamMemberDetailsUseCase(null, applicationState);
+        };
 
-            Action action = () =>
-            {
-                _ = new PresentTeamMemberDetailsUseCase(null, applicationState);
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingNullApplicationState_WhenInstantiatingUseCase_ThenThrows()
+    {
+        Mock<IUnitOfWork> unitOfWork = new();
 
-        [Fact]
-        public void HavingNullApplicationState_WhenInstantiatingUseCase_ThenThrows()
+        Action action = () =>
         {
-            Mock<IUnitOfWork> unitOfWork = new();
+            _ = new PresentTeamMemberDetailsUseCase(unitOfWork.Object, null);
+        };
 
-            Action action = () =>
-            {
-                _ = new PresentTeamMemberDetailsUseCase(unitOfWork.Object, null);
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingAllDependencies_WhenInstantiatingUseCase_ThenDoesNotThrow()
+    {
+        Mock<IUnitOfWork> unitOfWork = new();
+        ApplicationState applicationState = new();
 
-        [Fact]
-        public void HavingAllDependencies_WhenInstantiatingUseCase_ThenDoesNotThrow()
+        Action action = () =>
         {
-            Mock<IUnitOfWork> unitOfWork = new();
-            ApplicationState applicationState = new();
+            _ = new PresentTeamMemberDetailsUseCase(unitOfWork.Object, applicationState);
+        };
 
-            Action action = () =>
-            {
-                _ = new PresentTeamMemberDetailsUseCase(unitOfWork.Object, applicationState);
-            };
-
-            action.Should().NotThrow();
-        }
+        action.Should().NotThrow();
     }
 }

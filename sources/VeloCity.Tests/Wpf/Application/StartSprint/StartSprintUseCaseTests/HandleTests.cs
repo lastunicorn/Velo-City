@@ -21,20 +21,23 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess;
-using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
+using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 using DustInTheWind.VeloCity.Wpf.Application;
+using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CloseSprint.CloseSprintUseCaseTests;
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.StartSprint.StartSprintUseCaseTests;
 
 public class HandleTests
 {
     private readonly ApplicationState applicationState;
+    private readonly Mock<IRequestBus> requestBus;
     private readonly Mock<ISprintRepository> sprintRepository;
-    private readonly CloseSprintUseCase useCase;
+    private readonly StartSprintUseCase useCase;
     private readonly Mock<IUserInterface> userInterface;
 
     public HandleTests()
@@ -44,19 +47,20 @@ public class HandleTests
         applicationState = new ApplicationState();
         EventBus eventBus = new();
         userInterface = new Mock<IUserInterface>();
+        requestBus = new Mock<IRequestBus>();
 
         unitOfWork
             .Setup(x => x.SprintRepository)
             .Returns(sprintRepository.Object);
 
-        useCase = new CloseSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object);
+        useCase = new StartSprintUseCase(unitOfWork.Object, applicationState, eventBus, userInterface.Object, requestBus.Object);
     }
 
     [Fact]
     public async Task HavingNoSprintIdSetInApplicationState_WhenUseCaseIsExecuted_ThenThrows()
     {
         applicationState.SelectedSprintId = null;
-        CloseSprintRequest request = new();
+        StartSprintRequest request = new();
 
         Func<Task> action = async () => { await useCase.Handle(request, CancellationToken.None); };
 
@@ -69,18 +73,26 @@ public class HandleTests
         applicationState.SelectedSprintId = 247;
         Sprint sprintFromRepository = new()
         {
-            State = SprintState.InProgress
+            State = SprintState.New
         };
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
             .Returns(sprintFromRepository);
 
-        userInterface
-            .Setup(x => x.ConfirmCloseSprint(It.IsAny<SprintCloseConfirmationRequest>()))
-            .Returns(new SprintCloseConfirmationResponse());
+        sprintRepository
+            .Setup(x => x.IsFirstNewSprint(It.IsAny<int>()))
+            .Returns(true);
 
-        CloseSprintRequest request = new();
+        requestBus
+            .Setup(x => x.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(It.IsAny<AnalyzeSprintRequest>(), CancellationToken.None))
+            .Returns(Task.FromResult(new AnalyzeSprintResponse()));
+
+        userInterface
+            .Setup(x => x.ConfirmStartSprint(It.IsAny<SprintStartConfirmationRequest>()))
+            .Returns(new SprintStartConfirmationResponse());
+
+        StartSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 
         sprintRepository.Verify(x => x.Get(247), Times.Once);
@@ -95,30 +107,39 @@ public class HandleTests
             .Setup(x => x.Get(It.IsAny<int>()))
             .Returns(null as Sprint);
 
-        CloseSprintRequest request = new();
+        StartSprintRequest request = new();
         Func<Task> action = async () => { await useCase.Handle(request, CancellationToken.None); };
 
         await action.Should().ThrowAsync<SprintDoesNotExistException>();
     }
 
     [Fact]
-    public async Task HavingValidInProgressSprintInRepositoryAndNullResponseFromTheUser_WhenUseCaseIsExecuted_ThenThrows()
+    public async Task HavingValidNewSprintInRepositoryAndNullResponseFromTheUser_WhenUseCaseIsExecuted_ThenThrows()
     {
         applicationState.SelectedSprintId = 247;
         Sprint sprintFromRepository = new()
         {
-            State = SprintState.InProgress
+            State = SprintState.New
         };
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
             .Returns(sprintFromRepository);
 
-        userInterface
-            .Setup(x => x.ConfirmCloseSprint(It.IsAny<SprintCloseConfirmationRequest>()))
-            .Returns(null as SprintCloseConfirmationResponse);
+        sprintRepository
+            .Setup(x => x.IsFirstNewSprint(It.IsAny<int>()))
+            .Returns(true);
 
-        CloseSprintRequest request = new();
+        requestBus
+            .Setup(x => x.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(It.IsAny<AnalyzeSprintRequest>(), CancellationToken.None))
+            .Returns(Task.FromResult(new AnalyzeSprintResponse()));
+
+        userInterface
+            .Setup(x => x.ConfirmStartSprint(It.IsAny<SprintStartConfirmationRequest>()))
+            .Returns(null as SprintStartConfirmationResponse);
+
+
+        StartSprintRequest request = new();
         Func<Task> action = async () => { await useCase.Handle(request, CancellationToken.None); };
 
         await action.Should().ThrowAsync<InternalException>();

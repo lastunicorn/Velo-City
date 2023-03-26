@@ -35,7 +35,7 @@ public class HandleTests
 
     public HandleTests()
     {
-        Mock<IUnitOfWork> unitOfWork = new Mock<IUnitOfWork>();
+        Mock<IUnitOfWork> unitOfWork = new();
         sprintRepository = new Mock<ISprintRepository>();
 
         unitOfWork
@@ -52,6 +52,7 @@ public class HandleTests
         {
             SprintCount = 23
         };
+
         await useCase.Handle(request, CancellationToken.None);
 
         sprintRepository.Verify(x => x.GetLastClosed(23), Times.Once);
@@ -64,6 +65,7 @@ public class HandleTests
         {
             SprintCount = 23
         };
+
         PresentCommitmentResponse response = await useCase.Handle(request, CancellationToken.None);
 
         response.RequestedSprintCount.Should().Be(23);
@@ -132,12 +134,12 @@ public class HandleTests
             new Sprint
             {
                 Number = 1,
-                DateInterval = new(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
+                DateInterval = new DateInterval(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
             },
             new Sprint
             {
                 Number = 2,
-                DateInterval = new(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
+                DateInterval = new DateInterval(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
             }
         };
 
@@ -151,7 +153,7 @@ public class HandleTests
         IEnumerable<int> actualSprintNumbers = response.SprintsCommitments
             .Select(x => x.SprintNumber);
 
-        int[] expectedSprintNumbers = new[] { 1, 2 };
+        int[] expectedSprintNumbers = { 1, 2 };
         actualSprintNumbers.Should().Equal(expectedSprintNumbers);
     }
 
@@ -163,12 +165,12 @@ public class HandleTests
             new Sprint
             {
                 Number = 1,
-                DateInterval = new(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
+                DateInterval = new DateInterval(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
             },
             new Sprint
             {
                 Number = 2,
-                DateInterval = new(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
+                DateInterval = new DateInterval(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
             }
         };
 
@@ -182,7 +184,7 @@ public class HandleTests
         IEnumerable<int> actualSprintNumbers = response.SprintsCommitments
             .Select(x => x.SprintNumber);
 
-        int[] expectedSprintNumbers = new[] { 2, 1 };
+        int[] expectedSprintNumbers = { 2, 1 };
         actualSprintNumbers.Should().Equal(expectedSprintNumbers);
     }
 }

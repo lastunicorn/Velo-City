@@ -24,137 +24,137 @@ using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CanStartSprint.CanStartSprintUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CanStartSprint.CanStartSprintUseCaseTests;
+
+public class Handle_WithSpecifiedSprintTests
 {
-    public class Handle_WithSpecifiedSprintTests
+    private readonly Mock<ISprintRepository> sprintRepository;
+    private readonly ApplicationState applicationState;
+    private readonly CanStartSprintUseCase useCase;
+
+    public Handle_WithSpecifiedSprintTests()
     {
-        private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly Mock<ISprintRepository> sprintRepository;
-        private readonly ApplicationState applicationState;
-        private readonly CanStartSprintUseCase useCase;
+        Mock<IUnitOfWork> unitOfWork = new();
+        sprintRepository = new Mock<ISprintRepository>();
 
-        public Handle_WithSpecifiedSprintTests()
+        unitOfWork
+            .Setup(x => x.SprintRepository)
+            .Returns(sprintRepository.Object);
+
+        applicationState = new ApplicationState
         {
-            unitOfWork = new Mock<IUnitOfWork>();
-            sprintRepository = new Mock<ISprintRepository>();
+            SelectedSprintId = 4
+        };
 
-            unitOfWork
-                .Setup(x => x.SprintRepository)
-                .Returns(sprintRepository.Object);
+        useCase = new CanStartSprintUseCase(unitOfWork.Object, applicationState);
+    }
 
-            applicationState = new ApplicationState();
-            applicationState.SelectedSprintId = 4;
+    [Fact]
+    public async Task HavingSprintIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenSprintWithSpecifiedIdIsRequestedFromStorage()
+    {
+        CanStartSprintRequest request = new();
+        _ = await useCase.Handle(request, CancellationToken.None);
 
-            useCase = new CanStartSprintUseCase(unitOfWork.Object, applicationState);
-        }
+        sprintRepository.Verify(x => x.Get(4), Times.Once);
+    }
 
-        [Fact]
-        public async Task HavingSprintIdSpecifiedInApplicationState_WhenUseCaseIsExecuted_ThenSprintWithSpecifiedIdIsRequestedFromStorage()
+    [Fact]
+    public async Task HavingAnotherSprintInProgressInStorage_WhenUseCaseIsExecuted_ThenCanStartSprintIsFalse()
+    {
+        Sprint sprintFromStorage = new()
         {
-            CanStartSprintRequest request = new();
-            _ = await useCase.Handle(request, CancellationToken.None);
+            State = SprintState.New
+        };
 
-            sprintRepository.Verify(x => x.Get(4), Times.Once);
-        }
+        sprintRepository
+            .Setup(x => x.Get(4))
+            .Returns(sprintFromStorage);
 
-        [Fact]
-        public async Task HavingAnotherSprintInProgressInStorage_WhenUseCaseIsExecuted_ThenCanStartSprintIsFalse()
+        sprintRepository
+            .Setup(x => x.IsAnyInProgress())
+            .Returns(true);
+
+        CanStartSprintRequest request = new();
+        CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
+
+        response.CanStartSprint.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task HavingNewSprintInStorageAndNoOtherInProgress_WhenUseCaseIsExecuted_ThenChecksIfSprintIsTheNextOne()
+    {
+        Sprint sprintFromStorage = new()
         {
-            Sprint sprintFromStorage = new()
-            {
-                State = SprintState.New
-            };
+            Id = 4,
+            State = SprintState.New
+        };
 
-            sprintRepository
-                .Setup(x => x.Get(4))
-                .Returns(sprintFromStorage);
+        sprintRepository
+            .Setup(x => x.Get(4))
+            .Returns(sprintFromStorage);
 
-            sprintRepository
-                .Setup(x => x.IsAnyInProgress())
-                .Returns(true);
+        sprintRepository
+            .Setup(x => x.IsAnyInProgress())
+            .Returns(false);
 
-            CanStartSprintRequest request = new();
-            CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
+        CanStartSprintRequest request = new();
+        _ = await useCase.Handle(request, CancellationToken.None);
 
-            response.CanStartSprint.Should().BeFalse();
-        }
+        sprintRepository.Verify(x => x.IsFirstNewSprint(4), Times.Once);
+    }
 
-        [Fact]
-        public async Task HavingNewSprintInStorageAndNoOtherInProgress_WhenUseCaseIsExecuted_ThenChecksIfSprintIsTheNextOne()
+    [Fact]
+    public async Task HavingAnotherNewSprintBeforeTheCurrentOnInStorage_WhenUseCaseIsExecuted_ThenCanStartSprintIsFalse()
+    {
+        Sprint sprintFromStorage = new()
         {
-            Sprint sprintFromStorage = new()
-            {
-                Id = 4,
-                State = SprintState.New
-            };
+            State = SprintState.New
+        };
 
-            sprintRepository
-                .Setup(x => x.Get(4))
-                .Returns(sprintFromStorage);
+        sprintRepository
+            .Setup(x => x.Get(4))
+            .Returns(sprintFromStorage);
 
-            sprintRepository
-                .Setup(x => x.IsAnyInProgress())
-                .Returns(false);
+        sprintRepository
+            .Setup(x => x.IsAnyInProgress())
+            .Returns(false);
 
-            CanStartSprintRequest request = new();
-            CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
+        sprintRepository
+            .Setup(x => x.IsFirstNewSprint(4))
+            .Returns(false);
 
-            sprintRepository.Verify(x => x.IsFirstNewSprint(4), Times.Once);
-        }
+        CanStartSprintRequest request = new();
+        CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        [Fact]
-        public async Task HavingAnotherNewSprintBeforeTheCurrentOnInStorage_WhenUseCaseIsExecuted_ThenCanStartSprintIsFalse()
+        response.CanStartSprint.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task HavingSprintThatMeatsAllTheCriteriaInStorage_WhenUseCaseIsExecuted_ThenCanStartSprintIsTrue()
+    {
+        applicationState.SelectedSprintId = 4;
+
+        Sprint sprintFromStorage = new()
         {
-            Sprint sprintFromStorage = new()
-            {
-                State = SprintState.New
-            };
+            Id = 4,
+            State = SprintState.New
+        };
 
-            sprintRepository
-                .Setup(x => x.Get(4))
-                .Returns(sprintFromStorage);
+        sprintRepository
+            .Setup(x => x.Get(4))
+            .Returns(sprintFromStorage);
 
-            sprintRepository
-                .Setup(x => x.IsAnyInProgress())
-                .Returns(false);
+        sprintRepository
+            .Setup(x => x.IsAnyInProgress())
+            .Returns(false);
 
-            sprintRepository
-                .Setup(x => x.IsFirstNewSprint(4))
-                .Returns(false);
+        sprintRepository
+            .Setup(x => x.IsFirstNewSprint(4))
+            .Returns(true);
 
-            CanStartSprintRequest request = new();
-            CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
+        CanStartSprintRequest request = new();
+        CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            response.CanStartSprint.Should().BeFalse();
-        }
-
-        [Fact]
-        public async Task HavingSprintThatMeatsAllTheCriteriaInStorage_WhenUseCaseIsExecuted_ThenCanStartSprintIsTrue()
-        {
-            applicationState.SelectedSprintId = 4;
-
-            Sprint sprintFromStorage = new()
-            {
-                Id = 4,
-                State = SprintState.New
-            };
-
-            sprintRepository
-                .Setup(x => x.Get(4))
-                .Returns(sprintFromStorage);
-
-            sprintRepository
-                .Setup(x => x.IsAnyInProgress())
-                .Returns(false);
-
-            sprintRepository
-                .Setup(x => x.IsFirstNewSprint(4))
-                .Returns(true);
-
-            CanStartSprintRequest request = new();
-            CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.CanStartSprint.Should().BeTrue();
-        }
+        response.CanStartSprint.Should().BeTrue();
     }
 }

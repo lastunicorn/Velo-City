@@ -18,71 +18,69 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentTeamMember.SetCurrentTeamMemberUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentTeamMember.SetCurrentTeamMemberUseCaseTests;
+
+public class HandleTests
 {
-    public class HandleTests
+    private readonly EventBus eventBus;
+    private readonly ApplicationState applicationState;
+    private readonly SetCurrentTeamMemberUseCase useCase;
+
+    public HandleTests()
     {
-        private readonly EventBus eventBus;
-        private readonly ApplicationState applicationState;
-        private readonly SetCurrentTeamMemberUseCase useCase;
+        applicationState = new ApplicationState();
+        eventBus = new EventBus();
 
-        public HandleTests()
+        useCase = new SetCurrentTeamMemberUseCase(applicationState, eventBus);
+    }
+
+    [Fact]
+    public async Task HavingTeamMemberIdSpecifiedInRequest_WhenUseCaseIsExecuted_ThenTeamMemberIdIsSetInApplicationState()
+    {
+        SetCurrentTeamMemberRequest request = new()
         {
-            applicationState = new ApplicationState();
-            eventBus = new EventBus();
+            TeamMemberId = 784
+        };
+        await useCase.Handle(request, CancellationToken.None);
 
-            useCase = new SetCurrentTeamMemberUseCase(applicationState, eventBus);
-        }
+        applicationState.SelectedTeamMemberId.Should().Be(784);
+    }
 
-        [Fact]
-        public async Task HavingTeamMemberIdSpecifiedInRequest_WhenUseCaseIsExecuted_ThenTeamMemberIdIsSetInApplicationState()
+    [Fact]
+    public async Task HavingTeamMemberIdNotSpecifiedInRequest_WhenUseCaseIsExecuted_ThenTeamMemberIdIsSetToNullInApplicationState()
+    {
+        SetCurrentTeamMemberRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        applicationState.SelectedTeamMemberId.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenTeamMemberChangedEvent()
+    {
+        EventBusClient<TeamMemberChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<TeamMemberChangedEvent>();
+
+        SetCurrentTeamMemberRequest request = new();
+        await useCase.Handle(request, CancellationToken.None);
+
+        eventBusClient.VerifyEventWasTriggered(1);
+    }
+
+    [Fact]
+    public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenTeamMemberChangedEventContainTeamMemberId()
+    {
+        EventBusClient<TeamMemberChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<TeamMemberChangedEvent>();
+
+        SetCurrentTeamMemberRequest request = new()
         {
-            SetCurrentTeamMemberRequest request = new()
-            {
-                TeamMemberId = 784
-            };
-            await useCase.Handle(request, CancellationToken.None);
+            TeamMemberId = 784
+        };
+        await useCase.Handle(request, CancellationToken.None);
 
-            applicationState.SelectedTeamMemberId.Should().Be(784);
-        }
-
-        [Fact]
-        public async Task HavingTeamMemberIdNotSpecifiedInRequest_WhenUseCaseIsExecuted_ThenTeamMemberIdIsSetToNullInApplicationState()
-        {
-            SetCurrentTeamMemberRequest request = new();
-            await useCase.Handle(request, CancellationToken.None);
-
-            applicationState.SelectedTeamMemberId.Should().BeNull();
-        }
-
-        [Fact]
-        public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenTeamMemberChangedEvent()
-        {
-            EventBusClient<TeamMemberChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<TeamMemberChangedEvent>();
-
-            SetCurrentTeamMemberRequest request = new();
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.VerifyEventWasTriggered(1);
-        }
-
-        [Fact]
-        public async Task HavingUseCaseInstance_WhenUseCaseIsExecuted_ThenTeamMemberChangedEventContainTeamMemberId()
-        {
-            EventBusClient<TeamMemberChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<TeamMemberChangedEvent>();
-
-            SetCurrentTeamMemberRequest request = new()
-            {
-                TeamMemberId = 784
-            };
-            await useCase.Handle(request, CancellationToken.None);
-
-            eventBusClient.Event.NewTeamMemberId.Should().Be(784);
-        }
+        eventBusClient.Event.NewTeamMemberId.Should().Be(784);
     }
 }

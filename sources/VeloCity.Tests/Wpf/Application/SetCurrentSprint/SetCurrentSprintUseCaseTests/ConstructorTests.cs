@@ -21,48 +21,47 @@ using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentSprint.SetCurrentSprintUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentSprint.SetCurrentSprintUseCaseTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void HavingNullApplicationState_WhenInstantiatingUseCase_ThenThrows()
     {
-        [Fact]
-        public void HavingNullApplicationState_WhenInstantiationgUseCase_ThenThrows()
+        EventBus eventBus = new();
+
+        Action action = () =>
         {
-            EventBus eventBus = new();
+            _ = new SetCurrentSprintUseCase(null, eventBus);
+        };
 
-            Action action = () =>
-            {
-                _ = new SetCurrentSprintUseCase(null, eventBus);
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingNullEventBus()
+    {
+        ApplicationState applicationState = new();
 
-        [Fact]
-        public void HavingNullEventBus()
+        Action action = () =>
         {
-            ApplicationState applicationState = new ApplicationState();
+            _ = new SetCurrentSprintUseCase(applicationState, null);
+        };
 
-            Action action = () =>
-            {
-                _ = new SetCurrentSprintUseCase(applicationState, null);
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingAllDependencies_WhenInstantiatingUseCase_ThenDoesNotThrow()
+    {
+        ApplicationState applicationState = new();
+        EventBus eventBus = new();
 
-        [Fact]
-        public void HavingAllDependencies_WhenInstantiationgUseCase_ThenDoesNotThrow()
+        Action action = () =>
         {
-            ApplicationState applicationState = new ApplicationState();
-            EventBus eventBus = new();
+            _ = new SetCurrentSprintUseCase(applicationState, eventBus);
+        };
 
-            Action action = () =>
-            {
-                _ = new SetCurrentSprintUseCase(applicationState, eventBus);
-            };
-
-            action.Should().NotThrow();
-        }
+        action.Should().NotThrow();
     }
 }

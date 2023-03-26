@@ -14,59 +14,53 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
-using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails;
 using FluentAssertions;
 using Moq;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberDetails.PresentTeamMemberDetailsUseCaseTests
+namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberDetails.PresentTeamMemberDetailsUseCaseTests;
+
+public class Handle_TeamMemberNotSpecifiedTests
 {
-    public class Handle_TeamMemberNotSpecifiedTests
+    private readonly Mock<ITeamMemberRepository> teamMemberRepository;
+    private readonly PresentTeamMemberDetailsUseCase useCase;
+
+    public Handle_TeamMemberNotSpecifiedTests()
     {
-        private readonly Mock<IUnitOfWork> unitOfWork;
-        private readonly Mock<ITeamMemberRepository> teamMemberRepository;
-        private readonly ApplicationState applicationState;
-        private readonly PresentTeamMemberDetailsUseCase useCase;
+        Mock<IUnitOfWork> unitOfWork = new();
+        teamMemberRepository = new Mock<ITeamMemberRepository>();
 
-        public Handle_TeamMemberNotSpecifiedTests()
-        {
-            unitOfWork = new Mock<IUnitOfWork>();
-            teamMemberRepository = new Mock<ITeamMemberRepository>();
+        unitOfWork
+            .Setup(x => x.TeamMemberRepository)
+            .Returns(teamMemberRepository.Object);
 
-            unitOfWork
-                .Setup(x => x.TeamMemberRepository)
-                .Returns(teamMemberRepository.Object);
+        ApplicationState applicationState = new();
 
-            applicationState = new ApplicationState();
+        useCase = new PresentTeamMemberDetailsUseCase(unitOfWork.Object, applicationState);
+    }
 
-            useCase = new PresentTeamMemberDetailsUseCase(unitOfWork.Object, applicationState);
-        }
+    [Fact]
+    public async Task HavingNoTeamMemberIdSpecified_WhenUseCaseIsExecuted_ThenNoTeamMemberIsRequestedFromUnitOfWork()
+    {
+        PresentTeamMemberDetailsRequest request = new();
 
-        [Fact]
-        public async Task HavingNoTeamMemberIdSpecified_WhenUseCaseIsExecuted_ThenNoTeamMemberIsRequestedFromUnitOfWork()
-        {
-            PresentTeamMemberDetailsRequest request = new();
+        _ = await useCase.Handle(request, CancellationToken.None);
 
-            PresentTeamMemberDetailsResponse response = await useCase.Handle(request, CancellationToken.None);
+        teamMemberRepository.Verify(x => x.Get(It.IsAny<int>()), Times.Never);
+    }
 
-            teamMemberRepository.Verify(x => x.Get(It.IsAny<int>()), Times.Never);
-        }
+    [Fact]
+    public async Task HavingNoTeamMemberIdSpecified_WhenUseCaseIsExecuted_ThenNoTeamMemberNameIsReturnedInTheResponse()
+    {
+        PresentTeamMemberDetailsRequest request = new();
 
-        [Fact]
-        public async Task HavingNoTeamMemberIdSpecified_WhenUseCaseIsExecuted_ThenNoTeamMemberNameIsReturnedInTheResponse()
-        {
-            PresentTeamMemberDetailsRequest request = new();
+        PresentTeamMemberDetailsResponse response = await useCase.Handle(request, CancellationToken.None);
 
-            PresentTeamMemberDetailsResponse response = await useCase.Handle(request, CancellationToken.None);
-
-            response.TeamMemberName.Should().BeNull();
-        }
+        response.TeamMemberName.Should().BeNull();
     }
 }

@@ -23,6 +23,7 @@ using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
+using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
@@ -71,9 +72,14 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             int? selectedSprintId = applicationState.SelectedSprintId;
 
             if (selectedSprintId == null)
-                throw new Exception("No sprint is selected.");
+                throw new NoSprintSelectedException();
 
-            return unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+            Sprint sprint = unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+
+            if (sprint == null)
+                throw new SprintDoesNotExistException(selectedSprintId.Value);
+
+            return sprint;
         }
 
         private static void ValidateSprintState(Sprint sprint)
@@ -119,18 +125,23 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint
             {
                 Sprint = selectedSprint
             };
-            AnalyzeSprintResponse response = await requestBus.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(request);
+            AnalyzeSprintResponse analisysResponse = await requestBus.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(request);
 
             SprintStartConfirmationRequest sprintStartConfirmationRequest = new()
             {
                 SprintTitle = selectedSprint.Title,
                 SprintNumber = selectedSprint.Number,
-                EstimatedStoryPoints = response.EstimatedStoryPoints,
+                EstimatedStoryPoints = analisysResponse.EstimatedStoryPoints,
                 CommitmentStoryPoints = StoryPoints.Empty,
                 SprintGoal = selectedSprint.Goal
             };
 
-            return userInterface.ConfirmStartSprint(sprintStartConfirmationRequest);
+            SprintStartConfirmationResponse userResponse = userInterface.ConfirmStartSprint(sprintStartConfirmationRequest);
+
+            if (userResponse == null)
+                throw new InternalException("User confirmation response is null.");
+
+            return userResponse;
         }
 
         private static void UpdateSprint(Sprint selectedSprint, SprintStartConfirmationResponse sprintStartConfirmationResponse)

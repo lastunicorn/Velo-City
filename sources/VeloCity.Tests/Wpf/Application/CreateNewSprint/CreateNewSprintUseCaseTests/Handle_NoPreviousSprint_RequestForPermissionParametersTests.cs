@@ -51,7 +51,7 @@ public class Handle_NoPreviousSprint_RequestForPermissionParametersTests
         Mock<IUserInterface> userInterface = new();
         EventBus eventBus = new();
         ApplicationState applicationState = new();
-        
+
         confirmationRequest = null;
 
         userInterface
@@ -59,7 +59,7 @@ public class Handle_NoPreviousSprint_RequestForPermissionParametersTests
             .Returns(new SprintNewConfirmationResponse())
             .Callback<SprintNewConfirmationRequest>(request => confirmationRequest = request);
 
-        useCase = new(unitOfWork.Object, userInterface.Object, eventBus, applicationState);
+        useCase = new CreateNewSprintUseCase(unitOfWork.Object, userInterface.Object, eventBus, applicationState);
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class Handle_NoPreviousSprint_RequestForPermissionParametersTests
     {
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
-        
+
         confirmationRequest.SprintTitle.Should().BeNull();
     }
 
@@ -76,7 +76,7 @@ public class Handle_NoPreviousSprint_RequestForPermissionParametersTests
     {
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
-        
+
         confirmationRequest.SprintNumber.Should().Be(1);
     }
 
@@ -85,7 +85,7 @@ public class Handle_NoPreviousSprint_RequestForPermissionParametersTests
     {
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
-        
+
         confirmationRequest.SprintStartDate.Should().Be(DateTime.Today);
     }
 
@@ -94,7 +94,7 @@ public class Handle_NoPreviousSprint_RequestForPermissionParametersTests
     {
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
-        
+
         confirmationRequest.SprintLength.Should().Be(14);
     }
 }
