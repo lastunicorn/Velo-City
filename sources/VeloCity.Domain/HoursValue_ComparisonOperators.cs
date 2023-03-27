@@ -18,6 +18,8 @@ namespace DustInTheWind.VeloCity.Domain;
 
 public readonly partial struct HoursValue
 {
+    #region HoursValue vs HoursValue
+
     public static bool operator >(HoursValue hoursValue1, HoursValue hoursValue2)
     {
         return hoursValue1.Value > hoursValue2.Value;
@@ -27,6 +29,20 @@ public readonly partial struct HoursValue
     {
         return hoursValue1.Value < hoursValue2.Value;
     }
+
+    public static bool operator >=(HoursValue hoursValue1, HoursValue hoursValue2)
+    {
+        return hoursValue1.Value >= hoursValue2.Value;
+    }
+
+    public static bool operator <=(HoursValue hoursValue1, HoursValue hoursValue2)
+    {
+        return hoursValue1.Value <= hoursValue2.Value;
+    }
+
+    #endregion
+
+    #region int vs HoursValue
 
     public static bool operator >(int hoursValue1, HoursValue hoursValue2)
     {
@@ -38,15 +54,19 @@ public readonly partial struct HoursValue
         return hoursValue1 < hoursValue2.Value;
     }
 
-    public static bool operator >(int hoursValue1, HoursValue? hoursValue2)
+    public static bool operator >=(int hoursValue1, HoursValue hoursValue2)
     {
-        return hoursValue1 > hoursValue2?.Value;
+        return hoursValue1 >= hoursValue2.Value;
     }
 
-    public static bool operator <(int hoursValue1, HoursValue? hoursValue2)
+    public static bool operator <=(int hoursValue1, HoursValue hoursValue2)
     {
-        return hoursValue1 < hoursValue2?.Value;
+        return hoursValue1 <= hoursValue2.Value;
     }
+
+    #endregion
+
+    #region HoursValue vs int
 
     public static bool operator >(HoursValue hoursValue1, int hoursValue2)
     {
@@ -58,6 +78,44 @@ public readonly partial struct HoursValue
         return hoursValue1.Value < hoursValue2;
     }
 
+    public static bool operator >=(HoursValue hoursValue1, int hoursValue2)
+    {
+        return hoursValue1.Value >= hoursValue2;
+    }
+
+    public static bool operator <=(HoursValue hoursValue1, int hoursValue2)
+    {
+        return hoursValue1.Value <= hoursValue2;
+    }
+
+    #endregion
+
+    #region int vs HoursValue?
+
+    public static bool operator >(int hoursValue1, HoursValue? hoursValue2)
+    {
+        return hoursValue1 > hoursValue2?.Value;
+    }
+
+    public static bool operator <(int hoursValue1, HoursValue? hoursValue2)
+    {
+        return hoursValue1 < hoursValue2?.Value;
+    }
+
+    public static bool operator >=(int hoursValue1, HoursValue? hoursValue2)
+    {
+        return hoursValue1 >= hoursValue2?.Value;
+    }
+
+    public static bool operator <=(int hoursValue1, HoursValue? hoursValue2)
+    {
+        return hoursValue1 <= hoursValue2?.Value;
+    }
+
+    #endregion
+
+    #region HoursValue? vs int
+
     public static bool operator >(HoursValue? hoursValue1, int hoursValue2)
     {
         return hoursValue1?.Value > hoursValue2;
@@ -67,4 +125,16 @@ public readonly partial struct HoursValue
     {
         return hoursValue1?.Value < hoursValue2;
     }
+
+    public static bool operator >=(HoursValue? hoursValue1, int hoursValue2)
+    {
+        return hoursValue1?.Value >= hoursValue2;
+    }
+
+    public static bool operator <=(HoursValue? hoursValue1, int hoursValue2)
+    {
+        return hoursValue1?.Value <= hoursValue2;
+    }
+
+    #endregion
 }

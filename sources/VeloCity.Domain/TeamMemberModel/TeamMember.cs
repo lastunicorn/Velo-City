@@ -48,6 +48,7 @@ public class TeamMember
         get
         {
             Employment employment = Employments?.GetLastEmployment();
+
             return employment is { EndDate: null };
         }
     }
@@ -75,18 +76,14 @@ public class TeamMember
         set
         {
             if (velocityPenalties != null)
-            {
                 foreach (VelocityPenalty velocityPenalty in velocityPenalties)
                     velocityPenalty.TeamMember = null;
-            }
 
             velocityPenalties = value;
 
             if (velocityPenalties != null)
-            {
                 foreach (VelocityPenalty velocityPenalty in velocityPenalties)
                     velocityPenalty.TeamMember = this;
-            }
         }
     }
 
@@ -102,98 +99,19 @@ public class TeamMember
         return new SprintMember(this, sprint);
     }
 
-    public void RemoveVacation(DateTime date)
-    {
-        Vacations?.Remove(date);
-    }
-
-    public void AddVacation(DateTime date, HoursValue hours)
+    public void SetVacation(DateTime date, HoursValue? hours)
     {
         date = date.Date;
 
         Employment employment = Employments?.GetEmploymentFor(date);
-        Vacation existingVacation = Vacations?.FirstOrDefault(x => x.Match(date));
 
-        if (employment == null)
-        {
-            // vacation is required
-            
-            if (hours.Value > 0)
-                throw new NotEmployedException(id, date);
-        }
-        else
-        {
-            int maxHourPerDay = employment.HoursPerDay;
+        bool allowToSetVacation = employment != null || hours <= 0;
 
-            // no vacation exists
-            if (existingVacation == null)
-            {
-                Vacations ??= new VacationCollection();
+        if (!allowToSetVacation)
+            throw new NotEmployedException(id, date);
 
-                if (hours < 0)
-                    hours = 0;
-
-                if (hours > maxHourPerDay)
-                    hours = maxHourPerDay;
-
-                Vacations.AddForDate(date, hours.Value);
-            }
-
-            // vacation exists
-            else
-            {
-                // current day == once vacation
-                if (existingVacation is VacationOnce existingVacationOnce)
-                {
-                    // partial day vacation is required
-                    if (hours.Value > 0 && hours.Value < maxHourPerDay)
-                    {
-                        // change the hours count on existing.
-
-                        existingVacationOnce.HourCount = hours;
-
-                        // todo: check if can merge with previous
-                        // todo: check if can merge with next
-                    }
-
-                    // full day vacation is required
-                    else if (hours.Value >= maxHourPerDay)
-                    {
-                        // change the hours count on existing to full.
-
-                        existingVacationOnce.HourCount = null;
-                    }
-                }
-
-                // current day == daily vacation
-                else if (existingVacation is VacationDaily existingVacationDaily)
-                {
-                    // partial day vacation is required
-                    if (hours.Value > 0 && hours.Value < maxHourPerDay)
-                    {
-                        // change the hours count on existing.
-
-                        existingVacationDaily.HourCount = hours;
-                    }
-
-                    // full day vacation is required
-                    else if (hours.Value > maxHourPerDay)
-                    {
-                        // change the hours count on existing to full.
-
-                        existingVacationDaily.HourCount = null;
-                    }
-                }
-
-                // current day == something else
-                else
-                {
-                    // cannot change it.
-
-                    throw new Exception("Cannot change the existing vacation.");
-                }
-            }
-        }
+        Vacations ??= new VacationCollection();
+        Vacations.SetVacation(date, hours);
     }
 
     public IEnumerable<Vacation> GetVacationsFor(DateTime date)

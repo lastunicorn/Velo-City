@@ -59,12 +59,14 @@ internal class UpdateVacationHoursUseCase : IRequestHandler<UpdateVacationHoursR
 
     private static void UpdateVacation(TeamMember teamMember, DateTime date, HoursValue? hours)
     {
-        bool shouldRemoveVacation = hours == null || hours.Value <= 0;
+        teamMember.SetVacation(date, hours);
 
-        if (shouldRemoveVacation)
-            teamMember.RemoveVacation(date);
-        else
-            teamMember.AddVacation(date, hours.Value);
+        //bool shouldRemoveVacation = hours == null || hours.Value <= 0;
+
+        //if (shouldRemoveVacation)
+        //    teamMember.RemoveVacation(date);
+        //else
+        //    teamMember.AddVacation(date, hours.Value);
     }
 
     private async Task PublishEvent(CancellationToken cancellationToken)

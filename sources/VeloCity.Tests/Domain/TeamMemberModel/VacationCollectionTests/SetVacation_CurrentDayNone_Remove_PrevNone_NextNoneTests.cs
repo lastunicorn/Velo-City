@@ -41,7 +41,7 @@ public class SetVacation_CurrentDayNone_Remove_PrevNone_NextNoneTests
     }
 
     [Fact]
-    public void HavingPrevNoneNextNone_WhenSettingZeroForCurrentDay_ThenCurrentDayHasNoVacation()
+    public void WhenSettingZeroForCurrentDay_ThenCurrentDayHasNoVacation()
     {
         vacationCollection.SetVacation(currentDate, HoursValue.Zero);
 
@@ -50,7 +50,7 @@ public class SetVacation_CurrentDayNone_Remove_PrevNone_NextNoneTests
     }
 
     [Fact]
-    public void HavingPrevNoneNextNone_WhenSettingZeroForCurrentDay_ThenPreviousDayHasNoVacation()
+    public void WhenSettingZeroForCurrentDay_ThenPreviousDayHasNoVacation()
     {
         vacationCollection.SetVacation(currentDate, HoursValue.Zero);
 
@@ -59,7 +59,7 @@ public class SetVacation_CurrentDayNone_Remove_PrevNone_NextNoneTests
     }
 
     [Fact]
-    public void HavingPrevNoneNextNone_WhenSettingZeroForCurrentDay_ThenNextDayHasNoVacation()
+    public void WhenSettingZeroForCurrentDay_ThenNextDayHasNoVacation()
     {
         vacationCollection.SetVacation(currentDate, HoursValue.Zero);
 
@@ -68,7 +68,7 @@ public class SetVacation_CurrentDayNone_Remove_PrevNone_NextNoneTests
     }
 
     [Fact]
-    public void HavingPrevNoneNextNone_WhenSettingNegativeForCurrentDay_ThenCurrentDayHasNoVacation()
+    public void WhenSettingNegativeForCurrentDay_ThenCurrentDayHasNoVacation()
     {
         vacationCollection.SetVacation(currentDate, -123);
 
