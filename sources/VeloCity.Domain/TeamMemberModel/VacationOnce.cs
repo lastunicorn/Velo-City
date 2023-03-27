@@ -16,25 +16,24 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain.TeamMemberModel
+namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
+
+public class VacationOnce : Vacation
 {
-    public class VacationOnce : Vacation
+    private DateTime date;
+
+    public DateTime Date
     {
-        private DateTime date;
-
-        public DateTime Date
+        get => date;
+        set
         {
-            get => date;
-            set
-            {
-                date = value;
-                OnChanged();
-            }
+            date = value;
+            OnChanged();
         }
+    }
 
-        public override bool Match(DateTime date)
-        {
-            return date.Date == Date.Date;
-        }
+    public override bool Match(DateTime date)
+    {
+        return date.Date == Date.Date;
     }
 }

@@ -16,19 +16,18 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
-{
-    public class SprintDoesNotExistException : Exception
-    {
-        public SprintDoesNotExistException(int sprintNumber)
-            : base(BuildMessage(sprintNumber))
-        {
-        }
+namespace DustInTheWind.VeloCity.Domain;
 
-        private static string BuildMessage(int sprintNumber)
-        {
-            string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
-            return string.Format(messageTemplate, sprintNumber);
-        }
+public class SprintDoesNotExistException : Exception
+{
+    public SprintDoesNotExistException(int sprintNumber)
+        : base(BuildMessage(sprintNumber))
+    {
+    }
+
+    private static string BuildMessage(int sprintNumber)
+    {
+        string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
+        return string.Format(messageTemplate, sprintNumber);
     }
 }

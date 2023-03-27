@@ -16,18 +16,17 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain.OfficialHolidayModel
+namespace DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
+
+public class OfficialHolidayInstance
 {
-    public class OfficialHolidayInstance
-    {
-        public DateTime Date { get; set; }
+    public DateTime Date { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public string Country { get; set; }
+    public string Country { get; set; }
 
-        public string ShortDescription { get; set; }
+    public string ShortDescription { get; set; }
 
-        public string Description { get; set; }
-    }
+    public string Description { get; set; }
 }

@@ -17,42 +17,41 @@
 using System;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain.OfficialHolidayModel
+namespace DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
+
+public abstract class OfficialHoliday
 {
-    public abstract class OfficialHoliday
+    public DateTime Date { get; set; }
+
+    public string Name { get; set; }
+
+    public string Country { get; set; }
+
+    public string ShortDescription { get; set; }
+
+    public string Description { get; set; }
+
+    public abstract bool Match(int year);
+
+    public abstract bool Match(DateTime date);
+
+    public abstract bool Match(DateTime startDate, DateTime endDate);
+
+    public abstract OfficialHolidayInstance GetInstanceFor(int year);
+
+    public IEnumerable<OfficialHolidayInstance> GetInstancesFor(DateTime startDate, DateTime endDate)
     {
-        public DateTime Date { get; set; }
-
-        public string Name { get; set; }
-
-        public string Country { get; set; }
-
-        public string ShortDescription { get; set; }
-
-        public string Description { get; set; }
-
-        public abstract bool Match(int year);
-
-        public abstract bool Match(DateTime date);
-
-        public abstract bool Match(DateTime startDate, DateTime endDate);
-
-        public abstract OfficialHolidayInstance GetInstanceFor(int year);
-
-        public IEnumerable<OfficialHolidayInstance> GetInstancesFor(DateTime startDate, DateTime endDate)
+        for (int year = startDate.Year; year <= endDate.Year; year++)
         {
-            for (int year = startDate.Year; year <= endDate.Year; year++)
-            {
-                OfficialHolidayInstance officialHolidayInstance = GetInstanceFor(year);
+            OfficialHolidayInstance officialHolidayInstance = GetInstanceFor(year);
 
-                if (officialHolidayInstance.Date >= startDate && officialHolidayInstance.Date <= endDate)
-                    yield return officialHolidayInstance;
-            }
+            if (officialHolidayInstance.Date >= startDate && officialHolidayInstance.Date <= endDate)
+                yield return officialHolidayInstance;
         }
+    }
 
-        public override string ToString()
-        {
-            return $"{Date:d} - {Name}";
-        }
+    public override string ToString()
+    {
+        return $"{Date:d} - {Name}";
     }
 }

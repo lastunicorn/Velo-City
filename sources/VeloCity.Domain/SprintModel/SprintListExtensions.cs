@@ -16,13 +16,12 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
+
+public static class SprintListExtensions
 {
-    public static class SprintListExtensions
+    public static SprintList ToSprintList(this IEnumerable<Sprint> sprints)
     {
-        public static SprintList ToSprintList(this IEnumerable<Sprint> sprints)
-        {
-            return new SprintList(sprints);
-        }
+        return new SprintList(sprints);
     }
 }

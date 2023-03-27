@@ -45,7 +45,7 @@ public class DatabaseEditor
                 {
                     FileName = CalculateFileNameToExecute(),
                     Arguments = CalculateArguments(),
-                    UseShellExecute = true,
+                    UseShellExecute = true
                 }
             };
 

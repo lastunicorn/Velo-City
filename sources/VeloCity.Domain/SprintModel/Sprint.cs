@@ -16,252 +16,250 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
+
+public class Sprint
 {
-    public class Sprint
+    public int Id
     {
-        public int Id
+        get => id;
+        set
         {
-            get => id;
-            set
+            if (id != 0)
+                throw new InvalidOperationException("Once assigned, the id of a sprint cannot be changed.");
+
+            id = value;
+        }
+    }
+
+    public int Number { get; set; }
+
+    public string Title { get; set; }
+
+    public DateTime StartDate { get; private set; } = DateTime.Today;
+
+    public DateTime EndDate { get; private set; } = DateTime.Today;
+
+    public DateInterval DateInterval
+    {
+        get => new(StartDate, EndDate);
+        set
+        {
+            if (value.StartDate == null || value.EndDate == null)
+                throw new ArgumentException("The date interval cannot be infinite.", nameof(value));
+
+            StartDate = value.StartDate.Value;
+            EndDate = value.EndDate.Value;
+        }
+    }
+
+    public StoryPoints CommitmentStoryPoints { get; set; }
+
+    public StoryPoints ActualStoryPoints
+    {
+        get => actualStoryPoints;
+        set
+        {
+            actualStoryPoints = value;
+
+            velocity = null;
+        }
+    }
+
+    public List<OfficialHoliday> OfficialHolidays { get; } = new();
+
+    public SprintState State { get; set; }
+
+    public string Goal { get; set; }
+
+    public string Comments { get; set; }
+
+    private readonly List<SprintMember> allSprintMembers = new();
+
+    private IEnumerable<SprintMember> SprintMembersWithoutExcluded
+    {
+        get
+        {
+            if (ExcludedTeamMembers is null or { Count: 0 })
+                return allSprintMembers;
+
+            return allSprintMembers
+                .Where(x => !ExcludedTeamMembers.Any(z => x.Name.Contains(z)));
+        }
+    }
+
+    public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembersWithoutExcluded
+        .OrderBy(x => x.TeamMember.Employments?.GetLastEmploymentBatch()?.StartDate)
+        .ThenBy(x => x.Name);
+
+    private Velocity? velocity;
+
+    /// <summary>
+    /// Velocity is calculated based on ActualStoryPoints and the total work hours of the sprint members.
+    /// If each of these value is changed, the velocity must be recalculated.
+    /// </summary>
+    public Velocity Velocity
+    {
+        get
+        {
+            velocity ??= ComputeVelocity();
+            return velocity.Value;
+        }
+    }
+
+    private Velocity ComputeVelocity()
+    {
+        return ActualStoryPoints / TotalWorkHours;
+    }
+
+    private HoursValue? totalWorkHours;
+
+    public HoursValue TotalWorkHours
+    {
+        get
+        {
+            totalWorkHours ??= CalculateTotalWorkHours();
+            return totalWorkHours.Value;
+        }
+    }
+
+    private HoursValue CalculateTotalWorkHours()
+    {
+        return SprintMembersWithoutExcluded
+            .Sum(x => x.WorkHours.Value);
+    }
+
+    private HoursValue? totalWorkHoursWithVelocityPenalties;
+    private StoryPoints actualStoryPoints;
+    private int id;
+
+    public HoursValue TotalWorkHoursWithVelocityPenalties
+    {
+        get
+        {
+            totalWorkHoursWithVelocityPenalties ??= CalculateTotalWorkHoursWithVelocityPenalties();
+            return totalWorkHoursWithVelocityPenalties.Value;
+        }
+    }
+
+    public IReadOnlyCollection<string> ExcludedTeamMembers { get; set; }
+
+    public Sprint()
+    {
+    }
+
+    private HoursValue CalculateTotalWorkHoursWithVelocityPenalties()
+    {
+        return SprintMembersWithoutExcluded
+            .Sum(x => x.WorkHoursWithVelocityPenalties.Value);
+    }
+
+    public IEnumerable<SprintDay> EnumerateAllDays()
+    {
+        int totalDaysCount = (int)(EndDate.Date - StartDate.Date).TotalDays + 1;
+
+        return Enumerable.Range(0, totalDaysCount)
+            .Select(x =>
             {
-                if (id != 0)
-                    throw new InvalidOperationException("Once assigned, the id of a sprint cannot be changed.");
+                DateTime date = StartDate.AddDays(x);
+                return ToSprintDay(date);
+            });
+    }
 
-                id = value;
-            }
-        }
-
-        public int Number { get; set; }
-
-        public string Title { get; set; }
-
-        public DateTime StartDate { get; private set; } = DateTime.Today;
-
-        public DateTime EndDate { get; private set; } = DateTime.Today;
-
-        public DateInterval DateInterval
+    private SprintDay ToSprintDay(DateTime date)
+    {
+        return new SprintDay
         {
-            get => new(StartDate, EndDate);
-            set
-            {
-                if (value.StartDate == null || value.EndDate == null)
-                    throw new ArgumentException("The date interval cannot be infinite.", nameof(value));
+            Date = date,
+            OfficialHolidays = OfficialHolidays
+                .Where(x => x.Match(date))
+                .Select(x => x.GetInstanceFor(date.Year))
+                .ToList()
+        };
+    }
 
-                StartDate = value.StartDate.Value;
-                EndDate = value.EndDate.Value;
-            }
-        }
+    public int CountWorkDays()
+    {
+        return EnumerateAllDays()
+            .Where(IsWorkDay)
+            .Count();
+    }
 
-        public StoryPoints CommitmentStoryPoints { get; set; }
+    private bool IsWorkDay(SprintDay sprintDay)
+    {
+        if (sprintDay.IsWeekEnd)
+            return false;
 
-        public StoryPoints ActualStoryPoints
+        if (sprintDay.IsOfficialHoliday)
         {
-            get => actualStoryPoints;
-            set
-            {
-                actualStoryPoints = value;
-
-                velocity = null;
-            }
-        }
-
-        public List<OfficialHoliday> OfficialHolidays { get; } = new();
-
-        public SprintState State { get; set; }
-
-        public string Goal { get; set; }
-
-        public string Comments { get; set; }
-
-        private readonly List<SprintMember> allSprintMembers = new();
-
-        private IEnumerable<SprintMember> SprintMembersWithoutExcluded
-        {
-            get
-            {
-                if (ExcludedTeamMembers is null or { Count: 0 })
-                    return allSprintMembers;
-
-                return allSprintMembers
-                    .Where(x => !ExcludedTeamMembers.Any(z => x.Name.Contains(z)));
-            }
-        }
-
-        public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembersWithoutExcluded
-            .OrderBy(x => x.TeamMember.Employments?.GetLastEmploymentBatch()?.StartDate)
-            .ThenBy(x => x.Name);
-
-        private Velocity? velocity;
-
-        /// <summary>
-        /// Velocity is calculated based on ActualStoryPoints and the total work hours of the sprint members.
-        /// If each of these value is changed, the velocity must be recalculated.
-        /// </summary>
-        public Velocity Velocity
-        {
-            get
-            {
-                velocity ??= ComputeVelocity();
-                return velocity.Value;
-            }
-        }
-
-        private Velocity ComputeVelocity()
-        {
-            return ActualStoryPoints / TotalWorkHours;
-        }
-
-        private HoursValue? totalWorkHours;
-
-        public HoursValue TotalWorkHours
-        {
-            get
-            {
-                totalWorkHours ??= CalculateTotalWorkHours();
-                return totalWorkHours.Value;
-            }
-        }
-
-        private HoursValue CalculateTotalWorkHours()
-        {
-            return SprintMembersWithoutExcluded
-                .Sum(x => x.WorkHours.Value);
-        }
-
-        private HoursValue? totalWorkHoursWithVelocityPenalties;
-        private StoryPoints actualStoryPoints;
-        private int id;
-
-        public HoursValue TotalWorkHoursWithVelocityPenalties
-        {
-            get
-            {
-                totalWorkHoursWithVelocityPenalties ??= CalculateTotalWorkHoursWithVelocityPenalties();
-                return totalWorkHoursWithVelocityPenalties.Value;
-            }
-        }
-
-        public IReadOnlyCollection<string> ExcludedTeamMembers { get; set; }
-
-        public Sprint()
-        {
-        }
-
-        private HoursValue CalculateTotalWorkHoursWithVelocityPenalties()
-        {
-            return SprintMembersWithoutExcluded
-                .Sum(x => x.WorkHoursWithVelocityPenalties.Value);
-        }
-
-        public IEnumerable<SprintDay> EnumerateAllDays()
-        {
-            int totalDaysCount = (int)(EndDate.Date - StartDate.Date).TotalDays + 1;
-
-            return Enumerable.Range(0, totalDaysCount)
-                .Select(x =>
+            List<SprintMemberDay> sprintMemberDays = SprintMembersWithoutExcluded
+                .SelectMany(x => x.Days)
+                .Where(x => x.SprintDay.Date == sprintDay.Date)
+                .Where(x =>
                 {
-                    DateTime date = StartDate.AddDays(x);
-                    return ToSprintDay(date);
-                });
-        }
-
-        private SprintDay ToSprintDay(DateTime date)
-        {
-            return new SprintDay
-            {
-                Date = date,
-                OfficialHolidays = OfficialHolidays
-                    .Where(x => x.Match(date))
-                    .Select(x => x.GetInstanceFor(date.Year))
-                    .ToList()
-            };
-        }
-
-        public int CountWorkDays()
-        {
-            return EnumerateAllDays()
-                .Where(IsWorkDay)
-                .Count();
-        }
-
-        private bool IsWorkDay(SprintDay sprintDay)
-        {
-            if (sprintDay.IsWeekEnd)
-                return false;
-
-            if (sprintDay.IsOfficialHoliday)
-            {
-                List<SprintMemberDay> sprintMemberDays = SprintMembersWithoutExcluded
-                    .SelectMany(x => x.Days)
-                    .Where(x => x.SprintDay.Date == sprintDay.Date)
-                    .Where(x =>
-                    {
-                        Employment employment = x.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
-                        return !sprintDay.OfficialHolidays.Select(z => z.Country).Contains(employment?.Country);
-                    })
-                    .ToList();
-
-                if (sprintMemberDays.Count == 0)
-                    return false;
-            }
-
-            return true;
-        }
-
-        public void AddSprintMember(TeamMember teamMember)
-        {
-            if (teamMember == null) throw new ArgumentNullException(nameof(teamMember));
-
-            AddSprintMemberInternal(teamMember);
-        }
-
-        public void AddSprintMembers(IEnumerable<TeamMember> teamMembers)
-        {
-            if (teamMembers == null) throw new ArgumentNullException(nameof(teamMembers));
-
-            foreach (TeamMember teamMember in teamMembers)
-                AddSprintMemberInternal(teamMember);
-        }
-
-        private void AddSprintMemberInternal(TeamMember teamMember)
-        {
-            SprintMember sprintMember = teamMember.ToSprintMember(this);
-            sprintMember.VacationsChanged += HandleSprintMemberVacationsChanged;
-            allSprintMembers.Add(sprintMember);
-        }
-
-        private void HandleSprintMemberVacationsChanged(object sender, EventArgs e)
-        {
-            totalWorkHours = null;
-        }
-
-        public List<VelocityPenaltyInstance> GetVelocityPenalties()
-        {
-            return SprintMembersWithoutExcluded
-                .Where(x => x.VelocityPenaltyPercentage > 0)
-                .Select(x => new VelocityPenaltyInstance
-                {
-                    Sprint = x.Sprint,
-                    TeamMember = x.TeamMember,
-                    Value = x.VelocityPenaltyPercentage
+                    Employment employment = x.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
+                    return !sprintDay.OfficialHolidays.Select(z => z.Country).Contains(employment?.Country);
                 })
                 .ToList();
+
+            if (sprintMemberDays.Count == 0)
+                return false;
         }
 
-        public override string ToString()
-        {
-            return $"{Number}: {Title}";
-        }
+        return true;
+    }
 
-        public SprintMember GetSprintMember(int teamMemberId)
-        {
-            return allSprintMembers.FirstOrDefault(x => x.TeamMember?.Id == teamMemberId);
-        }
+    public void AddSprintMember(TeamMember teamMember)
+    {
+        if (teamMember == null) throw new ArgumentNullException(nameof(teamMember));
+
+        AddSprintMemberInternal(teamMember);
+    }
+
+    public void AddSprintMembers(IEnumerable<TeamMember> teamMembers)
+    {
+        if (teamMembers == null) throw new ArgumentNullException(nameof(teamMembers));
+
+        foreach (TeamMember teamMember in teamMembers)
+            AddSprintMemberInternal(teamMember);
+    }
+
+    private void AddSprintMemberInternal(TeamMember teamMember)
+    {
+        SprintMember sprintMember = teamMember.ToSprintMember(this);
+        sprintMember.VacationsChanged += HandleSprintMemberVacationsChanged;
+        allSprintMembers.Add(sprintMember);
+    }
+
+    private void HandleSprintMemberVacationsChanged(object sender, EventArgs e)
+    {
+        totalWorkHours = null;
+    }
+
+    public List<VelocityPenaltyInstance> GetVelocityPenalties()
+    {
+        return SprintMembersWithoutExcluded
+            .Where(x => x.VelocityPenaltyPercentage > 0)
+            .Select(x => new VelocityPenaltyInstance
+            {
+                Sprint = x.Sprint,
+                TeamMember = x.TeamMember,
+                Value = x.VelocityPenaltyPercentage
+            })
+            .ToList();
+    }
+
+    public override string ToString()
+    {
+        return $"{Number}: {Title}";
+    }
+
+    public SprintMember GetSprintMember(int teamMemberId)
+    {
+        return allSprintMembers.FirstOrDefault(x => x.TeamMember?.Id == teamMemberId);
     }
 }

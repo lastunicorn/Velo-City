@@ -19,47 +19,46 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class SprintForecast
 {
-    public class SprintForecast
+    public string SprintName { get; }
+
+    public DateTime StartDate { get; }
+
+    public DateTime EndDate { get; }
+
+    public List<SprintDay> Days { get; }
+
+    public int WorkDaysCount { get; }
+
+    public HoursValue TotalWorkHours { get; }
+
+    public StoryPoints EstimatedStoryPoints { get; }
+
+    public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; }
+
+    public SprintForecast(Sprint sprint, Velocity estimatedVelocity)
     {
-        public string SprintName { get; }
+        StoryPoints estimatedStoryPoints = estimatedVelocity.IsEmpty
+            ? StoryPoints.Empty
+            : sprint.TotalWorkHours * estimatedVelocity;
 
-        public DateTime StartDate { get; }
+        bool velocityPenaltiesExists = sprint.GetVelocityPenalties().Any();
+        HoursValue totalWorkHoursWithVelocityPenalties = sprint.TotalWorkHoursWithVelocityPenalties;
 
-        public DateTime EndDate { get; }
+        StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsEmpty || !velocityPenaltiesExists
+            ? StoryPoints.Empty
+            : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
 
-        public List<SprintDay> Days { get; }
-
-        public int WorkDaysCount { get; }
-
-        public HoursValue TotalWorkHours { get; }
-
-        public StoryPoints EstimatedStoryPoints { get; }
-
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; }
-
-        public SprintForecast(Sprint sprint, Velocity estimatedVelocity)
-        {
-            StoryPoints estimatedStoryPoints = estimatedVelocity.IsEmpty
-                ? StoryPoints.Empty
-                : sprint.TotalWorkHours * estimatedVelocity;
-
-            bool velocityPenaltiesExists = sprint.GetVelocityPenalties().Any();
-            HoursValue totalWorkHoursWithVelocityPenalties = sprint.TotalWorkHoursWithVelocityPenalties;
-
-            StoryPoints estimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsEmpty || !velocityPenaltiesExists
-                ? StoryPoints.Empty
-                : totalWorkHoursWithVelocityPenalties * estimatedVelocity;
-
-            SprintName = sprint.Title;
-            StartDate = sprint.StartDate;
-            EndDate = sprint.EndDate;
-            Days = sprint.EnumerateAllDays().ToList();
-            WorkDaysCount = sprint.CountWorkDays();
-            TotalWorkHours = sprint.TotalWorkHours;
-            EstimatedStoryPoints = estimatedStoryPoints;
-            EstimatedStoryPointsWithVelocityPenalties = estimatedStoryPointsWithVelocityPenalties;
-        }
+        SprintName = sprint.Title;
+        StartDate = sprint.StartDate;
+        EndDate = sprint.EndDate;
+        Days = sprint.EnumerateAllDays().ToList();
+        WorkDaysCount = sprint.CountWorkDays();
+        TotalWorkHours = sprint.TotalWorkHours;
+        EstimatedStoryPoints = estimatedStoryPoints;
+        EstimatedStoryPointsWithVelocityPenalties = estimatedStoryPointsWithVelocityPenalties;
     }
 }

@@ -17,39 +17,38 @@
 using System;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain.TeamMemberModel
+namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
+
+public class VacationMonthly : Vacation
 {
-    public class VacationMonthly : Vacation
+    private List<int> monthDays;
+    private DateInterval dateInterval;
+
+    public List<int> MonthDays
     {
-        private List<int> monthDays;
-        private DateInterval dateInterval;
-
-        public List<int> MonthDays
+        get => monthDays;
+        set
         {
-            get => monthDays;
-            set
-            {
-                monthDays = value;
-                OnChanged();
-            }
+            monthDays = value;
+            OnChanged();
         }
+    }
 
-        public DateInterval DateInterval
+    public DateInterval DateInterval
+    {
+        get => dateInterval;
+        set
         {
-            get => dateInterval;
-            set
-            {
-                dateInterval = value;
-                OnChanged();
-            }
+            dateInterval = value;
+            OnChanged();
         }
+    }
 
-        public override bool Match(DateTime date)
-        {
-            if (!DateInterval.ContainsDate(date))
-                return false;
+    public override bool Match(DateTime date)
+    {
+        if (!DateInterval.ContainsDate(date))
+            return false;
 
-            return MonthDays?.Contains(date.Day) ?? false;
-        }
+        return MonthDays?.Contains(date.Day) ?? false;
     }
 }

@@ -18,40 +18,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain.TeamMemberModel
+namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
+
+public static class TeamMembersExtensions
 {
-    public static class TeamMembersExtensions
+    public static IEnumerable<TeamMember> OrderByEmploymentForDate(this IEnumerable<TeamMember> teamMembers, DateTime? date = null)
     {
-        public static IEnumerable<TeamMember> OrderByEmploymentForDate(this IEnumerable<TeamMember> teamMembers, DateTime? date = null)
-        {
-            return teamMembers
-                .OrderBy(x =>
-                {
-                    Employment employment = date == null
-                        ? x.Employments.GetFirstEmployment()
-                        : x.Employments.GetEmploymentBatchFor(date.Value).LastOrDefault();
+        return teamMembers
+            .OrderBy(x =>
+            {
+                Employment employment = date == null
+                    ? x.Employments.GetFirstEmployment()
+                    : x.Employments.GetEmploymentBatchFor(date.Value).LastOrDefault();
 
-                    return employment?.TimeInterval.StartDate;
-                })
-                .ThenBy(x => x.Name);
-        }
+                return employment?.TimeInterval.StartDate;
+            })
+            .ThenBy(x => x.Name);
+    }
 
-        public static IEnumerable<TeamMember> OrderByEmploymentForDate(this IEnumerable<TeamMember> teamMembers, DateTime date)
-        {
-            return teamMembers
-                .OrderBy(x =>
-                {
-                    Employment employment = x.Employments.GetEmploymentBatchFor(date).LastOrDefault();
-                    return employment?.TimeInterval.StartDate;
-                })
-                .ThenBy(x => x.Name);
-        }
+    public static IEnumerable<TeamMember> OrderByEmploymentForDate(this IEnumerable<TeamMember> teamMembers, DateTime date)
+    {
+        return teamMembers
+            .OrderBy(x =>
+            {
+                Employment employment = x.Employments.GetEmploymentBatchFor(date).LastOrDefault();
+                return employment?.TimeInterval.StartDate;
+            })
+            .ThenBy(x => x.Name);
+    }
 
-        public static IEnumerable<TeamMember> OrderByEmployment(this IEnumerable<TeamMember> teamMembers)
-        {
-            return teamMembers
-                .OrderBy(x => x.Employments?.GetLastEmploymentBatch()?.StartDate)
-                .ThenBy(x => x.Name);
-        }
+    public static IEnumerable<TeamMember> OrderByEmployment(this IEnumerable<TeamMember> teamMembers)
+    {
+        return teamMembers
+            .OrderBy(x => x.Employments?.GetLastEmploymentBatch()?.StartDate)
+            .ThenBy(x => x.Name);
     }
 }

@@ -18,27 +18,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
+
+public class SprintCalendar
 {
-    public class SprintCalendar
+    public string SprintName { get; }
+
+    public DateTime StartDate { get; }
+
+    public DateTime EndDate { get; }
+
+    public List<SprintDay> Days { get; }
+
+    public List<SprintMember> SprintMembers { get; }
+
+    public SprintCalendar(Sprint sprint)
     {
-        public string SprintName { get; }
-
-        public DateTime StartDate { get; }
-
-        public DateTime EndDate { get; }
-
-        public List<SprintDay> Days { get; }
-
-        public List<SprintMember> SprintMembers { get; }
-
-        public SprintCalendar(Sprint sprint)
-        {
-            SprintName = sprint.Title;
-            StartDate = sprint.StartDate;
-            EndDate = sprint.EndDate;
-            Days = sprint.EnumerateAllDays().ToList();
-            SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList();
-        }
+        SprintName = sprint.Title;
+        StartDate = sprint.StartDate;
+        EndDate = sprint.EndDate;
+        Days = sprint.EnumerateAllDays().ToList();
+        SprintMembers = sprint.SprintMembersOrderedByEmployment.ToList();
     }
 }

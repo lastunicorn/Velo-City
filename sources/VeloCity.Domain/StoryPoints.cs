@@ -16,128 +16,127 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public readonly struct StoryPoints : IFormattable
 {
-    public readonly struct StoryPoints : IFormattable
+    private const string MeasurementUnit = "SP";
+
+    public float Value { get; init; }
+
+    public bool IsEmpty { get; private init; }
+
+    public bool IsNotEmpty => !IsEmpty;
+
+    public bool IsZero => !IsEmpty && Value == 0;
+
+    public static StoryPoints Empty { get; } = new()
     {
-        private const string MeasurementUnit = "SP";
+        IsEmpty = true
+    };
 
-        public float Value { get; init; }
+    public static StoryPoints Zero { get; } = new();
 
-        public bool IsEmpty { get; private init; }
+    public override string ToString()
+    {
+        return IsEmpty
+            ? $"- {MeasurementUnit}"
+            : $"{Value} {MeasurementUnit}";
+    }
 
-        public bool IsNotEmpty => !IsEmpty;
+    public string ToString(string format, IFormatProvider formatProvider)
+    {
+        return ToString(format);
+    }
 
-        public bool IsZero => !IsEmpty && Value == 0;
+    public string ToString(string format)
+    {
+        if (format == "standard")
+            return ToStandardDigitsString();
 
-        public static StoryPoints Empty { get; } = new()
+        return IsEmpty
+            ? $"- {MeasurementUnit}"
+            : $"{Value.ToString(format)} {MeasurementUnit}";
+    }
+
+    public string ToStandardDigitsString()
+    {
+        return IsEmpty
+            ? $"- {MeasurementUnit}"
+            : IsZero
+                ? $"0 {MeasurementUnit}"
+                : $"{Value:0.####} {MeasurementUnit}";
+    }
+
+    public static implicit operator float(StoryPoints storyPoints)
+    {
+        return storyPoints.Value;
+    }
+
+    public static implicit operator StoryPoints(float storyPoints)
+    {
+        return new StoryPoints
         {
-            IsEmpty = true
+            Value = storyPoints
         };
+    }
 
-        public static StoryPoints Zero { get; } = new();
+    public static implicit operator float?(StoryPoints storyPoints)
+    {
+        return storyPoints.IsEmpty
+            ? null
+            : storyPoints.Value;
+    }
 
-        public override string ToString()
-        {
-            return IsEmpty
-                ? $"- {MeasurementUnit}"
-                : $"{Value} {MeasurementUnit}";
-        }
-
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return ToString(format);
-        }
-
-        public string ToString(string format)
-        {
-            if (format == "standard")
-                return ToStandardDigitsString();
-
-            return IsEmpty
-                ? $"- {MeasurementUnit}"
-                : $"{Value.ToString(format)} {MeasurementUnit}";
-        }
-
-        public string ToStandardDigitsString()
-        {
-            return IsEmpty
-                ? $"- {MeasurementUnit}"
-                : IsZero
-                    ? $"0 {MeasurementUnit}"
-                    : $"{Value:0.####} {MeasurementUnit}";
-        }
-
-        public static implicit operator float(StoryPoints storyPoints)
-        {
-            return storyPoints.Value;
-        }
-
-        public static implicit operator StoryPoints(float storyPoints)
+    public static implicit operator StoryPoints(float? storyPoints)
+    {
+        if (storyPoints == null)
         {
             return new StoryPoints
             {
-                Value = storyPoints
+                IsEmpty = true
             };
         }
 
-        public static implicit operator float?(StoryPoints storyPoints)
+        return new StoryPoints
         {
-            return storyPoints.IsEmpty
-                ? null
-                : storyPoints.Value;
-        }
+            Value = storyPoints.Value
+        };
+    }
 
-        public static implicit operator StoryPoints(float? storyPoints)
+    public static implicit operator StoryPoints?(float? storyPoints)
+    {
+        if (storyPoints == null)
+            return null;
+
+        return new StoryPoints
         {
-            if (storyPoints == null)
-            {
-                return new StoryPoints
-                {
-                    IsEmpty = true
-                };
-            }
+            Value = storyPoints.Value
+        };
+    }
 
-            return new StoryPoints
-            {
-                Value = storyPoints.Value
-            };
-        }
+    public bool Equals(StoryPoints other)
+    {
+        return Value.Equals(other.Value) && IsEmpty == other.IsEmpty;
+    }
 
-        public static implicit operator StoryPoints?(float? storyPoints)
-        {
-            if (storyPoints == null)
-                return null;
+    public override bool Equals(object obj)
+    {
+        return obj is StoryPoints other && Equals(other);
+    }
 
-            return new StoryPoints
-            {
-                Value = storyPoints.Value
-            };
-        }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Value, IsEmpty);
+    }
 
-        public bool Equals(StoryPoints other)
-        {
-            return Value.Equals(other.Value) && IsEmpty == other.IsEmpty;
-        }
+    public static bool operator ==(StoryPoints storyPoints1, StoryPoints storyPoints2)
+    {
+        return Math.Abs(storyPoints1.Value - storyPoints2.Value) < 0.0000000000000000000000000000000000000000000000000000000000000000000001;
+    }
 
-        public override bool Equals(object obj)
-        {
-            return obj is StoryPoints other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Value, IsEmpty);
-        }
-
-        public static bool operator ==(StoryPoints storyPoints1, StoryPoints storyPoints2)
-        {
-            return Math.Abs(storyPoints1.Value - storyPoints2.Value) < 0.0000000000000000000000000000000000000000000000000000000000000000000001;
-        }
-
-        public static bool operator !=(StoryPoints storyPoints1, StoryPoints storyPoints2)
-        {
-            return Math.Abs(storyPoints1.Value - storyPoints2.Value) >= 0.0000000000000000000000000000000000000000000000000000000000000000000001;
-        }
+    public static bool operator !=(StoryPoints storyPoints1, StoryPoints storyPoints2)
+    {
+        return Math.Abs(storyPoints1.Value - storyPoints2.Value) >= 0.0000000000000000000000000000000000000000000000000000000000000000000001;
     }
 }

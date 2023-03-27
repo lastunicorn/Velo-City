@@ -16,117 +16,116 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public readonly struct Velocity : IFormattable
 {
-    public readonly struct Velocity : IFormattable
+    private const string MeasurementUnit = "SP/h";
+
+    public float Value { get; init; }
+
+    public bool IsEmpty { get; private init; }
+
+    public bool IsZero => !IsEmpty && Value == 0;
+
+    public static Velocity Empty { get; } = new()
     {
-        private const string MeasurementUnit = "SP/h";
+        IsEmpty = true
+    };
 
-        public float Value { get; init; }
+    public static Velocity Zero { get; } = new();
 
-        public bool IsEmpty { get; private init; }
+    public override string ToString()
+    {
+        return IsEmpty
+            ? $"- {MeasurementUnit}"
+            : $"{Value} {MeasurementUnit}";
+    }
 
-        public bool IsZero => !IsEmpty && Value == 0;
+    public string ToString(string format, IFormatProvider formatProvider)
+    {
+        return ToString(format);
+    }
 
-        public static Velocity Empty { get; } = new()
+    public string ToString(string format)
+    {
+        if (format == "standard")
+            return ToStandardDigitsString();
+
+        return IsEmpty
+            ? $"- {MeasurementUnit}"
+            : $"{Value.ToString(format)} {MeasurementUnit}";
+    }
+
+    public string ToStandardDigitsString()
+    {
+        return IsEmpty
+            ? $"- {MeasurementUnit}"
+            : IsZero
+                ? $"0 {MeasurementUnit}"
+                : $"{Value:0.0000} {MeasurementUnit}";
+    }
+
+    public bool Equals(Velocity other)
+    {
+        return Value.Equals(other.Value);
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is Velocity other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
+
+    public static bool operator ==(Velocity velocity1, Velocity velocity2)
+    {
+        return Math.Abs(velocity1.Value - velocity2.Value) < 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+    }
+
+    public static bool operator !=(Velocity velocity1, Velocity velocity2)
+    {
+        return Math.Abs(velocity1.Value - velocity2.Value) >= 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+    }
+
+    public static implicit operator float(Velocity velocity)
+    {
+        return velocity.Value;
+    }
+
+    public static implicit operator Velocity(float velocity)
+    {
+        return new Velocity
         {
-            IsEmpty = true
+            Value = velocity
         };
+    }
 
-        public static Velocity Zero { get; } = new();
-
-        public override string ToString()
-        {
-            return IsEmpty
-                ? $"- {MeasurementUnit}"
-                : $"{Value} {MeasurementUnit}";
-        }
-
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return ToString(format);
-        }
-
-        public string ToString(string format)
-        {
-            if (format == "standard")
-                return ToStandardDigitsString();
-
-            return IsEmpty
-                ? $"- {MeasurementUnit}"
-                : $"{Value.ToString(format)} {MeasurementUnit}";
-        }
-
-        public string ToStandardDigitsString()
-        {
-            return IsEmpty
-                ? $"- {MeasurementUnit}"
-                : IsZero
-                    ? $"0 {MeasurementUnit}"
-                    : $"{Value:0.0000} {MeasurementUnit}";
-        }
-
-        public bool Equals(Velocity other)
-        {
-            return Value.Equals(other.Value);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Velocity other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
-
-        public static bool operator ==(Velocity velocity1, Velocity velocity2)
-        {
-            return Math.Abs(velocity1.Value - velocity2.Value) < 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
-        }
-
-        public static bool operator !=(Velocity velocity1, Velocity velocity2)
-        {
-            return Math.Abs(velocity1.Value - velocity2.Value) >= 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
-        }
-
-        public static implicit operator float(Velocity velocity)
-        {
-            return velocity.Value;
-        }
-
-        public static implicit operator Velocity(float velocity)
-        {
+    public static implicit operator Velocity(float? velocity)
+    {
+        if (velocity == null)
             return new Velocity
             {
-                Value = velocity
+                IsEmpty = true
             };
-        }
 
-        public static implicit operator Velocity(float? velocity)
+        return new Velocity
         {
-            if (velocity == null)
-                return new Velocity
-                {
-                    IsEmpty = true
-                };
+            Value = velocity.Value
+        };
+    }
 
-            return new Velocity
-            {
-                Value = velocity.Value
-            };
-        }
+    public static implicit operator Velocity?(float? velocity)
+    {
+        if (velocity == null)
+            return null;
 
-        public static implicit operator Velocity?(float? velocity)
+        return new Velocity
         {
-            if (velocity == null)
-                return null;
-
-            return new Velocity
-            {
-                Value = velocity.Value
-            };
-        }
+            Value = velocity.Value
+        };
     }
 }

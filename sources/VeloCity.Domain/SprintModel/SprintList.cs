@@ -19,27 +19,26 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
+
+public class SprintList : Collection<Sprint>
 {
-    public class SprintList : Collection<Sprint>
+    public Sprint Last => Items.MaxBy(x => x.StartDate);
+
+    public SprintList(IEnumerable<Sprint> sprints)
     {
-        public Sprint Last => Items.MaxBy(x => x.StartDate);
+        if (sprints == null) throw new ArgumentNullException(nameof(sprints));
 
-        public SprintList(IEnumerable<Sprint> sprints)
-        {
-            if (sprints == null) throw new ArgumentNullException(nameof(sprints));
+        foreach (Sprint sprint in sprints)
+            Items.Add(sprint);
+    }
 
-            foreach (Sprint sprint in sprints)
-                Items.Add(sprint);
-        }
+    public Velocity CalculateAverageVelocity()
+    {
+        if (Items.Count == 0)
+            return Velocity.Empty;
 
-        public Velocity CalculateAverageVelocity()
-        {
-            if (Items.Count == 0)
-                return Velocity.Empty;
-
-            return Items
-                .Average(x => x.Velocity.Value);
-        }
+        return Items
+            .Average(x => x.Velocity.Value);
     }
 }

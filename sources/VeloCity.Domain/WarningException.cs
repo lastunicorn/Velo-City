@@ -16,13 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class WarningException : Exception
 {
-    public class WarningException : Exception
+    public WarningException(string message)
+        : base(message)
     {
-        public WarningException(string message)
-            : base(message)
-        {
-        }
     }
 }

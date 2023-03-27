@@ -19,98 +19,97 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
+
+public class SprintMember
 {
-    public class SprintMember
+    private SprintMemberDayCollection days;
+
+    public PersonName Name => TeamMember.Name;
+
+    public Sprint Sprint { get; }
+
+    public TeamMember TeamMember { get; }
+
+    public SprintMemberDayCollection Days => days ??= RegenerateDays();
+
+    public bool IsEmployed => Days
+        .Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
+
+    public HoursValue WorkHours => Days
+        .Select(x => x.WorkHours)
+        .Sum(x => x.Value);
+
+    public HoursValue WorkHoursWithVelocityPenalties
     {
-        private SprintMemberDayCollection days;
-
-        public PersonName Name => TeamMember.Name;
-
-        public Sprint Sprint { get; }
-
-        public TeamMember TeamMember { get; }
-
-        public SprintMemberDayCollection Days => days ??= RegenerateDays();
-
-        public bool IsEmployed => Days
-            .Any(x => x.AbsenceReason != AbsenceReason.Unemployed);
-
-        public HoursValue WorkHours => Days
-            .Select(x => x.WorkHours)
-            .Sum(x => x.Value);
-
-        public HoursValue WorkHoursWithVelocityPenalties
+        get
         {
-            get
-            {
-                int availabilityPercentage = 100 - VelocityPenaltyPercentage;
-                return WorkHours * availabilityPercentage / 100;
-            }
+            int availabilityPercentage = 100 - VelocityPenaltyPercentage;
+            return WorkHours * availabilityPercentage / 100;
         }
+    }
 
-        public List<VelocityPenalty> VelocityPenalties
+    public List<VelocityPenalty> VelocityPenalties
+    {
+        get
         {
-            get
-            {
-                if (TeamMember.VelocityPenalties == null)
-                    return new List<VelocityPenalty>();
+            if (TeamMember.VelocityPenalties == null)
+                return new List<VelocityPenalty>();
 
-                return TeamMember.VelocityPenalties
-                    .Where(x => Sprint.Number >= x.Sprint?.Number && Sprint.Number < x.Sprint?.Number + x.Duration)
-                    .ToList();
-            }
+            return TeamMember.VelocityPenalties
+                .Where(x => Sprint.Number >= x.Sprint?.Number && Sprint.Number < x.Sprint?.Number + x.Duration)
+                .ToList();
         }
+    }
 
-        public int VelocityPenaltyPercentage
+    public int VelocityPenaltyPercentage
+    {
+        get
         {
-            get
-            {
-                return VelocityPenalties
-                    .Sum(x =>
-                    {
-                        int penaltyDuration = x.Duration;
-                        int sprintCountFromPenaltyStart = Sprint.Number - x.Sprint.Number;
-                        int sprintCountUntilNormal = penaltyDuration - sprintCountFromPenaltyStart;
+            return VelocityPenalties
+                .Sum(x =>
+                {
+                    int penaltyDuration = x.Duration;
+                    int sprintCountFromPenaltyStart = Sprint.Number - x.Sprint.Number;
+                    int sprintCountUntilNormal = penaltyDuration - sprintCountFromPenaltyStart;
 
-                        return x.Value * sprintCountUntilNormal / penaltyDuration;
-                    });
-            }
+                    return x.Value * sprintCountUntilNormal / penaltyDuration;
+                });
         }
+    }
 
-        public event EventHandler VacationsChanged;
+    public event EventHandler VacationsChanged;
 
-        public SprintMember(TeamMember teamMember, Sprint sprint)
-        {
-            TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
-            Sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
+    public SprintMember(TeamMember teamMember, Sprint sprint)
+    {
+        TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
+        Sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
 
-            teamMember.VacationsChanged += HandleTeamMemberVacationsChanged;
-        }
+        teamMember.VacationsChanged += HandleTeamMemberVacationsChanged;
+    }
 
-        private void HandleTeamMemberVacationsChanged(object sender, EventArgs e)
-        {
-            days = null;
+    private void HandleTeamMemberVacationsChanged(object sender, EventArgs e)
+    {
+        days = null;
 
-            OnVacationsChanged();
-        }
+        OnVacationsChanged();
+    }
 
-        private SprintMemberDayCollection RegenerateDays()
-        {
-            IEnumerable<SprintMemberDay> sprintMemberDays = Sprint.EnumerateAllDays()
-                .Select(x => new SprintMemberDay(TeamMember, x));
+    private SprintMemberDayCollection RegenerateDays()
+    {
+        IEnumerable<SprintMemberDay> sprintMemberDays = Sprint.EnumerateAllDays()
+            .Select(x => new SprintMemberDay(TeamMember, x));
 
-            return new SprintMemberDayCollection(sprintMemberDays);
-        }
+        return new SprintMemberDayCollection(sprintMemberDays);
+    }
 
-        public override string ToString()
-        {
-            return Name;
-        }
+    public override string ToString()
+    {
+        return Name;
+    }
 
-        protected virtual void OnVacationsChanged()
-        {
-            VacationsChanged?.Invoke(this, EventArgs.Empty);
-        }
+    protected virtual void OnVacationsChanged()
+    {
+        VacationsChanged?.Invoke(this, EventArgs.Empty);
     }
 }

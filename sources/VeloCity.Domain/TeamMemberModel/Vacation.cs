@@ -16,40 +16,39 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain.TeamMemberModel
+namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
+
+public abstract class Vacation
 {
-    public abstract class Vacation
+    private int? hourCount;
+    private string comments;
+
+    public int? HourCount
     {
-        private int? hourCount;
-        private string comments;
-        
-        public int? HourCount
+        get => hourCount;
+        set
         {
-            get => hourCount;
-            set
-            {
-                hourCount = value;
-                OnChanged();
-            }
+            hourCount = value;
+            OnChanged();
         }
+    }
 
-        public string Comments
+    public string Comments
+    {
+        get => comments;
+        set
         {
-            get => comments;
-            set
-            {
-                comments = value;
-                OnChanged();
-            }
+            comments = value;
+            OnChanged();
         }
+    }
 
-        public event EventHandler Changed;
+    public event EventHandler Changed;
 
-        public abstract bool Match(DateTime date);
+    public abstract bool Match(DateTime date);
 
-        protected virtual void OnChanged()
-        {
-            Changed?.Invoke(this, EventArgs.Empty);
-        }
+    protected virtual void OnChanged()
+    {
+        Changed?.Invoke(this, EventArgs.Empty);
     }
 }

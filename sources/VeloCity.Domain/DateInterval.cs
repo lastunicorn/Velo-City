@@ -89,7 +89,7 @@ public readonly struct DateInterval
     {
         DateTime? newStartDate = StartDate == null
             ? null
-            : (StartDate - DateTime.MinValue > TimeSpan.FromDays(dayCount))
+            : StartDate - DateTime.MinValue > TimeSpan.FromDays(dayCount)
                 ? StartDate.Value.AddDays(-dayCount)
                 : DateTime.MinValue;
 
@@ -100,7 +100,7 @@ public readonly struct DateInterval
     {
         DateTime? newEndDate = EndDate == null
             ? null
-            : (DateTime.MaxValue - EndDate > TimeSpan.FromDays(dayCount))
+            : DateTime.MaxValue - EndDate > TimeSpan.FromDays(dayCount)
                 ? EndDate.Value.AddDays(dayCount)
                 : DateTime.MaxValue;
 

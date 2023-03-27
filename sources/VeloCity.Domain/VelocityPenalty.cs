@@ -17,18 +17,17 @@
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class VelocityPenalty
 {
-    public class VelocityPenalty
-    {
-        public Sprint Sprint { get; set; }
+    public Sprint Sprint { get; set; }
 
-        public TeamMember TeamMember { get; set; }
+    public TeamMember TeamMember { get; set; }
 
-        public int Value { get; set; }
+    public int Value { get; set; }
 
-        public int Duration { get; set; }
+    public int Duration { get; set; }
 
-        public string Comments { get; set; }
-    }
+    public string Comments { get; set; }
 }

@@ -18,186 +18,185 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonName>
 {
-    public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonName>
+    public string FirstName { get; init; }
+
+    public string MiddleName { get; init; }
+
+    public string LastName { get; init; }
+
+    public string Nickname { get; init; }
+
+    public string FullName
     {
-        public string FirstName { get; init; }
-
-        public string MiddleName { get; init; }
-
-        public string LastName { get; init; }
-
-        public string Nickname { get; init; }
-
-        public string FullName
+        get
         {
-            get
+            StringBuilder sb = new();
+
+            if (FirstName != null)
+                sb.Append(FirstName);
+
+            if (MiddleName != null)
             {
-                StringBuilder sb = new();
+                if (sb.Length > 0)
+                    sb.Append(" ");
 
-                if (FirstName != null)
-                    sb.Append(FirstName);
-
-                if (MiddleName != null)
-                {
-                    if (sb.Length > 0)
-                        sb.Append(" ");
-
-                    sb.Append(MiddleName);
-                }
-
-                if (LastName != null)
-                {
-                    if (sb.Length > 0)
-                        sb.Append(" ");
-
-                    sb.Append(LastName);
-                }
-
-                return sb.ToString();
-            }
-        }
-
-        public string FullNameWithNickname
-        {
-            get
-            {
-                StringBuilder sb = new();
-
-                if (FirstName != null)
-                    sb.Append(FirstName);
-
-                if (MiddleName != null)
-                {
-                    if (sb.Length > 0)
-                        sb.Append(" ");
-
-                    sb.Append(MiddleName);
-                }
-
-                if (LastName != null)
-                {
-                    if (sb.Length > 0)
-                        sb.Append(" ");
-
-                    sb.Append(LastName);
-                }
-
-                if (Nickname != null)
-                {
-                    string value = sb.Length > 0
-                        ? $" ({Nickname})"
-                        : Nickname;
-
-                    sb.Append(value);
-                }
-
-                return sb.ToString();
-            }
-        }
-
-        public string ShortName => Nickname ?? FirstName ?? MiddleName ?? LastName;
-
-        public static PersonName Parse(string text)
-        {
-            if (text == null) throw new ArgumentNullException(nameof(text));
-
-            string[] parts = text.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
-            if (parts.Length == 1)
-            {
-                return new PersonName
-                {
-                    FirstName = parts[0]
-                };
+                sb.Append(MiddleName);
             }
 
-            if (parts.Length == 2)
+            if (LastName != null)
             {
-                return new PersonName
-                {
-                    FirstName = parts[0],
-                    LastName = parts[1]
-                };
+                if (sb.Length > 0)
+                    sb.Append(" ");
+
+                sb.Append(LastName);
             }
 
-            if (parts.Length == 3)
+            return sb.ToString();
+        }
+    }
+
+    public string FullNameWithNickname
+    {
+        get
+        {
+            StringBuilder sb = new();
+
+            if (FirstName != null)
+                sb.Append(FirstName);
+
+            if (MiddleName != null)
             {
-                return new PersonName
-                {
-                    FirstName = parts[0],
-                    MiddleName = parts[1],
-                    LastName = parts[2]
-                };
+                if (sb.Length > 0)
+                    sb.Append(" ");
+
+                sb.Append(MiddleName);
             }
 
-            if (parts.Length > 3)
+            if (LastName != null)
             {
-                return new PersonName
-                {
-                    FirstName = parts[0],
-                    MiddleName = string.Join(" ", parts.Skip(1).Take(parts.Length - 2)),
-                    LastName = parts[^1]
-                };
+                if (sb.Length > 0)
+                    sb.Append(" ");
+
+                sb.Append(LastName);
             }
 
-            return new PersonName();
-        }
+            if (Nickname != null)
+            {
+                string value = sb.Length > 0
+                    ? $" ({Nickname})"
+                    : Nickname;
 
-        public bool Contains(string text)
+                sb.Append(value);
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    public string ShortName => Nickname ?? FirstName ?? MiddleName ?? LastName;
+
+    public static PersonName Parse(string text)
+    {
+        if (text == null) throw new ArgumentNullException(nameof(text));
+
+        string[] parts = text.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        if (parts.Length == 1)
         {
-            return (FirstName != null && FirstName.Contains(text, StringComparison.InvariantCultureIgnoreCase)) ||
-                   (MiddleName != null && MiddleName.Contains(text, StringComparison.InvariantCultureIgnoreCase)) ||
-                   (LastName != null && LastName.Contains(text, StringComparison.InvariantCultureIgnoreCase)) ||
-                   (Nickname != null && Nickname.Contains(text, StringComparison.InvariantCultureIgnoreCase));
+            return new PersonName
+            {
+                FirstName = parts[0]
+            };
         }
 
-        public override string ToString()
+        if (parts.Length == 2)
         {
-            return FullNameWithNickname;
+            return new PersonName
+            {
+                FirstName = parts[0],
+                LastName = parts[1]
+            };
         }
 
-        public static implicit operator PersonName(string personName)
+        if (parts.Length == 3)
         {
-            return Parse(personName);
+            return new PersonName
+            {
+                FirstName = parts[0],
+                MiddleName = parts[1],
+                LastName = parts[2]
+            };
         }
 
-        public static implicit operator string(PersonName personName)
+        if (parts.Length > 3)
         {
-            return personName.ToString();
+            return new PersonName
+            {
+                FirstName = parts[0],
+                MiddleName = string.Join(" ", parts.Skip(1).Take(parts.Length - 2)),
+                LastName = parts[^1]
+            };
         }
 
-        public int CompareTo(PersonName other)
-        {
-            int firstNameComparison = string.Compare(FirstName, other.FirstName, StringComparison.Ordinal);
-            if (firstNameComparison != 0)
-                return firstNameComparison;
+        return new PersonName();
+    }
 
-            int middleNameComparison = string.Compare(MiddleName, other.MiddleName, StringComparison.Ordinal);
-            if (middleNameComparison != 0)
-                return middleNameComparison;
+    public bool Contains(string text)
+    {
+        return (FirstName != null && FirstName.Contains(text, StringComparison.InvariantCultureIgnoreCase)) ||
+               (MiddleName != null && MiddleName.Contains(text, StringComparison.InvariantCultureIgnoreCase)) ||
+               (LastName != null && LastName.Contains(text, StringComparison.InvariantCultureIgnoreCase)) ||
+               (Nickname != null && Nickname.Contains(text, StringComparison.InvariantCultureIgnoreCase));
+    }
 
-            int lastNameComparison = string.Compare(LastName, other.LastName, StringComparison.Ordinal);
-            if (lastNameComparison != 0)
-                return lastNameComparison;
+    public override string ToString()
+    {
+        return FullNameWithNickname;
+    }
 
-            return string.Compare(Nickname, other.Nickname, StringComparison.Ordinal);
-        }
+    public static implicit operator PersonName(string personName)
+    {
+        return Parse(personName);
+    }
 
-        public bool Equals(PersonName other)
-        {
-            return FirstName == other.FirstName && MiddleName == other.MiddleName && LastName == other.LastName && Nickname == other.Nickname;
-        }
+    public static implicit operator string(PersonName personName)
+    {
+        return personName.ToString();
+    }
 
-        public override bool Equals(object obj)
-        {
-            return obj is PersonName other && Equals(other);
-        }
+    public int CompareTo(PersonName other)
+    {
+        int firstNameComparison = string.Compare(FirstName, other.FirstName, StringComparison.Ordinal);
+        if (firstNameComparison != 0)
+            return firstNameComparison;
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(FirstName, MiddleName, LastName, Nickname);
-        }
+        int middleNameComparison = string.Compare(MiddleName, other.MiddleName, StringComparison.Ordinal);
+        if (middleNameComparison != 0)
+            return middleNameComparison;
+
+        int lastNameComparison = string.Compare(LastName, other.LastName, StringComparison.Ordinal);
+        if (lastNameComparison != 0)
+            return lastNameComparison;
+
+        return string.Compare(Nickname, other.Nickname, StringComparison.Ordinal);
+    }
+
+    public bool Equals(PersonName other)
+    {
+        return FirstName == other.FirstName && MiddleName == other.MiddleName && LastName == other.LastName && Nickname == other.Nickname;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is PersonName other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(FirstName, MiddleName, LastName, Nickname);
     }
 }

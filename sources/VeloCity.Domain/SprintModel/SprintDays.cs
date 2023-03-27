@@ -19,48 +19,47 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
+
+public class SprintDays
 {
-    public class SprintDays
+    private readonly Sprint sprint;
+    private readonly List<OfficialHoliday> officialHolidays;
+
+    public DateTime StartDate { get; }
+
+    public DateTime EndDate { get; }
+
+    public SprintDays(Sprint sprint, List<OfficialHoliday> officialHolidays)
     {
-        private readonly Sprint sprint;
-        private readonly List<OfficialHoliday> officialHolidays;
+        this.sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
+        this.officialHolidays = officialHolidays ?? throw new ArgumentNullException(nameof(officialHolidays));
 
-        public DateTime StartDate { get; }
+        StartDate = sprint.StartDate;
+        EndDate = sprint.EndDate;
+    }
 
-        public DateTime EndDate { get; }
+    public IEnumerable<SprintDay> EnumerateAllDays()
+    {
+        int totalDaysCount = (int)(sprint.EndDate.Date - sprint.StartDate.Date).TotalDays + 1;
 
-        public SprintDays(Sprint sprint, List<OfficialHoliday> officialHolidays)
-        {
-            this.sprint = sprint ?? throw new ArgumentNullException(nameof(sprint));
-            this.officialHolidays = officialHolidays ?? throw new ArgumentNullException(nameof(officialHolidays));
-
-            StartDate = sprint.StartDate;
-            EndDate = sprint.EndDate;
-        }
-
-        public IEnumerable<SprintDay> EnumerateAllDays()
-        {
-            int totalDaysCount = (int)(sprint.EndDate.Date - sprint.StartDate.Date).TotalDays + 1;
-
-            return Enumerable.Range(0, totalDaysCount)
-                .Select(x =>
-                {
-                    DateTime date = sprint.StartDate.AddDays(x);
-                    return ToSprintDay(date);
-                });
-        }
-
-        private SprintDay ToSprintDay(DateTime date)
-        {
-            return new SprintDay
+        return Enumerable.Range(0, totalDaysCount)
+            .Select(x =>
             {
-                Date = date,
-                OfficialHolidays = officialHolidays
-                    .Where(x => x.Match(date))
-                    .Select(x => x.GetInstanceFor(date.Year))
-                    .ToList()
-            };
-        }
+                DateTime date = sprint.StartDate.AddDays(x);
+                return ToSprintDay(date);
+            });
+    }
+
+    private SprintDay ToSprintDay(DateTime date)
+    {
+        return new SprintDay
+        {
+            Date = date,
+            OfficialHolidays = officialHolidays
+                .Where(x => x.Match(date))
+                .Select(x => x.GetInstanceFor(date.Year))
+                .ToList()
+        };
     }
 }

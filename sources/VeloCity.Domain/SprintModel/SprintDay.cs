@@ -20,21 +20,20 @@ using System.Globalization;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
+
+public class SprintDay
 {
-    public class SprintDay
+    public DateTime Date { get; set; }
+
+    public List<OfficialHolidayInstance> OfficialHolidays { get; set; }
+
+    public bool IsWeekEnd => Date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
+
+    public bool IsOfficialHoliday => OfficialHolidays.Any();
+
+    public override string ToString()
     {
-        public DateTime Date { get; set; }
-
-        public List<OfficialHolidayInstance> OfficialHolidays { get; set; }
-
-        public bool IsWeekEnd => Date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
-
-        public bool IsOfficialHoliday => OfficialHolidays.Any();
-
-        public override string ToString()
-        {
-            return Date.ToString(CultureInfo.CurrentCulture);
-        }
+        return Date.ToString(CultureInfo.CurrentCulture);
     }
 }

@@ -19,16 +19,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
-{
-    public class SprintMemberDayCollection : Collection<SprintMemberDay>
-    {
-        public SprintMemberDay this[DateTime date] => Items.FirstOrDefault(x => x.SprintDay.Date == date);
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
 
-        public SprintMemberDayCollection(IEnumerable<SprintMemberDay> sprintMemberDays)
-        {
-            foreach (SprintMemberDay sprintMemberDay in sprintMemberDays)
-                Add(sprintMemberDay);
-        }
+public class SprintMemberDayCollection : Collection<SprintMemberDay>
+{
+    public SprintMemberDay this[DateTime date] => Items.FirstOrDefault(x => x.SprintDay.Date == date);
+
+    public SprintMemberDayCollection(IEnumerable<SprintMemberDay> sprintMemberDays)
+    {
+        foreach (SprintMemberDay sprintMemberDay in sprintMemberDays)
+            Add(sprintMemberDay);
     }
 }

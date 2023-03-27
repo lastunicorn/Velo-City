@@ -17,22 +17,21 @@
 using System;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Domain
+namespace DustInTheWind.VeloCity.Domain;
+
+public class ReverseDuplicateKeyComparer<TKey> : IComparer<TKey>
+    where TKey : IComparable
 {
-    public class ReverseDuplicateKeyComparer<TKey> : IComparer<TKey>
-        where TKey : IComparable
+    public int Compare(TKey x, TKey y)
     {
-        public int Compare(TKey x, TKey y)
-        {
-            if (x == null && y == null)
-                return 1;
+        if (x == null && y == null)
+            return 1;
 
-            if (y == null)
-                return -1;
+        if (y == null)
+            return -1;
 
-            int result = y.CompareTo(x);
+        int result = y.CompareTo(x);
 
-            return result == 0 ? 1 : result;
-        }
+        return result == 0 ? 1 : result;
     }
 }

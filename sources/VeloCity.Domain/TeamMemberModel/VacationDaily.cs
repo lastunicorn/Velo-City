@@ -16,25 +16,24 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Domain.TeamMemberModel
+namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
+
+public class VacationDaily : Vacation
 {
-    public class VacationDaily : Vacation
+    private DateInterval dateInterval;
+
+    public DateInterval DateInterval
     {
-        private DateInterval dateInterval;
-
-        public DateInterval DateInterval
+        get => dateInterval;
+        set
         {
-            get => dateInterval;
-            set
-            {
-                dateInterval = value;
-                OnChanged();
-            }
+            dateInterval = value;
+            OnChanged();
         }
+    }
 
-        public override bool Match(DateTime date)
-        {
-            return DateInterval.ContainsDate(date);
-        }
+    public override bool Match(DateTime date)
+    {
+        return DateInterval.ContainsDate(date);
     }
 }

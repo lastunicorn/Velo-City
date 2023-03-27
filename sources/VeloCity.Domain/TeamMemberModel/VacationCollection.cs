@@ -359,6 +359,7 @@ public class VacationCollection : Collection<Vacation>
             case VacationMonthly:
             case VacationYearly:
                 SetVacation_WhenCurrentIsSeries(existingVacation, hours, option);
+
                 break;
 
             default:
@@ -870,73 +871,73 @@ public class VacationCollection : Collection<Vacation>
         switch (option)
         {
             case VacationSetOption.SingleDay when hours <= 0:
+            {
+                // update current daily to end to previous day; create daily from next to previous' end
+
+                DateTime previousDate = date.AddDays(-1);
+                DateTime nextDate = date.AddDays(1);
+                DateTime? maxDate = existingVacation.DateInterval.EndDate;
+
+                existingVacation.DateInterval = existingVacation.DateInterval.ChangeEndDate(previousDate);
+
+                VacationDaily newVacation = new()
                 {
-                    // update current daily to end to previous day; create daily from next to previous' end
+                    DateInterval = new DateInterval(nextDate, maxDate),
+                    HourCount = hours
+                };
+                Items.Add(newVacation);
+                newVacation.Changed += HandleVacationChanged;
 
-                    DateTime previousDate = date.AddDays(-1);
-                    DateTime nextDate = date.AddDays(1);
-                    DateTime? maxDate = existingVacation.DateInterval.EndDate;
-
-                    existingVacation.DateInterval = existingVacation.DateInterval.ChangeEndDate(previousDate);
-
-                    VacationDaily newVacation = new()
-                    {
-                        DateInterval = new DateInterval(nextDate, maxDate),
-                        HourCount = hours
-                    };
-                    Items.Add(newVacation);
-                    newVacation.Changed += HandleVacationChanged;
-
-                    break;
-                }
+                break;
+            }
 
             case VacationSetOption.WholeSeries when hours <= 0:
-                {
-                    // delete vacation type (dangerous because past analysis will be impacted)
+            {
+                // delete vacation type (dangerous because past analysis will be impacted)
 
-                    existingVacation.Changed -= HandleVacationChanged;
-                    Items.Remove(existingVacation);
+                existingVacation.Changed -= HandleVacationChanged;
+                Items.Remove(existingVacation);
 
-                    break;
-                }
+                break;
+            }
 
             case VacationSetOption.SingleDay:
+            {
+                // update current daily to end to previous day; create once for current; create daily from next day to previous' end
+
+                DateTime previousDate = date.AddDays(-1);
+                DateTime nextDate = date.AddDays(1);
+                DateTime? maxDate = existingVacation.DateInterval.EndDate;
+
+                existingVacation.DateInterval = existingVacation.DateInterval.ChangeEndDate(previousDate);
+
+                VacationOnce newCurrentVacation = new()
                 {
-                    // update current daily to end to previous day; create once for current; create daily from next day to previous' end
+                    Date = date,
+                    HourCount = hours
+                };
+                Items.Add(newCurrentVacation);
+                newCurrentVacation.Changed += HandleVacationChanged;
 
-                    DateTime previousDate = date.AddDays(-1);
-                    DateTime nextDate = date.AddDays(1);
-                    DateTime? maxDate = existingVacation.DateInterval.EndDate;
+                VacationDaily newNextVacation = new()
+                {
+                    DateInterval = new DateInterval(nextDate, maxDate),
+                    HourCount = hours
+                };
+                Items.Add(newNextVacation);
+                newNextVacation.Changed += HandleVacationChanged;
 
-                    existingVacation.DateInterval = existingVacation.DateInterval.ChangeEndDate(previousDate);
-
-                    VacationOnce newCurrentVacation = new()
-                    {
-                        Date = date,
-                        HourCount = hours
-                    };
-                    Items.Add(newCurrentVacation);
-                    newCurrentVacation.Changed += HandleVacationChanged;
-
-                    VacationDaily newNextVacation = new()
-                    {
-                        DateInterval = new DateInterval(nextDate, maxDate),
-                        HourCount = hours
-                    };
-                    Items.Add(newNextVacation);
-                    newNextVacation.Changed += HandleVacationChanged;
-
-                    break;
-                }
+                break;
+            }
 
             case VacationSetOption.WholeSeries:
-                {
-                    // update daily vacation hours (dangerous because past analysis will be impacted)
+            {
+                // update daily vacation hours (dangerous because past analysis will be impacted)
 
-                    existingVacation.HourCount = hours;
+                existingVacation.HourCount = hours;
 
-                    break;
-                }
+                break;
+            }
         }
     }
 

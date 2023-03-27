@@ -18,41 +18,40 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.Domain.TeamMemberModel
+namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
+
+public class VacationYearly : Vacation
 {
-    public class VacationYearly : Vacation
+    private List<DateTime> dates;
+    private DateInterval dateInterval;
+
+    public List<DateTime> Dates
     {
-        private List<DateTime> dates;
-        private DateInterval dateInterval;
-
-        public List<DateTime> Dates
+        get => dates;
+        set
         {
-            get => dates;
-            set
-            {
-                dates = value;
-                OnChanged();
-            }
+            dates = value;
+            OnChanged();
         }
+    }
 
-        public DateInterval DateInterval
+    public DateInterval DateInterval
+    {
+        get => dateInterval;
+        set
         {
-            get => dateInterval;
-            set
-            {
-                dateInterval = value;
-                OnChanged();
-            }
+            dateInterval = value;
+            OnChanged();
         }
+    }
 
-        public override bool Match(DateTime date)
-        {
-            if (!DateInterval.ContainsDate(date))
-                return false;
+    public override bool Match(DateTime date)
+    {
+        if (!DateInterval.ContainsDate(date))
+            return false;
 
-            return Dates?
-                .Select(x => x.Date)
-                .Contains(date.Date) ?? false;
-        }
+        return Dates?
+            .Select(x => x.Date)
+            .Contains(date.Date) ?? false;
     }
 }

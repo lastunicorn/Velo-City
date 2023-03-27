@@ -20,153 +20,152 @@ using System.Linq;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Domain.SprintModel
+namespace DustInTheWind.VeloCity.Domain.SprintModel;
+
+public class SprintMemberDay
 {
-    public class SprintMemberDay
+    public SprintDay SprintDay { get; }
+
+    public TeamMember TeamMember { get; }
+
+    public HoursValue WorkHours { get; private set; }
+
+    public HoursValue AbsenceHours { get; private set; }
+
+    public AbsenceReason AbsenceReason { get; private set; }
+
+    public string AbsenceComments { get; private set; }
+
+    public bool IsWorkDay => AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday;
+
+    public SprintMemberDay(TeamMember teamMember, SprintDay sprintDay)
     {
-        public SprintDay SprintDay { get; }
+        TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
+        SprintDay = sprintDay ?? throw new ArgumentNullException(nameof(sprintDay));
 
-        public TeamMember TeamMember { get; }
+        Analyze();
+    }
 
-        public HoursValue WorkHours { get; private set; }
+    private void Analyze()
+    {
+        WorkHours = 0;
+        AbsenceHours = 0;
+        AbsenceReason = AbsenceReason.None;
+        AbsenceComments = null;
 
-        public HoursValue AbsenceHours { get; private set; }
+        if (SprintDay == null)
+            return;
 
-        public AbsenceReason AbsenceReason { get; private set; }
+        Employment employment = TeamMember.Employments?.GetEmploymentFor(SprintDay.Date);
 
-        public string AbsenceComments { get; private set; }
-
-        public bool IsWorkDay => AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday;
-
-        public SprintMemberDay(TeamMember teamMember, SprintDay sprintDay)
+        bool isEmployed = employment != null;
+        if (!isEmployed)
         {
-            TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
-            SprintDay = sprintDay ?? throw new ArgumentNullException(nameof(sprintDay));
+            AbsenceReason = AbsenceReason.Unemployed;
 
-            Analyze();
+            return;
         }
 
-        private void Analyze()
+        if (SprintDay.IsWeekEnd)
         {
-            WorkHours = 0;
-            AbsenceHours = 0;
-            AbsenceReason = AbsenceReason.None;
-            AbsenceComments = null;
+            AbsenceReason = AbsenceReason.WeekEnd;
 
-            if (SprintDay == null)
-                return;
+            return;
+        }
 
-            Employment employment = TeamMember.Employments?.GetEmploymentFor(SprintDay.Date);
+        List<OfficialHolidayInstance> officialHolidays = SprintDay.OfficialHolidays
+            .Where(x => string.Equals(x.Country, employment.Country, StringComparison.InvariantCultureIgnoreCase))
+            .ToList();
 
-            bool isEmployed = employment != null;
-            if (!isEmployed)
-            {
-                AbsenceReason = AbsenceReason.Unemployed;
+        if (officialHolidays.Any())
+        {
+            AbsenceHours = employment.HoursPerDay;
+            AbsenceReason = AbsenceReason.OfficialHoliday;
 
-                return;
-            }
+            IEnumerable<string> officialHolidayNames = officialHolidays.Select(x => x.Name);
+            AbsenceComments = string.Join(", ", officialHolidayNames);
 
-            if (SprintDay.IsWeekEnd)
-            {
-                AbsenceReason = AbsenceReason.WeekEnd;
+            return;
+        }
 
-                return;
-            }
+        bool isWorkDay = employment.IsWorkDay(SprintDay.Date.DayOfWeek);
+        if (!isWorkDay)
+        {
+            AbsenceReason = AbsenceReason.Contract;
 
-            List<OfficialHolidayInstance> officialHolidays = SprintDay.OfficialHolidays
-                .Where(x => string.Equals(x.Country, employment.Country, StringComparison.InvariantCultureIgnoreCase))
-                .ToList();
+            return;
+        }
 
-            if (officialHolidays.Any())
-            {
-                AbsenceHours = employment.HoursPerDay;
-                AbsenceReason = AbsenceReason.OfficialHoliday;
+        Vacation[] vacations = TeamMember.GetVacationsFor(SprintDay.Date)
+            .ToArray();
 
-                IEnumerable<string> officialHolidayNames = officialHolidays.Select(x => x.Name);
-                AbsenceComments = string.Join(", ", officialHolidayNames);
+        bool vacationsExist = vacations is { Length: > 0 };
 
-                return;
-            }
-
-            bool isWorkDay = employment.IsWorkDay(SprintDay.Date.DayOfWeek);
-            if (!isWorkDay)
-            {
-                AbsenceReason = AbsenceReason.Contract;
-
-                return;
-            }
-
-            Vacation[] vacations = TeamMember.GetVacationsFor(SprintDay.Date)
+        if (vacationsExist)
+        {
+            Vacation[] wholeDayVacations = vacations
+                .Where(x => x.HourCount == null)
                 .ToArray();
 
-            bool vacationsExist = vacations is { Length: > 0 };
-
-            if (vacationsExist)
+            bool isWholeDayVacation = wholeDayVacations.Length > 0;
+            if (isWholeDayVacation)
             {
-                Vacation[] wholeDayVacations = vacations
-                    .Where(x => x.HourCount == null)
-                    .ToArray();
+                AbsenceHours = employment.HoursPerDay;
+                AbsenceReason = AbsenceReason.Vacation;
 
-                bool isWholeDayVacation = wholeDayVacations.Length > 0;
-                if (isWholeDayVacation)
-                {
-                    AbsenceHours = employment.HoursPerDay;
-                    AbsenceReason = AbsenceReason.Vacation;
+                AbsenceComments = CalculateAbsenceComments(wholeDayVacations);
 
-                    AbsenceComments = CalculateAbsenceComments(wholeDayVacations);
+                return;
+            }
 
-                    return;
-                }
+            int vacationHours = vacations
+                .Where(x => x.HourCount != null)
+                .Sum(x => x.HourCount.Value);
 
-                int vacationHours = vacations
-                    .Where(x => x.HourCount != null)
-                    .Sum(x => x.HourCount.Value);
-
-                if (vacationHours > employment.HoursPerDay)
-                {
-                    AbsenceHours = employment.HoursPerDay;
-                    AbsenceReason = AbsenceReason.Vacation;
-                    AbsenceComments = CalculateAbsenceComments(vacations);
-
-                    return;
-                }
-
-                WorkHours = employment.HoursPerDay - vacationHours;
-                AbsenceHours = vacationHours;
+            if (vacationHours > employment.HoursPerDay)
+            {
+                AbsenceHours = employment.HoursPerDay;
                 AbsenceReason = AbsenceReason.Vacation;
                 AbsenceComments = CalculateAbsenceComments(vacations);
 
                 return;
             }
 
-            WorkHours = employment.HoursPerDay;
+            WorkHours = employment.HoursPerDay - vacationHours;
+            AbsenceHours = vacationHours;
+            AbsenceReason = AbsenceReason.Vacation;
+            AbsenceComments = CalculateAbsenceComments(vacations);
+
+            return;
         }
 
-        private static string CalculateAbsenceComments(IEnumerable<Vacation> vacations)
-        {
-            string[] vacationComments = vacations
-                .Select(x => x.Comments)
-                .Where(x => x != null)
-                .ToArray();
+        WorkHours = employment.HoursPerDay;
+    }
 
-            return vacationComments.Length > 0
-                ? string.Join("; ", vacationComments)
-                : null;
-        }
+    private static string CalculateAbsenceComments(IEnumerable<Vacation> vacations)
+    {
+        string[] vacationComments = vacations
+            .Select(x => x.Comments)
+            .Where(x => x != null)
+            .ToArray();
 
-        public Employment GetEmployment()
-        {
-            return TeamMember.Employments?.GetEmploymentFor(SprintDay.Date);
-        }
+        return vacationComments.Length > 0
+            ? string.Join("; ", vacationComments)
+            : null;
+    }
 
-        public string GetCountry()
-        {
-            return GetEmployment()?.Country;
-        }
+    public Employment GetEmployment()
+    {
+        return TeamMember.Employments?.GetEmploymentFor(SprintDay.Date);
+    }
 
-        public override string ToString()
-        {
-            return $"{SprintDay.Date} - {TeamMember.Name.FullName}";
-        }
+    public string GetCountry()
+    {
+        return GetEmployment()?.Country;
+    }
+
+    public override string ToString()
+    {
+        return $"{SprintDay.Date} - {TeamMember.Name.FullName}";
     }
 }
