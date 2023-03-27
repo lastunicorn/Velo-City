@@ -117,10 +117,9 @@ public class TeamMember
         if (employment == null)
         {
             // vacation is required
+            
             if (hours.Value > 0)
-            {
                 throw new NotEmployedException(id, date);
-            }
         }
         else
         {
@@ -138,22 +137,6 @@ public class TeamMember
                     hours = maxHourPerDay;
 
                 Vacations.AddForDate(date, hours.Value);
-
-
-
-                //// partial day vacation is required
-                //if (hours.Value > 0 && hours.Value < employment.HoursPerDay)
-                //{
-                //    Vacations ??= new VacationCollection();
-                //    Vacations.AddPartial(date, hours.Value);
-                //}
-
-                //// full day vacation is required
-                //else if (hours.Value >= maxHourPerDay)
-                //{
-                //    Vacations ??= new VacationCollection();
-                //    Vacations.AddFull(date);
-                //}
             }
 
             // vacation exists

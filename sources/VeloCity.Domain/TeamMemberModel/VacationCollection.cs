@@ -328,6 +328,166 @@ public class VacationCollection : Collection<Vacation>
         }
     }
 
+    public void SetVacation(DateTime date, HoursValue hours, VacationSetOption option = VacationSetOption.WholeSeries)
+    {
+        date = date.Date;
+
+        Vacation existingVacation = Items.FirstOrDefault(x => x.Match(date));
+
+        switch (existingVacation)
+        {
+            case null:
+                SetVacation_WhenCurrentIsNone(date, hours);
+                break;
+
+            case VacationOnce existingVacationOnce:
+                SetVacation_WhenCurrentIsOnce(existingVacationOnce, hours);
+                break;
+
+            case VacationDaily:
+                break;
+
+            case VacationWeekly:
+            case VacationMonthly:
+            case VacationYearly:
+                SetVacation_WhenCurrentIsSeries(existingVacation, hours, option);
+                break;
+
+            default:
+                throw new Exception("Vacation type not supported.");
+        }
+    }
+
+    private void SetVacation_WhenCurrentIsNone(DateTime date, HoursValue hours)
+    {
+        if (hours <= 0)
+            return;
+
+        DateTime previousDate = date.AddDays(-1);
+        DateTime nextDate = date.AddDays(1);
+
+        Vacation previousVacation = Items.FirstOrDefault(x => x.Match(previousDate));
+        Vacation nextVacation = Items.FirstOrDefault(x => x.Match(nextDate));
+
+        // previous day == once vacation
+        //if (previousVacation is VacationOnce previousVacationOnce && previousVacationOnce.HourCount == hours)
+        if (previousVacation is VacationOnce)
+        {
+            // next day == once vacation
+            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            {
+                //  delete both and create a daily for previous, current and next.
+
+                previousVacation.Changed -= HandleVacationChanged;
+                Items.Remove(previousVacation);
+
+                nextVacation.Changed -= HandleVacationChanged;
+                Items.Remove(nextVacation);
+
+                Vacation newVacation = new VacationDaily
+                {
+                    DateInterval = new DateInterval(previousDate, nextDate),
+                    HourCount = hours
+                };
+
+                Items.Add(newVacation);
+                newVacation.Changed += HandleVacationChanged;
+            }
+
+            // next day == daily vacation
+            else if (nextVacation is VacationDaily nextVacationDaily && nextVacationDaily.HourCount == hours)
+            {
+                //  delete previous and extend next to start from previous.
+
+                previousVacation.Changed -= HandleVacationChanged;
+                Items.Remove(previousVacation);
+
+                nextVacationDaily.DateInterval = nextVacationDaily.DateInterval.InflateLeft(2);
+            }
+
+            // next day == other vacation (cannot merge)
+            else
+            {
+                //  delete previous and create a daily for previous and current.
+
+                previousVacation.Changed -= HandleVacationChanged;
+                Items.Remove(previousVacation);
+
+                Vacation newVacation = new VacationDaily
+                {
+                    DateInterval = new DateInterval(previousDate, date),
+                    HourCount = hours
+                };
+                Items.Add(newVacation);
+                newVacation.Changed += HandleVacationChanged;
+            }
+        }
+    }
+
+    private void SetVacation_WhenCurrentIsOnce(VacationOnce existingVacation, HoursValue hours)
+    {
+        if (hours <= 0)
+        {
+            existingVacation.Changed -= HandleVacationChanged;
+            Items.Remove(existingVacation);
+
+            return;
+        }
+
+        DateTime previousDate = existingVacation.Date.AddDays(-1);
+        DateTime nextDate = existingVacation.Date.AddDays(1);
+
+        Vacation previousVacation = Items.FirstOrDefault(x => x.Match(previousDate));
+        Vacation nextVacation = Items.FirstOrDefault(x => x.Match(nextDate));
+
+        // previous day == once vacation
+        //if (previousVacation is VacationOnce previousVacationOnce && previousVacationOnce.HourCount == hours)
+        if (previousVacation is VacationOnce)
+        {
+            // next day == once vacation
+            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            {
+                //  delete previous, current and next and create a daily for all of them.
+
+                existingVacation.Changed -= HandleVacationChanged;
+                Items.Remove(existingVacation);
+
+                previousVacation.Changed -= HandleVacationChanged;
+                Items.Remove(previousVacation);
+
+                nextVacation.Changed -= HandleVacationChanged;
+                Items.Remove(nextVacation);
+
+                Vacation newVacation = new VacationDaily
+                {
+                    DateInterval = new DateInterval(previousDate, nextDate),
+                    HourCount = hours
+                };
+
+                Items.Add(newVacation);
+                newVacation.Changed += HandleVacationChanged;
+            }
+        }
+    }
+
+    private void SetVacation_WhenCurrentIsSeries(Vacation existingVacation, HoursValue hours, VacationSetOption option)
+    {
+        switch (option)
+        {
+            case VacationSetOption.SingleDay:
+                throw new Exception("Updating a single day from a series is not supported.");
+
+            case VacationSetOption.WholeSeries when hours <= 0:
+                existingVacation.Changed -= HandleVacationChanged;
+                Items.Remove(existingVacation);
+                break;
+
+            case VacationSetOption.WholeSeries:
+                existingVacation.HourCount = hours;
+                break;
+        }
+    }
+
     public IEnumerable<Vacation> GetVacationsFor(DateTime date)
     {
         return Items.Where(x => x.Match(date));
@@ -337,4 +497,10 @@ public class VacationCollection : Collection<Vacation>
     {
         Changed?.Invoke(this, EventArgs.Empty);
     }
+}
+
+public enum VacationSetOption
+{
+    SingleDay,
+    WholeSeries
 }
