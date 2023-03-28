@@ -328,7 +328,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             EstimatedStoryPoints = response.EstimatedStoryPoints;
             EstimatedStoryPointsInfo = new EstimatedStoryPointsInfo
             {
-                PreviousSprintNumbers = response.PreviouslyClosedSprints
+                PreviousSprintNumbers = response.PreviouslyClosedSprintNumbers
             };
             EstimatedStoryPointsWithVelocityPenalties = response.EstimatedStoryPointsWithVelocityPenalties;
             EstimatedStoryPointsWithVelocityPenaltiesInfo = new EstimatedStoryPointsWithVelocityPenaltiesInfo
@@ -339,7 +339,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
             EstimatedVelocity = response.EstimatedVelocity;
             EstimatedVelocityInfo = new EstimatedVelocityInfo
             {
-                PreviousSprintNumbers = response.PreviouslyClosedSprints
+                PreviousSprintNumbers = response.PreviouslyClosedSprintNumbers
             };
             CommitmentStoryPoints = response.SprintState == Domain.SprintModel.SprintState.New && response.CommitmentStoryPoints.IsZero
                 ? StoryPoints.Empty
@@ -354,20 +354,20 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
 
             SprintComments = response.SprintComments;
 
-            LookBackSprintCount = response.PreviouslyClosedSprints?.Count ?? 0;
+            LookBackSprintCount = response.PreviouslyClosedSprintNumbers?.Count ?? 0;
 
             Notes = CreateNotes(response).ToList();
         }
 
         private static IEnumerable<NoteBase> CreateNotes(PresentSprintOverviewResponse response)
         {
-            bool previousSprintsExist = response.PreviouslyClosedSprints is { Count: > 0 };
+            bool previousSprintsExist = response.PreviouslyClosedSprintNumbers is { Count: > 0 };
 
             if (previousSprintsExist)
             {
                 yield return new PreviousSprintsCalculationNote
                 {
-                    PreviousSprintNumbers = response.PreviouslyClosedSprints
+                    PreviousSprintNumbers = response.PreviouslyClosedSprintNumbers
                 };
             }
             else

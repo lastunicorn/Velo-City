@@ -25,6 +25,10 @@ public class SprintList : Collection<Sprint>
 {
     public Sprint Last => Items.MaxBy(x => x.StartDate);
 
+    public SprintList()
+    {
+    }
+
     public SprintList(IEnumerable<Sprint> sprints)
     {
         if (sprints == null) throw new ArgumentNullException(nameof(sprints));

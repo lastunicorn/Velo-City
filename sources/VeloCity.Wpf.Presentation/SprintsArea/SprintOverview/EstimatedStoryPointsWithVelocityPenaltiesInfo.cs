@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
 {
     internal class EstimatedStoryPointsWithVelocityPenaltiesInfo : InfoBase
     {
-        public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
+        public List<VelocityPenaltyDto> VelocityPenalties { get; set; }
 
         protected override IEnumerable<string> BuildMessage()
         {

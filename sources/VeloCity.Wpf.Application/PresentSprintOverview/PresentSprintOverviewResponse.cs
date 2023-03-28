@@ -38,7 +38,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 
         public Velocity EstimatedVelocity { get; set; }
 
-        public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
+        public List<VelocityPenaltyDto> VelocityPenalties { get; set; }
 
         public StoryPoints CommitmentStoryPoints { get; set; }
 
@@ -46,7 +46,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 
         public Velocity ActualVelocity { get; set; }
 
-        public List<int> PreviouslyClosedSprints { get; set; }
+        public List<int> PreviouslyClosedSprintNumbers { get; set; }
 
         public List<int> ExcludedSprints { get; set; }
 

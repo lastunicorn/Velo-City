@@ -19,13 +19,13 @@ using DustInTheWind.VeloCity.Domain;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 {
-    public class VelocityPenaltyInfo
+    public class VelocityPenaltyDto
     {
         public PersonName PersonName { get; }
 
         public int PenaltyValue { get; }
 
-        public VelocityPenaltyInfo(VelocityPenaltyInstance velocityPenaltyInstance)
+        public VelocityPenaltyDto(VelocityPenaltyInstance velocityPenaltyInstance)
         {
             if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
 

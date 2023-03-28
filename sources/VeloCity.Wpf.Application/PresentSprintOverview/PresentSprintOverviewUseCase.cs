@@ -42,19 +42,14 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
 
         public async Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = RetrieveSprintToAnalyze();
-            AnalyzeSprintResponse analyzeSprintResponse = await AnalyzeSprint(currentSprint);
+            Sprint currentSprint = applicationState.SelectedSprintId == null
+                ? RetrieveDefaultSprintToAnalyze()
+                : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
 
+            AnalyzeSprintResponse analyzeSprintResponse = await AnalyzeSprint(currentSprint);
             PresentSprintOverviewResponse response = CreateResponse(currentSprint, analyzeSprintResponse);
 
             return response;
-        }
-
-        private Sprint RetrieveSprintToAnalyze()
-        {
-            return applicationState.SelectedSprintId == null
-                ? RetrieveDefaultSprintToAnalyze()
-                : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
         }
 
         private Sprint RetrieveDefaultSprintToAnalyze()
@@ -100,12 +95,12 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
                 EstimatedStoryPointsWithVelocityPenalties = analyzeSprintResponse.EstimatedStoryPointsWithVelocityPenalties,
                 EstimatedVelocity = analyzeSprintResponse.EstimatedVelocity,
                 VelocityPenalties = analyzeSprintResponse.VelocityPenalties?
-                    .Select(x => new VelocityPenaltyInfo(x))
+                    .Select(x => new VelocityPenaltyDto(x))
                     .ToList(),
                 CommitmentStoryPoints = sprint.CommitmentStoryPoints,
                 ActualStoryPoints = sprint.ActualStoryPoints,
                 ActualVelocity = sprint.Velocity,
-                PreviouslyClosedSprints = analyzeSprintResponse.HistorySprints?
+                PreviouslyClosedSprintNumbers = analyzeSprintResponse.HistorySprints?
                     .Select(x => x.Number)
                     .ToList(),
                 ExcludedSprints = null,
