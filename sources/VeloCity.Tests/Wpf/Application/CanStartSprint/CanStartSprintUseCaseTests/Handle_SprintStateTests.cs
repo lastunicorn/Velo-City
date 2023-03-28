@@ -67,7 +67,7 @@ public class Handle_SprintStateTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         CanStartSprintRequest request = new();
         CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -87,7 +87,7 @@ public class Handle_SprintStateTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         CanStartSprintRequest request = new();
         CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -107,7 +107,7 @@ public class Handle_SprintStateTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         CanStartSprintRequest request = new();
         CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -127,7 +127,7 @@ public class Handle_SprintStateTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         CanStartSprintRequest request = new();
         CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -147,7 +147,7 @@ public class Handle_SprintStateTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         CanStartSprintRequest request = new();
         CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);

@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
@@ -23,7 +24,7 @@ namespace DustInTheWind.VeloCity.Ports.DataAccess
 {
     public interface IOfficialHolidayRepository
     {
-        IEnumerable<OfficialHoliday> GetAll();
+        Task<IEnumerable<OfficialHoliday>> GetAll();
 
         IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate);
 

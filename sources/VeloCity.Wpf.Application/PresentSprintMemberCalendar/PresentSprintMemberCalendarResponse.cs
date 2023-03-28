@@ -18,20 +18,19 @@ using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
+
+public class PresentSprintMemberCalendarResponse
 {
-    public class PresentSprintMemberCalendarResponse
-    {
-        public int TeamMemberId { get; set; }
+    public int TeamMemberId { get; set; }
 
-        public PersonName TeamMemberName { get; set; }
-        
-        public int SprintId { get; set; }
+    public PersonName TeamMemberName { get; set; }
 
-        public int SprintNumber { get; set; }
+    public int SprintId { get; set; }
 
-        public List<SprintMemberDayDto> Days { get; set; }
+    public int SprintNumber { get; set; }
 
-        public SprintMember SprintMembers { get; set; }
-    }
+    public List<SprintMemberDayDto> Days { get; set; }
+
+    public SprintMember SprintMembers { get; set; }
 }

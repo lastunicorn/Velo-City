@@ -54,7 +54,7 @@ public class Handle_SprintMemberDtoPropertiesTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
     }
 
     [Fact]

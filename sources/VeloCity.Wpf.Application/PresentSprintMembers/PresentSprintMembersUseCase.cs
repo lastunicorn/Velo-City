@@ -37,27 +37,26 @@ internal class PresentSprintMembersUseCase : IRequestHandler<PresentSprintMember
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
     }
 
-    public Task<PresentSprintMembersResponse> Handle(PresentSprintMembersRequest request, CancellationToken cancellationToken)
+    public async Task<PresentSprintMembersResponse> Handle(PresentSprintMembersRequest request, CancellationToken cancellationToken)
     {
-        Sprint sprint = RetrieveSprintToAnalyze();
+        Sprint sprint = await RetrieveSprintToAnalyze();
         List<SprintMember> sprintMembers = ComputeSprintMemberList(sprint);
-        PresentSprintMembersResponse response = CreateResponse(sprintMembers);
 
-        return Task.FromResult(response);
+        return CreateResponse(sprintMembers);
     }
 
-    private Sprint RetrieveSprintToAnalyze()
+    private async Task<Sprint> RetrieveSprintToAnalyze()
     {
         int? currentSprintId = applicationState.SelectedSprintId;
 
         return currentSprintId == null
-            ? RetrieveDefaultSprintToAnalyze()
-            : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
+            ? await RetrieveDefaultSprintToAnalyze()
+            : await RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
     }
 
-    private Sprint RetrieveDefaultSprintToAnalyze()
+    private async Task<Sprint> RetrieveDefaultSprintToAnalyze()
     {
-        Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+        Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
 
         if (sprint == null)
             throw new NoSprintInProgressException();
@@ -65,9 +64,9 @@ internal class PresentSprintMembersUseCase : IRequestHandler<PresentSprintMember
         return sprint;
     }
 
-    private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber)
+    private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintNumber)
     {
-        Sprint sprint = unitOfWork.SprintRepository.Get(sprintNumber);
+        Sprint sprint = await unitOfWork.SprintRepository.Get(sprintNumber);
 
         if (sprint == null)
             throw new SprintDoesNotExistException(sprintNumber);

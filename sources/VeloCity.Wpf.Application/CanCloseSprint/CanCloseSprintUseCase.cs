@@ -34,25 +34,23 @@ internal class CanCloseSprintUseCase : IRequestHandler<CanCloseSprintRequest, Ca
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
     }
 
-    public Task<CanCloseSprintResponse> Handle(CanCloseSprintRequest request, CancellationToken cancellationToken)
+    public async Task<CanCloseSprintResponse> Handle(CanCloseSprintRequest request, CancellationToken cancellationToken)
     {
-        Sprint sprint = RetrieveSelectedSprint();
+        Sprint sprint = await RetrieveSelectedSprint();
         bool canCloseSprint = CanCloseSelectedSprint(sprint);
 
-        CanCloseSprintResponse response = new()
+        return new CanCloseSprintResponse
         {
             CanCloseSprint = canCloseSprint
         };
-
-        return Task.FromResult(response);
     }
 
-    private Sprint RetrieveSelectedSprint()
+    private async Task<Sprint> RetrieveSelectedSprint()
     {
         int? sprintId = applicationState.SelectedSprintId;
 
         return sprintId != null
-            ? unitOfWork.SprintRepository.Get(sprintId.Value)
+            ? await unitOfWork.SprintRepository.Get(sprintId.Value)
             : null;
     }
 

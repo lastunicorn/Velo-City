@@ -78,7 +78,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         StartSprintRequest request = new();
         Func<Task> action = async () =>
@@ -119,7 +119,7 @@ public class HandleTests
         };
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         StartSprintRequest request = new();
         Func<Task> action = async () =>
@@ -140,10 +140,10 @@ public class HandleTests
         };
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(new Sprint());
+            .ReturnsAsync(new Sprint());
 
         StartSprintRequest request = new();
         Func<Task> action = async () =>
@@ -164,10 +164,10 @@ public class HandleTests
         };
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(247))
             .Returns(false);
@@ -192,7 +192,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(It.IsAny<int>()))

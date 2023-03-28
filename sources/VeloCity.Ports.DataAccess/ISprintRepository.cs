@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
@@ -25,9 +26,9 @@ namespace DustInTheWind.VeloCity.Ports.DataAccess
     {
         IEnumerable<Sprint> GetAll();
 
-        Sprint Get(int id);
+        Task<Sprint> Get(int id);
 
-        Sprint GetByNumber(int number);
+        Task<Sprint> GetByNumber(int number);
 
         IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count);
 
@@ -37,7 +38,7 @@ namespace DustInTheWind.VeloCity.Ports.DataAccess
 
         IEnumerable<Sprint> GetLast(int count);
 
-        Sprint GetLastInProgress();
+        Task<Sprint> GetLastInProgress();
 
         IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints);
 

@@ -68,7 +68,7 @@ public class Handle_WithSpecifiedSprintTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())
@@ -91,7 +91,7 @@ public class Handle_WithSpecifiedSprintTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())
@@ -113,7 +113,7 @@ public class Handle_WithSpecifiedSprintTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())
@@ -142,7 +142,7 @@ public class Handle_WithSpecifiedSprintTests
 
         sprintRepository
             .Setup(x => x.Get(4))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())

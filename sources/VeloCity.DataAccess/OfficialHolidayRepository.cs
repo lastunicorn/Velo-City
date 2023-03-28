@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
@@ -32,9 +33,10 @@ namespace DustInTheWind.VeloCity.DataAccess
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public IEnumerable<OfficialHoliday> GetAll()
+        public Task<IEnumerable<OfficialHoliday>> GetAll()
         {
-            return dbContext.OfficialHolidays;
+            IEnumerable<OfficialHoliday> items = dbContext.OfficialHolidays;
+            return Task.FromResult(items);
         }
 
         public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate)

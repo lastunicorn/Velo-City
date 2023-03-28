@@ -25,90 +25,83 @@ using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar;
+
+internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalendarRequest, PresentSprintCalendarResponse>
 {
-    internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalendarRequest, PresentSprintCalendarResponse>
+    private readonly IUnitOfWork unitOfWork;
+
+    public PresentSprintCalendarUseCase(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    }
 
-        public PresentSprintCalendarUseCase(IUnitOfWork unitOfWork)
+    public async Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
+    {
+        if (request.SprintNumber != null)
+            return await CreateSprintCalendarResponse(request.SprintNumber.Value);
+
+        if (request.StartDate != null)
+            return await CreateMonthCalendarResponse(request.StartDate.Value, request.EndDate);
+
+        return await CreateSprintCalendarResponse();
+    }
+
+    private async Task<PresentSprintCalendarResponse> CreateSprintCalendarResponse(int sprintNumber)
+    {
+        Sprint sprint = await unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+
+        if (sprint == null)
+            throw new SprintDoesNotExistException(sprintNumber);
+
+        return new PresentSprintCalendarResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        }
+            SprintCalendar = new SprintCalendar(sprint)
+        };
+    }
 
-        public Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
+    private async Task<PresentSprintCalendarResponse> CreateMonthCalendarResponse(DateTime startDate, DateTime? endDate)
+    {
+        MonthEnumeration monthEnumeration = new()
         {
-            PresentSprintCalendarResponse response = CreateResponse(request);
-            return Task.FromResult(response);
-        }
+            StartDate = startDate,
+            EndDate = endDate,
+            Count = endDate == null ? 1 : null
+        };
 
-        private PresentSprintCalendarResponse CreateResponse(PresentSprintCalendarRequest request)
+        List<OfficialHoliday> officialHolidays = (await unitOfWork.OfficialHolidayRepository.GetAll())
+            .ToList();
+
+        return new PresentSprintCalendarResponse
         {
-            if (request.SprintNumber != null)
-                return CreateSprintCalendarResponse(request.SprintNumber.Value);
+            MonthCalendars = monthEnumeration
+                .Select(x =>
+                {
+                    DateTime monthStartDate = x.StartDate!.Value;
+                    DateTime monthEndDate = x.EndDate!.Value;
+                    DateInterval monthDateInterval = new(startDate, endDate);
 
-            if (request.StartDate != null)
-                return CreateMonthCalendarResponse(request.StartDate.Value, request.EndDate);
-
-            return CreateSprintCalendarResponse();
-        }
-
-        private PresentSprintCalendarResponse CreateSprintCalendarResponse(int sprintNumber)
-        {
-            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
-
-            if (sprint == null)
-                throw new SprintDoesNotExistException(sprintNumber);
-
-            return new PresentSprintCalendarResponse
-            {
-                SprintCalendar = new SprintCalendar(sprint)
-            };
-        }
-
-        private PresentSprintCalendarResponse CreateMonthCalendarResponse(DateTime startDate, DateTime? endDate)
-        {
-            MonthEnumeration monthEnumeration = new()
-            {
-                StartDate = startDate,
-                EndDate = endDate,
-                Count = endDate == null ? 1 : null
-            };
-
-            List<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.GetAll()
-                .ToList();
-
-            return new PresentSprintCalendarResponse
-            {
-                MonthCalendars = monthEnumeration
-                    .Select(x =>
+                    return new MonthCalendar(monthStartDate, monthEndDate)
                     {
-                        DateTime monthStartDate = x.StartDate!.Value;
-                        DateTime monthEndDate = x.EndDate!.Value;
-                        DateInterval monthDateInterval = new(startDate, endDate);
+                        OfficialHolidays = officialHolidays,
+                        TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(monthDateInterval)
+                            .ToList()
+                    };
+                })
+                .ToList()
+        };
+    }
 
-                        return new MonthCalendar(monthStartDate, monthEndDate)
-                        {
-                            OfficialHolidays = officialHolidays,
-                            TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(monthDateInterval)
-                                .ToList()
-                        };
-                    })
-                    .ToList()
-            };
-        }
+    private async Task<PresentSprintCalendarResponse> CreateSprintCalendarResponse()
+    {
+        Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
 
-        private PresentSprintCalendarResponse CreateSprintCalendarResponse()
+        if (sprint == null)
+            throw new NoSprintInProgressException();
+
+        return new PresentSprintCalendarResponse
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
-
-            if (sprint == null)
-                throw new NoSprintInProgressException();
-
-            return new PresentSprintCalendarResponse
-            {
-                SprintCalendar = new SprintCalendar(sprint)
-            };
-        }
+            SprintCalendar = new SprintCalendar(sprint)
+        };
     }
 }

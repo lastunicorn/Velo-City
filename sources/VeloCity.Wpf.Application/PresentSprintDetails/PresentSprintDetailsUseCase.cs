@@ -35,26 +35,25 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
-        public Task<PresentSprintDetailResponse> Handle(PresentSprintDetailRequest request, CancellationToken cancellationToken)
+        public async Task<PresentSprintDetailResponse> Handle(PresentSprintDetailRequest request, CancellationToken cancellationToken)
         {
-            Sprint currentSprint = RetrieveSprintToAnalyze(request);
-            PresentSprintDetailResponse response = CreateResponse(currentSprint);
+            Sprint currentSprint = await RetrieveSprintToAnalyze(request);
 
-            return Task.FromResult(response);
+            return CreateResponse(currentSprint);
         }
 
-        private Sprint RetrieveSprintToAnalyze(PresentSprintDetailRequest request)
+        private async Task<Sprint> RetrieveSprintToAnalyze(PresentSprintDetailRequest request)
         {
             return request.SprintId == null
                 ? applicationState.SelectedSprintId == null
-                    ? RetrieveDefaultSprintToAnalyze()
-                    : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value)
-                : RetrieveSpecificSprintToAnalyze(request.SprintId.Value);
+                    ? await RetrieveDefaultSprintToAnalyze()
+                    : await RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value)
+                : await RetrieveSpecificSprintToAnalyze(request.SprintId.Value);
         }
 
-        private Sprint RetrieveDefaultSprintToAnalyze()
+        private async Task<Sprint> RetrieveDefaultSprintToAnalyze()
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+            Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
 
             if (sprint == null)
                 throw new NoSprintInProgressException();
@@ -62,9 +61,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
             return sprint;
         }
 
-        private Sprint RetrieveSpecificSprintToAnalyze(int sprintId)
+        private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintId)
         {
-            Sprint sprint = unitOfWork.SprintRepository.Get(sprintId);
+            Sprint sprint = await unitOfWork.SprintRepository.Get(sprintId);
 
             if (sprint == null)
                 throw new SprintDoesNotExistException(sprintId);

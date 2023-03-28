@@ -75,7 +75,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         Func<Task> action = async () =>
         {
@@ -108,7 +108,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.Get(165))
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         PresentSprintOverviewRequest request = new();
 

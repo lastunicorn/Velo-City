@@ -54,7 +54,7 @@ public class Handle_SprintNumberFromApplicationStateTests
     {
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         applicationState.SelectedSprintId = 101;
 
@@ -75,7 +75,7 @@ public class Handle_SprintNumberFromApplicationStateTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         applicationState.SelectedSprintId = 101;
 
@@ -95,7 +95,7 @@ public class Handle_SprintNumberFromApplicationStateTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         applicationState.SelectedSprintId = 101;
 
@@ -115,7 +115,7 @@ public class Handle_SprintNumberFromApplicationStateTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         applicationState.SelectedSprintId = 101;
 
@@ -135,7 +135,7 @@ public class Handle_SprintNumberFromApplicationStateTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         applicationState.SelectedSprintId = 101;
 
@@ -155,7 +155,7 @@ public class Handle_SprintNumberFromApplicationStateTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         applicationState.SelectedSprintId = 101;
 

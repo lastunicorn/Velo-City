@@ -49,10 +49,10 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
 
     public async Task<Unit> Handle(StartSprintRequest request, CancellationToken cancellationToken)
     {
-        Sprint selectedSprint = RetrieveSelectedSprint();
+        Sprint selectedSprint = await RetrieveSelectedSprint();
 
         ValidateSprintState(selectedSprint);
-        ValidateNoSprintIsInProgress();
+        await ValidateNoSprintIsInProgress();
         ValidateSprintIsNextInLine(selectedSprint);
 
         SprintStartConfirmationResponse sprintStartConfirmationResponse = await RequestUserConfirmation(selectedSprint);
@@ -68,14 +68,14 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
         return Unit.Value;
     }
 
-    private Sprint RetrieveSelectedSprint()
+    private async Task<Sprint> RetrieveSelectedSprint()
     {
         int? selectedSprintId = applicationState.SelectedSprintId;
 
         if (selectedSprintId == null)
             throw new NoSprintSelectedException();
 
-        Sprint sprint = unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+        Sprint sprint = await unitOfWork.SprintRepository.Get(selectedSprintId.Value);
 
         if (sprint == null)
             throw new SprintDoesNotExistException(selectedSprintId.Value);
@@ -89,9 +89,9 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
             throw new InvalidSprintStateException(sprint.Number, sprint.State);
     }
 
-    private void ValidateNoSprintIsInProgress()
+    private async Task ValidateNoSprintIsInProgress()
     {
-        Sprint sprintInProgress = unitOfWork.SprintRepository.GetLastInProgress();
+        Sprint sprintInProgress = await unitOfWork.SprintRepository.GetLastInProgress();
 
         if (sprintInProgress != null)
             throw new OtherSprintAlreadyInProgressException(sprintInProgress.Number);

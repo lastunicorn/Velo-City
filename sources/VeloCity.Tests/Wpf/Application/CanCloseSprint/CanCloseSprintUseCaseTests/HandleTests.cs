@@ -80,7 +80,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.Get(15))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         CanCloseSprintRequest request = new();
         CanCloseSprintResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -104,7 +104,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.Get(15))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         CanCloseSprintRequest request = new();
         CanCloseSprintResponse response = await useCase.Handle(request, CancellationToken.None);

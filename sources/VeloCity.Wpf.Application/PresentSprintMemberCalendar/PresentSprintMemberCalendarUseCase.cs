@@ -24,48 +24,45 @@ using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
+
+public class PresentSprintMemberCalendarUseCase : IRequestHandler<PresentSprintMemberCalendarRequest, PresentSprintMemberCalendarResponse>
 {
-    public class PresentSprintMemberCalendarUseCase : IRequestHandler<PresentSprintMemberCalendarRequest, PresentSprintMemberCalendarResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ISystemClock systemClock;
+
+    public PresentSprintMemberCalendarUseCase(IUnitOfWork unitOfWork, ISystemClock systemClock)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ISystemClock systemClock;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
+    }
 
-        public PresentSprintMemberCalendarUseCase(IUnitOfWork unitOfWork, ISystemClock systemClock)
+    public async Task<PresentSprintMemberCalendarResponse> Handle(PresentSprintMemberCalendarRequest request, CancellationToken cancellationToken)
+    {
+        Sprint sprint = await RetrieveSprint(request.SprintId);
+        SprintMember sprintMember = sprint.GetSprintMember(request.TeamMemberId);
+        DateTime currentDate = systemClock.Today;
+
+        return new PresentSprintMemberCalendarResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
-        }
+            TeamMemberId = sprintMember.TeamMember.Id,
+            TeamMemberName = sprintMember.Name,
+            SprintId = sprintMember.Sprint.Id,
+            SprintNumber = sprintMember.Sprint.Number,
+            Days = sprintMember.Days
+                .Select(x => new SprintMemberDayDto(x, currentDate))
+                .ToList(),
+            SprintMembers = sprintMember
+        };
+    }
 
-        public Task<PresentSprintMemberCalendarResponse> Handle(PresentSprintMemberCalendarRequest request, CancellationToken cancellationToken)
-        {
-            Sprint sprint = RetrieveSprint(request.SprintId);
-            SprintMember sprintMember = sprint.GetSprintMember(request.TeamMemberId);
-            DateTime currentDate = systemClock.Today;
+    private async Task<Sprint> RetrieveSprint(int sprintId)
+    {
+        Sprint sprint = await unitOfWork.SprintRepository.Get(sprintId);
 
-            PresentSprintMemberCalendarResponse response = new()
-            {
-                TeamMemberId = sprintMember.TeamMember.Id,
-                TeamMemberName = sprintMember.Name,
-                SprintId = sprintMember.Sprint.Id,
-                SprintNumber = sprintMember.Sprint.Number,
-                Days = sprintMember.Days
-                    .Select(x => new SprintMemberDayDto(x, currentDate))
-                    .ToList(),
-                SprintMembers = sprintMember
-            };
+        if (sprint == null)
+            throw new SprintDoesNotExistException(sprintId);
 
-            return Task.FromResult(response);
-        }
-
-        private Sprint RetrieveSprint(int sprintId)
-        {
-            Sprint sprint = unitOfWork.SprintRepository.Get(sprintId);
-
-            if (sprint == null)
-                throw new SprintDoesNotExistException(sprintId);
-
-            return sprint;
-        }
+        return sprint;
     }
 }

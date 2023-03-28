@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
@@ -58,9 +59,9 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public void Calculate()
+        public async Task Calculate()
         {
-            Sprint referenceSprint = GetReferenceSprint();
+            Sprint referenceSprint = await GetReferenceSprint();
 
             HistorySprints = RetrievePreviousSprints(referenceSprint);
             EstimatedVelocity = EstimateVelocity(HistorySprints);
@@ -90,9 +91,9 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
                 : StoryPoints.Empty;
         }
 
-        public Sprint GetReferenceSprint()
+        public async Task<Sprint> GetReferenceSprint()
         {
-            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress()
+            Sprint currentSprint = await unitOfWork.SprintRepository.GetLastInProgress()
                                    ?? unitOfWork.SprintRepository.GetLastClosed();
 
             if (currentSprint == null)

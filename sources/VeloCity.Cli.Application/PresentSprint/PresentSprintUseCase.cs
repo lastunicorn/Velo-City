@@ -45,26 +45,26 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
 
         public async Task<PresentSprintResponse> Handle(PresentSprintRequest request, CancellationToken cancellationToken)
         {
-            Sprint sprintToAnalyze = RetrieveSprintToAnalyze(request);
+            Sprint sprintToAnalyze = await RetrieveSprintToAnalyze(request);
             AnalyzeSprintResponse analyzeSprintResponse = await AnalyzeSprint(sprintToAnalyze, request);
 
             return CreateResponse(sprintToAnalyze, request, analyzeSprintResponse);
         }
 
-        private Sprint RetrieveSprintToAnalyze(PresentSprintRequest request)
+        private async Task<Sprint> RetrieveSprintToAnalyze(PresentSprintRequest request)
         {
             Sprint sprint = request.SprintNumber == null
-                ? RetrieveDefaultSprintToAnalyze()
-                : RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
+                ? await RetrieveDefaultSprintToAnalyze()
+                : await RetrieveSpecificSprintToAnalyze(request.SprintNumber.Value);
 
             sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;
 
             return sprint;
         }
 
-        private Sprint RetrieveDefaultSprintToAnalyze()
+        private async Task<Sprint> RetrieveDefaultSprintToAnalyze()
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+            Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
 
             if (sprint == null)
                 throw new NoSprintInProgressException();
@@ -72,9 +72,9 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
             return sprint;
         }
 
-        private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber)
+        private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintNumber)
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+            Sprint sprint = await unitOfWork.SprintRepository.GetByNumber(sprintNumber);
 
             if (sprint == null)
                 throw new SprintDoesNotExistException(sprintNumber);

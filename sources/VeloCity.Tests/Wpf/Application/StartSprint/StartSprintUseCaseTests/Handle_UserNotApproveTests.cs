@@ -59,7 +59,7 @@ public class Handle_UserNotApproveTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(It.IsAny<int>()))

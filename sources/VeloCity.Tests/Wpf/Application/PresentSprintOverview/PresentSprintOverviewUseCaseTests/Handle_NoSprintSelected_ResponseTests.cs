@@ -56,7 +56,7 @@ public class Handle_NoSprintSelected_ResponseTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         Mock<IRequestBus> requestBus = new();
 

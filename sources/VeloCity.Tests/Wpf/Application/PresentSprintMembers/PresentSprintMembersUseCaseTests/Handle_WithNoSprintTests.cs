@@ -55,7 +55,7 @@ public class Handle_WithNoSprintTests
     {
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(new Sprint());
+            .ReturnsAsync(new Sprint());
 
         PresentSprintMembersRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
@@ -68,7 +68,7 @@ public class Handle_WithNoSprintTests
     {
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         Func<Task> action = async () =>
         {
@@ -91,7 +91,7 @@ public class Handle_WithNoSprintTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         PresentSprintMembersRequest request = new();
         PresentSprintMembersResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -135,7 +135,7 @@ public class Handle_WithNoSprintTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         PresentSprintMembersRequest request = new();
         PresentSprintMembersResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -179,7 +179,7 @@ public class Handle_WithNoSprintTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         PresentSprintMembersRequest request = new();
         PresentSprintMembersResponse response = await useCase.Handle(request, CancellationToken.None);

@@ -34,25 +34,23 @@ internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, Ca
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
     }
 
-    public Task<CanStartSprintResponse> Handle(CanStartSprintRequest request, CancellationToken cancellationToken)
+    public async Task<CanStartSprintResponse> Handle(CanStartSprintRequest request, CancellationToken cancellationToken)
     {
-        Sprint sprint = RetrieveSelectedSprint();
+        Sprint sprint = await RetrieveSelectedSprint();
         bool canStartSprint = CanStartSelectedSprint(sprint);
 
-        CanStartSprintResponse response = new()
+        return new CanStartSprintResponse
         {
             CanStartSprint = canStartSprint
         };
-
-        return Task.FromResult(response);
     }
 
-    private Sprint RetrieveSelectedSprint()
+    private async Task<Sprint> RetrieveSelectedSprint()
     {
         int? sprintId = applicationState.SelectedSprintId;
 
         return sprintId != null
-            ? unitOfWork.SprintRepository.Get(sprintId.Value)
+            ? await unitOfWork.SprintRepository.Get(sprintId.Value)
             : null;
     }
 

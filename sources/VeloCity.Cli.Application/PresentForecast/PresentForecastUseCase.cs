@@ -35,15 +35,14 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
             this.config = config ?? throw new ArgumentNullException(nameof(config));
         }
 
-        public Task<PresentForecastResponse> Handle(PresentForecastRequest request, CancellationToken cancellationToken)
+        public async Task<PresentForecastResponse> Handle(PresentForecastRequest request, CancellationToken cancellationToken)
         {
-            Forecast forecast = CalculateForecast(request);
-            PresentForecastResponse response = CreateResponse(forecast);
+            Forecast forecast = await CalculateForecast(request);
 
-            return Task.FromResult(response);
+            return CreateResponse(forecast);
         }
 
-        private Forecast CalculateForecast(PresentForecastRequest request)
+        private async Task<Forecast> CalculateForecast(PresentForecastRequest request)
         {
             Forecast forecast = new(unitOfWork)
             {
@@ -52,7 +51,7 @@ namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
                 ExcludedSprints = request.ExcludedSprints,
                 ExcludedTeamMembers = request.ExcludedTeamMembers
             };
-            forecast.Calculate();
+            await forecast.Calculate();
 
             return forecast;
         }

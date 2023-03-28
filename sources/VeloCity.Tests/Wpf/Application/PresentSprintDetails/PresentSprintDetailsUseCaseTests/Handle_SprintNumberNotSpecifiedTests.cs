@@ -69,7 +69,7 @@ public class Handle_SprintNumberNotSpecifiedTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new();
         PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -87,7 +87,7 @@ public class Handle_SprintNumberNotSpecifiedTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new();
         PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -105,7 +105,7 @@ public class Handle_SprintNumberNotSpecifiedTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new();
         PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -123,7 +123,7 @@ public class Handle_SprintNumberNotSpecifiedTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new();
         PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -141,7 +141,7 @@ public class Handle_SprintNumberNotSpecifiedTests
 
         sprintRepository
             .Setup(x => x.GetLastInProgress())
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new();
         PresentSprintDetailResponse response = await useCase.Handle(request, CancellationToken.None);

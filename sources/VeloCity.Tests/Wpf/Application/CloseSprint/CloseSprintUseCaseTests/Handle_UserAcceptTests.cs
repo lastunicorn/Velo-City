@@ -59,7 +59,7 @@ public class Handle_UserAcceptTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         confirmationResponse = new SprintCloseConfirmationResponse
         {

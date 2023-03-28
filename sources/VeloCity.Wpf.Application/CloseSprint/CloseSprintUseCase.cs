@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Formats.Asn1;
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
@@ -45,7 +46,7 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
 
     public async Task<Unit> Handle(CloseSprintRequest request, CancellationToken cancellationToken)
     {
-        Sprint selectedSprint = RetrieveSelectedSprint();
+        Sprint selectedSprint = await RetrieveSelectedSprint();
         ValidateSprintState(selectedSprint);
 
         SprintCloseConfirmationResponse sprintCloseConfirmationResponse = RequestUserConfirmation(selectedSprint);
@@ -61,14 +62,14 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
         return Unit.Value;
     }
 
-    private Sprint RetrieveSelectedSprint()
+    private async Task<Sprint> RetrieveSelectedSprint()
     {
         int? selectedSprintId = applicationState.SelectedSprintId;
 
         if (selectedSprintId == null)
             throw new NoSprintSelectedException();
 
-        Sprint sprint = unitOfWork.SprintRepository.Get(selectedSprintId.Value);
+        Sprint sprint = await unitOfWork.SprintRepository.Get(selectedSprintId.Value);
 
         if (sprint == null)
             throw new SprintDoesNotExistException(selectedSprintId.Value);

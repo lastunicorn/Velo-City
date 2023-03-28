@@ -16,12 +16,11 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
+
+public class PresentSprintMemberCalendarRequest : IRequest<PresentSprintMemberCalendarResponse>
 {
-    public class PresentSprintMemberCalendarRequest : IRequest<PresentSprintMemberCalendarResponse>
-    {
-        public int SprintId { get; set; }
-        
-        public int TeamMemberId { get; set; }
-    }
+    public int SprintId { get; set; }
+
+    public int TeamMemberId { get; set; }
 }

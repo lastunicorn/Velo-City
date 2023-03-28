@@ -75,7 +75,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         userInterface
             .Setup(x => x.ConfirmCloseSprint(It.IsAny<SprintCloseConfirmationRequest>()))
@@ -94,7 +94,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         CloseSprintRequest request = new();
         Func<Task> action = async () => { await useCase.Handle(request, CancellationToken.None); };
@@ -113,7 +113,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         userInterface
             .Setup(x => x.ConfirmCloseSprint(It.IsAny<SprintCloseConfirmationRequest>()))

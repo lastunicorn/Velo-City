@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
@@ -37,15 +38,18 @@ namespace DustInTheWind.VeloCity.DataAccess
             return dbContext.Sprints;
         }
 
-        public Sprint Get(int id)
+        public Task<Sprint> Get(int id)
         {
-            return dbContext.Sprints.FirstOrDefault(x => x.Id == id);
+            Sprint sprint = dbContext.Sprints.FirstOrDefault(x => x.Id == id);
+            return Task.FromResult(sprint);
         }
 
-        public Sprint GetByNumber(int number)
+        public Task<Sprint> GetByNumber(int number)
         {
-            return dbContext.Sprints
+            Sprint sprint = dbContext.Sprints
                 .FirstOrDefault(x => x.Number == number);
+            
+            return Task.FromResult(sprint);
         }
 
         public DateInterval? GetDateIntervalFor(int sprintNumber)
@@ -96,9 +100,7 @@ namespace DustInTheWind.VeloCity.DataAccess
 
         public Sprint GetLast()
         {
-            return dbContext.Sprints
-                .OrderByDescending(x => x.StartDate)
-                .FirstOrDefault();
+            return dbContext.Sprints.MaxBy(x => x.StartDate);
         }
 
         public IEnumerable<Sprint> GetLast(int count)
@@ -109,12 +111,13 @@ namespace DustInTheWind.VeloCity.DataAccess
                 .Take(count);
         }
 
-        public Sprint GetLastInProgress()
+        public Task<Sprint> GetLastInProgress()
         {
-            return dbContext.Sprints
+            Sprint sprint = dbContext.Sprints
                 .Where(x => x.State == SprintState.InProgress)
-                .OrderByDescending(x => x.StartDate)
-                .FirstOrDefault();
+                .MaxBy(x => x.StartDate);
+
+            return Task.FromResult(sprint);
         }
 
         public IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints)

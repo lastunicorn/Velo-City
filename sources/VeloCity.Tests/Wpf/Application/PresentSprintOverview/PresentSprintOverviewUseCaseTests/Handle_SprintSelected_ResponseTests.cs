@@ -51,7 +51,7 @@ public class Handle_SprintSelected_ResponseTests
 
         sprintRepository
             .Setup(x => x.Get(375))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         Mock<IRequestBus> requestBus = new();
 

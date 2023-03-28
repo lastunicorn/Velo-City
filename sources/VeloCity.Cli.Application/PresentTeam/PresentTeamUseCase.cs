@@ -24,102 +24,97 @@ using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam;
+
+internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentTeamResponse>
 {
-    internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentTeamResponse>
+    private readonly IUnitOfWork unitOfWork;
+
+    public PresentTeamUseCase(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    }
 
-        public PresentTeamUseCase(IUnitOfWork unitOfWork)
+    public async Task<PresentTeamResponse> Handle(PresentTeamRequest request, CancellationToken cancellationToken)
+    {
+        if (request.Date != null)
+            return CreateResponseForDate(request.Date.Value);
+     
+        if (request.DateInterval != null)
+            return CreateResponseForDateInterval(request.DateInterval.Value);
+        
+        if (request.SprintNumber != null)
+            return await CreateResponseForSprint(request.SprintNumber.Value);
+        
+        return await CreateResponseForCurrentSprint();
+    }
+
+    private PresentTeamResponse CreateResponseForDate(DateTime date)
+    {
+        return new PresentTeamResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        }
+            TeamMembers = unitOfWork.TeamMemberRepository.GetByDate(date)
+                .OrderByEmploymentForDate(date)
+                .ToList(),
+            ResponseType = TeamResponseType.Date,
+            Date = date
+        };
+    }
 
-        public Task<PresentTeamResponse> Handle(PresentTeamRequest request, CancellationToken cancellationToken)
+    private PresentTeamResponse CreateResponseForDateInterval(DateInterval dateInterval)
+    {
+        return new PresentTeamResponse
         {
-            PresentTeamResponse response = CreateResponse(request);
-            return Task.FromResult(response);
-        }
+            TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval)
+                .OrderByEmploymentForDate(dateInterval.StartDate)
+                .ToList(),
+            ResponseType = TeamResponseType.DateInterval,
+            DateInterval = dateInterval
+        };
+    }
 
-        private PresentTeamResponse CreateResponse(PresentTeamRequest request)
+    private async Task<PresentTeamResponse> CreateResponseForSprint(int sprintNumber)
+    {
+        Sprint sprint = await RetrieveSprint(sprintNumber);
+        return CreateResponseForSprint(sprint);
+    }
+
+    private async Task<Sprint> RetrieveSprint(int sprintNumber)
+    {
+        Sprint sprint = await unitOfWork.SprintRepository.GetByNumber(sprintNumber);
+
+        if (sprint == null)
+            throw new SprintDoesNotExistException(sprintNumber);
+
+        return sprint;
+    }
+
+    private async Task<PresentTeamResponse> CreateResponseForCurrentSprint()
+    {
+        Sprint currentSprint = await RetrieveCurrentSprint();
+        return CreateResponseForSprint(currentSprint);
+    }
+
+    private async Task<Sprint> RetrieveCurrentSprint()
+    {
+        Sprint currentSprint = await unitOfWork.SprintRepository.GetLastInProgress();
+
+        if (currentSprint == null)
+            throw new NoSprintException();
+
+        return currentSprint;
+    }
+
+    private PresentTeamResponse CreateResponseForSprint(Sprint sprint)
+    {
+        return new PresentTeamResponse
         {
-            if (request.Date != null)
-                return CreateResponseForDate(request.Date.Value);
-
-            if (request.DateInterval != null)
-                return CreateResponseForDateInterval(request.DateInterval.Value);
-
-            if (request.SprintNumber != null)
-                return CreateResponseForSprint(request.SprintNumber.Value);
-
-            return CreateResponseForCurrentSprint();
-        }
-
-        private PresentTeamResponse CreateResponseForDate(DateTime date)
-        {
-            return new PresentTeamResponse
-            {
-                TeamMembers = TeamMembersExtensions.OrderByEmploymentForDate(unitOfWork.TeamMemberRepository.GetByDate(date), date)
-                    .ToList(),
-                ResponseType = TeamResponseType.Date,
-                Date = date
-            };
-        }
-
-        private PresentTeamResponse CreateResponseForDateInterval(DateInterval dateInterval)
-        {
-            return new PresentTeamResponse
-            {
-                TeamMembers = TeamMembersExtensions.OrderByEmploymentForDate(unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval), dateInterval.StartDate)
-                    .ToList(),
-                ResponseType = TeamResponseType.DateInterval,
-                DateInterval = dateInterval
-            };
-        }
-
-        private PresentTeamResponse CreateResponseForSprint(int sprintNumber)
-        {
-            Sprint sprint = RetrieveSprint(sprintNumber);
-            return CreateResponseForSprint(sprint);
-        }
-
-        private Sprint RetrieveSprint(int sprintNumber)
-        {
-            Sprint sprint = unitOfWork.SprintRepository.GetByNumber(sprintNumber);
-
-            if (sprint == null)
-                throw new SprintDoesNotExistException(sprintNumber);
-
-            return sprint;
-        }
-
-        private PresentTeamResponse CreateResponseForCurrentSprint()
-        {
-            Sprint currentSprint = RetrieveCurrentSprint();
-            return CreateResponseForSprint(currentSprint);
-        }
-
-        private Sprint RetrieveCurrentSprint()
-        {
-            Sprint currentSprint = unitOfWork.SprintRepository.GetLastInProgress();
-
-            if (currentSprint == null)
-                throw new NoSprintException();
-
-            return currentSprint;
-        }
-
-        private PresentTeamResponse CreateResponseForSprint(Sprint sprint)
-        {
-            return new PresentTeamResponse
-            {
-                TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval)
-                    .OrderByEmploymentForDate(sprint.StartDate)
-                    .ToList(),
-                ResponseType = TeamResponseType.Sprint,
-                SprintNumber = sprint.Number,
-                DateInterval = sprint.DateInterval
-            };
-        }
+            TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval)
+                .OrderByEmploymentForDate(sprint.StartDate)
+                .ToList(),
+            ResponseType = TeamResponseType.Sprint,
+            SprintNumber = sprint.Number,
+            DateInterval = sprint.DateInterval
+        };
     }
 }

@@ -60,7 +60,7 @@ public class Handle_SprintUpdatedEventTests
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(sprintFromRepository);
+            .ReturnsAsync(sprintFromRepository);
 
         confirmationResponse = new SprintCloseConfirmationResponse
         {

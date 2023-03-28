@@ -54,7 +54,7 @@ public class Handle_SprintNumberFromRequestTests
     {
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         PresentSprintDetailRequest request = new()
         {
@@ -76,7 +76,7 @@ public class Handle_SprintNumberFromRequestTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new()
         {
@@ -97,7 +97,7 @@ public class Handle_SprintNumberFromRequestTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new()
         {
@@ -118,7 +118,7 @@ public class Handle_SprintNumberFromRequestTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new()
         {
@@ -139,7 +139,7 @@ public class Handle_SprintNumberFromRequestTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new()
         {
@@ -160,7 +160,7 @@ public class Handle_SprintNumberFromRequestTests
 
         sprintRepository
             .Setup(x => x.Get(101))
-            .Returns(sprintFromStorage);
+            .ReturnsAsync(sprintFromStorage);
 
         PresentSprintDetailRequest request = new()
         {

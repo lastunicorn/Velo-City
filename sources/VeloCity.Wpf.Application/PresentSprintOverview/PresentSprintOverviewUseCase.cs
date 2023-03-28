@@ -43,8 +43,8 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
         public async Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
         {
             Sprint currentSprint = applicationState.SelectedSprintId == null
-                ? RetrieveDefaultSprintToAnalyze()
-                : RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
+                ? await RetrieveDefaultSprintToAnalyze()
+                : await RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
 
             AnalyzeSprintResponse analyzeSprintResponse = await AnalyzeSprint(currentSprint);
             PresentSprintOverviewResponse response = CreateResponse(currentSprint, analyzeSprintResponse);
@@ -52,9 +52,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
             return response;
         }
 
-        private Sprint RetrieveDefaultSprintToAnalyze()
+        private async Task<Sprint> RetrieveDefaultSprintToAnalyze()
         {
-            Sprint sprint = unitOfWork.SprintRepository.GetLastInProgress();
+            Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
 
             if (sprint == null)
                 throw new NoSprintInProgressException();
@@ -62,9 +62,9 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
             return sprint;
         }
 
-        private Sprint RetrieveSpecificSprintToAnalyze(int sprintNumber)
+        private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintNumber)
         {
-            Sprint sprint = unitOfWork.SprintRepository.Get(sprintNumber);
+            Sprint sprint = await unitOfWork.SprintRepository.Get(sprintNumber);
 
             if (sprint == null)
                 throw new SprintDoesNotExistException(sprintNumber);
