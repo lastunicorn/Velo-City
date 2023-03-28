@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.EventBusTests.EventBusTests
 {
-    internal class DummyEvent2
+    internal class DummyEvent1
     {
     }
 }

@@ -17,16 +17,17 @@
 using System;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Tests.Infrastructure.EventBusTests.EventBusTests;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.EventBusTests
 {
-    public class EventBusTests
+    public class PublishTests
     {
         private readonly EventBus eventBus;
 
-        public EventBusTests()
+        public PublishTests()
         {
             eventBus = new EventBus();
         }
