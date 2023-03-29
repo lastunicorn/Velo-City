@@ -16,7 +16,6 @@
 
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.SprintModel;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
 
@@ -31,6 +30,4 @@ public class PresentSprintMemberCalendarResponse
     public int SprintNumber { get; set; }
 
     public List<SprintMemberDayDto> Days { get; set; }
-
-    public SprintMember SprintMembers { get; set; }
 }

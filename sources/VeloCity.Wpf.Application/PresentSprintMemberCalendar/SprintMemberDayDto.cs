@@ -18,48 +18,47 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
+
+public class SprintMemberDayDto
 {
-    public class SprintMemberDayDto
+    public int TeamMemberId { get; }
+
+    public DateTime Date { get; }
+
+    public bool IsCurrentDay { get; }
+
+    public bool IsWorkDay { get; }
+
+    public HoursValue? WorkHours { get; }
+
+    public HoursValue? AbsenceHours { get; }
+
+    public AbsenceReason AbsenceReason { get; }
+
+    public string AbsenceComments { get; }
+
+    public bool CanAddVacation { get; }
+
+    public bool CanRemoveVacation { get; }
+
+    public SprintMemberDayDto(SprintMemberDay sprintMemberDay, DateTime currentDate)
     {
-        public int TeamMemberId { get; }
-     
-        public DateTime Date { get; }
+        TeamMemberId = sprintMemberDay.TeamMember?.Id ?? -1;
+        Date = sprintMemberDay.SprintDay.Date;
+        IsCurrentDay = sprintMemberDay.SprintDay.Date == currentDate;
+        IsWorkDay = sprintMemberDay.IsWorkDay;
 
-        public bool IsCurrentDay { get; }
-
-        public bool IsWorkDay { get; }
-
-        public HoursValue? WorkHours { get; }
-        
-        public HoursValue? AbsenceHours { get; }
-        
-        public AbsenceReason AbsenceReason { get; }
-        
-        public string AbsenceComments { get; }
-        
-        public bool CanAddVacation { get; }
-        
-        public bool CanRemoveVacation { get; }
-
-        public SprintMemberDayDto(SprintMemberDay sprintMemberDay, DateTime currentDate)
+        if (IsWorkDay)
         {
-            TeamMemberId = sprintMemberDay.TeamMember?.Id ?? -1;
-            Date = sprintMemberDay.SprintDay.Date;
-            IsCurrentDay = sprintMemberDay.SprintDay.Date == currentDate;
-            IsWorkDay = sprintMemberDay.IsWorkDay;
-
-            if (IsWorkDay)
-            {
-                WorkHours = sprintMemberDay.WorkHours;
-                AbsenceHours = sprintMemberDay.AbsenceHours;
-            }
-
-            AbsenceReason = sprintMemberDay.AbsenceReason;
-            AbsenceComments = sprintMemberDay.AbsenceComments;
-
-            CanAddVacation = IsWorkDay && WorkHours > 0;
-            CanRemoveVacation = IsWorkDay && AbsenceHours > 0 && sprintMemberDay.AbsenceReason == AbsenceReason.Vacation;
+            WorkHours = sprintMemberDay.WorkHours;
+            AbsenceHours = sprintMemberDay.AbsenceHours;
         }
+
+        AbsenceReason = sprintMemberDay.AbsenceReason;
+        AbsenceComments = sprintMemberDay.AbsenceComments;
+
+        CanAddVacation = IsWorkDay && WorkHours > 0;
+        CanRemoveVacation = IsWorkDay && AbsenceHours > 0 && sprintMemberDay.AbsenceReason == AbsenceReason.Vacation;
     }
 }

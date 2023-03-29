@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Runtime.Serialization;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 
@@ -26,16 +25,6 @@ internal class NoSprintSelectedException : Exception
 
     public NoSprintSelectedException()
         : base(DefaultMessage)
-    {
-    }
-
-    public NoSprintSelectedException(Exception innerException)
-        : base(DefaultMessage, innerException)
-    {
-    }
-
-    protected NoSprintSelectedException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 }

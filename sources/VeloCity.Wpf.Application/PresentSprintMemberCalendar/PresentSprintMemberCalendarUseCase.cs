@@ -40,7 +40,8 @@ public class PresentSprintMemberCalendarUseCase : IRequestHandler<PresentSprintM
     public async Task<PresentSprintMemberCalendarResponse> Handle(PresentSprintMemberCalendarRequest request, CancellationToken cancellationToken)
     {
         Sprint sprint = await RetrieveSprint(request.SprintId);
-        SprintMember sprintMember = sprint.GetSprintMember(request.TeamMemberId);
+        SprintMember sprintMember = GetSprintMember(sprint, request.TeamMemberId);
+
         DateTime currentDate = systemClock.Today;
 
         return new PresentSprintMemberCalendarResponse
@@ -51,8 +52,7 @@ public class PresentSprintMemberCalendarUseCase : IRequestHandler<PresentSprintM
             SprintNumber = sprintMember.Sprint.Number,
             Days = sprintMember.Days
                 .Select(x => new SprintMemberDayDto(x, currentDate))
-                .ToList(),
-            SprintMembers = sprintMember
+                .ToList()
         };
     }
 
@@ -64,5 +64,15 @@ public class PresentSprintMemberCalendarUseCase : IRequestHandler<PresentSprintM
             throw new SprintDoesNotExistException(sprintId);
 
         return sprint;
+    }
+
+    private static SprintMember GetSprintMember(Sprint sprint, int teamMemberId)
+    {
+        SprintMember sprintMember = sprint.GetSprintMember(teamMemberId);
+
+        if (sprintMember == null)
+            throw new TeamMemberNotInSprintException(teamMemberId, sprint.Number);
+
+        return sprintMember;
     }
 }

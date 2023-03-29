@@ -16,21 +16,18 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
 
-internal class InternalException : Exception
+public class TeamMemberNotInSprintException : Exception
 {
-    private static string DefaultMessage = "An unexpected internal error occurred.";
-
-    public InternalException(string message)
-        : base(BuildMessage(message))
+    public TeamMemberNotInSprintException(int teamMemberId, int sprintNumber)
+        : base(BuildMessage(teamMemberId, sprintNumber))
     {
     }
 
-    private static string BuildMessage(string message)
+    private static string BuildMessage(int teamMemberId, int sprintNumber)
     {
-        return message == null
-            ? DefaultMessage
-            : $"{DefaultMessage} {message}";
+        const string messageTemplate = "The team member with id {0} is not assigned to sprint '{1}'.";
+        return string.Format(messageTemplate, teamMemberId, sprintNumber);
     }
 }
