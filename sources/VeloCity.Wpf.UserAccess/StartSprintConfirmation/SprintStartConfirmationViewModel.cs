@@ -17,81 +17,80 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.UserAccess.StartSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.StartSprintConfirmation;
+
+public class SprintStartConfirmationViewModel : ViewModelBase
 {
-    public class SprintStartConfirmationViewModel : ViewModelBase
+    private string title;
+    private int sprintNumber;
+    private StoryPoints estimatedStoryPoints;
+    private StoryPoints commitmentStoryPoints;
+    private string sprintTitle;
+    private string sprintGoal;
+
+    public string Title
     {
-        private string title;
-        private int sprintNumber;
-        private StoryPoints estimatedStoryPoints;
-        private StoryPoints commitmentStoryPoints;
-        private string sprintTitle;
-        private string sprintGoal;
-
-        public string Title
+        get => title;
+        private set
         {
-            get => title;
-            private set
-            {
-                title = value;
-                OnPropertyChanged();
-            }
+            title = value;
+            OnPropertyChanged();
         }
-        
-        public int SprintNumber
-        {
-            get => sprintNumber;
-            set
-            {
-                sprintNumber = value;
+    }
 
-                RefreshTitle();
-            }
-        }
-
-        public StoryPoints EstimatedStoryPoints
+    public int SprintNumber
+    {
+        get => sprintNumber;
+        set
         {
-            get => estimatedStoryPoints;
-            set
-            {
-                estimatedStoryPoints = value;
-                OnPropertyChanged();
-            }
-        }
+            sprintNumber = value;
 
-        public StoryPoints CommitmentStoryPoints
-        {
-            get => commitmentStoryPoints;
-            set
-            {
-                commitmentStoryPoints = value;
-                OnPropertyChanged();
-            }
+            RefreshTitle();
         }
+    }
 
-        public string SprintTitle
+    public StoryPoints EstimatedStoryPoints
+    {
+        get => estimatedStoryPoints;
+        set
         {
-            get => sprintTitle;
-            set
-            {
-                sprintTitle = value;
-                OnPropertyChanged();
-            }
+            estimatedStoryPoints = value;
+            OnPropertyChanged();
         }
+    }
 
-        public string SprintGoal
+    public StoryPoints CommitmentStoryPoints
+    {
+        get => commitmentStoryPoints;
+        set
         {
-            get => sprintGoal;
-            set
-            {
-                sprintGoal = value;
-                OnPropertyChanged();
-            }
+            commitmentStoryPoints = value;
+            OnPropertyChanged();
         }
+    }
 
-        private void RefreshTitle()
+    public string SprintTitle
+    {
+        get => sprintTitle;
+        set
         {
-            Title = $"Start Sprint {sprintNumber}";
+            sprintTitle = value;
+            OnPropertyChanged();
         }
+    }
+
+    public string SprintGoal
+    {
+        get => sprintGoal;
+        set
+        {
+            sprintGoal = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private void RefreshTitle()
+    {
+        Title = $"Start Sprint {sprintNumber}";
     }
 }

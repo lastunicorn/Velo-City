@@ -16,16 +16,15 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
+
+public class SprintStartConfirmationResponse
 {
-    public class SprintStartConfirmationResponse
-    {
-        public bool IsAccepted { get; set; }
+    public bool IsAccepted { get; set; }
 
-        public StoryPoints CommitmentStoryPoints { get; set; }
+    public StoryPoints CommitmentStoryPoints { get; set; }
 
-        public string SprintTitle { get; set; }
-        
-        public string SprintGoal { get; set; }
-    }
+    public string SprintTitle { get; set; }
+
+    public string SprintGoal { get; set; }
 }

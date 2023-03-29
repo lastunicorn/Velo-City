@@ -16,16 +16,15 @@
 
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation;
+
+/// <summary>
+/// Interaction logic for NewSprintConfirmationWindow.xaml
+/// </summary>
+public partial class NewSprintConfirmationWindow : OkCancelWindow
 {
-    /// <summary>
-    /// Interaction logic for NewSprintConfirmationWindow.xaml
-    /// </summary>
-    public partial class NewSprintConfirmationWindow : OkCancelWindow
+    public NewSprintConfirmationWindow()
     {
-        public NewSprintConfirmationWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

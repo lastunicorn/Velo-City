@@ -16,28 +16,27 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess
+namespace DustInTheWind.VeloCity.Ports.DataAccess;
+
+public class DataAccessException : Exception
 {
-    public class DataAccessException : Exception
+    public DataAccessException()
+        : base(Resources.DataAccess_DefaultErrorMessage)
     {
-        public DataAccessException()
-            : base(Resources.DataAccess_DefaultErrorMessage)
-        {
-        }
+    }
 
-        public DataAccessException(string message)
-            : base(message)
-        {
-        }
+    public DataAccessException(string message)
+        : base(message)
+    {
+    }
 
-        public DataAccessException(Exception innerException)
-            : base(Resources.DataAccess_DefaultErrorMessage, innerException)
-        {
-        }
+    public DataAccessException(Exception innerException)
+        : base(Resources.DataAccess_DefaultErrorMessage, innerException)
+    {
+    }
 
-        public DataAccessException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
+    public DataAccessException(string message, Exception innerException)
+        : base(message, innerException)
+    {
     }
 }

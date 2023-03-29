@@ -16,52 +16,51 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.ChartTools
+namespace DustInTheWind.VeloCity.ChartTools;
+
+public class ChartBarValue<T> : IChartBarValue
 {
-    public class ChartBarValue<T> : IChartBarValue
+    private int? actualSpace;
+    private int? actualMaxValue;
+    private int? actualFillValue;
+    private int? actualEmptyValue;
+    private int? actualEmptySpace;
+
+    public Chart<T> Container { get; set; }
+
+    public T Item { get; set; }
+
+    public int MaxValue { get; set; }
+
+    public int FillValue { get; set; }
+
+    public int ActualSpace => actualSpace ?? MaxValue;
+
+    public int ActualMaxValue => actualMaxValue ?? MaxValue;
+
+    public int ActualFillValue => actualFillValue ?? FillValue;
+
+    public int ActualEmptyValue => actualEmptyValue ?? ActualMaxValue - ActualFillValue;
+
+    public int ActualEmptySpace => actualEmptySpace ?? ActualSpace - ActualMaxValue;
+
+    public void Calculate()
     {
-        private int? actualSpace;
-        private int? actualMaxValue;
-        private int? actualFillValue;
-        private int? actualEmptyValue;
-        private int? actualEmptySpace;
+        if (Container == null)
+            return;
 
-        public Chart<T> Container { get; set; }
+        actualSpace = Container.ActualSize;
+        actualMaxValue = (int)Math.Round((double)actualSpace * MaxValue / Container.MaxValue);
+        actualFillValue = (int)Math.Round((double)actualSpace * FillValue / Container.MaxValue);
+        actualEmptyValue = actualMaxValue - actualFillValue;
+        actualEmptySpace = actualSpace - actualMaxValue;
+    }
 
-        public T Item { get; set; }
+    public override string ToString()
+    {
+        if (MaxValue == 0)
+            return string.Empty;
 
-        public int MaxValue { get; set; }
-
-        public int FillValue { get; set; }
-
-        public int ActualSpace => actualSpace ?? MaxValue;
-
-        public int ActualMaxValue => actualMaxValue ?? MaxValue;
-
-        public int ActualFillValue => actualFillValue ?? FillValue;
-
-        public int ActualEmptyValue => actualEmptyValue ?? (ActualMaxValue - ActualFillValue);
-
-        public int ActualEmptySpace => actualEmptySpace ?? (ActualSpace - ActualMaxValue);
-
-        public void Calculate()
-        {
-            if (Container == null)
-                return;
-
-            actualSpace = Container.ActualSize;
-            actualMaxValue = (int)Math.Round((double)actualSpace * MaxValue / Container.MaxValue);
-            actualFillValue = (int)Math.Round((double)actualSpace * FillValue / Container.MaxValue);
-            actualEmptyValue = actualMaxValue - actualFillValue;
-            actualEmptySpace = actualSpace - actualMaxValue;
-        }
-
-        public override string ToString()
-        {
-            if (MaxValue == 0)
-                return string.Empty;
-
-            return new string('═', ActualFillValue) + new string('-', ActualEmptyValue);
-        }
+        return new string('═', ActualFillValue) + new string('-', ActualEmptyValue);
     }
 }

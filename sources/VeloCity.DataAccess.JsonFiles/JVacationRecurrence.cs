@@ -16,23 +16,22 @@
 
 using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+public enum JVacationRecurrence
 {
-    public enum JVacationRecurrence
-    {
-        [EnumMember(Value = "once")]
-        Once = 0,
+    [EnumMember(Value = "once")]
+    Once = 0,
 
-        [EnumMember(Value = "daily")]
-        Daily = 1,
+    [EnumMember(Value = "daily")]
+    Daily = 1,
 
-        [EnumMember(Value = "weekly")]
-        Weekly = 2,
+    [EnumMember(Value = "weekly")]
+    Weekly = 2,
 
-        [EnumMember(Value = "monthly")]
-        Monthly = 3,
+    [EnumMember(Value = "monthly")]
+    Monthly = 3,
 
-        [EnumMember(Value = "yearly")]
-        Yearly = 4
-    }
+    [EnumMember(Value = "yearly")]
+    Yearly = 4
 }

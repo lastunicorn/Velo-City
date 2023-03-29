@@ -15,13 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
 
-namespace DustInTheWind.VeloCity.SystemAccess
+namespace DustInTheWind.VeloCity.SystemAccess;
+
+public class SystemClock : ISystemClock
 {
-    public class SystemClock : ISystemClock
-    {
-        public DateTime Today => DateTime.Today;
-    }
+    public DateTime Today => DateTime.Today;
 }

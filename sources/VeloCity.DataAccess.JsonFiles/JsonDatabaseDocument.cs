@@ -16,16 +16,15 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+internal class JsonDatabaseDocument
 {
-    internal class JsonDatabaseDocument
-    {
-        public JDatabaseInfo DatabaseInfo { get; set; }
+    public JDatabaseInfo DatabaseInfo { get; set; }
 
-        public List<JSprint> Sprints { get; set; }
+    public List<JSprint> Sprints { get; set; }
 
-        public List<JTeamMember> TeamMembers { get; set; }
+    public List<JTeamMember> TeamMembers { get; set; }
 
-        public List<JOfficialHoliday> OfficialHolidays { get; set; }
-    }
+    public List<JOfficialHoliday> OfficialHolidays { get; set; }
 }

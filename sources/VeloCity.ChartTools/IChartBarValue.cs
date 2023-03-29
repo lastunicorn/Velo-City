@@ -14,14 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.ChartTools
+namespace DustInTheWind.VeloCity.ChartTools;
+
+public interface IChartBarValue
 {
-    public interface IChartBarValue
-    {
-        int ActualFillValue { get; }
-        
-        int ActualEmptyValue { get; }
-        
-        int ActualEmptySpace { get; }
-    }
+    int ActualFillValue { get; }
+
+    int ActualEmptyValue { get; }
+
+    int ActualEmptySpace { get; }
 }

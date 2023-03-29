@@ -18,34 +18,33 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly VeloCityDbContext dbContext;
+
+    private OfficialHolidayRepository officialHolidayRepository;
+    private SprintRepository sprintRepository;
+    private TeamMemberRepository teamMemberRepository;
+
+    public Exception DatabaseError => dbContext.LastError;
+
+    public WarningException DatabaseWarning => dbContext.LastWarning;
+
+    public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(dbContext);
+
+    public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(dbContext);
+
+    public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(dbContext);
+
+    public UnitOfWork(VeloCityDbContext dbContext)
     {
-        private readonly VeloCityDbContext dbContext;
+        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
 
-        private OfficialHolidayRepository officialHolidayRepository;
-        private SprintRepository sprintRepository;
-        private TeamMemberRepository teamMemberRepository;
-
-        public Exception DatabaseError => dbContext.LastError;
-
-        public WarningException DatabaseWarning => dbContext.LastWarning;
-
-        public IOfficialHolidayRepository OfficialHolidayRepository => officialHolidayRepository ??= new OfficialHolidayRepository(dbContext);
-
-        public ISprintRepository SprintRepository => sprintRepository ??= new SprintRepository(dbContext);
-
-        public ITeamMemberRepository TeamMemberRepository => teamMemberRepository ??= new TeamMemberRepository(dbContext);
-
-        public UnitOfWork(VeloCityDbContext dbContext)
-        {
-            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        }
-
-        public void SaveChanges()
-        {
-            dbContext.SaveChanges();
-        }
+    public void SaveChanges()
+    {
+        dbContext.SaveChanges();
     }
 }

@@ -17,15 +17,14 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.JsonFiles
-{
-    internal class MissingDatabaseVersionWarning : WarningException
-    {
-        private const string DefaultMessage = "The json file has no version. The data may not be parsed correctly. Expected file version: {0}.";
+namespace DustInTheWind.VeloCity.JsonFiles;
 
-        public MissingDatabaseVersionWarning(Version expectedDatabaseVersion)
-            : base(string.Format(DefaultMessage, expectedDatabaseVersion))
-        {
-        }
+internal class MissingDatabaseVersionWarning : WarningException
+{
+    private const string DefaultMessage = "The json file has no version. The data may not be parsed correctly. Expected file version: {0}.";
+
+    public MissingDatabaseVersionWarning(Version expectedDatabaseVersion)
+        : base(string.Format(DefaultMessage, expectedDatabaseVersion))
+    {
     }
 }

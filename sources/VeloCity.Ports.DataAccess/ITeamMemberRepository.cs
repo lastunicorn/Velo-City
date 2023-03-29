@@ -20,18 +20,17 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess
+namespace DustInTheWind.VeloCity.Ports.DataAccess;
+
+public interface ITeamMemberRepository
 {
-    public interface ITeamMemberRepository
-    {
-        Task<TeamMember> Get(int id);
+    Task<TeamMember> Get(int id);
 
-        IEnumerable<TeamMember> GetAll();
+    IEnumerable<TeamMember> GetAll();
 
-        IEnumerable<TeamMember> GetByDate(DateTime date);
+    IEnumerable<TeamMember> GetByDate(DateTime date);
 
-        IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
+    IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
 
-        IEnumerable<TeamMember> Find(string text);
-    }
+    IEnumerable<TeamMember> Find(string text);
 }

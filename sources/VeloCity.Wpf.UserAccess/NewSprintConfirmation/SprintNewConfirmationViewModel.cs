@@ -15,73 +15,66 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Windows.Controls;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
-using ValidationResult = System.Windows.Controls.ValidationResult;
 
-namespace DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation;
+
+public class SprintNewConfirmationViewModel : ViewModelBase
 {
-    public class SprintNewConfirmationViewModel : ViewModelBase
+    private string sprintTitle;
+    private DateTime endDate = DateTime.Today.AddDays(1);
+    private uint sprintLength;
+
+    public string Title { get; }
+
+    public string SprintTitle
     {
-        private string sprintTitle;
-        private DateTime endDate = DateTime.Today.AddDays(1);
-        private uint sprintLength;
-
-        public string Title { get; }
-
-        public string SprintTitle
+        get => sprintTitle;
+        set
         {
-            get => sprintTitle;
-            set
-            {
-                sprintTitle = value;
-                OnPropertyChanged();
-            }
+            sprintTitle = value;
+            OnPropertyChanged();
         }
+    }
 
-        public DateTime StartDate { get; }
+    public DateTime StartDate { get; }
 
-        public DateTime EndDate
+    public DateTime EndDate
+    {
+        get => endDate;
+        private set
         {
-            get => endDate;
-            private set
-            {
-                endDate = value;
-                OnPropertyChanged();
-            }
+            endDate = value;
+            OnPropertyChanged();
         }
-        
-        public uint SprintLength
+    }
+
+    public uint SprintLength
+    {
+        get => sprintLength;
+        set
         {
-            get => sprintLength;
-            set
-            {
-                //if (value <= 0)
-                //    throw new ArgumentException("Sprint length must be a positive integer.");
+            //if (value <= 0)
+            //    throw new ArgumentException("Sprint length must be a positive integer.");
 
-                sprintLength = value;
-                OnPropertyChanged();
+            sprintLength = value;
+            OnPropertyChanged();
 
-                UpdateEndDate();
-            }
-        }
-
-        public SprintNewConfirmationViewModel(int sprintNumber, DateTime startDate)
-        {
-            Title = $"Create Sprint {sprintNumber}";
-            StartDate = startDate;
             UpdateEndDate();
         }
+    }
 
-        private void UpdateEndDate()
-        {
-            EndDate = sprintLength > 0
-                ? StartDate.AddDays(sprintLength - 1)
-                : StartDate;
-        }
+    public SprintNewConfirmationViewModel(int sprintNumber, DateTime startDate)
+    {
+        Title = $"Create Sprint {sprintNumber}";
+        StartDate = startDate;
+        UpdateEndDate();
+    }
+
+    private void UpdateEndDate()
+    {
+        EndDate = sprintLength > 0
+            ? StartDate.AddDays(sprintLength - 1)
+            : StartDate;
     }
 }

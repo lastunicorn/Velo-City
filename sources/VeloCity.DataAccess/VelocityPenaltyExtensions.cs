@@ -19,44 +19,43 @@ using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.JsonFiles;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+internal static class VelocityPenaltyExtensions
 {
-    internal static class VelocityPenaltyExtensions
+    public static IEnumerable<JVelocityPenalty> ToJEntities(this IEnumerable<VelocityPenalty> velocityPenalties)
     {
-        public static IEnumerable<JVelocityPenalty> ToJEntities(this IEnumerable<VelocityPenalty> velocityPenalties)
-        {
-            return velocityPenalties?
-                .Select(x => x.ToJEntity());
-        }
+        return velocityPenalties?
+            .Select(x => x.ToJEntity());
+    }
 
-        public static JVelocityPenalty ToJEntity(this VelocityPenalty velocityPenalty)
+    public static JVelocityPenalty ToJEntity(this VelocityPenalty velocityPenalty)
+    {
+        return new JVelocityPenalty
         {
-            return new JVelocityPenalty
-            {
-                SprintId = velocityPenalty.Sprint.Id,
-                Value = velocityPenalty.Value,
-                Duration = velocityPenalty.Duration <= 1
-                    ? null
-                    : velocityPenalty.Duration,
-                Comments = velocityPenalty.Comments
-            };
-        }
+            SprintId = velocityPenalty.Sprint.Id,
+            Value = velocityPenalty.Value,
+            Duration = velocityPenalty.Duration <= 1
+                ? null
+                : velocityPenalty.Duration,
+            Comments = velocityPenalty.Comments
+        };
+    }
 
-        public static IEnumerable<VelocityPenalty> ToEntities(this IEnumerable<JVelocityPenalty> velocityPenalties, VeloCityDbContext dbContext)
-        {
-            return velocityPenalties?
-                .Select(x => x.ToEntity(dbContext));
-        }
+    public static IEnumerable<VelocityPenalty> ToEntities(this IEnumerable<JVelocityPenalty> velocityPenalties, VeloCityDbContext dbContext)
+    {
+        return velocityPenalties?
+            .Select(x => x.ToEntity(dbContext));
+    }
 
-        public static VelocityPenalty ToEntity(this JVelocityPenalty velocityPenalty, VeloCityDbContext dbContext)
+    public static VelocityPenalty ToEntity(this JVelocityPenalty velocityPenalty, VeloCityDbContext dbContext)
+    {
+        return new VelocityPenalty
         {
-            return new VelocityPenalty
-            {
-                Sprint = dbContext.Sprints.FirstOrDefault(x => x.Id == velocityPenalty.SprintId),
-                Value = velocityPenalty.Value,
-                Duration = velocityPenalty.Duration ?? 1,
-                Comments = velocityPenalty.Comments
-            };
-        }
+            Sprint = dbContext.Sprints.FirstOrDefault(x => x.Id == velocityPenalty.SprintId),
+            Value = velocityPenalty.Value,
+            Duration = velocityPenalty.Duration ?? 1,
+            Comments = velocityPenalty.Comments
+        };
     }
 }

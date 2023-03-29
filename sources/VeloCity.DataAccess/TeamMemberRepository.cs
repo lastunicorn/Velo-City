@@ -22,51 +22,50 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+internal class TeamMemberRepository : ITeamMemberRepository
 {
-    internal class TeamMemberRepository : ITeamMemberRepository
+    private readonly VeloCityDbContext dbContext;
+
+    public TeamMemberRepository(VeloCityDbContext dbContext)
     {
-        private readonly VeloCityDbContext dbContext;
+        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
 
-        public TeamMemberRepository(VeloCityDbContext dbContext)
-        {
-            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        }
+    public Task<TeamMember> Get(int id)
+    {
+        TeamMember teamMember = dbContext.TeamMembers
+            .FirstOrDefault(x => x.Id == id);
 
-        public Task<TeamMember> Get(int id)
-        {
-            TeamMember teamMember = dbContext.TeamMembers
-                .FirstOrDefault(x => x.Id == id);
-            
-            return Task.FromResult(teamMember);
-        }
+        return Task.FromResult(teamMember);
+    }
 
-        public IEnumerable<TeamMember> GetAll()
-        {
-            return dbContext.TeamMembers;
-        }
+    public IEnumerable<TeamMember> GetAll()
+    {
+        return dbContext.TeamMembers;
+    }
 
-        public IEnumerable<TeamMember> GetByDate(DateTime date)
-        {
-            return dbContext.TeamMembers
-                .Where(x => x.Employments?.Any(e => e.ContainsDate(date)) ?? false);
-        }
+    public IEnumerable<TeamMember> GetByDate(DateTime date)
+    {
+        return dbContext.TeamMembers
+            .Where(x => x.Employments?.Any(e => e.ContainsDate(date)) ?? false);
+    }
 
-        public IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null)
-        {
-            IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers
-                .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(dateInterval)) ?? false);
+    public IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null)
+    {
+        IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers
+            .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(dateInterval)) ?? false);
 
-            if (excludedNames is { Count: > 0 })
-                teamMembers = teamMembers.Where(x => !excludedNames.Any(z => x.Name.Contains(z)));
+        if (excludedNames is { Count: > 0 })
+            teamMembers = teamMembers.Where(x => !excludedNames.Any(z => x.Name.Contains(z)));
 
-            return teamMembers;
-        }
+        return teamMembers;
+    }
 
-        public IEnumerable<TeamMember> Find(string text)
-        {
-            return dbContext.TeamMembers
-                .Where(x => x.Name.Contains(text));
-        }
+    public IEnumerable<TeamMember> Find(string text)
+    {
+        return dbContext.TeamMembers
+            .Where(x => x.Name.Contains(text));
     }
 }

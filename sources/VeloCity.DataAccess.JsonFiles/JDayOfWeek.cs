@@ -16,29 +16,28 @@
 
 using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+public enum JDayOfWeek
 {
-    public enum JDayOfWeek
-    {
-        [EnumMember(Value = "sunday")]
-        Sunday,
+    [EnumMember(Value = "sunday")]
+    Sunday,
 
-        [EnumMember(Value = "monday")]
-        Monday,
+    [EnumMember(Value = "monday")]
+    Monday,
 
-        [EnumMember(Value = "tuesday")]
-        Tuesday,
+    [EnumMember(Value = "tuesday")]
+    Tuesday,
 
-        [EnumMember(Value = "wednesday")]
-        Wednesday,
+    [EnumMember(Value = "wednesday")]
+    Wednesday,
 
-        [EnumMember(Value = "thursday")]
-        Thursday,
+    [EnumMember(Value = "thursday")]
+    Thursday,
 
-        [EnumMember(Value = "friday")]
-        Friday,
+    [EnumMember(Value = "friday")]
+    Friday,
 
-        [EnumMember(Value = "saturday")]
-        Saturday,
-    }
+    [EnumMember(Value = "saturday")]
+    Saturday,
 }

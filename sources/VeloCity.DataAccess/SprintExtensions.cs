@@ -21,81 +21,80 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.JsonFiles;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+internal static class SprintExtensions
 {
-    internal static class SprintExtensions
+    public static IEnumerable<JSprint> ToJEntities(this IEnumerable<Sprint> sprints)
     {
-        public static IEnumerable<JSprint> ToJEntities(this IEnumerable<Sprint> sprints)
-        {
-            return sprints
-                .Select(x => x.ToJEntity())
-                .ToList();
-        }
+        return sprints
+            .Select(x => x.ToJEntity())
+            .ToList();
+    }
 
-        public static JSprint ToJEntity(this Sprint sprint)
+    public static JSprint ToJEntity(this Sprint sprint)
+    {
+        return new JSprint
         {
-            return new JSprint
-            {
-                Id = sprint.Id,
-                Number = sprint.Number,
-                Name = sprint.Title,
-                StartDate = sprint.StartDate,
-                EndDate = sprint.EndDate,
-                Goal = sprint.Goal,
-                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                ActualStoryPoints = sprint.ActualStoryPoints,
-                State = sprint.State.ToJEntity(),
-                Comments = sprint.Comments
-            };
-        }
+            Id = sprint.Id,
+            Number = sprint.Number,
+            Name = sprint.Title,
+            StartDate = sprint.StartDate,
+            EndDate = sprint.EndDate,
+            Goal = sprint.Goal,
+            CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+            ActualStoryPoints = sprint.ActualStoryPoints,
+            State = sprint.State.ToJEntity(),
+            Comments = sprint.Comments
+        };
+    }
 
-        public static JSprintState ToJEntity(this SprintState sprintState)
+    public static JSprintState ToJEntity(this SprintState sprintState)
+    {
+        return sprintState switch
         {
-            return sprintState switch
-            {
-                SprintState.New => JSprintState.New,
-                SprintState.InProgress => JSprintState.InProgress,
-                SprintState.Closed => JSprintState.Closed,
-                _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
-            };
-        }
+            SprintState.New => JSprintState.New,
+            SprintState.InProgress => JSprintState.InProgress,
+            SprintState.Closed => JSprintState.Closed,
+            _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
+        };
+    }
 
-        public static IEnumerable<Sprint> ToEntities(this IEnumerable<JSprint> sprints)
-        {
-            return sprints
-                .Select(x => x.ToEntity());
-        }
+    public static IEnumerable<Sprint> ToEntities(this IEnumerable<JSprint> sprints)
+    {
+        return sprints
+            .Select(x => x.ToEntity());
+    }
 
-        public static Sprint ToEntity(this JSprint sprint)
+    public static Sprint ToEntity(this JSprint sprint)
+    {
+        return new Sprint
         {
-            return new Sprint
-            {
-                Id = sprint.Id,
-                Number = sprint.Number,
-                Title = sprint.Name,
-                DateInterval = new DateInterval(sprint.StartDate, sprint.EndDate),
-                Goal = sprint.Goal,
-                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                ActualStoryPoints = sprint.ActualStoryPoints,
-                State = sprint.State.ToEntity(),
-                Comments = sprint.Comments
-            };
-        }
+            Id = sprint.Id,
+            Number = sprint.Number,
+            Title = sprint.Name,
+            DateInterval = new DateInterval(sprint.StartDate, sprint.EndDate),
+            Goal = sprint.Goal,
+            CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+            ActualStoryPoints = sprint.ActualStoryPoints,
+            State = sprint.State.ToEntity(),
+            Comments = sprint.Comments
+        };
+    }
 
-        public static SprintState ToEntity(this JSprintState sprintState)
+    public static SprintState ToEntity(this JSprintState sprintState)
+    {
+        return sprintState switch
         {
-            return sprintState switch
-            {
-                JSprintState.New => SprintState.New,
-                JSprintState.InProgress => SprintState.InProgress,
-                JSprintState.Closed => SprintState.Closed,
-                _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
-            };
-        }
+            JSprintState.New => SprintState.New,
+            JSprintState.InProgress => SprintState.InProgress,
+            JSprintState.Closed => SprintState.Closed,
+            _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
+        };
+    }
 
-        public static SprintCollection ToSprintCollection(this IEnumerable<Sprint> sprints)
-        {
-            return new SprintCollection(sprints);
-        }
+    public static SprintCollection ToSprintCollection(this IEnumerable<Sprint> sprints)
+    {
+        return new SprintCollection(sprints);
     }
 }

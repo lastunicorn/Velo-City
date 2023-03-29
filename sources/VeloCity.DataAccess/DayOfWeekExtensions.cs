@@ -17,38 +17,37 @@
 using System;
 using DustInTheWind.VeloCity.JsonFiles;
 
-namespace DustInTheWind.VeloCity.DataAccess
-{
-    internal static class DayOfWeekExtensions
-    {
-        public static JDayOfWeek ToJEntity(this DayOfWeek dayOfWeek)
-        {
-            return dayOfWeek switch
-            {
-                DayOfWeek.Sunday => JDayOfWeek.Sunday,
-                DayOfWeek.Monday => JDayOfWeek.Monday,
-                DayOfWeek.Tuesday => JDayOfWeek.Tuesday,
-                DayOfWeek.Wednesday => JDayOfWeek.Wednesday,
-                DayOfWeek.Thursday => JDayOfWeek.Thursday,
-                DayOfWeek.Friday => JDayOfWeek.Friday,
-                DayOfWeek.Saturday => JDayOfWeek.Saturday,
-                _ => throw new ArgumentOutOfRangeException(nameof(dayOfWeek), dayOfWeek, null)
-            };
-        }
+namespace DustInTheWind.VeloCity.DataAccess;
 
-        public static DayOfWeek ToEntity(this JDayOfWeek dayOfWeek)
+internal static class DayOfWeekExtensions
+{
+    public static JDayOfWeek ToJEntity(this DayOfWeek dayOfWeek)
+    {
+        return dayOfWeek switch
         {
-            return dayOfWeek switch
-            {
-                JDayOfWeek.Sunday => DayOfWeek.Sunday,
-                JDayOfWeek.Monday => DayOfWeek.Monday,
-                JDayOfWeek.Tuesday => DayOfWeek.Tuesday,
-                JDayOfWeek.Wednesday => DayOfWeek.Wednesday,
-                JDayOfWeek.Thursday => DayOfWeek.Thursday,
-                JDayOfWeek.Friday => DayOfWeek.Friday,
-                JDayOfWeek.Saturday => DayOfWeek.Saturday,
-                _ => throw new ArgumentOutOfRangeException(nameof(dayOfWeek), dayOfWeek, null)
-            };
-        }
+            DayOfWeek.Sunday => JDayOfWeek.Sunday,
+            DayOfWeek.Monday => JDayOfWeek.Monday,
+            DayOfWeek.Tuesday => JDayOfWeek.Tuesday,
+            DayOfWeek.Wednesday => JDayOfWeek.Wednesday,
+            DayOfWeek.Thursday => JDayOfWeek.Thursday,
+            DayOfWeek.Friday => JDayOfWeek.Friday,
+            DayOfWeek.Saturday => JDayOfWeek.Saturday,
+            _ => throw new ArgumentOutOfRangeException(nameof(dayOfWeek), dayOfWeek, null)
+        };
+    }
+
+    public static DayOfWeek ToEntity(this JDayOfWeek dayOfWeek)
+    {
+        return dayOfWeek switch
+        {
+            JDayOfWeek.Sunday => DayOfWeek.Sunday,
+            JDayOfWeek.Monday => DayOfWeek.Monday,
+            JDayOfWeek.Tuesday => DayOfWeek.Tuesday,
+            JDayOfWeek.Wednesday => DayOfWeek.Wednesday,
+            JDayOfWeek.Thursday => DayOfWeek.Thursday,
+            JDayOfWeek.Friday => DayOfWeek.Friday,
+            JDayOfWeek.Saturday => DayOfWeek.Saturday,
+            _ => throw new ArgumentOutOfRangeException(nameof(dayOfWeek), dayOfWeek, null)
+        };
     }
 }

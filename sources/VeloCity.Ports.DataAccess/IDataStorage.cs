@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess
+namespace DustInTheWind.VeloCity.Ports.DataAccess;
+
+public interface IDataStorage
 {
-    public interface IDataStorage
-    {
-        void Reopen();
-    }
+    void Reopen();
 }

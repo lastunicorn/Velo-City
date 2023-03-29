@@ -16,14 +16,13 @@
 
 using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.JsonFiles
-{
-    public enum JOfficialHolidayRecurrence
-    {
-        [EnumMember(Value = "once")]
-        Once = 0,
+namespace DustInTheWind.VeloCity.JsonFiles;
 
-        [EnumMember(Value = "yearly")]
-        Yearly = 1
-    }
+public enum JOfficialHolidayRecurrence
+{
+    [EnumMember(Value = "once")]
+    Once = 0,
+
+    [EnumMember(Value = "yearly")]
+    Yearly = 1
 }

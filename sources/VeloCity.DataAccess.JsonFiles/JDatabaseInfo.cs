@@ -16,10 +16,9 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+public class JDatabaseInfo
 {
-    public class JDatabaseInfo
-    {
-        public Version DatabaseVersion { get; set; }
-    }
+    public Version DatabaseVersion { get; set; }
 }

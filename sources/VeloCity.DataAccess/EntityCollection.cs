@@ -41,7 +41,7 @@ public abstract class EntityCollection<TItem, TId> : Collection<TItem>
     protected abstract void SetId(TItem item, TId id);
 
     protected abstract TId GenerateNewId();
-    
+
     protected override void InsertItem(int index, TItem item)
     {
         if (item == null) throw new ArgumentNullException(nameof(item));

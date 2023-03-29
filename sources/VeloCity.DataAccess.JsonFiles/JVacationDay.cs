@@ -19,28 +19,27 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+public class JVacationDay
 {
-    public class JVacationDay
-    {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public JVacationRecurrence Recurrence { get; set; }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public JVacationRecurrence Recurrence { get; set; }
 
-        public DateTime? Date { get; set; }
+    public DateTime? Date { get; set; }
 
-        public DateTime? StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
-        public DateTime? EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
 
-        [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
-        public List<JDayOfWeek> WeekDays { get; set; }
+    [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
+    public List<JDayOfWeek> WeekDays { get; set; }
 
-        public List<int> MonthDays { get; set; }
+    public List<int> MonthDays { get; set; }
 
-        public List<DateTime> Dates { get; set; }
+    public List<DateTime> Dates { get; set; }
 
-        public int? HourCount { get; set; }
+    public int? HourCount { get; set; }
 
-        public string Comments { get; set; }
-    }
+    public string Comments { get; set; }
 }

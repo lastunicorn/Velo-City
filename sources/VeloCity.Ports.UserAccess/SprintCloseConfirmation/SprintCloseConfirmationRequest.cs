@@ -14,14 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
+
+public class SprintCloseConfirmationRequest
 {
-    public class SprintCloseConfirmationRequest
-    {
-        public string SprintName { get; set; }
+    public string SprintName { get; set; }
 
-        public int SprintNumber { get; set; }
+    public int SprintNumber { get; set; }
 
-        public string Comments { get; set; }
-    }
+    public string Comments { get; set; }
 }

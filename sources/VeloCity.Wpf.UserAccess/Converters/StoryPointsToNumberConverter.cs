@@ -20,40 +20,39 @@ using System.Windows;
 using System.Windows.Data;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.UserAccess.Converters
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.Converters;
+
+internal class StoryPointsToNumberConverter : IValueConverter
 {
-    internal class StoryPointsToNumberConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value is StoryPoints storyPoints)
+            return storyPoints.Value;
+
+        return DependencyProperty.UnsetValue;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is float floatValue)
+            return (StoryPoints)floatValue;
+
+        if (value is string stringValue)
         {
-            if (value is StoryPoints storyPoints)
-                return storyPoints.Value;
+            if (string.IsNullOrEmpty(stringValue))
+                return StoryPoints.Empty;
 
-            return DependencyProperty.UnsetValue;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is float floatValue)
-                return (StoryPoints)floatValue;
-
-            if (value is string stringValue)
+            try
             {
-                if (string.IsNullOrEmpty(stringValue))
-                    return StoryPoints.Empty;
-
-                try
-                {
-                    floatValue = float.Parse(stringValue);
-                    return (StoryPoints)floatValue;
-                }
-                catch
-                {
-                    return null;
-                }
+                floatValue = float.Parse(stringValue);
+                return (StoryPoints)floatValue;
             }
-
-            return DependencyProperty.UnsetValue;
+            catch
+            {
+                return null;
+            }
         }
+
+        return DependencyProperty.UnsetValue;
     }
 }

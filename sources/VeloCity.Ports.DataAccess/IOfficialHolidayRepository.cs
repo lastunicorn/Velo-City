@@ -20,20 +20,19 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess
+namespace DustInTheWind.VeloCity.Ports.DataAccess;
+
+public interface IOfficialHolidayRepository
 {
-    public interface IOfficialHolidayRepository
-    {
-        Task<IEnumerable<OfficialHoliday>> GetAll();
+    Task<IEnumerable<OfficialHoliday>> GetAll();
 
-        IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate);
+    IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate);
 
-        IEnumerable<OfficialHoliday> Get(DateInterval dateInterval);
+    IEnumerable<OfficialHoliday> Get(DateInterval dateInterval);
 
-        IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country);
+    IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country);
 
-        IEnumerable<OfficialHoliday> GetByYear(int year);
+    IEnumerable<OfficialHoliday> GetByYear(int year);
 
-        IEnumerable<OfficialHoliday> GetByYear(int year, string country);
-    }
+    IEnumerable<OfficialHoliday> GetByYear(int year, string country);
 }

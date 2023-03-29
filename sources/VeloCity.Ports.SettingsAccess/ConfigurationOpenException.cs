@@ -16,13 +16,12 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Ports.SettingsAccess
+namespace DustInTheWind.VeloCity.Ports.SettingsAccess;
+
+public class ConfigurationOpenException : ConfigurationException
 {
-    public class ConfigurationOpenException : ConfigurationException
+    public ConfigurationOpenException(Exception innerException)
+        : base(Resources.ConfigurationOpen_DefaultErrorMessage, innerException)
     {
-        public ConfigurationOpenException(Exception innerException)
-            : base(Resources.ConfigurationOpen_DefaultErrorMessage, innerException)
-        {
-        }
     }
 }

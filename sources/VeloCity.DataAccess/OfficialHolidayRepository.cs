@@ -22,59 +22,58 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+internal class OfficialHolidayRepository : IOfficialHolidayRepository
 {
-    internal class OfficialHolidayRepository : IOfficialHolidayRepository
+    private readonly VeloCityDbContext dbContext;
+
+    public OfficialHolidayRepository(VeloCityDbContext dbContext)
     {
-        private readonly VeloCityDbContext dbContext;
+        this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
 
-        public OfficialHolidayRepository(VeloCityDbContext dbContext)
-        {
-            this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
-        }
+    public Task<IEnumerable<OfficialHoliday>> GetAll()
+    {
+        IEnumerable<OfficialHoliday> items = dbContext.OfficialHolidays;
+        return Task.FromResult(items);
+    }
 
-        public Task<IEnumerable<OfficialHoliday>> GetAll()
-        {
-            IEnumerable<OfficialHoliday> items = dbContext.OfficialHolidays;
-            return Task.FromResult(items);
-        }
+    public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate)
+    {
+        return dbContext.OfficialHolidays
+            .Where(x => x.Match(startDate, endDate))
+            .ToList();
+    }
 
-        public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate)
-        {
-            return dbContext.OfficialHolidays
-                .Where(x => x.Match(startDate, endDate))
-                .ToList();
-        }
+    public IEnumerable<OfficialHoliday> Get(DateInterval dateInterval)
+    {
+        DateTime calculatedStartDate = dateInterval.StartDate ?? DateTime.MinValue;
+        DateTime calculatedEndDate = dateInterval.EndDate ?? DateTime.MaxValue;
 
-        public IEnumerable<OfficialHoliday> Get(DateInterval dateInterval)
-        {
-            DateTime calculatedStartDate = dateInterval.StartDate ?? DateTime.MinValue;
-            DateTime calculatedEndDate = dateInterval.EndDate ?? DateTime.MaxValue;
+        return dbContext.OfficialHolidays
+            .Where(x => x.Match(calculatedStartDate, calculatedEndDate))
+            .ToList();
+    }
 
-            return dbContext.OfficialHolidays
-                .Where(x => x.Match(calculatedStartDate, calculatedEndDate))
-                .ToList();
-        }
+    public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country)
+    {
+        return dbContext.OfficialHolidays
+            .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
+            .Where(x => x.Match(startDate, endDate))
+            .ToList();
+    }
 
-        public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country)
-        {
-            return dbContext.OfficialHolidays
-                .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
-                .Where(x => x.Match(startDate, endDate))
-                .ToList();
-        }
+    public IEnumerable<OfficialHoliday> GetByYear(int year)
+    {
+        return dbContext.OfficialHolidays
+            .Where(x => x.Match(year));
+    }
 
-        public IEnumerable<OfficialHoliday> GetByYear(int year)
-        {
-            return dbContext.OfficialHolidays
-                .Where(x => x.Match(year));
-        }
-
-        public IEnumerable<OfficialHoliday> GetByYear(int year, string country)
-        {
-            return dbContext.OfficialHolidays
-                .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
-                .Where(x => x.Match(year));
-        }
+    public IEnumerable<OfficialHoliday> GetByYear(int year, string country)
+    {
+        return dbContext.OfficialHolidays
+            .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
+            .Where(x => x.Match(year));
     }
 }

@@ -20,53 +20,52 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using Newtonsoft.Json;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+internal class JsonDatabaseFile
 {
-    internal class JsonDatabaseFile
+    private readonly string filePath;
+
+    public JsonDatabaseDocument Document { get; set; }
+
+    public WarningException LastWarning { get; private set; }
+
+    public JsonDatabaseFile(string filePath)
     {
-        private readonly string filePath;
+        this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+    }
 
-        public JsonDatabaseDocument Document { get; set; }
+    public void Open()
+    {
+        LastWarning = null;
 
-        public WarningException LastWarning { get; private set; }
+        if (!File.Exists(filePath))
+            throw new DatabaseNotFoundException(filePath);
 
-        public JsonDatabaseFile(string filePath)
+        string json = File.ReadAllText(filePath);
+        Document = JsonConvert.DeserializeObject<JsonDatabaseDocument>(json);
+
+        DatabaseVersionValidator databaseVersionValidator = new();
+
+        try
         {
-            this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+            databaseVersionValidator.CheckDatabaseVersion(Document?.DatabaseInfo?.DatabaseVersion);
         }
-
-        public void Open()
+        finally
         {
-            LastWarning = null;
-
-            if (!File.Exists(filePath))
-                throw new DatabaseNotFoundException(filePath);
-
-            string json = File.ReadAllText(filePath);
-            Document = JsonConvert.DeserializeObject<JsonDatabaseDocument>(json);
-
-            DatabaseVersionValidator databaseVersionValidator = new();
-
-            try
-            {
-                databaseVersionValidator.CheckDatabaseVersion(Document?.DatabaseInfo?.DatabaseVersion);
-            }
-            finally
-            {
-                LastWarning = databaseVersionValidator.Warning;
-            }
+            LastWarning = databaseVersionValidator.Warning;
         }
+    }
 
-        public void Save()
+    public void Save()
+    {
+        JsonSerializerSettings settings = new()
         {
-            JsonSerializerSettings settings = new()
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                Formatting = Formatting.Indented
-            };
+            NullValueHandling = NullValueHandling.Ignore,
+            Formatting = Formatting.Indented
+        };
 
-            string json = JsonConvert.SerializeObject(Document, settings);
-            File.WriteAllText(filePath, json);
-        }
+        string json = JsonConvert.SerializeObject(Document, settings);
+        File.WriteAllText(filePath, json);
     }
 }

@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.UserAccess.CloseSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.CloseSprintConfirmation;
+
+/// <summary>
+/// Interaction logic for CloseSprintConfirmationPopup.xaml
+/// </summary>
+public partial class CloseSprintConfirmationPopup : UserControl
 {
-    /// <summary>
-    /// Interaction logic for CloseSprintConfirmationPopup.xaml
-    /// </summary>
-    public partial class CloseSprintConfirmationPopup : UserControl
+    public CloseSprintConfirmationPopup()
     {
-        public CloseSprintConfirmationPopup()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

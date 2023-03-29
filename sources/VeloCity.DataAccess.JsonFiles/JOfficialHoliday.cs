@@ -18,25 +18,24 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+public class JOfficialHoliday
 {
-    public class JOfficialHoliday
-    {
-        [JsonConverter(typeof(StringEnumConverter))]
-        public JOfficialHolidayRecurrence Recurrence { get; set; }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public JOfficialHolidayRecurrence Recurrence { get; set; }
 
-        public DateTime Date { get; set; }
+    public DateTime Date { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public int? StartYear { get; set; }
+    public int? StartYear { get; set; }
 
-        public int? EndYear { get; set; }
+    public int? EndYear { get; set; }
 
-        public string Country { get; set; }
+    public string Country { get; set; }
 
-        public string ShortDescription { get; set; }
-        
-        public string Description { get; set; }
-    }
+    public string ShortDescription { get; set; }
+
+    public string Description { get; set; }
 }

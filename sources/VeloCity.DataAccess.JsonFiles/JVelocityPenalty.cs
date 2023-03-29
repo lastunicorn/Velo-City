@@ -14,16 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.JsonFiles
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+public class JVelocityPenalty
 {
-    public class JVelocityPenalty
-    {
-        public int SprintId { get; set; }
+    public int SprintId { get; set; }
 
-        public int Value { get; set; }
+    public int Value { get; set; }
 
-        public int? Duration { get; set; }
+    public int? Duration { get; set; }
 
-        public string Comments { get; set; }
-    }
+    public string Comments { get; set; }
 }

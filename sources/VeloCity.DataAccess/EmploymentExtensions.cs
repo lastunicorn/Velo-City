@@ -20,54 +20,53 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.JsonFiles;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+internal static class EmploymentExtensions
 {
-    internal static class EmploymentExtensions
+    public static IEnumerable<JEmployment> ToJEntities(this IEnumerable<Employment> employments)
     {
-        public static IEnumerable<JEmployment> ToJEntities(this IEnumerable<Employment> employments)
-        {
-            return employments?
-                .Select(x => x.ToJEntity());
-        }
+        return employments?
+            .Select(x => x.ToJEntity());
+    }
 
-        public static JEmployment ToJEntity(this Employment employment)
+    public static JEmployment ToJEntity(this Employment employment)
+    {
+        return new JEmployment
         {
-            return new JEmployment
-            {
-                StartDate = employment.TimeInterval.StartDate,
-                EndDate = employment.TimeInterval.EndDate,
-                HoursPerDay = employment.HoursPerDay,
-                WeekDays = ToJList(employment),
-                Country = employment.Country
-            };
-        }
+            StartDate = employment.TimeInterval.StartDate,
+            EndDate = employment.TimeInterval.EndDate,
+            HoursPerDay = employment.HoursPerDay,
+            WeekDays = ToJList(employment),
+            Country = employment.Country
+        };
+    }
 
-        private static List<JDayOfWeek> ToJList(Employment employment)
-        {
-            return employment.EmploymentWeek.IsDefault
-                ? null
-                : employment.EmploymentWeek
-                    .Select(x => x.ToJEntity())
-                    .ToList();
-        }
+    private static List<JDayOfWeek> ToJList(Employment employment)
+    {
+        return employment.EmploymentWeek.IsDefault
+            ? null
+            : employment.EmploymentWeek
+                .Select(x => x.ToJEntity())
+                .ToList();
+    }
 
-        public static IEnumerable<Employment> ToEntities(this IEnumerable<JEmployment> employments)
-        {
-            return employments?
-                .Select(x => x.ToEntity());
-        }
+    public static IEnumerable<Employment> ToEntities(this IEnumerable<JEmployment> employments)
+    {
+        return employments?
+            .Select(x => x.ToEntity());
+    }
 
-        public static Employment ToEntity(this JEmployment employment)
+    public static Employment ToEntity(this JEmployment employment)
+    {
+        return new Employment
         {
-            return new Employment
-            {
-                TimeInterval = new DateInterval(employment.StartDate, employment.EndDate),
-                HoursPerDay = employment.HoursPerDay,
-                EmploymentWeek = employment.WeekDays == null
-                    ? new EmploymentWeek()
-                    : new EmploymentWeek(employment.WeekDays.Select(x => x.ToEntity())),
-                Country = employment.Country
-            };
-        }
+            TimeInterval = new DateInterval(employment.StartDate, employment.EndDate),
+            HoursPerDay = employment.HoursPerDay,
+            EmploymentWeek = employment.WeekDays == null
+                ? new EmploymentWeek()
+                : new EmploymentWeek(employment.WeekDays.Select(x => x.ToEntity())),
+            Country = employment.Country
+        };
     }
 }

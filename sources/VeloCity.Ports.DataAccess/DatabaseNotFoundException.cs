@@ -14,13 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess
+namespace DustInTheWind.VeloCity.Ports.DataAccess;
+
+public class DatabaseNotFoundException : DataAccessException
 {
-    public class DatabaseNotFoundException : DataAccessException
+    public DatabaseNotFoundException(string connectionString)
+        : base(string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, connectionString))
     {
-        public DatabaseNotFoundException(string connectionString)
-            : base(string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, connectionString))
-        {
-        }
     }
 }

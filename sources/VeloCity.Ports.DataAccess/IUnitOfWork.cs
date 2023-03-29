@@ -17,20 +17,19 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess
+namespace DustInTheWind.VeloCity.Ports.DataAccess;
+
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        public WarningException DatabaseWarning { get; }
+    public WarningException DatabaseWarning { get; }
 
-        public Exception DatabaseError { get; }
+    public Exception DatabaseError { get; }
 
-        public IOfficialHolidayRepository OfficialHolidayRepository { get; }
+    public IOfficialHolidayRepository OfficialHolidayRepository { get; }
 
-        public ISprintRepository SprintRepository { get; }
+    public ISprintRepository SprintRepository { get; }
 
-        public ITeamMemberRepository TeamMemberRepository { get; }
+    public ITeamMemberRepository TeamMemberRepository { get; }
 
-        void SaveChanges();
-    }
+    void SaveChanges();
 }

@@ -20,39 +20,38 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DustInTheWind.VeloCity.Infrastructure
+namespace DustInTheWind.VeloCity.Infrastructure;
+
+public class EventBus
 {
-    public class EventBus
+    private readonly Dictionary<Type, List<object>> subscribers = new();
+
+    public void Subscribe<TEvent>(Func<TEvent, CancellationToken, Task> action)
     {
-        private readonly Dictionary<Type, List<object>> subscribers = new();
+        List<object> actions;
 
-        public void Subscribe<TEvent>(Func<TEvent, CancellationToken, Task> action)
+        if (subscribers.ContainsKey(typeof(TEvent)))
         {
-            List<object> actions;
-
-            if (subscribers.ContainsKey(typeof(TEvent)))
-            {
-                actions = subscribers[typeof(TEvent)];
-            }
-            else
-            {
-                actions = new List<object>();
-                subscribers.Add(typeof(TEvent), actions);
-            }
-
-            actions.Add(action);
+            actions = subscribers[typeof(TEvent)];
+        }
+        else
+        {
+            actions = new List<object>();
+            subscribers.Add(typeof(TEvent), actions);
         }
 
-        public async Task Publish<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
-        {
-            if (subscribers.ContainsKey(typeof(TEvent)))
-            {
-                IEnumerable<Func<TEvent, CancellationToken, Task>> actions = subscribers[typeof(TEvent)]
-                    .Cast<Func<TEvent, CancellationToken, Task>>();
+        actions.Add(action);
+    }
 
-                foreach (Func<TEvent, CancellationToken, Task> action in actions)
-                    await action(@event, cancellationToken);
-            }
+    public async Task Publish<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
+    {
+        if (subscribers.ContainsKey(typeof(TEvent)))
+        {
+            IEnumerable<Func<TEvent, CancellationToken, Task>> actions = subscribers[typeof(TEvent)]
+                .Cast<Func<TEvent, CancellationToken, Task>>();
+
+            foreach (Func<TEvent, CancellationToken, Task> action in actions)
+                await action(@event, cancellationToken);
         }
     }
 }

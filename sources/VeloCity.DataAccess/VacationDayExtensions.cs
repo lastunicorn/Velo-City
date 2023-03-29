@@ -22,140 +22,139 @@ using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+internal static class VacationDayExtensions
 {
-    internal static class VacationDayExtensions
+    public static IEnumerable<JVacationDay> ToJEntities(this IEnumerable<Vacation> vacationDays)
     {
-        public static IEnumerable<JVacationDay> ToJEntities(this IEnumerable<Vacation> vacationDays)
+        return vacationDays?
+            .Select(x => x.ToJEntity());
+    }
+
+    public static JVacationDay ToJEntity(this Vacation vacation)
+    {
+        switch (vacation)
         {
-            return vacationDays?
-                .Select(x => x.ToJEntity());
+            case VacationOnce vacationOnce:
+                return new JVacationDay
+                {
+                    Recurrence = JVacationRecurrence.Once,
+                    Date = vacationOnce.Date,
+                    HourCount = vacationOnce.HourCount,
+                    Comments = vacationOnce.Comments
+                };
+
+            case VacationDaily vacationDaily:
+                return new JVacationDay
+                {
+                    Recurrence = JVacationRecurrence.Daily,
+                    StartDate = vacationDaily.DateInterval.StartDate,
+                    EndDate = vacationDaily.DateInterval.EndDate,
+                    HourCount = vacationDaily.HourCount,
+                    Comments = vacationDaily.Comments
+                };
+
+            case VacationMonthly vacationMonthly:
+                return new JVacationDay
+                {
+                    Recurrence = JVacationRecurrence.Monthly,
+                    StartDate = vacationMonthly.DateInterval.StartDate,
+                    EndDate = vacationMonthly.DateInterval.EndDate,
+                    MonthDays = vacationMonthly.MonthDays,
+                    HourCount = vacationMonthly.HourCount,
+                    Comments = vacationMonthly.Comments
+                };
+
+            case VacationWeekly vacationWeekly:
+                return new JVacationDay
+                {
+                    Recurrence = JVacationRecurrence.Weekly,
+                    StartDate = vacationWeekly.DateInterval.StartDate,
+                    EndDate = vacationWeekly.DateInterval.EndDate,
+                    WeekDays = vacationWeekly.WeekDays
+                        .Select(x => x.ToJEntity())
+                        .ToList(),
+                    HourCount = vacationWeekly.HourCount,
+                    Comments = vacationWeekly.Comments
+                };
+
+            case VacationYearly vacationYearly:
+                return new JVacationDay
+                {
+                    Recurrence = JVacationRecurrence.Yearly,
+                    StartDate = vacationYearly.DateInterval.StartDate,
+                    EndDate = vacationYearly.DateInterval.EndDate,
+                    Dates = vacationYearly.Dates,
+                    HourCount = vacationYearly.HourCount,
+                    Comments = vacationYearly.Comments
+                };
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(vacation));
         }
+    }
 
-        public static JVacationDay ToJEntity(this Vacation vacation)
+    public static IEnumerable<Vacation> ToEntities(this IEnumerable<JVacationDay> vacationDays)
+    {
+        return vacationDays?
+            .Select(x => x.ToEntity());
+    }
+
+    public static Vacation ToEntity(this JVacationDay vacationDay)
+    {
+        switch (vacationDay.Recurrence)
         {
-            switch (vacation)
-            {
-                case VacationOnce vacationOnce:
-                    return new JVacationDay
-                    {
-                        Recurrence = JVacationRecurrence.Once,
-                        Date = vacationOnce.Date,
-                        HourCount = vacationOnce.HourCount,
-                        Comments = vacationOnce.Comments
-                    };
+            case JVacationRecurrence.Once:
+                if (vacationDay.Date == null)
+                    throw new DataAccessException("Missing date for the vacation with recurrence 'once'.");
 
-                case VacationDaily vacationDaily:
-                    return new JVacationDay
-                    {
-                        Recurrence = JVacationRecurrence.Daily,
-                        StartDate = vacationDaily.DateInterval.StartDate,
-                        EndDate = vacationDaily.DateInterval.EndDate,
-                        HourCount = vacationDaily.HourCount,
-                        Comments = vacationDaily.Comments
-                    };
+                return new VacationOnce
+                {
+                    Date = vacationDay.Date.Value,
+                    HourCount = vacationDay.HourCount,
+                    Comments = vacationDay.Comments
+                };
 
-                case VacationMonthly vacationMonthly:
-                    return new JVacationDay
-                    {
-                        Recurrence = JVacationRecurrence.Monthly,
-                        StartDate = vacationMonthly.DateInterval.StartDate,
-                        EndDate = vacationMonthly.DateInterval.EndDate,
-                        MonthDays = vacationMonthly.MonthDays,
-                        HourCount = vacationMonthly.HourCount,
-                        Comments = vacationMonthly.Comments
-                    };
+            case JVacationRecurrence.Daily:
+                return new VacationDaily
+                {
+                    DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
+                    HourCount = vacationDay.HourCount,
+                    Comments = vacationDay.Comments
+                };
 
-                case VacationWeekly vacationWeekly:
-                    return new JVacationDay
-                    {
-                        Recurrence = JVacationRecurrence.Weekly,
-                        StartDate = vacationWeekly.DateInterval.StartDate,
-                        EndDate = vacationWeekly.DateInterval.EndDate,
-                        WeekDays = vacationWeekly.WeekDays
-                            .Select(x => x.ToJEntity())
-                            .ToList(),
-                        HourCount = vacationWeekly.HourCount,
-                        Comments = vacationWeekly.Comments
-                    };
+            case JVacationRecurrence.Weekly:
+                return new VacationWeekly
+                {
+                    DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
+                    WeekDays = vacationDay.WeekDays
+                        .Select(x => x.ToEntity())
+                        .ToList(),
+                    HourCount = vacationDay.HourCount,
+                    Comments = vacationDay.Comments
+                };
 
-                case VacationYearly vacationYearly:
-                    return new JVacationDay
-                    {
-                        Recurrence = JVacationRecurrence.Yearly,
-                        StartDate = vacationYearly.DateInterval.StartDate,
-                        EndDate = vacationYearly.DateInterval.EndDate,
-                        Dates = vacationYearly.Dates,
-                        HourCount = vacationYearly.HourCount,
-                        Comments = vacationYearly.Comments
-                    };
+            case JVacationRecurrence.Monthly:
+                return new VacationMonthly
+                {
+                    DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
+                    MonthDays = vacationDay.MonthDays,
+                    HourCount = vacationDay.HourCount,
+                    Comments = vacationDay.Comments
+                };
 
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(vacation));
-            }
-        }
+            case JVacationRecurrence.Yearly:
+                return new VacationYearly
+                {
+                    DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
+                    Dates = vacationDay.Dates,
+                    HourCount = vacationDay.HourCount,
+                    Comments = vacationDay.Comments
+                };
 
-        public static IEnumerable<Vacation> ToEntities(this IEnumerable<JVacationDay> vacationDays)
-        {
-            return vacationDays?
-                .Select(x => x.ToEntity());
-        }
-
-        public static Vacation ToEntity(this JVacationDay vacationDay)
-        {
-            switch (vacationDay.Recurrence)
-            {
-                case JVacationRecurrence.Once:
-                    if (vacationDay.Date == null)
-                        throw new DataAccessException("Missing date for the vacation with recurrence 'once'.");
-
-                    return new VacationOnce
-                    {
-                        Date = vacationDay.Date.Value,
-                        HourCount = vacationDay.HourCount,
-                        Comments = vacationDay.Comments
-                    };
-
-                case JVacationRecurrence.Daily:
-                    return new VacationDaily
-                    {
-                        DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
-                        HourCount = vacationDay.HourCount,
-                        Comments = vacationDay.Comments
-                    };
-
-                case JVacationRecurrence.Weekly:
-                    return new VacationWeekly
-                    {
-                        DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
-                        WeekDays = vacationDay.WeekDays
-                            .Select(x => x.ToEntity())
-                            .ToList(),
-                        HourCount = vacationDay.HourCount,
-                        Comments = vacationDay.Comments
-                    };
-
-                case JVacationRecurrence.Monthly:
-                    return new VacationMonthly
-                    {
-                        DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
-                        MonthDays = vacationDay.MonthDays,
-                        HourCount = vacationDay.HourCount,
-                        Comments = vacationDay.Comments
-                    };
-
-                case JVacationRecurrence.Yearly:
-                    return new VacationYearly
-                    {
-                        DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
-                        Dates = vacationDay.Dates,
-                        HourCount = vacationDay.HourCount,
-                        Comments = vacationDay.Comments
-                    };
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

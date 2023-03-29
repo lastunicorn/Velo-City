@@ -16,16 +16,15 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation
-{
-    public class SprintNewConfirmationRequest
-    {
-        public string SprintTitle { get; set; }
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
 
-        public int SprintNumber { get; set; }
-        
-        public DateTime SprintStartDate { get; set; }
-        
-        public uint SprintLength { get; set; }
-    }
+public class SprintNewConfirmationRequest
+{
+    public string SprintTitle { get; set; }
+
+    public int SprintNumber { get; set; }
+
+    public DateTime SprintStartDate { get; set; }
+
+    public uint SprintLength { get; set; }
 }

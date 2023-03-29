@@ -20,84 +20,83 @@ using System.Linq;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 using DustInTheWind.VeloCity.JsonFiles;
 
-namespace DustInTheWind.VeloCity.DataAccess
+namespace DustInTheWind.VeloCity.DataAccess;
+
+internal static class OfficialHolidayExtensions
 {
-    internal static class OfficialHolidayExtensions
+    public static IEnumerable<JOfficialHoliday> ToJEntities(this IEnumerable<OfficialHoliday> officialHolidays)
     {
-        public static IEnumerable<JOfficialHoliday> ToJEntities(this IEnumerable<OfficialHoliday> officialHolidays)
+        return officialHolidays
+            .Select(x => x.ToJEntity());
+    }
+
+    public static JOfficialHoliday ToJEntity(this OfficialHoliday officialHoliday)
+    {
+        switch (officialHoliday)
         {
-            return officialHolidays
-                .Select(x => x.ToJEntity());
+            case OfficialHolidayOnce officialHolidayOnce:
+                return new JOfficialHoliday
+                {
+                    Recurrence = JOfficialHolidayRecurrence.Once,
+                    Date = officialHolidayOnce.Date,
+                    Name = officialHolidayOnce.Name,
+                    Country = officialHolidayOnce.Country,
+                    ShortDescription = officialHolidayOnce.ShortDescription,
+                    Description = officialHolidayOnce.Description
+                };
+
+            case OfficialHolidayYearly officialHolidayYearly:
+                return new JOfficialHoliday
+                {
+                    Recurrence = JOfficialHolidayRecurrence.Yearly,
+                    Date = officialHolidayYearly.Date,
+                    Name = officialHolidayYearly.Name,
+                    Country = officialHolidayYearly.Country,
+                    StartYear = officialHolidayYearly.StartYear,
+                    EndYear = officialHolidayYearly.EndYear,
+                    ShortDescription = officialHolidayYearly.ShortDescription,
+                    Description = officialHolidayYearly.Description
+                };
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(officialHoliday));
         }
+    }
 
-        public static JOfficialHoliday ToJEntity(this OfficialHoliday officialHoliday)
+    public static IEnumerable<OfficialHoliday> ToEntities(this IEnumerable<JOfficialHoliday> officialHolidays)
+    {
+        return officialHolidays
+            .Select(x => x.ToEntity());
+    }
+
+    public static OfficialHoliday ToEntity(this JOfficialHoliday officialHoliday)
+    {
+        switch (officialHoliday.Recurrence)
         {
-            switch (officialHoliday)
-            {
-                case OfficialHolidayOnce officialHolidayOnce:
-                    return new JOfficialHoliday
-                    {
-                        Recurrence = JOfficialHolidayRecurrence.Once,
-                        Date = officialHolidayOnce.Date,
-                        Name = officialHolidayOnce.Name,
-                        Country = officialHolidayOnce.Country,
-                        ShortDescription = officialHolidayOnce.ShortDescription,
-                        Description = officialHolidayOnce.Description
-                    };
+            case JOfficialHolidayRecurrence.Once:
+                return new OfficialHolidayOnce
+                {
+                    Date = officialHoliday.Date,
+                    Name = officialHoliday.Name,
+                    Country = officialHoliday.Country,
+                    ShortDescription = officialHoliday.ShortDescription,
+                    Description = officialHoliday.Description
+                };
 
-                case OfficialHolidayYearly officialHolidayYearly:
-                    return new JOfficialHoliday
-                    {
-                        Recurrence = JOfficialHolidayRecurrence.Yearly,
-                        Date = officialHolidayYearly.Date,
-                        Name = officialHolidayYearly.Name,
-                        Country = officialHolidayYearly.Country,
-                        StartYear = officialHolidayYearly.StartYear,
-                        EndYear = officialHolidayYearly.EndYear,
-                        ShortDescription = officialHolidayYearly.ShortDescription,
-                        Description = officialHolidayYearly.Description
-                    };
+            case JOfficialHolidayRecurrence.Yearly:
+                return new OfficialHolidayYearly
+                {
+                    Date = officialHoliday.Date,
+                    Name = officialHoliday.Name,
+                    Country = officialHoliday.Country,
+                    StartYear = officialHoliday.StartYear,
+                    EndYear = officialHoliday.EndYear,
+                    ShortDescription = officialHoliday.ShortDescription,
+                    Description = officialHoliday.Description
+                };
 
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(officialHoliday));
-            }
-        }
-
-        public static IEnumerable<OfficialHoliday> ToEntities(this IEnumerable<JOfficialHoliday> officialHolidays)
-        {
-            return officialHolidays
-                .Select(x => x.ToEntity());
-        }
-
-        public static OfficialHoliday ToEntity(this JOfficialHoliday officialHoliday)
-        {
-            switch (officialHoliday.Recurrence)
-            {
-                case JOfficialHolidayRecurrence.Once:
-                    return new OfficialHolidayOnce
-                    {
-                        Date = officialHoliday.Date,
-                        Name = officialHoliday.Name,
-                        Country = officialHoliday.Country,
-                        ShortDescription = officialHoliday.ShortDescription,
-                        Description = officialHoliday.Description
-                    };
-
-                case JOfficialHolidayRecurrence.Yearly:
-                    return new OfficialHolidayYearly
-                    {
-                        Date = officialHoliday.Date,
-                        Name = officialHoliday.Name,
-                        Country = officialHoliday.Country,
-                        StartYear = officialHoliday.StartYear,
-                        EndYear = officialHoliday.EndYear,
-                        ShortDescription = officialHoliday.ShortDescription,
-                        Description = officialHoliday.Description
-                    };
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

@@ -18,14 +18,13 @@ using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess
+namespace DustInTheWind.VeloCity.Ports.UserAccess;
+
+public interface IUserInterface
 {
-    public interface IUserInterface
-    {
-        SprintNewConfirmationResponse ConfirmNewSprint(SprintNewConfirmationRequest request);
+    SprintNewConfirmationResponse ConfirmNewSprint(SprintNewConfirmationRequest request);
 
-        SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request);
+    SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request);
 
-        SprintCloseConfirmationResponse ConfirmCloseSprint(SprintCloseConfirmationRequest request);
-    }
+    SprintCloseConfirmationResponse ConfirmCloseSprint(SprintCloseConfirmationRequest request);
 }

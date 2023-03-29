@@ -20,40 +20,39 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess
+namespace DustInTheWind.VeloCity.Ports.DataAccess;
+
+public interface ISprintRepository
 {
-    public interface ISprintRepository
-    {
-        IEnumerable<Sprint> GetAll();
+    IEnumerable<Sprint> GetAll();
 
-        Task<Sprint> Get(int id);
+    Task<Sprint> Get(int id);
 
-        Task<Sprint> GetByNumber(int number);
+    Task<Sprint> GetByNumber(int number);
 
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count);
+    IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count);
 
-        IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count, IEnumerable<int> excludedSprints);
+    IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count, IEnumerable<int> excludedSprints);
 
-        Sprint GetLast();
+    Sprint GetLast();
 
-        IEnumerable<Sprint> GetLast(int count);
+    IEnumerable<Sprint> GetLast(int count);
 
-        Task<Sprint> GetLastInProgress();
+    Task<Sprint> GetLastInProgress();
 
-        IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints);
+    IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints);
 
-        IEnumerable<Sprint> GetLastClosed(uint count);
+    IEnumerable<Sprint> GetLastClosed(uint count);
 
-        Sprint GetLastClosed();
+    Sprint GetLastClosed();
 
-        IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
+    IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
 
-        DateInterval? GetDateIntervalFor(int sprintNumber);
+    DateInterval? GetDateIntervalFor(int sprintNumber);
 
-        bool IsAnyInProgress();
+    bool IsAnyInProgress();
 
-        bool IsFirstNewSprint(int sprintId);
-        
-        void Add(Sprint sprint);
-    }
+    bool IsFirstNewSprint(int sprintId);
+
+    void Add(Sprint sprint);
 }

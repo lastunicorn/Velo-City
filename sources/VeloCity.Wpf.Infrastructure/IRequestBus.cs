@@ -17,12 +17,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DustInTheWind.VeloCity.Infrastructure
+namespace DustInTheWind.VeloCity.Infrastructure;
+
+public interface IRequestBus
 {
-    public interface IRequestBus
-    {
-        Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default);
-        
-        Task Send<TRequest>(TRequest request, CancellationToken cancellationToken = default);
-    }
+    Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default);
+
+    Task Send<TRequest>(TRequest request, CancellationToken cancellationToken = default);
 }

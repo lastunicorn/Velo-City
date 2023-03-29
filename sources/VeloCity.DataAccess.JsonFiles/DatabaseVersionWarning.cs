@@ -17,15 +17,14 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.JsonFiles
-{
-    internal class DatabaseVersionWarning : WarningException
-    {
-        private const string DefaultMessage = "The version of the json file is unexpected. The parsed data may be incomplete. Actual file version: {0}. Expected file version: {1}.";
+namespace DustInTheWind.VeloCity.JsonFiles;
 
-        public DatabaseVersionWarning(Version actualDatabaseVersion, Version expectedDatabaseVersion)
-            : base(string.Format(DefaultMessage, actualDatabaseVersion, expectedDatabaseVersion))
-        {
-        }
+internal class DatabaseVersionWarning : WarningException
+{
+    private const string DefaultMessage = "The version of the json file is unexpected. The parsed data may be incomplete. Actual file version: {0}. Expected file version: {1}.";
+
+    public DatabaseVersionWarning(Version actualDatabaseVersion, Version expectedDatabaseVersion)
+        : base(string.Format(DefaultMessage, actualDatabaseVersion, expectedDatabaseVersion))
+    {
     }
 }

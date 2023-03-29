@@ -16,18 +16,17 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation
-{
-    public class SprintStartConfirmationRequest
-    {
-        public string SprintTitle { get; set; }
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 
-        public int SprintNumber { get; set; }
-        
-        public StoryPoints EstimatedStoryPoints { get; set; }
-        
-        public StoryPoints CommitmentStoryPoints { get; set; }
-        
-        public string SprintGoal { get; set; }
-    }
+public class SprintStartConfirmationRequest
+{
+    public string SprintTitle { get; set; }
+
+    public int SprintNumber { get; set; }
+
+    public StoryPoints EstimatedStoryPoints { get; set; }
+
+    public StoryPoints CommitmentStoryPoints { get; set; }
+
+    public string SprintGoal { get; set; }
 }

@@ -20,9 +20,9 @@ using System.Linq;
 using System.Reflection;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.JsonFiles
-{
-    /**
+namespace DustInTheWind.VeloCity.JsonFiles;
+
+/**
      * Ver 2.0.0
      * [ new      ] /DatabaseInfo/DatabaseVersion: Version (mandatory)
      * [ new      ] /OfficialHolidays/Recurrence : enum (mandatory)
@@ -37,53 +37,52 @@ namespace DustInTheWind.VeloCity.JsonFiles
      * [ new      ] /TeamMembers/Nickname: string (optional)
      * [ new      ] /TeamMembers/Employments/Country: string (optional)
      */
-    internal class DatabaseVersionValidator
+internal class DatabaseVersionValidator
+{
+    private static readonly Version CurrentApplicationVersion;
+
+    private static readonly Dictionary<Version, Version> DatabaseVersionsByApplicationVersion = new()
     {
-        private static readonly Version CurrentApplicationVersion;
+        { new Version(1, 0, 0), new Version(1, 0, 0) },
+        { new Version(1, 7, 0), new Version(2, 0, 0) }
+    };
 
-        private static readonly Dictionary<Version, Version> DatabaseVersionsByApplicationVersion = new()
-        {
-            { new Version(1, 0, 0), new Version(1, 0, 0) },
-            { new Version(1, 7, 0), new Version(2, 0, 0) }
-        };
+    static DatabaseVersionValidator()
+    {
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        AssemblyName assemblyName = assembly.GetName();
+        CurrentApplicationVersion = assemblyName.Version;
+    }
 
-        static DatabaseVersionValidator()
+    public WarningException Warning { get; private set; }
+
+    public void CheckDatabaseVersion(Version databaseVersion)
+    {
+        Version expectedDatabaseVersion = CalculateExpectedDatabaseVersion();
+
+        if (databaseVersion == null)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            AssemblyName assemblyName = assembly.GetName();
-            CurrentApplicationVersion = assemblyName.Version;
+            Warning = new MissingDatabaseVersionWarning(expectedDatabaseVersion);
         }
-
-        public WarningException Warning { get; private set; }
-
-        public void CheckDatabaseVersion(Version databaseVersion)
+        else
         {
-            Version expectedDatabaseVersion = CalculateExpectedDatabaseVersion();
+            if (databaseVersion.Major > expectedDatabaseVersion.Major)
+                throw new TooBigDatabaseVersionException(databaseVersion, expectedDatabaseVersion);
 
-            if (databaseVersion == null)
-            {
-                Warning = new MissingDatabaseVersionWarning(expectedDatabaseVersion);
-            }
-            else
-            {
-                if (databaseVersion.Major > expectedDatabaseVersion.Major)
-                    throw new TooBigDatabaseVersionException(databaseVersion, expectedDatabaseVersion);
+            if (databaseVersion.Major < expectedDatabaseVersion.Major)
+                throw new TooSmallDatabaseVersionException(databaseVersion, expectedDatabaseVersion);
 
-                if (databaseVersion.Major < expectedDatabaseVersion.Major)
-                    throw new TooSmallDatabaseVersionException(databaseVersion, expectedDatabaseVersion);
-
-                if (databaseVersion != expectedDatabaseVersion)
-                    Warning = new DatabaseVersionWarning(databaseVersion, expectedDatabaseVersion);
-            }
+            if (databaseVersion != expectedDatabaseVersion)
+                Warning = new DatabaseVersionWarning(databaseVersion, expectedDatabaseVersion);
         }
+    }
 
-        private static Version CalculateExpectedDatabaseVersion()
-        {
-            Version suggestedApplicationVersion = DatabaseVersionsByApplicationVersion
-                .Where(x => x.Key <= CurrentApplicationVersion)
-                .Max(x => x.Key);
+    private static Version CalculateExpectedDatabaseVersion()
+    {
+        Version suggestedApplicationVersion = DatabaseVersionsByApplicationVersion
+            .Where(x => x.Key <= CurrentApplicationVersion)
+            .Max(x => x.Key);
 
-            return DatabaseVersionsByApplicationVersion[suggestedApplicationVersion];
-        }
+        return DatabaseVersionsByApplicationVersion[suggestedApplicationVersion];
     }
 }

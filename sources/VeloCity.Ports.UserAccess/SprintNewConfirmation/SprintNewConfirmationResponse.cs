@@ -16,14 +16,13 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation
+namespace DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
+
+public class SprintNewConfirmationResponse
 {
-    public class SprintNewConfirmationResponse
-    {
-        public bool IsAccepted { get; set; }
+    public bool IsAccepted { get; set; }
 
-        public string SprintTitle { get; set; }
+    public string SprintTitle { get; set; }
 
-        public DateInterval SprintTimeInterval { get; set; }
-    }
+    public DateInterval SprintTimeInterval { get; set; }
 }

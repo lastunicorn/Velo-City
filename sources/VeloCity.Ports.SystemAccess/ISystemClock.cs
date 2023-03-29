@@ -16,10 +16,9 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Ports.SystemAccess
+namespace DustInTheWind.VeloCity.Ports.SystemAccess;
+
+public interface ISystemClock
 {
-    public interface ISystemClock
-    {
-        DateTime Today { get; }
-    }
+    DateTime Today { get; }
 }

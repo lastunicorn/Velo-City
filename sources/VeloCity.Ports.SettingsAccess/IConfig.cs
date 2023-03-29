@@ -17,24 +17,23 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace DustInTheWind.VeloCity.Ports.SettingsAccess
+namespace DustInTheWind.VeloCity.Ports.SettingsAccess;
+
+public interface IConfig
 {
-    public interface IConfig
-    {
-        CultureInfo Culture { get; }
+    CultureInfo Culture { get; }
 
-        ErrorMessageLevel ErrorMessageLevel { get; }
+    ErrorMessageLevel ErrorMessageLevel { get; }
 
-        string DatabaseLocation { get; }
+    string DatabaseLocation { get; }
 
-        string DatabaseEditor { get; }
+    string DatabaseEditor { get; }
 
-        string DatabaseEditorArguments { get; }
+    string DatabaseEditorArguments { get; }
 
-        DataGridStyle DataGridStyle { get; }
+    DataGridStyle DataGridStyle { get; }
 
-        uint AnalysisLookBack { get; }
+    uint AnalysisLookBack { get; }
 
-        List<ConfigItem> GetAllValuesRaw();
-    }
+    List<ConfigItem> GetAllValuesRaw();
 }

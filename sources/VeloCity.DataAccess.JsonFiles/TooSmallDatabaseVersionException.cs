@@ -17,15 +17,14 @@
 using System;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.JsonFiles
-{
-    public class TooSmallDatabaseVersionException : DataAccessException
-    {
-        private const string DefaultMessage = "The database json file has an old format. Please upgrade the database format. Actual database version: {0}. Expected database version: {1}.";
+namespace DustInTheWind.VeloCity.JsonFiles;
 
-        public TooSmallDatabaseVersionException(Version actualVersion, Version expectedVersion)
-            : base(string.Format(DefaultMessage, actualVersion, expectedVersion))
-        {
-        }
+public class TooSmallDatabaseVersionException : DataAccessException
+{
+    private const string DefaultMessage = "The database json file has an old format. Please upgrade the database format. Actual database version: {0}. Expected database version: {1}.";
+
+    public TooSmallDatabaseVersionException(Version actualVersion, Version expectedVersion)
+        : base(string.Format(DefaultMessage, actualVersion, expectedVersion))
+    {
     }
 }

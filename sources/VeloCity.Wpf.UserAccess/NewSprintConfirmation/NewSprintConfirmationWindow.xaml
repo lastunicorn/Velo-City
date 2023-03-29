@@ -101,7 +101,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 ShowWeekDay="True"
                 MonthFontSize="10"
                 FontSize="20"
-                Padding="10"/>
+                Padding="10" />
 
             <customControls:CalendarDate
                 Value="{Binding EndDate}"

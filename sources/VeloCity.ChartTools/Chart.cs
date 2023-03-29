@@ -19,67 +19,66 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DustInTheWind.VeloCity.ChartTools
+namespace DustInTheWind.VeloCity.ChartTools;
+
+public abstract class Chart<T> : IEnumerable<ChartBarValue<T>>
 {
-    public abstract class Chart<T> : IEnumerable<ChartBarValue<T>>
+    private readonly List<ChartBarValue<T>> chartBars = new();
+    private int? actualSize;
+
+    public int ActualSize
     {
-        private readonly List<ChartBarValue<T>> chartBars = new();
-        private int? actualSize;
+        get => actualSize ?? MaxValue;
+        set => actualSize = value;
+    }
 
-        public int ActualSize
+    public int MaxValue { get; private set; }
+
+    public ChartBarValue<T> this[int index] => chartBars[index];
+
+    public void Add(ChartBarValue<T> chartBarValue)
+    {
+        if (chartBarValue.Container != null)
+            throw new ArgumentException("The chart bar is already part of another chart.", nameof(chartBarValue));
+
+        chartBarValue.Container = this;
+        chartBars.Add(chartBarValue);
+    }
+
+    public void AddRange(IEnumerable<T> items)
+    {
+        foreach (T item in items)
         {
-            get => actualSize ?? MaxValue;
-            set => actualSize = value;
+            ChartBarValue<T> chartBarValue = ToChartBarValue(item);
+            Add(chartBarValue);
         }
+    }
 
-        public int MaxValue { get; private set; }
+    protected abstract ChartBarValue<T> ToChartBarValue(T item);
 
-        public ChartBarValue<T> this[int index] => chartBars[index];
+    public void AddRange(IEnumerable<ChartBarValue<T>> chartBars)
+    {
+        foreach (ChartBarValue<T> chartBar in chartBars)
+            Add(chartBar);
+    }
 
-        public void Add(ChartBarValue<T> chartBarValue)
-        {
-            if (chartBarValue.Container != null)
-                throw new ArgumentException("The chart bar is already part of another chart.", nameof(chartBarValue));
+    public void Calculate()
+    {
+        MaxValue = chartBars
+            .Select(x => x.MaxValue)
+            .Max();
 
-            chartBarValue.Container = this;
-            chartBars.Add(chartBarValue);
-        }
+        foreach (ChartBarValue<T> chartBar in chartBars)
+            chartBar.Calculate();
+    }
 
-        public void AddRange(IEnumerable<T> items)
-        {
-            foreach (T item in items)
-            {
-                ChartBarValue<T> chartBarValue = ToChartBarValue(item);
-                Add(chartBarValue);
-            }
-        }
+    public IEnumerator<ChartBarValue<T>> GetEnumerator()
+    {
+        return chartBars.GetEnumerator();
+    }
 
-        protected abstract ChartBarValue<T> ToChartBarValue(T item);
-
-        public void AddRange(IEnumerable<ChartBarValue<T>> chartBars)
-        {
-            foreach (ChartBarValue<T> chartBar in chartBars)
-                Add(chartBar);
-        }
-
-        public void Calculate()
-        {
-            MaxValue = chartBars
-                .Select(x => x.MaxValue)
-                .Max();
-
-            foreach (ChartBarValue<T> chartBar in chartBars)
-                chartBar.Calculate();
-        }
-
-        public IEnumerator<ChartBarValue<T>> GetEnumerator()
-        {
-            return chartBars.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

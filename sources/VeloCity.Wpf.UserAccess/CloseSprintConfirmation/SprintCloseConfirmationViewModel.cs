@@ -17,71 +17,70 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.UserAccess.CloseSprintConfirmation
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.CloseSprintConfirmation;
+
+public class SprintCloseConfirmationViewModel : ViewModelBase
 {
-    public class SprintCloseConfirmationViewModel : ViewModelBase
+    private string title;
+    private string sprintName;
+    private int sprintNumber;
+    private StoryPoints actualStoryPoints;
+    private string comments;
+
+    public string Title
     {
-        private string title;
-        private string sprintName;
-        private int sprintNumber;
-        private StoryPoints actualStoryPoints;
-        private string comments;
-
-        public string Title
+        get => title;
+        private set
         {
-            get => title;
-            private set
-            {
-                title = value;
-                OnPropertyChanged();
-            }
+            title = value;
+            OnPropertyChanged();
         }
+    }
 
-        public string SprintName
+    public string SprintName
+    {
+        get => sprintName;
+        set
         {
-            get => sprintName;
-            set
-            {
-                sprintName = value;
+            sprintName = value;
 
-                RefreshTitle();
-            }
+            RefreshTitle();
         }
+    }
 
-        public int SprintNumber
+    public int SprintNumber
+    {
+        get => sprintNumber;
+        set
         {
-            get => sprintNumber;
-            set
-            {
-                sprintNumber = value;
+            sprintNumber = value;
 
-                RefreshTitle();
-            }
+            RefreshTitle();
         }
+    }
 
-        public StoryPoints ActualStoryPoints
+    public StoryPoints ActualStoryPoints
+    {
+        get => actualStoryPoints;
+        set
         {
-            get => actualStoryPoints;
-            set
-            {
-                actualStoryPoints = value;
-                OnPropertyChanged();
-            }
+            actualStoryPoints = value;
+            OnPropertyChanged();
         }
+    }
 
-        public string Comments
+    public string Comments
+    {
+        get => comments;
+        set
         {
-            get => comments;
-            set
-            {
-                comments = value;
-                OnPropertyChanged();
-            }
+            comments = value;
+            OnPropertyChanged();
         }
+    }
 
-        private void RefreshTitle()
-        {
-            Title = $"Close Sprint {sprintNumber}";
-        }
+    private void RefreshTitle()
+    {
+        Title = $"Close Sprint {sprintNumber}";
     }
 }
