@@ -20,9 +20,6 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.Reload.ReloadUseCaseTests;
 

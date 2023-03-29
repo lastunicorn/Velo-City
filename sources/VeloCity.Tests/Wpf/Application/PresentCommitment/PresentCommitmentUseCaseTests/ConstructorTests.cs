@@ -17,9 +17,6 @@
 using System;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentCommitment.PresentCommitmentUseCaseTests;
 

@@ -22,9 +22,6 @@ using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberEmployments.PresentTeamMemberEmploymentsUseCaseTests;
 

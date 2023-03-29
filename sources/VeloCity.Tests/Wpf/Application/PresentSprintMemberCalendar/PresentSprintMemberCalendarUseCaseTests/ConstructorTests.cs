@@ -18,9 +18,6 @@ using System;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintMemberCalendar.PresentSprintMemberCalendarUseCaseTests;
 

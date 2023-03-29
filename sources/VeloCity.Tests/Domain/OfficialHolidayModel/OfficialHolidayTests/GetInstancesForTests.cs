@@ -18,9 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.OfficialHolidayModel.OfficialHolidayTests
 {

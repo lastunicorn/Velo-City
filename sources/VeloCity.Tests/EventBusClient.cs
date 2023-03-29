@@ -17,7 +17,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
-using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests
 {

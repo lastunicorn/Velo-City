@@ -16,8 +16,6 @@
 
 using System;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
-using FluentAssertions;
-using Xunit;
 using Resources = DustInTheWind.VeloCity.Domain.Resources;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExceptionTests

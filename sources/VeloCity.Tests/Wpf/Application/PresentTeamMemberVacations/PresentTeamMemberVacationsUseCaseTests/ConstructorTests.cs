@@ -18,9 +18,6 @@ using System;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentTeamMemberVacations.PresentTeamMemberVacationsUseCaseTests;
 

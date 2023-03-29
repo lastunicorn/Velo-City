@@ -17,8 +17,6 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests
 {

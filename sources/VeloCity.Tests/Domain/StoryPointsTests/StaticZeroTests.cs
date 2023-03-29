@@ -16,8 +16,6 @@
 
 using System.Globalization;
 using DustInTheWind.VeloCity.Domain;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
 {

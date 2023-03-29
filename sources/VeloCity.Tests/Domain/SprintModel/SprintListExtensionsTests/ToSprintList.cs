@@ -18,8 +18,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.SprintModel;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintListExtensionsTests
 {

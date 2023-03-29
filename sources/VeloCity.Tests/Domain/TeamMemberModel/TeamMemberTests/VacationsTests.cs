@@ -15,8 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.TeamMemberTests
 {

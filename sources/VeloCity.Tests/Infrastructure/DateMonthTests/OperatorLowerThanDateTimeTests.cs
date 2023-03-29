@@ -16,8 +16,6 @@
 
 using System;
 using DustInTheWind.VeloCity.Infrastructure;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
 

@@ -24,9 +24,6 @@ using DustInTheWind.VeloCity.Ports.UserAccess;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.CreateNewSprint.CreateNewSprintUseCaseTests;
 

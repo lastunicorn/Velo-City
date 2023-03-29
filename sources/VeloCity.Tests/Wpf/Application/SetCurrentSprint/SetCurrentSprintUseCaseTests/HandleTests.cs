@@ -19,8 +19,6 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.SetCurrentSprint.SetCurrentSprintUseCaseTests;
 

@@ -17,8 +17,6 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.DatabaseEditing.DatabaseOpenExceptionTests
 {

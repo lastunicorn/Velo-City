@@ -16,8 +16,6 @@
 
 using System;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationElementExceptionTests
 {

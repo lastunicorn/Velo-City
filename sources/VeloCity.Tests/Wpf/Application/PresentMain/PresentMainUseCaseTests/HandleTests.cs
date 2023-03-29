@@ -18,9 +18,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentMain.PresentMainUseCaseTests;
 

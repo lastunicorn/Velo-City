@@ -27,9 +27,6 @@ using DustInTheWind.VeloCity.Wpf.Application;
 using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
-using FluentAssertions;
-using Moq;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.StartSprint.StartSprintUseCaseTests;
 

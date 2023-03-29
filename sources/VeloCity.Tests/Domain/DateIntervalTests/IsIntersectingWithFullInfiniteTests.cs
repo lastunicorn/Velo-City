@@ -16,8 +16,6 @@
 
 using System;
 using DustInTheWind.VeloCity.Domain;
-using FluentAssertions;
-using Xunit;
 
 namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
 {
