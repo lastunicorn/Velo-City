@@ -73,7 +73,7 @@ public class HandleTests
 
         teamMemberRepository
             .Setup(x => x.Get(905))
-            .Returns(null as TeamMember);
+            .ReturnsAsync(null as TeamMember);
 
         Func<Task> action = async () =>
         {

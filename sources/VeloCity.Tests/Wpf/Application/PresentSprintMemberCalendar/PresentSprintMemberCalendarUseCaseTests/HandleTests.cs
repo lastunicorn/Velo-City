@@ -84,7 +84,7 @@ public class HandleTests
     [Fact]
     public async Task HavingSprintInRepositoryButTeamMemberNotInSprint_WhenUseCaseIsExecuted_ThenThrows()
     {
-        Sprint sprintFromRepository = new Sprint();
+        Sprint sprintFromRepository = new();
 
         sprintRepository
             .Setup(x => x.Get(It.IsAny<int>()))

@@ -20,7 +20,7 @@ using System.Text;
 
 namespace DustInTheWind.VeloCity.Domain;
 
-public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonName>
+public readonly partial struct PersonName : IComparable<PersonName>, IEquatable<PersonName>
 {
     public string FirstName { get; init; }
 
@@ -42,7 +42,7 @@ public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonNa
             if (MiddleName != null)
             {
                 if (sb.Length > 0)
-                    sb.Append(" ");
+                    sb.Append(' ');
 
                 sb.Append(MiddleName);
             }
@@ -50,7 +50,7 @@ public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonNa
             if (LastName != null)
             {
                 if (sb.Length > 0)
-                    sb.Append(" ");
+                    sb.Append(' ');
 
                 sb.Append(LastName);
             }
@@ -71,7 +71,7 @@ public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonNa
             if (MiddleName != null)
             {
                 if (sb.Length > 0)
-                    sb.Append(" ");
+                    sb.Append(' ');
 
                 sb.Append(MiddleName);
             }
@@ -79,7 +79,7 @@ public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonNa
             if (LastName != null)
             {
                 if (sb.Length > 0)
-                    sb.Append(" ");
+                    sb.Append(' ');
 
                 sb.Append(LastName);
             }
@@ -156,16 +156,6 @@ public readonly struct PersonName : IComparable<PersonName>, IEquatable<PersonNa
     public override string ToString()
     {
         return FullNameWithNickname;
-    }
-
-    public static implicit operator PersonName(string personName)
-    {
-        return Parse(personName);
-    }
-
-    public static implicit operator string(PersonName personName)
-    {
-        return personName.ToString();
     }
 
     public int CompareTo(PersonName other)

@@ -18,55 +18,54 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class GetHashCodeTests
 {
-    public class GetHashCodeTests
+    [Fact]
+    public void HavingAnInstances_WhenCalculatingHashCodeTwice_ThenReturnsSameValue()
     {
-        [Fact]
-        public void HavingAnInstances_WhenCalculatingHashCodeTwice_ThenReturnsSameValue()
-        {
-            DateMonth dateMonth = new(2023, 03);
+        DateMonth dateMonth = new(2023, 03);
 
-            int hash1 = dateMonth.GetHashCode();
-            int hash2 = dateMonth.GetHashCode();
+        int hash1 = dateMonth.GetHashCode();
+        int hash2 = dateMonth.GetHashCode();
 
-            hash1.Should().Be(hash2);
-        }
+        hash1.Should().Be(hash2);
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameValues_WhenCalculatingHashCode_ThenBothReturnsSameValue()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2023, 03);
+    [Fact]
+    public void HavingTwoInstancesWithSameValues_WhenCalculatingHashCode_ThenBothReturnsSameValue()
+    {
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2023, 03);
 
-            int hash1 = dateMonth1.GetHashCode();
-            int hash2 = dateMonth2.GetHashCode();
+        int hash1 = dateMonth1.GetHashCode();
+        int hash2 = dateMonth2.GetHashCode();
 
-            hash1.Should().Be(hash2);
-        }
+        hash1.Should().Be(hash2);
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCalculatingHashCode_ThenReturnsDifferentValues()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2023, 04);
+    [Fact]
+    public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCalculatingHashCode_ThenReturnsDifferentValues()
+    {
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2023, 04);
 
-            int hash1 = dateMonth1.GetHashCode();
-            int hash2 = dateMonth2.GetHashCode();
+        int hash1 = dateMonth1.GetHashCode();
+        int hash2 = dateMonth2.GetHashCode();
 
-            hash1.Should().NotBe(hash2);
-        }
+        hash1.Should().NotBe(hash2);
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCalculatingHashCode_ThenReturnsDifferentValues()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2027, 03);
+    [Fact]
+    public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCalculatingHashCode_ThenReturnsDifferentValues()
+    {
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2027, 03);
 
-            int hash1 = dateMonth1.GetHashCode();
-            int hash2 = dateMonth2.GetHashCode();
+        int hash1 = dateMonth1.GetHashCode();
+        int hash2 = dateMonth2.GetHashCode();
 
-            hash1.Should().NotBe(hash2);
-        }
+        hash1.Should().NotBe(hash2);
     }
 }

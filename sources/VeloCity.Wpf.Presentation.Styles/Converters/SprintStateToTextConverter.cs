@@ -34,7 +34,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
                     SprintState.New => "New",
                     SprintState.InProgress => "In Progress",
                     SprintState.Closed => "Closed",
-                    _ => throw new ArgumentOutOfRangeException()
+                    _ => throw new ArgumentOutOfRangeException("The value must be a SprintState.", nameof(value))
                 };
             }
 

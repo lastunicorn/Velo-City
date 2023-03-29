@@ -18,22 +18,21 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class ToStringTests
 {
-    public class ToStringTests
+    [Theory]
+    [InlineData(2025, 04, "2025 04")]
+    [InlineData(3458, 01, "3458 01")]
+    [InlineData(1, 03, "0001 03")]
+    [InlineData(100, 12, "0100 12")]
+    public void HavingAnInstance_WhenSerialized_ThenReturnsYearAndMonthAsNumbers(int year, int month, string expected)
     {
-        [Theory]
-        [InlineData(2025, 04, "2025 04")]
-        [InlineData(3458, 01, "3458 01")]
-        [InlineData(1, 03, "0001 03")]
-        [InlineData(100, 12, "0100 12")]
-        public void HavingAnInstance_WhenSerialized_ThenReturnsYearAndMonthAsNumbers(int year, int month, string expected)
-        {
-            DateMonth dateMonth = new(year, month);
+        DateMonth dateMonth = new(year, month);
 
-            string actual = dateMonth.ToString();
+        string actual = dateMonth.ToString();
 
-            actual.Should().Be(expected);
-        }
+        actual.Should().Be(expected);
     }
 }

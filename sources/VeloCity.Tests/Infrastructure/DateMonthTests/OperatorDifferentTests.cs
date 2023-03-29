@@ -18,51 +18,50 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class OperatorDifferentTests
 {
-    public class OperatorDifferentTests
+    [Fact]
+    public void HavingOneInstances_WhenComparedWithNull_ThenReturnsFalse()
     {
-        [Fact]
-        public void HavingOneInstances_WhenComparedWithNull_ThenReturnsFalse()
-        {
-            DateMonth dateMonth = new(2023, 03);
+        DateMonth dateMonth = new(2023, 03);
 
-            bool actual = dateMonth != null;
+        bool actual = dateMonth != null;
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameValues_WhenCompared_ThenReturnsFalse()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2023, 03);
+    [Fact]
+    public void HavingTwoInstancesWithSameValues_WhenCompared_ThenReturnsFalse()
+    {
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2023, 03);
 
-            bool actual = dateMonth1 != dateMonth2;
+        bool actual = dateMonth1 != dateMonth2;
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCompared_ThenReturnsTrue()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2023, 04);
+    [Fact]
+    public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCompared_ThenReturnsTrue()
+    {
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2023, 04);
 
-            bool actual = dateMonth1 != dateMonth2;
+        bool actual = dateMonth1 != dateMonth2;
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCompared_ThenReturnsTrue()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2027, 03);
+    [Fact]
+    public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCompared_ThenReturnsTrue()
+    {
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2027, 03);
 
-            bool actual = dateMonth1 != dateMonth2;
+        bool actual = dateMonth1 != dateMonth2;
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
     }
 }

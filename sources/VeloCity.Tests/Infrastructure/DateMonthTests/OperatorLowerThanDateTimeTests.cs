@@ -19,63 +19,62 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class OperatorLowerThanDateTimeTests
 {
-    public class OperatorLowerThanDateTimeTests
+    [Fact]
+    public void HavingOneInstance_WhenComparedToDateTimeFromSameMonth_ThenReturnsFalse()
     {
-        [Fact]
-        public void HavingOneInstance_WhenComparedToDateTimeFromSameMonth_ThenReturnsFalse()
-        {
-            DateMonth dateMonth = new(2022, 01);
-            DateTime dateTime = new(2022, 01, 14);
+        DateMonth dateMonth = new(2022, 01);
+        DateTime dateTime = new(2022, 01, 14);
 
-            bool actual = dateMonth < dateTime;
+        bool actual = dateMonth < dateTime;
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingOneInstance_WhenComparedToDateTimeFromNextMonth_ThenReturnsTrue()
-        {
-            DateMonth dateMonth = new(2022, 01);
-            DateTime dateTime = new(2022, 02, 14);
+    [Fact]
+    public void HavingOneInstance_WhenComparedToDateTimeFromNextMonth_ThenReturnsTrue()
+    {
+        DateMonth dateMonth = new(2022, 01);
+        DateTime dateTime = new(2022, 02, 14);
 
-            bool actual = dateMonth < dateTime;
+        bool actual = dateMonth < dateTime;
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingOneInstance_WhenComparedToDateTimeFromNextYear_ThenReturnsTrue()
-        {
-            DateMonth dateMonth = new(2022, 01);
-            DateTime dateTime = new(2023, 01, 14);
+    [Fact]
+    public void HavingOneInstance_WhenComparedToDateTimeFromNextYear_ThenReturnsTrue()
+    {
+        DateMonth dateMonth = new(2022, 01);
+        DateTime dateTime = new(2023, 01, 14);
 
-            bool actual = dateMonth < dateTime;
+        bool actual = dateMonth < dateTime;
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingOneInstance_WhenComparedToDateTimeFromPreviousMonth_ThenReturnsFalse()
-        {
-            DateMonth dateMonth = new(2022, 05);
-            DateTime dateTime = new(2022, 04, 14);
+    [Fact]
+    public void HavingOneInstance_WhenComparedToDateTimeFromPreviousMonth_ThenReturnsFalse()
+    {
+        DateMonth dateMonth = new(2022, 05);
+        DateTime dateTime = new(2022, 04, 14);
 
-            bool actual = dateMonth < dateTime;
+        bool actual = dateMonth < dateTime;
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingOneInstance_WhenComparedToDateTimeFromPreviousYear_ThenReturnsFalse()
-        {
-            DateMonth dateMonth = new(2022, 05);
-            DateTime dateTime = new(2021, 05, 14);
+    [Fact]
+    public void HavingOneInstance_WhenComparedToDateTimeFromPreviousYear_ThenReturnsFalse()
+    {
+        DateMonth dateMonth = new(2022, 05);
+        DateTime dateTime = new(2021, 05, 14);
 
-            bool actual = dateMonth < dateTime;
+        bool actual = dateMonth < dateTime;
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
     }
 }

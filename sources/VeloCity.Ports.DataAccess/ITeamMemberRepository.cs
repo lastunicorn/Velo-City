@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
@@ -23,7 +24,7 @@ namespace DustInTheWind.VeloCity.Ports.DataAccess
 {
     public interface ITeamMemberRepository
     {
-        TeamMember Get(int id);
+        Task<TeamMember> Get(int id);
 
         IEnumerable<TeamMember> GetAll();
 

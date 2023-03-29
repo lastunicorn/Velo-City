@@ -15,11 +15,17 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
+
+public class VacationOnceInfo : VacationInfo
 {
-    public class VacationOnceInfo : VacationInfo
+    public DateTime Date { get; set; }
+
+    public VacationOnceInfo(VacationOnce vacationOnce)
+        : base(vacationOnce)
     {
-        public DateTime Date { get; set; }
+        Date = vacationOnce.Date;
     }
 }

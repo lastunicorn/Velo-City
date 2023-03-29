@@ -49,7 +49,7 @@ public class Handle_NoEmploymentNoVacationTests
 
         teamMemberRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(teamMember);
+            .ReturnsAsync(teamMember);
 
         EventBus eventBus = new();
 

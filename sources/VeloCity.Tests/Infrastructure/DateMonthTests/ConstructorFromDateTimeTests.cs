@@ -19,28 +19,27 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class ConstructorFromDateTimeTests
 {
-    public class ConstructorFromDateTimeTests
+    [Fact]
+    public void HavingADateTime_WhenCreatingAnInstanceWithThatDateTime_ThenYearHasTheYearOfOriginalDateTime()
     {
-        [Fact]
-        public void HavingADateTime_WhenCreatintingAnInstanceWithThatDateTime_ThenYearHasTheYearOfOriginalDateTime()
-        {
-            DateTime dateTime = new(2001, 05, 02);
+        DateTime dateTime = new(2001, 05, 02);
 
-            DateMonth dateMonth = new(dateTime);
+        DateMonth dateMonth = new(dateTime);
 
-            dateMonth.Year.Should().Be(2001);
-        }
+        dateMonth.Year.Should().Be(2001);
+    }
 
-        [Fact]
-        public void HavingADateTime_WhenCreatintingAnInstanceWithThatDateTime_ThenMonthHasTheYearOfOriginalDateTime()
-        {
-            DateTime dateTime = new(2001, 05, 02);
+    [Fact]
+    public void HavingADateTime_WhenCreatingAnInstanceWithThatDateTime_ThenMonthHasTheYearOfOriginalDateTime()
+    {
+        DateTime dateTime = new(2001, 05, 02);
 
-            DateMonth dateMonth = new(dateTime);
+        DateMonth dateMonth = new(dateTime);
 
-            dateMonth.Month.Should().Be(5);
-        }
+        dateMonth.Month.Should().Be(5);
     }
 }

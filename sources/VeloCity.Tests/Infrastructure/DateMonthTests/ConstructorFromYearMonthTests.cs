@@ -19,70 +19,68 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class ConstructorFromYearMonthTests
 {
-
-    public class ConstructorFromYearMonthTests
+    [Theory]
+    [InlineData(-345987234)]
+    [InlineData(-200)]
+    [InlineData(0)]
+    [InlineData(1320)]
+    [InlineData(248964875)]
+    public void HavingANumberAsYear_WhenCreatingAnInstanceWithThatYear_ThenYearHasSpecifiedValue(int year)
     {
-        [Theory]
-        [InlineData(-345987234)]
-        [InlineData(-200)]
-        [InlineData(0)]
-        [InlineData(1320)]
-        [InlineData(248964875)]
-        public void HavingANumberAsYear_WhenCreatintingAnInstanceWithThatYear_ThenYearHasSpecifiedValue(int year)
+        DateMonth dateMonth = new(year, 1);
+
+        dateMonth.Year.Should().Be(year);
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
+    [InlineData(11)]
+    [InlineData(12)]
+    public void HavingANumberAsMonth_WhenCreatingAnInstanceWithThatMonth_ThenMonthHasSpecifiedValue(int month)
+    {
+        DateMonth dateMonth = new(0, month);
+
+        dateMonth.Month.Should().Be(month);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(-100)]
+    public void HavingANumberLessThan1AsMonth_WhenCreateInstanceWithThatMonth_ThenThrows(int month)
+    {
+        Action action = () =>
         {
-            DateMonth dateMonth = new(year, 1);
+            _ = new DateMonth(0, month);
+        };
 
-            dateMonth.Year.Should().Be(year);
-        }
+        action.Should().Throw<ArgumentOutOfRangeException>();
+    }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(4)]
-        [InlineData(5)]
-        [InlineData(6)]
-        [InlineData(7)]
-        [InlineData(8)]
-        [InlineData(9)]
-        [InlineData(10)]
-        [InlineData(11)]
-        [InlineData(12)]
-        public void HavingANumberAsMonth_WhenCreatintingAnInstanceWithThatMonth_ThenMonthHasSpecifiedValue(int month)
+    [Theory]
+    [InlineData(13)]
+    [InlineData(20)]
+    [InlineData(100)]
+    public void HavingANumberGreaterThan12AsMonth_WhenCreateInstanceWithThatMonth_ThenThrows(int month)
+    {
+        Action action = () =>
         {
-            DateMonth dateMonth = new(0, month);
+            _ = new DateMonth(0, month);
+        };
 
-            dateMonth.Month.Should().Be(month);
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-1)]
-        [InlineData(-100)]
-        public void HavingANumberLessThan1AsMonth_WhenCreateInstanceWithThatMonth_ThenThrows(int month)
-        {
-            Action action = () =>
-            {
-                _ = new DateMonth(0, month);
-            };
-
-            action.Should().Throw<ArgumentOutOfRangeException>();
-        }
-
-        [Theory]
-        [InlineData(13)]
-        [InlineData(20)]
-        [InlineData(100)]
-        public void HavingANumberGreaterThan12AsMonth_WhenCreateInstanceWithThatMonth_ThenThrows(int month)
-        {
-            Action action = () =>
-            {
-                _ = new DateMonth(0, month);
-            };
-
-            action.Should().Throw<ArgumentOutOfRangeException>();
-        }
+        action.Should().Throw<ArgumentOutOfRangeException>();
     }
 }

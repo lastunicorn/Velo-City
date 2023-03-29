@@ -25,56 +25,23 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
 
         public string Comments { get; set; }
 
+        protected VacationInfo(Vacation vacation)
+        {
+            HourCount = vacation.HourCount;
+            Comments = vacation.Comments;
+        }
+
         public static VacationInfo From(Vacation vacation)
         {
-            switch (vacation)
+            return vacation switch
             {
-                case VacationOnce vacationOnce:
-                    return new VacationOnceInfo
-                    {
-                        Date = vacationOnce.Date,
-                        HourCount = vacationOnce.HourCount,
-                        Comments = vacationOnce.Comments
-                    };
-
-                case VacationDaily vacationDaily:
-                    return new VacationDailyInfo
-                    {
-                        DateInterval = vacationDaily.DateInterval,
-                        HourCount = vacationDaily.HourCount,
-                        Comments = vacationDaily.Comments
-                    };
-
-                case VacationWeekly vacationWeekly:
-                    return new VacationWeeklyInfo
-                    {
-                        WeekDays = vacationWeekly.WeekDays,
-                        DateInterval = vacationWeekly.DateInterval,
-                        HourCount = vacationWeekly.HourCount,
-                        Comments = vacationWeekly.Comments
-                    };
-
-                case VacationMonthly vacationMonthly:
-                    return new VacationMonthlyInfo
-                    {
-                        MonthDays = vacationMonthly.MonthDays,
-                        DateInterval = vacationMonthly.DateInterval,
-                        HourCount = vacationMonthly.HourCount,
-                        Comments = vacationMonthly.Comments
-                    };
-
-                case VacationYearly vacationYearly:
-                    return new VacationYearlyInfo
-                    {
-                        Dates = vacationYearly.Dates,
-                        DateInterval = vacationYearly.DateInterval,
-                        HourCount = vacationYearly.HourCount,
-                        Comments = vacationYearly.Comments
-                    };
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(vacation));
-            }
+                VacationOnce vacationOnce => new VacationOnceInfo(vacationOnce),
+                VacationDaily vacationDaily => new VacationDailyInfo(vacationDaily),
+                VacationWeekly vacationWeekly => new VacationWeeklyInfo(vacationWeekly),
+                VacationMonthly vacationMonthly => new VacationMonthlyInfo(vacationMonthly),
+                VacationYearly vacationYearly => new VacationYearlyInfo(vacationYearly),
+                _ => throw new ArgumentOutOfRangeException(nameof(vacation))
+            };
         }
     }
 }

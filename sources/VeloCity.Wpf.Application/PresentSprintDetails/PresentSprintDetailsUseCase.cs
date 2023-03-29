@@ -55,20 +55,14 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
         {
             Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
 
-            if (sprint == null)
-                throw new NoSprintInProgressException();
-
-            return sprint;
+            return sprint ?? throw new NoSprintInProgressException();
         }
 
         private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintId)
         {
             Sprint sprint = await unitOfWork.SprintRepository.Get(sprintId);
-
-            if (sprint == null)
-                throw new SprintDoesNotExistException(sprintId);
-
-            return sprint;
+            
+            return sprint ?? throw new SprintDoesNotExistException(sprintId);
         }
 
         private static PresentSprintDetailResponse CreateResponse(Sprint sprint)

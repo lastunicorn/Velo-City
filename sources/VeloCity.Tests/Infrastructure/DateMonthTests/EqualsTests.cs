@@ -18,41 +18,40 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class EqualsTests
 {
-    public class EqualsTests
+    [Fact]
+    public void HavingTwoInstancesWithSameValues_WhenCompared_ThenReturnsTrue()
     {
-        [Fact]
-        public void HavingTwoInstancesWithSameValues_WhenCompared_ThenReturnsTrue()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2023, 03);
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2023, 03);
 
-            bool actual = dateMonth1.Equals(dateMonth2);
+        bool actual = dateMonth1.Equals(dateMonth2);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCompared_ThenReturnsFalse()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2023, 04);
+    [Fact]
+    public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCompared_ThenReturnsFalse()
+    {
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2023, 04);
 
-            bool actual = dateMonth1.Equals(dateMonth2);
+        bool actual = dateMonth1.Equals(dateMonth2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCompared_ThenReturnsFalse()
-        {
-            DateMonth dateMonth1 = new(2023, 03);
-            DateMonth dateMonth2 = new(2027, 03);
+    [Fact]
+    public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCompared_ThenReturnsFalse()
+    {
+        DateMonth dateMonth1 = new(2023, 03);
+        DateMonth dateMonth2 = new(2027, 03);
 
-            bool actual = dateMonth1.Equals(dateMonth2);
+        bool actual = dateMonth1.Equals(dateMonth2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
     }
 }

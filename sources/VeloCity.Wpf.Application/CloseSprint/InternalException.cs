@@ -20,7 +20,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 
 internal class InternalException : Exception
 {
-    private static string DefaultMessage = "An unexpected internal error occurred.";
+    private const string DefaultMessage = "An unexpected internal error occurred.";
 
     public InternalException(string message)
         : base(BuildMessage(message))

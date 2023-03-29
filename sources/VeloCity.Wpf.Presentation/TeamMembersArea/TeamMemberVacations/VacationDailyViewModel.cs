@@ -16,22 +16,28 @@
 
 using System;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+public class VacationDailyViewModel : VacationViewModel
 {
-    public class VacationDailyViewModel : VacationViewModel
+    public DateInterval DateInterval { get; set; }
+
+    public override DateTime? SignificantDate => DateInterval.StartDate;
+
+    public override DateTime? StartDate => DateInterval.StartDate;
+
+    public override DateTime? EndDate => DateInterval.EndDate;
+
+    public VacationDailyViewModel(VacationDailyInfo vacationDaily)
+        : base(vacationDaily)
     {
-        public DateInterval DateInterval { get; set; }
+        DateInterval = vacationDaily.DateInterval;
+    }
 
-        public override DateTime? SignificantDate => DateInterval.StartDate;
-
-        public override DateTime? StartDate => DateInterval.StartDate;
-
-        public override DateTime? EndDate => DateInterval.EndDate;
-
-        public override string ToString()
-        {
-            return $"[{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
-        }
+    public override string ToString()
+    {
+        return $"[{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
     }
 }

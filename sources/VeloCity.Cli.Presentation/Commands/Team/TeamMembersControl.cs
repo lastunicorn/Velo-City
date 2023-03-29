@@ -81,9 +81,10 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
 
         private static string RenderEmployment(Employment employment)
         {
-            List<string> items = new();
-
-            items.Add($"{employment.HoursPerDay.Value} h/day");
+            List<string> items = new()
+            {
+                $"{employment.HoursPerDay.Value} h/day"
+            };
 
             if (employment.EmploymentWeek is { IsDefault: false })
             {

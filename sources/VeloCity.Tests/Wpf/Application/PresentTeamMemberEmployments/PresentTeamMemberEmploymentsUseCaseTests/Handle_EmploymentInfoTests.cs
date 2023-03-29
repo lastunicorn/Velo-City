@@ -52,7 +52,7 @@ public class Handle_EmploymentInfoTests
 
         teamMemberRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(teamMemberFromRepository);
+            .ReturnsAsync(teamMemberFromRepository);
 
         useCase = new PresentTeamMemberEmploymentsUseCase(unitOfWork.Object, applicationState);
     }

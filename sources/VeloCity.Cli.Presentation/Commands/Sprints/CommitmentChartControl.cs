@@ -44,7 +44,9 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints
 
             foreach (CommitmentChartItem item in Items)
             {
-                string title = $"- Sprint {item.SprintNumber:D2} - {item.ActualStoryPoints.ToString("00")} / {item.CommitmentStoryPoints.ToString("00")} - ";
+                string actualStoryPoints = item.ActualStoryPoints.ToString("00");
+                string commitmentStoryPoints = item.CommitmentStoryPoints.ToString("00");
+                string title = $"- Sprint {item.SprintNumber:D2} - {actualStoryPoints} / {commitmentStoryPoints} - ";
                 display.Write(title);
 
                 WriteChartLine(item, display);

@@ -15,12 +15,10 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Runtime.Serialization;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 
-[Serializable]
 internal class InvalidSprintStateException : Exception
 {
     public InvalidSprintStateException(int sprintNumber, SprintState sprintState)
@@ -32,10 +30,5 @@ internal class InvalidSprintStateException : Exception
     {
         const string messageTemplate = "The sprint '{0}' is in an invalid state. Sprint state: '{1}'.";
         return string.Format(messageTemplate, sprintNumber, sprintState);
-    }
-
-    protected InvalidSprintStateException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
     }
 }

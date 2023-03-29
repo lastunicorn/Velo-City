@@ -26,19 +26,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool boolValue = false;
-
-            if (value is bool)
-            {
-                boolValue = (bool)value;
-            }
-            else if (value is Nullable<bool>)
-            {
-                Nullable<bool> tmp = (Nullable<bool>)value;
-                boolValue = tmp.HasValue ? tmp.Value : false;
-            }
-
-            return boolValue
+            return value is true
                 ? Visibility.Collapsed
                 : Visibility.Visible;
         }
@@ -46,13 +34,9 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Visibility visibility)
-            {
                 return visibility != Visibility.Visible;
-            }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 }

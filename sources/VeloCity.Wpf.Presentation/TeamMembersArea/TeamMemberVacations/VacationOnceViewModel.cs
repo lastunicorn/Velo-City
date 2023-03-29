@@ -15,22 +15,28 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+public class VacationOnceViewModel : VacationViewModel
 {
-    public class VacationOnceViewModel : VacationViewModel
+    public DateTime Date { get; set; }
+
+    public override DateTime? SignificantDate => Date;
+
+    public override DateTime? StartDate => Date;
+
+    public override DateTime? EndDate => Date;
+
+    public VacationOnceViewModel(VacationOnceInfo vacationOnce)
+        : base(vacationOnce)
     {
-        public DateTime Date { get; set; }
+        Date = vacationOnce.Date;
+    }
 
-        public override DateTime? SignificantDate => Date;
-
-        public override DateTime? StartDate => Date;
-
-        public override DateTime? EndDate => Date;
-
-        public override string ToString()
-        {
-            return $"{Date:d}" + (Comments == null ? string.Empty : " - " + Comments);
-        }
+    public override string ToString()
+    {
+        return $"{Date:d}" + (Comments == null ? string.Empty : " - " + Comments);
     }
 }

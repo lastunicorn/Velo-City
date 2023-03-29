@@ -24,8 +24,6 @@ namespace DustInTheWind.VeloCity.Domain;
 
 public class MonthMember
 {
-    private readonly MonthCalendar monthCalendar;
-
     public PersonName Name => TeamMember.Name;
 
     public TeamMember TeamMember { get; }
@@ -41,7 +39,7 @@ public class MonthMember
 
     public MonthMember(TeamMember teamMember, MonthCalendar monthCalendar)
     {
-        this.monthCalendar = monthCalendar ?? throw new ArgumentNullException(nameof(monthCalendar));
+        if (monthCalendar == null) throw new ArgumentNullException(nameof(monthCalendar));
         TeamMember = teamMember ?? throw new ArgumentNullException(nameof(teamMember));
 
         IEnumerable<SprintMemberDay> sprintMemberDays = monthCalendar.EnumerateAllDays()

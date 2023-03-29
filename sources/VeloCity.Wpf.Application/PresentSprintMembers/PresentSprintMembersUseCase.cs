@@ -58,20 +58,14 @@ internal class PresentSprintMembersUseCase : IRequestHandler<PresentSprintMember
     {
         Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
 
-        if (sprint == null)
-            throw new NoSprintInProgressException();
-
-        return sprint;
+        return sprint ?? throw new NoSprintInProgressException();
     }
 
     private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintNumber)
     {
         Sprint sprint = await unitOfWork.SprintRepository.Get(sprintNumber);
 
-        if (sprint == null)
-            throw new SprintDoesNotExistException(sprintNumber);
-
-        return sprint;
+        return sprint ?? throw new SprintDoesNotExistException(sprintNumber);
     }
 
     private static List<SprintMember> ComputeSprintMemberList(Sprint sprint)

@@ -60,19 +60,13 @@ public class PresentSprintMemberCalendarUseCase : IRequestHandler<PresentSprintM
     {
         Sprint sprint = await unitOfWork.SprintRepository.Get(sprintId);
 
-        if (sprint == null)
-            throw new SprintDoesNotExistException(sprintId);
-
-        return sprint;
+        return sprint ?? throw new SprintDoesNotExistException(sprintId);
     }
 
     private static SprintMember GetSprintMember(Sprint sprint, int teamMemberId)
     {
         SprintMember sprintMember = sprint.GetSprintMember(teamMemberId);
 
-        if (sprintMember == null)
-            throw new TeamMemberNotInSprintException(teamMemberId, sprint.Number);
-
-        return sprintMember;
+        return sprintMember ?? throw new TeamMemberNotInSprintException(teamMemberId, sprint.Number);
     }
 }

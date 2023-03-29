@@ -77,10 +77,7 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
 
         Sprint sprint = await unitOfWork.SprintRepository.Get(selectedSprintId.Value);
 
-        if (sprint == null)
-            throw new SprintDoesNotExistException(selectedSprintId.Value);
-
-        return sprint;
+        return sprint ?? throw new SprintDoesNotExistException(selectedSprintId.Value);
     }
 
     private static void ValidateSprintState(Sprint sprint)
@@ -124,10 +121,7 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
 
         SprintStartConfirmationResponse userResponse = userInterface.ConfirmStartSprint(sprintStartConfirmationRequest);
 
-        if (userResponse == null)
-            throw new InternalException("User confirmation response is null.");
-
-        return userResponse;
+        return userResponse ?? throw new InternalException("User confirmation response is null.");
     }
 
     private static void UpdateSprint(Sprint selectedSprint, SprintStartConfirmationResponse sprintStartConfirmationResponse)

@@ -32,66 +32,26 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVaca
 
         public abstract DateTime? EndDate { get; }
 
+        protected VacationViewModel(VacationInfo vacationInfo)
+        {
+            HourCount = vacationInfo.HourCount.HasValue
+                ? vacationInfo.HourCount
+                : (HoursValue?)null;
+
+            Comments = vacationInfo.Comments;
+        }
+
         public static VacationViewModel From(VacationInfo vacation)
         {
-            switch (vacation)
+            return vacation switch
             {
-                case VacationOnceInfo vacationOnce:
-                    return new VacationOnceViewModel
-                    {
-                        Date = vacationOnce.Date,
-                        HourCount = vacationOnce.HourCount.HasValue
-                            ? vacationOnce.HourCount
-                            : (HoursValue?)null,
-                        Comments = vacationOnce.Comments
-                    };
-
-                case VacationDailyInfo vacationDaily:
-                    return new VacationDailyViewModel
-                    {
-                        DateInterval = vacationDaily.DateInterval,
-                        HourCount = vacationDaily.HourCount.HasValue
-                            ? vacationDaily.HourCount
-                            : (HoursValue?)null,
-                        Comments = vacationDaily.Comments
-                    };
-
-                case VacationWeeklyInfo vacationWeekly:
-                    return new VacationWeeklyViewModel
-                    {
-                        WeekDays = vacationWeekly.WeekDays,
-                        DateInterval = vacationWeekly.DateInterval,
-                        HourCount = vacationWeekly.HourCount.HasValue
-                            ? vacationWeekly.HourCount
-                            : (HoursValue?)null,
-                        Comments = vacationWeekly.Comments
-                    };
-
-                case VacationMonthlyInfo vacationMonthly:
-                    return new VacationMonthlyViewModel
-                    {
-                        MonthDays = vacationMonthly.MonthDays,
-                        DateInterval = vacationMonthly.DateInterval,
-                        HourCount = vacationMonthly.HourCount.HasValue
-                            ? vacationMonthly.HourCount
-                            : (HoursValue?)null,
-                        Comments = vacationMonthly.Comments
-                    };
-
-                case VacationYearlyInfo vacationYearly:
-                    return new VacationYearlyViewModel
-                    {
-                        Dates = vacationYearly.Dates,
-                        DateInterval = vacationYearly.DateInterval,
-                        HourCount = vacationYearly.HourCount.HasValue
-                            ? vacationYearly.HourCount
-                            : (HoursValue?)null,
-                        Comments = vacationYearly.Comments
-                    };
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(vacation));
-            }
+                VacationOnceInfo vacationOnce => new VacationOnceViewModel(vacationOnce),
+                VacationDailyInfo vacationDaily => new VacationDailyViewModel(vacationDaily),
+                VacationWeeklyInfo vacationWeekly => new VacationWeeklyViewModel(vacationWeekly),
+                VacationMonthlyInfo vacationMonthly => new VacationMonthlyViewModel(vacationMonthly),
+                VacationYearlyInfo vacationYearly => new VacationYearlyViewModel(vacationYearly),
+                _ => throw new ArgumentOutOfRangeException(nameof(vacation))
+            };
         }
     }
 }

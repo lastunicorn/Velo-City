@@ -51,7 +51,7 @@ public class Handle_TeamMemberFromApplicationStateTests
     {
         teamMemberRepository
             .Setup(x => x.Get(101))
-            .Returns(null as TeamMember);
+            .ReturnsAsync(null as TeamMember);
 
         applicationState.SelectedTeamMemberId = 101;
 
@@ -69,7 +69,7 @@ public class Handle_TeamMemberFromApplicationStateTests
 
         teamMemberRepository
             .Setup(x => x.Get(3568))
-            .Returns(teamMember);
+            .ReturnsAsync(teamMember);
 
         applicationState.SelectedTeamMemberId = 3568;
 
@@ -89,7 +89,7 @@ public class Handle_TeamMemberFromApplicationStateTests
 
         teamMemberRepository
             .Setup(x => x.Get(3568))
-            .Returns(teamMember);
+            .ReturnsAsync(teamMember);
 
         applicationState.SelectedTeamMemberId = 3568;
 

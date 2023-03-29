@@ -83,10 +83,7 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
     {
         Sprint sprint = await unitOfWork.SprintRepository.GetByNumber(sprintNumber);
 
-        if (sprint == null)
-            throw new SprintDoesNotExistException(sprintNumber);
-
-        return sprint;
+        return sprint ?? throw new SprintDoesNotExistException(sprintNumber);
     }
 
     private async Task<PresentTeamResponse> CreateResponseForCurrentSprint()
@@ -99,10 +96,7 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
     {
         Sprint currentSprint = await unitOfWork.SprintRepository.GetLastInProgress();
 
-        if (currentSprint == null)
-            throw new NoSprintException();
-
-        return currentSprint;
+        return currentSprint ?? throw new NoSprintException();
     }
 
     private PresentTeamResponse CreateResponseForSprint(Sprint sprint)

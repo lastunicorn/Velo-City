@@ -19,48 +19,47 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class ConstructorFromNullableDateTimeTests
 {
-    public class ConstructorFromNullableDateTimeTests
+    [Fact]
+    public void HavingANullableDateTime_WhenCreatingAnInstanceWithThatDateTime_ThenYearHasTheYearOfOriginalDateTime()
     {
-        [Fact]
-        public void HavingANullableDateTime_WhenCreatintingAnInstanceWithThatDateTime_ThenYearHasTheYearOfOriginalDateTime()
-        {
-            DateTime? dateTime = new DateTime(2001, 05, 02);
+        DateTime? dateTime = new DateTime(2001, 05, 02);
 
-            DateMonth dateMonth = new(dateTime);
+        DateMonth dateMonth = new(dateTime);
 
-            dateMonth.Year.Should().Be(2001);
-        }
+        dateMonth.Year.Should().Be(2001);
+    }
 
-        [Fact]
-        public void HavingANullableDateTime_WhenCreatintingAnInstanceWithThatDateTime_ThenMonthHasTheYearOfOriginalDateTime()
-        {
-            DateTime? dateTime = new DateTime(2001, 05, 02);
+    [Fact]
+    public void HavingANullableDateTime_WhenCreatingAnInstanceWithThatDateTime_ThenMonthHasTheYearOfOriginalDateTime()
+    {
+        DateTime? dateTime = new DateTime(2001, 05, 02);
 
-            DateMonth dateMonth = new(dateTime);
+        DateMonth dateMonth = new(dateTime);
 
-            dateMonth.Month.Should().Be(5);
-        }
+        dateMonth.Month.Should().Be(5);
+    }
 
-        [Fact]
-        public void HavingANullableDateTimeNull_WhenCreatintingAnInstanceWithThatDateTime_ThenYearIsZero()
-        {
-            DateTime? dateTime = null;
+    [Fact]
+    public void HavingANullableDateTimeNull_WhenCreatingAnInstanceWithThatDateTime_ThenYearIsZero()
+    {
+        DateTime? dateTime = null;
 
-            DateMonth dateMonth = new(dateTime);
+        DateMonth dateMonth = new(dateTime);
 
-            dateMonth.Year.Should().Be(0);
-        }
+        dateMonth.Year.Should().Be(0);
+    }
 
-        [Fact]
-        public void HavingANullableDateTimeNull_WhenCreatintingAnInstanceWithThatDateTime_ThenMonthIsOne()
-        {
-            DateTime? dateTime = null;
+    [Fact]
+    public void HavingANullableDateTimeNull_WhenCreatingAnInstanceWithThatDateTime_ThenMonthIsOne()
+    {
+        DateTime? dateTime = null;
 
-            DateMonth dateMonth = new(dateTime);
+        DateMonth dateMonth = new(dateTime);
 
-            dateMonth.Month.Should().Be(1);
-        }
+        dateMonth.Month.Should().Be(1);
     }
 }

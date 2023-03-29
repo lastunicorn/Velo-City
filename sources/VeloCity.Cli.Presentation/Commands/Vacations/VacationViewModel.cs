@@ -18,87 +18,53 @@ using System;
 using System.Text;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+
+public abstract class VacationViewModel
 {
-    public abstract class VacationViewModel
+    public int? HourCount { get; set; }
+
+    public string Comments { get; set; }
+
+    public abstract DateTime? SignificantDate { get; }
+
+    public abstract DateTime? StartDate { get; }
+
+    public abstract DateTime? EndDate { get; }
+
+    protected VacationViewModel(Vacation vacationOnce)
     {
-        public int? HourCount { get; set; }
+        HourCount = vacationOnce.HourCount;
+        Comments = vacationOnce.Comments;
+    }
 
-        public string Comments { get; set; }
+    public override string ToString()
+    {
+        StringBuilder sb = new();
+        string dateAsString = RenderDate();
+        sb.Append($"{dateAsString}");
 
-        public abstract DateTime? SignificantDate { get; }
+        if (HourCount != null)
+            sb.Append($" ({HourCount}h)");
 
-        public abstract DateTime? StartDate { get; }
+        if (Comments != null)
+            sb.Append($" - {Comments}");
 
-        public abstract DateTime? EndDate { get; }
+        return sb.ToString();
+    }
 
-        public override string ToString()
+    protected abstract string RenderDate();
+
+    public static VacationViewModel From(Vacation vacation)
+    {
+        return vacation switch
         {
-            StringBuilder sb = new();
-            string dateAsString = RenderDate();
-            sb.Append($"{dateAsString}");
-
-            if (HourCount != null)
-                sb.Append($" ({HourCount}h)");
-
-            if (Comments != null)
-                sb.Append($" - {Comments}");
-
-            return sb.ToString();
-        }
-
-        protected abstract string RenderDate();
-
-        public static VacationViewModel From(Vacation vacation)
-        {
-            switch (vacation)
-            {
-                case VacationOnce vacationOnce:
-                    return new VacationOnceViewModel
-                    {
-                        Date = vacationOnce.Date,
-                        HourCount = vacationOnce.HourCount,
-                        Comments = vacationOnce.Comments
-                    };
-
-                case VacationDaily vacationDaily:
-                    return new VacationDailyViewModel
-                    {
-                        DateInterval = vacationDaily.DateInterval,
-                        HourCount = vacationDaily.HourCount,
-                        Comments = vacationDaily.Comments
-                    };
-
-                case VacationWeekly vacationWeekly:
-                    return new VacationWeeklyViewModel
-                    {
-                        WeekDays = vacationWeekly.WeekDays,
-                        DateInterval = vacationWeekly.DateInterval,
-                        HourCount = vacationWeekly.HourCount,
-                        Comments = vacationWeekly.Comments
-                    };
-
-                case VacationMonthly vacationMonthly:
-                    return new VacationMonthlyViewModel
-                    {
-                        MonthDays = vacationMonthly.MonthDays,
-                        DateInterval = vacationMonthly.DateInterval,
-                        HourCount = vacationMonthly.HourCount,
-                        Comments = vacationMonthly.Comments
-                    };
-
-                case VacationYearly vacationYearly:
-                    return new VacationYearlyViewModel
-                    {
-                        Dates = vacationYearly.Dates,
-                        DateInterval = vacationYearly.DateInterval,
-                        HourCount = vacationYearly.HourCount,
-                        Comments = vacationYearly.Comments
-                    };
-
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(vacation));
-            }
-        }
+            VacationOnce vacationOnce => new VacationOnceViewModel(vacationOnce),
+            VacationDaily vacationDaily => new VacationDailyViewModel(vacationDaily),
+            VacationWeekly vacationWeekly => new VacationWeeklyViewModel(vacationWeekly),
+            VacationMonthly vacationMonthly => new VacationMonthlyViewModel(vacationMonthly),
+            VacationYearly vacationYearly => new VacationYearlyViewModel(vacationYearly),
+            _ => throw new ArgumentOutOfRangeException(nameof(vacation))
+        };
     }
 }

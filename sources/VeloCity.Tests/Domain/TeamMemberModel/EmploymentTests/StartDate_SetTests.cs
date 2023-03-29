@@ -20,100 +20,99 @@ using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests;
+
+public class StartDate_SetTests
 {
-    public class StartDate_SetTests
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenStartDateIsSetToNull_ThenStartDateIsNull()
     {
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenStartDateIsSetToNull_ThenStartDateIsNull()
+        Employment employment = new();
+
+        employment.StartDate = null;
+
+        employment.StartDate.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenStartDateIsSetToNull_ThenTimeIntervalHasNullStartDate()
+    {
+        Employment employment = new();
+
+        employment.StartDate = null;
+
+        employment.TimeInterval.StartDate.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenStartDateIsSetToFiniteValue_ThenStartDateIsThatValue()
+    {
+        Employment employment = new();
+
+        employment.StartDate = new DateTime(1601, 09, 12);
+
+        employment.StartDate.Should().Be(new DateTime(1601, 09, 12));
+    }
+
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenStartDateIsSetToFiniteValue_ThenTimeIntervalStartDateIsThatValue()
+    {
+        Employment employment = new();
+
+        employment.StartDate = new DateTime(1601, 09, 12);
+
+        employment.TimeInterval.StartDate.Should().Be(new DateTime(1601, 09, 12));
+    }
+
+    [Fact]
+    public void HavingFiniteEmployment_WhenStartDateIsSetToFiniteValue_ThenStartDateIsThatValue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
+        };
 
-            employment.StartDate = null;
+        employment.StartDate = new DateTime(1601, 09, 12);
 
-            employment.StartDate.Should().BeNull();
-        }
+        employment.StartDate.Should().Be(new DateTime(1601, 09, 12));
+    }
 
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenStartDateIsSetToNull_ThenTimeIntervalHasNullStartDate()
+    [Fact]
+    public void HavingFiniteEmployment_WhenStartDateIsSetToFiniteValue_ThenTimeIntervalStartDateIsThatValue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
+        };
 
-            employment.StartDate = null;
+        employment.StartDate = new DateTime(1601, 09, 12);
 
-            employment.TimeInterval.StartDate.Should().BeNull();
-        }
+        employment.TimeInterval.StartDate.Should().Be(new DateTime(1601, 09, 12));
+    }
 
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenStartDateIsSetToFiniteValue_ThenStartDateIsThatValue()
+    [Fact]
+    public void HavingFiniteEmployment_WhenStartDateIsSetToNull_ThenStartDateIsNull()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
+        };
 
-            employment.StartDate = new DateTime(1601, 09, 12);
+        employment.StartDate = null;
 
-            employment.StartDate.Should().Be(new DateTime(1601, 09, 12));
-        }
+        employment.StartDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenStartDateIsSetToFiniteValue_ThenTimeIntervalStartDateIsThatValue()
+    [Fact]
+    public void HavingFiniteEmployment_WhenStartDateIsSetToNull_ThenTimeIntervalStartDateIsNull()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
+        };
 
-            employment.StartDate = new DateTime(1601, 09, 12);
+        employment.StartDate = null;
 
-            employment.TimeInterval.StartDate.Should().Be(new DateTime(1601, 09, 12));
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenStartDateIsSetToFiniteValue_ThenStartDateIsThatValue()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
-            };
-
-            employment.StartDate = new DateTime(1601, 09, 12);
-
-            employment.StartDate.Should().Be(new DateTime(1601, 09, 12));
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenStartDateIsSetToFiniteValue_ThenTimeIntervalStartDateIsThatValue()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
-            };
-
-            employment.StartDate = new DateTime(1601, 09, 12);
-
-            employment.TimeInterval.StartDate.Should().Be(new DateTime(1601, 09, 12));
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenStartDateIsSetToNull_ThenStartDateIsNull()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
-            };
-
-            employment.StartDate = null;
-
-            employment.StartDate.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenStartDateIsSetToNull_ThenTimeIntervalStartDateIsNull()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
-            };
-
-            employment.StartDate = null;
-
-            employment.TimeInterval.StartDate.Should().BeNull();
-        }
+        employment.TimeInterval.StartDate.Should().BeNull();
     }
 }

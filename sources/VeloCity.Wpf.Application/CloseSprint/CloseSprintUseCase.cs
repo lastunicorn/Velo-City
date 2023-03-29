@@ -71,10 +71,7 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
 
         Sprint sprint = await unitOfWork.SprintRepository.Get(selectedSprintId.Value);
 
-        if (sprint == null)
-            throw new SprintDoesNotExistException(selectedSprintId.Value);
-
-        return sprint;
+        return sprint ?? throw new SprintDoesNotExistException(selectedSprintId.Value);
     }
 
     private static void ValidateSprintState(Sprint sprint)
@@ -94,10 +91,7 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
 
         SprintCloseConfirmationResponse response = userInterface.ConfirmCloseSprint(request);
 
-        if (response == null)
-            throw new InternalException("User confirmation response is null.");
-
-        return response;
+        return response ?? throw new InternalException("User confirmation response is null.");
     }
 
     private static void CloseSprint(Sprint selectedSprint, SprintCloseConfirmationResponse sprintCloseConfirmationResponse)

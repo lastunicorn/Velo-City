@@ -65,7 +65,7 @@ public class Handle_EmploymentPositiveVacationTests
 
         teamMemberRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(teamMember);
+            .ReturnsAsync(teamMember);
 
         eventBus = new EventBus();
 

@@ -95,7 +95,7 @@ public class HandleTests
 
         teamMemberRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(teamMemberFromRepository);
+            .ReturnsAsync(teamMemberFromRepository);
 
         // Act
 
@@ -125,7 +125,7 @@ public class HandleTests
 
         teamMemberRepository
             .Setup(x => x.Get(It.IsAny<int>()))
-            .Returns(teamMemberFromRepository);
+            .ReturnsAsync(teamMemberFromRepository);
 
         // Act
 

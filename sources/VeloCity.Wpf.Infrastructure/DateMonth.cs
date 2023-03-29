@@ -17,194 +17,189 @@
 using System;
 using System.Globalization;
 
-namespace DustInTheWind.VeloCity.Infrastructure
+namespace DustInTheWind.VeloCity.Infrastructure;
+
+public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
 {
-    public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
+    public int Year { get; }
+
+    public int Month { get; }
+
+    public DateMonth()
     {
-        public int Year { get; }
+        Year = 0;
+        Month = 1;
+    }
 
-        public int Month { get; }
+    public DateMonth(int year, int month)
+    {
+        if (month is <= 0 or > 12) throw new ArgumentOutOfRangeException(nameof(month));
 
-        public DateMonth()
-        {       
-            Year = 0;
-            Month = 1;
+        Year = year;
+        Month = month;
+    }
+
+    public DateMonth(DateTime dateTime)
+    {
+        Year = dateTime.Year;
+        Month = dateTime.Month;
+    }
+
+    public DateMonth(DateTime? dateTime)
+    {
+        Year = dateTime?.Year ?? 0;
+        Month = dateTime?.Month ?? 1;
+    }
+
+    public int CompareTo(DateMonth other)
+    {
+        int yearComparison = Year.CompareTo(other.Year);
+        if (yearComparison != 0) return yearComparison;
+        return Month.CompareTo(other.Month);
+    }
+
+    public DateMonth AddMonths(int count)
+    {
+        if (count == 0)
+            return new DateMonth(Year, Month);
+
+        int totalMonthsToAdd = Month - 1 + count;
+
+        int newYear = Year + totalMonthsToAdd / 12;
+        int newMonth = totalMonthsToAdd % 12;
+
+        if (totalMonthsToAdd < 0)
+        {
+            newYear -= 1;
+            newMonth += 12;
         }
 
-        public DateMonth(int year, int month)
+        return new DateMonth(newYear, newMonth + 1);
+    }
+
+    public bool Equals(DateMonth other)
+    {
+        return Year == other.Year && Month == other.Month;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is DateMonth other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Year, Month);
+    }
+
+    public override string ToString()
+    {
+        return ToString("number", CultureInfo.CurrentCulture);
+    }
+
+    public string ToString(string format)
+    {
+        return ToString(format, CultureInfo.CurrentCulture);
+    }
+
+    public string ToString(string format, IFormatProvider formatProvider)
+    {
+        if (string.IsNullOrEmpty(format))
+            format = "number";
+
+        formatProvider ??= CultureInfo.CurrentCulture;
+
+        switch (format)
         {
-            if (month is <= 0 or > 12) throw new ArgumentOutOfRangeException(nameof(month));
+            case "number":
+                return $"{Year:D4} {Month:D2}";
 
-            Year = year;
-            Month = month;
-        }
-
-        public DateMonth(DateTime dateTime)
-        {
-            Year = dateTime.Year;
-            Month = dateTime.Month;
-        }
-
-        public DateMonth(DateTime? dateTime)
-        {
-            Year = dateTime?.Year ?? 0;
-            Month = dateTime?.Month ?? 1;
-        }
-
-        public int CompareTo(DateMonth other)
-        {
-            int yearComparison = Year.CompareTo(other.Year);
-            if (yearComparison != 0) return yearComparison;
-            return Month.CompareTo(other.Month);
-        }
-
-        public DateMonth AddMonths(int count)
-        {
-            if (count == 0)
-                return new DateMonth(Year, Month);
-
-            int totalMonthsToAdd = (Month - 1) + count;
-
-            int newYear = Year + (totalMonthsToAdd / 12);
-            int newMonth = totalMonthsToAdd % 12;
-
-            if (totalMonthsToAdd < 0)
+            case "short-name":
             {
-                newYear -= 1;
-                newMonth += 12;
+                object formattedObject = formatProvider.GetFormat(typeof(DateTimeFormatInfo));
+                DateTimeFormatInfo dateTimeFormatInfo = formattedObject as DateTimeFormatInfo ?? DateTimeFormatInfo.CurrentInfo;
+
+                return Year.ToString("D4", formatProvider) + " " + dateTimeFormatInfo.GetAbbreviatedMonthName(Month);
             }
 
-            return new DateMonth(newYear, newMonth + 1);
-        }
-
-        public bool Equals(DateMonth other)
-        {
-            return Year == other.Year && Month == other.Month;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is DateMonth other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Year, Month);
-        }
-
-        public override string ToString()
-        {
-            return ToString("number", CultureInfo.CurrentCulture);
-        }
-
-        public string ToString(string format)
-        {
-            return ToString(format, CultureInfo.CurrentCulture);
-        }
-
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            if (string.IsNullOrEmpty(format))
-                format = "number";
-
-            formatProvider ??= CultureInfo.CurrentCulture;
-
-            switch (format)
+            case "long-name":
             {
-                case "number":
-                    return $"{Year:D4} {Month:D2}";
+                object formattedObject = formatProvider.GetFormat(typeof(DateTimeFormatInfo));
+                DateTimeFormatInfo dateTimeFormatInfo = formattedObject as DateTimeFormatInfo ?? DateTimeFormatInfo.CurrentInfo;
 
-                case "short-name":
-                {
-                    DateTimeFormatInfo dateTimeFormatInfo = formatProvider.GetFormat(typeof(DateTimeFormatInfo)) as DateTimeFormatInfo;
-
-                    if (dateTimeFormatInfo == null)
-                        dateTimeFormatInfo = DateTimeFormatInfo.CurrentInfo;
-
-                    return Year.ToString("D4", formatProvider) + " " + dateTimeFormatInfo.GetAbbreviatedMonthName(Month);
-                }
-
-                case "long-name":
-                {
-                    DateTimeFormatInfo dateTimeFormatInfo = formatProvider.GetFormat(typeof(DateTimeFormatInfo)) as DateTimeFormatInfo;
-
-                    if (dateTimeFormatInfo == null)
-                        dateTimeFormatInfo = DateTimeFormatInfo.CurrentInfo;
-
-                    return Year.ToString("D4", formatProvider) + " " + dateTimeFormatInfo.GetMonthName(Month);
-                }
-
-                default:
-                    throw new FormatException($"The {format} format string is not supported.");
+                return Year.ToString("D4", formatProvider) + " " + dateTimeFormatInfo.GetMonthName(Month);
             }
+
+            default:
+                throw new FormatException($"The {format} format string is not supported.");
         }
+    }
 
-        public static bool operator ==(DateMonth dateTimeMonth1, DateMonth dateTimeMonth2)
-        {
-            return dateTimeMonth1.Year == dateTimeMonth2.Year &&
-                   dateTimeMonth1.Month == dateTimeMonth2.Month;
-        }
+    public static bool operator ==(DateMonth dateTimeMonth1, DateMonth dateTimeMonth2)
+    {
+        return dateTimeMonth1.Year == dateTimeMonth2.Year &&
+               dateTimeMonth1.Month == dateTimeMonth2.Month;
+    }
 
-        public static bool operator !=(DateMonth dateTimeMonth1, DateMonth dateTimeMonth2)
-        {
-            return dateTimeMonth1.Year != dateTimeMonth2.Year ||
-                   dateTimeMonth1.Month != dateTimeMonth2.Month;
-        }
+    public static bool operator !=(DateMonth dateTimeMonth1, DateMonth dateTimeMonth2)
+    {
+        return dateTimeMonth1.Year != dateTimeMonth2.Year ||
+               dateTimeMonth1.Month != dateTimeMonth2.Month;
+    }
 
-        public static bool operator >(DateMonth dateTimeMonth, DateTime dateTime)
-        {
-            int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
+    public static bool operator >(DateMonth dateTimeMonth, DateTime dateTime)
+    {
+        int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
-            if (yearComparison > 0)
-                return true;
+        if (yearComparison > 0)
+            return true;
 
-            if (yearComparison < 0)
-                return false;
+        if (yearComparison < 0)
+            return false;
 
-            int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
-            return monthComparison > 0;
-        }
+        int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
+        return monthComparison > 0;
+    }
 
-        public static bool operator <(DateMonth dateTimeMonth, DateTime dateTime)
-        {
-            int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
+    public static bool operator <(DateMonth dateTimeMonth, DateTime dateTime)
+    {
+        int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
-            if (yearComparison < 0)
-                return true;
+        if (yearComparison < 0)
+            return true;
 
-            if (yearComparison > 0)
-                return false;
+        if (yearComparison > 0)
+            return false;
 
-            int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
-            return monthComparison < 0;
-        }
+        int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
+        return monthComparison < 0;
+    }
 
-        public static bool operator >=(DateMonth dateTimeMonth, DateTime dateTime)
-        {
-            int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
+    public static bool operator >=(DateMonth dateTimeMonth, DateTime dateTime)
+    {
+        int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
-            if (yearComparison > 0)
-                return true;
+        if (yearComparison > 0)
+            return true;
 
-            if (yearComparison < 0)
-                return false;
+        if (yearComparison < 0)
+            return false;
 
-            int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
-            return monthComparison >= 0;
-        }
+        int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
+        return monthComparison >= 0;
+    }
 
-        public static bool operator <=(DateMonth dateTimeMonth, DateTime dateTime)
-        {
-            int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
+    public static bool operator <=(DateMonth dateTimeMonth, DateTime dateTime)
+    {
+        int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
-            if (yearComparison < 0)
-                return true;
+        if (yearComparison < 0)
+            return true;
 
-            if (yearComparison > 0)
-                return false;
+        if (yearComparison > 0)
+            return false;
 
-            int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
-            return monthComparison <= 0;
-        }
+        int monthComparison = dateTimeMonth.Month.CompareTo(dateTime.Month);
+        return monthComparison <= 0;
     }
 }

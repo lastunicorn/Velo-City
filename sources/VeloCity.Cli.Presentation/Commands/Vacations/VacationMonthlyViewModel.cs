@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {
@@ -31,6 +32,13 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
         public override DateTime? StartDate => DateInterval.StartDate;
 
         public override DateTime? EndDate => DateInterval.EndDate;
+
+        public VacationMonthlyViewModel(VacationMonthly vacationMonthly)
+            : base(vacationMonthly)
+        {
+            MonthDays = vacationMonthly.MonthDays;
+            DateInterval = vacationMonthly.DateInterval;
+        }
 
         protected override string RenderDate()
         {

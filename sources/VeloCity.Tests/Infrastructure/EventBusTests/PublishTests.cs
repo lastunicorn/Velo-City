@@ -17,107 +17,105 @@
 using System;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Tests.Infrastructure.EventBusTests.EventBusTests;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.EventBusTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.EventBusTests;
+
+public class PublishTests
 {
-    public class PublishTests
+    private readonly EventBus eventBus;
+
+    public PublishTests()
     {
-        private readonly EventBus eventBus;
+        eventBus = new EventBus();
+    }
 
-        public PublishTests()
+    [Fact]
+    public async Task HavingNoSubscriber_WhenAnEventIsPublished_ThenDoesNotThrow()
+    {
+        // Act
+        Func<Task> action = async () =>
         {
-            eventBus = new EventBus();
-        }
-
-        [Fact]
-        public async Task HavingNoSubscriber_WhenAnEventIsPublished_ThenDoesNotThrow()
-        {
-            // Act
-            Func<Task> action = async () =>
-            {
-                DummyEvent1 dummyEvent1 = new();
-                await eventBus.Publish(dummyEvent1);
-            };
-
-            // Assert
-            await action.Should().NotThrowAsync();
-        }
-
-        [Fact]
-        public async Task HavingOneSubscriberToDummyEvent1_WhenThatEventIsPublished_ThenSubscriberIsAnnounced()
-        {
-            // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
-
-            // Act
             DummyEvent1 dummyEvent1 = new();
             await eventBus.Publish(dummyEvent1);
+        };
 
-            // Assert
-            eventBusClient1.EventWasTriggered.Should().BeTrue();
-        }
+        // Assert
+        await action.Should().NotThrowAsync();
+    }
 
-        [Fact]
-        public async Task HavingOneSubscriberToDummyEvent1_WhenThatEventIsPublished_ThenSameEventInstanceIsReceivedBySubscriber()
-        {
-            // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
+    [Fact]
+    public async Task HavingOneSubscriberToDummyEvent1_WhenThatEventIsPublished_ThenSubscriberIsAnnounced()
+    {
+        // Arrange
+        EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
 
-            // Act
-            DummyEvent1 dummyEvent1 = new();
-            await eventBus.Publish(dummyEvent1);
+        // Act
+        DummyEvent1 dummyEvent1 = new();
+        await eventBus.Publish(dummyEvent1);
 
-            // Assert
-            eventBusClient1.Event.Should().BeSameAs(dummyEvent1);
-        }
+        // Assert
+        eventBusClient1.EventWasTriggered.Should().BeTrue();
+    }
 
-        [Fact]
-        public async Task HavingOneSubscriberToDummyEvent1_WhenAnotherEventIsPublished_ThenSubscriberNotAnnounced()
-        {
-            // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
+    [Fact]
+    public async Task HavingOneSubscriberToDummyEvent1_WhenThatEventIsPublished_ThenSameEventInstanceIsReceivedBySubscriber()
+    {
+        // Arrange
+        EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
 
-            // Act
-            DummyEvent2 dummyEvent2 = new();
-            await eventBus.Publish(dummyEvent2);
+        // Act
+        DummyEvent1 dummyEvent1 = new();
+        await eventBus.Publish(dummyEvent1);
 
-            // Assert
-            eventBusClient1.EventWasTriggered.Should().BeFalse();
-        }
+        // Assert
+        eventBusClient1.Event.Should().BeSameAs(dummyEvent1);
+    }
 
-        [Fact]
-        public async Task HavingTwoSubscribersToTwoDifferentEvents_WhenOneEventIsPublished_ThenCorrespondingSubscriberIsAnnounced()
-        {
-            // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
-            EventBusClient<DummyEvent2> eventBusClient2 = eventBus.CreateMockSubscriberFor<DummyEvent2>();
+    [Fact]
+    public async Task HavingOneSubscriberToDummyEvent1_WhenAnotherEventIsPublished_ThenSubscriberNotAnnounced()
+    {
+        // Arrange
+        EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
 
-            // Act
-            DummyEvent2 dummyEvent2 = new();
-            await eventBus.Publish(dummyEvent2);
+        // Act
+        DummyEvent2 dummyEvent2 = new();
+        await eventBus.Publish(dummyEvent2);
 
-            // Assert
-            eventBusClient1.EventWasTriggered.Should().BeFalse();
-            eventBusClient2.EventWasTriggered.Should().BeTrue();
-        }
+        // Assert
+        eventBusClient1.EventWasTriggered.Should().BeFalse();
+    }
 
-        [Fact]
-        public async Task HavingTwoSubscribersToSameEvent_WhenThatEventIsPublished_ThenBothSubscriberAreAnnounced()
-        {
-            // Arrange
-            EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
-            EventBusClient<DummyEvent1> eventBusClient2 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
+    [Fact]
+    public async Task HavingTwoSubscribersToTwoDifferentEvents_WhenOneEventIsPublished_ThenCorrespondingSubscriberIsAnnounced()
+    {
+        // Arrange
+        EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
+        EventBusClient<DummyEvent2> eventBusClient2 = eventBus.CreateMockSubscriberFor<DummyEvent2>();
 
-            // Act
-            DummyEvent1 dummyEvent1 = new();
-            await eventBus.Publish(dummyEvent1);
+        // Act
+        DummyEvent2 dummyEvent2 = new();
+        await eventBus.Publish(dummyEvent2);
 
-            // Assert
-            eventBusClient1.EventWasTriggered.Should().BeTrue();
-            eventBusClient2.EventWasTriggered.Should().BeTrue();
-        }
+        // Assert
+        eventBusClient1.EventWasTriggered.Should().BeFalse();
+        eventBusClient2.EventWasTriggered.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task HavingTwoSubscribersToSameEvent_WhenThatEventIsPublished_ThenBothSubscriberAreAnnounced()
+    {
+        // Arrange
+        EventBusClient<DummyEvent1> eventBusClient1 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
+        EventBusClient<DummyEvent1> eventBusClient2 = eventBus.CreateMockSubscriberFor<DummyEvent1>();
+
+        // Act
+        DummyEvent1 dummyEvent1 = new();
+        await eventBus.Publish(dummyEvent1);
+
+        // Assert
+        eventBusClient1.EventWasTriggered.Should().BeTrue();
+        eventBusClient2.EventWasTriggered.Should().BeTrue();
     }
 }

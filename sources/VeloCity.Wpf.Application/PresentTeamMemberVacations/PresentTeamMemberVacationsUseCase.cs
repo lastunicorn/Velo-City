@@ -23,41 +23,42 @@ using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
+
+internal class PresentTeamMemberVacationsUseCase : IRequestHandler<PresentTeamMemberVacationsRequest, PresentTeamMemberVacationsResponse>
 {
-    internal class PresentTeamMemberVacationsUseCase : IRequestHandler<PresentTeamMemberVacationsRequest, PresentTeamMemberVacationsResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+
+    public PresentTeamMemberVacationsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+    }
 
-        public PresentTeamMemberVacationsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+    public async Task<PresentTeamMemberVacationsResponse> Handle(PresentTeamMemberVacationsRequest request, CancellationToken cancellationToken)
+    {
+        return new PresentTeamMemberVacationsResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
+            Vacations = await GetVacations()
+        };
+    }
 
-        public Task<PresentTeamMemberVacationsResponse> Handle(PresentTeamMemberVacationsRequest request, CancellationToken cancellationToken)
+    private async Task<List<VacationInfo>> GetVacations()
+    {
+        if (applicationState.SelectedTeamMemberId != null)
         {
-            PresentTeamMemberVacationsResponse response = new()
+            int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
+            TeamMember teamMember = await unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
+
+            if (teamMember?.Vacations != null)
             {
-                Vacations = new List<VacationInfo>()
-            };
-
-            if (applicationState.SelectedTeamMemberId != null)
-            {
-                int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
-                TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
-
-                if (teamMember?.Vacations != null)
-                {
-                    IEnumerable<VacationInfo> vacationInfos = teamMember.Vacations
-                        .Select(VacationInfo.From);
-
-                    response.Vacations.AddRange(vacationInfos);
-                }
+                return teamMember.Vacations
+                    .Select(VacationInfo.From)
+                    .ToList();
             }
-
-            return Task.FromResult(response);
         }
+
+        return new List<VacationInfo>();
     }
 }

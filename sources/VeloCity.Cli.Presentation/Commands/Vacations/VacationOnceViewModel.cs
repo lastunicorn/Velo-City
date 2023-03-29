@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
 {
@@ -27,6 +28,12 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
         public override DateTime? StartDate => Date;
 
         public override DateTime? EndDate => Date;
+
+        public VacationOnceViewModel(VacationOnce vacationOnce)
+        :base(vacationOnce)
+        {
+            Date = vacationOnce.Date;
+        }
 
         protected override string RenderDate()
         {

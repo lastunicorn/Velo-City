@@ -38,8 +38,8 @@ internal class UpdateVacationHoursUseCase : IRequestHandler<UpdateVacationHoursR
 
     public async Task<Unit> Handle(UpdateVacationHoursRequest request, CancellationToken cancellationToken)
     {
-        TeamMember teamMember = RetrieveTeamMember(request.TeamMemberId);
-        UpdateVacation(teamMember, request.Date, request.Hours);
+        TeamMember teamMember = await RetrieveTeamMember(request.TeamMemberId);
+        teamMember.SetVacation(request.Date, request.Hours);
         unitOfWork.SaveChanges();
 
         await PublishEvent(cancellationToken);
@@ -47,26 +47,11 @@ internal class UpdateVacationHoursUseCase : IRequestHandler<UpdateVacationHoursR
         return Unit.Value;
     }
 
-    private TeamMember RetrieveTeamMember(int teamMemberId)
+    private async Task<TeamMember> RetrieveTeamMember(int teamMemberId)
     {
-        TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(teamMemberId);
+        TeamMember teamMember = await unitOfWork.TeamMemberRepository.Get(teamMemberId);
 
-        if (teamMember == null)
-            throw new TeamMemberDoesNotExistException(teamMemberId);
-
-        return teamMember;
-    }
-
-    private static void UpdateVacation(TeamMember teamMember, DateTime date, HoursValue? hours)
-    {
-        teamMember.SetVacation(date, hours);
-
-        //bool shouldRemoveVacation = hours == null || hours.Value <= 0;
-
-        //if (shouldRemoveVacation)
-        //    teamMember.RemoveVacation(date);
-        //else
-        //    teamMember.AddVacation(date, hours.Value);
+        return teamMember ?? throw new TeamMemberDoesNotExistException(teamMemberId);
     }
 
     private async Task PublishEvent(CancellationToken cancellationToken)

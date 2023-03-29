@@ -18,27 +18,26 @@ using DustInTheWind.VeloCity.Infrastructure;
 using FluentAssertions;
 using Xunit;
 
-namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests
+namespace DustInTheWind.VeloCity.Tests.Infrastructure.DateMonthTests;
+
+public class ConstructorWithoutParametersTests
 {
-    public class ConstructorWithoutParametersTests
+    private readonly DateMonth dateMonth;
+
+    public ConstructorWithoutParametersTests()
     {
-        DateMonth dateMonth;
+        dateMonth = new DateMonth();
+    }
 
-        public ConstructorWithoutParametersTests()
-        {
-            dateMonth = new DateMonth();
-        }
+    [Fact]
+    public void WhenCreateInstanceWithoutParameters_ThenYearIsZero()
+    {
+        dateMonth.Year.Should().Be(0);
+    }
 
-        [Fact]
-        public void WhenCreateInstanceWithoutParameters_ThenYearIsZero()
-        {
-            dateMonth.Year.Should().Be(0);
-        }
-
-        [Fact]
-        public void WhenCreateInstanceWithoutParameters_ThenMonthIsOne()
-        {
-            dateMonth.Month.Should().Be(1);
-        }
+    [Fact]
+    public void WhenCreateInstanceWithoutParameters_ThenMonthIsOne()
+    {
+        dateMonth.Month.Should().Be(1);
     }
 }

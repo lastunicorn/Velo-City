@@ -36,21 +36,19 @@ internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeam
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
     }
 
-    public Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
+    public async Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
     {
-        List<EmploymentInfo> employmentInfos = ComputeEmployments();
-        PresentTeamMemberEmploymentsResponse response = CreateResponse(employmentInfos);
-
-        return Task.FromResult(response);
+        List<EmploymentInfo> employmentInfos = await ComputeEmployments();
+        return CreateResponse(employmentInfos);
     }
 
-    private List<EmploymentInfo> ComputeEmployments()
+    private async Task<List<EmploymentInfo>> ComputeEmployments()
     {
         if (applicationState.SelectedTeamMemberId == null)
             return new List<EmploymentInfo>();
 
         int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
-        TeamMember teamMember = unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
+        TeamMember teamMember = await unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
 
         if (teamMember == null)
             return new List<EmploymentInfo>();
@@ -62,7 +60,7 @@ internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeam
 
     private static PresentTeamMemberEmploymentsResponse CreateResponse(List<EmploymentInfo> employmentInfos)
     {
-        return new PresentTeamMemberEmploymentsResponse()
+        return new PresentTeamMemberEmploymentsResponse
         {
             Employments = employmentInfos
         };

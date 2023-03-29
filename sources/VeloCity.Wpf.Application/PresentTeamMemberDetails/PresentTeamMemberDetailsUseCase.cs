@@ -34,25 +34,19 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails
             this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         }
 
-        public Task<PresentTeamMemberDetailsResponse> Handle(PresentTeamMemberDetailsRequest request, CancellationToken cancellationToken)
+        public async Task<PresentTeamMemberDetailsResponse> Handle(PresentTeamMemberDetailsRequest request, CancellationToken cancellationToken)
         {
-            TeamMember currentTeamMember = RetrieveCurrentTeamMember();
-            PresentTeamMemberDetailsResponse response = BuildResponse(currentTeamMember);
-
-            return Task.FromResult(response);
+            TeamMember currentTeamMember = await RetrieveCurrentTeamMember();
+            return BuildResponse(currentTeamMember);
         }
 
-        private TeamMember RetrieveCurrentTeamMember()
+        private async Task<TeamMember> RetrieveCurrentTeamMember()
         {
-            if (applicationState.SelectedTeamMemberId != null)
-            {
-                int teamMemberId = applicationState.SelectedTeamMemberId.Value;
-                return unitOfWork.TeamMemberRepository.Get(teamMemberId);
-            }
-            else
-            {
+            if (applicationState.SelectedTeamMemberId == null)
                 return null;
-            }
+
+            int teamMemberId = applicationState.SelectedTeamMemberId.Value;
+            return await unitOfWork.TeamMemberRepository.Get(teamMemberId);
         }
 
         private static PresentTeamMemberDetailsResponse BuildResponse(TeamMember currentTeamMember)

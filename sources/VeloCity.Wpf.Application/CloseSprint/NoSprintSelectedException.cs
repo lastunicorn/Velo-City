@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 [Serializable]
 internal class NoSprintSelectedException : Exception
 {
-    private static string DefaultMessage = "No sprint is selected.";
+    private const string DefaultMessage = "No sprint is selected.";
 
     public NoSprintSelectedException()
         : base(DefaultMessage)

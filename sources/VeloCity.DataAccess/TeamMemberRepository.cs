@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
@@ -32,10 +33,12 @@ namespace DustInTheWind.VeloCity.DataAccess
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public TeamMember Get(int id)
+        public Task<TeamMember> Get(int id)
         {
-            return dbContext.TeamMembers
+            TeamMember teamMember = dbContext.TeamMembers
                 .FirstOrDefault(x => x.Id == id);
+            
+            return Task.FromResult(teamMember);
         }
 
         public IEnumerable<TeamMember> GetAll()

@@ -17,28 +17,35 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+public class VacationWeeklyViewModel : VacationViewModel
 {
-    public class VacationWeeklyViewModel : VacationViewModel
+    public List<DayOfWeek> WeekDays { get; set; }
+
+    public DateInterval DateInterval { get; set; }
+
+    public override DateTime? SignificantDate => DateInterval.StartDate;
+
+    public override DateTime? StartDate => DateInterval.StartDate;
+
+    public override DateTime? EndDate => DateInterval.EndDate;
+
+    public VacationWeeklyViewModel(VacationWeeklyInfo vacationWeekly)
+        : base(vacationWeekly)
     {
-        public List<DayOfWeek> WeekDays { get; set; }
+        WeekDays = vacationWeekly.WeekDays;
+        DateInterval = vacationWeekly.DateInterval;
+    }
 
-        public DateInterval DateInterval { get; set; }
+    public override string ToString()
+    {
+        string weekDaysString = WeekDays == null || WeekDays.Count == 0
+            ? "<none>"
+            : string.Join(", ", WeekDays);
 
-        public override DateTime? SignificantDate => DateInterval.StartDate;
-
-        public override DateTime? StartDate => DateInterval.StartDate;
-
-        public override DateTime? EndDate => DateInterval.EndDate;
-
-        public override string ToString()
-        {
-            string weekDaysString = WeekDays == null || WeekDays.Count == 0
-                ? "<none>"
-                : string.Join(", ", WeekDays);
-
-            return $"Each {weekDaysString} between [{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
-        }
+        return $"Each {weekDaysString} between [{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
     }
 }

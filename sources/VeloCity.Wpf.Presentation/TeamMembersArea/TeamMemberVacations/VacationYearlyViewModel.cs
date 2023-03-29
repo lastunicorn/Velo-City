@@ -17,28 +17,35 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+public class VacationYearlyViewModel : VacationViewModel
 {
-    public class VacationYearlyViewModel : VacationViewModel
+    public List<DateTime> Dates { get; set; }
+
+    public DateInterval DateInterval { get; set; }
+
+    public override DateTime? SignificantDate => DateInterval.StartDate;
+
+    public override DateTime? StartDate => DateInterval.StartDate;
+
+    public override DateTime? EndDate => DateInterval.EndDate;
+
+    public VacationYearlyViewModel(VacationYearlyInfo vacationYearly)
+        : base(vacationYearly)
     {
-        public List<DateTime> Dates { get; set; }
+        Dates = vacationYearly.Dates;
+        DateInterval = vacationYearly.DateInterval;
+    }
 
-        public DateInterval DateInterval { get; set; }
+    public override string ToString()
+    {
+        string datesString = Dates == null || Dates.Count == 0
+            ? "<none>"
+            : string.Join(", ", Dates);
 
-        public override DateTime? SignificantDate => DateInterval.StartDate;
-
-        public override DateTime? StartDate => DateInterval.StartDate;
-
-        public override DateTime? EndDate => DateInterval.EndDate;
-
-        public override string ToString()
-        {
-            string datesString = Dates == null || Dates.Count == 0
-                ? "<none>"
-                : string.Join(", ", Dates);
-
-            return $"Each {datesString} between [{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
-        }
+        return $"Each {datesString} between [{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
     }
 }

@@ -17,13 +17,20 @@
 using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
+
+public class VacationYearlyInfo : VacationInfo
 {
-    public class VacationYearlyInfo : VacationInfo
-    {
-        public List<DateTime> Dates { get; set; }
+    public List<DateTime> Dates { get; set; }
 
-        public DateInterval DateInterval { get; set; }
+    public DateInterval DateInterval { get; set; }
+
+    public VacationYearlyInfo(VacationYearly vacationYearly)
+        : base(vacationYearly)
+    {
+        Dates = vacationYearly.Dates;
+        DateInterval = vacationYearly.DateInterval;
     }
 }
