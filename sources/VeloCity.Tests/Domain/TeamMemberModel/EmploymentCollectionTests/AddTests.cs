@@ -18,71 +18,70 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentCollectionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentCollectionTests;
+
+public class AddTests
 {
-    public class AddTests
+    [Fact]
+    public void HavingEmptyCollection_WhenAddingNullEmployment_ThenThrows()
     {
-        [Fact]
-        public void HavingEmptyCollection_WhenAddingNullEmployment_ThenThrows()
+        EmploymentCollection employmentCollection = new();
+
+        Action action = () => employmentCollection.Add(null);
+
+        action.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void HavingEmptyCollection_WhenAddingEmployment_ThenCollectionContainsEmployment()
+    {
+        EmploymentCollection employmentCollection = new();
+
+        Employment employment1 = new()
         {
-            EmploymentCollection employmentCollection = new();
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        employmentCollection.Add(employment1);
 
-            Action action = () => employmentCollection.Add(null);
+        employmentCollection.Should().HaveCount(1)
+            .And.ContainInOrder(employment1);
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void HavingEmptyCollection_WhenAddingEmployment_ThenCollectionContainsEmployment()
+    [Fact]
+    public void HavingCollectionWithOneEmployment_WhenAddingEmploymentChronologicallyAfterExistingEmployment_ThenEmploymentIsAddedBeforeExistingEmployment()
+    {
+        Employment existingEmployment = new()
         {
-            EmploymentCollection employmentCollection = new();
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new(new[] { existingEmployment });
 
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            employmentCollection.Add(employment1);
-
-            employmentCollection.Should().HaveCount(1)
-                .And.ContainInOrder(employment1);
-        }
-
-        [Fact]
-        public void HavingCollectionWithOneEmployment_WhenAddingEmploymentChronologicallyAfterExistingEmployment_ThenEmploymentIsAddedBeforeExistingEmployment()
+        Employment employment1 = new()
         {
-            Employment existingEmployment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new(new[] { existingEmployment });
+            TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
+        };
+        employmentCollection.Add(employment1);
 
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
-            };
-            employmentCollection.Add(employment1);
+        employmentCollection.Should().HaveCount(2)
+            .And.ContainInOrder(employment1, existingEmployment);
+    }
 
-            employmentCollection.Should().HaveCount(2)
-                .And.ContainInOrder(employment1, existingEmployment);
-        }
-
-        [Fact]
-        public void HavingCollectionWithOneEmployment_WhenAddingEmploymentChronologicallyBeforeExistingEmployment_ThenEmploymentIsAddedAfterExistingEmployment()
+    [Fact]
+    public void HavingCollectionWithOneEmployment_WhenAddingEmploymentChronologicallyBeforeExistingEmployment_ThenEmploymentIsAddedAfterExistingEmployment()
+    {
+        Employment existingEmployment = new()
         {
-            Employment existingEmployment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new(new[] { existingEmployment });
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new(new[] { existingEmployment });
 
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2021, 01, 01), new DateTime(2021, 06, 01))
-            };
-            employmentCollection.Add(employment1);
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2021, 01, 01), new DateTime(2021, 06, 01))
+        };
+        employmentCollection.Add(employment1);
 
-            employmentCollection.Should().HaveCount(2)
-                .And.ContainInOrder(existingEmployment, employment1);
-        }
+        employmentCollection.Should().HaveCount(2)
+            .And.ContainInOrder(existingEmployment, employment1);
     }
 }

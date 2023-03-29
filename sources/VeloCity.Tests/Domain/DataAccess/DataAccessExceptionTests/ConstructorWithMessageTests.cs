@@ -16,32 +16,31 @@
 
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests;
+
+public class ConstructorWithMessageTests
 {
-    public class ConstructorWithMessageTests
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificMessage_ThenMessageIsTheProvidedOne()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificMessage_ThenMessageIsTheProvidedOne()
-        {
-            DataAccessException dataAccessException = new("custom message");
+        DataAccessException dataAccessException = new("custom message");
 
-            dataAccessException.Message.Should().Be("custom message");
-        }
+        dataAccessException.Message.Should().Be("custom message");
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificMessage_ThenInnerExceptionIsNull()
-        {
-            DataAccessException dataAccessException = new("custom message");
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificMessage_ThenInnerExceptionIsNull()
+    {
+        DataAccessException dataAccessException = new("custom message");
 
-            dataAccessException.InnerException.Should().BeNull();
-        }
+        dataAccessException.InnerException.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithNullMessage_ThenMessageIsNotNull()
-        {
-            DataAccessException dataAccessException = new(null as string);
+    [Fact]
+    public void WhenCreatingInstanceWithNullMessage_ThenMessageIsNotNull()
+    {
+        DataAccessException dataAccessException = new(null as string);
 
-            dataAccessException.Message.Should().NotBeNull();
-        }
+        dataAccessException.Message.Should().NotBeNull();
     }
 }

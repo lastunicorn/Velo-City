@@ -16,40 +16,39 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
+namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests;
+
+public class IsZeroTests
 {
-    public class IsZeroTests
+    [Fact]
+    public void HavingInstanceWithNoValueSet_ThenIsZeroIsTrue()
     {
-        [Fact]
-        public void HavingInstanceWithNoValueSet_ThenIsZeroIsTrue()
+        StoryPoints storyPoints = new();
+
+        storyPoints.IsZero.Should().BeTrue();
+    }
+
+    [Fact]
+    public void HavingInstanceWithValueZero_ThenIsZeroIsTrue()
+    {
+        StoryPoints storyPoints = new();
+
+        storyPoints.IsZero.Should().BeTrue();
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(10)]
+    [InlineData(3458120)]
+    [InlineData(-7634903)]
+    public void HavingInstanceWithValueSet_ThenIsZeroIsFalse(float value)
+    {
+        StoryPoints storyPoints = new()
         {
-            StoryPoints storyPoints = new();
+            Value = value
+        };
 
-            storyPoints.IsZero.Should().BeTrue();
-        }
-
-        [Fact]
-        public void HavingInstanceWithValueZero_ThenIsZeroIsTrue()
-        {
-            StoryPoints storyPoints = new();
-
-            storyPoints.IsZero.Should().BeTrue();
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(10)]
-        [InlineData(3458120)]
-        [InlineData(-7634903)]
-        public void HavingInstanceWithValueSet_ThenIsZeroIsFalse(float value)
-        {
-            StoryPoints storyPoints = new()
-            {
-                Value = value
-            };
-
-            storyPoints.IsZero.Should().BeFalse();
-        }
+        storyPoints.IsZero.Should().BeFalse();
     }
 }

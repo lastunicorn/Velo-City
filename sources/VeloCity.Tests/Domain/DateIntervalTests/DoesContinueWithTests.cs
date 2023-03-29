@@ -17,96 +17,95 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests;
+
+public class DoesContinueWithTests
 {
-    public class DoesContinueWithTests
+    [Fact]
+    public void HavingInfiniteDateInterval_WhenCheckingIfItContinuesWithFiniteInterval_ReturnsFalse()
     {
-        [Fact]
-        public void HavingInfiniteDateInterval_WhenCheckingIfItContinuesWithFiniteInterval_ReturnsFalse()
-        {
-            DateInterval dateInterval = new();
+        DateInterval dateInterval = new();
 
-            DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
-            bool actual = dateInterval.DoesContinueWith(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
+        bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingDateIntervalWithMaximumEndDate_WhenCheckingIfItContinuesWithFiniteInterval_ReturnsFalse()
-        {
-            DateInterval dateInterval = new(null, DateTime.MaxValue);
+    [Fact]
+    public void HavingDateIntervalWithMaximumEndDate_WhenCheckingIfItContinuesWithFiniteInterval_ReturnsFalse()
+    {
+        DateInterval dateInterval = new(null, DateTime.MaxValue);
 
-            DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
-            bool actual = dateInterval.DoesContinueWith(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
+        bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithStartInfiniteInterval_ReturnsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithStartInfiniteInterval_ReturnsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
-            bool actual = dateInterval.DoesContinueWith(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
+        bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingInTheFuture_ReturnsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingInTheFuture_ReturnsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
-            bool actual = dateInterval.DoesContinueWith(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(5400, 12, 14));
+        bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingDuringInterval_ReturnsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingDuringInterval_ReturnsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(new DateTime(1950, 12, 14));
-            bool actual = dateInterval.DoesContinueWith(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(1950, 12, 14));
+        bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingBeforeInterval_ReturnsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingBeforeInterval_ReturnsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(new DateTime(1800, 12, 14));
-            bool actual = dateInterval.DoesContinueWith(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(1800, 12, 14));
+        bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingFromTheEndDayOfTheInterval_ReturnsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingFromTheEndDayOfTheInterval_ReturnsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(new DateTime(2002, 08, 04));
-            bool actual = dateInterval.DoesContinueWith(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2002, 08, 04));
+        bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingNextDayAfterInterval_ReturnsTrue()
-        {
-            DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenCheckingIfItContinuesWithIntervalStartingNextDayAfterInterval_ReturnsTrue()
+    {
+        DateInterval dateInterval = new(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04));
 
-            DateInterval dateInterval2 = new(new DateTime(2002, 08, 05));
-            bool actual = dateInterval.DoesContinueWith(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2002, 08, 05));
+        bool actual = dateInterval.DoesContinueWith(dateInterval2);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
     }
 }

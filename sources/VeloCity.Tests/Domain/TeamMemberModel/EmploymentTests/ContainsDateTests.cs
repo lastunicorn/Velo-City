@@ -18,148 +18,147 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests;
+
+public class ContainsDateTests
 {
-    public class ContainsDateTests
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenCheckingIfItContainsADate_ThenReturnsTrue()
     {
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenCheckingIfItContainsADate_ThenReturnsTrue()
+        Employment employment = new();
+
+        bool actual = employment.ContainsDate(new DateTime(1999, 05, 09));
+
+        actual.Should().BeTrue();
+    }
+
+    [Fact]
+    public void HavingEmploymentWithOnlyStartDate_WhenCheckIfADateBeforeStartDateIsContained_ThenReturnsFalse()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2020, 03, 15))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(1999, 05, 09));
+        bool actual = employment.ContainsDate(new DateTime(1999, 04, 17));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithOnlyStartDate_WhenCheckIfADateBeforeStartDateIsContained_ThenReturnsFalse()
+    [Fact]
+    public void HavingEmploymentWithOnlyStartDate_WhenCheckIfAStartDateIsContained_ThenReturnsTrue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 03, 15))
-            };
+            TimeInterval = new DateInterval(new DateTime(2020, 03, 15))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(1999, 04, 17));
+        bool actual = employment.ContainsDate(new DateTime(2020, 03, 15));
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithOnlyStartDate_WhenCheckIfAStartDateIsContained_ThenReturnsTrue()
+    [Fact]
+    public void HavingEmploymentWithOnlyStartDate_WhenCheckIfADateAfterStartDateIsContained_ThenReturnsTrue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 03, 15))
-            };
+            TimeInterval = new DateInterval(new DateTime(2020, 03, 15))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(2020, 03, 15));
+        bool actual = employment.ContainsDate(new DateTime(2021, 09, 30));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithOnlyStartDate_WhenCheckIfADateAfterStartDateIsContained_ThenReturnsTrue()
+    [Fact]
+    public void HavingEmploymentWithOnlyEndDate_WhenCheckIfADateBeforeEndDateIsContained_ThenReturnsTrue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 03, 15))
-            };
+            TimeInterval = new DateInterval(null, new DateTime(2020, 03, 15))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(2021, 09, 30));
+        bool actual = employment.ContainsDate(new DateTime(1999, 04, 17));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithOnlyEndDate_WhenCheckIfADateBeforeEndDateIsContained_ThenReturnsTrue()
+    [Fact]
+    public void HavingEmploymentWithOnlyEndDate_WhenCheckIfAEndDateIsContained_ThenReturnsTrue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(null, new DateTime(2020, 03, 15))
-            };
+            TimeInterval = new DateInterval(null, new DateTime(2020, 03, 15))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(1999, 04, 17));
+        bool actual = employment.ContainsDate(new DateTime(2020, 03, 15));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithOnlyEndDate_WhenCheckIfAEndDateIsContained_ThenReturnsTrue()
+    [Fact]
+    public void HavingEmploymentWithOnlyEndDate_WhenCheckIfADateAfterEndDateIsContained_ThenReturnsFalse()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(null, new DateTime(2020, 03, 15))
-            };
+            TimeInterval = new DateInterval(null, new DateTime(2020, 03, 15))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(2020, 03, 15));
+        bool actual = employment.ContainsDate(new DateTime(2021, 08, 17));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithOnlyEndDate_WhenCheckIfADateAfterEndDateIsContained_ThenReturnsFalse()
+    [Fact]
+    public void HavingEmploymentWithBothDates_WhenCheckIfADateBeforeStartDateIsContained_ThenReturnsFalse()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(null, new DateTime(2020, 03, 15))
-            };
+            TimeInterval = new DateInterval(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(2021, 08, 17));
+        bool actual = employment.ContainsDate(new DateTime(1999, 04, 17));
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithBothDates_WhenCheckIfADateBeforeStartDateIsContained_ThenReturnsFalse()
+    [Fact]
+    public void HavingEmploymentWithBothDates_WhenCheckIfADateBetweenStartDateAndEndDateIsContained_ThenReturnsTrue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12))
-            };
+            TimeInterval = new DateInterval(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(1999, 04, 17));
+        bool actual = employment.ContainsDate(new DateTime(2021, 02, 27));
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithBothDates_WhenCheckIfADateBetweenStartDateAndEndDateIsContained_ThenReturnsTrue()
+    [Fact]
+    public void HavingEmploymentWithBothDates_WhenCheckIfADateAfterEndDateIsContained_ThenReturnsFalse()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12))
-            };
+            TimeInterval = new DateInterval(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(2021, 02, 27));
+        bool actual = employment.ContainsDate(new DateTime(2050, 04, 17));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithBothDates_WhenCheckIfADateAfterEndDateIsContained_ThenReturnsFalse()
+    [Fact]
+    public void HavingEmploymentWithSameValueForStartAndEndDates_WhenCheckIfTheDateIsContained_ThenReturnsTrue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12))
-            };
+            TimeInterval = new DateInterval(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05))
+        };
 
-            bool actual = employment.ContainsDate(new DateTime(2050, 04, 17));
+        bool actual = employment.ContainsDate(new DateTime(2021, 07, 05));
 
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingEmploymentWithSameValueForStartAndEndDates_WhenCheckIfTheDateIsContained_ThenReturnsTrue()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05))
-            };
-
-            bool actual = employment.ContainsDate(new DateTime(2021, 07, 05));
-
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
     }
 }

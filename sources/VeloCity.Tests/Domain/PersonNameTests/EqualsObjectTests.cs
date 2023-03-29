@@ -16,40 +16,39 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class EqualsObjectTests
 {
-    public class EqualsObjectTests
+    [Fact]
+    public void HavingAPersonNameInstance_WhenComparedWithNull_ThenReturnsFalse()
     {
-        [Fact]
-        public void HavingAPersonNameInstance_WhenComparedWithNull_ThenReturnsFalse()
-        {
-            PersonName personName = new();
+        PersonName personName = new();
 
-            bool actual = personName.Equals(null as object);
+        bool actual = personName.Equals(null as object);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingAPersonNameInstance_WhenComparedWithObject_ThenReturnsFalse()
-        {
-            PersonName personName = new();
-            object obj = new();
+    [Fact]
+    public void HavingAPersonNameInstance_WhenComparedWithObject_ThenReturnsFalse()
+    {
+        PersonName personName = new();
+        object obj = new();
 
-            bool actual = personName.Equals(obj);
+        bool actual = personName.Equals(obj);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingAPersonNameInstance_WhenComparedWithAnotherParsonNameAsObject_ThenReturnsTrue()
-        {
-            PersonName personName = new();
-            object obj = new PersonName();
+    [Fact]
+    public void HavingAPersonNameInstance_WhenComparedWithAnotherParsonNameAsObject_ThenReturnsTrue()
+    {
+        PersonName personName = new();
+        object obj = new PersonName();
 
-            bool actual = personName.Equals(obj);
+        bool actual = personName.Equals(obj);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
     }
 }

@@ -202,7 +202,7 @@ public class HandleTests
         userInterface
             .Setup(x => x.ConfirmStartSprint(It.IsAny<SprintStartConfirmationRequest>()))
             .Returns(null as SprintStartConfirmationResponse);
-        
+
         StartSprintRequest request = new();
         Func<Task> action = async () =>
         {

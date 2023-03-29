@@ -15,29 +15,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests;
+
+public class ConstructorWithInnerExceptionTests
 {
-    public class ConstructorWithInnerExceptionTests
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificInnerException_ThenMessageIsTheDefaultOne()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenMessageIsTheDefaultOne()
-        {
-            Exception innerException = new();
-            DataAccessException dataAccessException = new(innerException);
+        Exception innerException = new();
+        DataAccessException dataAccessException = new(innerException);
 
-            dataAccessException.Message.Should().Be(DustInTheWind.VeloCity.Ports.DataAccess.Resources.DataAccess_DefaultErrorMessage);
-        }
+        dataAccessException.Message.Should().Be(Resources.DataAccess_DefaultErrorMessage);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsTheProvidedOne()
-        {
-            Exception innerException = new();
-            DataAccessException dataAccessException = new(innerException);
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsTheProvidedOne()
+    {
+        Exception innerException = new();
+        DataAccessException dataAccessException = new(innerException);
 
-            dataAccessException.InnerException.Should().BeSameAs(innerException);
-        }
+        dataAccessException.InnerException.Should().BeSameAs(innerException);
     }
 }

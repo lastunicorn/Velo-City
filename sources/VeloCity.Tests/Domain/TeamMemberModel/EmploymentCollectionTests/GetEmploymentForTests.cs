@@ -18,305 +18,304 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentCollectionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentCollectionTests;
+
+public class GetEmploymentForTests
 {
-    public class GetEmploymentForTests
+    [Theory]
+    [InlineData("2000-03-23")]
+    [InlineData("2022-05-06")]
+    [InlineData("2501-03-13")]
+    public void HavingAnEmptyCollection_WhenRetrievingEmploymentForAnyDate_ThenNullIsReturned(string dateAsString)
     {
-        [Theory]
-        [InlineData("2000-03-23")]
-        [InlineData("2022-05-06")]
-        [InlineData("2501-03-13")]
-        public void HavingAnEmptyCollection_WhenRetrievingEmploymentForAnyDate_ThenNullIsReturned(string dateAsString)
+        EmploymentCollection employmentCollection = new();
+
+        DateTime date = DateTime.Parse(dateAsString);
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(date);
+
+        actualEmployment.Should().BeNull();
+    }
+
+    [Theory]
+    [InlineData("2000-03-23")]
+    [InlineData("2002-05-06")]
+    [InlineData("2021-12-31")]
+    public void HavingOneEmployment_WhenRetrievingEmploymentForDateBeforeEmployment_ThenNullIsReturned(string dateAsString)
+    {
+        Employment employment1 = new()
         {
-            EmploymentCollection employmentCollection = new();
-
-            DateTime date = DateTime.Parse(dateAsString);
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(date);
-
-            actualEmployment.Should().BeNull();
-        }
-
-        [Theory]
-        [InlineData("2000-03-23")]
-        [InlineData("2002-05-06")]
-        [InlineData("2021-12-31")]
-        public void HavingOneEmployment_WhenRetrievingEmploymentForDateBeforeEmployment_ThenNullIsReturned(string dateAsString)
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1
-            };
+            employment1
+        };
 
-            DateTime date = DateTime.Parse(dateAsString);
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(date);
+        DateTime date = DateTime.Parse(dateAsString);
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(date);
 
-            actualEmployment.Should().BeNull();
-        }
+        actualEmployment.Should().BeNull();
+    }
 
-        [Theory]
-        [InlineData("2022-06-02")]
-        [InlineData("2029-05-06")]
-        [InlineData("2521-12-31")]
-        public void HavingOneEmployment_WhenRetrievingEmploymentForDateAfterEmployment_ThenNullIsReturned(string dateAsString)
+    [Theory]
+    [InlineData("2022-06-02")]
+    [InlineData("2029-05-06")]
+    [InlineData("2521-12-31")]
+    public void HavingOneEmployment_WhenRetrievingEmploymentForDateAfterEmployment_ThenNullIsReturned(string dateAsString)
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1
-            };
-
-            DateTime date = DateTime.Parse(dateAsString);
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(date);
-
-            actualEmployment.Should().BeNull();
-        }
-
-        [Theory]
-        [InlineData("2022-01-02")]
-        [InlineData("2022-05-06")]
-        [InlineData("2022-06-01")]
-        public void HavingOneEmployment_WhenRetrievingEmploymentForDateDuringEmployment_ThenEmploymentIsReturned(string dateAsString)
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1
-            };
+            employment1
+        };
 
-            DateTime date = DateTime.Parse(dateAsString);
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(date);
+        DateTime date = DateTime.Parse(dateAsString);
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(date);
 
-            actualEmployment.Should().Be(employment1);
-        }
+        actualEmployment.Should().BeNull();
+    }
 
-        [Fact]
-        public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateBeforeEmployments_ThenNullIsReturned()
+    [Theory]
+    [InlineData("2022-01-02")]
+    [InlineData("2022-05-06")]
+    [InlineData("2022-06-01")]
+    public void HavingOneEmployment_WhenRetrievingEmploymentForDateDuringEmployment_ThenEmploymentIsReturned(string dateAsString)
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
-
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2020, 01, 01));
-
-            actualEmployment.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateBetweenEmployments_ThenNullIsReturned()
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
+            employment1
+        };
 
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 10, 01));
+        DateTime date = DateTime.Parse(dateAsString);
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(date);
 
-            actualEmployment.Should().BeNull();
-        }
+        actualEmployment.Should().Be(employment1);
+    }
 
-        [Fact]
-        public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateAfterEmployments_ThenNullIsReturned()
+    [Fact]
+    public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateBeforeEmployments_ThenNullIsReturned()
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
-
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2025, 01, 01));
-
-            actualEmployment.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateDuringFirstEmployment_ThenFirstEmploymentIsReturned()
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
-
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 03, 01));
-
-            actualEmployment.Should().Be(employment1);
-        }
-
-        [Fact]
-        public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateDuringSecondEmployment_ThenSecondEmploymentIsReturned()
+            TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
+            employment1,
+            employment2
+        };
 
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2023, 03, 01));
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2020, 01, 01));
 
-            actualEmployment.Should().Be(employment2);
-        }
+        actualEmployment.Should().BeNull();
+    }
 
-        [Fact]
-        public void HavingTwoContinuousEmployments_WhenRetrievingEmploymentForDateBeforeEmployments_ThenNullIsReturned()
+    [Fact]
+    public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateBetweenEmployments_ThenNullIsReturned()
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
-
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2021, 03, 01));
-
-            actualEmployment.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingTwoContinuousEmployments_WhenRetrievingEmploymentForDateAfterEmployments_ThenEmptyCollectionIsReturned()
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
-
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2023, 03, 01));
-
-            actualEmployment.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingTwoContinuousEmployments_WhenRetrievingEmploymentForDateDuringFirstEmployment_ThenFirstEmploymentIsReturned()
+            TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
+            employment1,
+            employment2
+        };
 
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 03, 01));
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 10, 01));
 
-            actualEmployment.Should().Be(employment1);
-        }
+        actualEmployment.Should().BeNull();
+    }
 
-        [Fact]
-        public void HavingTwoContinuousEmployments_WhenRetrievingEmploymentForDateDuringSecondEmployment_ThenSecondEmploymentIsReturned()
+    [Fact]
+    public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateAfterEmployments_ThenNullIsReturned()
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
-
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 07, 01));
-
-            actualEmployment.Should().Be(employment2);
-        }
-
-        [Fact]
-        public void HavingTwoContinuousEmploymentsOutOfOrder_WhenRetrievingEmploymentForDateDuringSecondEmployment_ThenSecondEmploymentIsReturned()
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment2,
-                employment1
-            };
+            TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
 
-            Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 07, 01));
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2025, 01, 01));
 
-            actualEmployment.Should().Be(employment2);
-        }
+        actualEmployment.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateDuringFirstEmployment_ThenFirstEmploymentIsReturned()
+    {
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
+
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 03, 01));
+
+        actualEmployment.Should().Be(employment1);
+    }
+
+    [Fact]
+    public void HavingTwoSeparatedEmployments_WhenRetrievingEmploymentForDateDuringSecondEmployment_ThenSecondEmploymentIsReturned()
+    {
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2023, 01, 01), new DateTime(2023, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
+
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2023, 03, 01));
+
+        actualEmployment.Should().Be(employment2);
+    }
+
+    [Fact]
+    public void HavingTwoContinuousEmployments_WhenRetrievingEmploymentForDateBeforeEmployments_ThenNullIsReturned()
+    {
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
+
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2021, 03, 01));
+
+        actualEmployment.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingTwoContinuousEmployments_WhenRetrievingEmploymentForDateAfterEmployments_ThenEmptyCollectionIsReturned()
+    {
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
+
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2023, 03, 01));
+
+        actualEmployment.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingTwoContinuousEmployments_WhenRetrievingEmploymentForDateDuringFirstEmployment_ThenFirstEmploymentIsReturned()
+    {
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
+
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 03, 01));
+
+        actualEmployment.Should().Be(employment1);
+    }
+
+    [Fact]
+    public void HavingTwoContinuousEmployments_WhenRetrievingEmploymentForDateDuringSecondEmployment_ThenSecondEmploymentIsReturned()
+    {
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
+
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 07, 01));
+
+        actualEmployment.Should().Be(employment2);
+    }
+
+    [Fact]
+    public void HavingTwoContinuousEmploymentsOutOfOrder_WhenRetrievingEmploymentForDateDuringSecondEmployment_ThenSecondEmploymentIsReturned()
+    {
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment2,
+            employment1
+        };
+
+        Employment actualEmployment = employmentCollection.GetEmploymentFor(new DateTime(2022, 07, 01));
+
+        actualEmployment.Should().Be(employment2);
     }
 }

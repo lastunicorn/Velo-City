@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -86,7 +85,7 @@ public class Handle_EmploymentNoVacationTests
         };
 
         await useCase.Handle(request, CancellationToken.None);
-        
+
         Vacation actualVacation = teamMember.Vacations.GetVacationsFor(new DateTime(2023, 03, 26)).Single();
         actualVacation.HourCount.Should().Be(5);
     }

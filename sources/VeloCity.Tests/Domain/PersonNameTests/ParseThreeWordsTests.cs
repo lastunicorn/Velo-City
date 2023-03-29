@@ -16,39 +16,38 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class ParseThreeWordsTests
 {
-    public class ParseThreeWordsTests
+    private readonly PersonName personName;
+
+    public ParseThreeWordsTests()
     {
-        private readonly PersonName personName;
+        personName = PersonName.Parse("word1 word2 word3");
+    }
 
-        public ParseThreeWordsTests()
-        {
-            personName = PersonName.Parse("word1 word2 word3");
-        }
+    [Fact]
+    public void WhenParsingThreeWords_ThenFirstNameIsFirstWord()
+    {
+        personName.FirstName.Should().Be("word1");
+    }
 
-        [Fact]
-        public void WhenParsingThreeWords_ThenFirstNameIsFirstWord()
-        {
-            personName.FirstName.Should().Be("word1");
-        }
+    [Fact]
+    public void WhenParsingThreeWords_ThenMiddleNameIsSecondWord()
+    {
+        personName.MiddleName.Should().Be("word2");
+    }
 
-        [Fact]
-        public void WhenParsingThreeWords_ThenMiddleNameIsSecondWord()
-        {
-            personName.MiddleName.Should().Be("word2");
-        }
+    [Fact]
+    public void WhenParsingThreeWords_ThenLastNameIsThirdWord()
+    {
+        personName.LastName.Should().Be("word3");
+    }
 
-        [Fact]
-        public void WhenParsingThreeWords_ThenLastNameIsThirdWord()
-        {
-            personName.LastName.Should().Be("word3");
-        }
-
-        [Fact]
-        public void WhenParsingThreeWords_ThenNicknameIsNull()
-        {
-            personName.Nickname.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingThreeWords_ThenNicknameIsNull()
+    {
+        personName.Nickname.Should().BeNull();
     }
 }

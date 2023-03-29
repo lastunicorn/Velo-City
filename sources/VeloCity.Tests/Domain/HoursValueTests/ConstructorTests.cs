@@ -16,16 +16,15 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests
-{
-    public class ConstructorTests
-    {
-        [Fact]
-        public void WhenCreatingInstance_ThenValueIsZero()
-        {
-            HoursValue actual = new();
+namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests;
 
-            actual.Value.Should().Be(0);
-        }
+public class ConstructorTests
+{
+    [Fact]
+    public void WhenCreatingInstance_ThenValueIsZero()
+    {
+        HoursValue actual = new();
+
+        actual.Value.Should().Be(0);
     }
 }

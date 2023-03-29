@@ -18,96 +18,95 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentCollectionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentCollectionTests;
+
+public class GetFirstEmploymentTests
 {
-    public class GetFirstEmploymentTests
+    [Fact]
+    public void HavingEmptyCollection_WhenRequestingFirstEmployment_ThenReturnsNull()
     {
-        [Fact]
-        public void HavingEmptyCollection_WhenRequestingFirstEmployment_ThenReturnsNull()
+        EmploymentCollection employmentCollection = new();
+
+        Employment actual = employmentCollection.GetFirstEmployment();
+
+        actual.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingCollectionWithOneFiniteEmployment_WhenRequestingFirstEmployment_ThenReturnsEmployment()
+    {
+        Employment employment1 = new()
         {
-            EmploymentCollection employmentCollection = new();
-
-            Employment actual = employmentCollection.GetFirstEmployment();
-
-            actual.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingCollectionWithOneFiniteEmployment_WhenRequestingFirstEmployment_ThenReturnsEmployment()
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1
-            };
+            employment1
+        };
 
-            Employment actual = employmentCollection.GetFirstEmployment();
+        Employment actual = employmentCollection.GetFirstEmployment();
 
-            actual.Should().Be(employment1);
-        }
+        actual.Should().Be(employment1);
+    }
 
-        [Fact]
-        public void HavingCollectionWithOneInfiniteStartingEmployment_WhenRequestingFirstEmployment_ThenReturnsEmployment()
+    [Fact]
+    public void HavingCollectionWithOneInfiniteStartingEmployment_WhenRequestingFirstEmployment_ThenReturnsEmployment()
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(null, new DateTime(2022, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1
-            };
-
-            Employment actual = employmentCollection.GetFirstEmployment();
-
-            actual.Should().Be(employment1);
-        }
-
-        [Fact]
-        public void HavingCollectionWithTwoFiniteEmployments_WhenRequestingFirstEmployment_ThenReturnsOldestEmployment()
+            TimeInterval = new DateInterval(null, new DateTime(2022, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 07, 01), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
+            employment1
+        };
 
-            Employment actual = employmentCollection.GetFirstEmployment();
+        Employment actual = employmentCollection.GetFirstEmployment();
 
-            actual.Should().Be(employment1);
-        }
+        actual.Should().Be(employment1);
+    }
 
-        [Fact]
-        public void HavingCollectionWithOneInfiniteAndOneFiniteEmployments_WhenRequestingFirstEmployment_ThenReturnsTheInfiniteEmployment()
+    [Fact]
+    public void HavingCollectionWithTwoFiniteEmployments_WhenRequestingFirstEmployment_ThenReturnsOldestEmployment()
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(null, new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 07, 01), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new()
-            {
-                employment1,
-                employment2
-            };
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 07, 01), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
 
-            Employment actual = employmentCollection.GetFirstEmployment();
+        Employment actual = employmentCollection.GetFirstEmployment();
 
-            actual.Should().Be(employment1);
-        }
+        actual.Should().Be(employment1);
+    }
+
+    [Fact]
+    public void HavingCollectionWithOneInfiniteAndOneFiniteEmployments_WhenRequestingFirstEmployment_ThenReturnsTheInfiniteEmployment()
+    {
+        Employment employment1 = new()
+        {
+            TimeInterval = new DateInterval(null, new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 07, 01), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new()
+        {
+            employment1,
+            employment2
+        };
+
+        Employment actual = employmentCollection.GetFirstEmployment();
+
+        actual.Should().Be(employment1);
     }
 }

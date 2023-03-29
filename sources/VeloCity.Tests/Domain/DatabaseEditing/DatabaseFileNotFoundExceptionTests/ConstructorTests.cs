@@ -17,26 +17,25 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DatabaseEditing.DatabaseFileNotFoundExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DatabaseEditing.DatabaseFileNotFoundExceptionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingInstanceWithNullFilePath_ThenMessageContainsEmptyFilePath()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithNullFilePath_ThenMessageContainsEmptyFilePath()
-        {
-            DatabaseFileNotFoundException databaseFileNotFoundException = new(null);
+        DatabaseFileNotFoundException databaseFileNotFoundException = new(null);
 
-            string expected = string.Format(Resources.DatabaseFileNotFound_DefaultErrorMessage, null as string);
-            databaseFileNotFoundException.Message.Should().Be(expected);
-        }
+        string expected = string.Format(Resources.DatabaseFileNotFound_DefaultErrorMessage, null as string);
+        databaseFileNotFoundException.Message.Should().Be(expected);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificFilePath_ThenMessageContainsThatFilePath()
-        {
-            DatabaseFileNotFoundException databaseFileNotFoundException = new("custom file path");
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificFilePath_ThenMessageContainsThatFilePath()
+    {
+        DatabaseFileNotFoundException databaseFileNotFoundException = new("custom file path");
 
-            string expected = string.Format(Resources.DatabaseFileNotFound_DefaultErrorMessage, "custom file path");
-            databaseFileNotFoundException.Message.Should().Be(expected);
-        }
+        string expected = string.Format(Resources.DatabaseFileNotFound_DefaultErrorMessage, "custom file path");
+        databaseFileNotFoundException.Message.Should().Be(expected);
     }
 }

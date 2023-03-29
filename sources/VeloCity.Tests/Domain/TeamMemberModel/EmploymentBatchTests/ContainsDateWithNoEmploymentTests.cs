@@ -17,22 +17,21 @@
 using System;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests;
+
+public class ContainsDateWithNoEmploymentTests
 {
-    public class ContainsDateWithNoEmploymentTests
+    [Theory]
+    [InlineData("2022-05-13")]
+    [InlineData("200-01-20")]
+    [InlineData("5430-07-10")]
+    public void HavingEmptyBatch_WhenCheckingIfContainsAnyDate_ThenReturnsFalse(string dateAsString)
     {
-        [Theory]
-        [InlineData("2022-05-13")]
-        [InlineData("200-01-20")]
-        [InlineData("5430-07-10")]
-        public void HavingEmptyBatch_WhenCheckingIfContainsAnyDate_ThenReturnsFalse(string dateAsString)
-        {
-            EmploymentBatch employmentBatch = new();
+        EmploymentBatch employmentBatch = new();
 
-            DateTime date = DateTime.Parse(dateAsString);
-            bool actual = employmentBatch.ContainsDate(date);
+        DateTime date = DateTime.Parse(dateAsString);
+        bool actual = employmentBatch.ContainsDate(date);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
     }
 }

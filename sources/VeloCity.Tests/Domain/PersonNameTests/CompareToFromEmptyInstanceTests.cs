@@ -16,223 +16,222 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class CompareToFromEmptyInstanceTests
 {
-    public class CompareToFromEmptyInstanceTests
+    [Fact]
+    public void HavingTwoEmptyInstances_WhenCompared_ReturnsZero()
     {
-        [Fact]
-        public void HavingTwoEmptyInstances_WhenCompared_ReturnsZero()
+        PersonName personName1 = new();
+        PersonName personName2 = new();
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().Be(0);
+    }
+
+    [Fact]
+    public void HavingTwoInstancesWithSameFirstName_WhenCompared_ReturnsZero()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new();
-            PersonName personName2 = new();
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().Be(0);
-        }
-
-        [Fact]
-        public void HavingTwoInstancesWithSameFirstName_WhenCompared_ReturnsZero()
+            FirstName = "first-name"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name"
-            };
+            FirstName = "first-name"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().Be(0);
-        }
+        actual.Should().Be(0);
+    }
 
-        [Fact]
-        public void HavingOneInstanceWithFirstNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    [Fact]
+    public void HavingOneInstanceWithFirstNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "aaa"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "bbb"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().BeLessThan(0);
-        }
-
-        [Fact]
-        public void HavingOneInstanceWithFirstNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+            FirstName = "aaa"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "ggg"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "bbb"
-            };
+            FirstName = "bbb"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeGreaterThan(0);
-        }
+        actual.Should().BeLessThan(0);
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameMiddleName_WhenCompared_ReturnsZero()
+    [Fact]
+    public void HavingOneInstanceWithFirstNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                MiddleName = "middle-name"
-            };
-            PersonName personName2 = new()
-            {
-                MiddleName = "middle-name"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().Be(0);
-        }
-
-        [Fact]
-        public void HavingOneInstanceWithMiddleNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+            FirstName = "ggg"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                MiddleName = "aaa"
-            };
-            PersonName personName2 = new()
-            {
-                MiddleName = "bbb"
-            };
+            FirstName = "bbb"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeLessThan(0);
-        }
+        actual.Should().BeGreaterThan(0);
+    }
 
-        [Fact]
-        public void HavingOneInstanceWithMiddleNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    [Fact]
+    public void HavingTwoInstancesWithSameMiddleName_WhenCompared_ReturnsZero()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                MiddleName = "ggg"
-            };
-            PersonName personName2 = new()
-            {
-                MiddleName = "bbb"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().BeGreaterThan(0);
-        }
-
-        [Fact]
-        public void HavingTwoInstancesWithSameLastName_WhenCompared_ReturnsZero()
+            MiddleName = "middle-name"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                LastName = "last-name"
-            };
-            PersonName personName2 = new()
-            {
-                LastName = "last-name"
-            };
+            MiddleName = "middle-name"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().Be(0);
-        }
+        actual.Should().Be(0);
+    }
 
-        [Fact]
-        public void HavingOneInstanceWithLastNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    [Fact]
+    public void HavingOneInstanceWithMiddleNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                LastName = "aaa"
-            };
-            PersonName personName2 = new()
-            {
-                LastName = "bbb"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().BeLessThan(0);
-        }
-
-        [Fact]
-        public void HavingOneInstanceWithLastNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+            MiddleName = "aaa"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                LastName = "ggg"
-            };
-            PersonName personName2 = new()
-            {
-                LastName = "bbb"
-            };
+            MiddleName = "bbb"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeGreaterThan(0);
-        }
+        actual.Should().BeLessThan(0);
+    }
 
-        [Fact]
-        public void HavingTwoInstancesWithSameNickname_WhenCompared_ReturnsZero()
+    [Fact]
+    public void HavingOneInstanceWithMiddleNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                Nickname = "nick"
-            };
-            PersonName personName2 = new()
-            {
-                Nickname = "nick"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().Be(0);
-        }
-
-        [Fact]
-        public void HavingOneInstanceWithNicknameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+            MiddleName = "ggg"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                Nickname = "aaa"
-            };
-            PersonName personName2 = new()
-            {
-                Nickname = "bbb"
-            };
+            MiddleName = "bbb"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeLessThan(0);
-        }
+        actual.Should().BeGreaterThan(0);
+    }
 
-        [Fact]
-        public void HavingOneInstanceWithNicknameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    [Fact]
+    public void HavingTwoInstancesWithSameLastName_WhenCompared_ReturnsZero()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                Nickname = "ggg"
-            };
-            PersonName personName2 = new()
-            {
-                Nickname = "bbb"
-            };
+            LastName = "last-name"
+        };
+        PersonName personName2 = new()
+        {
+            LastName = "last-name"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeGreaterThan(0);
-        }
+        actual.Should().Be(0);
+    }
+
+    [Fact]
+    public void HavingOneInstanceWithLastNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    {
+        PersonName personName1 = new()
+        {
+            LastName = "aaa"
+        };
+        PersonName personName2 = new()
+        {
+            LastName = "bbb"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().BeLessThan(0);
+    }
+
+    [Fact]
+    public void HavingOneInstanceWithLastNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    {
+        PersonName personName1 = new()
+        {
+            LastName = "ggg"
+        };
+        PersonName personName2 = new()
+        {
+            LastName = "bbb"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    public void HavingTwoInstancesWithSameNickname_WhenCompared_ReturnsZero()
+    {
+        PersonName personName1 = new()
+        {
+            Nickname = "nick"
+        };
+        PersonName personName2 = new()
+        {
+            Nickname = "nick"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().Be(0);
+    }
+
+    [Fact]
+    public void HavingOneInstanceWithNicknameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    {
+        PersonName personName1 = new()
+        {
+            Nickname = "aaa"
+        };
+        PersonName personName2 = new()
+        {
+            Nickname = "bbb"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().BeLessThan(0);
+    }
+
+    [Fact]
+    public void HavingOneInstanceWithNicknameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    {
+        PersonName personName1 = new()
+        {
+            Nickname = "ggg"
+        };
+        PersonName personName2 = new()
+        {
+            Nickname = "bbb"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().BeGreaterThan(0);
     }
 }

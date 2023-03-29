@@ -18,45 +18,44 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests;
+
+public class StartDateTests
 {
-    public class StartDateTests
+    [Fact]
+    public void HavingAnEmptyBatch_ThenStartDateIsNull()
     {
-        [Fact]
-        public void HavingAnEmptyBatch_ThenStartDateIsNull()
+        EmploymentBatch employmentBatch = new();
+
+        employmentBatch.StartDate.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingABatchWithASingleEmployment_ThenStartDateIsTheStartDateOfEmployment()
+    {
+        Employment employment = new()
         {
-            EmploymentBatch employmentBatch = new();
+            TimeInterval = new DateInterval(new DateTime(2020, 03, 12), new DateTime(2020, 05, 07))
+        };
+        EmploymentBatch employmentBatch = new(employment);
 
-            employmentBatch.StartDate.Should().BeNull();
-        }
+        employmentBatch.StartDate.Should().Be(new DateTime(2020, 03, 12));
+    }
 
-        [Fact]
-        public void HavingABatchWithASingleEmployment_ThenStartDateIsTheStartDateOfEmployment()
+    [Fact]
+    public void HavingABatchWithTwoEmployments_ThenStartDateIsTheStartDateOfTheEarliestEmployment()
+    {
+        Employment employment1 = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 03, 12), new DateTime(2020, 05, 07))
-            };
-            EmploymentBatch employmentBatch = new(employment);
-
-            employmentBatch.StartDate.Should().Be(new DateTime(2020, 03, 12));
-        }
-
-        [Fact]
-        public void HavingABatchWithTwoEmployments_ThenStartDateIsTheStartDateOfTheEarliestEmployment()
+            TimeInterval = new DateInterval(new DateTime(2020, 03, 12), new DateTime(2020, 05, 07))
+        };
+        Employment employment2 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 03, 12), new DateTime(2020, 05, 07))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2020, 05, 08), new DateTime(2020, 10, 13))
-            };
-            EmploymentBatch employmentBatch = new(employment2);
-            employmentBatch.TryAddBeforeOldest(employment1);
+            TimeInterval = new DateInterval(new DateTime(2020, 05, 08), new DateTime(2020, 10, 13))
+        };
+        EmploymentBatch employmentBatch = new(employment2);
+        employmentBatch.TryAddBeforeOldest(employment1);
 
-            employmentBatch.StartDate.Should().Be(new DateTime(2020, 03, 12));
-        }
+        employmentBatch.StartDate.Should().Be(new DateTime(2020, 03, 12));
     }
 }

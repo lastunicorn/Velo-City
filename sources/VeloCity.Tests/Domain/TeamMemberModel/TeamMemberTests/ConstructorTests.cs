@@ -16,42 +16,41 @@
 
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.TeamMemberTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.TeamMemberTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    private readonly TeamMember teamMember;
+
+    public ConstructorTests()
     {
-        private readonly TeamMember teamMember;
+        teamMember = new TeamMember();
+    }
 
-        public ConstructorTests()
-        {
-            teamMember = new TeamMember();
-        }
+    [Fact]
+    public void WhenNewInstanceIsCreated_ThenIdIsZero()
+    {
+        teamMember.Id.Should().Be(0);
+    }
 
-        [Fact]
-        public void WhenNewInstanceIsCreated_ThenIdIsZero()
-        {
-            teamMember.Id.Should().Be(0);
-        }
+    [Fact]
+    public void WhenNewInstanceIsCreated_ThenNameIsEmpty()
+    {
+        teamMember.Name.FirstName.Should().BeNull();
+        teamMember.Name.MiddleName.Should().BeNull();
+        teamMember.Name.LastName.Should().BeNull();
+        teamMember.Name.Nickname.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenNewInstanceIsCreated_ThenNameIsEmpty()
-        {
-            teamMember.Name.FirstName.Should().BeNull();
-            teamMember.Name.MiddleName.Should().BeNull();
-            teamMember.Name.LastName.Should().BeNull();
-            teamMember.Name.Nickname.Should().BeNull();
-        }
+    [Fact]
+    public void WhenNewInstanceIsCreated_ThenEmploymentsIsNull()
+    {
+        teamMember.Employments.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenNewInstanceIsCreated_ThenEmploymentsIsNull()
-        {
-            teamMember.Employments.Should().BeNull();
-        }
-
-        [Fact]
-        public void WhenNewInstanceIsCreated_ThenCommentsIsNull()
-        {
-            teamMember.Comments.Should().BeNull();
-        }
+    [Fact]
+    public void WhenNewInstanceIsCreated_ThenCommentsIsNull()
+    {
+        teamMember.Comments.Should().BeNull();
     }
 }

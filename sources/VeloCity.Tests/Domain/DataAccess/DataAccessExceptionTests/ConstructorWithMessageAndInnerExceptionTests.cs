@@ -17,26 +17,25 @@
 using System;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests;
+
+public class ConstructorWithMessageAndInnerExceptionTests
 {
-    public class ConstructorWithMessageAndInnerExceptionTests
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificMessageAndInnerException_ThenMessageIsTheProvidedOne()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificMessageAndInnerException_ThenMessageIsTheProvidedOne()
-        {
-            Exception innerException = new();
-            DataAccessException dataAccessException = new("custom message", innerException);
+        Exception innerException = new();
+        DataAccessException dataAccessException = new("custom message", innerException);
 
-            dataAccessException.Message.Should().Be("custom message");
-        }
+        dataAccessException.Message.Should().Be("custom message");
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificMessageAndInnerException_ThenInnerExceptionIsTheProvidedOne()
-        {
-            Exception innerException = new();
-            DataAccessException dataAccessException = new("custom message", innerException);
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificMessageAndInnerException_ThenInnerExceptionIsTheProvidedOne()
+    {
+        Exception innerException = new();
+        DataAccessException dataAccessException = new("custom message", innerException);
 
-            dataAccessException.InnerException.Should().BeSameAs(innerException);
-        }
+        dataAccessException.InnerException.Should().BeSameAs(innerException);
     }
 }

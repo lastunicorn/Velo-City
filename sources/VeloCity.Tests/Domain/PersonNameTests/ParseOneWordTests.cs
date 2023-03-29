@@ -16,39 +16,38 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class ParseOneWordTests
 {
-    public class ParseOneWordTests
+    private readonly PersonName personName;
+
+    public ParseOneWordTests()
     {
-        private readonly PersonName personName;
+        personName = PersonName.Parse("word1");
+    }
 
-        public ParseOneWordTests()
-        {
-            personName = PersonName.Parse("word1");
-        }
+    [Fact]
+    public void WhenParsingOneWord_ThenFirstNameIsFirstWord()
+    {
+        personName.FirstName.Should().Be("word1");
+    }
 
-        [Fact]
-        public void WhenParsingOneWord_ThenFirstNameIsFirstWord()
-        {
-            personName.FirstName.Should().Be("word1");
-        }
+    [Fact]
+    public void WhenParsingOneWord_ThenMiddleNameIsNull()
+    {
+        personName.MiddleName.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenParsingOneWord_ThenMiddleNameIsNull()
-        {
-            personName.MiddleName.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingOneWord_ThenLastNameIsNull()
+    {
+        personName.LastName.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenParsingOneWord_ThenLastNameIsNull()
-        {
-            personName.LastName.Should().BeNull();
-        }
-
-        [Fact]
-        public void WhenParsingOneWord_ThenNicknameIsNull()
-        {
-            personName.Nickname.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingOneWord_ThenNicknameIsNull()
+    {
+        personName.Nickname.Should().BeNull();
     }
 }

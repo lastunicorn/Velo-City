@@ -16,14 +16,13 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests
+namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests;
+
+public class DefaultZeroCharacterTests
 {
-    public class DefaultZeroCharacterTests
+    [Fact]
+    public void DefaultZeroCharacterIsAlwaysHyphen()
     {
-        [Fact]
-        public void DefaultZeroCharacterIsAlwaysHyphen()
-        {
-            HoursValue.DefaultZeroCharacter.Should().Be('-');
-        }
+        HoursValue.DefaultZeroCharacter.Should().Be('-');
     }
 }

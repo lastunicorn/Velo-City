@@ -18,49 +18,48 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests;
+
+public class StartDate_GetTests
 {
-    public class StartDate_GetTests
+    [Fact]
+    public void HavingFullInfiniteEmployment_ThenStartDateIsNull()
     {
-        [Fact]
-        public void HavingFullInfiniteEmployment_ThenStartDateIsNull()
+        Employment employment = new();
+
+        employment.StartDate.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingEmploymentWithOnlyStartDate_ThenStartDateIsThatValue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(1765, 03, 02))
+        };
 
-            employment.StartDate.Should().BeNull();
-        }
+        employment.StartDate.Should().Be(new DateTime(1765, 03, 02));
+    }
 
-        [Fact]
-        public void HavingEmploymentWithOnlyStartDate_ThenStartDateIsThatValue()
+    [Fact]
+    public void HavingEmploymentWithOnlyEndDate_ThenStartDateIsNull()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1765, 03, 02))
-            };
+            TimeInterval = new DateInterval(null, new DateTime(1765, 03, 02))
+        };
 
-            employment.StartDate.Should().Be(new DateTime(1765, 03, 02));
-        }
+        employment.StartDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void HavingEmploymentWithOnlyEndDate_ThenStartDateIsNull()
+    [Fact]
+    public void HavingEmploymentWithBothStartAndEndDate_ThenStartDateIsThatValue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(null, new DateTime(1765, 03, 02))
-            };
+            TimeInterval = new DateInterval(new DateTime(1765, 03, 02), new DateTime(1900, 05, 12))
+        };
 
-            employment.StartDate.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingEmploymentWithBothStartAndEndDate_ThenStartDateIsThatValue()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1765, 03, 02), new DateTime(1900, 05, 12))
-            };
-
-            employment.StartDate.Should().Be(new DateTime(1765, 03, 02));
-        }
+        employment.StartDate.Should().Be(new DateTime(1765, 03, 02));
     }
 }

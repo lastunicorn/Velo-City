@@ -20,42 +20,41 @@ using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintTests
+namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintTests;
+
+public class EnumerateAllDaysTests
 {
-    public class EnumerateAllDaysTests
+    private readonly Sprint sprint;
+
+    public EnumerateAllDaysTests()
     {
-        private readonly Sprint sprint;
-
-        public EnumerateAllDaysTests()
+        DateTime startDate = new(2001, 05, 03);
+        DateTime endDate = new(2001, 05, 05);
+        sprint = new Sprint
         {
-            DateTime startDate = new(2001, 05, 03);
-            DateTime endDate = new(2001, 05, 05);
-            sprint = new Sprint
-            {
-                DateInterval = new DateInterval(startDate, endDate)
-            };
-        }
+            DateInterval = new DateInterval(startDate, endDate)
+        };
+    }
 
-        [Fact]
-        public void HavingASprintOf3Days_WhenEnumeratingAllDays_Then3SprintDaysAreReturned()
-        {
-            // act
-            List<SprintDay> sprintDays = sprint.EnumerateAllDays().ToList();
+    [Fact]
+    public void HavingASprintOf3Days_WhenEnumeratingAllDays_Then3SprintDaysAreReturned()
+    {
+        // act
+        List<SprintDay> sprintDays = sprint.EnumerateAllDays().ToList();
 
-            // assert
-            sprintDays.Count.Should().Be(3);
-        }
+        // assert
+        sprintDays.Count.Should().Be(3);
+    }
 
-        [Fact]
-        public void HavingASprintOf3Days_WhenEnumeratingAllDays_ThenTheSprintDaysHaveCorrectDateTimes()
-        {
-            // act
-            List<SprintDay> sprintDays = sprint.EnumerateAllDays().ToList();
+    [Fact]
+    public void HavingASprintOf3Days_WhenEnumeratingAllDays_ThenTheSprintDaysHaveCorrectDateTimes()
+    {
+        // act
+        List<SprintDay> sprintDays = sprint.EnumerateAllDays().ToList();
 
-            // assert
-            sprintDays[0].Date.Should().Be(new DateTime(2001, 05, 03));
-            sprintDays[1].Date.Should().Be(new DateTime(2001, 05, 04));
-            sprintDays[2].Date.Should().Be(new DateTime(2001, 05, 05));
-        }
+        // assert
+        sprintDays[0].Date.Should().Be(new DateTime(2001, 05, 03));
+        sprintDays[1].Date.Should().Be(new DateTime(2001, 05, 04));
+        sprintDays[2].Date.Should().Be(new DateTime(2001, 05, 05));
     }
 }

@@ -17,16 +17,15 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
-{
-    public class ParseNullTests
-    {
-        [Fact]
-        public void WhenParsingNullString_ThenThrows()
-        {
-            Action action = () => PersonName.Parse(null);
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+public class ParseNullTests
+{
+    [Fact]
+    public void WhenParsingNullString_ThenThrows()
+    {
+        Action action = () => PersonName.Parse(null);
+
+        action.Should().Throw<ArgumentNullException>();
     }
 }

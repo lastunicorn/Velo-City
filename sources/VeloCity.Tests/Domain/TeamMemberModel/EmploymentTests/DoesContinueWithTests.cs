@@ -18,151 +18,150 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests;
+
+public class DoesContinueWithTests
 {
-    public class DoesContinueWithTests
+    [Fact]
+    public void HavingEmployment_WhenCheckIfContinuesWithNull_ThenThrows()
     {
-        [Fact]
-        public void HavingEmployment_WhenCheckIfContinuesWithNull_ThenThrows()
+        Employment employment = new();
+
+        Action action = () => employment.DoesContinueWith(null);
+
+        action.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void HavingInfiniteEmployment_WhenCheckingIfItContinuesWithStartFiniteEmployment_ReturnsFalse()
+    {
+        Employment employment = new();
+
+        Employment employment2 = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(5400, 12, 14))
+        };
+        bool actual = employment.DoesContinueWith(employment2);
 
-            Action action = () => employment.DoesContinueWith(null);
+        actual.Should().BeFalse();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void HavingInfiniteEmployment_WhenCheckingIfItContinuesWithStartFiniteEmployment_ReturnsFalse()
+    [Fact]
+    public void HavingEmploymentWithMaximumEndDate_WhenCheckingIfItContinuesWithFiniteEmployment_ReturnsFalse()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(null, DateTime.MaxValue)
+        };
 
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(5400, 12, 14))
-            };
-            bool actual = employment.DoesContinueWith(employment2);
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingEmploymentWithMaximumEndDate_WhenCheckingIfItContinuesWithFiniteEmployment_ReturnsFalse()
+        Employment employment2 = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(null, DateTime.MaxValue)
-            };
+            TimeInterval = new DateInterval(new DateTime(5400, 12, 14))
+        };
+        bool actual = employment.DoesContinueWith(employment2);
 
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(5400, 12, 14))
-            };
-            bool actual = employment.DoesContinueWith(employment2);
+        actual.Should().BeFalse();
+    }
 
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithStartInfiniteEmployment_ReturnsFalse()
+    [Fact]
+    public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithStartInfiniteEmployment_ReturnsFalse()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
-            };
+            TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
+        };
 
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(null, new DateTime(5400, 12, 14))
-            };
-            bool actual = employment.DoesContinueWith(employment2);
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithEmploymentStartingInTheFuture_ReturnsFalse()
+        Employment employment2 = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
-            };
+            TimeInterval = new DateInterval(null, new DateTime(5400, 12, 14))
+        };
+        bool actual = employment.DoesContinueWith(employment2);
 
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(5400, 12, 14))
-            };
-            bool actual = employment.DoesContinueWith(employment2);
+        actual.Should().BeFalse();
+    }
 
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithEmploymentStartingDuringInterval_ReturnsFalse()
+    [Fact]
+    public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithEmploymentStartingInTheFuture_ReturnsFalse()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
-            };
+            TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
+        };
 
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1950, 12, 14))
-            };
-            bool actual = employment.DoesContinueWith(employment2);
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithEmploymentStartingBeforeInterval_ReturnsFalse()
+        Employment employment2 = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
-            };
+            TimeInterval = new DateInterval(new DateTime(5400, 12, 14))
+        };
+        bool actual = employment.DoesContinueWith(employment2);
 
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1800, 12, 14))
-            };
-            bool actual = employment.DoesContinueWith(employment2);
+        actual.Should().BeFalse();
+    }
 
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithEmploymentStartingFromTheEndDayOfTheInterval_ReturnsFalse()
+    [Fact]
+    public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithEmploymentStartingDuringInterval_ReturnsFalse()
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
-            };
+            TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
+        };
 
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2002, 08, 04))
-            };
-            bool actual = employment.DoesContinueWith(employment2);
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingFiniteDateEmployment_WhenCheckingIfItContinuesWithEmploymentStartingNextDayAfterInterval_ReturnsTrue()
+        Employment employment2 = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
-            };
+            TimeInterval = new DateInterval(new DateTime(1950, 12, 14))
+        };
+        bool actual = employment.DoesContinueWith(employment2);
 
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2002, 08, 05))
-            };
-            bool actual = employment.DoesContinueWith(employment2);
+        actual.Should().BeFalse();
+    }
 
-            actual.Should().BeTrue();
-        }
+    [Fact]
+    public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithEmploymentStartingBeforeInterval_ReturnsFalse()
+    {
+        Employment employment = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
+        };
+
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(1800, 12, 14))
+        };
+        bool actual = employment.DoesContinueWith(employment2);
+
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingFiniteEmployment_WhenCheckingIfItContinuesWithEmploymentStartingFromTheEndDayOfTheInterval_ReturnsFalse()
+    {
+        Employment employment = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
+        };
+
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2002, 08, 04))
+        };
+        bool actual = employment.DoesContinueWith(employment2);
+
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingFiniteDateEmployment_WhenCheckingIfItContinuesWithEmploymentStartingNextDayAfterInterval_ReturnsTrue()
+    {
+        Employment employment = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(1900, 07, 28), new DateTime(2002, 08, 04))
+        };
+
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2002, 08, 05))
+        };
+        bool actual = employment.DoesContinueWith(employment2);
+
+        actual.Should().BeTrue();
     }
 }

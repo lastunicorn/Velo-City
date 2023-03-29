@@ -16,134 +16,133 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class GetHashCodeTests
 {
-    public class GetHashCodeTests
+    [Fact]
+    public void HavingTwoEmptyInstances_WhenComparingHashCodes_ThenTheyAreEqual()
     {
-        [Fact]
-        public void HavingTwoEmptyInstances_WhenComparingHashCodes_ThenTheyAreEqual()
+        PersonName personName1 = new();
+        PersonName personName2 = new();
+
+        bool actual = personName1.GetHashCode() == personName2.GetHashCode();
+
+        actual.Should().BeTrue();
+    }
+
+    [Fact]
+    public void HavingTwoPersonNamesWithIdenticalParts_WhenComparingHashCodes_ThenTheyAreEqual()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new();
-            PersonName personName2 = new();
-
-            bool actual = personName1.GetHashCode() == personName2.GetHashCode();
-
-            actual.Should().BeTrue();
-        }
-
-        [Fact]
-        public void HavingTwoPersonNamesWithIdenticalParts_WhenComparingHashCodes_ThenTheyAreEqual()
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            bool actual = personName1.GetHashCode() == personName2.GetHashCode();
+        bool actual = personName1.GetHashCode() == personName2.GetHashCode();
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingTwoPersonNamesContainingDifferentFirstName_WhenComparingHashCodes_ThenTheyAreDifferent()
+    [Fact]
+    public void HavingTwoPersonNamesContainingDifferentFirstName_WhenComparingHashCodes_ThenTheyAreDifferent()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name-different",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-
-            bool actual = personName1.GetHashCode() == personName2.GetHashCode();
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingTwoPersonNamesContainingDifferentMiddleName_WhenComparingHashCodes_ThenTheyAreDifferent()
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name-different",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
+            FirstName = "first-name-different",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            bool actual = personName1.GetHashCode() == personName2.GetHashCode();
+        bool actual = personName1.GetHashCode() == personName2.GetHashCode();
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingTwoPersonNamesContainingDifferentLastName_WhenComparingHashCodes_ThenTheyAreDifferent()
+    [Fact]
+    public void HavingTwoPersonNamesContainingDifferentMiddleName_WhenComparingHashCodes_ThenTheyAreDifferent()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name-different",
-                Nickname = "nickname"
-            };
-
-            bool actual = personName1.GetHashCode() == personName2.GetHashCode();
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingTwoPersonNamesContainingDifferentNickname_WhenComparingHashCodes_ThenTheyAreDifferent()
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname-different"
-            };
+            FirstName = "first-name",
+            MiddleName = "middle-name-different",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            bool actual = personName1.GetHashCode() == personName2.GetHashCode();
+        bool actual = personName1.GetHashCode() == personName2.GetHashCode();
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingTwoPersonNamesContainingDifferentLastName_WhenComparingHashCodes_ThenTheyAreDifferent()
+    {
+        PersonName personName1 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name-different",
+            Nickname = "nickname"
+        };
+
+        bool actual = personName1.GetHashCode() == personName2.GetHashCode();
+
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingTwoPersonNamesContainingDifferentNickname_WhenComparingHashCodes_ThenTheyAreDifferent()
+    {
+        PersonName personName1 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname-different"
+        };
+
+        bool actual = personName1.GetHashCode() == personName2.GetHashCode();
+
+        actual.Should().BeFalse();
     }
 }

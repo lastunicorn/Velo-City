@@ -16,142 +16,141 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class ContainsTests
 {
-    public class ContainsTests
+    [Fact]
+    public void HavingEmptyInstance_WhenSearchingForNull_ReturnsFalse()
     {
-        [Fact]
-        public void HavingEmptyInstance_WhenSearchingForNull_ReturnsFalse()
+        PersonName personName = new();
+
+        bool actual = personName.Contains(null);
+
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingEmptyInstance_WhenSearchingForEmptyString_ReturnsFalse()
+    {
+        PersonName personName = new();
+
+        bool actual = personName.Contains(string.Empty);
+
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingEmptyInstance_WhenSearchingForAString_ReturnsFalse()
+    {
+        PersonName personName = new();
+
+        bool actual = personName.Contains("text");
+
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingFirstName_WhenSearchingForAStringContainedByFirstName_ReturnsTrue()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new();
+            FirstName = "first-name"
+        };
 
-            bool actual = personName.Contains(null);
+        bool actual = personName.Contains("IRST");
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingEmptyInstance_WhenSearchingForEmptyString_ReturnsFalse()
+    [Fact]
+    public void HavingFirstName_WhenSearchingForAStringNotContainedByFirstName_ReturnsFalse()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new();
+            FirstName = "first-name"
+        };
 
-            bool actual = personName.Contains(string.Empty);
+        bool actual = personName.Contains("text");
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingEmptyInstance_WhenSearchingForAString_ReturnsFalse()
+    [Fact]
+    public void HavingMiddleName_WhenSearchingForAStringContainedByMiddleName_ReturnsTrue()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new();
+            MiddleName = "middle-name"
+        };
 
-            bool actual = personName.Contains("text");
+        bool actual = personName.Contains("DDLE");
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingFirstName_WhenSearchingForAStringContainedByFirstName_ReturnsTrue()
+    [Fact]
+    public void HavingMiddleName_WhenSearchingForAStringNotContainedByMiddleName_ReturnsFalse()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                FirstName = "first-name"
-            };
+            MiddleName = "middle-name"
+        };
 
-            bool actual = personName.Contains("IRST");
+        bool actual = personName.Contains("text");
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingFirstName_WhenSearchingForAStringNotContainedByFirstName_ReturnsFalse()
+    [Fact]
+    public void HavingLastName_WhenSearchingForAStringContainedByLastName_ReturnsTrue()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                FirstName = "first-name"
-            };
+            LastName = "last-name"
+        };
 
-            bool actual = personName.Contains("text");
+        bool actual = personName.Contains("AST");
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingMiddleName_WhenSearchingForAStringContainedByMiddleName_ReturnsTrue()
+    [Fact]
+    public void HavingLastName_WhenSearchingForAStringNotContainedByLastName_ReturnsFalse()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                MiddleName = "middle-name"
-            };
+            LastName = "last-name"
+        };
 
-            bool actual = personName.Contains("DDLE");
+        bool actual = personName.Contains("text");
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingMiddleName_WhenSearchingForAStringNotContainedByMiddleName_ReturnsFalse()
+    [Fact]
+    public void HavingNickname_WhenSearchingForAStringContainedByNickname_ReturnsTrue()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                MiddleName = "middle-name"
-            };
+            Nickname = "nickname"
+        };
 
-            bool actual = personName.Contains("text");
+        bool actual = personName.Contains("CKN");
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingLastName_WhenSearchingForAStringContainedByLastName_ReturnsTrue()
+    [Fact]
+    public void HavingNickname_WhenSearchingForAStringNotContainedByNickname_ReturnsFalse()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                LastName = "last-name"
-            };
+            Nickname = "nickname"
+        };
 
-            bool actual = personName.Contains("AST");
+        bool actual = personName.Contains("text");
 
-            actual.Should().BeTrue();
-        }
-
-        [Fact]
-        public void HavingLastName_WhenSearchingForAStringNotContainedByLastName_ReturnsFalse()
-        {
-            PersonName personName = new()
-            {
-                LastName = "last-name"
-            };
-
-            bool actual = personName.Contains("text");
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingNickname_WhenSearchingForAStringContainedByNickname_ReturnsTrue()
-        {
-            PersonName personName = new()
-            {
-                Nickname = "nickname"
-            };
-
-            bool actual = personName.Contains("CKN");
-
-            actual.Should().BeTrue();
-        }
-
-        [Fact]
-        public void HavingNickname_WhenSearchingForAStringNotContainedByNickname_ReturnsFalse()
-        {
-            PersonName personName = new()
-            {
-                Nickname = "nickname"
-            };
-
-            bool actual = personName.Contains("text");
-
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
     }
 }

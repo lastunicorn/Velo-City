@@ -17,54 +17,53 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests;
+
+public class IsIntersectingWithFullInfiniteTests
 {
-    public class IsIntersectingWithFullInfiniteTests
+    [Fact]
+    public void HavingInfiniteDateInterval_WhenIntersectingWithHullInfinite_ThenReturnsTrue()
     {
-        [Fact]
-        public void HavingInfiniteDateInterval_WhenIntersectingWithHullInfinite_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new();
+        DateInterval dateInterval1 = new();
 
-            bool actual = IntersectWithFullInfinite(dateInterval1);
+        bool actual = IntersectWithFullInfinite(dateInterval1);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingStartInfiniteDateInterval_WhenIntersectingWithHullInfinite_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
+    [Fact]
+    public void HavingStartInfiniteDateInterval_WhenIntersectingWithHullInfinite_ThenReturnsTrue()
+    {
+        DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
 
-            bool actual = IntersectWithFullInfinite(dateInterval1);
+        bool actual = IntersectWithFullInfinite(dateInterval1);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingEndInfiniteDateInterval_WhenIntersectingWithHullInfinite_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new(new DateTime(2022, 05, 23));
+    [Fact]
+    public void HavingEndInfiniteDateInterval_WhenIntersectingWithHullInfinite_ThenReturnsTrue()
+    {
+        DateInterval dateInterval1 = new(new DateTime(2022, 05, 23));
 
-            bool actual = IntersectWithFullInfinite(dateInterval1);
+        bool actual = IntersectWithFullInfinite(dateInterval1);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenIntersectingWithHullInfinite_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new(new DateTime(2022, 05, 23), new DateTime(2040, 02, 15));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenIntersectingWithHullInfinite_ThenReturnsTrue()
+    {
+        DateInterval dateInterval1 = new(new DateTime(2022, 05, 23), new DateTime(2040, 02, 15));
 
-            bool actual = IntersectWithFullInfinite(dateInterval1);
+        bool actual = IntersectWithFullInfinite(dateInterval1);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        private static bool IntersectWithFullInfinite(DateInterval dateInterval1)
-        {
-            DateInterval dateInterval2 = new();
-            return dateInterval1.IsIntersecting(dateInterval2);
-        }
+    private static bool IntersectWithFullInfinite(DateInterval dateInterval1)
+    {
+        DateInterval dateInterval2 = new();
+        return dateInterval1.IsIntersecting(dateInterval2);
     }
 }

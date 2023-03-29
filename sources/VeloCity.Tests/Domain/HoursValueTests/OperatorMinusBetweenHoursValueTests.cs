@@ -16,49 +16,48 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests
+namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests;
+
+public class OperatorMinusBetweenHoursValueTests
 {
-    public class OperatorMinusBetweenHoursValueTests
+    [Fact]
+    public void HavingOneZeroHoursValues_WhenSubtractingAZeroHoursValue_ThenResultsAZeroHoursValue()
     {
-        [Fact]
-        public void HavingOneZeroHoursValues_WhenSubtractingAZeroHoursValue_ThenResultsAZeroHoursValue()
-        {
-            HoursValue hoursValue1 = new();
-            HoursValue hoursValue2 = new();
+        HoursValue hoursValue1 = new();
+        HoursValue hoursValue2 = new();
 
-            HoursValue actual = hoursValue1 - hoursValue2;
+        HoursValue actual = hoursValue1 - hoursValue2;
 
-            actual.Value.Should().Be(0);
-        }
+        actual.Value.Should().Be(0);
+    }
 
-        [Fact]
-        public void HavingOneZeroHoursValue_WhenSubtractingANonZeroHourValue_ThenResultsANegativeHoursValue()
-        {
-            HoursValue hoursValue1 = new();
-            HoursValue hoursValue2 = new() { Value = 5 };
+    [Fact]
+    public void HavingOneZeroHoursValue_WhenSubtractingANonZeroHourValue_ThenResultsANegativeHoursValue()
+    {
+        HoursValue hoursValue1 = new();
+        HoursValue hoursValue2 = new() { Value = 5 };
 
-            HoursValue actual = hoursValue1 - hoursValue2;
+        HoursValue actual = hoursValue1 - hoursValue2;
 
-            actual.Value.Should().Be(-5);
-        }
+        actual.Value.Should().Be(-5);
+    }
 
-        [Theory]
-        [InlineData(0, 0, 0)]
-        [InlineData(0, 4, -4)]
-        [InlineData(6, 2, 4)]
-        [InlineData(6, 9, -3)]
-        [InlineData(6, -9, 15)]
-        [InlineData(-3, 2, -5)]
-        [InlineData(-3, 7, -10)]
-        [InlineData(-3, -7, 4)]
-        public void HavingTwoHoursValues_WhenSubtractingThem_ThenResultsAHoursValueHavingTheDifferenceAsValue(int value1, int value2, int expected)
-        {
-            HoursValue hoursValue1 = new() { Value = value1 };
-            HoursValue hoursValue2 = new() { Value = value2 };
+    [Theory]
+    [InlineData(0, 0, 0)]
+    [InlineData(0, 4, -4)]
+    [InlineData(6, 2, 4)]
+    [InlineData(6, 9, -3)]
+    [InlineData(6, -9, 15)]
+    [InlineData(-3, 2, -5)]
+    [InlineData(-3, 7, -10)]
+    [InlineData(-3, -7, 4)]
+    public void HavingTwoHoursValues_WhenSubtractingThem_ThenResultsAHoursValueHavingTheDifferenceAsValue(int value1, int value2, int expected)
+    {
+        HoursValue hoursValue1 = new() { Value = value1 };
+        HoursValue hoursValue2 = new() { Value = value2 };
 
-            HoursValue actual = hoursValue1 - hoursValue2;
+        HoursValue actual = hoursValue1 - hoursValue2;
 
-            actual.Value.Should().Be(expected);
-        }
+        actual.Value.Should().Be(expected);
     }
 }

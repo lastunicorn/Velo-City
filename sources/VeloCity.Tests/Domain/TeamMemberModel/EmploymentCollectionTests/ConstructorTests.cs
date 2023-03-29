@@ -19,71 +19,70 @@ using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentCollectionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentCollectionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenInstantiateCollectionWithNoEmployment_ThenCollectionIsEmpty()
     {
-        [Fact]
-        public void WhenInstantiateCollectionWithNoEmployment_ThenCollectionIsEmpty()
+        EmploymentCollection employmentCollection = new();
+
+        employmentCollection.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void WhenInstantiateCollectionWithEmptyEmploymentCollection_ThenCollectionIsEmpty()
+    {
+        EmploymentCollection employmentCollection = new(Enumerable.Empty<Employment>());
+
+        employmentCollection.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void WhenInstantiateCollectionWithOneEmployment_ThenCollectionContainsEmployment()
+    {
+        Employment employment1 = new()
         {
-            EmploymentCollection employmentCollection = new();
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        EmploymentCollection employmentCollection = new(new[] { employment1 });
 
-            employmentCollection.Should().BeEmpty();
-        }
+        employmentCollection.Should().HaveCount(1)
+            .And.ContainInOrder(employment1);
+    }
 
-        [Fact]
-        public void WhenInstantiateCollectionWithEmptyEmploymentCollection_ThenCollectionIsEmpty()
+    [Fact]
+    public void WhenInstantiateCollectionWithTwoEmploymentsInChronologicalOrder_ThenCollectionContainsEmploymentsInReverseChronologicalOrder()
+    {
+        Employment employment1 = new()
         {
-            EmploymentCollection employmentCollection = new(Enumerable.Empty<Employment>());
-
-            employmentCollection.Should().BeEmpty();
-        }
-
-        [Fact]
-        public void WhenInstantiateCollectionWithOneEmployment_ThenCollectionContainsEmployment()
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            EmploymentCollection employmentCollection = new(new[] { employment1 });
+            TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new(new[] { employment1, employment2 });
 
-            employmentCollection.Should().HaveCount(1)
-                .And.ContainInOrder(employment1);
-        }
+        employmentCollection.Should().HaveCount(2)
+            .And.ContainInOrder(employment2, employment1);
+    }
 
-        [Fact]
-        public void WhenInstantiateCollectionWithTwoEmploymentsInChronologicalOrder_ThenCollectionContainsEmploymentsInReverseChronologicalOrder()
+    [Fact]
+    public void WhenInstantiateCollectionWithTwoEmploymentsInReverseChronologicalOrder_ThenCollectionContainsEmploymentsInReverseChronologicalOrder()
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new(new[] { employment1, employment2 });
-
-            employmentCollection.Should().HaveCount(2)
-                .And.ContainInOrder(employment2, employment1);
-        }
-
-        [Fact]
-        public void WhenInstantiateCollectionWithTwoEmploymentsInReverseChronologicalOrder_ThenCollectionContainsEmploymentsInReverseChronologicalOrder()
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
+        };
+        Employment employment2 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 01), new DateTime(2022, 06, 01))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
-            };
-            EmploymentCollection employmentCollection = new(new[] { employment2, employment1 });
+            TimeInterval = new DateInterval(new DateTime(2022, 06, 02), new DateTime(2022, 10, 01))
+        };
+        EmploymentCollection employmentCollection = new(new[] { employment2, employment1 });
 
-            employmentCollection.Should().HaveCount(2)
-                .And.ContainInOrder(employment2, employment1);
-        }
+        employmentCollection.Should().HaveCount(2)
+            .And.ContainInOrder(employment2, employment1);
     }
 }

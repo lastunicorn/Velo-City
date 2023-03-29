@@ -16,42 +16,41 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
+namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests;
+
+public class ConstructorWithValueTests
 {
-    public class ConstructorWithValueTests
+    private readonly StoryPoints storyPoints;
+
+    public ConstructorWithValueTests()
     {
-        private readonly StoryPoints storyPoints;
-
-        public ConstructorWithValueTests()
+        storyPoints = new StoryPoints
         {
-            storyPoints = new()
-            {
-                Value = 14
-            };
-        }
+            Value = 14
+        };
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstanceWithValue14_ThenValueIs14()
-        {
-            storyPoints.Value.Should().Be(14);
-        }
+    [Fact]
+    public void WhenCreatingNewInstanceWithValue14_ThenValueIs14()
+    {
+        storyPoints.Value.Should().Be(14);
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstance_ThenIsNullIsFalse()
-        {
-            storyPoints.IsEmpty.Should().BeFalse();
-        }
+    [Fact]
+    public void WhenCreatingNewInstance_ThenIsNullIsFalse()
+    {
+        storyPoints.IsEmpty.Should().BeFalse();
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstance_ThenIsNotNullIsTrue()
-        {
-            storyPoints.IsNotEmpty.Should().BeTrue();
-        }
+    [Fact]
+    public void WhenCreatingNewInstance_ThenIsNotNullIsTrue()
+    {
+        storyPoints.IsNotEmpty.Should().BeTrue();
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstance_ThenIsEmptyIsFalse()
-        {
-            storyPoints.IsZero.Should().BeFalse();
-        }
+    [Fact]
+    public void WhenCreatingNewInstance_ThenIsEmptyIsFalse()
+    {
+        storyPoints.IsZero.Should().BeFalse();
     }
 }

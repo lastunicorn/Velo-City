@@ -16,38 +16,37 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests
+namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests;
+
+public class ImplicitOperatorHoursValueToNullableInt32Tests
 {
-    public class ImplicitOperatorHoursValueToNullableInt32Tests
+    [Theory]
+    [InlineData(1)]
+    [InlineData(100)]
+    [InlineData(-1)]
+    [InlineData(-100)]
+    public void HavingAnHoursValueDifferentThan0_WhenConvertingItToNullableInt32_ThenNumberIsValue(int value)
     {
-        [Theory]
-        [InlineData(1)]
-        [InlineData(100)]
-        [InlineData(-1)]
-        [InlineData(-100)]
-        public void HavingAnHoursValueDifferentThan0_WhenConvertingItToNullableInt32_ThenNumberIsValue(int value)
+        HoursValue hoursValue = new()
         {
-            HoursValue hoursValue = new()
-            {
-                Value = value
-            };
+            Value = value
+        };
 
-            int? actual = hoursValue;
+        int? actual = hoursValue;
 
-            actual.Should().Be(value);
-        }
+        actual.Should().Be(value);
+    }
 
-        [Fact]
-        public void HavingAnHoursValueWithValue0_WhenConvertingItToNullableInt32_ThenNumberIsNull()
+    [Fact]
+    public void HavingAnHoursValueWithValue0_WhenConvertingItToNullableInt32_ThenNumberIsNull()
+    {
+        HoursValue hoursValue = new()
         {
-            HoursValue hoursValue = new()
-            {
-                Value = 0
-            };
+            Value = 0
+        };
 
-            int? actual = hoursValue;
+        int? actual = hoursValue;
 
-            actual.Should().BeNull();
-        }
+        actual.Should().BeNull();
     }
 }

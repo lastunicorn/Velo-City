@@ -16,41 +16,40 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
+namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests;
+
+public class ImplicitOperatorFromFloatTests
 {
-    public class ImplicitOperatorFromFloatTests
+    [Fact]
+    public void HavingNullNumber_WhenConvertedToStoryPoints_ThenTheNewInstanceIsEmpty()
     {
-        [Fact]
-        public void HavingNullNumber_WhenConvertedToStoryPoints_ThenTheNewInstanceIsEmpty()
-        {
-            float? initialValue = null;
+        float? initialValue = null;
 
-            StoryPoints storyPoints = initialValue;
+        StoryPoints storyPoints = initialValue;
 
-            storyPoints.IsEmpty.Should().BeTrue();
-        }
+        storyPoints.IsEmpty.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingTheNumberZero_WhenConvertedToStoryPoints_ThenTheNewInstanceHasValueZero()
-        {
-            float initialValue = 0;
+    [Fact]
+    public void HavingTheNumberZero_WhenConvertedToStoryPoints_ThenTheNewInstanceHasValueZero()
+    {
+        float initialValue = 0;
 
-            StoryPoints storyPoints = initialValue;
+        StoryPoints storyPoints = initialValue;
 
-            storyPoints.Value.Should().Be(0);
-        }
+        storyPoints.Value.Should().Be(0);
+    }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(10)]
-        [InlineData(3458120)]
-        [InlineData(-7634903)]
-        public void HavingANonZeroNumber_WhenConvertedToStoryPoints_ThenTheNewInstanceHasThatValue(float initialValue)
-        {
-            StoryPoints storyPoints = initialValue;
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(10)]
+    [InlineData(3458120)]
+    [InlineData(-7634903)]
+    public void HavingANonZeroNumber_WhenConvertedToStoryPoints_ThenTheNewInstanceHasThatValue(float initialValue)
+    {
+        StoryPoints storyPoints = initialValue;
 
-            storyPoints.Value.Should().Be(initialValue);
-        }
+        storyPoints.Value.Should().Be(initialValue);
     }
 }

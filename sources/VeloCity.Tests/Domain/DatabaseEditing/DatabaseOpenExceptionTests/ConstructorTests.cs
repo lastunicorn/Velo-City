@@ -18,42 +18,41 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DatabaseEditing.DatabaseOpenExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DatabaseEditing.DatabaseOpenExceptionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingInstanceWithNullInnerException_ThenMessageContainsDefaultText()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithNullInnerException_ThenMessageContainsDefaultText()
-        {
-            DatabaseOpenException databaseOpenException = new(null);
+        DatabaseOpenException databaseOpenException = new(null);
 
-            databaseOpenException.Message.Should().Be(Resources.DatabaseOpen_DefaultErrorMessage);
-        }
+        databaseOpenException.Message.Should().Be(Resources.DatabaseOpen_DefaultErrorMessage);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithNullInnerException_ThenInnerExceptionIsNull()
-        {
-            DatabaseOpenException databaseOpenException = new(null);
+    [Fact]
+    public void WhenCreatingInstanceWithNullInnerException_ThenInnerExceptionIsNull()
+    {
+        DatabaseOpenException databaseOpenException = new(null);
 
-            databaseOpenException.InnerException.Should().BeNull();
-        }
+        databaseOpenException.InnerException.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenMessageContainsDefaultText()
-        {
-            Exception innerException = new();
-            DatabaseOpenException databaseOpenException = new(innerException);
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificInnerException_ThenMessageContainsDefaultText()
+    {
+        Exception innerException = new();
+        DatabaseOpenException databaseOpenException = new(innerException);
 
-            databaseOpenException.Message.Should().Be(Resources.DatabaseOpen_DefaultErrorMessage);
-        }
+        databaseOpenException.Message.Should().Be(Resources.DatabaseOpen_DefaultErrorMessage);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsThatException()
-        {
-            Exception innerException = new();
-            DatabaseOpenException databaseOpenException = new(innerException);
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsThatException()
+    {
+        Exception innerException = new();
+        DatabaseOpenException databaseOpenException = new(innerException);
 
-            databaseOpenException.InnerException.Should().BeSameAs(innerException);
-        }
+        databaseOpenException.InnerException.Should().BeSameAs(innerException);
     }
 }

@@ -16,68 +16,67 @@
 
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.TeamMemberTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.TeamMemberTests;
+
+public class VacationsTests
 {
-    public class VacationsTests
+    private readonly VacationCollection vacationCollection;
+    private readonly TeamMember teamMember;
+
+    public VacationsTests()
     {
-        private readonly VacationCollection vacationCollection;
-        private readonly TeamMember teamMember;
-
-        public VacationsTests()
+        vacationCollection = new VacationCollection();
+        teamMember = new TeamMember
         {
-            vacationCollection = new VacationCollection();
-            teamMember = new TeamMember
-            {
-                Vacations = vacationCollection
-            };
-        }
+            Vacations = vacationCollection
+        };
+    }
 
-        [Fact]
-        public void HavingAVacationCollectionSet_WhenCollectionIsChanged_ThenRaiseVacationsChangedEvent()
-        {
-            bool eventWasTriggered = false;
-            teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
+    [Fact]
+    public void HavingAVacationCollectionSet_WhenCollectionIsChanged_ThenRaiseVacationsChangedEvent()
+    {
+        bool eventWasTriggered = false;
+        teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
 
-            vacationCollection.Add(new VacationDaily());
+        vacationCollection.Add(new VacationDaily());
 
-            eventWasTriggered.Should().BeTrue();
-        }
+        eventWasTriggered.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingVacationCollectionReplacedWithAnotherOne_WhenInitialCollectionIsChanged_ThenDoesNotRaiseVacationsChangedEvent()
-        {
-            teamMember.Vacations = new VacationCollection();
-            bool eventWasTriggered = false;
-            teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
+    [Fact]
+    public void HavingVacationCollectionReplacedWithAnotherOne_WhenInitialCollectionIsChanged_ThenDoesNotRaiseVacationsChangedEvent()
+    {
+        teamMember.Vacations = new VacationCollection();
+        bool eventWasTriggered = false;
+        teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
 
-            vacationCollection.Add(new VacationDaily());
+        vacationCollection.Add(new VacationDaily());
 
-            eventWasTriggered.Should().BeFalse();
-        }
+        eventWasTriggered.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingVacationCollectionReplacedWithNull_WhenCollectionIsChanged_ThenDoesNotRaiseVacationsChangedEvent()
-        {
-            teamMember.Vacations = null;
-            bool eventWasTriggered = false;
-            teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
+    [Fact]
+    public void HavingVacationCollectionReplacedWithNull_WhenCollectionIsChanged_ThenDoesNotRaiseVacationsChangedEvent()
+    {
+        teamMember.Vacations = null;
+        bool eventWasTriggered = false;
+        teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
 
-            vacationCollection.Add(new VacationDaily());
+        vacationCollection.Add(new VacationDaily());
 
-            eventWasTriggered.Should().BeFalse();
-        }
+        eventWasTriggered.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingVacationCollectionReplacedWithAnotherOne_WhenTheNewCollectionIsChanged_ThenRaiseVacationsChangedEvent()
-        {
-            VacationCollection newVacationCollection = new();
-            teamMember.Vacations = newVacationCollection;
-            bool eventWasTriggered = false;
-            teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
+    [Fact]
+    public void HavingVacationCollectionReplacedWithAnotherOne_WhenTheNewCollectionIsChanged_ThenRaiseVacationsChangedEvent()
+    {
+        VacationCollection newVacationCollection = new();
+        teamMember.Vacations = newVacationCollection;
+        bool eventWasTriggered = false;
+        teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
 
-            newVacationCollection.Add(new VacationDaily());
+        newVacationCollection.Add(new VacationDaily());
 
-            eventWasTriggered.Should().BeTrue();
-        }
+        eventWasTriggered.Should().BeTrue();
     }
 }

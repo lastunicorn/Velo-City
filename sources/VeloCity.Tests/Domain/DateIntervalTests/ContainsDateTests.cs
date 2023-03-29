@@ -17,118 +17,117 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests;
+
+public class ContainsDateTests
 {
-    public class ContainsDateTests
+    [Fact]
+    public void HavingInstanceWithoutDates_WhenCheckIfADateIsContained_ThenReturnsTrue()
     {
-        [Fact]
-        public void HavingInstanceWithoutDates_WhenCheckIfADateIsContained_ThenReturnsTrue()
-        {
-            DateInterval dateInterval = new();
+        DateInterval dateInterval = new();
 
-            bool actual = dateInterval.ContainsDate(new DateTime(2001, 04, 17));
+        bool actual = dateInterval.ContainsDate(new DateTime(2001, 04, 17));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyStartDate_WhenCheckIfADateBeforeStartDateIsContained_ThenReturnsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15));
+    [Fact]
+    public void HavingInstanceWithOnlyStartDate_WhenCheckIfADateBeforeStartDateIsContained_ThenReturnsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(1999, 04, 17));
+        bool actual = dateInterval.ContainsDate(new DateTime(1999, 04, 17));
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyStartDate_WhenCheckIfAStartDateIsContained_ThenReturnsTrue()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15));
+    [Fact]
+    public void HavingInstanceWithOnlyStartDate_WhenCheckIfAStartDateIsContained_ThenReturnsTrue()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(2020, 03, 15));
+        bool actual = dateInterval.ContainsDate(new DateTime(2020, 03, 15));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyStartDate_WhenCheckIfADateAfterStartDateIsContained_ThenReturnsTrue()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15));
+    [Fact]
+    public void HavingInstanceWithOnlyStartDate_WhenCheckIfADateAfterStartDateIsContained_ThenReturnsTrue()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(2021, 09, 30));
+        bool actual = dateInterval.ContainsDate(new DateTime(2021, 09, 30));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyEndDate_WhenCheckIfADateBeforeEndDateIsContained_ThenReturnsTrue()
-        {
-            DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
+    [Fact]
+    public void HavingInstanceWithOnlyEndDate_WhenCheckIfADateBeforeEndDateIsContained_ThenReturnsTrue()
+    {
+        DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(1999, 04, 17));
+        bool actual = dateInterval.ContainsDate(new DateTime(1999, 04, 17));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyEndDate_WhenCheckIfAEndDateIsContained_ThenReturnsTrue()
-        {
-            DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
+    [Fact]
+    public void HavingInstanceWithOnlyEndDate_WhenCheckIfAEndDateIsContained_ThenReturnsTrue()
+    {
+        DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(2020, 03, 15));
+        bool actual = dateInterval.ContainsDate(new DateTime(2020, 03, 15));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyEndDate_WhenCheckIfADateAfterEndDateIsContained_ThenReturnsFalse()
-        {
-            DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
+    [Fact]
+    public void HavingInstanceWithOnlyEndDate_WhenCheckIfADateAfterEndDateIsContained_ThenReturnsFalse()
+    {
+        DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(2021, 08, 17));
+        bool actual = dateInterval.ContainsDate(new DateTime(2021, 08, 17));
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithBothDates_WhenCheckIfADateBeforeStartDateIsContained_ThenReturnsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
+    [Fact]
+    public void HavingInstanceWithBothDates_WhenCheckIfADateBeforeStartDateIsContained_ThenReturnsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(1999, 04, 17));
+        bool actual = dateInterval.ContainsDate(new DateTime(1999, 04, 17));
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithBothDates_WhenCheckIfADateBetweenStartDateAndEndDateIsContained_ThenReturnsTrue()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
+    [Fact]
+    public void HavingInstanceWithBothDates_WhenCheckIfADateBetweenStartDateAndEndDateIsContained_ThenReturnsTrue()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(2021, 02, 27));
+        bool actual = dateInterval.ContainsDate(new DateTime(2021, 02, 27));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingInstanceWithBothDates_WhenCheckIfADateAfterEndDateIsContained_ThenReturnsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
+    [Fact]
+    public void HavingInstanceWithBothDates_WhenCheckIfADateAfterEndDateIsContained_ThenReturnsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(2050, 04, 17));
+        bool actual = dateInterval.ContainsDate(new DateTime(2050, 04, 17));
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithSameValueForStartAndEndDates_WhenCheckIfTheDateIsContained_ThenReturnsTrue()
-        {
-            DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
+    [Fact]
+    public void HavingInstanceWithSameValueForStartAndEndDates_WhenCheckIfTheDateIsContained_ThenReturnsTrue()
+    {
+        DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
 
-            bool actual = dateInterval.ContainsDate(new DateTime(2021, 07, 05));
+        bool actual = dateInterval.ContainsDate(new DateTime(2021, 07, 05));
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
     }
 }

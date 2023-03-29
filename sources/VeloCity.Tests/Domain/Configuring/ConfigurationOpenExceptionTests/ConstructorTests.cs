@@ -16,44 +16,42 @@
 
 using System;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
-using Resources = DustInTheWind.VeloCity.Domain.Resources;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationOpenExceptionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingInstanceWithNullInnerException_ThenMessageContainsDefaultText()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithNullInnerException_ThenMessageContainsDefaultText()
-        {
-            ConfigurationOpenException configurationOpenException = new(null);
+        ConfigurationOpenException configurationOpenException = new(null);
 
-            configurationOpenException.Message.Should().Be(Ports.SettingsAccess.Resources.ConfigurationOpen_DefaultErrorMessage);
-        }
+        configurationOpenException.Message.Should().Be(Resources.ConfigurationOpen_DefaultErrorMessage);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithNullInnerException_ThenInnerExceptionIsNull()
-        {
-            ConfigurationOpenException configurationOpenException = new(null);
+    [Fact]
+    public void WhenCreatingInstanceWithNullInnerException_ThenInnerExceptionIsNull()
+    {
+        ConfigurationOpenException configurationOpenException = new(null);
 
-            configurationOpenException.InnerException.Should().BeNull();
-        }
+        configurationOpenException.InnerException.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenMessageContainsDefaultText()
-        {
-            Exception innerException = new();
-            ConfigurationOpenException configurationOpenException = new(innerException);
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificInnerException_ThenMessageContainsDefaultText()
+    {
+        Exception innerException = new();
+        ConfigurationOpenException configurationOpenException = new(innerException);
 
-            configurationOpenException.Message.Should().Be(Ports.SettingsAccess.Resources.ConfigurationOpen_DefaultErrorMessage);
-        }
+        configurationOpenException.Message.Should().Be(Resources.ConfigurationOpen_DefaultErrorMessage);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsThatException()
-        {
-            Exception innerException = new();
-            ConfigurationOpenException configurationOpenException = new(innerException);
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsThatException()
+    {
+        Exception innerException = new();
+        ConfigurationOpenException configurationOpenException = new(innerException);
 
-            configurationOpenException.InnerException.Should().BeSameAs(innerException);
-        }
+        configurationOpenException.InnerException.Should().BeSameAs(innerException);
     }
 }

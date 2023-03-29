@@ -16,24 +16,23 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.NoSprintExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.NoSprintExceptionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingInstance_ThenMessageContainsDefaultText()
     {
-        [Fact]
-        public void WhenCreatingInstance_ThenMessageContainsDefaultText()
-        {
-            NoSprintException databaseNotFoundException = new();
+        NoSprintException databaseNotFoundException = new();
 
-            databaseNotFoundException.Message.Should().Be(Resources.NoSprint_DefaultErrorMessage);
-        }
+        databaseNotFoundException.Message.Should().Be(Resources.NoSprint_DefaultErrorMessage);
+    }
 
-        [Fact]
-        public void WhenCreatingInstance_ThenInnerExceptionIsNull()
-        {
-            NoSprintException databaseNotFoundException = new();
+    [Fact]
+    public void WhenCreatingInstance_ThenInnerExceptionIsNull()
+    {
+        NoSprintException databaseNotFoundException = new();
 
-            databaseNotFoundException.InnerException.Should().BeNull();
-        }
+        databaseNotFoundException.InnerException.Should().BeNull();
     }
 }

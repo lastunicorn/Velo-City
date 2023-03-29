@@ -16,68 +16,67 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class ParseStringWithTabsTests
 {
-    public class ParseStringWithTabsTests
+    [Fact]
+    public void WhenParsingStringStartingWithMultipleSpaces_ThenSpacesAreIgnored()
     {
-        [Fact]
-        public void WhenParsingStringStartingWithMultipleSpaces_ThenSpacesAreIgnored()
-        {
-            PersonName personName = PersonName.Parse("   word1 word2 word3");
+        PersonName personName = PersonName.Parse("   word1 word2 word3");
 
-            personName.FirstName.Should().Be("word1");
-            personName.MiddleName.Should().Be("word2");
-            personName.LastName.Should().Be("word3");
-        }
+        personName.FirstName.Should().Be("word1");
+        personName.MiddleName.Should().Be("word2");
+        personName.LastName.Should().Be("word3");
+    }
 
-        [Fact]
-        public void WhenParsingStringEndingWithMultipleSpaces_ThenSpacesAreIgnored()
-        {
-            PersonName personName = PersonName.Parse("word1 word2 word3   ");
+    [Fact]
+    public void WhenParsingStringEndingWithMultipleSpaces_ThenSpacesAreIgnored()
+    {
+        PersonName personName = PersonName.Parse("word1 word2 word3   ");
 
-            personName.FirstName.Should().Be("word1");
-            personName.MiddleName.Should().Be("word2");
-            personName.LastName.Should().Be("word3");
-        }
+        personName.FirstName.Should().Be("word1");
+        personName.MiddleName.Should().Be("word2");
+        personName.LastName.Should().Be("word3");
+    }
 
-        [Fact]
-        public void WhenParsingStringStartingWithMultipleTabs_ThenTabsAreIgnored()
-        {
-            PersonName personName = PersonName.Parse("\t\t\tword1 word2 word3");
+    [Fact]
+    public void WhenParsingStringStartingWithMultipleTabs_ThenTabsAreIgnored()
+    {
+        PersonName personName = PersonName.Parse("\t\t\tword1 word2 word3");
 
-            personName.FirstName.Should().Be("word1");
-            personName.MiddleName.Should().Be("word2");
-            personName.LastName.Should().Be("word3");
-        }
+        personName.FirstName.Should().Be("word1");
+        personName.MiddleName.Should().Be("word2");
+        personName.LastName.Should().Be("word3");
+    }
 
-        [Fact]
-        public void WhenParsingStringEndingWithMultipleTabs_ThenTabsAreIgnored()
-        {
-            PersonName personName = PersonName.Parse("word1 word2 word3\t\t\t");
+    [Fact]
+    public void WhenParsingStringEndingWithMultipleTabs_ThenTabsAreIgnored()
+    {
+        PersonName personName = PersonName.Parse("word1 word2 word3\t\t\t");
 
-            personName.FirstName.Should().Be("word1");
-            personName.MiddleName.Should().Be("word2");
-            personName.LastName.Should().Be("word3");
-        }
+        personName.FirstName.Should().Be("word1");
+        personName.MiddleName.Should().Be("word2");
+        personName.LastName.Should().Be("word3");
+    }
 
-        [Fact]
-        public void WhenParsingStringWithPartsSeparatedByTabs_ThenPartsAreRecognizedCorrectly()
-        {
-            PersonName personName = PersonName.Parse("word1\tword2\tword3");
+    [Fact]
+    public void WhenParsingStringWithPartsSeparatedByTabs_ThenPartsAreRecognizedCorrectly()
+    {
+        PersonName personName = PersonName.Parse("word1\tword2\tword3");
 
-            personName.FirstName.Should().Be("word1");
-            personName.MiddleName.Should().Be("word2");
-            personName.LastName.Should().Be("word3");
-        }
+        personName.FirstName.Should().Be("word1");
+        personName.MiddleName.Should().Be("word2");
+        personName.LastName.Should().Be("word3");
+    }
 
-        [Fact]
-        public void WhenParsingStringWithPartsSeparatedByMultipleTabs_ThenPartsAreRecognizedCorrectly()
-        {
-            PersonName personName = PersonName.Parse("word1\t\t\tword2\t\t\tword3");
+    [Fact]
+    public void WhenParsingStringWithPartsSeparatedByMultipleTabs_ThenPartsAreRecognizedCorrectly()
+    {
+        PersonName personName = PersonName.Parse("word1\t\t\tword2\t\t\tword3");
 
-            personName.FirstName.Should().Be("word1");
-            personName.MiddleName.Should().Be("word2");
-            personName.LastName.Should().Be("word3");
-        }
+        personName.FirstName.Should().Be("word1");
+        personName.MiddleName.Should().Be("word2");
+        personName.LastName.Should().Be("word3");
     }
 }

@@ -18,54 +18,53 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests;
+
+public class ContainsDateWithOneEmploymentTests
 {
-    public class ContainsDateWithOneEmploymentTests
+    private readonly EmploymentBatch employmentBatch;
+
+    public ContainsDateWithOneEmploymentTests()
     {
-        private readonly EmploymentBatch employmentBatch;
-
-        public ContainsDateWithOneEmploymentTests()
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 03, 15), new DateTime(2022, 05, 27))
-            };
-            employmentBatch = new EmploymentBatch(employment);
-        }
+            TimeInterval = new DateInterval(new DateTime(2022, 03, 15), new DateTime(2022, 05, 27))
+        };
+        employmentBatch = new EmploymentBatch(employment);
+    }
 
-        [Theory]
-        [InlineData("101-07-09")]
-        [InlineData("2000-02-23")]
-        [InlineData("2022-03-14")]
-        public void HavingBatchWithOneEmployment_WhenCheckingIfContainsDateBeforeEmployment_ThenReturnsFalse(string dateAsString)
-        {
-            DateTime date = DateTime.Parse(dateAsString);
-            bool actual = employmentBatch.ContainsDate(date);
+    [Theory]
+    [InlineData("101-07-09")]
+    [InlineData("2000-02-23")]
+    [InlineData("2022-03-14")]
+    public void HavingBatchWithOneEmployment_WhenCheckingIfContainsDateBeforeEmployment_ThenReturnsFalse(string dateAsString)
+    {
+        DateTime date = DateTime.Parse(dateAsString);
+        bool actual = employmentBatch.ContainsDate(date);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Theory]
-        [InlineData("2022-05-28")]
-        [InlineData("5072-01-19")]
-        public void HavingBatchWithOneEmployment_WhenCheckingIfContainsDateAfterEmployment_ThenReturnsFalse(string dateAsString)
-        {
-            DateTime date = DateTime.Parse(dateAsString);
-            bool actual = employmentBatch.ContainsDate(date);
+    [Theory]
+    [InlineData("2022-05-28")]
+    [InlineData("5072-01-19")]
+    public void HavingBatchWithOneEmployment_WhenCheckingIfContainsDateAfterEmployment_ThenReturnsFalse(string dateAsString)
+    {
+        DateTime date = DateTime.Parse(dateAsString);
+        bool actual = employmentBatch.ContainsDate(date);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Theory]
-        [InlineData("2022-03-15")]
-        [InlineData("2022-03-25")]
-        [InlineData("2022-05-27")]
-        public void HavingBatchWithOneEmployment_WhenCheckingIfContainsDateDuringEmployment_ThenReturnsTrue(string dateAsString)
-        {
-            DateTime date = DateTime.Parse(dateAsString);
-            bool actual = employmentBatch.ContainsDate(date);
+    [Theory]
+    [InlineData("2022-03-15")]
+    [InlineData("2022-03-25")]
+    [InlineData("2022-05-27")]
+    public void HavingBatchWithOneEmployment_WhenCheckingIfContainsDateDuringEmployment_ThenReturnsTrue(string dateAsString)
+    {
+        DateTime date = DateTime.Parse(dateAsString);
+        bool actual = employmentBatch.ContainsDate(date);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
     }
 }

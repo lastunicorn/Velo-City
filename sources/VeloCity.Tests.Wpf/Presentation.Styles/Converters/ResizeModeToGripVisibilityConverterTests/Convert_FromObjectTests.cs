@@ -27,7 +27,7 @@ public class Convert_FromObjectTests
     {
         converter = new ResizeModeToGripVisibilityConverter();
     }
-    
+
     [Fact]
     public void HavingNullValue_WhenConverting_ThenReturnsCollapsed()
     {

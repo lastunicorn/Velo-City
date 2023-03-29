@@ -17,45 +17,44 @@
 using System;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationElementExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.Configuring.ConfigurationElementExceptionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificElementName_ThenMessageContainsTheProvidedName()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificElementName_ThenMessageContainsTheProvidedName()
-        {
-            Exception innerException = new();
-            ConfigurationElementException configurationElementException = new("element1", innerException);
+        Exception innerException = new();
+        ConfigurationElementException configurationElementException = new("element1", innerException);
 
-            string expected = string.Format(Resources.ConfigurationElement_DefaultErrorMessage, "element1");
-            configurationElementException.Message.Should().Be(expected);
-        }
+        string expected = string.Format(Resources.ConfigurationElement_DefaultErrorMessage, "element1");
+        configurationElementException.Message.Should().Be(expected);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithNullElementName_ThenMessageContainsDefaultMessageWithoutElementName()
-        {
-            Exception innerException = new();
-            ConfigurationElementException configurationElementException = new(null, innerException);
+    [Fact]
+    public void WhenCreatingInstanceWithNullElementName_ThenMessageContainsDefaultMessageWithoutElementName()
+    {
+        Exception innerException = new();
+        ConfigurationElementException configurationElementException = new(null, innerException);
 
-            string expected = string.Format(Resources.ConfigurationElement_DefaultErrorMessage, null as string);
-            configurationElementException.Message.Should().Be(expected);
-        }
+        string expected = string.Format(Resources.ConfigurationElement_DefaultErrorMessage, null as string);
+        configurationElementException.Message.Should().Be(expected);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsTheProvidedOne()
-        {
-            Exception innerException = new();
-            ConfigurationElementException configurationElementException = new("element1", innerException);
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificInnerException_ThenInnerExceptionIsTheProvidedOne()
+    {
+        Exception innerException = new();
+        ConfigurationElementException configurationElementException = new("element1", innerException);
 
-            configurationElementException.InnerException.Should().BeSameAs(innerException);
-        }
+        configurationElementException.InnerException.Should().BeSameAs(innerException);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithNullInnerException_ThenInnerExceptionIsTheProvidedOne()
-        {
-            ConfigurationElementException configurationElementException = new("element1", null);
+    [Fact]
+    public void WhenCreatingInstanceWithNullInnerException_ThenInnerExceptionIsTheProvidedOne()
+    {
+        ConfigurationElementException configurationElementException = new("element1", null);
 
-            configurationElementException.InnerException.Should().BeNull();
-        }
+        configurationElementException.InnerException.Should().BeNull();
     }
 }

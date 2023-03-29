@@ -18,60 +18,59 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintListTests
+namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintListTests;
+
+public class LastTests
 {
-    public class LastTests
+    [Fact]
+    public void HavingEmptyList_ThenLastIsNull()
     {
-        [Fact]
-        public void HavingEmptyList_ThenLastIsNull()
+        SprintList sprintList = new(Array.Empty<Sprint>());
+
+        sprintList.Last.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingListWithOneSprint_ThenLastIsThatSprint()
+    {
+        Sprint sprint = new();
+        Sprint[] sprints = { sprint };
+        SprintList sprintList = new(sprints);
+
+        sprintList.Last.Should().BeSameAs(sprint);
+    }
+
+    [Fact]
+    public void HavingListWithTwoSprintsOutOfOrder_ThenLastIsTheFirstSprint()
+    {
+        Sprint sprint1 = new()
         {
-            SprintList sprintList = new(Array.Empty<Sprint>());
-
-            sprintList.Last.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingListWithOneSprint_ThenLastIsThatSprint()
+            DateInterval = new DateInterval(new DateTime(2022, 06, 01), new DateTime(2022, 07, 01))
+        };
+        Sprint sprint2 = new()
         {
-            Sprint sprint = new();
-            Sprint[] sprints = { sprint };
-            SprintList sprintList = new(sprints);
+            DateInterval = new DateInterval(new DateTime(1999, 06, 01), new DateTime(1999, 07, 01))
+        };
+        Sprint[] sprints = { sprint1, sprint2 };
+        SprintList sprintList = new(sprints);
 
-            sprintList.Last.Should().BeSameAs(sprint);
-        }
+        sprintList.Last.Should().BeSameAs(sprint1);
+    }
 
-        [Fact]
-        public void HavingListWithTwoSprintsOutOfOrder_ThenLastIsTheFirstSprint()
+    [Fact]
+    public void HavingListWithTwoSprintsInOrder_ThenLastIsTheSecondSprint()
+    {
+        Sprint sprint1 = new()
         {
-            Sprint sprint1 = new()
-            {
-                DateInterval = new DateInterval(new DateTime(2022, 06, 01), new DateTime(2022, 07, 01))
-            };
-            Sprint sprint2 = new()
-            {
-                DateInterval = new DateInterval(new DateTime(1999, 06, 01), new DateTime(1999, 07, 01))
-            };
-            Sprint[] sprints = { sprint1, sprint2 };
-            SprintList sprintList = new(sprints);
-
-            sprintList.Last.Should().BeSameAs(sprint1);
-        }
-
-        [Fact]
-        public void HavingListWithTwoSprintsInOrder_ThenLastIsTheSecondSprint()
+            DateInterval = new DateInterval(new DateTime(2022, 06, 01), new DateTime(2022, 07, 01))
+        };
+        Sprint sprint2 = new()
         {
-            Sprint sprint1 = new()
-            {
-                DateInterval = new DateInterval(new DateTime(2022, 06, 01), new DateTime(2022, 07, 01))
-            };
-            Sprint sprint2 = new()
-            {
-                DateInterval = new DateInterval(new DateTime(2024, 06, 01), new DateTime(2024, 07, 01))
-            };
-            Sprint[] sprints = { sprint1, sprint2 };
-            SprintList sprintList = new(sprints);
+            DateInterval = new DateInterval(new DateTime(2024, 06, 01), new DateTime(2024, 07, 01))
+        };
+        Sprint[] sprints = { sprint1, sprint2 };
+        SprintList sprintList = new(sprints);
 
-            sprintList.Last.Should().BeSameAs(sprint2);
-        }
+        sprintList.Last.Should().BeSameAs(sprint2);
     }
 }

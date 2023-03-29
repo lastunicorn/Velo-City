@@ -16,24 +16,23 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.WarningExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.WarningExceptionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingInstanceWithNullMessage_ThenMessageIsNotNull()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithNullMessage_ThenMessageIsNotNull()
-        {
-            WarningException warningException = new(null);
+        WarningException warningException = new(null);
 
-            warningException.Message.Should().NotBeNull();
-        }
+        warningException.Message.Should().NotBeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificMessageText_ThenMessageIsThatText()
-        {
-            WarningException warningException = new("custom text");
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificMessageText_ThenMessageIsThatText()
+    {
+        WarningException warningException = new("custom text");
 
-            warningException.Message.Should().Be("custom text");
-        }
+        warningException.Message.Should().Be("custom text");
     }
 }

@@ -17,43 +17,42 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests;
+
+public class IsFullInfiniteTests
 {
-    public class IsFullInfiniteTests
+    [Fact]
+    public void HavingInstanceWithoutDates_ThenIsFullInfiniteIsTrue()
     {
-        [Fact]
-        public void HavingInstanceWithoutDates_ThenIsFullInfiniteIsTrue()
-        {
-            DateInterval dateInterval = new();
-            dateInterval.IsFullInfinite.Should().BeTrue();
-        }
+        DateInterval dateInterval = new();
+        dateInterval.IsFullInfinite.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyStartDate_ThenIsFullInfiniteIsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15));
-            dateInterval.IsFullInfinite.Should().BeFalse();
-        }
+    [Fact]
+    public void HavingInstanceWithOnlyStartDate_ThenIsFullInfiniteIsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15));
+        dateInterval.IsFullInfinite.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyEndDate_ThenIsFullInfiniteIsFalse()
-        {
-            DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
-            dateInterval.IsFullInfinite.Should().BeFalse();
-        }
+    [Fact]
+    public void HavingInstanceWithOnlyEndDate_ThenIsFullInfiniteIsFalse()
+    {
+        DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
+        dateInterval.IsFullInfinite.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithBothDates_ThenIsFullInfiniteIsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
-            dateInterval.IsFullInfinite.Should().BeFalse();
-        }
+    [Fact]
+    public void HavingInstanceWithBothDates_ThenIsFullInfiniteIsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
+        dateInterval.IsFullInfinite.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithSameValueForStartAndEndDates_ThenIsFullInfiniteIsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
-            dateInterval.IsFullInfinite.Should().BeFalse();
-        }
+    [Fact]
+    public void HavingInstanceWithSameValueForStartAndEndDates_ThenIsFullInfiniteIsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
+        dateInterval.IsFullInfinite.Should().BeFalse();
     }
 }

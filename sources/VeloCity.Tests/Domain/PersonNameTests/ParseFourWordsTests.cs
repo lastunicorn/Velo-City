@@ -16,39 +16,38 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class ParseFourWordsTests
 {
-    public class ParseFourWordsTests
+    private readonly PersonName personName;
+
+    public ParseFourWordsTests()
     {
-        private readonly PersonName personName;
+        personName = PersonName.Parse("word1 word2 word3 word4");
+    }
 
-        public ParseFourWordsTests()
-        {
-            personName = PersonName.Parse("word1 word2 word3 word4");
-        }
+    [Fact]
+    public void WhenParsingFourWords_ThenFirstNameIsFirstWord()
+    {
+        personName.FirstName.Should().Be("word1");
+    }
 
-        [Fact]
-        public void WhenParsingFourWords_ThenFirstNameIsFirstWord()
-        {
-            personName.FirstName.Should().Be("word1");
-        }
+    [Fact]
+    public void WhenParsingFourWords_ThenMiddleNameIsSecondAndThirdWords()
+    {
+        personName.MiddleName.Should().Be("word2 word3");
+    }
 
-        [Fact]
-        public void WhenParsingFourWords_ThenMiddleNameIsSecondAndThirdWords()
-        {
-            personName.MiddleName.Should().Be("word2 word3");
-        }
+    [Fact]
+    public void WhenParsingFourWords_ThenLastNameIsFourthWord()
+    {
+        personName.LastName.Should().Be("word4");
+    }
 
-        [Fact]
-        public void WhenParsingFourWords_ThenLastNameIsFourthWord()
-        {
-            personName.LastName.Should().Be("word4");
-        }
-
-        [Fact]
-        public void WhenParsingFourWords_ThenNicknameIsNull()
-        {
-            personName.Nickname.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingFourWords_ThenNicknameIsNull()
+    {
+        personName.Nickname.Should().BeNull();
     }
 }

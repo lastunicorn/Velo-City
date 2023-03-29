@@ -17,56 +17,55 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingANewInstance_ThenStartDateIsNull()
     {
-        [Fact]
-        public void WhenCreatingANewInstance_ThenStartDateIsNull()
-        {
-            Employment employment = new();
+        Employment employment = new();
 
-            employment.StartDate.Should().BeNull();
-        }
+        employment.StartDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingANewInstance_ThenEndDateIsNull()
-        {
-            Employment employment = new();
+    [Fact]
+    public void WhenCreatingANewInstance_ThenEndDateIsNull()
+    {
+        Employment employment = new();
 
-            employment.EndDate.Should().BeNull();
-        }
+        employment.EndDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingANewInstance_ThenTimeIntervalIsFullInfinite()
-        {
-            Employment employment = new();
+    [Fact]
+    public void WhenCreatingANewInstance_ThenTimeIntervalIsFullInfinite()
+    {
+        Employment employment = new();
 
-            employment.TimeInterval.IsFullInfinite.Should().BeTrue();
-        }
+        employment.TimeInterval.IsFullInfinite.Should().BeTrue();
+    }
 
-        [Fact]
-        public void WhenCreatingANewInstance_ThenHoursPerDayIsZero()
-        {
-            Employment employment = new();
+    [Fact]
+    public void WhenCreatingANewInstance_ThenHoursPerDayIsZero()
+    {
+        Employment employment = new();
 
-            employment.HoursPerDay.Should().Be(HoursValue.Zero);
-        }
+        employment.HoursPerDay.Should().Be(HoursValue.Zero);
+    }
 
-        [Fact]
-        public void WhenCreatingANewInstance_ThenEmploymentWeekIsNull()
-        {
-            Employment employment = new();
+    [Fact]
+    public void WhenCreatingANewInstance_ThenEmploymentWeekIsNull()
+    {
+        Employment employment = new();
 
-            employment.EmploymentWeek.Should().BeNull();
-        }
+        employment.EmploymentWeek.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingANewInstance_ThenCountryIsNull()
-        {
-            Employment employment = new();
+    [Fact]
+    public void WhenCreatingANewInstance_ThenCountryIsNull()
+    {
+        Employment employment = new();
 
-            employment.Country.Should().BeNull();
-        }
+        employment.Country.Should().BeNull();
     }
 }

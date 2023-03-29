@@ -16,33 +16,32 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.SprintDoesNotExistExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.SprintDoesNotExistExceptionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Theory]
+    [InlineData(0)]
+    [InlineData(5)]
+    [InlineData(10)]
+    [InlineData(-10)]
+    public void WhenCreatingInstanceWithSpecificSprintNumber_ThenMessageContainsThatSprintNumber(int sprintNumber)
     {
-        [Theory]
-        [InlineData(0)]
-        [InlineData(5)]
-        [InlineData(10)]
-        [InlineData(-10)]
-        public void WhenCreatingInstanceWithSpecificSprintNumber_ThenMessageContainsThatSprintNumber(int sprintNumber)
-        {
-            SprintDoesNotExistException sprintDoesNotExistException = new(sprintNumber);
+        SprintDoesNotExistException sprintDoesNotExistException = new(sprintNumber);
 
-            string expected = string.Format(Resources.SprintDoesNotExist_DefaultErrorMessage, sprintNumber);
-            sprintDoesNotExistException.Message.Should().Be(expected);
-        }
+        string expected = string.Format(Resources.SprintDoesNotExist_DefaultErrorMessage, sprintNumber);
+        sprintDoesNotExistException.Message.Should().Be(expected);
+    }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(5)]
-        [InlineData(10)]
-        [InlineData(-10)]
-        public void WhenCreatingInstanceWithSpecificSprintNumber_ThenInnerExceptionIsNull(int sprintNumber)
-        {
-            SprintDoesNotExistException sprintDoesNotExistException = new(sprintNumber);
+    [Theory]
+    [InlineData(0)]
+    [InlineData(5)]
+    [InlineData(10)]
+    [InlineData(-10)]
+    public void WhenCreatingInstanceWithSpecificSprintNumber_ThenInnerExceptionIsNull(int sprintNumber)
+    {
+        SprintDoesNotExistException sprintDoesNotExistException = new(sprintNumber);
 
-            sprintDoesNotExistException.InnerException.Should().BeNull();
-        }
+        sprintDoesNotExistException.InnerException.Should().BeNull();
     }
 }

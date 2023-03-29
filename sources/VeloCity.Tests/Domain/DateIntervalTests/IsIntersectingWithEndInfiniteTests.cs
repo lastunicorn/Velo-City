@@ -17,96 +17,95 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests;
+
+public class IsIntersectingWithEndInfiniteTests
 {
-    public class IsIntersectingWithEndInfiniteTests
+    [Fact]
+    public void HavingInfiniteDateInterval_WhenIntersectingWithEndInfinite_ThenReturnsTrue()
     {
-        [Fact]
-        public void HavingInfiniteDateInterval_WhenIntersectingWithEndInfinite_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new();
+        DateInterval dateInterval1 = new();
 
-            DateInterval dateInterval2 = new(null, new DateTime(2030, 08, 19));
-            bool actual = dateInterval1.IsIntersecting(dateInterval2);
+        DateInterval dateInterval2 = new(null, new DateTime(2030, 08, 19));
+        bool actual = dateInterval1.IsIntersecting(dateInterval2);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingEndInfiniteDateInterval_WhenIntersectingWithEndInfinite_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new(new DateTime(2022, 05, 23));
+    [Fact]
+    public void HavingEndInfiniteDateInterval_WhenIntersectingWithEndInfinite_ThenReturnsTrue()
+    {
+        DateInterval dateInterval1 = new(new DateTime(2022, 05, 23));
 
-            DateInterval dateInterval2 = new(new DateTime(2030, 08, 19));
-            bool actual = dateInterval1.IsIntersecting(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2030, 08, 19));
+        bool actual = dateInterval1.IsIntersecting(dateInterval2);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingStartInfiniteDateInterval_WhenIntersectingWithEndInfiniteStartingAfterTheOtherEnd_ThenReturnsFalse()
-        {
-            DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
+    [Fact]
+    public void HavingStartInfiniteDateInterval_WhenIntersectingWithEndInfiniteStartingAfterTheOtherEnd_ThenReturnsFalse()
+    {
+        DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
 
-            DateInterval dateInterval2 = new(new DateTime(2040, 08, 19));
-            bool actual = dateInterval1.IsIntersecting(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2040, 08, 19));
+        bool actual = dateInterval1.IsIntersecting(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingStartInfiniteDateInterval_WhenIntersectingWithEndInfiniteStartingOneDayAfterTheOtherEnd_ThenReturnsFalse()
-        {
-            DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
+    [Fact]
+    public void HavingStartInfiniteDateInterval_WhenIntersectingWithEndInfiniteStartingOneDayAfterTheOtherEnd_ThenReturnsFalse()
+    {
+        DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
 
-            DateInterval dateInterval2 = new(new DateTime(2022, 05, 24));
-            bool actual = dateInterval1.IsIntersecting(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2022, 05, 24));
+        bool actual = dateInterval1.IsIntersecting(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingStartInfiniteDateInterval_WhenIntersectingWithEndInfiniteStartingInSameDayWithTheOtherEnd_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
+    [Fact]
+    public void HavingStartInfiniteDateInterval_WhenIntersectingWithEndInfiniteStartingInSameDayWithTheOtherEnd_ThenReturnsTrue()
+    {
+        DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
 
-            DateInterval dateInterval2 = new(new DateTime(2022, 05, 23));
-            bool actual = dateInterval1.IsIntersecting(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2022, 05, 23));
+        bool actual = dateInterval1.IsIntersecting(dateInterval2);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingStartInfiniteDateInterval_WhenIntersectingWithEndInfiniteStartingBeforeTheOtherEnd_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
+    [Fact]
+    public void HavingStartInfiniteDateInterval_WhenIntersectingWithEndInfiniteStartingBeforeTheOtherEnd_ThenReturnsTrue()
+    {
+        DateInterval dateInterval1 = new(null, new DateTime(2022, 05, 23));
 
-            DateInterval dateInterval2 = new(new DateTime(2021, 03, 21));
-            bool actual = dateInterval1.IsIntersecting(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2021, 03, 21));
+        bool actual = dateInterval1.IsIntersecting(dateInterval2);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenIntersectingWithEndInfiniteThatStartsAfterTheOtherEnd_ThenReturnsFalse()
-        {
-            DateInterval dateInterval1 = new(new DateTime(2022, 05, 23), new DateTime(2040, 02, 15));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenIntersectingWithEndInfiniteThatStartsAfterTheOtherEnd_ThenReturnsFalse()
+    {
+        DateInterval dateInterval1 = new(new DateTime(2022, 05, 23), new DateTime(2040, 02, 15));
 
-            DateInterval dateInterval2 = new(new DateTime(2050, 03, 21));
-            bool actual = dateInterval1.IsIntersecting(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2050, 03, 21));
+        bool actual = dateInterval1.IsIntersecting(dateInterval2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingFiniteDateInterval_WhenIntersectingWithEndInfiniteThatStartsBeforeTheOtherEnd_ThenReturnsTrue()
-        {
-            DateInterval dateInterval1 = new(new DateTime(2022, 05, 23), new DateTime(2040, 02, 15));
+    [Fact]
+    public void HavingFiniteDateInterval_WhenIntersectingWithEndInfiniteThatStartsBeforeTheOtherEnd_ThenReturnsTrue()
+    {
+        DateInterval dateInterval1 = new(new DateTime(2022, 05, 23), new DateTime(2040, 02, 15));
 
-            DateInterval dateInterval2 = new(new DateTime(2000, 03, 21));
-            bool actual = dateInterval1.IsIntersecting(dateInterval2);
+        DateInterval dateInterval2 = new(new DateTime(2000, 03, 21));
+        bool actual = dateInterval1.IsIntersecting(dateInterval2);
 
-            actual.Should().BeTrue();
-        }
+        actual.Should().BeTrue();
     }
 }

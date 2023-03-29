@@ -19,38 +19,37 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingNewEmptyInstance_ThenInstanceContainsNoItems()
     {
-        [Fact]
-        public void WhenCreatingNewEmptyInstance_ThenInstanceContainsNoItems()
-        {
-            EmploymentBatch employmentBatch = new();
+        EmploymentBatch employmentBatch = new();
 
-            bool existsItems = employmentBatch.Any();
+        bool existsItems = employmentBatch.Any();
 
-            existsItems.Should().BeFalse();
-        }
+        existsItems.Should().BeFalse();
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstanceWithOneEmployment_ThenInstanceContainsOnlyThatEmployment()
-        {
-            Employment employment = new();
-            EmploymentBatch employmentBatch = new(employment);
+    [Fact]
+    public void WhenCreatingNewInstanceWithOneEmployment_ThenInstanceContainsOnlyThatEmployment()
+    {
+        Employment employment = new();
+        EmploymentBatch employmentBatch = new(employment);
 
-            List<Employment> actual = employmentBatch.ToList();
+        List<Employment> actual = employmentBatch.ToList();
 
-            actual.Should().HaveCount(1);
-            actual.Should().ContainInOrder(employment);
-        }
+        actual.Should().HaveCount(1);
+        actual.Should().ContainInOrder(employment);
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstanceWithNullEmployment_ThenThrows()
-        {
-            Action action = () => new EmploymentBatch(null);
+    [Fact]
+    public void WhenCreatingNewInstanceWithNullEmployment_ThenThrows()
+    {
+        Action action = () => new EmploymentBatch(null);
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+        action.Should().Throw<ArgumentNullException>();
     }
 }

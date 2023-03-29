@@ -19,57 +19,56 @@ using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintListExtensionsTests
+namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintListExtensionsTests;
+
+public class ToSprintList
 {
-    public class ToSprintList
+    [Fact]
+    public void HavingNullEnumeration_WhenConvertedToSprintList_ThenThrows()
     {
-        [Fact]
-        public void HavingNullEnumeration_WhenConvertedToSprintList_ThenThrows()
+        IEnumerable<Sprint> sprints = null;
+
+        Action action = () =>
         {
-            IEnumerable<Sprint> sprints = null;
+            sprints.ToSprintList();
+        };
 
-            Action action = () =>
-            {
-                sprints.ToSprintList();
-            };
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+    [Fact]
+    public void HavingEmptyEnumeration_WhenConvertedToSprintList_ThenReturnsEmptySprintList()
+    {
+        IEnumerable<Sprint> sprints = Enumerable.Empty<Sprint>();
 
-        [Fact]
-        public void HavingEmptyEnumeration_WhenConvertedToSprintList_ThenReturnsEmptySprintList()
-        {
-            IEnumerable<Sprint> sprints = Enumerable.Empty<Sprint>();
+        SprintList sprintList = sprints.ToSprintList();
 
-            SprintList sprintList = sprints.ToSprintList();
+        sprintList.Should().BeEmpty();
+    }
 
-            sprintList.Should().BeEmpty();
-        }
+    [Fact]
+    public void HavingEnumerationWithOneSprint_WhenConvertedToSprintList_ThenSprintListContainsThatSprintInstance()
+    {
+        Sprint sprint = new();
+        IEnumerable<Sprint> sprints = new[] { sprint };
 
-        [Fact]
-        public void HavingEnumerationWithOneSprint_WhenConvertedToSprintList_ThenSprintListContainsThatSprintInstance()
-        {
-            Sprint sprint = new();
-            IEnumerable<Sprint> sprints = new[] { sprint };
+        SprintList sprintList = sprints.ToSprintList();
 
-            SprintList sprintList = sprints.ToSprintList();
+        Sprint[] expectedCollection = { sprint };
+        sprintList.Should().Equal(expectedCollection);
+    }
 
-            Sprint[] expectedCollection = { sprint };
-            sprintList.Should().Equal(expectedCollection);
-        }
+    [Fact]
+    public void HavingEnumerationWithThreeSprints_WhenConvertedToSprintList_ThenSprintListContainsTheSprintInSameOrder()
+    {
+        Sprint sprint1 = new();
+        Sprint sprint2 = new();
+        Sprint sprint3 = new();
+        IEnumerable<Sprint> sprints = new[] { sprint1, sprint2, sprint3 };
 
-        [Fact]
-        public void HavingEnumerationWithThreeSprints_WhenConvertedToSprintList_ThenSprintListContainsTheSprintInSameOrder()
-        {
-            Sprint sprint1 = new();
-            Sprint sprint2 = new();
-            Sprint sprint3 = new();
-            IEnumerable<Sprint> sprints = new[] { sprint1, sprint2, sprint3 };
+        SprintList sprintList = sprints.ToSprintList();
 
-            SprintList sprintList = sprints.ToSprintList();
-
-            Sprint[] expectedCollection = { sprint1, sprint2, sprint3 };
-            sprintList.Should().Equal(expectedCollection);
-        }
+        Sprint[] expectedCollection = { sprint1, sprint2, sprint3 };
+        sprintList.Should().Equal(expectedCollection);
     }
 }

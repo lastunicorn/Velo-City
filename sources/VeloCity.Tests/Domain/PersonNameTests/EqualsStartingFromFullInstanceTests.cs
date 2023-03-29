@@ -16,123 +16,122 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class EqualsStartingFromFullInstanceTests
 {
-    public class EqualsStartingFromFullInstanceTests
+    [Fact]
+    public void HavingTwoPersonNamesWithIdenticalParts_WhenCompared_ThenReturnsTrue()
     {
-        [Fact]
-        public void HavingTwoPersonNamesWithIdenticalParts_WhenCompared_ThenReturnsTrue()
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-
-            bool actual = personName1.Equals(personName2);
-
-            actual.Should().BeTrue();
-        }
-
-        [Fact]
-        public void HavingTwoPersonNamesContainingDifferentFirstName_WhenCompared_ThenReturnsFalse()
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name-1",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name-2",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            bool actual = personName1.Equals(personName2);
+        bool actual = personName1.Equals(personName2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Fact]
-        public void HavingTwoPersonNamesContainingDifferentMiddleName_WhenCompared_ThenReturnsFalse()
+    [Fact]
+    public void HavingTwoPersonNamesContainingDifferentFirstName_WhenCompared_ThenReturnsFalse()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name-1",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name-2",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-
-            bool actual = personName1.Equals(personName2);
-
-            actual.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingTwoPersonNamesContainingDifferentLastName_WhenCompared_ThenReturnsFalse()
+            FirstName = "first-name-1",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name-1",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name-2",
-                Nickname = "nickname"
-            };
+            FirstName = "first-name-2",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            bool actual = personName1.Equals(personName2);
+        bool actual = personName1.Equals(personName2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingTwoPersonNamesContainingDifferentNickname_WhenCompared_ThenReturnsFalse()
+    [Fact]
+    public void HavingTwoPersonNamesContainingDifferentMiddleName_WhenCompared_ThenReturnsFalse()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname-1"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname-2"
-            };
+            FirstName = "first-name",
+            MiddleName = "middle-name-1",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name-2",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            bool actual = personName1.Equals(personName2);
+        bool actual = personName1.Equals(personName2);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingTwoPersonNamesContainingDifferentLastName_WhenCompared_ThenReturnsFalse()
+    {
+        PersonName personName1 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name-1",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name-2",
+            Nickname = "nickname"
+        };
+
+        bool actual = personName1.Equals(personName2);
+
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingTwoPersonNamesContainingDifferentNickname_WhenCompared_ThenReturnsFalse()
+    {
+        PersonName personName1 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname-1"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname-2"
+        };
+
+        bool actual = personName1.Equals(personName2);
+
+        actual.Should().BeFalse();
     }
 }

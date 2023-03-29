@@ -16,26 +16,25 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests
+namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests;
+
+public class ImplicitOperatorHoursValueToInt32Tests
 {
-    public class ImplicitOperatorHoursValueToInt32Tests
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(100)]
+    [InlineData(-1)]
+    [InlineData(-100)]
+    public void HavingAnHoursValue_WhenConvertingItToInt32_ThenNumberIsValue(int value)
     {
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        [InlineData(100)]
-        [InlineData(-1)]
-        [InlineData(-100)]
-        public void HavingAnHoursValue_WhenConvertingItToInt32_ThenNumberIsValue(int value)
+        HoursValue hoursValue = new()
         {
-            HoursValue hoursValue = new()
-            {
-                Value = value
-            };
+            Value = value
+        };
 
-            int actual = hoursValue;
+        int actual = hoursValue;
 
-            actual.Should().Be(value);
-        }
+        actual.Should().Be(value);
     }
 }

@@ -17,90 +17,89 @@
 using System;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.TeamMemberTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.TeamMemberTests;
+
+public class HasActiveEmploymentTests
 {
-    public class HasActiveEmploymentTests
+    [Fact]
+    public void HavingInstanceWithUninitializedEmployments_ThenDoesNotHaveActiveEmployment()
     {
-        [Fact]
-        public void HavingInstanceWithUninitializedEmployments_ThenDoesNotHaveActiveEmployment()
-        {
-            TeamMember teamMember = new();
+        TeamMember teamMember = new();
 
-            teamMember.HasActiveEmployment.Should().BeFalse();
-        }
+        teamMember.HasActiveEmployment.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithNullEmployments_ThenDoesNotHaveActiveEmployment()
+    [Fact]
+    public void HavingInstanceWithNullEmployments_ThenDoesNotHaveActiveEmployment()
+    {
+        TeamMember teamMember = new()
         {
-            TeamMember teamMember = new()
+            Employments = null
+        };
+
+        teamMember.HasActiveEmployment.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingInstanceWithEmptyEmployments_ThenDoesNotHaveActiveEmployment()
+    {
+        TeamMember teamMember = new()
+        {
+            Employments = new EmploymentCollection()
+        };
+
+        teamMember.HasActiveEmployment.Should().BeFalse();
+    }
+
+    [Fact]
+    public void HavingInstanceWithOneEmploymentInThePastThatEnded_ThenDoesNotHaveActiveEmployment()
+    {
+        TeamMember teamMember = new()
+        {
+            Employments = new EmploymentCollection
             {
-                Employments = null
-            };
-
-            teamMember.HasActiveEmployment.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingInstanceWithEmptyEmployments_ThenDoesNotHaveActiveEmployment()
-        {
-            TeamMember teamMember = new()
-            {
-                Employments = new EmploymentCollection()
-            };
-
-            teamMember.HasActiveEmployment.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingInstanceWithOneEmploymentInThePastThatEnded_ThenDoesNotHaveActiveEmployment()
-        {
-            TeamMember teamMember = new()
-            {
-                Employments = new EmploymentCollection
+                new()
                 {
-                    new()
-                    {
-                        EndDate = DateTime.Today.AddDays(-1)
-                    }
+                    EndDate = DateTime.Today.AddDays(-1)
                 }
-            };
+            }
+        };
 
-            teamMember.HasActiveEmployment.Should().BeFalse();
-        }
+        teamMember.HasActiveEmployment.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOneEmploymentInTheFutureThatEnded_ThenDoesNotHaveActiveEmployment()
+    [Fact]
+    public void HavingInstanceWithOneEmploymentInTheFutureThatEnded_ThenDoesNotHaveActiveEmployment()
+    {
+        TeamMember teamMember = new()
         {
-            TeamMember teamMember = new()
+            Employments = new EmploymentCollection
             {
-                Employments = new EmploymentCollection
+                new()
                 {
-                    new()
-                    {
-                        StartDate = DateTime.Today.AddDays(1),
-                        EndDate = DateTime.Today.AddDays(2)
-                    }
+                    StartDate = DateTime.Today.AddDays(1),
+                    EndDate = DateTime.Today.AddDays(2)
                 }
-            };
+            }
+        };
 
-            teamMember.HasActiveEmployment.Should().BeFalse();
-        }
+        teamMember.HasActiveEmployment.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOneEmploymentInTheFutureNotEnded_ThenHasActiveEmployment()
+    [Fact]
+    public void HavingInstanceWithOneEmploymentInTheFutureNotEnded_ThenHasActiveEmployment()
+    {
+        TeamMember teamMember = new()
         {
-            TeamMember teamMember = new()
+            Employments = new EmploymentCollection
             {
-                Employments = new EmploymentCollection
+                new()
                 {
-                    new()
-                    {
-                        StartDate = DateTime.Today.AddDays(1)
-                    }
+                    StartDate = DateTime.Today.AddDays(1)
                 }
-            };
+            }
+        };
 
-            teamMember.HasActiveEmployment.Should().BeTrue();
-        }
+        teamMember.HasActiveEmployment.Should().BeTrue();
     }
 }

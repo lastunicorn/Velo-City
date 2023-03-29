@@ -17,87 +17,86 @@
 using System;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests;
+
+public class IsWorkDayTests
 {
-    public class IsWorkDayTests
+    [Theory]
+    [InlineData(DayOfWeek.Monday)]
+    [InlineData(DayOfWeek.Tuesday)]
+    [InlineData(DayOfWeek.Wednesday)]
+    [InlineData(DayOfWeek.Thursday)]
+    [InlineData(DayOfWeek.Friday)]
+    [InlineData(DayOfWeek.Saturday)]
+    [InlineData(DayOfWeek.Sunday)]
+    public void HavingEmploymentWithNoEmploymentWeek_WhenCheckingAnyDayIfTheyAreWorkDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
     {
-        [Theory]
-        [InlineData(DayOfWeek.Monday)]
-        [InlineData(DayOfWeek.Tuesday)]
-        [InlineData(DayOfWeek.Wednesday)]
-        [InlineData(DayOfWeek.Thursday)]
-        [InlineData(DayOfWeek.Friday)]
-        [InlineData(DayOfWeek.Saturday)]
-        [InlineData(DayOfWeek.Sunday)]
-        public void HavingEmploymentWithNoEmploymentWeek_WhenCheckingAnyDayIfTheyAreWorkDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
+        Employment employment = new();
+
+        bool actual = employment.IsWorkDay(dayOfWeek);
+
+        actual.Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData((DayOfWeek)100)]
+    [InlineData((DayOfWeek)34645)]
+    [InlineData((DayOfWeek)(-613))]
+    public void HavingEmploymentWithNoEmploymentWeek_WhenNonexistentDaysIfTheyAreWorkDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
+    {
+        Employment employment = new();
+
+        bool actual = employment.IsWorkDay(dayOfWeek);
+
+        actual.Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData(DayOfWeek.Monday)]
+    [InlineData(DayOfWeek.Tuesday)]
+    [InlineData(DayOfWeek.Wednesday)]
+    [InlineData(DayOfWeek.Thursday)]
+    [InlineData(DayOfWeek.Friday)]
+    public void HavingEmploymentWithDefaultWeek_WhenCheckingMondayToFridayIfTheyAreWorkDays_ThenReturnsTrue(DayOfWeek dayOfWeek)
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            EmploymentWeek = new EmploymentWeek()
+        };
 
-            bool actual = employment.IsWorkDay(dayOfWeek);
+        bool actual = employment.IsWorkDay(dayOfWeek);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeTrue();
+    }
 
-        [Theory]
-        [InlineData((DayOfWeek)100)]
-        [InlineData((DayOfWeek)34645)]
-        [InlineData((DayOfWeek)(-613))]
-        public void HavingEmploymentWithNoEmploymentWeek_WhenNonexistentDaysIfTheyAreWorkDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
+    [Theory]
+    [InlineData(DayOfWeek.Saturday)]
+    [InlineData(DayOfWeek.Sunday)]
+    public void HavingEmploymentWithDefaultWeek_WhenCheckingWeekendDaysIfTheyAreWorkDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            EmploymentWeek = new EmploymentWeek()
+        };
 
-            bool actual = employment.IsWorkDay(dayOfWeek);
+        bool actual = employment.IsWorkDay(dayOfWeek);
 
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
+    }
 
-        [Theory]
-        [InlineData(DayOfWeek.Monday)]
-        [InlineData(DayOfWeek.Tuesday)]
-        [InlineData(DayOfWeek.Wednesday)]
-        [InlineData(DayOfWeek.Thursday)]
-        [InlineData(DayOfWeek.Friday)]
-        public void HavingEmploymentWithDefaultWeek_WhenCheckingMondayToFridayIfTheyAreWorkDays_ThenReturnsTrue(DayOfWeek dayOfWeek)
+    [Theory]
+    [InlineData((DayOfWeek)100)]
+    [InlineData((DayOfWeek)34645)]
+    [InlineData((DayOfWeek)(-613))]
+    public void HavingEmploymentWithDefaultWeek_WhenNonexistentDaysIfTheyAreWorkDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
+    {
+        Employment employment = new()
         {
-            Employment employment = new()
-            {
-                EmploymentWeek = new EmploymentWeek()
-            };
+            EmploymentWeek = new EmploymentWeek()
+        };
 
-            bool actual = employment.IsWorkDay(dayOfWeek);
+        bool actual = employment.IsWorkDay(dayOfWeek);
 
-            actual.Should().BeTrue();
-        }
-
-        [Theory]
-        [InlineData(DayOfWeek.Saturday)]
-        [InlineData(DayOfWeek.Sunday)]
-        public void HavingEmploymentWithDefaultWeek_WhenCheckingWeekendDaysIfTheyAreWorkDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
-        {
-            Employment employment = new()
-            {
-                EmploymentWeek = new EmploymentWeek()
-            };
-
-            bool actual = employment.IsWorkDay(dayOfWeek);
-
-            actual.Should().BeFalse();
-        }
-
-        [Theory]
-        [InlineData((DayOfWeek)100)]
-        [InlineData((DayOfWeek)34645)]
-        [InlineData((DayOfWeek)(-613))]
-        public void HavingEmploymentWithDefaultWeek_WhenNonexistentDaysIfTheyAreWorkDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
-        {
-            Employment employment = new()
-            {
-                EmploymentWeek = new EmploymentWeek()
-            };
-
-            bool actual = employment.IsWorkDay(dayOfWeek);
-
-            actual.Should().BeFalse();
-        }
+        actual.Should().BeFalse();
     }
 }

@@ -16,39 +16,38 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class ParseTwoWordsTests
 {
-    public class ParseTwoWordsTests
+    private readonly PersonName personName;
+
+    public ParseTwoWordsTests()
     {
-        private readonly PersonName personName;
+        personName = PersonName.Parse("word1 word2");
+    }
 
-        public ParseTwoWordsTests()
-        {
-            personName = PersonName.Parse("word1 word2");
-        }
+    [Fact]
+    public void WhenParsingTwoWords_ThenFirstNameIsFirstWord()
+    {
+        personName.FirstName.Should().Be("word1");
+    }
 
-        [Fact]
-        public void WhenParsingTwoWords_ThenFirstNameIsFirstWord()
-        {
-            personName.FirstName.Should().Be("word1");
-        }
+    [Fact]
+    public void WhenParsingTwoWords_ThenMiddleNameIsNull()
+    {
+        personName.MiddleName.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenParsingTwoWords_ThenMiddleNameIsNull()
-        {
-            personName.MiddleName.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingTwoWords_ThenLastNameIsSecondWord()
+    {
+        personName.LastName.Should().Be("word2");
+    }
 
-        [Fact]
-        public void WhenParsingTwoWords_ThenLastNameIsSecondWord()
-        {
-            personName.LastName.Should().Be("word2");
-        }
-
-        [Fact]
-        public void WhenParsingTwoWords_ThenNicknameIsNull()
-        {
-            personName.Nickname.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingTwoWords_ThenNicknameIsNull()
+    {
+        personName.Nickname.Should().BeNull();
     }
 }

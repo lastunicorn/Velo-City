@@ -16,215 +16,214 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class CompareToFromFullInstanceTests
 {
-    public class CompareToFromFullInstanceTests
+    [Fact]
+    public void HavingTwoPersonNamesWithIdenticalParts_WhenCompared_ReturnsZero()
     {
-        [Fact]
-        public void HavingTwoPersonNamesWithIdenticalParts_WhenCompared_ReturnsZero()
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().Be(0);
-        }
-
-        [Fact]
-        public void HavingOnePersonNameWithFirstNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "fff",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "ccc",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeGreaterThan(0);
-        }
+        actual.Should().Be(0);
+    }
 
-        [Fact]
-        public void HavingOnePersonNameWithFirstNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    [Fact]
+    public void HavingOnePersonNameWithFirstNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "aaa",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "ccc",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().BeLessThan(0);
-        }
-
-        [Fact]
-        public void HavingOnePersonNameWithMiddleNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+            FirstName = "fff",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "yyy",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "ggg",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
+            FirstName = "ccc",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeGreaterThan(0);
-        }
+        actual.Should().BeGreaterThan(0);
+    }
 
-        [Fact]
-        public void HavingOnePersonNameWithMiddleNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    [Fact]
+    public void HavingOnePersonNameWithFirstNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "ddd",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "jjj",
-                LastName = "last-name",
-                Nickname = "nickname"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().BeLessThan(0);
-        }
-
-        [Fact]
-        public void HavingOnePersonNameWithLastNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+            FirstName = "aaa",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "ooo",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "eee",
-                Nickname = "nickname"
-            };
+            FirstName = "ccc",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeGreaterThan(0);
-        }
+        actual.Should().BeLessThan(0);
+    }
 
-        [Fact]
-        public void HavingOnePersonNameWithLastNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    [Fact]
+    public void HavingOnePersonNameWithMiddleNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "ttt",
-                Nickname = "nickname"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "vvv",
-                Nickname = "nickname"
-            };
-
-            int actual = personName1.CompareTo(personName2);
-
-            actual.Should().BeLessThan(0);
-        }
-
-        [Fact]
-        public void HavingOnePersonNameWithNicknameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+            FirstName = "first-name",
+            MiddleName = "yyy",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "www"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "hhh"
-            };
+            FirstName = "first-name",
+            MiddleName = "ggg",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeGreaterThan(0);
-        }
+        actual.Should().BeGreaterThan(0);
+    }
 
-        [Fact]
-        public void HavingOnePersonNameWithNicknameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    [Fact]
+    public void HavingOnePersonNameWithMiddleNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    {
+        PersonName personName1 = new()
         {
-            PersonName personName1 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "iii"
-            };
-            PersonName personName2 = new()
-            {
-                FirstName = "first-name",
-                MiddleName = "middle-name",
-                LastName = "last-name",
-                Nickname = "ppp"
-            };
+            FirstName = "first-name",
+            MiddleName = "ddd",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "jjj",
+            LastName = "last-name",
+            Nickname = "nickname"
+        };
 
-            int actual = personName1.CompareTo(personName2);
+        int actual = personName1.CompareTo(personName2);
 
-            actual.Should().BeLessThan(0);
-        }
+        actual.Should().BeLessThan(0);
+    }
+
+    [Fact]
+    public void HavingOnePersonNameWithLastNameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    {
+        PersonName personName1 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "ooo",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "eee",
+            Nickname = "nickname"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    public void HavingOnePersonNameWithLastNameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    {
+        PersonName personName1 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "ttt",
+            Nickname = "nickname"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "vvv",
+            Nickname = "nickname"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().BeLessThan(0);
+    }
+
+    [Fact]
+    public void HavingOnePersonNameWithNicknameGreaterThanASecondOne_WhenCompared_ReturnsPositiveValue()
+    {
+        PersonName personName1 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "www"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "hhh"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    public void HavingOnePersonNameWithNicknameLowerThanASecondOne_WhenCompared_ReturnsNegativeValue()
+    {
+        PersonName personName1 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "iii"
+        };
+        PersonName personName2 = new()
+        {
+            FirstName = "first-name",
+            MiddleName = "middle-name",
+            LastName = "last-name",
+            Nickname = "ppp"
+        };
+
+        int actual = personName1.CompareTo(personName2);
+
+        actual.Should().BeLessThan(0);
     }
 }

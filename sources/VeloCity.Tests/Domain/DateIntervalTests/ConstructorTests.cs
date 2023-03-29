@@ -17,86 +17,85 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingInstanceWithoutDates_ThenStartDateIsNull()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithoutDates_ThenStartDateIsNull()
-        {
-            DateInterval dateInterval = new();
-            dateInterval.StartDate.Should().BeNull();
-        }
+        DateInterval dateInterval = new();
+        dateInterval.StartDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithoutDates_ThenEndDateIsNull()
-        {
-            DateInterval dateInterval = new();
-            dateInterval.EndDate.Should().BeNull();
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithoutDates_ThenEndDateIsNull()
+    {
+        DateInterval dateInterval = new();
+        dateInterval.EndDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithStartDate_ThenStartDateHasTheProvidedValue()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15));
-            dateInterval.StartDate.Should().Be(new DateTime(2020, 03, 15));
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithStartDate_ThenStartDateHasTheProvidedValue()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15));
+        dateInterval.StartDate.Should().Be(new DateTime(2020, 03, 15));
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithStartDate_ThenEndDateIsNull()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15));
-            dateInterval.EndDate.Should().BeNull();
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithStartDate_ThenEndDateIsNull()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15));
+        dateInterval.EndDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithEndDate_ThenStartDateHasTheProvidedValue()
-        {
-            DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
-            dateInterval.StartDate.Should().BeNull();
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithEndDate_ThenStartDateHasTheProvidedValue()
+    {
+        DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
+        dateInterval.StartDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithEndDate_ThenEndDateIsNull()
-        {
-            DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
-            dateInterval.EndDate.Should().Be(new DateTime(2020, 03, 15));
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithEndDate_ThenEndDateIsNull()
+    {
+        DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
+        dateInterval.EndDate.Should().Be(new DateTime(2020, 03, 15));
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithBothDates_ThenStartDateHasTheProvidedValue()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
-            dateInterval.StartDate.Should().Be(new DateTime(2020, 03, 15));
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithBothDates_ThenStartDateHasTheProvidedValue()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
+        dateInterval.StartDate.Should().Be(new DateTime(2020, 03, 15));
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithBothDates_ThenEndDateHasTheProvidedValue()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
-            dateInterval.EndDate.Should().Be(new DateTime(2022, 04, 12));
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithBothDates_ThenEndDateHasTheProvidedValue()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
+        dateInterval.EndDate.Should().Be(new DateTime(2022, 04, 12));
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSameValueForStartAndEndDates_ThenStartDateHasTheProvidedValue()
-        {
-            DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
-            dateInterval.StartDate.Should().Be(new DateTime(2021, 07, 05));
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithSameValueForStartAndEndDates_ThenStartDateHasTheProvidedValue()
+    {
+        DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
+        dateInterval.StartDate.Should().Be(new DateTime(2021, 07, 05));
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSameValueForStartAndEndDates_ThenEndDateHasTheProvidedValue()
-        {
-            DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
-            dateInterval.EndDate.Should().Be(new DateTime(2021, 07, 05));
-        }
+    [Fact]
+    public void WhenCreatingInstanceWithSameValueForStartAndEndDates_ThenEndDateHasTheProvidedValue()
+    {
+        DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
+        dateInterval.EndDate.Should().Be(new DateTime(2021, 07, 05));
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithReversedDates_ThenThrows()
-        {
-            Action action = () => new DateInterval(new DateTime(2022, 01, 04), new DateTime(2021, 07, 05));
+    [Fact]
+    public void WhenCreatingInstanceWithReversedDates_ThenThrows()
+    {
+        Action action = () => new DateInterval(new DateTime(2022, 01, 04), new DateTime(2021, 07, 05));
 
-            action.Should().Throw<ArgumentException>();
-        }
+        action.Should().Throw<ArgumentException>();
     }
 }

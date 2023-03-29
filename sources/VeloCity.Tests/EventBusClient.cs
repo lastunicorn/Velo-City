@@ -18,35 +18,34 @@ using System.Threading;
 using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests
+namespace DustInTheWind.VeloCity.Tests;
+
+internal class EventBusClient<T>
 {
-    internal class EventBusClient<T>
+    private int count;
+
+    public bool EventWasTriggered => count > 0;
+
+    public T Event { get; private set; }
+
+    public EventBusClient(EventBus eventBus)
     {
-        private int count = 0;
+        eventBus.Subscribe<T>(HandleEvent);
+    }
 
-        public bool EventWasTriggered => count > 0;
+    private Task HandleEvent(T ev, CancellationToken cancellationToken)
+    {
+        count++;
+        Event = ev;
 
-        public T Event { get; private set; }
+        return Task.CompletedTask;
+    }
 
-        public EventBusClient(EventBus eventBus)
-        {
-            eventBus.Subscribe<T>(HandleEvent);
-        }
-
-        private Task HandleEvent(T ev, CancellationToken cancelationToken)
-        {
-            count++;
-            Event = ev;
-
-            return Task.CompletedTask;
-        }
-
-        public void VerifyEventWasTriggered(int? times = null)
-        {
-            if (times == null)
-                EventWasTriggered.Should().BeTrue();
-            else
-                count.Should().Be(times.Value);
-        }
+    public void VerifyEventWasTriggered(int? times = null)
+    {
+        if (times == null)
+            EventWasTriggered.Should().BeTrue();
+        else
+            count.Should().Be(times.Value);
     }
 }

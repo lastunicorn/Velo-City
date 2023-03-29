@@ -16,91 +16,90 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class FullNameTests
 {
-    public class FullNameTests
+    [Fact]
+    public void HavingInstanceWithOnlyFirstName_ThenFullNameContainsFirstName()
     {
-        [Fact]
-        public void HavingInstanceWithOnlyFirstName_ThenFullNameContainsFirstName()
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                FirstName = "first"
-            };
+            FirstName = "first"
+        };
 
-            string actual = personName.FullName;
+        string actual = personName.FullName;
 
-            actual.Should().Be("first");
-        }
+        actual.Should().Be("first");
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyMiddleName_ThenFullNameContainsMiddleName()
+    [Fact]
+    public void HavingInstanceWithOnlyMiddleName_ThenFullNameContainsMiddleName()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                MiddleName = "middle"
-            };
+            MiddleName = "middle"
+        };
 
-            string actual = personName.FullName;
+        string actual = personName.FullName;
 
-            actual.Should().Be("middle");
-        }
+        actual.Should().Be("middle");
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyLastName_ThenFullNameContainsLastName()
+    [Fact]
+    public void HavingInstanceWithOnlyLastName_ThenFullNameContainsLastName()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                LastName = "last"
-            };
+            LastName = "last"
+        };
 
-            string actual = personName.FullName;
+        string actual = personName.FullName;
 
-            actual.Should().Be("last");
-        }
+        actual.Should().Be("last");
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyNickname_ThenFullNameIsEmpty()
+    [Fact]
+    public void HavingInstanceWithOnlyNickname_ThenFullNameIsEmpty()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                Nickname = "nick"
-            };
+            Nickname = "nick"
+        };
 
-            string actual = personName.FullName;
+        string actual = personName.FullName;
 
-            actual.Should().BeEmpty();
-        }
+        actual.Should().BeEmpty();
+    }
 
-        [Fact]
-        public void HavingInstanceWithFirstMiddleAndLastParts_ThenFullNameContainsAllParts()
+    [Fact]
+    public void HavingInstanceWithFirstMiddleAndLastParts_ThenFullNameContainsAllParts()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                FirstName = "first",
-                MiddleName = "middle",
-                LastName = "last"
-            };
+            FirstName = "first",
+            MiddleName = "middle",
+            LastName = "last"
+        };
 
-            string actual = personName.FullName;
+        string actual = personName.FullName;
 
-            actual.Should().Be("first middle last");
-        }
+        actual.Should().Be("first middle last");
+    }
 
-        [Fact]
-        public void HavingInstanceWithFirstMiddleLastAndNicknameParts_ThenFullNameContainsAllPartsExceptNickname()
+    [Fact]
+    public void HavingInstanceWithFirstMiddleLastAndNicknameParts_ThenFullNameContainsAllPartsExceptNickname()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                FirstName = "first",
-                MiddleName = "middle",
-                LastName = "last",
-                Nickname = "nick"
-            };
+            FirstName = "first",
+            MiddleName = "middle",
+            LastName = "last",
+            Nickname = "nick"
+        };
 
-            string actual = personName.FullName;
+        string actual = personName.FullName;
 
-            actual.Should().Be("first middle last");
-        }
+        actual.Should().Be("first middle last");
     }
 }

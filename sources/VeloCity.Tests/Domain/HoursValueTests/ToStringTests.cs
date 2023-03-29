@@ -16,52 +16,51 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests
+namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests;
+
+public class ToStringTests
 {
-    public class ToStringTests
+    [Fact]
+    public void HavingZeroHoursValue_WhenSerialized_ThenReturnsTextContainingDash()
     {
-        [Fact]
-        public void HavingZeroHoursValue_WhenSerialized_ThenReturnsTextContainingDash()
+        HoursValue hoursValue = new();
+
+        string actual = hoursValue.ToString();
+
+        actual.Should().Be("- h");
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(5)]
+    [InlineData(12)]
+    [InlineData(129347628)]
+    public void HavingPositiveHoursValue_WhenSerialized_ThenReturnsTextContainingTheValue(int hours)
+    {
+        HoursValue hoursValue = new()
         {
-            HoursValue hoursValue = new();
+            Value = hours
+        };
 
-            string actual = hoursValue.ToString();
+        string actual = hoursValue.ToString();
 
-            actual.Should().Be("- h");
-        }
+        actual.Should().Be(hours + " h");
+    }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(5)]
-        [InlineData(12)]
-        [InlineData(129347628)]
-        public void HavingPositiveHoursValue_WhenSerialized_ThenReturnsTextContainingTheValue(int hours)
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(-5)]
+    [InlineData(-12)]
+    [InlineData(-2345603)]
+    public void HavingNegativeHoursValue_WhenSerialized_ThenReturnsTextContainingTheValue(int hours)
+    {
+        HoursValue hoursValue = new()
         {
-            HoursValue hoursValue = new()
-            {
-                Value = hours
-            };
+            Value = hours
+        };
 
-            string actual = hoursValue.ToString();
+        string actual = hoursValue.ToString();
 
-            actual.Should().Be(hours + " h");
-        }
-
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(-5)]
-        [InlineData(-12)]
-        [InlineData(-2345603)]
-        public void HavingNegativeHoursValue_WhenSerialized_ThenReturnsTextContainingTheValue(int hours)
-        {
-            HoursValue hoursValue = new()
-            {
-                Value = hours
-            };
-
-            string actual = hoursValue.ToString();
-
-            actual.Should().Be(hours + " h");
-        }
+        actual.Should().Be(hours + " h");
     }
 }

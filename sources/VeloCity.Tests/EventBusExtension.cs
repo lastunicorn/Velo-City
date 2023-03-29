@@ -16,13 +16,12 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests
+namespace DustInTheWind.VeloCity.Tests;
+
+internal static class EventBusExtension
 {
-    internal static class EventBusExtension
+    public static EventBusClient<T> CreateMockSubscriberFor<T>(this EventBus eventBus)
     {
-        public static EventBusClient<T> CreateMockSubscriberFor<T>(this EventBus eventBus)
-        {
-            return new EventBusClient<T>(eventBus);
-        }
+        return new EventBusClient<T>(eventBus);
     }
 }

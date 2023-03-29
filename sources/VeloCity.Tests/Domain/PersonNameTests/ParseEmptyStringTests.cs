@@ -16,39 +16,38 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class ParseEmptyStringTests
 {
-    public class ParseEmptyStringTests
+    private readonly PersonName personName;
+
+    public ParseEmptyStringTests()
     {
-        private readonly PersonName personName;
+        personName = PersonName.Parse(string.Empty);
+    }
 
-        public ParseEmptyStringTests()
-        {
-            personName = PersonName.Parse(string.Empty);
-        }
+    [Fact]
+    public void WhenParsingEmptyString_ThenFirstNameIsNull()
+    {
+        personName.FirstName.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenParsingEmptyString_ThenFirstNameIsNull()
-        {
-            personName.FirstName.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingEmptyString_ThenMiddleNameIsNull()
+    {
+        personName.MiddleName.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenParsingEmptyString_ThenMiddleNameIsNull()
-        {
-            personName.MiddleName.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingEmptyString_ThenLastNameIsNull()
+    {
+        personName.LastName.Should().BeNull();
+    }
 
-        [Fact]
-        public void WhenParsingEmptyString_ThenLastNameIsNull()
-        {
-            personName.LastName.Should().BeNull();
-        }
-
-        [Fact]
-        public void WhenParsingEmptyString_ThenNicknameIsNull()
-        {
-            personName.Nickname.Should().BeNull();
-        }
+    [Fact]
+    public void WhenParsingEmptyString_ThenNicknameIsNull()
+    {
+        personName.Nickname.Should().BeNull();
     }
 }

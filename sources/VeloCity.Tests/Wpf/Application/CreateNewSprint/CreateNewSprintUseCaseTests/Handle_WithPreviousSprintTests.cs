@@ -49,13 +49,13 @@ public class Handle_WithPreviousSprintTests
             .Returns(sprintRepository.Object);
 
         lastSprint = new Sprint();
-        
+
         sprintRepository
             .Setup(x => x.GetLast())
             .Returns(lastSprint);
 
         userInterface = new Mock<IUserInterface>();
-        
+
         confirmationResponse = new SprintNewConfirmationResponse();
 
         userInterface
@@ -90,10 +90,10 @@ public class Handle_WithPreviousSprintTests
     public async Task HavingASprintInRepositoryAndUserAcceptsNewSprint_WhenUseCaseIsExecuted_ThenNewSprintIsAddedInTheRepository()
     {
         // Arrange
-        
+
         lastSprint.Id = 34;
         lastSprint.Number = 129;
-        
+
         confirmationResponse.IsAccepted = true;
         confirmationResponse.SprintTitle = "new sprint title";
         confirmationResponse.SprintTimeInterval = new DateInterval(new DateTime(2021, 10, 01), new DateTime(2021, 10, 14));
@@ -105,12 +105,12 @@ public class Handle_WithPreviousSprintTests
             .Callback<Sprint>(sprint => actualNewSprint = sprint);
 
         // Act
-        
+
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 
         // Assert
-        
+
         Sprint expectedSprint = new()
         {
             Id = 0,
@@ -166,7 +166,7 @@ public class Handle_WithPreviousSprintTests
             .Callback<Sprint>(sprint => actualSprint = sprint);
 
         EventBusClient<SprintsListChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintsListChangedEvent>();
-        
+
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 

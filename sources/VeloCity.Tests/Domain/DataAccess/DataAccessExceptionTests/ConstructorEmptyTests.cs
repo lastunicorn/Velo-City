@@ -14,27 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DataAccessExceptionTests;
+
+public class ConstructorEmptyTests
 {
-    public class ConstructorEmptyTests
+    [Fact]
+    public void WhenCreatingInstanceWithoutParameters_ThenMessageIsTheDefaultOne()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithoutParameters_ThenMessageIsTheDefaultOne()
-        {
-            DataAccessException dataAccessException = new();
+        DataAccessException dataAccessException = new();
 
-            dataAccessException.Message.Should().Be(DustInTheWind.VeloCity.Ports.DataAccess.Resources.DataAccess_DefaultErrorMessage);
-        }
+        dataAccessException.Message.Should().Be(Resources.DataAccess_DefaultErrorMessage);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithoutParameters_ThenInnerExceptionIsNull()
-        {
-            DataAccessException dataAccessException = new();
+    [Fact]
+    public void WhenCreatingInstanceWithoutParameters_ThenInnerExceptionIsNull()
+    {
+        DataAccessException dataAccessException = new();
 
-            dataAccessException.InnerException.Should().BeNull();
-        }
+        dataAccessException.InnerException.Should().BeNull();
     }
 }

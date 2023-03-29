@@ -52,13 +52,13 @@ public class Handle_NoPreviousSprintTests
             .Returns(null as Sprint);
 
         userInterface = new Mock<IUserInterface>();
-        
+
         confirmationResponse = new SprintNewConfirmationResponse();
 
         userInterface
             .Setup(x => x.ConfirmNewSprint(It.IsAny<SprintNewConfirmationRequest>()))
             .Returns(confirmationResponse);
-        
+
         eventBus = new EventBus();
         applicationState = new ApplicationState();
 
@@ -70,7 +70,7 @@ public class Handle_NoPreviousSprintTests
     {
         // confirmationResponse.IsAccepted = true;
         // confirmationResponse.SprintTimeInterval = new DateInterval(new DateTime(2021, 10, 01), new DateTime(2021, 10, 14));
-        
+
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 
@@ -157,7 +157,7 @@ public class Handle_NoPreviousSprintTests
             .Callback<Sprint>(sprint => actualSprint = sprint);
 
         EventBusClient<SprintsListChangedEvent> eventBusClient = eventBus.CreateMockSubscriberFor<SprintsListChangedEvent>();
-        
+
         CreateNewSprintRequest request = new();
         await useCase.Handle(request, CancellationToken.None);
 

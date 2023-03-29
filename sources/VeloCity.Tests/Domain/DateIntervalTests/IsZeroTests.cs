@@ -17,43 +17,42 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DateIntervalTests;
+
+public class IsZeroTests
 {
-    public class IsZeroTests
+    [Fact]
+    public void HavingInstanceWithoutDates_ThenIsZeroIsFalse()
     {
-        [Fact]
-        public void HavingInstanceWithoutDates_ThenIsZeroIsFalse()
-        {
-            DateInterval dateInterval = new();
-            dateInterval.IsZero.Should().BeFalse();
-        }
+        DateInterval dateInterval = new();
+        dateInterval.IsZero.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyStartDate_ThenIsZeroIsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15));
-            dateInterval.IsZero.Should().BeFalse();
-        }
+    [Fact]
+    public void HavingInstanceWithOnlyStartDate_ThenIsZeroIsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15));
+        dateInterval.IsZero.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOnlyEndDate_ThenIsZeroIsFalse()
-        {
-            DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
-            dateInterval.IsZero.Should().BeFalse();
-        }
+    [Fact]
+    public void HavingInstanceWithOnlyEndDate_ThenIsZeroIsFalse()
+    {
+        DateInterval dateInterval = new(null, new DateTime(2020, 03, 15));
+        dateInterval.IsZero.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithBothDates_ThenIsZeroIsFalse()
-        {
-            DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
-            dateInterval.IsZero.Should().BeFalse();
-        }
+    [Fact]
+    public void HavingInstanceWithBothDates_ThenIsZeroIsFalse()
+    {
+        DateInterval dateInterval = new(new DateTime(2020, 03, 15), new DateTime(2022, 04, 12));
+        dateInterval.IsZero.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithSameValueForStartAndEndDates_ThenIsZeroIsTrue()
-        {
-            DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
-            dateInterval.IsZero.Should().BeTrue();
-        }
+    [Fact]
+    public void HavingInstanceWithSameValueForStartAndEndDates_ThenIsZeroIsTrue()
+    {
+        DateInterval dateInterval = new(new DateTime(2021, 07, 05), new DateTime(2021, 07, 05));
+        dateInterval.IsZero.Should().BeTrue();
     }
 }

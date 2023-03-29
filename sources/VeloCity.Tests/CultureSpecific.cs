@@ -17,38 +17,37 @@
 using System;
 using System.Globalization;
 
-namespace DustInTheWind.VeloCity.Tests
+namespace DustInTheWind.VeloCity.Tests;
+
+internal static class CultureSpecific
 {
-    internal static class CultureSpecific
+    public static T RunUsingCulture<T>(CultureInfo cultureInfo, Func<T> action)
     {
-        public static T RunUsingCulture<T>(CultureInfo cultureInfo, Func<T> action)
-        {
-            CultureInfo oldCultureInfo = CultureInfo.CurrentCulture;
-            CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo oldCultureInfo = CultureInfo.CurrentCulture;
+        CultureInfo.CurrentCulture = cultureInfo;
 
-            try
-            {
-                return action();
-            }
-            finally
-            {
-                CultureInfo.CurrentCulture = oldCultureInfo;
-            }
+        try
+        {
+            return action();
         }
-
-        public static void RunUsingCulture(CultureInfo cultureInfo, Action action)
+        finally
         {
-            CultureInfo oldCultureInfo = CultureInfo.CurrentCulture;
-            CultureInfo.CurrentCulture = cultureInfo;
+            CultureInfo.CurrentCulture = oldCultureInfo;
+        }
+    }
 
-            try
-            {
-                action();
-            }
-            finally
-            {
-                CultureInfo.CurrentCulture = oldCultureInfo;
-            }
+    public static void RunUsingCulture(CultureInfo cultureInfo, Action action)
+    {
+        CultureInfo oldCultureInfo = CultureInfo.CurrentCulture;
+        CultureInfo.CurrentCulture = cultureInfo;
+
+        try
+        {
+            action();
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = oldCultureInfo;
         }
     }
 }

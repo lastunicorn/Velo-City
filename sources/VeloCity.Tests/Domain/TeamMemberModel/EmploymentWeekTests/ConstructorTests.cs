@@ -18,93 +18,92 @@ using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentWeekTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentWeekTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingEmploymentWeekWithoutDays_ThenContainsMondayToFridayDays()
     {
-        [Fact]
-        public void WhenCreatingEmploymentWeekWithoutDays_ThenContainsMondayToFridayDays()
-        {
-            EmploymentWeek employmentWeek = new();
+        EmploymentWeek employmentWeek = new();
 
-            IEnumerable<DayOfWeek> days = employmentWeek;
+        IEnumerable<DayOfWeek> days = employmentWeek;
 
-            days.Should().HaveCount(5)
-                .And.ContainInOrder(new[]
-                {
-                    DayOfWeek.Monday,
-                    DayOfWeek.Tuesday,
-                    DayOfWeek.Wednesday,
-                    DayOfWeek.Thursday,
-                    DayOfWeek.Friday
-                });
-        }
+        days.Should().HaveCount(5)
+            .And.ContainInOrder(new[]
+            {
+                DayOfWeek.Monday,
+                DayOfWeek.Tuesday,
+                DayOfWeek.Wednesday,
+                DayOfWeek.Thursday,
+                DayOfWeek.Friday
+            });
+    }
 
-        [Fact]
-        public void WhenCreatingEmploymentWeekWithoutDays_ThenIsDefaultIsTrue()
-        {
-            EmploymentWeek employmentWeek = new();
+    [Fact]
+    public void WhenCreatingEmploymentWeekWithoutDays_ThenIsDefaultIsTrue()
+    {
+        EmploymentWeek employmentWeek = new();
 
-            employmentWeek.IsDefault.Should().BeTrue();
-        }
+        employmentWeek.IsDefault.Should().BeTrue();
+    }
 
-        [Theory]
-        [InlineData(DayOfWeek.Monday)]
-        [InlineData(DayOfWeek.Tuesday)]
-        [InlineData(DayOfWeek.Wednesday)]
-        [InlineData(DayOfWeek.Thursday)]
-        [InlineData(DayOfWeek.Friday)]
-        [InlineData(DayOfWeek.Saturday)]
-        [InlineData(DayOfWeek.Sunday)]
-        public void WhenCreatingEmploymentWeekWithOneDay_ThenContainsThatDay(DayOfWeek dayOfWeek)
-        {
-            EmploymentWeek employmentWeek = new(new[] { dayOfWeek });
+    [Theory]
+    [InlineData(DayOfWeek.Monday)]
+    [InlineData(DayOfWeek.Tuesday)]
+    [InlineData(DayOfWeek.Wednesday)]
+    [InlineData(DayOfWeek.Thursday)]
+    [InlineData(DayOfWeek.Friday)]
+    [InlineData(DayOfWeek.Saturday)]
+    [InlineData(DayOfWeek.Sunday)]
+    public void WhenCreatingEmploymentWeekWithOneDay_ThenContainsThatDay(DayOfWeek dayOfWeek)
+    {
+        EmploymentWeek employmentWeek = new(new[] { dayOfWeek });
 
-            IEnumerable<DayOfWeek> days = employmentWeek;
+        IEnumerable<DayOfWeek> days = employmentWeek;
 
-            days.Should().HaveCount(1)
-                .And.ContainInOrder(dayOfWeek);
-        }
+        days.Should().HaveCount(1)
+            .And.ContainInOrder(dayOfWeek);
+    }
 
-        [Theory]
-        [InlineData(DayOfWeek.Monday)]
-        [InlineData(DayOfWeek.Tuesday)]
-        [InlineData(DayOfWeek.Wednesday)]
-        [InlineData(DayOfWeek.Thursday)]
-        [InlineData(DayOfWeek.Friday)]
-        [InlineData(DayOfWeek.Saturday)]
-        [InlineData(DayOfWeek.Sunday)]
-        public void WhenCreatingEmploymentWeekWithOneDay_ThenIsDefaultIsFalse(DayOfWeek dayOfWeek)
-        {
-            EmploymentWeek employmentWeek = new(new[] { dayOfWeek });
+    [Theory]
+    [InlineData(DayOfWeek.Monday)]
+    [InlineData(DayOfWeek.Tuesday)]
+    [InlineData(DayOfWeek.Wednesday)]
+    [InlineData(DayOfWeek.Thursday)]
+    [InlineData(DayOfWeek.Friday)]
+    [InlineData(DayOfWeek.Saturday)]
+    [InlineData(DayOfWeek.Sunday)]
+    public void WhenCreatingEmploymentWeekWithOneDay_ThenIsDefaultIsFalse(DayOfWeek dayOfWeek)
+    {
+        EmploymentWeek employmentWeek = new(new[] { dayOfWeek });
 
-            employmentWeek.IsDefault.Should().BeFalse();
-        }
+        employmentWeek.IsDefault.Should().BeFalse();
+    }
 
-        [Fact]
-        public void WhenCreatingEmploymentWeekWithNullCollectionOfDays_ThenContainsMondayToFridayDays()
-        {
-            EmploymentWeek employmentWeek = new(null);
+    [Fact]
+    public void WhenCreatingEmploymentWeekWithNullCollectionOfDays_ThenContainsMondayToFridayDays()
+    {
+        EmploymentWeek employmentWeek = new(null);
 
-            IEnumerable<DayOfWeek> days = employmentWeek;
+        IEnumerable<DayOfWeek> days = employmentWeek;
 
-            days.Should().HaveCount(5)
-                .And.ContainInOrder(new[]
-                {
-                    DayOfWeek.Monday,
-                    DayOfWeek.Tuesday,
-                    DayOfWeek.Wednesday,
-                    DayOfWeek.Thursday,
-                    DayOfWeek.Friday
-                });
-        }
+        days.Should().HaveCount(5)
+            .And.ContainInOrder(new[]
+            {
+                DayOfWeek.Monday,
+                DayOfWeek.Tuesday,
+                DayOfWeek.Wednesday,
+                DayOfWeek.Thursday,
+                DayOfWeek.Friday
+            });
+    }
 
-        [Fact]
-        public void WhenCreatingEmploymentWeekWithNullCollectionOfDays_ThenIsDefaultIsTrue()
-        {
-            EmploymentWeek employmentWeek = new(null);
+    [Fact]
+    public void WhenCreatingEmploymentWeekWithNullCollectionOfDays_ThenIsDefaultIsTrue()
+    {
+        EmploymentWeek employmentWeek = new(null);
 
-            employmentWeek.IsDefault.Should().BeTrue();
-        }
+        employmentWeek.IsDefault.Should().BeTrue();
     }
 }

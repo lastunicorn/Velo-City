@@ -16,39 +16,38 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests
+namespace DustInTheWind.VeloCity.Tests.Domain.StoryPointsTests;
+
+public class ConstructorEmptyTests
 {
-    public class ConstructorEmptyTests
+    private readonly StoryPoints storyPoints;
+
+    public ConstructorEmptyTests()
     {
-        private readonly StoryPoints storyPoints;
+        storyPoints = new StoryPoints();
+    }
 
-        public ConstructorEmptyTests()
-        {
-            storyPoints = new StoryPoints();
-        }
+    [Fact]
+    public void WhenCreatingNewInstance_ThenValueIsZero()
+    {
+        storyPoints.Value.Should().Be(0);
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstance_ThenValueIsZero()
-        {
-            storyPoints.Value.Should().Be(0);
-        }
+    [Fact]
+    public void WhenCreatingNewInstance_ThenIsNullIsFalse()
+    {
+        storyPoints.IsEmpty.Should().BeFalse();
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstance_ThenIsNullIsFalse()
-        {
-            storyPoints.IsEmpty.Should().BeFalse();
-        }
+    [Fact]
+    public void WhenCreatingNewInstance_ThenIsNotNullIsTrue()
+    {
+        storyPoints.IsNotEmpty.Should().BeTrue();
+    }
 
-        [Fact]
-        public void WhenCreatingNewInstance_ThenIsNotNullIsTrue()
-        {
-            storyPoints.IsNotEmpty.Should().BeTrue();
-        }
-
-        [Fact]
-        public void WhenCreatingNewInstance_ThenIsEmptyIsTrue()
-        {
-            storyPoints.IsZero.Should().BeTrue();
-        }
+    [Fact]
+    public void WhenCreatingNewInstance_ThenIsEmptyIsTrue()
+    {
+        storyPoints.IsZero.Should().BeTrue();
     }
 }

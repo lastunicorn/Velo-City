@@ -16,76 +16,75 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests
+namespace DustInTheWind.VeloCity.Tests.Domain.PersonNameTests;
+
+public class ShortNameTests
 {
-    public class ShortNameTests
+    [Fact]
+    public void HavingEmptyInstance_ThenShortNameIsNull()
     {
-        [Fact]
-        public void HavingEmptyInstance_ThenShortNameIsNull()
+        PersonName personName = new();
+
+        string actual = personName.ShortName;
+
+        actual.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingInstanceWithAllParts_ThenShortNameIsNickname()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new();
+            FirstName = "first",
+            MiddleName = "middle",
+            LastName = "last",
+            Nickname = "nick"
+        };
 
-            string actual = personName.ShortName;
+        string actual = personName.ShortName;
 
-            actual.Should().BeNull();
-        }
+        actual.Should().Be("nick");
+    }
 
-        [Fact]
-        public void HavingInstanceWithAllParts_ThenShortNameIsNickname()
+    [Fact]
+    public void HavingInstanceWithFirstMiddleAndLastParts_ThenShortNameIsFirstName()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                FirstName = "first",
-                MiddleName = "middle",
-                LastName = "last",
-                Nickname = "nick"
-            };
+            FirstName = "first",
+            MiddleName = "middle",
+            LastName = "last"
+        };
 
-            string actual = personName.ShortName;
+        string actual = personName.ShortName;
 
-            actual.Should().Be("nick");
-        }
+        actual.Should().Be("first");
+    }
 
-        [Fact]
-        public void HavingInstanceWithFirstMiddleAndLastParts_ThenShortNameIsFirstName()
+    [Fact]
+    public void HavingInstanceWithMiddleAndLastParts_ThenShortNameIsMiddleName()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                FirstName = "first",
-                MiddleName = "middle",
-                LastName = "last"
-            };
+            MiddleName = "middle",
+            LastName = "last"
+        };
 
-            string actual = personName.ShortName;
+        string actual = personName.ShortName;
 
-            actual.Should().Be("first");
-        }
+        actual.Should().Be("middle");
+    }
 
-        [Fact]
-        public void HavingInstanceWithMiddleAndLastParts_ThenShortNameIsMiddleName()
+    [Fact]
+    public void HavingInstanceWithLastName_ThenShortNameIsLastName()
+    {
+        PersonName personName = new()
         {
-            PersonName personName = new()
-            {
-                MiddleName = "middle",
-                LastName = "last"
-            };
+            LastName = "last"
+        };
 
-            string actual = personName.ShortName;
+        string actual = personName.ShortName;
 
-            actual.Should().Be("middle");
-        }
-
-        [Fact]
-        public void HavingInstanceWithLastName_ThenShortNameIsLastName()
-        {
-            PersonName personName = new()
-            {
-                LastName = "last"
-            };
-
-            string actual = personName.ShortName;
-
-            actual.Should().Be("last");
-        }
+        actual.Should().Be("last");
     }
 }

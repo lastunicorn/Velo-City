@@ -17,44 +17,43 @@
 using System;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintListTests
+namespace DustInTheWind.VeloCity.Tests.Domain.SprintModel.SprintListTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenInstantiatingFromNull_ThenThrows()
     {
-        [Fact]
-        public void WhenInstantiatingFromNull_ThenThrows()
-        {
-            Action action = () => new SprintList(null);
+        Action action = () => new SprintList(null);
 
-            action.Should().Throw<ArgumentNullException>();
-        }
+        action.Should().Throw<ArgumentNullException>();
+    }
 
-        [Fact]
-        public void WhenInstantiatingFromEmptyCollection_ThenListIsEmpty()
-        {
-            SprintList sprintList = new(Array.Empty<Sprint>());
+    [Fact]
+    public void WhenInstantiatingFromEmptyCollection_ThenListIsEmpty()
+    {
+        SprintList sprintList = new(Array.Empty<Sprint>());
 
-            sprintList.Should().BeEmpty();
-        }
+        sprintList.Should().BeEmpty();
+    }
 
-        [Fact]
-        public void WhenInstantiatingFromCollectionOfOneSprint_ThenListContainsThatSprint()
-        {
-            Sprint[] collectionOfSprints = { new() };
-            SprintList sprintList = new(collectionOfSprints);
+    [Fact]
+    public void WhenInstantiatingFromCollectionOfOneSprint_ThenListContainsThatSprint()
+    {
+        Sprint[] collectionOfSprints = { new() };
+        SprintList sprintList = new(collectionOfSprints);
 
-            sprintList.Should().HaveCount(1)
-                .And.ContainInOrder(collectionOfSprints);
-        }
+        sprintList.Should().HaveCount(1)
+            .And.ContainInOrder(collectionOfSprints);
+    }
 
-        [Fact]
-        public void WhenInstantiatingFromCollectionOfTwoSprints_ThenListContainsThoseSprints()
-        {
-            Sprint[] collectionOfSprints = { new(), new() };
-            SprintList sprintList = new(collectionOfSprints);
+    [Fact]
+    public void WhenInstantiatingFromCollectionOfTwoSprints_ThenListContainsThoseSprints()
+    {
+        Sprint[] collectionOfSprints = { new(), new() };
+        SprintList sprintList = new(collectionOfSprints);
 
-            sprintList.Should().HaveCount(2)
-                .And.ContainInOrder(collectionOfSprints);
-        }
+        sprintList.Should().HaveCount(2)
+            .And.ContainInOrder(collectionOfSprints);
     }
 }

@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DatabaseNotFoundExceptionTests
+namespace DustInTheWind.VeloCity.Tests.Domain.DataAccess.DatabaseNotFoundExceptionTests;
+
+public class ConstructorTests
 {
-    public class ConstructorTests
+    [Fact]
+    public void WhenCreatingInstanceWithNullConnectionString_ThenMessageContainsEmptyConnectionString()
     {
-        [Fact]
-        public void WhenCreatingInstanceWithNullConnectionString_ThenMessageContainsEmptyConnectionString()
-        {
-            DatabaseNotFoundException databaseNotFoundException = new(null);
+        DatabaseNotFoundException databaseNotFoundException = new(null);
 
-            string expected = string.Format(DustInTheWind.VeloCity.Ports.DataAccess.Resources.DatabaseNotFound_DefaultErrorMessage, null as string);
-            databaseNotFoundException.Message.Should().Be(expected);
-        }
+        string expected = string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, null as string);
+        databaseNotFoundException.Message.Should().Be(expected);
+    }
 
-        [Fact]
-        public void WhenCreatingInstanceWithSpecificConnectionString_ThenMessageContainsThatConnectionString()
-        {
-            DatabaseNotFoundException databaseNotFoundException = new("custom connection string");
+    [Fact]
+    public void WhenCreatingInstanceWithSpecificConnectionString_ThenMessageContainsThatConnectionString()
+    {
+        DatabaseNotFoundException databaseNotFoundException = new("custom connection string");
 
-            string expected = string.Format(DustInTheWind.VeloCity.Ports.DataAccess.Resources.DatabaseNotFound_DefaultErrorMessage, "custom connection string");
-            databaseNotFoundException.Message.Should().Be(expected);
-        }
+        string expected = string.Format(Resources.DatabaseNotFound_DefaultErrorMessage, "custom connection string");
+        databaseNotFoundException.Message.Should().Be(expected);
     }
 }

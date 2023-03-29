@@ -16,31 +16,30 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests
+namespace DustInTheWind.VeloCity.Tests.Domain.HoursValueTests;
+
+public class ImplicitOperatorNullableInt32ToHoursValueTests
 {
-    public class ImplicitOperatorNullableInt32ToHoursValueTests
+    [Fact]
+    public void WhenConvertingNullToHoursValue_ThenValueIs0()
     {
-        [Fact]
-        public void WhenConvertingNullToHoursValue_ThenValueIs0()
-        {
-            int? value = null;
+        int? value = null;
 
-            HoursValue actual = value;
+        HoursValue actual = value;
 
-            actual.Value.Should().Be(0);
-        }
+        actual.Value.Should().Be(0);
+    }
 
-        [Theory]
-        [InlineData(0)]
-        [InlineData(1)]
-        [InlineData(100)]
-        [InlineData(-1)]
-        [InlineData(-100)]
-        public void HavingANumber_WhenConvertingItToHoursValue_ThenValueIsThatNumber(int? value)
-        {
-            HoursValue actual = value;
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(100)]
+    [InlineData(-1)]
+    [InlineData(-100)]
+    public void HavingANumber_WhenConvertingItToHoursValue_ThenValueIsThatNumber(int? value)
+    {
+        HoursValue actual = value;
 
-            actual.Value.Should().Be(value);
-        }
+        actual.Value.Should().Be(value);
     }
 }

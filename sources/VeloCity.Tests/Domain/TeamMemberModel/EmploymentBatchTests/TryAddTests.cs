@@ -20,117 +20,116 @@ using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentBatchTests;
+
+public class TryAddTests
 {
-    public class TryAddTests
+    [Fact]
+    public void HavingEmptyInstance_WhenTryToAddNull_ThenThrows()
     {
-        [Fact]
-        public void HavingEmptyInstance_WhenTryToAddNull_ThenThrows()
+        EmploymentBatch employmentBatch = new();
+
+        Action action = () => employmentBatch.TryAddBeforeOldest(null);
+
+        action.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void HavingEmptyInstance_WhenTryToAddEmployment_ThenInstanceContainsOnlyThatEmployment()
+    {
+        EmploymentBatch employmentBatch = new();
+        Employment employment = new();
+
+        employmentBatch.TryAddBeforeOldest(employment);
+
+        List<Employment> actual = employmentBatch.ToList();
+
+        actual.Should().HaveCount(1);
+        actual.Should().ContainInOrder(employment);
+    }
+
+    [Fact]
+    public void HavingEmptyInstance_WhenTryToAddEmployment_ThenReturnsTrue()
+    {
+        EmploymentBatch employmentBatch = new();
+        Employment employment = new();
+
+        bool success = employmentBatch.TryAddBeforeOldest(employment);
+
+        success.Should().BeTrue();
+    }
+
+    [Fact]
+    public void HavingInstanceWithOneFiniteEmployment_WhenTryToAddEmploymentInTheDistantFuture_ThenInstanceContainsOnlyTheInitialEmployment()
+    {
+        Employment employment1 = new()
         {
-            EmploymentBatch employmentBatch = new();
-
-            Action action = () => employmentBatch.TryAddBeforeOldest(null);
-
-            action.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void HavingEmptyInstance_WhenTryToAddEmployment_ThenInstanceContainsOnlyThatEmployment()
+            TimeInterval = new DateInterval(new DateTime(2022, 02, 25), new DateTime(2022, 03, 20))
+        };
+        Employment employment2 = new()
         {
-            EmploymentBatch employmentBatch = new();
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2022, 04, 01))
+        };
+        EmploymentBatch employmentBatch = new(employment1);
 
-            employmentBatch.TryAddBeforeOldest(employment);
+        employmentBatch.TryAddBeforeOldest(employment2);
 
-            List<Employment> actual = employmentBatch.ToList();
+        employmentBatch.Should().HaveCount(1);
+        employmentBatch.Should().ContainInOrder(employment1);
+    }
 
-            actual.Should().HaveCount(1);
-            actual.Should().ContainInOrder(employment);
-        }
-
-        [Fact]
-        public void HavingEmptyInstance_WhenTryToAddEmployment_ThenReturnsTrue()
+    [Fact]
+    public void HavingInstanceWithOneFiniteEmployment_WhenTryToAddEmploymentInTheDistantFuture_ThenReturnsFalse()
+    {
+        Employment employment1 = new()
         {
-            EmploymentBatch employmentBatch = new();
-            Employment employment = new();
-
-            bool success = employmentBatch.TryAddBeforeOldest(employment);
-
-            success.Should().BeTrue();
-        }
-
-        [Fact]
-        public void HavingInstanceWithOneFiniteEmployment_WhenTryToAddEmploymentInTheDistantFuture_ThenInstanceContainsOnlyTheInitialEmployment()
+            TimeInterval = new DateInterval(new DateTime(2022, 02, 25), new DateTime(2022, 03, 20))
+        };
+        Employment employment2 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 02, 25), new DateTime(2022, 03, 20))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 04, 01))
-            };
-            EmploymentBatch employmentBatch = new(employment1);
+            TimeInterval = new DateInterval(new DateTime(2022, 04, 01))
+        };
+        EmploymentBatch employmentBatch = new(employment1);
 
-            employmentBatch.TryAddBeforeOldest(employment2);
+        bool success = employmentBatch.TryAddBeforeOldest(employment2);
 
-            employmentBatch.Should().HaveCount(1);
-            employmentBatch.Should().ContainInOrder(employment1);
-        }
+        success.Should().BeFalse();
+    }
 
-        [Fact]
-        public void HavingInstanceWithOneFiniteEmployment_WhenTryToAddEmploymentInTheDistantFuture_ThenReturnsFalse()
+    [Fact]
+    public void HavingInstanceWithOneFiniteEmployment_WhenTryToAddEmploymentImmediatelyBeforeExistingOne_ThenInstanceContainsTheTwoEmploymentsInOrder()
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 02, 25), new DateTime(2022, 03, 20))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 04, 01))
-            };
-            EmploymentBatch employmentBatch = new(employment1);
-
-            bool success = employmentBatch.TryAddBeforeOldest(employment2);
-
-            success.Should().BeFalse();
-        }
-
-        [Fact]
-        public void HavingInstanceWithOneFiniteEmployment_WhenTryToAddEmploymentImmediatelyBeforeExistingOne_ThenInstanceContainsTheTwoEmploymentsInOrder()
+            TimeInterval = new DateInterval(new DateTime(2022, 02, 25), new DateTime(2022, 03, 20))
+        };
+        Employment employment2 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 02, 25), new DateTime(2022, 03, 20))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 21), new DateTime(2022, 02, 24))
-            };
-            EmploymentBatch employmentBatch = new(employment1);
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 21), new DateTime(2022, 02, 24))
+        };
+        EmploymentBatch employmentBatch = new(employment1);
 
-            employmentBatch.TryAddBeforeOldest(employment2);
+        employmentBatch.TryAddBeforeOldest(employment2);
 
-            employmentBatch.Should().HaveCount(2);
-            employmentBatch.Should().ContainInOrder(employment1, employment2);
-        }
+        employmentBatch.Should().HaveCount(2);
+        employmentBatch.Should().ContainInOrder(employment1, employment2);
+    }
 
-        [Fact]
-        public void HavingInstanceWithOneFiniteEmployment_WhenTryToAddEmploymentImmediatelyBeforeExistingOne_ThenReturnsTrue()
+    [Fact]
+    public void HavingInstanceWithOneFiniteEmployment_WhenTryToAddEmploymentImmediatelyBeforeExistingOne_ThenReturnsTrue()
+    {
+        Employment employment1 = new()
         {
-            Employment employment1 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 02, 25), new DateTime(2022, 03, 20))
-            };
-            Employment employment2 = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2022, 01, 21), new DateTime(2022, 02, 24))
-            };
-            EmploymentBatch employmentBatch = new(employment1);
+            TimeInterval = new DateInterval(new DateTime(2022, 02, 25), new DateTime(2022, 03, 20))
+        };
+        Employment employment2 = new()
+        {
+            TimeInterval = new DateInterval(new DateTime(2022, 01, 21), new DateTime(2022, 02, 24))
+        };
+        EmploymentBatch employmentBatch = new(employment1);
 
-            bool success = employmentBatch.TryAddBeforeOldest(employment2);
+        bool success = employmentBatch.TryAddBeforeOldest(employment2);
 
-            success.Should().BeTrue();
-        }
+        success.Should().BeTrue();
     }
 }

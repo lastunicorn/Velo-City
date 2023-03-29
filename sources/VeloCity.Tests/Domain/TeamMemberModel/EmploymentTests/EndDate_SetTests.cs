@@ -18,100 +18,99 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests
+namespace DustInTheWind.VeloCity.Tests.Domain.TeamMemberModel.EmploymentTests;
+
+public class EndDate_SetTests
 {
-    public class EndDate_SetTests
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenEndDateIsSetToNull_ThenEndDateIsNull()
     {
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenEndDateIsSetToNull_ThenEndDateIsNull()
+        Employment employment = new();
+
+        employment.EndDate = null;
+
+        employment.EndDate.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenEndDateIsSetToNull_ThenTimeIntervalHasNullEndDate()
+    {
+        Employment employment = new();
+
+        employment.EndDate = null;
+
+        employment.TimeInterval.EndDate.Should().BeNull();
+    }
+
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenEndDateIsSetToFiniteValue_ThenEndDateIsThatValue()
+    {
+        Employment employment = new();
+
+        employment.EndDate = new DateTime(1601, 09, 12);
+
+        employment.EndDate.Should().Be(new DateTime(1601, 09, 12));
+    }
+
+    [Fact]
+    public void HavingFullInfiniteEmployment_WhenEndDateIsSetToFiniteValue_ThenTimeIntervalEndDateIsThatValue()
+    {
+        Employment employment = new();
+
+        employment.EndDate = new DateTime(1601, 09, 12);
+
+        employment.TimeInterval.EndDate.Should().Be(new DateTime(1601, 09, 12));
+    }
+
+    [Fact]
+    public void HavingFiniteEmployment_WhenEndDateIsSetToFiniteValue_ThenEndDateIsThatValue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
+        };
 
-            employment.EndDate = null;
+        employment.EndDate = new DateTime(2022, 09, 12);
 
-            employment.EndDate.Should().BeNull();
-        }
+        employment.EndDate.Should().Be(new DateTime(2022, 09, 12));
+    }
 
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenEndDateIsSetToNull_ThenTimeIntervalHasNullEndDate()
+    [Fact]
+    public void HavingFiniteEmployment_WhenEndDateIsSetToFiniteValue_ThenTimeIntervalEndDateIsThatValue()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
+        };
 
-            employment.EndDate = null;
+        employment.EndDate = new DateTime(2022, 09, 12);
 
-            employment.TimeInterval.EndDate.Should().BeNull();
-        }
+        employment.TimeInterval.EndDate.Should().Be(new DateTime(2022, 09, 12));
+    }
 
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenEndDateIsSetToFiniteValue_ThenEndDateIsThatValue()
+    [Fact]
+    public void HavingFiniteEmployment_WhenEndDateIsSetToNull_ThenEndDateIsNull()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
+        };
 
-            employment.EndDate = new DateTime(1601, 09, 12);
+        employment.EndDate = null;
 
-            employment.EndDate.Should().Be(new DateTime(1601, 09, 12));
-        }
+        employment.EndDate.Should().BeNull();
+    }
 
-        [Fact]
-        public void HavingFullInfiniteEmployment_WhenEndDateIsSetToFiniteValue_ThenTimeIntervalEndDateIsThatValue()
+    [Fact]
+    public void HavingFiniteEmployment_WhenEndDateIsSetToNull_ThenTimeIntervalEndDateIsNull()
+    {
+        Employment employment = new()
         {
-            Employment employment = new();
+            TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
+        };
 
-            employment.EndDate = new DateTime(1601, 09, 12);
+        employment.EndDate = null;
 
-            employment.TimeInterval.EndDate.Should().Be(new DateTime(1601, 09, 12));
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenEndDateIsSetToFiniteValue_ThenEndDateIsThatValue()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
-            };
-
-            employment.EndDate = new DateTime(2022, 09, 12);
-
-            employment.EndDate.Should().Be(new DateTime(2022, 09, 12));
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenEndDateIsSetToFiniteValue_ThenTimeIntervalEndDateIsThatValue()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
-            };
-
-            employment.EndDate = new DateTime(2022, 09, 12);
-
-            employment.TimeInterval.EndDate.Should().Be(new DateTime(2022, 09, 12));
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenEndDateIsSetToNull_ThenEndDateIsNull()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
-            };
-
-            employment.EndDate = null;
-
-            employment.EndDate.Should().BeNull();
-        }
-
-        [Fact]
-        public void HavingFiniteEmployment_WhenEndDateIsSetToNull_ThenTimeIntervalEndDateIsNull()
-        {
-            Employment employment = new()
-            {
-                TimeInterval = new DateInterval(new DateTime(2000, 01, 01), new DateTime(2011, 02, 02))
-            };
-
-            employment.EndDate = null;
-
-            employment.TimeInterval.EndDate.Should().BeNull();
-        }
+        employment.TimeInterval.EndDate.Should().BeNull();
     }
 }
