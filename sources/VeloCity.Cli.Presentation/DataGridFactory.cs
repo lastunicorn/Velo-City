@@ -48,20 +48,13 @@ namespace DustInTheWind.VeloCity.Cli.Presentation
 
         private BorderTemplate DecideBorderTemplate()
         {
-            switch (config.DataGridStyle)
+            return config.DataGridStyle switch
             {
-                case DataGridStyle.PlusMinus:
-                    return BorderTemplate.PlusMinusBorderTemplate;
-
-                case DataGridStyle.SingleLine:
-                    return BorderTemplate.SingleLineBorderTemplate;
-
-                case DataGridStyle.DoubleLine:
-                    return BorderTemplate.DoubleLineBorderTemplate;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                DataGridStyle.PlusMinus => BorderTemplate.PlusMinusBorderTemplate,
+                DataGridStyle.SingleLine => BorderTemplate.SingleLineBorderTemplate,
+                DataGridStyle.DoubleLine => BorderTemplate.DoubleLineBorderTemplate,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }

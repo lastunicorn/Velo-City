@@ -17,16 +17,15 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
+
+public class TeamMemberAbsence
 {
-    public class TeamMemberAbsence
-    {
-        public string Name { get; init; }
+    public string Name { get; init; }
 
-        public bool IsPartialVacation { get; init; }
+    public bool IsPartialVacation { get; init; }
 
-        public bool IsMissingByContract { get; init; }
-        
-        public HoursValue AbsenceHours { get; init; }
-    }
+    public bool IsMissingByContract { get; init; }
+
+    public HoursValue AbsenceHours { get; init; }
 }

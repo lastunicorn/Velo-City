@@ -15,70 +15,66 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
+
+public class SprintCalendarDay
 {
-    public class SprintCalendarDay
+    public DateTime Date { get; }
+
+    public bool IsCurrentDay { get; private set; }
+
+    public bool IsWorkDay { get; private set; }
+
+    public HoursValue? WorkHours { get; private set; }
+
+    public HoursValue? AbsenceHours { get; private set; }
+
+    public AbsenceGroupCollection AbsenceGroups { get; }
+    
+    public SprintCalendarDay(SprintDay sprintDay)
     {
-        public DateTime Date { get; }
+        if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
 
-        public bool IsCurrentDay { get; set; }
+        Date = sprintDay.Date;
 
-        public bool IsWorkDay { get; }
-
-        public HoursValue? WorkHours { get; }
-
-        public HoursValue? AbsenceHours { get; }
-        
-        public AbsenceGroupCollection AbsenceGroups { get; }
-
-        public SprintCalendarDay(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays, DateTime currentDate)
-        {
-            if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
-            if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
-
-            Date = sprintDay.Date;
-            IsCurrentDay = sprintDay.Date == currentDate;
-
-            IsWorkDay = sprintMemberDays.Any(x => x.IsWorkDay);
-
-            WorkHours = IsWorkDay
-                ? sprintMemberDays.Sum(x => x.WorkHours)
-                : null;
-
-            AbsenceHours = IsWorkDay
-                ? sprintMemberDays
-                    .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
-                    .Sum(x => x.AbsenceHours)
-                : null;
-            
-            AbsenceGroups = sprintDay.OfficialHolidays
-                .Select(x => new AbsenceGroup
-                {
-                    OfficialHoliday = new OfficialHolidayDto(x)
-                })
-                .ToAbsenceGroupCollection();
-
-            IEnumerable<SprintMemberDay> sprintMemberDaysWithAbsences = sprintMemberDays
-                .Where(x => x.AbsenceHours > 0 || x.AbsenceReason == AbsenceReason.Contract);
-
-            foreach (SprintMemberDay sprintMemberDay in sprintMemberDaysWithAbsences)
+        AbsenceGroups = sprintDay.OfficialHolidays
+            .Select(x => new AbsenceGroup
             {
-                TeamMemberAbsence teamMemberAbsence = new()
-                {
-                    Name = sprintMemberDay.TeamMember.Name.ShortName,
-                    IsPartialVacation = sprintMemberDay.WorkHours > 0,
-                    IsMissingByContract = sprintMemberDay.AbsenceReason == AbsenceReason.Contract,
-                    AbsenceHours = sprintMemberDay.AbsenceHours
-                };
+                OfficialHoliday = new OfficialHolidayDto(x)
+            })
+            .ToAbsenceGroupCollection();
+    }
 
-                string teamMemberCountry = sprintMemberDay.GetCountry();
-                AbsenceGroups.Add(teamMemberAbsence, teamMemberCountry);
-            }
+    internal void AddSprintMemberDay(SprintMemberDay sprintMemberDay)
+    {
+        IsWorkDay = IsWorkDay || sprintMemberDay.IsWorkDay;
+
+        WorkHours += sprintMemberDay.WorkHours;
+
+        if (sprintMemberDay.AbsenceReason != AbsenceReason.WeekEnd)
+            AbsenceHours += sprintMemberDay.AbsenceHours;
+
+        if (sprintMemberDay.AbsenceHours > 0 || sprintMemberDay.AbsenceReason == AbsenceReason.Contract)
+        {
+            TeamMemberAbsence teamMemberAbsence = new()
+            {
+                Name = sprintMemberDay.TeamMember.Name.ShortName,
+                IsPartialVacation = sprintMemberDay.WorkHours > 0,
+                IsMissingByContract = sprintMemberDay.AbsenceReason == AbsenceReason.Contract,
+                AbsenceHours = sprintMemberDay.AbsenceHours
+            };
+
+            string teamMemberCountry = sprintMemberDay.GetCountry();
+            AbsenceGroups.Add(teamMemberAbsence, teamMemberCountry);
         }
+    }
+
+    public void SetAsCurrentDay()
+    {
+        IsCurrentDay = true;
     }
 }

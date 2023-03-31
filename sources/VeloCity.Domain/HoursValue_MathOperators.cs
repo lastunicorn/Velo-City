@@ -18,6 +18,8 @@ namespace DustInTheWind.VeloCity.Domain;
 
 public readonly partial struct HoursValue
 {
+    #region HoursValue +- HoursValue
+
     public static HoursValue operator +(HoursValue hoursValue1, HoursValue hoursValue2)
     {
         return new HoursValue
@@ -26,24 +28,97 @@ public readonly partial struct HoursValue
         };
     }
 
-    public static HoursValue operator +(HoursValue hoursValue1, int hoursValue2)
-    {
-        return new HoursValue
-        {
-            Value = hoursValue1.Value + hoursValue2
-        };
-    }
-
-    public static int operator +(int hoursValue1, HoursValue hoursValue2)
-    {
-        return hoursValue1 + hoursValue2.Value;
-    }
-
     public static HoursValue operator -(HoursValue hoursValue1, HoursValue hoursValue2)
     {
         return new HoursValue
         {
             Value = hoursValue1.Value - hoursValue2.Value
+        };
+    }
+
+    #endregion
+
+    #region HoursValue? +- HoursValue
+
+    public static HoursValue operator +(HoursValue? hoursValue1, HoursValue hoursValue2)
+    {
+        int value1 = hoursValue1?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = value1 + hoursValue2.Value
+        };
+    }
+
+    public static HoursValue operator -(HoursValue? hoursValue1, HoursValue hoursValue2)
+    {
+        int value1 = hoursValue1?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = value1 - hoursValue2.Value
+        };
+    }
+
+    #endregion
+
+    #region HoursValue +- HoursValue?
+
+    public static HoursValue operator +(HoursValue hoursValue1, HoursValue? hoursValue2)
+    {
+        int value2 = hoursValue2?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = hoursValue1.Value + value2
+        };
+    }
+
+    public static HoursValue operator -(HoursValue hoursValue1, HoursValue? hoursValue2)
+    {
+        int value2 = hoursValue2?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = hoursValue1.Value - value2
+        };
+    }
+
+    #endregion
+
+    #region HoursValue? +- HoursValue?
+
+    public static HoursValue operator +(HoursValue? hoursValue1, HoursValue? hoursValue2)
+    {
+        int value1 = hoursValue1?.Value ?? 0;
+        int value2 = hoursValue2?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = value1 + value2
+        };
+    }
+
+    public static HoursValue operator -(HoursValue? hoursValue1, HoursValue? hoursValue2)
+    {
+        int value1 = hoursValue1?.Value ?? 0;
+        int value2 = hoursValue2?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = value1 - value2
+        };
+    }
+
+    #endregion
+
+    #region HoursValue +- int
+
+    public static HoursValue operator +(HoursValue hoursValue1, int hoursValue2)
+    {
+        return new HoursValue
+        {
+            Value = hoursValue1.Value + hoursValue2
         };
     }
 
@@ -55,8 +130,73 @@ public readonly partial struct HoursValue
         };
     }
 
-    public static int operator -(int hoursValue1, HoursValue hoursValue2)
+    #endregion
+
+    #region HoursValue? +- int
+
+    public static HoursValue operator +(HoursValue? hoursValue1, int hoursValue2)
     {
-        return hoursValue1 - hoursValue2.Value;
+        int value1 = hoursValue1?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = value1 + hoursValue2
+        };
     }
+
+    public static HoursValue operator -(HoursValue? hoursValue1, int hoursValue2)
+    {
+        int value1 = hoursValue1?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = value1 - hoursValue2
+        };
+    }
+
+    #endregion
+
+    #region int +- HoursValue
+
+    public static HoursValue operator +(int hoursValue1, HoursValue hoursValue2)
+    {
+        return new HoursValue
+        {
+            Value = hoursValue1 + hoursValue2.Value
+        };
+    }
+
+    public static HoursValue operator -(int hoursValue1, HoursValue hoursValue2)
+    {
+        return new HoursValue
+        {
+            Value = hoursValue1 - hoursValue2.Value
+        };
+    }
+
+    #endregion
+
+    #region int +- HoursValue?
+
+    public static int operator +(int hoursValue1, HoursValue? hoursValue2)
+    {
+        int value2 = hoursValue2?.Value ?? 0;
+
+        return new HoursValue
+        {
+            Value = hoursValue1 + value2
+        };
+    }
+
+    public static int operator -(int hoursValue1, HoursValue? hoursValue2)
+    {
+        int value2 = hoursValue2 ?? 0;
+
+        return new HoursValue
+        {
+            Value = hoursValue1 - value2
+        };
+    }
+
+    #endregion
 }

@@ -42,7 +42,12 @@ internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalen
 
     public async Task<PresentSprintCalendarResponse> Handle(PresentSprintCalendarRequest request, CancellationToken cancellationToken)
     {
-        Sprint sprintToAnalyze = await RetrieveSprintToAnalyze();
+        int? currentSprintId = applicationState.SelectedSprintId;
+
+        Sprint sprintToAnalyze = currentSprintId == null
+            ? await RetrieveDefaultSprintToAnalyze()
+            : await RetrieveCurrentSprintToAnalyze(currentSprintId.Value);
+
         List<SprintCalendarDay> sprintCalendarDays = CreateCalendarDays(sprintToAnalyze);
 
         return new PresentSprintCalendarResponse
@@ -51,49 +56,50 @@ internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalen
         };
     }
 
-    private async Task<Sprint> RetrieveSprintToAnalyze()
-    {
-        return applicationState.SelectedSprintId == null
-            ? await RetrieveDefaultSprintToAnalyze()
-            : await RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
-    }
-
     private async Task<Sprint> RetrieveDefaultSprintToAnalyze()
     {
         Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
-
         return sprint ?? throw new NoSprintInProgressException();
     }
 
-    private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintNumber)
+    private async Task<Sprint> RetrieveCurrentSprintToAnalyze(int sprintNumber)
     {
         Sprint sprint = await unitOfWork.SprintRepository.Get(sprintNumber);
-
         return sprint ?? throw new SprintDoesNotExistException(sprintNumber);
     }
 
     private List<SprintCalendarDay> CreateCalendarDays(Sprint sprint)
     {
         IEnumerable<SprintDay> sprintDays = sprint.EnumerateAllDays();
-        IEnumerable<SprintMember> sprintMembers = sprint.SprintMembersOrderedByEmployment;
+        List<SprintMember> sprintMembers = sprint.SprintMembersOrderedByEmployment.ToList();
 
         return sprintDays
-            .Select(x =>
-            {
-                List<SprintMemberDay> sprintMemberDays = GetAllSprintMemberDays(x.Date, sprintMembers);
-                return new SprintCalendarDay(x, sprintMemberDays, systemClock.Today);
-            })
+            .Select(x => CreateSprintCalendarDay(x, sprintMembers))
             .ToList();
     }
 
-    private static List<SprintMemberDay> GetAllSprintMemberDays(DateTime date, IEnumerable<SprintMember> sprintMembers)
+    private SprintCalendarDay CreateSprintCalendarDay(SprintDay sprintDay, IReadOnlyCollection<SprintMember> sprintMembers)
+    {
+        SprintCalendarDay sprintCalendarDay = new(sprintDay);
+
+        IEnumerable<SprintMemberDay> sprintMemberDays = GetSprintMemberDays(sprintDay, sprintMembers);
+
+        foreach (SprintMemberDay sprintMemberDay in sprintMemberDays)
+            sprintCalendarDay.AddSprintMemberDay(sprintMemberDay);
+
+        if (sprintDay.Date == systemClock.Today)
+            sprintCalendarDay.SetAsCurrentDay();
+
+        return sprintCalendarDay;
+    }
+
+    private static IEnumerable<SprintMemberDay> GetSprintMemberDays(SprintDay sprintDay, IReadOnlyCollection<SprintMember> sprintMembers)
     {
         if (sprintMembers == null)
-            return new List<SprintMemberDay>();
-
+            return Enumerable.Empty<SprintMemberDay>();
+        
         return sprintMembers
-            .Select(x => x.Days[date])
-            .Where(x => x != null)
-            .ToList();
+            .Select(x => x.Days[sprintDay.Date])
+            .Where(x => x != null);
     }
 }
