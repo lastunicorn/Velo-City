@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="6.7.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+        <PackageReference Include="Moq" Version="4.18.1" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,6 +43,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\VeloCity.Ports.DataAccess\VeloCity.Ports.DataAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.SettingsAccess\VeloCity.Ports.SettingsAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.SystemAccess\VeloCity.Ports.SystemAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.UserAccess\VeloCity.Ports.UserAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Wpf.Application\VeloCity.Wpf.Application.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Wpf.Infrastructure\VeloCity.Infrastructure.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation.CustomControls\VeloCity.Wpf.Presentation.CustomControls.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Presentation.Styles\VeloCity.Wpf.Presentation.Styles.csproj" PrivateAssets="All" />
     </ItemGroup>
