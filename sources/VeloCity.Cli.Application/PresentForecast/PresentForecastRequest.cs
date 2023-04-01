@@ -18,16 +18,15 @@ using System;
 using System.Collections.Generic;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
+namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast;
+
+public class PresentForecastRequest : IRequest<PresentForecastResponse>
 {
-    public class PresentForecastRequest : IRequest<PresentForecastResponse>
-    {
-        public DateTime? EndDate { get; set; }
+    public DateTime? EndDate { get; set; }
 
-        public List<int> ExcludedSprints { get; set; }
+    public List<int> ExcludedSprints { get; set; }
 
-        public List<string> ExcludedTeamMembers { get; set; }
+    public List<string> ExcludedTeamMembers { get; set; }
 
-        public uint? AnalysisLookBack { get; set; }
-    }
+    public uint? AnalysisLookBack { get; set; }
 }

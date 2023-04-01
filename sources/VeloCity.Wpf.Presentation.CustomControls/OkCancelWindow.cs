@@ -16,139 +16,138 @@
 
 using System.Windows;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class OkCancelWindow : Window
 {
-    public class OkCancelWindow : Window
+    public static readonly DependencyProperty TitleIconProperty = DependencyProperty.Register(
+        nameof(TitleIcon),
+        typeof(object),
+        typeof(OkCancelWindow),
+        new PropertyMetadata(HandleTitleIconPropertyChanged)
+    );
+
+    private static void HandleTitleIconPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        public static readonly DependencyProperty TitleIconProperty = DependencyProperty.Register(
-            nameof(TitleIcon),
-            typeof(object),
-            typeof(OkCancelWindow),
-            new PropertyMetadata(HandleTitleIconPropertyChanged)
-        );
-
-        private static void HandleTitleIconPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        if (d is OkCancelWindow okCancelWindow)
         {
-            if (d is OkCancelWindow okCancelWindow)
-            {
-                okCancelWindow.IsTitleIconVisible = e.NewValue != null;
-            }
+            okCancelWindow.IsTitleIconVisible = e.NewValue != null;
         }
+    }
 
-        public object TitleIcon
-        {
-            get => GetValue(TitleIconProperty);
-            set => SetValue(TitleIconProperty, value);
-        }
+    public object TitleIcon
+    {
+        get => GetValue(TitleIconProperty);
+        set => SetValue(TitleIconProperty, value);
+    }
 
-        public static readonly DependencyPropertyKey IsTitleIconVisiblePropertyKey = DependencyProperty.RegisterReadOnly(
-            nameof(IsTitleIconVisible),
-            typeof(bool),
-            typeof(OkCancelWindow),
-            new PropertyMetadata(false)
-        );
+    public static readonly DependencyPropertyKey IsTitleIconVisiblePropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(IsTitleIconVisible),
+        typeof(bool),
+        typeof(OkCancelWindow),
+        new PropertyMetadata(false)
+    );
 
-        public static readonly DependencyProperty IsTitleIconVisibleProperty = IsTitleIconVisiblePropertyKey.DependencyProperty;
+    public static readonly DependencyProperty IsTitleIconVisibleProperty = IsTitleIconVisiblePropertyKey.DependencyProperty;
 
-        public bool IsTitleIconVisible
-        {
-            get => (bool)GetValue(IsTitleIconVisibleProperty);
-            private set => SetValue(IsTitleIconVisiblePropertyKey, value);
-        }
+    public bool IsTitleIconVisible
+    {
+        get => (bool)GetValue(IsTitleIconVisibleProperty);
+        private set => SetValue(IsTitleIconVisiblePropertyKey, value);
+    }
 
-        public static readonly DependencyProperty SubtitleProperty = DependencyProperty.Register(
-            nameof(Subtitle),
-            typeof(string),
-            typeof(OkCancelWindow)
-        );
+    public static readonly DependencyProperty SubtitleProperty = DependencyProperty.Register(
+        nameof(Subtitle),
+        typeof(string),
+        typeof(OkCancelWindow)
+    );
 
-        public string Subtitle
-        {
-            get => (string)GetValue(SubtitleProperty);
-            set => SetValue(SubtitleProperty, value);
-        }
+    public string Subtitle
+    {
+        get => (string)GetValue(SubtitleProperty);
+        set => SetValue(SubtitleProperty, value);
+    }
 
-        public static readonly DependencyProperty OkButtonContentProperty = DependencyProperty.Register(
-            nameof(OkButtonContent),
-            typeof(object),
-            typeof(OkCancelWindow),
-            new PropertyMetadata("Ok")
-        );
+    public static readonly DependencyProperty OkButtonContentProperty = DependencyProperty.Register(
+        nameof(OkButtonContent),
+        typeof(object),
+        typeof(OkCancelWindow),
+        new PropertyMetadata("Ok")
+    );
 
-        public object OkButtonContent
-        {
-            get => GetValue(OkButtonContentProperty);
-            set => SetValue(OkButtonContentProperty, value);
-        }
+    public object OkButtonContent
+    {
+        get => GetValue(OkButtonContentProperty);
+        set => SetValue(OkButtonContentProperty, value);
+    }
 
-        public static readonly DependencyProperty IsOkButtonVisibleProperty = DependencyProperty.Register(
-            nameof(IsOkButtonVisible),
-            typeof(bool),
-            typeof(OkCancelWindow),
-            new PropertyMetadata(true)
-        );
+    public static readonly DependencyProperty IsOkButtonVisibleProperty = DependencyProperty.Register(
+        nameof(IsOkButtonVisible),
+        typeof(bool),
+        typeof(OkCancelWindow),
+        new PropertyMetadata(true)
+    );
 
-        public bool IsOkButtonVisible
-        {
-            get => (bool)GetValue(IsOkButtonVisibleProperty);
-            set => SetValue(IsOkButtonVisibleProperty, value);
-        }
+    public bool IsOkButtonVisible
+    {
+        get => (bool)GetValue(IsOkButtonVisibleProperty);
+        set => SetValue(IsOkButtonVisibleProperty, value);
+    }
 
-        public static readonly DependencyProperty CancelButtonContentProperty = DependencyProperty.Register(
-            nameof(CancelButtonContent),
-            typeof(object),
-            typeof(OkCancelWindow),
-            new PropertyMetadata("Cancel")
-        );
+    public static readonly DependencyProperty CancelButtonContentProperty = DependencyProperty.Register(
+        nameof(CancelButtonContent),
+        typeof(object),
+        typeof(OkCancelWindow),
+        new PropertyMetadata("Cancel")
+    );
 
-        public object CancelButtonContent
-        {
-            get => GetValue(CancelButtonContentProperty);
-            set => SetValue(CancelButtonContentProperty, value);
-        }
+    public object CancelButtonContent
+    {
+        get => GetValue(CancelButtonContentProperty);
+        set => SetValue(CancelButtonContentProperty, value);
+    }
 
-        public static readonly DependencyProperty IsCancelButtonVisibleProperty = DependencyProperty.Register(
-            nameof(IsCancelButtonVisible),
-            typeof(bool),
-            typeof(OkCancelWindow),
-            new PropertyMetadata(true)
-        );
+    public static readonly DependencyProperty IsCancelButtonVisibleProperty = DependencyProperty.Register(
+        nameof(IsCancelButtonVisible),
+        typeof(bool),
+        typeof(OkCancelWindow),
+        new PropertyMetadata(true)
+    );
 
-        public bool IsCancelButtonVisible
-        {
-            get => (bool)GetValue(IsCancelButtonVisibleProperty);
-            set => SetValue(IsCancelButtonVisibleProperty, value);
-        }
+    public bool IsCancelButtonVisible
+    {
+        get => (bool)GetValue(IsCancelButtonVisibleProperty);
+        set => SetValue(IsCancelButtonVisibleProperty, value);
+    }
 
-        public static readonly DependencyProperty IsFooterVisibleProperty = DependencyProperty.Register(
-            nameof(IsFooterVisible),
-            typeof(bool),
-            typeof(OkCancelWindow),
-            new PropertyMetadata(true)
-        );
+    public static readonly DependencyProperty IsFooterVisibleProperty = DependencyProperty.Register(
+        nameof(IsFooterVisible),
+        typeof(bool),
+        typeof(OkCancelWindow),
+        new PropertyMetadata(true)
+    );
 
-        public bool IsFooterVisible
-        {
-            get => (bool)GetValue(IsFooterVisibleProperty);
-            set => SetValue(IsFooterVisibleProperty, value);
-        }
+    public bool IsFooterVisible
+    {
+        get => (bool)GetValue(IsFooterVisibleProperty);
+        set => SetValue(IsFooterVisibleProperty, value);
+    }
 
-        public static readonly DependencyProperty IsXButtonVisibleProperty = DependencyProperty.Register(
-            nameof(IsXButtonVisible),
-            typeof(bool),
-            typeof(OkCancelWindow),
-            new PropertyMetadata(false)
-        );
+    public static readonly DependencyProperty IsXButtonVisibleProperty = DependencyProperty.Register(
+        nameof(IsXButtonVisible),
+        typeof(bool),
+        typeof(OkCancelWindow),
+        new PropertyMetadata(false)
+    );
 
-        public bool IsXButtonVisible
-        {
-            get => (bool)GetValue(IsXButtonVisibleProperty);
-            set => SetValue(IsXButtonVisibleProperty, value);
-        }
+    public bool IsXButtonVisible
+    {
+        get => (bool)GetValue(IsXButtonVisibleProperty);
+        set => SetValue(IsXButtonVisibleProperty, value);
+    }
 
-        static OkCancelWindow()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(OkCancelWindow), new FrameworkPropertyMetadata(typeof(OkCancelWindow)));
-        }
+    static OkCancelWindow()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(OkCancelWindow), new FrameworkPropertyMetadata(typeof(OkCancelWindow)));
     }
 }

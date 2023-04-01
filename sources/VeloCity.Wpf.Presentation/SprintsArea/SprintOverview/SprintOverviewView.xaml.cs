@@ -16,18 +16,17 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
-{
-    /// <summary>
-    /// Interaction logic for SprintOverviewView.xaml
-    /// </summary>
-    public partial class SprintOverviewView : UserControl
-    {
-        public string Test { get; set; }
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
 
-        public SprintOverviewView()
-        {
-            InitializeComponent();
-        }
+/// <summary>
+/// Interaction logic for SprintOverviewView.xaml
+/// </summary>
+public partial class SprintOverviewView : UserControl
+{
+    public string Test { get; set; }
+
+    public SprintOverviewView()
+    {
+        InitializeComponent();
     }
 }

@@ -16,9 +16,8 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.Reload
+namespace DustInTheWind.VeloCity.Wpf.Application.Reload;
+
+public class ReloadRequest : IRequest
 {
-    public class ReloadRequest : IRequest
-    {
-    }
 }

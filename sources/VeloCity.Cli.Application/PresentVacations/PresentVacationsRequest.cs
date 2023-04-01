@@ -17,12 +17,11 @@
 using System;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations
-{
-    public class PresentVacationsRequest : IRequest<PresentVacationsResponse>
-    {
-        public string TeamMemberName { get; set; }
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 
-        public DateTime? Date { get; set; }
-    }
+public class PresentVacationsRequest : IRequest<PresentVacationsResponse>
+{
+    public string TeamMemberName { get; set; }
+
+    public DateTime? Date { get; set; }
 }

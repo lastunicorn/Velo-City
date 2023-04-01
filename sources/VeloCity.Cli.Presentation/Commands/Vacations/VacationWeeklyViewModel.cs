@@ -14,39 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+
+public class VacationWeeklyViewModel : VacationViewModel
 {
-    public class VacationWeeklyViewModel : VacationViewModel
+    public List<DayOfWeek> WeekDays { get; set; }
+
+    public DateInterval DateInterval { get; set; }
+
+    public override DateTime? SignificantDate => DateInterval.StartDate;
+
+    public override DateTime? StartDate => DateInterval.StartDate;
+
+    public override DateTime? EndDate => DateInterval.EndDate;
+
+    public VacationWeeklyViewModel(VacationWeekly vacationWeekly)
+        : base(vacationWeekly)
     {
-        public List<DayOfWeek> WeekDays { get; set; }
+        WeekDays = vacationWeekly.WeekDays;
+        DateInterval = vacationWeekly.DateInterval;
+    }
 
-        public DateInterval DateInterval { get; set; }
+    protected override string RenderDate()
+    {
+        string weekDaysString = WeekDays == null || WeekDays.Count == 0
+            ? "<none>"
+            : string.Join(", ", WeekDays);
 
-        public override DateTime? SignificantDate => DateInterval.StartDate;
-
-        public override DateTime? StartDate => DateInterval.StartDate;
-
-        public override DateTime? EndDate => DateInterval.EndDate;
-
-        public VacationWeeklyViewModel(VacationWeekly vacationWeekly)
-            : base(vacationWeekly)
-        {
-            WeekDays = vacationWeekly.WeekDays;
-            DateInterval = vacationWeekly.DateInterval;
-        }
-
-        protected override string RenderDate()
-        {
-            string weekDaysString = WeekDays == null || WeekDays.Count == 0
-                ? "<none>"
-                : string.Join(", ", WeekDays);
-
-            return $"Each {weekDaysString} between [{DateInterval}]";
-        }
+        return $"Each {weekDaysString} between [{DateInterval}]";
     }
 }

@@ -15,23 +15,21 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections;
-using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.Presentation;
+
+internal abstract class InfoBase : IEnumerable<string>
 {
-    internal abstract class InfoBase : IEnumerable<string>
+    protected abstract IEnumerable<string> BuildMessage();
+
+    public IEnumerator<string> GetEnumerator()
     {
-        protected abstract IEnumerable<string> BuildMessage();
+        IEnumerable<string> items = BuildMessage();
+        return items.GetEnumerator();
+    }
 
-        public IEnumerator<string> GetEnumerator()
-        {
-            IEnumerable<string> items = BuildMessage();
-            return items.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

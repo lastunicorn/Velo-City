@@ -14,36 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+public class VacationGroupViewModel : ViewModelBase
 {
-    public class VacationGroupViewModel : ViewModelBase
+    private DateMonth month;
+    private List<VacationViewModel> vacations;
+
+    public DateMonth Month
     {
-        private DateMonth month;
-        private List<VacationViewModel> vacations;
-
-        public DateMonth Month
+        get => month;
+        set
         {
-            get => month;
-            set
-            {
-                month = value;
-                OnPropertyChanged();
-            }
+            month = value;
+            OnPropertyChanged();
         }
+    }
 
-        public List<VacationViewModel> Vacations
+    public List<VacationViewModel> Vacations
+    {
+        get => vacations;
+        set
         {
-            get => vacations;
-            set
-            {
-                vacations = value;
-                OnPropertyChanged();
-            }
+            vacations = value;
+            OnPropertyChanged();
         }
     }
 }

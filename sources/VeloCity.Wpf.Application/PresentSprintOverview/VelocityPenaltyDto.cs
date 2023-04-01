@@ -14,23 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
+
+public class VelocityPenaltyDto
 {
-    public class VelocityPenaltyDto
+    public PersonName PersonName { get; }
+
+    public int PenaltyValue { get; }
+
+    public VelocityPenaltyDto(VelocityPenaltyInstance velocityPenaltyInstance)
     {
-        public PersonName PersonName { get; }
+        if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
 
-        public int PenaltyValue { get; }
-
-        public VelocityPenaltyDto(VelocityPenaltyInstance velocityPenaltyInstance)
-        {
-            if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
-
-            PersonName = velocityPenaltyInstance.TeamMember.Name;
-            PenaltyValue = velocityPenaltyInstance.Value;
-        }
+        PersonName = velocityPenaltyInstance.TeamMember.Name;
+        PenaltyValue = velocityPenaltyInstance.Value;
     }
 }

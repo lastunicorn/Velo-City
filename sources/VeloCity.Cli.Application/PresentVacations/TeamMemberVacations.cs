@@ -19,18 +19,17 @@ using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations;
+
+public class TeamMemberVacations
 {
-    public class TeamMemberVacations
+    public PersonName PersonName { get; }
+
+    public List<Vacation> Vacations { get; }
+
+    public TeamMemberVacations(TeamMember teamMember)
     {
-        public PersonName PersonName { get; }
-
-        public List<Vacation> Vacations { get; }
-
-        public TeamMemberVacations(TeamMember teamMember)
-        {
-            PersonName = teamMember.Name;
-            Vacations = teamMember.Vacations?.ToList();
-        }
+        PersonName = teamMember.Name;
+        Vacations = teamMember.Vacations?.ToList();
     }
 }

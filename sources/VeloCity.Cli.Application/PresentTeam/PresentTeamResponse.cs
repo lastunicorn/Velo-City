@@ -19,18 +19,17 @@ using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam;
+
+public class PresentTeamResponse
 {
-    public class PresentTeamResponse
-    {
-        public List<TeamMember> TeamMembers { get; set; }
+    public List<TeamMember> TeamMembers { get; set; }
 
-        public TeamResponseType ResponseType { get; set; }
+    public TeamResponseType ResponseType { get; set; }
 
-        public DateTime Date { get; set; }
+    public DateTime Date { get; set; }
 
-        public DateInterval DateInterval { get; set; }
+    public DateInterval DateInterval { get; set; }
 
-        public int SprintNumber { get; set; }
-    }
+    public int SprintNumber { get; set; }
 }

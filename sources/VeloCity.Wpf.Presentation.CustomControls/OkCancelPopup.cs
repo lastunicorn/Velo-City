@@ -14,138 +14,135 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class OkCancelPopup : FloatingBox
 {
-    public class OkCancelPopup : FloatingBox
+    private readonly ManualResetEventSlim manualResetEventSlim = new(false);
+
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+        nameof(Title),
+        typeof(string),
+        typeof(OkCancelPopup)
+    );
+
+    public string Title
     {
-        private readonly ManualResetEventSlim manualResetEventSlim = new(false);
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
 
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-            nameof(Title),
-            typeof(string),
-            typeof(OkCancelPopup)
-        );
+    public static readonly DependencyProperty TitleIconProperty = DependencyProperty.Register(
+        nameof(TitleIcon),
+        typeof(object),
+        typeof(OkCancelPopup)
+    );
 
-        public string Title
+    public object TitleIcon
+    {
+        get => GetValue(TitleIconProperty);
+        set => SetValue(TitleIconProperty, value);
+    }
+
+    public bool? Result { get; private set; }
+
+    public event EventHandler Closed;
+
+    protected override void OnIsOpenChanged()
+    {
+        base.OnIsOpenChanged();
+
+        if (IsOpen)
+            Result = null;
+        else
+            OnClosed();
+    }
+
+    public override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+
+        KeyDown += HandlePreviewKeyDown;
+
+        if (GetTemplateChild("PART_AcceptButton") is Button acceptButton)
+            acceptButton.Click += HandleAcceptButtonClick;
+
+        if (GetTemplateChild("PART_CancelButton") is Button cancelButton)
+            cancelButton.Click += HandleCancelButtonClick;
+    }
+
+    private void HandlePreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (!IsOpen)
+            return;
+        switch (e.Key)
         {
-            get => (string)GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
+            case Key.Enter:
+
+                CloseWithAccept();
+                break;
+
+            case Key.Escape:
+
+                CloseWithCancel();
+                break;
         }
+    }
 
-        public static readonly DependencyProperty TitleIconProperty = DependencyProperty.Register(
-            nameof(TitleIcon),
-            typeof(object),
-            typeof(OkCancelPopup)
-        );
+    private void HandleAcceptButtonClick(object sender, RoutedEventArgs e)
+    {
+        CloseWithAccept();
+    }
 
-        public object TitleIcon
-        {
-            get => GetValue(TitleIconProperty);
-            set => SetValue(TitleIconProperty, value);
-        }
-        
-        public bool? Result { get; private set; }
+    private void HandleCancelButtonClick(object sender, RoutedEventArgs e)
+    {
+        CloseWithCancel();
+    }
 
-        public event EventHandler Closed;
+    private void CloseWithAccept()
+    {
+        Result = true;
+        IsOpen = false;
+        manualResetEventSlim.Set();
+    }
 
-        protected override void OnIsOpenChanged()
-        {
-            base.OnIsOpenChanged();
+    private void CloseWithCancel()
+    {
+        Result = false;
+        IsOpen = false;
+        manualResetEventSlim.Set();
+    }
 
-            if (IsOpen) 
-                Result = null;
-            else
-                OnClosed();
-        }
+    public async Task<bool?> Show()
+    {
+        manualResetEventSlim.Reset();
+        IsOpen = true;
 
-        public override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
+        await manualResetEventSlim.WaitHandle.ToTask();
 
-            KeyDown += HandlePreviewKeyDown;
+        return Result;
+    }
 
-            if (GetTemplateChild("PART_AcceptButton") is Button acceptButton)
-                acceptButton.Click += HandleAcceptButtonClick;
+    public bool? ShowDialog()
+    {
+        manualResetEventSlim.Reset();
+        IsOpen = true;
+        manualResetEventSlim.WaitHandle.WaitOne();
 
-            if (GetTemplateChild("PART_CancelButton") is Button cancelButton)
-                cancelButton.Click += HandleCancelButtonClick;
-        }
+        return Result;
+    }
 
-        private void HandlePreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (!IsOpen)
-                return;
-            switch (e.Key)
-            {
-                case Key.Enter:
+    static OkCancelPopup()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(OkCancelPopup), new FrameworkPropertyMetadata(typeof(OkCancelPopup)));
+    }
 
-                    CloseWithAccept();
-                    break;
-                case Key.Escape:
-
-                    CloseWithCancel();
-                    break;
-            }
-        }
-
-        private void HandleAcceptButtonClick(object sender, RoutedEventArgs e)
-        {
-            CloseWithAccept();
-        }
-
-        private void HandleCancelButtonClick(object sender, RoutedEventArgs e)
-        {
-            CloseWithCancel();
-        }
-
-        private void CloseWithAccept()
-        {
-            Result = true;
-            IsOpen = false;
-            manualResetEventSlim.Set();
-        }
-
-        private void CloseWithCancel()
-        {
-            Result = false;
-            IsOpen = false;
-            manualResetEventSlim.Set();
-        }
-
-        public async Task<bool?> Show()
-        {
-            manualResetEventSlim.Reset();
-            IsOpen = true;
-
-            await manualResetEventSlim.WaitHandle.ToTask();
-
-            return Result;
-        }
-
-        public bool? ShowDialog()
-        {
-            manualResetEventSlim.Reset();
-            IsOpen = true;
-            manualResetEventSlim.WaitHandle.WaitOne();
-
-            return Result;
-        }
-
-        static OkCancelPopup()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(OkCancelPopup), new FrameworkPropertyMetadata(typeof(OkCancelPopup)));
-        }
-
-        protected virtual void OnClosed()
-        {
-            Closed?.Invoke(this, EventArgs.Empty);
-        }
+    protected virtual void OnClosed()
+    {
+        Closed?.Invoke(this, EventArgs.Empty);
     }
 }

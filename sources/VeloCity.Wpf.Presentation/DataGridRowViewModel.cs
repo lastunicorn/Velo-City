@@ -16,14 +16,13 @@
 
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.Presentation;
+
+public class DataGridRowViewModel : ViewModelBase
 {
-    public class DataGridRowViewModel : ViewModelBase
-    {
-        public virtual bool IsSelectable { get; protected set; }
+    public virtual bool IsSelectable { get; protected set; }
 
-        public virtual bool IsSelected { get; set; }
+    public virtual bool IsSelected { get; set; }
 
-        public virtual bool IsEnabled { get; protected set; }
-    }
+    public virtual bool IsEnabled { get; protected set; }
 }

@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters;
+
+[Localizability(LocalizationCategory.NeverLocalize)]
+public sealed class BooleanToVisibilityInverseConverter : IValueConverter
 {
-    [Localizability(LocalizationCategory.NeverLocalize)]
-    public sealed class BooleanToVisibilityInverseConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return value is true
-                ? Visibility.Collapsed
-                : Visibility.Visible;
-        }
+        return value is true
+            ? Visibility.Collapsed
+            : Visibility.Visible;
+    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is Visibility visibility)
-                return visibility != Visibility.Visible;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is Visibility visibility)
+            return visibility != Visibility.Visible;
 
-            return false;
-        }
+        return false;
     }
 }

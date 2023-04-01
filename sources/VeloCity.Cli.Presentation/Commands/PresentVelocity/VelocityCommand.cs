@@ -14,40 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.PresentVelocity;
+
+[Command("velocity", ShortDescription = "A chart with the velocity per sprints.", Order = 3)]
+public class VelocityCommand : ICommand
 {
-    [Command("velocity", ShortDescription = "A chart with the velocity per sprints.", Order = 3)]
-    public class VelocityCommand : ICommand
+    private readonly IMediator mediator;
+
+    [CommandParameter(Order = 1, IsOptional = true)]
+    public int? SprintCount { get; set; }
+
+    public List<SprintVelocity> SprintVelocities { get; private set; }
+
+    public VelocityCommand(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
-        [CommandParameter(Order = 1, IsOptional = true)]
-        public int? SprintCount { get; set; }
-
-        public List<SprintVelocity> SprintVelocities { get; private set; }
-
-        public VelocityCommand(IMediator mediator)
+    public async Task Execute()
+    {
+        PresentVelocityRequest request = new()
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+            SprintCount = SprintCount
+        };
 
-        public async Task Execute()
-        {
-            PresentVelocityRequest request = new()
-            {
-                SprintCount = SprintCount
-            };
+        PresentVelocityResponse response = await mediator.Send(request);
 
-            PresentVelocityResponse response = await mediator.Send(request);
-
-            SprintVelocities = response.SprintVelocities;
-        }
+        SprintVelocities = response.SprintVelocities;
     }
 }

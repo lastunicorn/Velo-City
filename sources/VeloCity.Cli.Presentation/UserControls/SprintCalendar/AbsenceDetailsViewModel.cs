@@ -14,66 +14,62 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
+
+public class AbsenceDetailsViewModel
 {
-    public class AbsenceDetailsViewModel
+    public List<TeamMemberAbsenceDetails> TeamMemberVacationDetails { get; }
+
+    public List<OfficialHolidayAbsenceDetails> OfficialHolidays { get; }
+
+    public AbsenceDetailsViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
     {
-        public List<TeamMemberAbsenceDetails> TeamMemberVacationDetails { get; }
+        if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
+        if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
 
-        public List<OfficialHolidayAbsenceDetails> OfficialHolidays { get; }
-
-        public AbsenceDetailsViewModel(List<SprintMemberDay> sprintMemberDays, SprintDay sprintDay)
+        if (!sprintDay.IsWeekEnd)
         {
-            if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
-            if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
+            TeamMemberVacationDetails = sprintMemberDays
+                .Where(x => x.AbsenceHours > 0 || x.AbsenceReason == AbsenceReason.Contract)
+                .Select(x => new TeamMemberAbsenceDetails(x))
+                .ToList();
 
-            if (!sprintDay.IsWeekEnd)
-            {
-                TeamMemberVacationDetails = sprintMemberDays
-                    .Where(x => x.AbsenceHours > 0 || x.AbsenceReason == AbsenceReason.Contract)
-                    .Select(x => new TeamMemberAbsenceDetails(x))
-                    .ToList();
+            string[] countries = sprintMemberDays
+                .Select(x =>
+                {
+                    Employment employment = x.TeamMember.Employments?.GetEmploymentFor(x.SprintDay.Date);
+                    return employment?.Country;
+                })
+                .Where(x => x != null)
+                .Distinct()
+                .ToArray();
 
-                string[] countries = sprintMemberDays
-                    .Select(x =>
-                    {
-                        Employment employment = x.TeamMember.Employments?.GetEmploymentFor(x.SprintDay.Date);
-                        return employment?.Country;
-                    })
-                    .Where(x => x != null)
-                    .Distinct()
-                    .ToArray();
-
-                OfficialHolidays = sprintDay.OfficialHolidays
-                    .Where(x => countries.Contains(x.Country))
-                    .Select(x => new OfficialHolidayAbsenceDetails(x))
-                    .ToList();
-            }
+            OfficialHolidays = sprintDay.OfficialHolidays
+                .Where(x => countries.Contains(x.Country))
+                .Select(x => new OfficialHolidayAbsenceDetails(x))
+                .ToList();
         }
+    }
 
-        public override string ToString()
-        {
-            IEnumerable<string> teamMembersAbsenceInfos = TeamMemberVacationDetails == null
-                ? Enumerable.Empty<string>()
-                : TeamMemberVacationDetails
-                    .Select(x => x.ToString());
+    public override string ToString()
+    {
+        IEnumerable<string> teamMembersAbsenceInfos = TeamMemberVacationDetails == null
+            ? Enumerable.Empty<string>()
+            : TeamMemberVacationDetails
+                .Select(x => x.ToString());
 
-            IEnumerable<string> officialHolidaysAbsenceInfos = OfficialHolidays == null
-                ? Enumerable.Empty<string>()
-                : OfficialHolidays
-                    .Select(x => x.ToString());
+        IEnumerable<string> officialHolidaysAbsenceInfos = OfficialHolidays == null
+            ? Enumerable.Empty<string>()
+            : OfficialHolidays
+                .Select(x => x.ToString());
 
-            IEnumerable<string> items = teamMembersAbsenceInfos
-                .Concat(officialHolidaysAbsenceInfos);
+        IEnumerable<string> items = teamMembersAbsenceInfos
+            .Concat(officialHolidaysAbsenceInfos);
 
-            return string.Join(", ", items);
-        }
+        return string.Join(", ", items);
     }
 }

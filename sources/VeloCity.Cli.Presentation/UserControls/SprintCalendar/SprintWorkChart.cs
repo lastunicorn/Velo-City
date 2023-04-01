@@ -14,37 +14,34 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.ChartTools;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
+
+internal class SprintWorkChart : Chart<CalendarItemViewModel>
 {
-    internal class SprintWorkChart : Chart<CalendarItemViewModel>
+    public SprintWorkChart(IEnumerable<CalendarItemViewModel> items)
     {
-        public SprintWorkChart(IEnumerable<CalendarItemViewModel> items)
+        if (items == null) throw new ArgumentNullException(nameof(items));
+
+        ActualSize = 24;
+
+        AddRange(items);
+        Calculate();
+    }
+
+    protected override ChartBarValue<CalendarItemViewModel> ToChartBarValue(CalendarItemViewModel item)
+    {
+        int workHours = item.WorkHours;
+        int absenceHours = item.AbsenceHours;
+
+        ChartBarValue<CalendarItemViewModel> chartBarValue = new()
         {
-            if (items == null) throw new ArgumentNullException(nameof(items));
+            MaxValue = workHours + absenceHours,
+            FillValue = workHours,
+            Item = item
+        };
 
-            ActualSize = 24;
-
-            AddRange(items);
-            Calculate();
-        }
-
-        protected override ChartBarValue<CalendarItemViewModel> ToChartBarValue(CalendarItemViewModel item)
-        {
-            int workHours = item.WorkHours;
-            int absenceHours = item.AbsenceHours;
-
-            ChartBarValue<CalendarItemViewModel> chartBarValue = new()
-            {
-                MaxValue = workHours + absenceHours,
-                FillValue = workHours,
-                Item = item
-            };
-
-            return chartBarValue;
-        }
+        return chartBarValue;
     }
 }

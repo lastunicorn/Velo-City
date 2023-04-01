@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
-{
-    internal class SprintsSizeChartItem
-    {
-        public int SprintNumber { get; set; }
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 
-        public int TotalWorkHours { get; set; }
-    }
+internal class SprintsSizeChartItem
+{
+    public int SprintNumber { get; set; }
+
+    public int TotalWorkHours { get; set; }
 }

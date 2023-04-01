@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+/// <summary>
+/// Interaction logic for VacationsControl.xaml
+/// </summary>
+public partial class VacationsControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for VacationsControl.xaml
-    /// </summary>
-    public partial class VacationsControl : UserControl
+    public VacationsControl()
     {
-        public VacationsControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

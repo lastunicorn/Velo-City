@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                         <TextBlock
                                             Text="Absent by contract"
-                                            FontSize="15"/>
+                                            FontSize="15" />
 
                                     </StackPanel>
 
@@ -94,7 +94,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                         <TextBlock
                                             Text="Partial-day vacation"
-                                            FontSize="15"/>
+                                            FontSize="15" />
 
                                     </StackPanel>
 

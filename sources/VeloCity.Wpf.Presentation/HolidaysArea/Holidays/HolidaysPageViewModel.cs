@@ -14,9 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.HolidaysArea.Holidays
+namespace DustInTheWind.VeloCity.Wpf.Presentation.HolidaysArea.Holidays;
+
+public class HolidaysPageViewModel
 {
-    public class HolidaysPageViewModel
-    {
-    }
 }

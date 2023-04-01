@@ -18,16 +18,15 @@ using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+
+internal class AnalyzeSprintRequest : IRequest<AnalyzeSprintResponse>
 {
-    internal class AnalyzeSprintRequest : IRequest<AnalyzeSprintResponse>
-    {
-        public Sprint Sprint { get; set; }
+    public Sprint Sprint { get; set; }
 
-        public uint? AnalysisLookBack { get; set; }
+    public uint? AnalysisLookBack { get; set; }
 
-        public List<int> ExcludedSprints { get; set; }
+    public List<int> ExcludedSprints { get; set; }
 
-        public List<string> ExcludedTeamMembers { get; set; }
-    }
+    public List<string> ExcludedTeamMembers { get; set; }
 }

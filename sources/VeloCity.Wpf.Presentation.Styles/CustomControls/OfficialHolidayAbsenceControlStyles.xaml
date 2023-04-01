@@ -70,7 +70,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 CountryCode="{TemplateBinding HolidayCountry}"
                                 Margin="15 0 0 0"
                                 VerticalAlignment="Top"
-                                ShowCountryCode="True"/>
+                                ShowCountryCode="True" />
 
                         </Grid>
 

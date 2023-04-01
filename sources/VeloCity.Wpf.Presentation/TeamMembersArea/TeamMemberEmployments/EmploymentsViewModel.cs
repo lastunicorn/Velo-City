@@ -14,61 +14,55 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments;
+
+public class EmploymentsViewModel : ViewModelBase
 {
-    public class EmploymentsViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private List<EmploymentViewModel> employments;
+
+    public List<EmploymentViewModel> Employments
     {
-        private readonly IRequestBus requestBus;
-        private List<EmploymentViewModel> employments;
-
-        public List<EmploymentViewModel> Employments
+        get => employments;
+        private set
         {
-            get => employments;
-            private set
-            {
-                employments = value;
-                OnPropertyChanged();
-            }
+            employments = value;
+            OnPropertyChanged();
         }
+    }
 
-        public EmploymentsViewModel(IRequestBus requestBus, EventBus eventBus)
-        {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+    public EmploymentsViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-            eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
-        }
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+        eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
+    }
 
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            await ReloadEmployments();
-        }
+    private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        await ReloadEmployments();
+    }
 
-        private async Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await ReloadEmployments();
-        }
+    private async Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await ReloadEmployments();
+    }
 
-        private async Task ReloadEmployments()
-        {
-            PresentTeamMemberEmploymentsRequest request = new();
-            PresentTeamMemberEmploymentsResponse response = await requestBus.Send<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>(request);
+    private async Task ReloadEmployments()
+    {
+        PresentTeamMemberEmploymentsRequest request = new();
+        PresentTeamMemberEmploymentsResponse response = await requestBus.Send<PresentTeamMemberEmploymentsRequest, PresentTeamMemberEmploymentsResponse>(request);
 
-            Employments = response.Employments
-                .Select(x => new EmploymentViewModel(x))
-                .ToList();
-        }
+        Employments = response.Employments
+            .Select(x => new EmploymentViewModel(x))
+            .ToList();
     }
 }

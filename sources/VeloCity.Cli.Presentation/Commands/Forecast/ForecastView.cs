@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
@@ -24,99 +21,98 @@ using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Forecast;
+
+public class ForecastView : IView<ForecastCommand>
 {
-    public class ForecastView : IView<ForecastCommand>
+    private readonly DataGridFactory dataGridFactory;
+
+    public ForecastView(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+    }
 
-        public ForecastView(DataGridFactory dataGridFactory)
+    public void Display(ForecastCommand command)
+    {
+        DisplayOverviewTable(command);
+        DisplaySprintDetails(command.Sprints);
+    }
+
+    private void DisplayOverviewTable(ForecastCommand command)
+    {
+        DataGrid dataGrid = dataGridFactory.Create();
+        dataGrid.Title = "Forecast Overview";
+
+        dataGrid.Rows.Add("Date Interval", $"{command.StartDate:d} - {command.EndDate:d}");
+        dataGrid.Rows.Add(" ", " ");
+        dataGrid.Rows.Add("Total Work Days", command.Sprints.Sum(x => x.WorkDaysCount) + " days");
+        dataGrid.Rows.Add("Total Work Hours", $"{command.TotalWorkHours}");
+        dataGrid.Rows.Add(" ", " ");
+        dataGrid.Rows.Add("Estimated Velocity", $"{command.EstimatedVelocity.ToStandardDigitsString()}");
+        dataGrid.Rows.Add("Estimated Story Points", $"{command.EstimatedStoryPoints.ToStandardDigitsString()}");
+
+        if (!command.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
+            dataGrid.Rows.Add("Estimated Story Points (*)", $"{command.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
+
+        AddFooter(dataGrid, command);
+
+        dataGrid.Display();
+    }
+
+    private static void AddFooter(DataGrid dataGrid, ForecastCommand command)
+    {
+        if (command.Notes?.Count > 0)
         {
-            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
-        }
-
-        public void Display(ForecastCommand command)
-        {
-            DisplayOverviewTable(command);
-            DisplaySprintDetails(command.Sprints);
-        }
-
-        private void DisplayOverviewTable(ForecastCommand command)
-        {
-            DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = "Forecast Overview";
-
-            dataGrid.Rows.Add("Date Interval", $"{command.StartDate:d} - {command.EndDate:d}");
-            dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Total Work Days", command.Sprints.Sum(x => x.WorkDaysCount) + " days");
-            dataGrid.Rows.Add("Total Work Hours", $"{command.TotalWorkHours}");
-            dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Estimated Velocity", $"{command.EstimatedVelocity.ToStandardDigitsString()}");
-            dataGrid.Rows.Add("Estimated Story Points", $"{command.EstimatedStoryPoints.ToStandardDigitsString()}");
-
-            if (!command.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
-                dataGrid.Rows.Add("Estimated Story Points (*)", $"{command.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
-
-            AddFooter(dataGrid, command);
-
-            dataGrid.Display();
-        }
-
-        private static void AddFooter(DataGrid dataGrid, ForecastCommand command)
-        {
-            if (command.Notes?.Count > 0)
-            {
-                NotesControl notesControl = new()
-                {
-                    Notes = command.Notes
-                };
-
-                dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
-                dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
-            }
-        }
-
-        private void DisplaySprintDetails(List<SprintForecast> sprints)
-        {
-            foreach (SprintForecast sprint in sprints)
-                DisplaySprintDetails(sprint);
-        }
-
-        private void DisplaySprintDetails(SprintForecast sprintForecast)
-        {
-            DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = sprintForecast.SprintName;
-
-            dataGrid.Rows.Add("Date Interval", $"{sprintForecast.StartDate:d} - {sprintForecast.EndDate:d}");
-            dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Work Days", sprintForecast.WorkDaysCount + " days");
-            dataGrid.Rows.Add("Work Hours", $"{sprintForecast.TotalWorkHours}");
-            dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Estimated Story Points", $"{sprintForecast.EstimatedStoryPoints.ToStandardDigitsString()}");
-
-            if (!sprintForecast.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
-                dataGrid.Rows.Add("Estimated Story Points (*)", $"{sprintForecast.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
-
-            AddFooter(dataGrid, sprintForecast);
-
-            dataGrid.Display();
-        }
-
-        private static void AddFooter(DataGrid dataGrid, SprintForecast sprint)
-        {
-            bool velocityPenaltiesExist = !sprint.EstimatedStoryPointsWithVelocityPenalties.IsEmpty;
-            if (!velocityPenaltiesExist)
-                return;
-
             NotesControl notesControl = new()
             {
-                Notes = new List<NoteBase>
-                {
-                    new VelocityPenaltiesNote()
-                }
+                Notes = command.Notes
             };
+
             dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
             dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
         }
+    }
+
+    private void DisplaySprintDetails(List<SprintForecast> sprints)
+    {
+        foreach (SprintForecast sprint in sprints)
+            DisplaySprintDetails(sprint);
+    }
+
+    private void DisplaySprintDetails(SprintForecast sprintForecast)
+    {
+        DataGrid dataGrid = dataGridFactory.Create();
+        dataGrid.Title = sprintForecast.SprintName;
+
+        dataGrid.Rows.Add("Date Interval", $"{sprintForecast.StartDate:d} - {sprintForecast.EndDate:d}");
+        dataGrid.Rows.Add(" ", " ");
+        dataGrid.Rows.Add("Work Days", sprintForecast.WorkDaysCount + " days");
+        dataGrid.Rows.Add("Work Hours", $"{sprintForecast.TotalWorkHours}");
+        dataGrid.Rows.Add(" ", " ");
+        dataGrid.Rows.Add("Estimated Story Points", $"{sprintForecast.EstimatedStoryPoints.ToStandardDigitsString()}");
+
+        if (!sprintForecast.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
+            dataGrid.Rows.Add("Estimated Story Points (*)", $"{sprintForecast.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
+
+        AddFooter(dataGrid, sprintForecast);
+
+        dataGrid.Display();
+    }
+
+    private static void AddFooter(DataGrid dataGrid, SprintForecast sprint)
+    {
+        bool velocityPenaltiesExist = !sprint.EstimatedStoryPointsWithVelocityPenalties.IsEmpty;
+        if (!velocityPenaltiesExist)
+            return;
+
+        NotesControl notesControl = new()
+        {
+            Notes = new List<NoteBase>
+            {
+                new VelocityPenaltiesNote()
+            }
+        };
+        dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
+        dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
     }
 }

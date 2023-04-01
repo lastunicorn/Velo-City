@@ -17,21 +17,20 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
+
+public class SprintCommitment
 {
-    public class SprintCommitment
+    public int SprintNumber { get; }
+
+    public StoryPoints CommitmentStoryPoints { get; }
+
+    public StoryPoints ActualStoryPoints { get; }
+
+    public SprintCommitment(Sprint sprint)
     {
-        public int SprintNumber { get; }
-
-        public StoryPoints CommitmentStoryPoints { get; }
-        
-        public StoryPoints ActualStoryPoints { get; }
-
-        public SprintCommitment(Sprint sprint)
-        {
-            SprintNumber = sprint.Number;
-            CommitmentStoryPoints = sprint.CommitmentStoryPoints;
-            ActualStoryPoints = sprint.ActualStoryPoints;
-        }
+        SprintNumber = sprint.Number;
+        CommitmentStoryPoints = sprint.CommitmentStoryPoints;
+        ActualStoryPoints = sprint.ActualStoryPoints;
     }
 }

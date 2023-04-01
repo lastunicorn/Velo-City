@@ -109,7 +109,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <wpf:Separator
                             StrokeThickness="0.5"
                             Stroke="#404F56"
-                            UseLayoutRounding="False"/>
+                            UseLayoutRounding="False" />
                     </wpf:Axis.Separator>
 
                 </wpf:Axis>

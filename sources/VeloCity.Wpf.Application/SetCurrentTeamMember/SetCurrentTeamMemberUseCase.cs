@@ -14,46 +14,42 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember
+namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
+
+internal class SetCurrentTeamMemberUseCase : IRequestHandler<SetCurrentTeamMemberRequest>
 {
-    internal class SetCurrentTeamMemberUseCase : IRequestHandler<SetCurrentTeamMemberRequest>
+    private readonly ApplicationState applicationState;
+    private readonly EventBus eventBus;
+
+    public SetCurrentTeamMemberUseCase(ApplicationState applicationState, EventBus eventBus)
     {
-        private readonly ApplicationState applicationState;
-        private readonly EventBus eventBus;
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+        this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+    }
 
-        public SetCurrentTeamMemberUseCase(ApplicationState applicationState, EventBus eventBus)
+    public async Task<Unit> Handle(SetCurrentTeamMemberRequest request, CancellationToken cancellationToken)
+    {
+        SetTeamMember(request);
+        await RaiseEvent(request, cancellationToken);
+
+        return Unit.Value;
+    }
+
+    private void SetTeamMember(SetCurrentTeamMemberRequest request)
+    {
+        applicationState.SelectedTeamMemberId = request.TeamMemberId;
+    }
+
+    private async Task RaiseEvent(SetCurrentTeamMemberRequest request, CancellationToken cancellationToken)
+    {
+        TeamMemberChangedEvent ev = new()
         {
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-        }
+            NewTeamMemberId = request.TeamMemberId
+        };
 
-        public async Task<Unit> Handle(SetCurrentTeamMemberRequest request, CancellationToken cancellationToken)
-        {
-            SetTeamMember(request);
-            await RaiseEvent(request, cancellationToken);
-
-            return Unit.Value;
-        }
-
-        private void SetTeamMember(SetCurrentTeamMemberRequest request)
-        {
-            applicationState.SelectedTeamMemberId = request.TeamMemberId;
-        }
-
-        private async Task RaiseEvent(SetCurrentTeamMemberRequest request, CancellationToken cancellationToken)
-        {
-            TeamMemberChangedEvent ev = new()
-            {
-                NewTeamMemberId = request.TeamMemberId
-            };
-
-            await eventBus.Publish(ev, cancellationToken);
-        }
+        await eventBus.Publish(ev, cancellationToken);
     }
 }

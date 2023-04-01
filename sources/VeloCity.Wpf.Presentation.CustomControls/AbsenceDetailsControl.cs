@@ -19,122 +19,120 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class AbsenceDetailsControl : ItemsControl
 {
-    public class AbsenceDetailsControl : ItemsControl
+    #region OfficialHolidays
+
+    public static readonly DependencyProperty OfficialHolidaysProperty = DependencyProperty.Register(
+        nameof(OfficialHolidays),
+        typeof(IEnumerable),
+        typeof(AbsenceDetailsControl),
+        new PropertyMetadata(HandleOfficialHolidaysChanged)
+    );
+
+    public IEnumerable OfficialHolidays
     {
-        #region OfficialHolidays
+        get => (IEnumerable)GetValue(OfficialHolidaysProperty);
+        set => SetValue(OfficialHolidaysProperty, value);
+    }
 
-        public static readonly DependencyProperty OfficialHolidaysProperty = DependencyProperty.Register(
-            nameof(OfficialHolidays),
-            typeof(IEnumerable),
-            typeof(AbsenceDetailsControl),
-            new PropertyMetadata(HandleOfficialHolidaysChanged)
-        );
-
-        public IEnumerable OfficialHolidays
+    private static void HandleOfficialHolidaysChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is AbsenceDetailsControl absenceDetailsControl)
         {
-            get => (IEnumerable)GetValue(OfficialHolidaysProperty);
-            set => SetValue(OfficialHolidaysProperty, value);
-        }
-
-        private static void HandleOfficialHolidaysChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is AbsenceDetailsControl absenceDetailsControl)
+            if (e.OldValue is INotifyCollectionChanged oldItems and IEnumerable enumerableOldItems)
             {
-                if (e.OldValue is INotifyCollectionChanged oldItems and IEnumerable enumerableOldItems)
+                oldItems.CollectionChanged += (sender, e1) =>
                 {
-                    oldItems.CollectionChanged += (sender, e1) =>
-                    {
-                        absenceDetailsControl.HasOfficialHolidays = enumerableOldItems.GetEnumerator().MoveNext();
-                    };
-
                     absenceDetailsControl.HasOfficialHolidays = enumerableOldItems.GetEnumerator().MoveNext();
-                }
+                };
 
-                if (e.NewValue is INotifyCollectionChanged newItems and IEnumerable enumerableNewItems)
-                {
-                    newItems.CollectionChanged += (sender, e1) =>
-                    {
-                        absenceDetailsControl.HasOfficialHolidays = enumerableNewItems.GetEnumerator().MoveNext();
-                    };
-
-                    absenceDetailsControl.HasOfficialHolidays = enumerableNewItems.GetEnumerator().MoveNext();
-                }
+                absenceDetailsControl.HasOfficialHolidays = enumerableOldItems.GetEnumerator().MoveNext();
             }
-        }
 
-        #endregion
-
-        #region HasOfficialHolidays
-
-        private static readonly DependencyPropertyKey HasOfficialHolidaysPropertyKey = DependencyProperty.RegisterReadOnly(
-            nameof(HasOfficialHolidays),
-            typeof(bool),
-            typeof(AbsenceDetailsControl),
-            new FrameworkPropertyMetadata(false, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
-
-        public static readonly DependencyProperty HasOfficialHolidaysProperty = HasOfficialHolidaysPropertyKey.DependencyProperty;
-
-        public bool HasOfficialHolidays
-        {
-            get => (bool)GetValue(HasOfficialHolidaysProperty);
-            private set => SetValue(HasOfficialHolidaysPropertyKey, value);
-        }
-
-        #endregion
-
-        #region OfficialHolidayItemTemplate
-
-        public static readonly DependencyProperty OfficialHolidayItemTemplateProperty = DependencyProperty.Register(
-            nameof(OfficialHolidayItemTemplate),
-            typeof(DataTemplate),
-            typeof(AbsenceDetailsControl),
-            new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnOfficialHolidayItemTemplateChanged)));
-
-        [Bindable(true)]
-        public DataTemplate OfficialHolidayItemTemplate
-        {
-            get => (DataTemplate)GetValue(OfficialHolidayItemTemplateProperty);
-            set => SetValue(OfficialHolidayItemTemplateProperty, value);
-        }
-
-        private static void OnOfficialHolidayItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is AbsenceDetailsControl absenceDetailsControl)
+            if (e.NewValue is INotifyCollectionChanged newItems and IEnumerable enumerableNewItems)
             {
-                absenceDetailsControl.OnOfficialHolidayItemTemplateChanged((DataTemplate)e.OldValue, (DataTemplate)e.NewValue);
+                newItems.CollectionChanged += (sender, e1) =>
+                {
+                    absenceDetailsControl.HasOfficialHolidays = enumerableNewItems.GetEnumerator().MoveNext();
+                };
+
+                absenceDetailsControl.HasOfficialHolidays = enumerableNewItems.GetEnumerator().MoveNext();
             }
         }
+    }
 
-        #endregion
+    #endregion
 
-        #region Text
+    #region HasOfficialHolidays
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-            nameof(Text),
-            typeof(string),
-            typeof(AbsenceDetailsControl)
-        );
+    private static readonly DependencyPropertyKey HasOfficialHolidaysPropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(HasOfficialHolidays),
+        typeof(bool),
+        typeof(AbsenceDetailsControl),
+        new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+    );
 
-        public string Text
+    public static readonly DependencyProperty HasOfficialHolidaysProperty = HasOfficialHolidaysPropertyKey.DependencyProperty;
+
+    public bool HasOfficialHolidays
+    {
+        get => (bool)GetValue(HasOfficialHolidaysProperty);
+        private set => SetValue(HasOfficialHolidaysPropertyKey, value);
+    }
+
+    #endregion
+
+    #region OfficialHolidayItemTemplate
+
+    public static readonly DependencyProperty OfficialHolidayItemTemplateProperty = DependencyProperty.Register(
+        nameof(OfficialHolidayItemTemplate),
+        typeof(DataTemplate),
+        typeof(AbsenceDetailsControl),
+        new FrameworkPropertyMetadata(null, OnOfficialHolidayItemTemplateChanged));
+
+    [Bindable(true)]
+    public DataTemplate OfficialHolidayItemTemplate
+    {
+        get => (DataTemplate)GetValue(OfficialHolidayItemTemplateProperty);
+        set => SetValue(OfficialHolidayItemTemplateProperty, value);
+    }
+
+    private static void OnOfficialHolidayItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is AbsenceDetailsControl absenceDetailsControl)
         {
-            get => (string)GetValue(OfficialHolidaysProperty);
-            set => SetValue(OfficialHolidaysProperty, value);
+            absenceDetailsControl.OnOfficialHolidayItemTemplateChanged((DataTemplate)e.OldValue, (DataTemplate)e.NewValue);
         }
+    }
 
-        #endregion
+    #endregion
 
-        protected virtual void OnOfficialHolidayItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
-        {
-        }
+    #region Text
 
-        static AbsenceDetailsControl()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(AbsenceDetailsControl), new FrameworkPropertyMetadata(typeof(AbsenceDetailsControl)));
-        }
+    public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+        nameof(Text),
+        typeof(string),
+        typeof(AbsenceDetailsControl)
+    );
+
+    public string Text
+    {
+        get => (string)GetValue(OfficialHolidaysProperty);
+        set => SetValue(OfficialHolidaysProperty, value);
+    }
+
+    #endregion
+
+    protected virtual void OnOfficialHolidayItemTemplateChanged(DataTemplate oldItemTemplate, DataTemplate newItemTemplate)
+    {
+    }
+
+    static AbsenceDetailsControl()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(AbsenceDetailsControl), new FrameworkPropertyMetadata(typeof(AbsenceDetailsControl)));
     }
 }

@@ -14,43 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments;
+
+public class EmploymentWeekViewModel
 {
-    public class EmploymentWeekViewModel
+    private readonly EmploymentWeek employmentWeek;
+
+    public EmploymentWeekViewModel(EmploymentWeek employmentWeek)
     {
-        private readonly EmploymentWeek employmentWeek;
+        this.employmentWeek = employmentWeek;
+    }
 
-        public EmploymentWeekViewModel(EmploymentWeek employmentWeek)
-        {
-            this.employmentWeek = employmentWeek;
-        }
+    public override string ToString()
+    {
+        if (employmentWeek == null)
+            return string.Empty;
 
-        public override string ToString()
-        {
-            if (employmentWeek == null)
-                return string.Empty;
+        if (employmentWeek is { IsDefault: true })
+            return "Default Week";
 
-            if (employmentWeek is { IsDefault: false })
-            {
-                IEnumerable<string> shortDayNames = employmentWeek
-                    .Select(x => CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(x));
+        IEnumerable<string> shortDayNames = employmentWeek
+            .Select(x => CultureInfo.CurrentCulture.DateTimeFormat.GetDayName(x));
 
-                string workingDaysAsString = string.Join(", ", shortDayNames);
+        string workingDaysAsString = string.Join(", ", shortDayNames);
 
-                if (string.IsNullOrEmpty(workingDaysAsString))
-                    workingDaysAsString = "<none>";
+        if (string.IsNullOrEmpty(workingDaysAsString))
+            workingDaysAsString = "<none>";
 
-                return workingDaysAsString;
-            }
-            else
-            {
-                return "Default Week";
-            }
-        }
+        return workingDaysAsString;
     }
 }

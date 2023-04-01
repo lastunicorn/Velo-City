@@ -17,10 +17,9 @@
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig
+namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig;
+
+public class PresentConfigResponse
 {
-    public class PresentConfigResponse
-    {
-        public List<ConfigItem> ConfigValues { get; set; }
-    }
+    public List<ConfigItem> ConfigValues { get; set; }
 }

@@ -14,54 +14,82 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
+public class ConcurrentHashSet<T> : IDisposable
 {
-    public class ConcurrentHashSet<T> : IDisposable
+    private readonly ReaderWriterLockSlim readerWriterLockSlim = new(LockRecursionPolicy.SupportsRecursion);
+    private readonly HashSet<T> hashSet = new();
+
+    public bool Add(T item)
     {
-        private readonly ReaderWriterLockSlim readerWriterLockSlim = new(LockRecursionPolicy.SupportsRecursion);
-        private readonly HashSet<T> hashSet = new();
-        
-        public bool Add(T item)
+        readerWriterLockSlim.EnterWriteLock();
+
+        try
         {
-            readerWriterLockSlim.EnterWriteLock();
-
-            try
-            {
-                return hashSet.Add(item);
-            }
-            finally
-            {
-                if (readerWriterLockSlim.IsWriteLockHeld)
-                    readerWriterLockSlim.ExitWriteLock();
-            }
+            return hashSet.Add(item);
         }
-
-        public void Clear()
+        finally
         {
-            readerWriterLockSlim.EnterWriteLock();
-
-            try
-            {
-                hashSet.Clear();
-            }
-            finally
-            {
-                if (readerWriterLockSlim.IsWriteLockHeld)
-                    readerWriterLockSlim.ExitWriteLock();
-            }
+            if (readerWriterLockSlim.IsWriteLockHeld)
+                readerWriterLockSlim.ExitWriteLock();
         }
+    }
 
-        public bool Contains(T item)
+    public void Clear()
+    {
+        readerWriterLockSlim.EnterWriteLock();
+
+        try
+        {
+            hashSet.Clear();
+        }
+        finally
+        {
+            if (readerWriterLockSlim.IsWriteLockHeld)
+                readerWriterLockSlim.ExitWriteLock();
+        }
+    }
+
+    public bool Contains(T item)
+    {
+        readerWriterLockSlim.EnterReadLock();
+
+        try
+        {
+            return hashSet.Contains(item);
+        }
+        finally
+        {
+            if (readerWriterLockSlim.IsReadLockHeld)
+                readerWriterLockSlim.ExitReadLock();
+        }
+    }
+
+    public bool Remove(T item)
+    {
+        readerWriterLockSlim.EnterWriteLock();
+
+        try
+        {
+            return hashSet.Remove(item);
+        }
+        finally
+        {
+            if (readerWriterLockSlim.IsWriteLockHeld)
+                readerWriterLockSlim.ExitWriteLock();
+        }
+    }
+
+    public int Count
+    {
+        get
         {
             readerWriterLockSlim.EnterReadLock();
 
             try
             {
-                return hashSet.Contains(item);
+                return hashSet.Count;
             }
             finally
             {
@@ -69,52 +97,19 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
                     readerWriterLockSlim.ExitReadLock();
             }
         }
+    }
 
-        public bool Remove(T item)
-        {
-            readerWriterLockSlim.EnterWriteLock();
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposing)
+            return;
 
-            try
-            {
-                return hashSet.Remove(item);
-            }
-            finally
-            {
-                if (readerWriterLockSlim.IsWriteLockHeld)
-                    readerWriterLockSlim.ExitWriteLock();
-            }
-        }
+        readerWriterLockSlim?.Dispose();
+    }
 
-        public int Count
-        {
-            get
-            {
-                readerWriterLockSlim.EnterReadLock();
-
-                try
-                {
-                    return hashSet.Count;
-                }
-                finally
-                {
-                    if (readerWriterLockSlim.IsReadLockHeld)
-                        readerWriterLockSlim.ExitReadLock();
-                }
-            }
-        }
-        
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-                return;
-
-            readerWriterLockSlim?.Dispose();
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

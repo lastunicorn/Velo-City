@@ -14,18 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
+internal class ExcludedSprintsNote : NoteBase
 {
-    internal class ExcludedSprintsNote : NoteBase
-    {
-        public List<int> ExcludesSprintNumbers { get; set; }
+    public List<int> ExcludesSprintNumbers { get; set; }
 
-        protected override IEnumerable<string> BuildMessage()
-        {
-            string excludedSprints = string.Join(",", ExcludesSprintNumbers);
-            yield return $"Estimations excluded sprints: {excludedSprints}";
-        }
+    protected override IEnumerable<string> BuildMessage()
+    {
+        string excludedSprints = string.Join(",", ExcludesSprintNumbers);
+        yield return $"Estimations excluded sprints: {excludedSprints}";
     }
 }

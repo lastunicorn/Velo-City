@@ -16,18 +16,17 @@
 
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 
-namespace DustInTheWind.VeloCity.Cli.Application.OpenDatabase
+namespace DustInTheWind.VeloCity.Cli.Application.OpenDatabase;
+
+public class OpenDatabaseResponse
 {
-    public class OpenDatabaseResponse
+    public string DatabaseFilePath { get; }
+
+    public DatabaseEditorType DatabaseEditorType { get; }
+
+    public OpenDatabaseResponse(DatabaseEditor databaseEditor)
     {
-        public string DatabaseFilePath { get; }
-
-        public DatabaseEditorType DatabaseEditorType { get; }
-
-        public OpenDatabaseResponse(DatabaseEditor databaseEditor)
-        {
-            DatabaseFilePath = databaseEditor.DatabaseFilePath;
-            DatabaseEditorType = databaseEditor.EditorType;
-        }
+        DatabaseFilePath = databaseEditor.DatabaseFilePath;
+        DatabaseEditorType = databaseEditor.EditorType;
     }
 }

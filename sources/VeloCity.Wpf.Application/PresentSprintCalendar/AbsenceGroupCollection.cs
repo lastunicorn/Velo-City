@@ -14,56 +14,53 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
+
+public class AbsenceGroupCollection : Collection<AbsenceGroup>
 {
-    public class AbsenceGroupCollection : Collection<AbsenceGroup>
+    public AbsenceGroupCollection(IEnumerable<AbsenceGroup> items)
     {
-        public AbsenceGroupCollection(IEnumerable<AbsenceGroup> items)
+        if (items != null)
         {
-            if (items != null)
-            {
-                IEnumerable<AbsenceGroup> itemsNotNull = items.Where(x => x != null);
+            IEnumerable<AbsenceGroup> itemsNotNull = items.Where(x => x != null);
 
-                foreach (AbsenceGroup absenceGroup in itemsNotNull)
-                    Items.Add(absenceGroup);
-            }
-        }
-
-        public void Add(TeamMemberAbsence teamMemberAbsence, string teamMemberCountry)
-        {
-            IEnumerable<AbsenceGroup> absenceGroupsForTeamMember = Items
-                .Where(x => x.OfficialHoliday?.HolidayCountry == teamMemberCountry);
-
-            bool isAdded = false;
-
-            foreach (AbsenceGroup absenceGroup in absenceGroupsForTeamMember)
-            {
-                absenceGroup.Add(teamMemberAbsence);
-                isAdded = true;
-            }
-
-            if (!isAdded)
-            {
-                AbsenceGroup defaultAbsenceGroup = GetOrCreateDefaultAbsenceGroup();
-                defaultAbsenceGroup.Add(teamMemberAbsence);
-            }
-        }
-
-        private AbsenceGroup GetOrCreateDefaultAbsenceGroup()
-        {
-            AbsenceGroup absenceGroup = Items.FirstOrDefault(x => x.OfficialHoliday == null);
-
-            if (absenceGroup == null)
-            {
-                absenceGroup = new AbsenceGroup();
+            foreach (AbsenceGroup absenceGroup in itemsNotNull)
                 Items.Add(absenceGroup);
-            }
-
-            return absenceGroup;
         }
+    }
+
+    public void Add(TeamMemberAbsence teamMemberAbsence, string teamMemberCountry)
+    {
+        IEnumerable<AbsenceGroup> absenceGroupsForTeamMember = Items
+            .Where(x => x.OfficialHoliday?.HolidayCountry == teamMemberCountry);
+
+        bool isAdded = false;
+
+        foreach (AbsenceGroup absenceGroup in absenceGroupsForTeamMember)
+        {
+            absenceGroup.Add(teamMemberAbsence);
+            isAdded = true;
+        }
+
+        if (!isAdded)
+        {
+            AbsenceGroup defaultAbsenceGroup = GetOrCreateDefaultAbsenceGroup();
+            defaultAbsenceGroup.Add(teamMemberAbsence);
+        }
+    }
+
+    private AbsenceGroup GetOrCreateDefaultAbsenceGroup()
+    {
+        AbsenceGroup absenceGroup = Items.FirstOrDefault(x => x.OfficialHoliday == null);
+
+        if (absenceGroup == null)
+        {
+            absenceGroup = new AbsenceGroup();
+            Items.Add(absenceGroup);
+        }
+
+        return absenceGroup;
     }
 }

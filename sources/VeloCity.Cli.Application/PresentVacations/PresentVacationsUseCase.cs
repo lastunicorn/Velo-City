@@ -24,64 +24,63 @@ using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations;
+
+internal class PresentVacationsUseCase : IRequestHandler<PresentVacationsRequest, PresentVacationsResponse>
 {
-    internal class PresentVacationsUseCase : IRequestHandler<PresentVacationsRequest, PresentVacationsResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ISystemClock systemClock;
+
+    public PresentVacationsUseCase(IUnitOfWork unitOfWork, ISystemClock systemClock)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ISystemClock systemClock;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
+    }
 
-        public PresentVacationsUseCase(IUnitOfWork unitOfWork, ISystemClock systemClock)
+    public Task<PresentVacationsResponse> Handle(PresentVacationsRequest request, CancellationToken cancellationToken)
+    {
+        PresentVacationsResponse response = CreateResponse(request);
+        return Task.FromResult(response);
+    }
+
+    private PresentVacationsResponse CreateResponse(PresentVacationsRequest request)
+    {
+        if (request.TeamMemberName != null)
+            return GetVacationsByTeamMember(request.TeamMemberName);
+
+        if (request.Date != null)
+            return GetVacationsByDate(request.Date.Value);
+
+        return GetVacationsByDate(systemClock.Today);
+    }
+
+    private PresentVacationsResponse GetVacationsByTeamMember(string teamMemberName)
+    {
+        IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.Find(teamMemberName);
+
+        return new PresentVacationsResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.systemClock = systemClock ?? throw new ArgumentNullException(nameof(systemClock));
-        }
+            TeamMemberVacations = teamMembers
+                .OrderByEmployment()
+                .Select(x => new TeamMemberVacations(x))
+                .ToList(),
+            RequestType = RequestType.ByName,
+            RequestedTeamMemberName = teamMemberName
+        };
+    }
 
-        public Task<PresentVacationsResponse> Handle(PresentVacationsRequest request, CancellationToken cancellationToken)
+    private PresentVacationsResponse GetVacationsByDate(DateTime date)
+    {
+        IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDate(date);
+
+        return new PresentVacationsResponse
         {
-            PresentVacationsResponse response = CreateResponse(request);
-            return Task.FromResult(response);
-        }
-
-        private PresentVacationsResponse CreateResponse(PresentVacationsRequest request)
-        {
-            if (request.TeamMemberName != null)
-                return GetVacationsByTeamMember(request.TeamMemberName);
-
-            if (request.Date != null)
-                return GetVacationsByDate(request.Date.Value);
-
-            return GetVacationsByDate(systemClock.Today);
-        }
-
-        private PresentVacationsResponse GetVacationsByTeamMember(string teamMemberName)
-        {
-            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.Find(teamMemberName);
-
-            return new PresentVacationsResponse
-            {
-                TeamMemberVacations = teamMembers
-                    .OrderByEmployment()
-                    .Select(x => new TeamMemberVacations(x))
-                    .ToList(),
-                RequestType = RequestType.ByName,
-                RequestedTeamMemberName = teamMemberName
-            };
-        }
-
-        private PresentVacationsResponse GetVacationsByDate(DateTime date)
-        {
-            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDate(date);
-
-            return new PresentVacationsResponse
-            {
-                TeamMemberVacations = teamMembers
-                    .OrderByEmployment()
-                    .Select(x => new TeamMemberVacations(x))
-                    .ToList(),
-                RequestType = RequestType.ByCurrentDate,
-                RequestedDate = date
-            };
-        }
+            TeamMemberVacations = teamMembers
+                .OrderByEmployment()
+                .Select(x => new TeamMemberVacations(x))
+                .ToList(),
+            RequestType = RequestType.ByCurrentDate,
+            RequestedDate = date
+        };
     }
 }

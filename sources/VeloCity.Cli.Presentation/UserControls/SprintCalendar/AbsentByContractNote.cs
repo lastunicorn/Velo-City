@@ -14,16 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
+
+internal class AbsentByContractNote : NoteBase
 {
-    internal class AbsentByContractNote : NoteBase
+    protected override IEnumerable<string> BuildMessage()
     {
-        protected override IEnumerable<string> BuildMessage()
-        {
-            yield return "(c) absent by contract";
-        }
+        yield return "(c) absent by contract";
     }
 }

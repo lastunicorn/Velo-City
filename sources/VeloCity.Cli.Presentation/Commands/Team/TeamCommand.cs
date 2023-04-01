@@ -14,62 +14,58 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentTeam;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team;
+
+[Command("team", ShortDescription = "The composition of the team (team members).", Order = 6)]
+public class TeamCommand : ICommand
 {
-    [Command("team", ShortDescription = "The composition of the team (team members).", Order = 6)]
-    public class TeamCommand : ICommand
+    private readonly IMediator mediator;
+
+    [CommandParameter(Name = "date", ShortName = 'd', IsOptional = true)]
+    public DateTime? Date { get; set; }
+
+    [CommandParameter(Name = "start-date", ShortName = 'a', IsOptional = true)]
+    public DateTime? StartDate { get; set; }
+
+    [CommandParameter(Name = "end-date", ShortName = 'z', IsOptional = true)]
+    public DateTime? EndDate { get; set; }
+
+    [CommandParameter(Name = "sprint", ShortName = 's', IsOptional = true)]
+    public int? Sprint { get; set; }
+
+    public List<TeamMember> TeamMembers { get; private set; }
+
+    public InformationViewModel Information { get; private set; }
+
+    public TeamCommand(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
-        [CommandParameter(Name = "date", ShortName = 'd', IsOptional = true)]
-        public DateTime? Date { get; set; }
-
-        [CommandParameter(Name = "start-date", ShortName = 'a', IsOptional = true)]
-        public DateTime? StartDate { get; set; }
-
-        [CommandParameter(Name = "end-date", ShortName = 'z', IsOptional = true)]
-        public DateTime? EndDate { get; set; }
-
-        [CommandParameter(Name = "sprint", ShortName = 's', IsOptional = true)]
-        public int? Sprint { get; set; }
-
-        public List<TeamMember> TeamMembers { get; private set; }
-
-        public InformationViewModel Information { get; private set; }
-
-        public TeamCommand(IMediator mediator)
+    public async Task Execute()
+    {
+        PresentTeamRequest request = new()
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+            Date = Date,
+            DateInterval = CalculateDateInterval(),
+            SprintNumber = Sprint
+        };
+        PresentTeamResponse response = await mediator.Send(request);
 
-        public async Task Execute()
-        {
-            PresentTeamRequest request = new()
-            {
-                Date = Date,
-                DateInterval = CalculateDateInterval(),
-                SprintNumber = Sprint
-            };
-            PresentTeamResponse response = await mediator.Send(request);
+        Information = new InformationViewModel(response);
+        TeamMembers = response.TeamMembers;
+    }
 
-            Information = new InformationViewModel(response);
-            TeamMembers = response.TeamMembers;
-        }
-
-        private DateInterval? CalculateDateInterval()
-        {
-            return StartDate != null || EndDate != null
-                ? new DateInterval(StartDate, EndDate)
-                : null;
-        }
+    private DateInterval? CalculateDateInterval()
+    {
+        return StartDate != null || EndDate != null
+            ? new DateInterval(StartDate, EndDate)
+            : null;
     }
 }

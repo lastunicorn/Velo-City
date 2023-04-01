@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-
 namespace DustInTheWind.VeloCity.Domain;
 
 public readonly struct Velocity : IFormattable
@@ -107,10 +105,12 @@ public readonly struct Velocity : IFormattable
     public static implicit operator Velocity(float? velocity)
     {
         if (velocity == null)
+        {
             return new Velocity
             {
                 IsEmpty = true
             };
+        }
 
         return new Velocity
         {

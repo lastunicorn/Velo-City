@@ -22,40 +22,39 @@ using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
+namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast;
+
+public class SprintFactory
 {
-    public class SprintFactory
+    private readonly IUnitOfWork unitOfWork;
+
+    public SprintFactory(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    }
 
-        public SprintFactory(IUnitOfWork unitOfWork)
+    public Sprint GenerateImaginarySprint(DateTime startDate, DateTime endDate)
+    {
+        Sprint sprint = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        }
+            DateInterval = new DateInterval(startDate, endDate)
+        };
 
-        public Sprint GenerateImaginarySprint(DateTime startDate, DateTime endDate)
-        {
-            Sprint sprint = new()
-            {
-                DateInterval = new DateInterval(startDate, endDate)
-            };
+        PopulateOfficialHolidays(sprint);
+        PopulateSprintMembers(sprint);
 
-            PopulateOfficialHolidays(sprint);
-            PopulateSprintMembers(sprint);
+        return sprint;
+    }
 
-            return sprint;
-        }
+    private void PopulateOfficialHolidays(Sprint sprint)
+    {
+        IEnumerable<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.Get(sprint.DateInterval);
+        sprint.OfficialHolidays.AddRange(officialHolidays);
+    }
 
-        private void PopulateOfficialHolidays(Sprint sprint)
-        {
-            IEnumerable<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.Get(sprint.DateInterval);
-            sprint.OfficialHolidays.AddRange(officialHolidays);
-        }
-
-        private void PopulateSprintMembers(Sprint sprint)
-        {
-            IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval);
-            sprint.AddSprintMembers(teamMembers);
-        }
+    private void PopulateSprintMembers(Sprint sprint)
+    {
+        IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval);
+        sprint.AddSprintMembers(teamMembers);
     }
 }

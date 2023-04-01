@@ -14,56 +14,50 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentVelocity
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentVelocity;
+
+public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, PresentVelocityResponse>
 {
-    public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, PresentVelocityResponse>
+    private readonly IUnitOfWork unitOfWork;
+
+    public PresentVelocityUseCase(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    }
 
-        public PresentVelocityUseCase(IUnitOfWork unitOfWork)
+    public Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
+    {
+        uint sprintCount = CalculateSprintCount(request);
+        List<SprintVelocity> sprintVelocities = RetrieveSprintVelocities(sprintCount);
+        PresentVelocityResponse response = CreateResponse(sprintCount, sprintVelocities);
+
+        return Task.FromResult(response);
+    }
+
+    private static uint CalculateSprintCount(PresentVelocityRequest request)
+    {
+        return request.SprintCount is null or < 1
+            ? 10
+            : request.SprintCount.Value;
+    }
+
+    private List<SprintVelocity> RetrieveSprintVelocities(uint sprintCount)
+    {
+        return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
+            .OrderByDescending(x => x.StartDate)
+            .Select(x => new SprintVelocity(x))
+            .ToList();
+    }
+
+    private static PresentVelocityResponse CreateResponse(uint sprintCount, List<SprintVelocity> sprintVelocities)
+    {
+        return new PresentVelocityResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        }
-
-        public Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
-        {
-            uint sprintCount = CalculateSprintCount(request);
-            List<SprintVelocity> sprintVelocities = RetrieveSprintVelocities(sprintCount);
-            PresentVelocityResponse response = CreateResponse(sprintCount, sprintVelocities);
-
-            return Task.FromResult(response);
-        }
-
-        private static uint CalculateSprintCount(PresentVelocityRequest request)
-        {
-            return request.SprintCount is null or < 1
-                ? 10
-                : request.SprintCount.Value;
-        }
-
-        private List<SprintVelocity> RetrieveSprintVelocities(uint sprintCount)
-        {
-            return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
-                .OrderByDescending(x=>x.StartDate)
-                .Select(x => new SprintVelocity(x))
-                .ToList();
-        }
-
-        private static PresentVelocityResponse CreateResponse(uint sprintCount, List<SprintVelocity> sprintVelocities)
-        {
-            return new PresentVelocityResponse
-            {
-                RequestedSprintCount = sprintCount,
-                SprintVelocities = sprintVelocities
-            };
-        }
+            RequestedSprintCount = sprintCount,
+            SprintVelocities = sprintVelocities
+        };
     }
 }

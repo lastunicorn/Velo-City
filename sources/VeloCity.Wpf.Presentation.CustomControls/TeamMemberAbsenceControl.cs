@@ -19,70 +19,69 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class TeamMemberAbsenceControl : ContentControl
 {
-    public class TeamMemberAbsenceControl : ContentControl
+    public static readonly DependencyProperty IsPartialVacationProperty = DependencyProperty.Register(
+        nameof(IsPartialVacation),
+        typeof(bool),
+        typeof(TeamMemberAbsenceControl),
+        new FrameworkPropertyMetadata(false,
+            FrameworkPropertyMetadataOptions.AffectsArrange |
+            FrameworkPropertyMetadataOptions.AffectsMeasure |
+            FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+
+    public bool IsPartialVacation
     {
-        public static readonly DependencyProperty IsPartialVacationProperty = DependencyProperty.Register(
-            nameof(IsPartialVacation),
-            typeof(bool),
-            typeof(TeamMemberAbsenceControl),
-            new FrameworkPropertyMetadata(false,
-                FrameworkPropertyMetadataOptions.AffectsArrange |
-                FrameworkPropertyMetadataOptions.AffectsMeasure |
-                FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+        get => (bool)GetValue(IsPartialVacationProperty);
+        set => SetValue(IsPartialVacationProperty, value);
+    }
 
-        public bool IsPartialVacation
-        {
-            get => (bool)GetValue(IsPartialVacationProperty);
-            set => SetValue(IsPartialVacationProperty, value);
-        }
+    public static readonly DependencyProperty IsMissingByContractProperty = DependencyProperty.Register(
+        nameof(IsMissingByContract),
+        typeof(bool),
+        typeof(TeamMemberAbsenceControl),
+        new FrameworkPropertyMetadata(false,
+            FrameworkPropertyMetadataOptions.AffectsArrange |
+            FrameworkPropertyMetadataOptions.AffectsMeasure |
+            FrameworkPropertyMetadataOptions.AffectsParentMeasure));
 
-        public static readonly DependencyProperty IsMissingByContractProperty = DependencyProperty.Register(
-            nameof(IsMissingByContract),
-            typeof(bool),
-            typeof(TeamMemberAbsenceControl),
-            new FrameworkPropertyMetadata(false,
-                FrameworkPropertyMetadataOptions.AffectsArrange |
-                FrameworkPropertyMetadataOptions.AffectsMeasure |
-                FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+    public bool IsMissingByContract
+    {
+        get => (bool)GetValue(IsMissingByContractProperty);
+        set => SetValue(IsMissingByContractProperty, value);
+    }
 
-        public bool IsMissingByContract
-        {
-            get => (bool)GetValue(IsMissingByContractProperty);
-            set => SetValue(IsMissingByContractProperty, value);
-        }
+    public static readonly DependencyProperty AbsenceHoursProperty = DependencyProperty.Register(
+        nameof(AbsenceHours),
+        typeof(int),
+        typeof(TeamMemberAbsenceControl),
+        new FrameworkPropertyMetadata(0,
+            FrameworkPropertyMetadataOptions.AffectsArrange |
+            FrameworkPropertyMetadataOptions.AffectsMeasure |
+            FrameworkPropertyMetadataOptions.AffectsParentMeasure));
 
-        public static readonly DependencyProperty AbsenceHoursProperty = DependencyProperty.Register(
-            nameof(AbsenceHours),
-            typeof(int),
-            typeof(TeamMemberAbsenceControl),
-            new FrameworkPropertyMetadata(0,
-                FrameworkPropertyMetadataOptions.AffectsArrange |
-                FrameworkPropertyMetadataOptions.AffectsMeasure |
-                FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+    public int AbsenceHours
+    {
+        get => (int)GetValue(AbsenceHoursProperty);
+        set => SetValue(AbsenceHoursProperty, value);
+    }
 
-        public int AbsenceHours
-        {
-            get => (int)GetValue(AbsenceHoursProperty);
-            set => SetValue(AbsenceHoursProperty, value);
-        }
+    public static readonly DependencyProperty IconForegroundProperty = DependencyProperty.Register(
+        nameof(IconForeground),
+        typeof(Brush),
+        typeof(TeamMemberAbsenceControl)
+    );
 
-        public static readonly DependencyProperty IconForegroundProperty = DependencyProperty.Register(
-            nameof(IconForeground),
-            typeof(Brush),
-            typeof(TeamMemberAbsenceControl)
-        );
+    public Brush IconForeground
+    {
+        get => (Brush)GetValue(IconForegroundProperty);
+        set => SetValue(IconForegroundProperty, value);
+    }
 
-        public Brush IconForeground
-        {
-            get => (Brush)GetValue(IconForegroundProperty);
-            set => SetValue(IconForegroundProperty, value);
-        }
-
-        static TeamMemberAbsenceControl()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(TeamMemberAbsenceControl), new FrameworkPropertyMetadata(typeof(TeamMemberAbsenceControl)));
-        }
+    static TeamMemberAbsenceControl()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(TeamMemberAbsenceControl), new FrameworkPropertyMetadata(typeof(TeamMemberAbsenceControl)));
     }
 }

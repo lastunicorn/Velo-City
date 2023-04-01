@@ -14,18 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.ConsoleTools.Commando;
 
-namespace DustInTheWind.VeloCity.Cli.Bootstrapper
-{
-    internal class TypeNotCommandException : Exception
-    {
-        private const string DefaultMessage = "Type {0} does not represent command. A command must implement the {1} interface.";
+namespace DustInTheWind.VeloCity.Cli.Bootstrapper;
 
-        public TypeNotCommandException(Type type)
-            : base(string.Format(DefaultMessage, type.FullName, typeof(ICommand).FullName))
-        {
-        }
+internal class TypeNotCommandException : Exception
+{
+    private const string DefaultMessage = "Type {0} does not represent command. A command must implement the {1} interface.";
+
+    public TypeNotCommandException(Type type)
+        : base(string.Format(DefaultMessage, type.FullName, typeof(ICommand).FullName))
+    {
     }
 }

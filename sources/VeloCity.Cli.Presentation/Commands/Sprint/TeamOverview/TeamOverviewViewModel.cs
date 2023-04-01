@@ -14,29 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
+
+public class TeamOverviewViewModel
 {
-    public class TeamOverviewViewModel
+    private readonly PresentSprintResponse response;
+
+    public List<TeamMemberViewModel> TeamMembers => response.SprintMembers
+        .Select(x => new TeamMemberViewModel(x))
+        .ToList();
+
+    public List<NoteBase> Notes { get; set; }
+
+    public TeamOverviewViewModel(PresentSprintResponse response)
     {
-        private readonly PresentSprintResponse response;
+        this.response = response ?? throw new ArgumentNullException(nameof(response));
 
-        public List<TeamMemberViewModel> TeamMembers => response.SprintMembers
-            .Select(x => new TeamMemberViewModel(x))
-            .ToList();
-
-        public List<NoteBase> Notes { get; set; }
-
-        public TeamOverviewViewModel(PresentSprintResponse response)
-        {
-            this.response = response ?? throw new ArgumentNullException(nameof(response));
-
-            Notes = new List<NoteBase> { new TeamDetailsNote() };
-        }
+        Notes = new List<NoteBase> { new TeamDetailsNote() };
     }
 }

@@ -14,52 +14,49 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public abstract class ViewModelBase : INotifyPropertyChanged
 {
-    public abstract class ViewModelBase : INotifyPropertyChanged
+    private volatile bool isInitializeMode;
+
+    protected bool IsInitializeMode => isInitializeMode;
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
-        private volatile bool isInitializeMode;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 
-        protected bool IsInitializeMode => isInitializeMode;
+    protected void RunInInitializeMode(Action action)
+    {
+        isInitializeMode = true;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        try
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            action();
         }
-
-        protected void RunInInitializeMode(Action action)
+        finally
         {
-            isInitializeMode = true;
-
-            try
-            {
-                action();
-            }
-            finally
-            {
-                isInitializeMode = false;
-            }
+            isInitializeMode = false;
         }
+    }
 
-        protected async Task RunInInitializeMode(Func<Task> action)
+    protected async Task RunInInitializeMode(Func<Task> action)
+    {
+        isInitializeMode = true;
+
+        try
         {
-            isInitializeMode = true;
-
-            try
-            {
-                await action();
-            }
-            finally
-            {
-                isInitializeMode = false;
-            }
+            await action();
+        }
+        finally
+        {
+            isInitializeMode = false;
         }
     }
 }

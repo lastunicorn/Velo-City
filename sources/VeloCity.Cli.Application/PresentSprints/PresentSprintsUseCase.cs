@@ -22,33 +22,32 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints;
+
+internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, PresentSprintsResponse>
 {
-    internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, PresentSprintsResponse>
+    private readonly IUnitOfWork unitOfWork;
+
+    public PresentSprintsUseCase(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    }
 
-        public PresentSprintsUseCase(IUnitOfWork unitOfWork)
+    public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
+    {
+        int sprintCount = request.Count is null or < 1
+            ? 6
+            : request.Count.Value;
+
+        List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetLast(sprintCount)
+            .Select(x => new SprintOverview(x))
+            .ToList();
+
+        PresentSprintsResponse response = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        }
+            SprintOverviews = sprintOverviews
+        };
 
-        public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
-        {
-            int sprintCount = request.Count is null or < 1
-                ? 6
-                : request.Count.Value;
-
-            List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetLast(sprintCount)
-                .Select(x => new SprintOverview(x))
-                .ToList();
-
-            PresentSprintsResponse response = new()
-            {
-                SprintOverviews = sprintOverviews
-            };
-
-            return Task.FromResult(response);
-        }
+        return Task.FromResult(response);
     }
 }

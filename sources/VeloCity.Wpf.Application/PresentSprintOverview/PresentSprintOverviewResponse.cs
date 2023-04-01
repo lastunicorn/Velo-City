@@ -14,42 +14,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
+
+public class PresentSprintOverviewResponse
 {
-    public class PresentSprintOverviewResponse
-    {
-        public SprintState SprintState { get; set; }
+    public SprintState SprintState { get; set; }
 
-        public DateInterval SprintDateInterval { get; set; }
-        
-        public string SprintGoal { get; set; }
+    public DateInterval SprintDateInterval { get; set; }
 
-        public int WorkDaysCount { get; set; }
+    public string SprintGoal { get; set; }
 
-        public HoursValue TotalWorkHours { get; set; }
+    public int WorkDaysCount { get; set; }
 
-        public StoryPoints EstimatedStoryPoints { get; set; }
+    public HoursValue TotalWorkHours { get; set; }
 
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
+    public StoryPoints EstimatedStoryPoints { get; set; }
 
-        public Velocity EstimatedVelocity { get; set; }
+    public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
 
-        public List<VelocityPenaltyDto> VelocityPenalties { get; set; }
+    public Velocity EstimatedVelocity { get; set; }
 
-        public StoryPoints CommitmentStoryPoints { get; set; }
+    public List<VelocityPenaltyDto> VelocityPenalties { get; set; }
 
-        public StoryPoints ActualStoryPoints { get; set; }
+    public StoryPoints CommitmentStoryPoints { get; set; }
 
-        public Velocity ActualVelocity { get; set; }
+    public StoryPoints ActualStoryPoints { get; set; }
 
-        public List<int> PreviouslyClosedSprintNumbers { get; set; }
+    public Velocity ActualVelocity { get; set; }
 
-        public List<int> ExcludedSprints { get; set; }
+    public List<int> PreviouslyClosedSprintNumbers { get; set; }
 
-        public string SprintComments { get; set; }
-    }
+    public List<int> ExcludedSprints { get; set; }
+
+    public string SprintComments { get; set; }
 }

@@ -14,81 +14,77 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints;
+
+internal class CommitmentChartControl : BlockControl
 {
-    internal class CommitmentChartControl : BlockControl
+    private const int ChartMaxValue = 40;
+
+    private float maxValue;
+
+    public List<CommitmentChartItem> Items { get; set; }
+
+    protected override void DoDisplayContent(ControlDisplay display)
     {
-        private const int ChartMaxValue = 40;
+        if (Items == null || Items.Count == 0)
+            return;
 
-        private float maxValue;
+        int sprintCount = Items.Count;
+        display.WriteRow(CustomConsole.EmphasizedColor, CustomConsole.EmphasizedBackgroundColor, $"Commitment ({sprintCount} Sprints):");
+        display.WriteRow();
 
-        public List<CommitmentChartItem> Items { get; set; }
+        maxValue = Items.Max(x => Math.Max(x.CommitmentStoryPoints, x.ActualStoryPoints));
 
-        protected override void DoDisplayContent(ControlDisplay display)
+        foreach (CommitmentChartItem item in Items)
         {
-            if (Items == null || Items.Count == 0)
-                return;
+            string actualStoryPoints = item.ActualStoryPoints.ToString("00");
+            string commitmentStoryPoints = item.CommitmentStoryPoints.ToString("00");
+            string title = $"- Sprint {item.SprintNumber:D2} - {actualStoryPoints} / {commitmentStoryPoints} - ";
+            display.Write(title);
 
-            int sprintCount = Items.Count;
-            display.WriteRow(CustomConsole.EmphasizedColor, CustomConsole.EmphasizedBackgroundColor, $"Commitment ({sprintCount} Sprints):");
-            display.WriteRow();
+            WriteChartLine(item, display);
+        }
+    }
 
-            maxValue = Items.Max(x => Math.Max(x.CommitmentStoryPoints, x.ActualStoryPoints));
+    private void WriteChartLine(CommitmentChartItem item, ControlDisplay display)
+    {
+        int commitmentSpChartValue = CalculateChartValue(item.CommitmentStoryPoints);
+        int actualSpChartValue = CalculateChartValue(item.ActualStoryPoints);
 
-            foreach (CommitmentChartItem item in Items)
-            {
-                string actualStoryPoints = item.ActualStoryPoints.ToString("00");
-                string commitmentStoryPoints = item.CommitmentStoryPoints.ToString("00");
-                string title = $"- Sprint {item.SprintNumber:D2} - {actualStoryPoints} / {commitmentStoryPoints} - ";
-                display.Write(title);
+        int bothCount = Math.Min(actualSpChartValue, commitmentSpChartValue);
+        string bothString = new('═', bothCount);
+        display.Write(ConsoleColor.DarkGreen, null, bothString);
 
-                WriteChartLine(item, display);
-            }
+        int onlyCommitmentCount = actualSpChartValue < commitmentSpChartValue
+            ? commitmentSpChartValue - actualSpChartValue
+            : 0;
+
+        if (onlyCommitmentCount > 0)
+        {
+            // ─ ═ » ·
+            string onlyCommitmentString = new('-', onlyCommitmentCount);
+            display.Write(ConsoleColor.DarkRed, null, onlyCommitmentString);
         }
 
-        private void WriteChartLine(CommitmentChartItem item, ControlDisplay display)
+        int onlyActualCount = actualSpChartValue > commitmentSpChartValue
+            ? actualSpChartValue - commitmentSpChartValue
+            : 0;
+
+        if (onlyActualCount > 0)
         {
-            int commitmentSpChartValue = CalculateChartValue(item.CommitmentStoryPoints);
-            int actualSpChartValue = CalculateChartValue(item.ActualStoryPoints);
-
-            int bothCount = Math.Min(actualSpChartValue, commitmentSpChartValue);
-            string bothString = new('═', bothCount);
-            display.Write(ConsoleColor.DarkGreen, null, bothString);
-
-            int onlyCommitmentCount = actualSpChartValue < commitmentSpChartValue
-                ? commitmentSpChartValue - actualSpChartValue
-                : 0;
-
-            if (onlyCommitmentCount > 0)
-            {
-                // ─ ═ » ·
-                string onlyCommitmentString = new('-', onlyCommitmentCount);
-                display.Write(ConsoleColor.DarkRed, null, onlyCommitmentString);
-            }
-
-            int onlyActualCount = actualSpChartValue > commitmentSpChartValue
-                ? actualSpChartValue - commitmentSpChartValue
-                : 0;
-
-            if (onlyActualCount > 0)
-            {
-                string onlyActualString = new('═', onlyActualCount);
-                display.Write(ConsoleColor.DarkRed, null, onlyActualString);
-            }
-
-            display.WriteRow();
+            string onlyActualString = new('═', onlyActualCount);
+            display.Write(ConsoleColor.DarkRed, null, onlyActualString);
         }
 
-        private int CalculateChartValue(float value)
-        {
-            return (int)Math.Round(value * ChartMaxValue / maxValue);
-        }
+        display.WriteRow();
+    }
+
+    private int CalculateChartValue(float value)
+    {
+        return (int)Math.Round(value * ChartMaxValue / maxValue);
     }
 }

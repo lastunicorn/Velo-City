@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList;
+
+/// <summary>
+/// Interaction logic for SprintsListView.xaml
+/// </summary>
+public partial class SprintsListView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SprintsListView.xaml
-    /// </summary>
-    public partial class SprintsListView : UserControl
+    public SprintsListView()
     {
-        public SprintsListView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -14,80 +14,75 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
+internal class ConcurrentDictionary<TKey, TValue> : IDisposable
 {
-    internal class ConcurrentDictionary<TKey, TValue> : IDisposable
+    private readonly ReaderWriterLockSlim readerWriterLockSlim = new(LockRecursionPolicy.SupportsRecursion);
+    private readonly Dictionary<TKey, TValue> dictionary = new();
+
+    public TValue Get(TKey key)
     {
-        private readonly ReaderWriterLockSlim readerWriterLockSlim = new(LockRecursionPolicy.SupportsRecursion);
-        private readonly Dictionary<TKey, TValue> dictionary = new();
+        readerWriterLockSlim.EnterReadLock();
 
-        public TValue Get(TKey key)
+        try
         {
-            readerWriterLockSlim.EnterReadLock();
-
-            try
-            {
-                return dictionary.ContainsKey(key)
-                    ? dictionary[key]
-                    : default;
-            }
-            finally
-            {
-                if (readerWriterLockSlim.IsReadLockHeld)
-                    readerWriterLockSlim.ExitReadLock();
-            }
+            return dictionary.ContainsKey(key)
+                ? dictionary[key]
+                : default;
         }
-
-        public void Set(TKey key, TValue value)
+        finally
         {
-            readerWriterLockSlim.EnterWriteLock();
-
-            try
-            {
-                if (dictionary.ContainsKey(key))
-                    dictionary[key] = value;
-                else
-                    dictionary.Add(key, value);
-            }
-            finally
-            {
-                if (readerWriterLockSlim.IsWriteLockHeld)
-                    readerWriterLockSlim.ExitWriteLock();
-            }
+            if (readerWriterLockSlim.IsReadLockHeld)
+                readerWriterLockSlim.ExitReadLock();
         }
+    }
 
-        public void Remove(TKey key)
+    public void Set(TKey key, TValue value)
+    {
+        readerWriterLockSlim.EnterWriteLock();
+
+        try
         {
-            readerWriterLockSlim.EnterWriteLock();
-
-            try
-            {
-                if (dictionary.ContainsKey(key))
-                    dictionary.Remove(key);
-            }
-            finally
-            {
-                if (readerWriterLockSlim.IsWriteLockHeld)
-                    readerWriterLockSlim.ExitWriteLock();
-            }
+            if (dictionary.ContainsKey(key))
+                dictionary[key] = value;
+            else
+                dictionary.Add(key, value);
         }
-
-        protected virtual void Dispose(bool disposing)
+        finally
         {
-            if (!disposing)
-                return;
-
-            readerWriterLockSlim?.Dispose();
+            if (readerWriterLockSlim.IsWriteLockHeld)
+                readerWriterLockSlim.ExitWriteLock();
         }
+    }
 
-        public void Dispose()
+    public void Remove(TKey key)
+    {
+        readerWriterLockSlim.EnterWriteLock();
+
+        try
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            if (dictionary.ContainsKey(key))
+                dictionary.Remove(key);
         }
+        finally
+        {
+            if (readerWriterLockSlim.IsWriteLockHeld)
+                readerWriterLockSlim.ExitWriteLock();
+        }
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposing)
+            return;
+
+        readerWriterLockSlim?.Dispose();
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

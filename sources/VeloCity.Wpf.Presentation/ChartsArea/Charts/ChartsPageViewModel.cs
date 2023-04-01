@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.BurnVelocityChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CapacityChart;
@@ -23,54 +21,53 @@ using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts;
+
+public class ChartsPageViewModel : ViewModelBase
 {
-    public class ChartsPageViewModel : ViewModelBase
+    private ChartItemViewModel selectedChartItemViewModel;
+
+    public List<ChartItemViewModel> ChartItemViewModels { get; }
+
+    public ChartItemViewModel SelectedChartItemViewModel
     {
-        private ChartItemViewModel selectedChartItemViewModel;
-
-        public List<ChartItemViewModel> ChartItemViewModels { get; }
-
-        public ChartItemViewModel SelectedChartItemViewModel
+        get => selectedChartItemViewModel;
+        set
         {
-            get => selectedChartItemViewModel;
-            set
+            selectedChartItemViewModel = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ChartsPageViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        if (requestBus == null) throw new ArgumentNullException(nameof(requestBus));
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+
+        ChartItemViewModels = new List<ChartItemViewModel>
+        {
+            new()
             {
-                selectedChartItemViewModel = value;
-                OnPropertyChanged();
+                Title = "Burn Velocity Chart",
+                ViewModel = new BurnVelocityChartViewModel(requestBus, eventBus)
+            },
+            new()
+            {
+                Title = "Commitment Chart",
+                ViewModel = new CommitmentChartViewModel(requestBus, eventBus)
+            },
+            new()
+            {
+                Title = "Velocity Chart",
+                ViewModel = new VelocityChartViewModel(requestBus, eventBus)
+            },
+            new()
+            {
+                Title = "Capacity Chart",
+                ViewModel = new CapacityChartViewModel(requestBus, eventBus)
             }
-        }
+        };
 
-        public ChartsPageViewModel(IRequestBus requestBus, EventBus eventBus)
-        {
-            if (requestBus == null) throw new ArgumentNullException(nameof(requestBus));
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-
-            ChartItemViewModels = new List<ChartItemViewModel>
-            {
-                new()
-                {
-                    Title = "Burn Velocity Chart",
-                    ViewModel = new BurnVelocityChartViewModel(requestBus, eventBus)
-                },
-                new()
-                {
-                    Title = "Commitment Chart",
-                    ViewModel = new CommitmentChartViewModel(requestBus, eventBus)
-                },
-                new()
-                {
-                    Title = "Velocity Chart",
-                    ViewModel = new VelocityChartViewModel(requestBus, eventBus)
-                },
-                new()
-                {
-                    Title = "Capacity Chart",
-                    ViewModel = new CapacityChartViewModel(requestBus, eventBus)
-                }
-            };
-
-            SelectedChartItemViewModel = ChartItemViewModels[0];
-        }
+        SelectedChartItemViewModel = ChartItemViewModels[0];
     }
 }

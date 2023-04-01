@@ -14,13 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
@@ -29,88 +23,87 @@ using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers;
+
+public class SprintMembersViewModel : ViewModelBase
 {
-    public class SprintMembersViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private readonly EventBus eventBus;
+    private List<SprintMemberViewModel> sprintMemberViewModels;
+
+    public List<SprintMemberViewModel> SprintMemberViewModels
     {
-        private readonly IRequestBus requestBus;
-        private readonly EventBus eventBus;
-        private List<SprintMemberViewModel> sprintMemberViewModels;
-
-        public List<SprintMemberViewModel> SprintMemberViewModels
+        get => sprintMemberViewModels;
+        private set
         {
-            get => sprintMemberViewModels;
-            private set
-            {
-                sprintMemberViewModels = value;
-                OnPropertyChanged();
-            }
+            sprintMemberViewModels = value;
+            OnPropertyChanged();
         }
+    }
 
-        public SprintMembersViewModel(IRequestBus requestBus, EventBus eventBus)
+    public SprintMembersViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+        this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+        eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+        eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
+        eventBus.Subscribe<SprintsListChangedEvent>(HandleSprintsListChangedEvent);
+    }
+
+    private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveSprintMembers();
+    }
+
+    private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveSprintMembers();
+    }
+
+    private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveSprintMembers();
+    }
+
+    private async Task HandleSprintsListChangedEvent(SprintsListChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveSprintMembers();
+    }
+
+    private async Task RetrieveSprintMembers()
+    {
+        PresentSprintMembersRequest request = new();
+
+        PresentSprintMembersResponse response = await requestBus.Send<PresentSprintMembersRequest, PresentSprintMembersResponse>(request);
+
+        DisplayResponse(response);
+    }
+
+    private void DisplayResponse(PresentSprintMembersResponse response)
+    {
+        List<SprintMemberViewModel> sprintMemberViewModels = CreateViewModels(response.SprintMembers);
+        CreateChartBars(sprintMemberViewModels);
+
+        SprintMemberViewModels = sprintMemberViewModels;
+    }
+
+    private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMemberDto> sprintMembers)
+    {
+        return sprintMembers
+            .Select(x => new SprintMemberViewModel(requestBus, eventBus, x))
+            .ToList();
+    }
+
+    private static void CreateChartBars(IEnumerable<SprintMemberViewModel> sprintMemberViewModels)
+    {
+        SprintMembersWorkChart chart = new(sprintMemberViewModels);
+
+        foreach (ChartBarValue<SprintMemberViewModel> chartBarValue in chart)
         {
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
-            eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
-            eventBus.Subscribe<SprintsListChangedEvent>(HandleSprintsListChangedEvent);
-        }
-
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintMembers();
-        }
-
-        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintMembers();
-        }
-
-        private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintMembers();
-        }
-
-        private async Task HandleSprintsListChangedEvent(SprintsListChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintMembers();
-        }
-
-        private async Task RetrieveSprintMembers()
-        {
-            PresentSprintMembersRequest request = new();
-
-            PresentSprintMembersResponse response = await requestBus.Send<PresentSprintMembersRequest, PresentSprintMembersResponse>(request);
-
-            DisplayResponse(response);
-        }
-
-        private void DisplayResponse(PresentSprintMembersResponse response)
-        {
-            List<SprintMemberViewModel> sprintMemberViewModels = CreateViewModels(response.SprintMembers);
-            CreateChartBars(sprintMemberViewModels);
-
-            SprintMemberViewModels = sprintMemberViewModels;
-        }
-
-        private List<SprintMemberViewModel> CreateViewModels(IEnumerable<SprintMemberDto> sprintMembers)
-        {
-            return sprintMembers
-                .Select(x => new SprintMemberViewModel(requestBus, eventBus, x))
-                .ToList();
-        }
-
-        private static void CreateChartBars(IEnumerable<SprintMemberViewModel> sprintMemberViewModels)
-        {
-            SprintMembersWorkChart chart = new(sprintMemberViewModels);
-
-            foreach (ChartBarValue<SprintMemberViewModel> chartBarValue in chart)
-            {
-                if (chartBarValue.Item != null)
-                    chartBarValue.Item.ChartBarValue = chartBarValue;
-            }
+            if (chartBarValue.Item != null)
+                chartBarValue.Item.ChartBarValue = chartBarValue;
         }
     }
 }

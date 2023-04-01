@@ -14,34 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
+
+public abstract class VacationInfo
 {
-    public abstract class VacationInfo
+    public int? HourCount { get; set; }
+
+    public string Comments { get; set; }
+
+    protected VacationInfo(Vacation vacation)
     {
-        public int? HourCount { get; set; }
+        HourCount = vacation.HourCount;
+        Comments = vacation.Comments;
+    }
 
-        public string Comments { get; set; }
-
-        protected VacationInfo(Vacation vacation)
+    public static VacationInfo From(Vacation vacation)
+    {
+        return vacation switch
         {
-            HourCount = vacation.HourCount;
-            Comments = vacation.Comments;
-        }
-
-        public static VacationInfo From(Vacation vacation)
-        {
-            return vacation switch
-            {
-                VacationOnce vacationOnce => new VacationOnceInfo(vacationOnce),
-                VacationDaily vacationDaily => new VacationDailyInfo(vacationDaily),
-                VacationWeekly vacationWeekly => new VacationWeeklyInfo(vacationWeekly),
-                VacationMonthly vacationMonthly => new VacationMonthlyInfo(vacationMonthly),
-                VacationYearly vacationYearly => new VacationYearlyInfo(vacationYearly),
-                _ => throw new ArgumentOutOfRangeException(nameof(vacation))
-            };
-        }
+            VacationOnce vacationOnce => new VacationOnceInfo(vacationOnce),
+            VacationDaily vacationDaily => new VacationDailyInfo(vacationDaily),
+            VacationWeekly vacationWeekly => new VacationWeeklyInfo(vacationWeekly),
+            VacationMonthly vacationMonthly => new VacationMonthlyInfo(vacationMonthly),
+            VacationYearly vacationYearly => new VacationYearlyInfo(vacationYearly),
+            _ => throw new ArgumentOutOfRangeException(nameof(vacation))
+        };
     }
 }

@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
@@ -34,7 +32,7 @@ public class SprintCalendarDay
     public HoursValue? AbsenceHours { get; private set; }
 
     public AbsenceGroupCollection AbsenceGroups { get; }
-    
+
     public SprintCalendarDay(SprintDay sprintDay)
     {
         if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));

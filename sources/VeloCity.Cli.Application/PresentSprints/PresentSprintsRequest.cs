@@ -16,10 +16,9 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints;
+
+public class PresentSprintsRequest : IRequest<PresentSprintsResponse>
 {
-    public class PresentSprintsRequest : IRequest<PresentSprintsResponse>
-    {
-        public int? Count { get; set; }
-    }
+    public int? Count { get; set; }
 }

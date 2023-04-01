@@ -14,116 +14,108 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMemberCalendar;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
+
+public class SprintMemberCalendarViewModel : ViewModelBase
 {
-    public class SprintMemberCalendarViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private int? currentTeamMemberId = 0;
+    private int? currentSprintId = 0;
+    private string title;
+    private List<SprintMemberCalendarDayViewModel> days;
+    private string subtitle;
+
+    public string Title
     {
-        private readonly IRequestBus requestBus;
-        private int? currentTeamMemberId = 0;
-        private int? currentSprintId = 0;
-        private string title;
-        private List<SprintMemberCalendarDayViewModel> days;
-        private string subtitle;
-
-        public string Title
+        get => title;
+        private set
         {
-            get => title;
-            private set
-            {
-                title = value;
-                OnPropertyChanged();
-            }
+            title = value;
+            OnPropertyChanged();
         }
+    }
 
-        public string Subtitle
+    public string Subtitle
+    {
+        get => subtitle;
+        set
         {
-            get => subtitle;
-            set
-            {
-                subtitle = value;
-                OnPropertyChanged();
-            }
+            subtitle = value;
+            OnPropertyChanged();
         }
+    }
 
-        public List<SprintMemberCalendarDayViewModel> Days
+    public List<SprintMemberCalendarDayViewModel> Days
+    {
+        get => days;
+        private set
         {
-            get => days;
-            private set
-            {
-                days = value;
-                OnPropertyChanged();
-            }
+            days = value;
+            OnPropertyChanged();
         }
+    }
 
-        public SprintMemberCalendarViewModel(IRequestBus requestBus, EventBus eventBus)
+    public SprintMemberCalendarViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+
+        eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
+    }
+
+    private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
+    {
+        if (currentTeamMemberId != null && currentSprintId != null)
         {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+            int teamMemberId = currentTeamMemberId.Value;
+            int sprintId = currentSprintId.Value;
 
-            eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
+            await RefreshData(teamMemberId, sprintId, cancellationToken);
         }
+    }
 
-        private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
+    public void SetSprintMember(int teamMemberId, int sprintId)
+    {
+        _ = RefreshData(teamMemberId, sprintId);
+    }
+
+    private async Task RefreshData(int teamMemberId, int sprintId, CancellationToken cancellationToken = default)
+    {
+        PresentSprintMemberCalendarRequest request = new()
         {
-            if (currentTeamMemberId != null && currentSprintId != null)
-            {
-                int teamMemberId = currentTeamMemberId.Value;
-                int sprintId = currentSprintId.Value;
+            TeamMemberId = teamMemberId,
+            SprintId = sprintId
+        };
 
-                await RefreshData(teamMemberId, sprintId, cancellationToken);
-            }
-        }
+        PresentSprintMemberCalendarResponse response = await requestBus.Send<PresentSprintMemberCalendarRequest, PresentSprintMemberCalendarResponse>(request, cancellationToken);
 
-        public void SetSprintMember(int teamMemberId, int sprintId)
+        currentTeamMemberId = response.TeamMemberId;
+        currentSprintId = response.SprintId;
+
+        Title = response.TeamMemberName;
+        Subtitle = $"Sprint {response.SprintNumber}";
+
+        Days = response.Days
+            .Select(x => new SprintMemberCalendarDayViewModel(requestBus, x))
+            .ToList();
+
+        CreateChartBars(Days);
+    }
+
+    private static void CreateChartBars(IEnumerable<SprintMemberCalendarDayViewModel> calendarItems)
+    {
+        SprintMemberWorkChart chart = new(calendarItems);
+
+        foreach (ChartBarValue<SprintMemberCalendarDayViewModel> chartBarValue in chart)
         {
-            _ = RefreshData(teamMemberId, sprintId);
-        }
-
-        private async Task RefreshData(int teamMemberId, int sprintId, CancellationToken cancellationToken = default)
-        {
-            PresentSprintMemberCalendarRequest request = new()
-            {
-                TeamMemberId = teamMemberId,
-                SprintId = sprintId
-            };
-
-            PresentSprintMemberCalendarResponse response = await requestBus.Send<PresentSprintMemberCalendarRequest, PresentSprintMemberCalendarResponse>(request, cancellationToken);
-
-            currentTeamMemberId = response.TeamMemberId;
-            currentSprintId = response.SprintId;
-
-            Title = response.TeamMemberName;
-            Subtitle = $"Sprint {response.SprintNumber}";
-
-            Days = response.Days
-                .Select(x => new SprintMemberCalendarDayViewModel(requestBus, x))
-                .ToList();
-
-            CreateChartBars(Days);
-        }
-
-        private static void CreateChartBars(IEnumerable<SprintMemberCalendarDayViewModel> calendarItems)
-        {
-            SprintMemberWorkChart chart = new(calendarItems);
-
-            foreach (ChartBarValue<SprintMemberCalendarDayViewModel> chartBarValue in chart)
-            {
-                if (chartBarValue.Item?.IsWorkDay == true)
-                    chartBarValue.Item.ChartBarValue = chartBarValue;
-            }
+            if (chartBarValue.Item?.IsWorkDay == true)
+                chartBarValue.Item.ChartBarValue = chartBarValue;
         }
     }
 }

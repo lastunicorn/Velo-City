@@ -14,24 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
+
+internal class AnalyzeSprintResponse
 {
-    internal class AnalyzeSprintResponse
-    {
-        public SprintList HistorySprints { get; set; }
+    public SprintList HistorySprints { get; set; }
 
-        public Velocity EstimatedVelocity { get; set; }
+    public Velocity EstimatedVelocity { get; set; }
 
-        public StoryPoints EstimatedStoryPoints { get; set; }
+    public StoryPoints EstimatedStoryPoints { get; set; }
 
-        public List<VelocityPenaltyInstance> VelocityPenalties { get; set; }
+    public List<VelocityPenaltyInstance> VelocityPenalties { get; set; }
 
-        public int? TotalWorkHoursWithVelocityPenalties { get; set; }
+    public int? TotalWorkHoursWithVelocityPenalties { get; set; }
 
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
-    }
+    public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
 }

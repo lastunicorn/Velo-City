@@ -16,23 +16,21 @@
 
 using System.Windows;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
+namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public MainWindow(MainViewModel viewModel)
     {
-        public MainWindow(MainViewModel viewModel)
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            DataContext = viewModel;
-        }
+        DataContext = viewModel;
+    }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            
-        }
+    private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+    {
     }
 }

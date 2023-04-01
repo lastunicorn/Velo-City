@@ -14,35 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.ChartTools;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
+
+internal class TeamMembersChart : Chart<TeamMemberViewModel>
 {
-    internal class TeamMembersChart : Chart<TeamMemberViewModel>
+    public TeamMembersChart(IEnumerable<TeamMemberViewModel> items)
     {
-        public TeamMembersChart(IEnumerable<TeamMemberViewModel> items)
+        if (items == null) throw new ArgumentNullException(nameof(items));
+
+        ActualSize = 24;
+
+        AddRange(items);
+        Calculate();
+    }
+
+    protected override ChartBarValue<TeamMemberViewModel> ToChartBarValue(TeamMemberViewModel item)
+    {
+        int workHours = item.WorkHours;
+        int absenceHours = item.AbsenceHours;
+
+        return new ChartBarValue<TeamMemberViewModel>
         {
-            if (items == null) throw new ArgumentNullException(nameof(items));
-
-            ActualSize = 24;
-
-            AddRange(items);
-            Calculate();
-        }
-
-        protected override ChartBarValue<TeamMemberViewModel> ToChartBarValue(TeamMemberViewModel item)
-        {
-            int workHours = item.WorkHours;
-            int absenceHours = item.AbsenceHours;
-
-            return new ChartBarValue<TeamMemberViewModel>()
-            {
-                MaxValue = workHours + absenceHours,
-                FillValue = workHours,
-                Item = item
-            };
-        }
+            MaxValue = workHours + absenceHours,
+            FillValue = workHours,
+            Item = item
+        };
     }
 }

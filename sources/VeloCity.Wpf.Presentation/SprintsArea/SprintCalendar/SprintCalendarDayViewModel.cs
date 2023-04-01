@@ -14,71 +14,67 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
+
+public class SprintCalendarDayViewModel : DataGridRowViewModel
 {
-    public class SprintCalendarDayViewModel : DataGridRowViewModel
+    private ChartBarValue<SprintCalendarDayViewModel> chartBarValue;
+
+    public override bool IsSelectable => true;
+
+    public override bool IsEnabled => IsWorkDay;
+
+    public DateTime Date { get; }
+
+    public bool IsCurrentDay { get; }
+
+    public bool IsWorkDay { get; }
+
+    public HoursValue? WorkHours { get; }
+
+    public bool HasWorkHours => WorkHours?.Value > 0;
+
+    public ChartBarValue<SprintCalendarDayViewModel> ChartBarValue
     {
-        private ChartBarValue<SprintCalendarDayViewModel> chartBarValue;
+        get => IsWorkDay ? chartBarValue : null;
+        set => chartBarValue = value;
+    }
 
-        public override bool IsSelectable => true;
+    public HoursValue? AbsenceHours { get; }
 
-        public override bool IsEnabled => IsWorkDay;
+    public bool HasAbsenceHours => AbsenceHours?.Value > 0;
 
-        public DateTime Date { get; }
-        
-        public bool IsCurrentDay { get; }
+    public List<AbsenceDetailsViewModel> Absences { get; }
 
-        public bool IsWorkDay { get; }
-
-        public HoursValue? WorkHours { get; }
-
-        public bool HasWorkHours => WorkHours?.Value > 0;
-
-        public ChartBarValue<SprintCalendarDayViewModel> ChartBarValue
-        {
-            get => IsWorkDay ? chartBarValue : null;
-            set => chartBarValue = value;
-        }
-
-        public HoursValue? AbsenceHours { get; }
-
-        public bool HasAbsenceHours => AbsenceHours?.Value > 0;
-        
-        public List<AbsenceDetailsViewModel> Absences { get; }
-
-        public SprintCalendarDayViewModel(SprintCalendarDay sprintCalendarDay)
-        {
-            Date = sprintCalendarDay.Date;
-            IsCurrentDay = sprintCalendarDay.IsCurrentDay;
-            IsWorkDay = sprintCalendarDay.IsWorkDay;
-            WorkHours = sprintCalendarDay.WorkHours;
-            AbsenceHours = sprintCalendarDay.AbsenceHours;
-            Absences = sprintCalendarDay.AbsenceGroups
-                .OrderByDescending(x => x.OfficialHoliday?.HolidayCountry)
-                .Select(x => new AbsenceDetailsViewModel
-                {
-                    OfficialHolidayAbsences = x.OfficialHoliday != null
-                        ? new ObservableCollection<OfficialHolidayViewModel>
-                        {
-                            new OfficialHolidayViewModel(x.OfficialHoliday)
-                        }
-                        : null,
-                    Text = sprintCalendarDay.IsWorkDay
-                        ? null
-                        : x.OfficialHoliday?.HolidayName,
-                    TeamMemberAbsences = x
-                        .Select(z => new TeamMemberAbsenceViewModel(z))
-                        .ToObservableCollection()
-                })
-                .ToList();
-        }
+    public SprintCalendarDayViewModel(SprintCalendarDay sprintCalendarDay)
+    {
+        Date = sprintCalendarDay.Date;
+        IsCurrentDay = sprintCalendarDay.IsCurrentDay;
+        IsWorkDay = sprintCalendarDay.IsWorkDay;
+        WorkHours = sprintCalendarDay.WorkHours;
+        AbsenceHours = sprintCalendarDay.AbsenceHours;
+        Absences = sprintCalendarDay.AbsenceGroups
+            .OrderByDescending(x => x.OfficialHoliday?.HolidayCountry)
+            .Select(x => new AbsenceDetailsViewModel
+            {
+                OfficialHolidayAbsences = x.OfficialHoliday != null
+                    ? new ObservableCollection<OfficialHolidayViewModel>
+                    {
+                        new(x.OfficialHoliday)
+                    }
+                    : null,
+                Text = sprintCalendarDay.IsWorkDay
+                    ? null
+                    : x.OfficialHoliday?.HolidayName,
+                TeamMemberAbsences = x
+                    .Select(z => new TeamMemberAbsenceViewModel(z))
+                    .ToObservableCollection()
+            })
+            .ToList();
     }
 }

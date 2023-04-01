@@ -18,36 +18,35 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints;
+
+public class SprintOverview
 {
-    public class SprintOverview
+    public string Name { get; }
+
+    public int SprintNumber { get; }
+
+    public DateTime StartDate { get; }
+
+    public DateTime EndDate { get; }
+
+    public HoursValue TotalWorkHours { get; }
+
+    public StoryPoints CommitmentStoryPoints { get; }
+
+    public StoryPoints ActualStoryPoints { get; }
+
+    public Velocity ActualVelocity { get; }
+
+    public SprintOverview(Sprint sprint)
     {
-        public string Name { get; }
-
-        public int SprintNumber { get; }
-
-        public DateTime StartDate { get; }
-
-        public DateTime EndDate { get; }
-
-        public HoursValue TotalWorkHours { get; }
-
-        public StoryPoints CommitmentStoryPoints { get; }
-
-        public StoryPoints ActualStoryPoints { get; }
-
-        public Velocity ActualVelocity { get; }
-
-        public SprintOverview(Sprint sprint)
-        {
-            Name = sprint.Title;
-            SprintNumber = sprint.Number;
-            StartDate = sprint.StartDate;
-            EndDate = sprint.EndDate;
-            TotalWorkHours = sprint.TotalWorkHours;
-            CommitmentStoryPoints = sprint.CommitmentStoryPoints;
-            ActualStoryPoints = sprint.ActualStoryPoints;
-            ActualVelocity = sprint.Velocity;
-        }
+        Name = sprint.Title;
+        SprintNumber = sprint.Number;
+        StartDate = sprint.StartDate;
+        EndDate = sprint.EndDate;
+        TotalWorkHours = sprint.TotalWorkHours;
+        CommitmentStoryPoints = sprint.CommitmentStoryPoints;
+        ActualStoryPoints = sprint.ActualStoryPoints;
+        ActualVelocity = sprint.Velocity;
     }
 }

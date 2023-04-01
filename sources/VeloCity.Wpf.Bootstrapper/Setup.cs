@@ -33,53 +33,52 @@ using DustInTheWind.VeloCity.Wpf.UserAccess;
 using MediatR;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Bootstrapper;
+
+internal class Setup
 {
-    internal class Setup
+    public static IContainer BuildContainer()
     {
-        public static IContainer BuildContainer()
-        {
-            ContainerBuilder containerBuilder = new();
-            ConfigureServices(containerBuilder);
+        ContainerBuilder containerBuilder = new();
+        ConfigureServices(containerBuilder);
 
-            return containerBuilder.Build();
-        }
+        return containerBuilder.Build();
+    }
 
-        private static void ConfigureServices(ContainerBuilder containerBuilder)
-        {
-            Assembly assembly = typeof(PresentSprintsRequest).Assembly;
-            containerBuilder.RegisterMediatR(assembly);
-            containerBuilder.RegisterGeneric(typeof(ExceptionHandlingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+    private static void ConfigureServices(ContainerBuilder containerBuilder)
+    {
+        Assembly assembly = typeof(PresentSprintsRequest).Assembly;
+        containerBuilder.RegisterMediatR(assembly);
+        containerBuilder.RegisterGeneric(typeof(ExceptionHandlingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 
-            containerBuilder.RegisterType<MediatRRequestBus>().As<IRequestBus>().SingleInstance();
+        containerBuilder.RegisterType<MediatRRequestBus>().As<IRequestBus>().SingleInstance();
 
-            containerBuilder.RegisterType<ApplicationState>().AsSelf().SingleInstance();
-            containerBuilder.RegisterType<EventBus>().AsSelf().SingleInstance();
-            containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
-            containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
+        containerBuilder.RegisterType<ApplicationState>().AsSelf().SingleInstance();
+        containerBuilder.RegisterType<EventBus>().AsSelf().SingleInstance();
+        containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
+        containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
 
-            containerBuilder
-                .Register(context =>
+        containerBuilder
+            .Register(context =>
+            {
+                IConfig config = context.Resolve<IConfig>();
+
+                return new JsonDatabase
                 {
-                    IConfig config = context.Resolve<IConfig>();
+                    PersistenceLocation = config.DatabaseLocation
+                };
+            })
+            .AsSelf()
+            .As<IDataStorage>()
+            .SingleInstance();
 
-                    return new JsonDatabase
-                    {
-                        PersistenceLocation = config.DatabaseLocation
-                    };
-                })
-                .AsSelf()
-                .As<IDataStorage>()
-                .SingleInstance();
+        containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
+        containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
-            containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
+        containerBuilder.RegisterType<MainWindow>().AsSelf();
+        containerBuilder.RegisterType<MainViewModel>().AsSelf();
+        containerBuilder.RegisterType<NewSprintCommand>().AsSelf();
 
-            containerBuilder.RegisterType<MainWindow>().AsSelf();
-            containerBuilder.RegisterType<MainViewModel>().AsSelf();
-            containerBuilder.RegisterType<NewSprintCommand>().AsSelf();
-
-            containerBuilder.RegisterType<UserInterface>().As<IUserInterface>();
-        }
+        containerBuilder.RegisterType<UserInterface>().As<IUserInterface>();
     }
 }

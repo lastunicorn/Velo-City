@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment
+public class PresentCommitmentResponse
 {
-    public class PresentCommitmentResponse
-    {
-        public uint RequestedSprintCount { get; set; }
+    public uint RequestedSprintCount { get; set; }
 
-        public List<SprintCommitment> SprintsCommitments { get; set; }
-    }
+    public List<SprintCommitment> SprintsCommitments { get; set; }
 }

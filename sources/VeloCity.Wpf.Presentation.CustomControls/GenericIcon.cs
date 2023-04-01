@@ -19,49 +19,48 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class GenericIcon : Control
 {
-    public class GenericIcon : Control
+    public static readonly DependencyProperty DisabledForegroundProperty = DependencyProperty.Register(
+        nameof(DisabledForeground),
+        typeof(Brush),
+        typeof(GenericIcon)
+    );
+
+    public Brush DisabledForeground
     {
-        public static readonly DependencyProperty DisabledForegroundProperty = DependencyProperty.Register(
-            nameof(DisabledForeground),
-            typeof(Brush),
-            typeof(GenericIcon)
-        );
+        get => (Brush)GetValue(DisabledForegroundProperty);
+        set => SetValue(DisabledForegroundProperty, value);
+    }
 
-        public Brush DisabledForeground
-        {
-            get => (Brush)GetValue(DisabledForegroundProperty);
-            set => SetValue(DisabledForegroundProperty, value);
-        }
+    public static readonly DependencyProperty DisabledBackgroundProperty = DependencyProperty.Register(
+        nameof(DisabledBackground),
+        typeof(Brush),
+        typeof(GenericIcon)
+    );
 
-        public static readonly DependencyProperty DisabledBackgroundProperty = DependencyProperty.Register(
-            nameof(DisabledBackground),
-            typeof(Brush),
-            typeof(GenericIcon)
-        );
+    public Brush DisabledBackground
+    {
+        get => (Brush)GetValue(DisabledBackgroundProperty);
+        set => SetValue(DisabledBackgroundProperty, value);
+    }
 
-        public Brush DisabledBackground
-        {
-            get => (Brush)GetValue(DisabledBackgroundProperty);
-            set => SetValue(DisabledBackgroundProperty, value);
-        }
+    public static readonly DependencyProperty GeometryProperty = DependencyProperty.Register(
+        nameof(Geometry),
+        typeof(Geometry),
+        typeof(GenericIcon)
+    );
 
-        public static readonly DependencyProperty GeometryProperty = DependencyProperty.Register(
-            nameof(Geometry),
-            typeof(Geometry),
-            typeof(GenericIcon)
-        );
+    public Geometry Geometry
+    {
+        get => (Geometry)GetValue(GeometryProperty);
+        set => SetValue(GeometryProperty, value);
+    }
 
-        public Geometry Geometry
-        {
-            get => (Geometry)GetValue(GeometryProperty);
-            set => SetValue(GeometryProperty, value);
-        }
-
-        static GenericIcon()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(GenericIcon), new FrameworkPropertyMetadata(typeof(GenericIcon)));
-        }
+    static GenericIcon()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(GenericIcon), new FrameworkPropertyMetadata(typeof(GenericIcon)));
     }
 }

@@ -14,11 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
@@ -97,7 +92,7 @@ internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalen
     {
         if (sprintMembers == null)
             return Enumerable.Empty<SprintMemberDay>();
-        
+
         return sprintMembers
             .Select(x => x.Days[sprintDay.Date])
             .Where(x => x != null);

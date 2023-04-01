@@ -14,80 +14,76 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+
+public class TeamMemberVacationViewModel
 {
-    public class TeamMemberVacationViewModel
+    private readonly SortedList<DateMonth, MonthOfVacationsViewModel> groupedVacations = new();
+
+    public PersonName PersonName { get; }
+
+    public List<MonthOfVacationsViewModel> MonthsOfVacations { get; }
+
+    public TeamMemberVacationViewModel(TeamMemberVacations teamMemberVacations)
     {
-        private readonly SortedList<DateMonth, MonthOfVacationsViewModel> groupedVacations = new();
+        if (teamMemberVacations == null) throw new ArgumentNullException(nameof(teamMemberVacations));
 
-        public PersonName PersonName { get; }
+        PersonName = teamMemberVacations.PersonName;
+        MonthsOfVacations = GroupVacationsByMonth(teamMemberVacations.Vacations);
+    }
 
-        public List<MonthOfVacationsViewModel> MonthsOfVacations { get; }
+    private List<MonthOfVacationsViewModel> GroupVacationsByMonth(IEnumerable<Vacation> vacations)
+    {
+        IEnumerable<VacationViewModel> vacationViewModels = vacations
+            .Select(VacationViewModel.From);
 
-        public TeamMemberVacationViewModel(TeamMemberVacations teamMemberVacations)
+        foreach (VacationViewModel vacationViewModel in vacationViewModels)
         {
-            if (teamMemberVacations == null) throw new ArgumentNullException(nameof(teamMemberVacations));
-
-            PersonName = teamMemberVacations.PersonName;
-            MonthsOfVacations = GroupVacationsByMonth(teamMemberVacations.Vacations);
-        }
-
-        private List<MonthOfVacationsViewModel> GroupVacationsByMonth(IEnumerable<Vacation> vacations)
-        {
-            IEnumerable<VacationViewModel> vacationViewModels = vacations
-                .Select(VacationViewModel.From);
-
-            foreach (VacationViewModel vacationViewModel in vacationViewModels)
+            if (vacationViewModel.StartDate == null || vacationViewModel.EndDate == null)
             {
-                if (vacationViewModel.StartDate == null || vacationViewModel.EndDate == null)
+                DateTime? date = vacationViewModel.SignificantDate;
+                if (date != null)
                 {
-                    DateTime? date = vacationViewModel.SignificantDate;
-                    if (date != null)
-                    {
-                        DateMonth dateTimeMonth = new(date.Value);
-                        AddVacation(dateTimeMonth, vacationViewModel);
-                    }
+                    DateMonth dateTimeMonth = new(date.Value);
+                    AddVacation(dateTimeMonth, vacationViewModel);
                 }
-                else
-                {
-                    DateTime date = vacationViewModel.StartDate.Value;
-                    DateMonth dateTimeMonth = new(date);
-
-                    while (dateTimeMonth <= vacationViewModel.EndDate.Value)
-                    {
-                        AddVacation(dateTimeMonth, vacationViewModel);
-
-                        dateTimeMonth = dateTimeMonth.AddMonths(1);
-                    }
-                }
-            }
-
-            return groupedVacations.Values.ToList();
-        }
-
-        private void AddVacation(DateMonth dateTimeMonth, VacationViewModel vacationViewModel)
-        {
-            MonthOfVacationsViewModel monthOfVacationsViewModel;
-
-            if (groupedVacations.ContainsKey(dateTimeMonth))
-            {
-                monthOfVacationsViewModel = groupedVacations[dateTimeMonth];
             }
             else
             {
-                monthOfVacationsViewModel = new MonthOfVacationsViewModel(dateTimeMonth);
-                groupedVacations.Add(dateTimeMonth, monthOfVacationsViewModel);
-            }
+                DateTime date = vacationViewModel.StartDate.Value;
+                DateMonth dateTimeMonth = new(date);
 
-            monthOfVacationsViewModel.Vacations.Add(vacationViewModel);
+                while (dateTimeMonth <= vacationViewModel.EndDate.Value)
+                {
+                    AddVacation(dateTimeMonth, vacationViewModel);
+
+                    dateTimeMonth = dateTimeMonth.AddMonths(1);
+                }
+            }
         }
+
+        return groupedVacations.Values.ToList();
+    }
+
+    private void AddVacation(DateMonth dateTimeMonth, VacationViewModel vacationViewModel)
+    {
+        MonthOfVacationsViewModel monthOfVacationsViewModel;
+
+        if (groupedVacations.ContainsKey(dateTimeMonth))
+        {
+            monthOfVacationsViewModel = groupedVacations[dateTimeMonth];
+        }
+        else
+        {
+            monthOfVacationsViewModel = new MonthOfVacationsViewModel(dateTimeMonth);
+            groupedVacations.Add(dateTimeMonth, monthOfVacationsViewModel);
+        }
+
+        monthOfVacationsViewModel.Vacations.Add(vacationViewModel);
     }
 }

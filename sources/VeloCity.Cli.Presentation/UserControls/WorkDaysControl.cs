@@ -14,25 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
+internal class WorkDaysControl
 {
-    internal class WorkDaysControl
+    public List<DateTime> Days { get; set; }
+
+    public void Display()
     {
-        public List<DateTime> Days { get; set; }
+        Console.WriteLine($"Work Days: {Days.Count} days");
 
-        public void Display()
+        for (int i = 0; i < Days.Count; i++)
         {
-            Console.WriteLine($"Work Days: {Days.Count} days");
-
-            for (int i = 0; i < Days.Count; i++)
-            {
-                DateTime dateTime = Days[i];
-                int dayIndex = i + 1;
-                Console.WriteLine($"  - day {dayIndex:D2}: {dateTime:d} ({dateTime:dddd})");
-            }
+            DateTime dateTime = Days[i];
+            int dayIndex = i + 1;
+            Console.WriteLine($"  - day {dayIndex:D2}: {dateTime:d} ({dateTime:dddd})");
         }
     }
 }

@@ -16,14 +16,13 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls;
+
+internal class CommitmentChartItem
 {
-    internal class CommitmentChartItem
-    {
-        public int SprintNumber { get; set; }
+    public int SprintNumber { get; set; }
 
-        public StoryPoints CommitmentStoryPoints { get; set; }
+    public StoryPoints CommitmentStoryPoints { get; set; }
 
-        public StoryPoints ActualStoryPoints { get; set; }
-    }
+    public StoryPoints ActualStoryPoints { get; set; }
 }

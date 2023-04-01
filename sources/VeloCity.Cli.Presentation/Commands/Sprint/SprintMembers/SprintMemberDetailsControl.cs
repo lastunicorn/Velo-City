@@ -14,70 +14,67 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintMembers
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintMembers;
+
+internal class SprintMemberDetailsControl : Control
 {
-    internal class SprintMemberDetailsControl : Control
+    private readonly DataGridFactory dataGridFactory;
+
+    public SprintMember SprintMember { get; set; }
+
+    public SprintMemberDetailsControl(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory;
+    }
 
-        public SprintMember SprintMember { get; set; }
+    protected override void DoDisplay()
+    {
+        DataGrid dataGrid = CreateEmptyDataGrid();
 
-        public SprintMemberDetailsControl(DataGridFactory dataGridFactory)
+        IEnumerable<SprintMemberDataGridRow> contentRowSelect = CreateRows();
+
+        foreach (SprintMemberDataGridRow contentRow in contentRowSelect)
+            dataGrid.Rows.Add(contentRow);
+
+        dataGrid.Display();
+    }
+
+    private DataGrid CreateEmptyDataGrid()
+    {
+        DataGrid dataGrid = dataGridFactory.Create();
+
+        HoursValue totalWorkHours = SprintMember.Days
+            .Sum(x => x.WorkHours);
+
+        dataGrid.Title = $"{SprintMember.Name} - {totalWorkHours:0}";
+
+        dataGrid.Columns.Add("Date");
+
+        Column workColumn = new("Work")
         {
-            this.dataGridFactory = dataGridFactory;
-        }
+            CellHorizontalAlignment = HorizontalAlignment.Right
+        };
+        dataGrid.Columns.Add(workColumn);
 
-        protected override void DoDisplay()
+        Column absenceColumn = new("Absence")
         {
-            DataGrid dataGrid = CreateEmptyDataGrid();
+            CellHorizontalAlignment = HorizontalAlignment.Right
+        };
+        dataGrid.Columns.Add(absenceColumn);
 
-            IEnumerable<SprintMemberDataGridRow> contentRowSelect = CreateRows();
+        dataGrid.Columns.Add("Details");
 
-            foreach (SprintMemberDataGridRow contentRow in contentRowSelect)
-                dataGrid.Rows.Add(contentRow);
+        return dataGrid;
+    }
 
-            dataGrid.Display();
-        }
-
-        private DataGrid CreateEmptyDataGrid()
-        {
-            DataGrid dataGrid = dataGridFactory.Create();
-
-            HoursValue totalWorkHours = SprintMember.Days
-                .Sum(x => x.WorkHours);
-
-            dataGrid.Title = $"{SprintMember.Name} - {totalWorkHours:0}";
-
-            dataGrid.Columns.Add("Date");
-
-            Column workColumn = new("Work")
-            {
-                CellHorizontalAlignment = HorizontalAlignment.Right
-            };
-            dataGrid.Columns.Add(workColumn);
-
-            Column absenceColumn = new("Absence")
-            {
-                CellHorizontalAlignment = HorizontalAlignment.Right
-            };
-            dataGrid.Columns.Add(absenceColumn);
-
-            dataGrid.Columns.Add("Details");
-
-            return dataGrid;
-        }
-
-        private IEnumerable<SprintMemberDataGridRow> CreateRows()
-        {
-            return SprintMember.Days
-                .Select(x => new SprintMemberDataGridRow(x));
-        }
+    private IEnumerable<SprintMemberDataGridRow> CreateRows()
+    {
+        return SprintMember.Days
+            .Select(x => new SprintMemberDataGridRow(x));
     }
 }

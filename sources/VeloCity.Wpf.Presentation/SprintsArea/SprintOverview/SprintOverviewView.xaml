@@ -257,7 +257,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 DockPanel.Dock="Top"
                                 HorizontalAlignment="Center"
                                 Margin="0 0 0 10"
-                                Value="{Binding EstimatedStoryPointsValue}"/>
+                                Value="{Binding EstimatedStoryPointsValue}" />
 
                             <Grid>
 
@@ -376,14 +376,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     <TextBlock
                                         Text="Estimated Capacity"
                                         Foreground="Gray" />
-                                    
+
                                     <TextBlock
                                         Text="(+ velocity penalties)"
                                         Foreground="{StaticResource FontDimBrush}"
                                         FontSize="12" />
 
                                     <customControls:InfoPoint>
-                                        
+
                                         <customControls:InfoPoint.InfoContent>
                                             <customControls:ParagraphsBlock>
 
@@ -419,7 +419,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     Text="{Binding EstimatedStoryPointsWithVelocityPenalties, StringFormat=standard}"
                                     Foreground="Gray"
                                     FontSize="15"
-                                    Visibility="{Binding EstimatedStoryPointsWithVelocityPenaltiesVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                    Visibility="{Binding EstimatedStoryPointsWithVelocityPenaltiesVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                             </Grid>
 
@@ -465,7 +465,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 DockPanel.Dock="Top"
                                 HorizontalAlignment="Center"
                                 Margin="0 0 0 10"
-                                Value="{Binding CommitmentStoryPointsValue}"/>
+                                Value="{Binding CommitmentStoryPointsValue}" />
 
                             <Grid>
 
@@ -544,7 +544,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 DockPanel.Dock="Top"
                                 HorizontalAlignment="Center"
                                 Margin="0 0 0 10"
-                                Value="{Binding ActualStoryPointsValue}"/>
+                                Value="{Binding ActualStoryPointsValue}" />
 
                             <Grid>
 
@@ -626,7 +626,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     </Border>
 
                 </Grid>
-                
+
                 <customControls:PanelWithTitle
                     Title="Goal"
                     Visibility="{Binding SprintGoal, Converter={StaticResource NullToVisibilityConverter}}"

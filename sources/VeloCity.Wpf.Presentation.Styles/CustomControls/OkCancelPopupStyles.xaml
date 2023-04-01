@@ -186,7 +186,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 Content="{TemplateBinding Content}"
                                 IsTabStop="False"
                                 TabIndex="1"
-                                KeyboardNavigation.TabNavigation="Local"/>
+                                KeyboardNavigation.TabNavigation="Local" />
 
                         </DockPanel>
 

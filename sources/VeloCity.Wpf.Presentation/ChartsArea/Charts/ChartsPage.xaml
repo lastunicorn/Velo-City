@@ -52,21 +52,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             SelectedItem="{Binding SelectedChartItemViewModel}"
             HorizontalAlignment="Left"
             MinWidth="300"
-            Margin="0 0 0 40">
-
-        </ComboBox>
+            Margin="0 0 0 40" />
 
         <ContentControl Content="{Binding SelectedChartItemViewModel.ViewModel}">
             <ContentControl.Resources>
-                
+
                 <DataTemplate DataType="{x:Type burnVelocityChart:BurnVelocityChartViewModel}">
                     <burnVelocityChart:BurnVelocityChartControl />
                 </DataTemplate>
-                
+
                 <DataTemplate DataType="{x:Type commitmentChart:CommitmentChartViewModel}">
                     <commitmentChart:CommitmentChartControl />
                 </DataTemplate>
-                
+
                 <DataTemplate DataType="{x:Type velocityChart:VelocityChartViewModel}">
                     <velocityChart:VelocityChartControl />
                 </DataTemplate>

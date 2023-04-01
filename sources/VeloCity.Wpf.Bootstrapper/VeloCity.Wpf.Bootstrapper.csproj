@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <AssemblyName>VeloCity</AssemblyName>
         <RootNamespace>DustInTheWind.VeloCity.Wpf.Bootstrapper</RootNamespace>
         <ApplicationIcon>icon.ico</ApplicationIcon>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>

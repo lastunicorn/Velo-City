@@ -14,56 +14,50 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
+
+public class PresentCommitmentUseCase : IRequestHandler<PresentCommitmentRequest, PresentCommitmentResponse>
 {
-    public class PresentCommitmentUseCase : IRequestHandler<PresentCommitmentRequest, PresentCommitmentResponse>
+    private readonly IUnitOfWork unitOfWork;
+
+    public PresentCommitmentUseCase(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    }
 
-        public PresentCommitmentUseCase(IUnitOfWork unitOfWork)
+    public Task<PresentCommitmentResponse> Handle(PresentCommitmentRequest request, CancellationToken cancellationToken)
+    {
+        uint sprintCount = ComputeSprintCount(request);
+        List<SprintCommitment> sprintVelocities = RetrieveSprintCommitment(sprintCount);
+        PresentCommitmentResponse response = CreateResponse(sprintCount, sprintVelocities);
+
+        return Task.FromResult(response);
+    }
+
+    private static uint ComputeSprintCount(PresentCommitmentRequest request)
+    {
+        return request.SprintCount is null or < 1
+            ? 10
+            : request.SprintCount.Value;
+    }
+
+    private List<SprintCommitment> RetrieveSprintCommitment(uint sprintCount)
+    {
+        return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
+            .OrderByDescending(x => x.StartDate)
+            .Select(x => new SprintCommitment(x))
+            .ToList();
+    }
+
+    private static PresentCommitmentResponse CreateResponse(uint sprintCount, List<SprintCommitment> sprintVelocities)
+    {
+        return new PresentCommitmentResponse
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        }
-
-        public Task<PresentCommitmentResponse> Handle(PresentCommitmentRequest request, CancellationToken cancellationToken)
-        {
-            uint sprintCount = ComputeSprintCount(request);
-            List<SprintCommitment> sprintVelocities = RetrieveSprintCommitment(sprintCount);
-            PresentCommitmentResponse response = CreateResponse(sprintCount, sprintVelocities);
-
-            return Task.FromResult(response);
-        }
-
-        private static uint ComputeSprintCount(PresentCommitmentRequest request)
-        {
-            return request.SprintCount is null or < 1
-                ? 10
-                : request.SprintCount.Value;
-        }
-
-        private List<SprintCommitment> RetrieveSprintCommitment(uint sprintCount)
-        {
-            return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
-                .OrderByDescending(x=>x.StartDate)
-                .Select(x => new SprintCommitment(x))
-                .ToList();
-        }
-
-        private static PresentCommitmentResponse CreateResponse(uint sprintCount, List<SprintCommitment> sprintVelocities)
-        {
-            return new PresentCommitmentResponse
-            {
-                RequestedSprintCount = sprintCount,
-                SprintsCommitments = sprintVelocities
-            };
-        }
+            RequestedSprintCount = sprintCount,
+            SprintsCommitments = sprintVelocities
+        };
     }
 }

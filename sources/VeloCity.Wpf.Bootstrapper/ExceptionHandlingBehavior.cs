@@ -14,34 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Bootstrapper;
+
+public sealed class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
-    public sealed class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        try
         {
-            try
-            {
-                return await next();
-            }
-            catch (Exception ex)
-            {
-                Window mainWindow = System.Windows.Application.Current.MainWindow;
+            return await next();
+        }
+        catch (Exception ex)
+        {
+            Window mainWindow = System.Windows.Application.Current.MainWindow;
 
-                if (mainWindow != null)
-                    MessageBox.Show(mainWindow, ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                else
-                    MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            if (mainWindow != null)
+                MessageBox.Show(mainWindow, ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
-                throw;
-            }
+            throw;
         }
     }
 }

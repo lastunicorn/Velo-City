@@ -16,16 +16,15 @@
 
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
+
+public class PresentSprintDetailResponse
 {
-    public class PresentSprintDetailResponse
-    {
-        public int SprintId { get; set; }
-        
-        public string SprintTitle { get; set; }
+    public int SprintId { get; set; }
 
-        public int SprintNumber { get; set; }
+    public string SprintTitle { get; set; }
 
-        public SprintState SprintState { get; set; }
-    }
+    public int SprintNumber { get; set; }
+
+    public SprintState SprintState { get; set; }
 }

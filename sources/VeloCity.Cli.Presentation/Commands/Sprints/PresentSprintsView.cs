@@ -14,102 +14,98 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentSprints;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints;
+
+public class PresentSprintsView : IView<PresentSprintsCommand>
 {
-    public class PresentSprintsView : IView<PresentSprintsCommand>
+    private readonly DataGridFactory dataGridFactory;
+
+    public PresentSprintsView(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+    }
 
-        public PresentSprintsView(DataGridFactory dataGridFactory)
+    public void Display(PresentSprintsCommand command)
+    {
+        bool sprintsExist = command.SprintOverviews is { Count: > 0 };
+
+        if (sprintsExist)
         {
-            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+            DisplaySprints(command.SprintOverviews);
+            DisplayVelocityChart(command.SprintOverviews);
+            DisplayCommitmentChart(command.SprintOverviews);
+            DisplaySprintsSizeChart(command.SprintOverviews);
         }
-
-        public void Display(PresentSprintsCommand command)
+        else
         {
-            bool sprintsExist = command.SprintOverviews is { Count: > 0 };
-
-            if (sprintsExist)
-            {
-                DisplaySprints(command.SprintOverviews);
-                DisplayVelocityChart(command.SprintOverviews);
-                DisplayCommitmentChart(command.SprintOverviews);
-                DisplaySprintsSizeChart(command.SprintOverviews);
-            }
-            else
-            {
-                Console.WriteLine("There are no sprints.");
-            }
+            Console.WriteLine("There are no sprints.");
         }
+    }
 
-        private void DisplaySprints(IEnumerable<SprintOverview> sprintOverviews)
+    private void DisplaySprints(IEnumerable<SprintOverview> sprintOverviews)
+    {
+        SprintsOverview sprintsOverview = new(dataGridFactory)
         {
-            SprintsOverview sprintsOverview = new(dataGridFactory)
-            {
-                Items = sprintOverviews.ToList()
-            };
+            Items = sprintOverviews.ToList()
+        };
 
-            sprintsOverview.Display();
-        }
+        sprintsOverview.Display();
+    }
 
-        private static void DisplayVelocityChart(IEnumerable<SprintOverview> sprintOverviews)
+    private static void DisplayVelocityChart(IEnumerable<SprintOverview> sprintOverviews)
+    {
+        VelocityChartControl velocityChartControl = new()
         {
-            VelocityChartControl velocityChartControl = new()
-            {
-                Margin = "0 1 0 0",
-                Items = sprintOverviews
-                    .Select(x => new VelocityChartItem
-                    {
-                        SprintNumber = x.SprintNumber,
-                        Velocity = x.ActualVelocity
-                    })
-                    .ToList()
-            };
+            Margin = "0 1 0 0",
+            Items = sprintOverviews
+                .Select(x => new VelocityChartItem
+                {
+                    SprintNumber = x.SprintNumber,
+                    Velocity = x.ActualVelocity
+                })
+                .ToList()
+        };
 
-            velocityChartControl.Display();
-        }
+        velocityChartControl.Display();
+    }
 
-        private static void DisplaySprintsSizeChart(IEnumerable<SprintOverview> sprintOverviews)
+    private static void DisplaySprintsSizeChart(IEnumerable<SprintOverview> sprintOverviews)
+    {
+        SprintsSizeChartControl sprintsSizeChartControl = new()
         {
-            SprintsSizeChartControl sprintsSizeChartControl = new()
-            {
-                Margin = "0 1 0 0",
-                Items = sprintOverviews
-                    .Select(x => new SprintsSizeChartItem
-                    {
-                        SprintNumber = x.SprintNumber,
-                        TotalWorkHours = x.TotalWorkHours
-                    })
-                    .ToList()
-            };
+            Margin = "0 1 0 0",
+            Items = sprintOverviews
+                .Select(x => new SprintsSizeChartItem
+                {
+                    SprintNumber = x.SprintNumber,
+                    TotalWorkHours = x.TotalWorkHours
+                })
+                .ToList()
+        };
 
-            sprintsSizeChartControl.Display();
-        }
+        sprintsSizeChartControl.Display();
+    }
 
-        private static void DisplayCommitmentChart(IEnumerable<SprintOverview> sprintOverviews)
+    private static void DisplayCommitmentChart(IEnumerable<SprintOverview> sprintOverviews)
+    {
+        Console.WriteLine();
+
+        CommitmentChartControl commitmentChartControl = new()
         {
-            Console.WriteLine();
+            Items = sprintOverviews
+                .Select(x => new CommitmentChartItem
+                {
+                    SprintNumber = x.SprintNumber,
+                    CommitmentStoryPoints = x.CommitmentStoryPoints,
+                    ActualStoryPoints = x.ActualStoryPoints
+                })
+                .ToList()
+        };
 
-            CommitmentChartControl commitmentChartControl = new()
-            {
-                Items = sprintOverviews
-                    .Select(x => new CommitmentChartItem
-                    {
-                        SprintNumber = x.SprintNumber,
-                        CommitmentStoryPoints = x.CommitmentStoryPoints,
-                        ActualStoryPoints = x.ActualStoryPoints
-                    })
-                    .ToList()
-            };
-
-            commitmentChartControl.Display();
-        }
+        commitmentChartControl.Display();
     }
 }

@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
+
+public class TeamMemberViewModel
 {
-    public class TeamMemberViewModel
+    public int TeamMemberId { get; }
+
+    private TeamMemberInfo TeamMemberInfo { get; }
+
+    public bool IsEmployed => TeamMemberInfo.IsEmployed;
+
+    public TeamMemberViewModel(TeamMemberInfo teamMemberInfo)
     {
-        public int TeamMemberId { get; }
+        TeamMemberInfo = teamMemberInfo ?? throw new ArgumentNullException(nameof(teamMemberInfo));
 
-        private TeamMemberInfo TeamMemberInfo { get; }
+        TeamMemberId = teamMemberInfo.Id;
+    }
 
-        public bool IsEmployed => TeamMemberInfo.IsEmployed;
-
-        public TeamMemberViewModel(TeamMemberInfo teamMemberInfo)
-        {
-            TeamMemberInfo = teamMemberInfo ?? throw new ArgumentNullException(nameof(teamMemberInfo));
-
-            TeamMemberId = teamMemberInfo.Id;
-        }
-
-        public override string ToString()
-        {
-            return TeamMemberInfo.Name;
-        }
+    public override string ToString()
+    {
+        return TeamMemberInfo.Name;
     }
 }

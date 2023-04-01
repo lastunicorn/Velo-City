@@ -14,34 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Infrastructure;
-using DustInTheWind.VeloCity.Wpf.Application.CloseSprint;
 using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands;
+
+public class NewSprintCommand : ICommand
 {
-    public class NewSprintCommand : ICommand
+    private readonly IRequestBus requestBus;
+
+    public event EventHandler CanExecuteChanged;
+
+    public NewSprintCommand(IRequestBus requestBus)
     {
-        private readonly IRequestBus requestBus;
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+    }
 
-        public event EventHandler CanExecuteChanged;
+    public bool CanExecute(object parameter)
+    {
+        return true;
+    }
 
-        public NewSprintCommand(IRequestBus requestBus)
-        {
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            CreateNewSprintRequest request = new();
-            _ = requestBus.Send(request);
-        }
+    public void Execute(object parameter)
+    {
+        CreateNewSprintRequest request = new();
+        _ = requestBus.Send(request);
     }
 }

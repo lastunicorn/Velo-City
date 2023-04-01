@@ -14,9 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Reflection;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentMain;
 using DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts;
@@ -25,62 +23,61 @@ using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.Sprints;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main
+namespace DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
+
+public class MainViewModel : ViewModelBase
 {
-    public class MainViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private readonly EventBus eventBus;
+    private string databaseConnectionString;
+    private SprintsPageViewModel sprintsPageViewModel;
+    private TeamPageViewModel teamPageViewModel;
+    private ChartsPageViewModel chartsPageViewModel;
+    private RefreshCommand refreshCommand;
+
+    public string Title
     {
-        private readonly IRequestBus requestBus;
-        private readonly EventBus eventBus;
-        private string databaseConnectionString;
-        private SprintsPageViewModel sprintsPageViewModel;
-        private TeamPageViewModel teamPageViewModel;
-        private ChartsPageViewModel chartsPageViewModel;
-        private RefreshCommand refreshCommand;
-
-        public string Title
+        get
         {
-            get
-            {
-                Assembly assembly = Assembly.GetEntryAssembly();
-                AssemblyName assemblyName = assembly.GetName();
-                Version version = assemblyName.Version;
+            Assembly assembly = Assembly.GetEntryAssembly();
+            AssemblyName assemblyName = assembly.GetName();
+            Version version = assemblyName.Version;
 
-                return $"VeloCity {version.ToString(3)} beta";
-            }
+            return $"VeloCity {version.ToString(3)} beta";
         }
+    }
 
-        public string DatabaseConnectionString
+    public string DatabaseConnectionString
+    {
+        get => databaseConnectionString;
+        set
         {
-            get => databaseConnectionString;
-            set
-            {
-                databaseConnectionString = value;
-                OnPropertyChanged();
-            }
+            databaseConnectionString = value;
+            OnPropertyChanged();
         }
+    }
 
-        public SprintsPageViewModel SprintsPageViewModel => sprintsPageViewModel ??= new SprintsPageViewModel(requestBus, eventBus);
+    public SprintsPageViewModel SprintsPageViewModel => sprintsPageViewModel ??= new SprintsPageViewModel(requestBus, eventBus);
 
-        public TeamPageViewModel TeamPageViewModel => teamPageViewModel ??= new TeamPageViewModel(requestBus, eventBus);
+    public TeamPageViewModel TeamPageViewModel => teamPageViewModel ??= new TeamPageViewModel(requestBus, eventBus);
 
-        public ChartsPageViewModel ChartsPageViewModel => chartsPageViewModel ??= new ChartsPageViewModel(requestBus, eventBus);
-        
-        public RefreshCommand RefreshCommand => refreshCommand ??= new RefreshCommand(requestBus);
+    public ChartsPageViewModel ChartsPageViewModel => chartsPageViewModel ??= new ChartsPageViewModel(requestBus, eventBus);
 
-        public MainViewModel(IRequestBus requestBus, EventBus eventBus)
-        {
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+    public RefreshCommand RefreshCommand => refreshCommand ??= new RefreshCommand(requestBus);
 
-            _ = Initialize();
-        }
+    public MainViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+        this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
 
-        private async Task Initialize()
-        {
-            PresentMainRequest request = new();
-            PresentMainResponse response = await requestBus.Send<PresentMainRequest, PresentMainResponse>(request);
+        _ = Initialize();
+    }
 
-            DatabaseConnectionString = response.DatabaseConnectionString;
-        }
+    private async Task Initialize()
+    {
+        PresentMainRequest request = new();
+        PresentMainResponse response = await requestBus.Send<PresentMainRequest, PresentMainResponse>(request);
+
+        DatabaseConnectionString = response.DatabaseConnectionString;
     }
 }

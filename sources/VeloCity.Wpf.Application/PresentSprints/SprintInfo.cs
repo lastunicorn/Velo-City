@@ -17,27 +17,26 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
+
+public class SprintInfo
 {
-    public class SprintInfo
+    public int Id { get; }
+
+    public string Title { get; }
+
+    public int Number { get; }
+
+    public DateInterval DateInterval { get; }
+
+    public SprintState State { get; }
+
+    public SprintInfo(Sprint sprint)
     {
-        public int Id { get; }
-
-        public string Title { get; }
-
-        public int Number { get; }
-
-        public DateInterval DateInterval { get; }
-
-        public SprintState State { get; }
-
-        public SprintInfo(Sprint sprint)
-        {
-            Id = sprint.Id;
-            Title = sprint.Title;
-            Number = sprint.Number;
-            DateInterval = sprint.DateInterval;
-            State = sprint.State;
-        }
+        Id = sprint.Id;
+        Title = sprint.Title;
+        Number = sprint.Number;
+        DateInterval = sprint.DateInterval;
+        State = sprint.State;
     }
 }

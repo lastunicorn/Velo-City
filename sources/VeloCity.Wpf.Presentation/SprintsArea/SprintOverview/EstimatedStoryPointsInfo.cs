@@ -14,20 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
+internal class EstimatedStoryPointsInfo : InfoBase
 {
-    internal class EstimatedStoryPointsInfo : InfoBase
+    public List<int> PreviousSprintNumbers { get; set; }
+
+    protected override IEnumerable<string> BuildMessage()
     {
-        public List<int> PreviousSprintNumbers { get; set; }
+        string previousSprints = string.Join(", ", PreviousSprintNumbers);
+        yield return $"Story points that the team can burn if they will have the same velocity as the average from the last {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
 
-        protected override IEnumerable<string> BuildMessage()
-        {
-            string previousSprints = string.Join(", ", PreviousSprintNumbers);
-            yield return $"Story points that the team can burn if they will have the same velocity as the average from the last {PreviousSprintNumbers.Count} closed sprints: {previousSprints}";
-
-            yield return "Estimated Capacity = Estimated Burn Velocity * Total Work Hours";
-        }
+        yield return "Estimated Capacity = Estimated Burn Velocity * Total Work Hours";
     }
 }

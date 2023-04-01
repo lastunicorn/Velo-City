@@ -17,64 +17,63 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class LabeledContent : ContentControl
 {
-    public class LabeledContent : ContentControl
+    #region Label
+
+    public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
+        nameof(Label),
+        typeof(object),
+        typeof(LabeledContent),
+        new PropertyMetadata(null)
+    );
+
+    public object Label
     {
-        #region Label
+        get => GetValue(LabelProperty);
+        set => SetValue(LabelProperty, value);
+    }
 
-        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
-            nameof(Label),
-            typeof(object),
-            typeof(LabeledContent),
-            new PropertyMetadata(null)
-        );
+    #endregion
 
-        public object Label
-        {
-            get => GetValue(LabelProperty);
-            set => SetValue(LabelProperty, value);
-        }
+    #region InfoContent
 
-        #endregion
+    public static readonly DependencyProperty InfoContentProperty = DependencyProperty.Register(
+        nameof(InfoContent),
+        typeof(object),
+        typeof(LabeledContent),
+        new PropertyMetadata(null)
+    );
 
-        #region InfoContent
+    public object InfoContent
+    {
+        get => GetValue(InfoContentProperty);
+        set => SetValue(InfoContentProperty, value);
+    }
 
-        public static readonly DependencyProperty InfoContentProperty = DependencyProperty.Register(
-            nameof(InfoContent),
-            typeof(object),
-            typeof(LabeledContent),
-            new PropertyMetadata(null)
-        );
+    #endregion
 
-        public object InfoContent
-        {
-            get => GetValue(InfoContentProperty);
-            set => SetValue(InfoContentProperty, value);
-        }
+    #region BetweenSpace
 
-        #endregion
+    public static readonly DependencyProperty BetweenSpaceProperty = DependencyProperty.Register(
+        nameof(BetweenSpace),
+        typeof(GridLength),
+        typeof(LabeledContent),
+        new PropertyMetadata(new GridLength(20))
+    );
 
-        #region BetweenSpace
+    public GridLength BetweenSpace
+    {
+        get => (GridLength)GetValue(LabelProperty);
+        set => SetValue(LabelProperty, value);
+    }
 
-        public static readonly DependencyProperty BetweenSpaceProperty = DependencyProperty.Register(
-            nameof(BetweenSpace),
-            typeof(GridLength),
-            typeof(LabeledContent),
-            new PropertyMetadata(new GridLength(20))
-        );
+    #endregion
 
-        public GridLength BetweenSpace
-        {
-            get => (GridLength)GetValue(LabelProperty);
-            set => SetValue(LabelProperty, value);
-        }
-
-        #endregion
-
-        static LabeledContent()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(LabeledContent), new FrameworkPropertyMetadata(typeof(LabeledContent)));
-        }
+    static LabeledContent()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(LabeledContent), new FrameworkPropertyMetadata(typeof(LabeledContent)));
     }
 }

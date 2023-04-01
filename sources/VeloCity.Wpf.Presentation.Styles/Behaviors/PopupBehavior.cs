@@ -18,57 +18,56 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors;
+
+internal static class PopupBehavior
 {
-    internal static class PopupBehavior
+    private static readonly ConcurrentDictionary<UIElement, Popup> PopupsByTriggerElement = new();
+
+    public static readonly DependencyProperty PopupProperty = DependencyProperty.RegisterAttached(
+        "Popup",
+        typeof(Popup),
+        typeof(PopupBehavior),
+        new UIPropertyMetadata(default(Popup), OnPopupPropertyChanged));
+
+    public static Popup GetPopup(DependencyObject d)
     {
-        private static readonly ConcurrentDictionary<UIElement, Popup> PopupsByTriggerElement = new();
+        return (Popup)d.GetValue(PopupProperty);
+    }
 
-        public static readonly DependencyProperty PopupProperty = DependencyProperty.RegisterAttached(
-            "Popup",
-            typeof(Popup),
-            typeof(PopupBehavior),
-            new UIPropertyMetadata(default(Popup), OnPopupPropertyChanged));
+    public static void SetPopup(DependencyObject d, Popup value)
+    {
+        d.SetValue(PopupProperty, value);
+    }
 
-        public static Popup GetPopup(DependencyObject d)
+    private static void OnPopupPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is UIElement uiElement)
         {
-            return (Popup)d.GetValue(PopupProperty);
-        }
-
-        public static void SetPopup(DependencyObject d, Popup value)
-        {
-            d.SetValue(PopupProperty, value);
-        }
-
-        private static void OnPopupPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is UIElement uiElement)
+            if (e.NewValue is Popup popup)
             {
-                if (e.NewValue is Popup popup)
-                {
-                    PopupsByTriggerElement.Set(uiElement, popup);
-                    popup.PlacementTarget ??= uiElement;
+                PopupsByTriggerElement.Set(uiElement, popup);
+                popup.PlacementTarget ??= uiElement;
 
-                    uiElement.MouseLeftButtonDown += UiElementOnMouseLeftButtonDown;
-                }
-                else
-                {
-                    uiElement.MouseLeftButtonDown -= UiElementOnMouseLeftButtonDown;
+                uiElement.MouseLeftButtonDown += UiElementOnMouseLeftButtonDown;
+            }
+            else
+            {
+                uiElement.MouseLeftButtonDown -= UiElementOnMouseLeftButtonDown;
 
-                    PopupsByTriggerElement.Remove(uiElement);
-                }
+                PopupsByTriggerElement.Remove(uiElement);
             }
         }
+    }
 
-        private static void UiElementOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private static void UiElementOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is UIElement uiElement)
         {
-            if (sender is UIElement uiElement)
-            {
-                Popup popup = PopupsByTriggerElement.Get(uiElement);
+            Popup popup = PopupsByTriggerElement.Get(uiElement);
 
-                if (popup != null)
-                    popup.IsOpen = true;
-            }
+            if (popup != null)
+                popup.IsOpen = true;
         }
     }
 }

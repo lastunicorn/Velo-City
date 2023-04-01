@@ -14,53 +14,49 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar;
+
+[Command("calendar", ShortDescription = "Inspect the calendar of a specific sprint.", Order = 8)]
+public class CalendarCommand : ICommand
 {
-    [Command("calendar", ShortDescription = "Inspect the calendar of a specific sprint.", Order = 8)]
-    public class CalendarCommand : ICommand
+    private readonly IMediator mediator;
+
+    [CommandParameter(Name = "sprint", ShortName = 's', Order = 1, IsOptional = true)]
+    public int? SprintNumber { get; set; }
+
+    [CommandParameter(Name = "start-date", ShortName = 'a', IsOptional = true)]
+    public DateTime? StartDate { get; set; }
+
+    [CommandParameter(Name = "end-date", ShortName = 'z', IsOptional = true)]
+    public DateTime? EndDate { get; set; }
+
+    public SprintCalendar SprintCalendar { get; private set; }
+
+    public List<MonthCalendar> MonthCalendars { get; private set; }
+
+    public CalendarCommand(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
-        [CommandParameter(Name = "sprint", ShortName = 's', Order = 1, IsOptional = true)]
-        public int? SprintNumber { get; set; }
-
-        [CommandParameter(Name = "start-date", ShortName = 'a', IsOptional = true)]
-        public DateTime? StartDate { get; set; }
-
-        [CommandParameter(Name = "end-date", ShortName = 'z', IsOptional = true)]
-        public DateTime? EndDate { get; set; }
-
-        public SprintCalendar SprintCalendar { get; private set; }
-
-        public List<MonthCalendar> MonthCalendars { get; private set; }
-
-        public CalendarCommand(IMediator mediator)
+    public async Task Execute()
+    {
+        PresentSprintCalendarRequest request = new()
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+            SprintNumber = SprintNumber,
+            StartDate = StartDate,
+            EndDate = EndDate
+        };
 
-        public async Task Execute()
-        {
-            PresentSprintCalendarRequest request = new()
-            {
-                SprintNumber = SprintNumber,
-                StartDate = StartDate,
-                EndDate = EndDate
-            };
+        PresentSprintCalendarResponse response = await mediator.Send(request);
 
-            PresentSprintCalendarResponse response = await mediator.Send(request);
-
-            SprintCalendar = response.SprintCalendar;
-            MonthCalendars = response.MonthCalendars;
-        }
+        SprintCalendar = response.SprintCalendar;
+        MonthCalendars = response.MonthCalendars;
     }
 }

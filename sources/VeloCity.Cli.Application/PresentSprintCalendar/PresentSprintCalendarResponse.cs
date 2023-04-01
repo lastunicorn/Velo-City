@@ -18,12 +18,11 @@ using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar
-{
-    public class PresentSprintCalendarResponse
-    {
-        public SprintCalendar SprintCalendar { get; set; }
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar;
 
-        public List<MonthCalendar> MonthCalendars { get; set; }
-    }
+public class PresentSprintCalendarResponse
+{
+    public SprintCalendar SprintCalendar { get; set; }
+
+    public List<MonthCalendar> MonthCalendars { get; set; }
 }

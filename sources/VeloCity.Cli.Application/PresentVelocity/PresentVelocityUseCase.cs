@@ -22,42 +22,41 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
+
+public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, PresentVelocityResponse>
 {
-    public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, PresentVelocityResponse>
+    private readonly IUnitOfWork unitOfWork;
+
+    public PresentVelocityUseCase(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    }
 
-        public PresentVelocityUseCase(IUnitOfWork unitOfWork)
+    public Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
+    {
+        int sprintCount = CalculateSprintCount(request);
+        List<SprintVelocity> sprintVelocities = RetrieveSprintVelocities(sprintCount);
+
+        PresentVelocityResponse response = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        }
+            SprintVelocities = sprintVelocities
+        };
 
-        public Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
-        {
-            int sprintCount = CalculateSprintCount(request);
-            List<SprintVelocity> sprintVelocities = RetrieveSprintVelocities(sprintCount);
+        return Task.FromResult(response);
+    }
 
-            PresentVelocityResponse response = new()
-            {
-                SprintVelocities = sprintVelocities
-            };
+    private static int CalculateSprintCount(PresentVelocityRequest request)
+    {
+        return request.SprintCount is null or < 1
+            ? 10
+            : request.SprintCount.Value;
+    }
 
-            return Task.FromResult(response);
-        }
-
-        private static int CalculateSprintCount(PresentVelocityRequest request)
-        {
-            return request.SprintCount is null or < 1
-                ? 10
-                : request.SprintCount.Value;
-        }
-
-        private List<SprintVelocity> RetrieveSprintVelocities(int sprintCount)
-        {
-            return unitOfWork.SprintRepository.GetLast(sprintCount)
-                .Select(x => new SprintVelocity(x))
-                .ToList();
-        }
+    private List<SprintVelocity> RetrieveSprintVelocities(int sprintCount)
+    {
+        return unitOfWork.SprintRepository.GetLast(sprintCount)
+            .Select(x => new SprintVelocity(x))
+            .ToList();
     }
 }

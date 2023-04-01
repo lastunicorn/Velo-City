@@ -16,10 +16,9 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
+
+public class PresentVelocityRequest : IRequest<PresentVelocityResponse>
 {
-    public class PresentVelocityRequest : IRequest<PresentVelocityResponse>
-    {
-        public int? SprintCount { get; set; }
-    }
+    public int? SprintCount { get; set; }
 }

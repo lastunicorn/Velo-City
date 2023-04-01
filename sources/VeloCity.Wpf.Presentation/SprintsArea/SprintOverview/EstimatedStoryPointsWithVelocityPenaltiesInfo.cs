@@ -14,32 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
+
+internal class EstimatedStoryPointsWithVelocityPenaltiesInfo : InfoBase
 {
-    internal class EstimatedStoryPointsWithVelocityPenaltiesInfo : InfoBase
+    public List<VelocityPenaltyDto> VelocityPenalties { get; set; }
+
+    protected override IEnumerable<string> BuildMessage()
     {
-        public List<VelocityPenaltyDto> VelocityPenalties { get; set; }
-
-        protected override IEnumerable<string> BuildMessage()
+        if (VelocityPenalties == null)
         {
-            if (VelocityPenalties == null)
-            {
-                yield return "Same as the 'Estimated Capacity', but velocity penalties are applied for each team member.";
-            }
-            else
-            {
-                yield return "Same as the 'Estimated Capacity', but velocity penalties are applied for each team member:";
+            yield return "Same as the 'Estimated Capacity', but velocity penalties are applied for each team member.";
+        }
+        else
+        {
+            yield return "Same as the 'Estimated Capacity', but velocity penalties are applied for each team member:";
 
-                IEnumerable<string> items = VelocityPenalties
-                    .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");
+            IEnumerable<string> items = VelocityPenalties
+                .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");
 
-                yield return string.Join(Environment.NewLine, items);
-            }
+            yield return string.Join(Environment.NewLine, items);
         }
     }
 }

@@ -14,46 +14,42 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
+
+internal class SetCurrentSprintUseCase : IRequestHandler<SetCurrentSprintRequest>
 {
-    internal class SetCurrentSprintUseCase : IRequestHandler<SetCurrentSprintRequest>
+    private readonly ApplicationState applicationState;
+    private readonly EventBus eventBus;
+
+    public SetCurrentSprintUseCase(ApplicationState applicationState, EventBus eventBus)
     {
-        private readonly ApplicationState applicationState;
-        private readonly EventBus eventBus;
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+        this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+    }
 
-        public SetCurrentSprintUseCase(ApplicationState applicationState, EventBus eventBus)
+    public async Task<Unit> Handle(SetCurrentSprintRequest request, CancellationToken cancellationToken)
+    {
+        SetCurrentSprint(request.SprintId);
+        await RaiseEvent(request.SprintId, cancellationToken);
+
+        return Unit.Value;
+    }
+
+    private void SetCurrentSprint(int? sprintNumber)
+    {
+        applicationState.SelectedSprintId = sprintNumber;
+    }
+
+    private async Task RaiseEvent(int? sprintNumber, CancellationToken cancellationToken)
+    {
+        SprintChangedEvent ev = new()
         {
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-        }
+            NewSprintNumber = sprintNumber
+        };
 
-        public async Task<Unit> Handle(SetCurrentSprintRequest request, CancellationToken cancellationToken)
-        {
-            SetCurrentSprint(request.SprintId);
-            await RaiseEvent(request.SprintId, cancellationToken);
-
-            return Unit.Value;
-        }
-
-        private void SetCurrentSprint(int? sprintNumber)
-        {
-            applicationState.SelectedSprintId = sprintNumber;
-        }
-
-        private async Task RaiseEvent(int? sprintNumber, CancellationToken cancellationToken)
-        {
-            SprintChangedEvent ev = new()
-            {
-                NewSprintNumber = sprintNumber
-            };
-
-            await eventBus.Publish(ev, cancellationToken);
-        }
+        await eventBus.Publish(ev, cancellationToken);
     }
 }

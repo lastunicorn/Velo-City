@@ -101,7 +101,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         <DataTemplate>
                             <customControls:ChartBar
                                 Value="{Binding ChartBarValue}"
-                                IsTabStop="False"/>
+                                IsTabStop="False" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
 

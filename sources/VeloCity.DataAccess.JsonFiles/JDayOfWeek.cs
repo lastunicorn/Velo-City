@@ -39,5 +39,5 @@ public enum JDayOfWeek
     Friday,
 
     [EnumMember(Value = "saturday")]
-    Saturday,
+    Saturday
 }

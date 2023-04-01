@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
+
+/// <summary>
+/// Interaction logic for SprintCalendarView.xaml
+/// </summary>
+public partial class SprintCalendarView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SprintCalendarView.xaml
-    /// </summary>
-    public partial class SprintCalendarView : UserControl
+    public SprintCalendarView()
     {
-        public SprintCalendarView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

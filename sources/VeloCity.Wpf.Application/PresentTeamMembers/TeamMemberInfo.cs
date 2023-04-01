@@ -16,21 +16,20 @@
 
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
+
+public class TeamMemberInfo
 {
-    public class TeamMemberInfo
+    public int Id { get; }
+
+    public string Name { get; }
+
+    public bool IsEmployed { get; }
+
+    public TeamMemberInfo(TeamMember teamMember)
     {
-        public int Id { get; }
-
-        public string Name { get; }
-
-        public bool IsEmployed { get; }
-
-        public TeamMemberInfo(TeamMember teamMember)
-        {
-            Id = teamMember.Id;
-            Name = teamMember.Name;
-            IsEmployed = teamMember.HasActiveEmployment;
-        }
+        Id = teamMember.Id;
+        Name = teamMember.Name;
+        IsEmployed = teamMember.HasActiveEmployment;
     }
 }

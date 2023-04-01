@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
@@ -26,73 +23,72 @@ using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployme
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
+
+public class TeamPageViewModel : ViewModelBase
 {
-    public class TeamPageViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private string title;
+    private bool isTeamMemberSelected;
+
+    public string Title
     {
-        private readonly IRequestBus requestBus;
-        private string title;
-        private bool isTeamMemberSelected;
-
-        public string Title
+        get => title;
+        set
         {
-            get => title;
-            set
-            {
-                title = value;
-                OnPropertyChanged();
-            }
+            title = value;
+            OnPropertyChanged();
         }
+    }
 
-        public bool IsTeamMemberSelected
+    public bool IsTeamMemberSelected
+    {
+        get => isTeamMemberSelected;
+        set
         {
-            get => isTeamMemberSelected;
-            set
-            {
-                isTeamMemberSelected = value;
-                OnPropertyChanged();
-            }
+            isTeamMemberSelected = value;
+            OnPropertyChanged();
         }
+    }
 
-        public EmploymentsViewModel EmploymentsViewModel { get; }
+    public EmploymentsViewModel EmploymentsViewModel { get; }
 
-        public VacationsViewModel VacationsViewModel { get; }
+    public VacationsViewModel VacationsViewModel { get; }
 
-        public TeamMembersListViewModel TeamMembersListViewModel { get; }
+    public TeamMembersListViewModel TeamMembersListViewModel { get; }
 
-        public TeamPageViewModel(IRequestBus requestBus, EventBus eventBus)
-        {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+    public TeamPageViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
-            TeamMembersListViewModel = new TeamMembersListViewModel(requestBus, eventBus);
-            EmploymentsViewModel = new EmploymentsViewModel(requestBus, eventBus);
-            VacationsViewModel = new VacationsViewModel(requestBus, eventBus);
+        TeamMembersListViewModel = new TeamMembersListViewModel(requestBus, eventBus);
+        EmploymentsViewModel = new EmploymentsViewModel(requestBus, eventBus);
+        VacationsViewModel = new VacationsViewModel(requestBus, eventBus);
 
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-            eventBus.Subscribe<TeamMemberChangedEvent>(HandleTeamMemberChangedEvent);
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+        eventBus.Subscribe<TeamMemberChangedEvent>(HandleTeamMemberChangedEvent);
 
-            _ = RetrieveTeamMemberDetails();
-        }
+        _ = RetrieveTeamMemberDetails();
+    }
 
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveTeamMemberDetails();
-        }
+    private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveTeamMemberDetails();
+    }
 
-        private async Task HandleTeamMemberChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveTeamMemberDetails();
-        }
+    private async Task HandleTeamMemberChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveTeamMemberDetails();
+    }
 
-        private async Task RetrieveTeamMemberDetails()
-        {
-            PresentTeamMemberDetailsRequest request = new();
+    private async Task RetrieveTeamMemberDetails()
+    {
+        PresentTeamMemberDetailsRequest request = new();
 
-            PresentTeamMemberDetailsResponse response = await requestBus.Send<PresentTeamMemberDetailsRequest, PresentTeamMemberDetailsResponse>(request);
+        PresentTeamMemberDetailsResponse response = await requestBus.Send<PresentTeamMemberDetailsRequest, PresentTeamMemberDetailsResponse>(request);
 
-            Title = response.TeamMemberName;
-            IsTeamMemberSelected = response.TeamMemberName != null;
-        }
+        Title = response.TeamMemberName;
+        IsTeamMemberSelected = response.TeamMemberName != null;
     }
 }

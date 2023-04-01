@@ -14,43 +14,39 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.PresentVelocity;
+
+public class VelocityView : IView<VelocityCommand>
 {
-    public class VelocityView : IView<VelocityCommand>
+    public void Display(VelocityCommand command)
     {
-        public void Display(VelocityCommand command)
+        bool sprintsExist = command.SprintVelocities is { Count: > 0 };
+
+        if (sprintsExist)
+            DisplaySprints(command.SprintVelocities);
+        else
+            Console.WriteLine("There are no sprints.");
+    }
+
+    private static void DisplaySprints(IReadOnlyCollection<SprintVelocity> sprintVelocities)
+    {
+        Console.WriteLine();
+
+        VelocityChartControl velocityChartControl = new()
         {
-            bool sprintsExist = command.SprintVelocities is { Count: > 0 };
+            Items = sprintVelocities
+                .Select(x => new VelocityChartItem
+                {
+                    SprintNumber = x.SprintNumber,
+                    Velocity = x.Velocity
+                })
+                .ToList()
+        };
 
-            if (sprintsExist)
-                DisplaySprints(command.SprintVelocities);
-            else
-                Console.WriteLine("There are no sprints.");
-        }
-
-        private static void DisplaySprints(IReadOnlyCollection<SprintVelocity> sprintVelocities)
-        {
-            Console.WriteLine();
-
-            VelocityChartControl velocityChartControl = new()
-            {
-                Items = sprintVelocities
-                    .Select(x => new VelocityChartItem
-                    {
-                        SprintNumber = x.SprintNumber,
-                        Velocity = x.Velocity
-                    })
-                    .ToList()
-            };
-
-            velocityChartControl.Display();
-        }
+        velocityChartControl.Display();
     }
 }

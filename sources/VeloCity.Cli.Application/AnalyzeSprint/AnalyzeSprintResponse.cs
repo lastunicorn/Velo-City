@@ -18,20 +18,19 @@ using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Cli.Application.AnalyzeSprint;
+
+internal class AnalyzeSprintResponse
 {
-    internal class AnalyzeSprintResponse
-    {
-        public SprintList HistorySprints { get; set; }
+    public SprintList HistorySprints { get; set; }
 
-        public Velocity EstimatedVelocity { get; set; }
+    public Velocity EstimatedVelocity { get; set; }
 
-        public StoryPoints EstimatedStoryPoints { get; set; }
+    public StoryPoints EstimatedStoryPoints { get; set; }
 
-        public List<VelocityPenaltyInstance> VelocityPenalties { get; set; }
+    public List<VelocityPenaltyInstance> VelocityPenalties { get; set; }
 
-        public int? TotalWorkHoursWithVelocityPenalties { get; set; }
+    public int? TotalWorkHoursWithVelocityPenalties { get; set; }
 
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
-    }
+    public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
 }

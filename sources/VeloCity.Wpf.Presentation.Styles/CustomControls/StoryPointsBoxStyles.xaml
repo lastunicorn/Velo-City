@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    <converters:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter"/>
+    <converters:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter" />
 
     <Style
         x:Key="{x:Type customControls:StoryPointsBox}"
@@ -46,14 +46,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             FontSize="60"
                             Text="{Binding WholePart, RelativeSource={RelativeSource TemplatedParent}}"
                             FontWeight="DemiBold"
-                            Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}"/>
+                            Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
 
                         <TextBlock
                             FontSize="30"
                             Text="{Binding FractionalPart, RelativeSource={RelativeSource TemplatedParent}, StringFormat=.00}"
                             FontWeight="DemiBold"
                             Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
-                        
+
                         <TextBlock
                             FontSize="60"
                             Text="-"
@@ -63,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             FontSize="60"
                             Text="SP"
                             Margin="10 0 0 0"
-                            FontWeight="DemiBold"/>
+                            FontWeight="DemiBold" />
 
                     </TextBlock>
 

@@ -14,39 +14,35 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
+
+public class VelocityPenaltiesNote : NoteBase
 {
-    public class VelocityPenaltiesNote : NoteBase
+    public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
+
+    protected override IEnumerable<string> BuildMessage()
     {
-        public List<VelocityPenaltyInfo> VelocityPenalties { get; set; }
-
-        protected override IEnumerable<string> BuildMessage()
+        if (VelocityPenalties == null)
         {
-            if (VelocityPenalties == null)
-            {
-                yield return "(*) The estimations include velocity penalties.";
-            }
-            else
-            {
-                IEnumerable<string> items = VelocityPenalties
-                    .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");
+            yield return "(*) The estimations include velocity penalties.";
+        }
+        else
+        {
+            IEnumerable<string> items = VelocityPenalties
+                .Select(x => $"    - {x.PersonName.ShortName} ({x.PenaltyValue}%)");
 
-                string allItems = string.Join(Environment.NewLine, items);
-                string message = $"(*) The estimations include velocity penalties for:{Environment.NewLine}{allItems}.";
+            string allItems = string.Join(Environment.NewLine, items);
+            string message = $"(*) The estimations include velocity penalties for:{Environment.NewLine}{allItems}.";
 
-                MultilineText multilineText = message;
-                IEnumerable<string> lines = multilineText.GetLines(120);
+            MultilineText multilineText = message;
+            IEnumerable<string> lines = multilineText.GetLines(120);
 
-                foreach (string line in lines)
-                    yield return line;
-            }
+            foreach (string line in lines)
+                yield return line;
         }
     }
 }

@@ -14,36 +14,34 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Converters;
+
+public class SprintStateToTextConverter : IValueConverter
 {
-    public class SprintStateToTextConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value is SprintState sprintState)
         {
-            if (value is SprintState sprintState)
+            return sprintState switch
             {
-                return sprintState switch
-                {
-                    SprintState.Unknown => "Unknown",
-                    SprintState.New => "New",
-                    SprintState.InProgress => "In Progress",
-                    SprintState.Closed => "Closed",
-                    _ => throw new ArgumentOutOfRangeException("The value must be a SprintState.", nameof(value))
-                };
-            }
-
-            return DependencyProperty.UnsetValue;
+                SprintState.Unknown => "Unknown",
+                SprintState.New => "New",
+                SprintState.InProgress => "In Progress",
+                SprintState.Closed => "Closed",
+                _ => throw new ArgumentOutOfRangeException("The value must be a SprintState.", nameof(value))
+            };
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
+        return DependencyProperty.UnsetValue;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return DependencyProperty.UnsetValue;
     }
 }

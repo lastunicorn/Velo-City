@@ -18,91 +18,90 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class SprintStateControl : Control
 {
-    public class SprintStateControl : Control
+    public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+        nameof(Value),
+        typeof(SprintState),
+        typeof(SprintStateControl),
+        new PropertyMetadata(SprintState.Unknown)
+    );
+
+    public SprintState Value
     {
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
-            nameof(Value),
-            typeof(SprintState),
-            typeof(SprintStateControl),
-            new PropertyMetadata(SprintState.Unknown)
-        );
+        get => (SprintState)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
 
-        public SprintState Value
-        {
-            get => (SprintState)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
+    public static readonly DependencyProperty IsIconVisibleProperty = DependencyProperty.Register(
+        nameof(IsIconVisible),
+        typeof(bool),
+        typeof(SprintStateControl),
+        new PropertyMetadata(true)
+    );
 
-        public static readonly DependencyProperty IsIconVisibleProperty = DependencyProperty.Register(
-            nameof(IsIconVisible),
-            typeof(bool),
-            typeof(SprintStateControl),
-            new PropertyMetadata(true)
-        );
+    public bool IsIconVisible
+    {
+        get => (bool)GetValue(IsIconVisibleProperty);
+        set => SetValue(IsIconVisibleProperty, value);
+    }
 
-        public bool IsIconVisible
-        {
-            get => (bool)GetValue(IsIconVisibleProperty);
-            set => SetValue(IsIconVisibleProperty, value);
-        }
+    public static readonly DependencyProperty IconWidthProperty = DependencyProperty.Register(
+        nameof(IconWidth),
+        typeof(double),
+        typeof(SprintStateControl),
+        new PropertyMetadata(16d)
+    );
 
-        public static readonly DependencyProperty IconWidthProperty = DependencyProperty.Register(
-            nameof(IconWidth),
-            typeof(double),
-            typeof(SprintStateControl),
-            new PropertyMetadata(16d)
-        );
+    public double IconWidth
+    {
+        get => (double)GetValue(IconWidthProperty);
+        set => SetValue(IconWidthProperty, value);
+    }
 
-        public double IconWidth
-        {
-            get => (double)GetValue(IconWidthProperty);
-            set => SetValue(IconWidthProperty, value);
-        }
+    public static readonly DependencyProperty IconHeightProperty = DependencyProperty.Register(
+        nameof(IconHeight),
+        typeof(double),
+        typeof(SprintStateControl),
+        new PropertyMetadata(16d)
+    );
 
-        public static readonly DependencyProperty IconHeightProperty = DependencyProperty.Register(
-            nameof(IconHeight),
-            typeof(double),
-            typeof(SprintStateControl),
-            new PropertyMetadata(16d)
-        );
+    public double IconHeight
+    {
+        get => (double)GetValue(IconHeightProperty);
+        set => SetValue(IconHeightProperty, value);
+    }
 
-        public double IconHeight
-        {
-            get => (double)GetValue(IconHeightProperty);
-            set => SetValue(IconHeightProperty, value);
-        }
+    public static readonly DependencyProperty IsLabelVisibleProperty = DependencyProperty.Register(
+        nameof(IsLabelVisible),
+        typeof(bool),
+        typeof(SprintStateControl),
+        new PropertyMetadata(true)
+    );
 
-        public static readonly DependencyProperty IsLabelVisibleProperty = DependencyProperty.Register(
-            nameof(IsLabelVisible),
-            typeof(bool),
-            typeof(SprintStateControl),
-            new PropertyMetadata(true)
-        );
+    public bool IsLabelVisible
+    {
+        get => (bool)GetValue(IsLabelVisibleProperty);
+        set => SetValue(IsLabelVisibleProperty, value);
+    }
 
-        public bool IsLabelVisible
-        {
-            get => (bool)GetValue(IsLabelVisibleProperty);
-            set => SetValue(IsLabelVisibleProperty, value);
-        }
+    public static readonly DependencyProperty IsIconShadowVisibleProperty = DependencyProperty.Register(
+        nameof(IsIconShadowVisible),
+        typeof(bool),
+        typeof(SprintStateControl),
+        new PropertyMetadata(false)
+    );
 
-        public static readonly DependencyProperty IsIconShadowVisibleProperty = DependencyProperty.Register(
-            nameof(IsIconShadowVisible),
-            typeof(bool),
-            typeof(SprintStateControl),
-            new PropertyMetadata(false)
-        );
+    public bool IsIconShadowVisible
+    {
+        get => (bool)GetValue(IsIconShadowVisibleProperty);
+        set => SetValue(IsIconShadowVisibleProperty, value);
+    }
 
-        public bool IsIconShadowVisible
-        {
-            get => (bool)GetValue(IsIconShadowVisibleProperty);
-            set => SetValue(IsIconShadowVisibleProperty, value);
-        }
-
-        static SprintStateControl()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SprintStateControl), new FrameworkPropertyMetadata(typeof(SprintStateControl)));
-        }
+    static SprintStateControl()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(SprintStateControl), new FrameworkPropertyMetadata(typeof(SprintStateControl)));
     }
 }

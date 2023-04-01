@@ -15,11 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity;
@@ -28,102 +23,101 @@ using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using LiveCharts;
 using LiveCharts.Wpf;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CapacityChart
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CapacityChart;
+
+internal class CapacityChartViewModel : ViewModelBase
 {
-    internal class CapacityChartViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private ChartValues<int> values;
+    private uint sprintCount;
+    private List<string> sprintsLabels;
+
+    public uint SprintCount
     {
-        private readonly IRequestBus requestBus;
-        private ChartValues<int> values;
-        private uint sprintCount;
-        private List<string> sprintsLabels;
-
-        public uint SprintCount
+        get => sprintCount;
+        set
         {
-            get => sprintCount;
-            set
+            if (value == sprintCount)
+                return;
+
+            sprintCount = value;
+            OnPropertyChanged();
+
+            if (!IsInitializeMode)
+                _ = Initialize();
+        }
+    }
+
+    public SeriesCollection SeriesCollection { get; private set; }
+
+    public ChartValues<int> Values
+    {
+        get => values;
+        private set
+        {
+            values = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public List<string> SprintsLabels
+    {
+        get => sprintsLabels;
+        set
+        {
+            sprintsLabels = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Func<double, string> AxisYLabelFormatter { get; } = x => ((HoursValue)x).ToString();
+
+    public CapacityChartViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+
+        _ = Initialize();
+    }
+
+    private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        await Initialize();
+    }
+
+    private async Task Initialize()
+    {
+        await RunInInitializeMode(async () =>
+        {
+            PresentSprintsCapacityRequest request = new()
             {
-                if (value == sprintCount)
-                    return;
+                SprintCount = SprintCount == 0
+                    ? null
+                    : SprintCount
+            };
+            PresentSprintsCapacityResponse response = await requestBus.Send<PresentSprintsCapacityRequest, PresentSprintsCapacityResponse>(request);
 
-                sprintCount = value;
-                OnPropertyChanged();
+            SprintCount = response.RequestedSprintCount;
 
-                if (!IsInitializeMode)
-                    _ = Initialize();
-            }
-        }
+            IEnumerable<int> actualValues1 = response.SprintCapacities
+                .Select(x => x.Hours.Value);
 
-        public SeriesCollection SeriesCollection { get; private set; }
-        
-        public ChartValues<int> Values
-        {
-            get => values;
-            private set
+            Values = new ChartValues<int>(actualValues1);
+
+            SeriesCollection = new SeriesCollection
             {
-                values = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public List<string> SprintsLabels
-        {
-            get => sprintsLabels;
-            set
-            {
-                sprintsLabels = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Func<double, string> AxisYLabelFormatter { get; } = x => ((HoursValue)x).ToString();
-
-        public CapacityChartViewModel(IRequestBus requestBus, EventBus eventBus)
-        {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-
-            _ = Initialize();
-        }
-
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            await Initialize();
-        }
-
-        private async Task Initialize()
-        {
-            await RunInInitializeMode(async () =>
-            {
-                PresentSprintsCapacityRequest request = new()
+                new ColumnSeries
                 {
-                    SprintCount = SprintCount == 0
-                        ? null
-                        : SprintCount
-                };
-                PresentSprintsCapacityResponse response = await requestBus.Send<PresentSprintsCapacityRequest, PresentSprintsCapacityResponse>(request);
+                    Title = "Sprint Capacity",
+                    Values = Values
+                }
+            };
 
-                SprintCount = response.RequestedSprintCount;
-                
-                IEnumerable<int> actualValues1 = response.SprintCapacities
-                    .Select(x => x.Hours.Value);
-
-                Values = new ChartValues<int>(actualValues1);
-
-                SeriesCollection = new SeriesCollection
-                {
-                    new ColumnSeries
-                    {
-                        Title = "Sprint Capacity",
-                        Values = Values
-                    }
-                };
-
-                SprintsLabels = response.SprintCapacities
-                    .Select(x => $"Sprint {x.SprintNumber}")
-                    .ToList();
-            });
-        }
+            SprintsLabels = response.SprintCapacities
+                .Select(x => $"Sprint {x.SprintNumber}")
+                .ToList();
+        });
     }
 }

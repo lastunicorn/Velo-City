@@ -17,20 +17,19 @@
 using System;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint;
+
+public class VelocityPenaltyInfo
 {
-    public class VelocityPenaltyInfo
+    public PersonName PersonName { get; }
+
+    public int PenaltyValue { get; }
+
+    public VelocityPenaltyInfo(VelocityPenaltyInstance velocityPenaltyInstance)
     {
-        public PersonName PersonName { get; }
+        if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
 
-        public int PenaltyValue { get; }
-
-        public VelocityPenaltyInfo(VelocityPenaltyInstance velocityPenaltyInstance)
-        {
-            if (velocityPenaltyInstance == null) throw new ArgumentNullException(nameof(velocityPenaltyInstance));
-
-            PersonName = velocityPenaltyInstance.TeamMember.Name;
-            PenaltyValue = velocityPenaltyInstance.Value;
-        }
+        PersonName = velocityPenaltyInstance.TeamMember.Name;
+        PenaltyValue = velocityPenaltyInstance.Value;
     }
 }

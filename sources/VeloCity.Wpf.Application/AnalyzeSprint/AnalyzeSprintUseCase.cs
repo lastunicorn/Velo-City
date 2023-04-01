@@ -14,70 +14,64 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint
+namespace DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
+
+internal class AnalyzeSprintUseCase : IRequestHandler<AnalyzeSprintRequest, AnalyzeSprintResponse>
 {
-    internal class AnalyzeSprintUseCase : IRequestHandler<AnalyzeSprintRequest, AnalyzeSprintResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly IConfig config;
+
+    public AnalyzeSprintUseCase(IUnitOfWork unitOfWork, IConfig config)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IConfig config;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.config = config ?? throw new ArgumentNullException(nameof(config));
+    }
 
-        public AnalyzeSprintUseCase(IUnitOfWork unitOfWork, IConfig config)
+    public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
+    {
+        request.Sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;
+
+        SprintList historySprints = RetrievePreviousSprints(request);
+        Velocity estimatedVelocity = historySprints.CalculateAverageVelocity();
+
+        List<VelocityPenaltyInstance> velocityPenalties = request.Sprint.GetVelocityPenalties();
+        HoursValue totalWorkHoursWithVelocityPenalties = request.Sprint.TotalWorkHoursWithVelocityPenalties;
+
+        AnalyzeSprintResponse response = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-        }
+            HistorySprints = historySprints,
+            EstimatedVelocity = estimatedVelocity,
+            EstimatedStoryPoints = estimatedVelocity.IsEmpty
+                ? StoryPoints.Empty
+                : request.Sprint.TotalWorkHours * estimatedVelocity,
+            VelocityPenalties = velocityPenalties,
+            TotalWorkHoursWithVelocityPenalties = totalWorkHoursWithVelocityPenalties,
+            EstimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsEmpty || !velocityPenalties.Any()
+                ? StoryPoints.Empty
+                : totalWorkHoursWithVelocityPenalties * estimatedVelocity
+        };
 
-        public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
-        {
-            request.Sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;
+        return Task.FromResult(response);
+    }
 
-            SprintList historySprints = RetrievePreviousSprints(request);
-            Velocity estimatedVelocity = historySprints.CalculateAverageVelocity();
+    private SprintList RetrievePreviousSprints(AnalyzeSprintRequest request)
+    {
+        bool excludedSprintsExists = request.ExcludedSprints is { Count: > 0 };
+        uint analysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack;
 
-            List<VelocityPenaltyInstance> velocityPenalties = request.Sprint.GetVelocityPenalties();
-            HoursValue totalWorkHoursWithVelocityPenalties = request.Sprint.TotalWorkHoursWithVelocityPenalties;
+        List<Sprint> sprints = excludedSprintsExists
+            ? unitOfWork.SprintRepository.GetClosedSprintsBefore(request.Sprint.Number, analysisLookBack, request.ExcludedSprints).ToList()
+            : unitOfWork.SprintRepository.GetClosedSprintsBefore(request.Sprint.Number, analysisLookBack).ToList();
 
-            AnalyzeSprintResponse response = new()
-            {
-                HistorySprints = historySprints,
-                EstimatedVelocity = estimatedVelocity,
-                EstimatedStoryPoints = estimatedVelocity.IsEmpty
-                    ? StoryPoints.Empty
-                    : request.Sprint.TotalWorkHours * estimatedVelocity,
-                VelocityPenalties = velocityPenalties,
-                TotalWorkHoursWithVelocityPenalties = totalWorkHoursWithVelocityPenalties,
-                EstimatedStoryPointsWithVelocityPenalties = estimatedVelocity.IsEmpty || !velocityPenalties.Any()
-                    ? StoryPoints.Empty
-                    : totalWorkHoursWithVelocityPenalties * estimatedVelocity,
-            };
+        foreach (Sprint sprint in sprints)
+            sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;
 
-            return Task.FromResult(response);
-        }
-
-        private SprintList RetrievePreviousSprints(AnalyzeSprintRequest request)
-        {
-            bool excludedSprintsExists = request.ExcludedSprints is { Count: > 0 };
-            uint analysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack;
-
-            List<Sprint> sprints = excludedSprintsExists
-                ? unitOfWork.SprintRepository.GetClosedSprintsBefore(request.Sprint.Number, analysisLookBack, request.ExcludedSprints).ToList()
-                : unitOfWork.SprintRepository.GetClosedSprintsBefore(request.Sprint.Number, analysisLookBack).ToList();
-
-            foreach (Sprint sprint in sprints)
-                sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;
-
-            return sprints.ToSprintList();
-        }
+        return sprints.ToSprintList();
     }
 }

@@ -19,55 +19,54 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Behaviors
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Behaviors;
+
+public static class InputBindingsManager
 {
-    public static class InputBindingsManager
+    public static readonly DependencyProperty UpdateSourceOnEnterKeyPressedProperty = DependencyProperty.RegisterAttached(
+        "UpdateSourceOnEnterKeyPressed",
+        typeof(bool),
+        typeof(InputBindingsManager),
+        new PropertyMetadata(OnUpdateSourceOnEnterKeyPressedPropertyChanged));
+
+    public static void SetUpdateSourceOnEnterKeyPressed(DependencyObject obj, bool value)
     {
-        public static readonly DependencyProperty UpdateSourceOnEnterKeyPressedProperty = DependencyProperty.RegisterAttached(
-            "UpdateSourceOnEnterKeyPressed",
-            typeof(bool),
-            typeof(InputBindingsManager),
-            new PropertyMetadata(OnUpdateSourceOnEnterKeyPressedPropertyChanged));
+        obj.SetValue(UpdateSourceOnEnterKeyPressedProperty, value);
+    }
 
-        public static void SetUpdateSourceOnEnterKeyPressed(DependencyObject obj, bool value)
+    public static bool GetUpdateSourceOnEnterKeyPressed(DependencyObject obj)
+    {
+        return (bool)obj.GetValue(UpdateSourceOnEnterKeyPressedProperty);
+    }
+
+    private static void OnUpdateSourceOnEnterKeyPressedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is not UIElement element)
+            return;
+
+        if (e.OldValue is true)
+            element.PreviewKeyDown -= HandlePreviewKeyDown;
+
+        if (e.NewValue is true)
+            element.PreviewKeyDown += HandlePreviewKeyDown;
+    }
+
+    private static void HandlePreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
         {
-            obj.SetValue(UpdateSourceOnEnterKeyPressedProperty, value);
+            DoUpdateSource(e.Source);
         }
+    }
 
-        public static bool GetUpdateSourceOnEnterKeyPressed(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(UpdateSourceOnEnterKeyPressedProperty);
-        }
+    private static void DoUpdateSource(object source)
+    {
+        if (source is not UIElement uiElement)
+            return;
 
-        private static void OnUpdateSourceOnEnterKeyPressedPropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            if (obj is not UIElement element)
-                return;
+        DependencyProperty property = TextBox.TextProperty;
 
-            if (e.OldValue is true)
-                element.PreviewKeyDown -= HandlePreviewKeyDown;
-
-            if (e.NewValue is true)
-                element.PreviewKeyDown += HandlePreviewKeyDown;
-        }
-
-        private static void HandlePreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                DoUpdateSource(e.Source);
-            }
-        }
-
-        private static void DoUpdateSource(object source)
-        {
-            if (source is not UIElement uiElement)
-                return;
-
-            DependencyProperty property = TextBox.TextProperty;
-
-            BindingExpression binding = BindingOperations.GetBindingExpression(uiElement, property);
-            binding?.UpdateSource();
-        }
+        BindingExpression binding = BindingOperations.GetBindingExpression(uiElement, property);
+        binding?.UpdateSource();
     }
 }

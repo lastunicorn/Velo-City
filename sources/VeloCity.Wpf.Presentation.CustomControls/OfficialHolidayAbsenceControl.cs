@@ -18,58 +18,57 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class OfficialHolidayAbsenceControl : ContentControl
 {
-    public class OfficialHolidayAbsenceControl : ContentControl
+    public static readonly DependencyProperty HolidayNameProperty = DependencyProperty.Register(
+        nameof(HolidayName),
+        typeof(string),
+        typeof(OfficialHolidayAbsenceControl),
+        new FrameworkPropertyMetadata(null,
+            FrameworkPropertyMetadataOptions.AffectsArrange |
+            FrameworkPropertyMetadataOptions.AffectsMeasure |
+            FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+
+    public string HolidayName
     {
-        public static readonly DependencyProperty HolidayNameProperty = DependencyProperty.Register(
-            nameof(HolidayName),
-            typeof(string),
-            typeof(OfficialHolidayAbsenceControl),
-            new FrameworkPropertyMetadata(null,
-                FrameworkPropertyMetadataOptions.AffectsArrange |
-                FrameworkPropertyMetadataOptions.AffectsMeasure |
-                FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+        get => (string)GetValue(HolidayNameProperty);
+        set => SetValue(HolidayNameProperty, value);
+    }
 
-        public string HolidayName
-        {
-            get => (string)GetValue(HolidayNameProperty);
-            set => SetValue(HolidayNameProperty, value);
-        }
+    public static readonly DependencyProperty HolidayCountryProperty = DependencyProperty.Register(
+        nameof(HolidayCountry),
+        typeof(string),
+        typeof(OfficialHolidayAbsenceControl),
+        new FrameworkPropertyMetadata(null,
+            FrameworkPropertyMetadataOptions.AffectsArrange |
+            FrameworkPropertyMetadataOptions.AffectsMeasure |
+            FrameworkPropertyMetadataOptions.AffectsParentMeasure));
 
-        public static readonly DependencyProperty HolidayCountryProperty = DependencyProperty.Register(
-            nameof(HolidayCountry),
-            typeof(string),
-            typeof(OfficialHolidayAbsenceControl),
-            new FrameworkPropertyMetadata(null,
-                FrameworkPropertyMetadataOptions.AffectsArrange |
-                FrameworkPropertyMetadataOptions.AffectsMeasure |
-                FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+    public string HolidayCountry
+    {
+        get => (string)GetValue(HolidayCountryProperty);
+        set => SetValue(HolidayCountryProperty, value);
+    }
 
-        public string HolidayCountry
-        {
-            get => (string)GetValue(HolidayCountryProperty);
-            set => SetValue(HolidayCountryProperty, value);
-        }
+    public static readonly DependencyProperty HolidayDescriptionProperty = DependencyProperty.Register(
+        nameof(HolidayDescription),
+        typeof(string),
+        typeof(OfficialHolidayAbsenceControl),
+        new FrameworkPropertyMetadata(null,
+            FrameworkPropertyMetadataOptions.AffectsArrange |
+            FrameworkPropertyMetadataOptions.AffectsMeasure |
+            FrameworkPropertyMetadataOptions.AffectsParentMeasure));
 
-        public static readonly DependencyProperty HolidayDescriptionProperty = DependencyProperty.Register(
-            nameof(HolidayDescription),
-            typeof(string),
-            typeof(OfficialHolidayAbsenceControl),
-            new FrameworkPropertyMetadata(null,
-                FrameworkPropertyMetadataOptions.AffectsArrange |
-                FrameworkPropertyMetadataOptions.AffectsMeasure |
-                FrameworkPropertyMetadataOptions.AffectsParentMeasure));
+    public string HolidayDescription
+    {
+        get => (string)GetValue(HolidayDescriptionProperty);
+        set => SetValue(HolidayDescriptionProperty, value);
+    }
 
-        public string HolidayDescription
-        {
-            get => (string)GetValue(HolidayDescriptionProperty);
-            set => SetValue(HolidayDescriptionProperty, value);
-        }
-
-        static OfficialHolidayAbsenceControl()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(OfficialHolidayAbsenceControl), new FrameworkPropertyMetadata(typeof(OfficialHolidayAbsenceControl)));
-        }
+    static OfficialHolidayAbsenceControl()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(OfficialHolidayAbsenceControl), new FrameworkPropertyMetadata(typeof(OfficialHolidayAbsenceControl)));
     }
 }

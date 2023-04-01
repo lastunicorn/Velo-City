@@ -14,45 +14,41 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints;
+
+internal class SprintsSizeChartControl : BlockControl
 {
-    internal class SprintsSizeChartControl : BlockControl
+    private const int ChartMaxValue = 40;
+
+    public List<SprintsSizeChartItem> Items { get; set; }
+
+    protected override void DoDisplayContent(ControlDisplay display)
     {
-        private const int ChartMaxValue = 40;
+        if (Items == null || Items.Count == 0)
+            return;
 
-        public List<SprintsSizeChartItem> Items { get; set; }
+        int sprintCount = Items.Count;
+        CustomConsole.WriteLineEmphasized($"Sprint Size ({sprintCount} Sprints):");
+        display.WriteRow();
 
-        protected override void DoDisplayContent(ControlDisplay display)
+        int maxValue = Items.Max(x => x.TotalWorkHours);
+
+        foreach (SprintsSizeChartItem item in Items)
         {
-            if (Items == null || Items.Count == 0)
-                return;
+            display.Write($"- Sprint {item.SprintNumber:D2} - {item.TotalWorkHours:D} h - ");
 
-            int sprintCount = Items.Count;
-            CustomConsole.WriteLineEmphasized($"Sprint Size ({sprintCount} Sprints):");
-            display.WriteRow();
-
-            int maxValue = Items.Max(x => x.TotalWorkHours);
-
-            foreach (SprintsSizeChartItem item in Items)
-            {
-                display.Write($"- Sprint {item.SprintNumber:D2} - {item.TotalWorkHours:D} h - ");
-
-                string chartBar = CreateChartBar(item.TotalWorkHours, maxValue);
-                display.WriteRow(ConsoleColor.DarkGreen, null, chartBar);
-            }
+            string chartBar = CreateChartBar(item.TotalWorkHours, maxValue);
+            display.WriteRow(ConsoleColor.DarkGreen, null, chartBar);
         }
+    }
 
-        private static string CreateChartBar(int value, int maxValue)
-        {
-            int chartValue = (int)Math.Round((float)value * ChartMaxValue / maxValue);
-            return new string('═', chartValue);
-        }
+    private static string CreateChartBar(int value, int maxValue)
+    {
+        int chartValue = (int)Math.Round((float)value * ChartMaxValue / maxValue);
+        return new string('═', chartValue);
     }
 }

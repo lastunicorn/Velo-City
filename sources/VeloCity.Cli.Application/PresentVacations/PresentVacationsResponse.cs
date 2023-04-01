@@ -17,16 +17,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVacations;
+
+public class PresentVacationsResponse
 {
-    public class PresentVacationsResponse
-    {
-        public List<TeamMemberVacations> TeamMemberVacations { get; set; }
+    public List<TeamMemberVacations> TeamMemberVacations { get; set; }
 
-        public RequestType RequestType { get; set; }
+    public RequestType RequestType { get; set; }
 
-        public string RequestedTeamMemberName { get; set; }
+    public string RequestedTeamMemberName { get; set; }
 
-        public DateTime RequestedDate { get; set; }
-    }
+    public DateTime RequestedDate { get; set; }
 }

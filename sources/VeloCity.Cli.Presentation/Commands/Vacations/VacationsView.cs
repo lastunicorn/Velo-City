@@ -14,88 +14,80 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+
+public class VacationsView : IView<VacationsCommand>
 {
-    public class VacationsView : IView<VacationsCommand>
+    private readonly DataGridFactory dataGridFactory;
+
+    public VacationsView(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+    }
 
-        public VacationsView(DataGridFactory dataGridFactory)
+    public void Display(VacationsCommand command)
+    {
+        switch (command.RequestType)
         {
-            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+            case RequestType.ByName:
+                if (command.TeamMemberVacations.Count == 0)
+                {
+                    CustomConsole.WriteLineWarning($"No team member was found with name '{command.PersonName}'.");
+                    return;
+                }
+
+                CustomConsole.WriteLine($"Vacations for team member '{command.PersonName}':");
+
+                break;
+
+            case RequestType.ByCurrentDate:
+                if (command.TeamMemberVacations.Count == 0)
+                {
+                    CustomConsole.WriteLineWarning($"No team member is active at date {command.Date:yyyy MM dd}.");
+                    return;
+                }
+
+                CustomConsole.WriteLine($"Vacations for all the team members active at {command.Date:yyyy MM dd}:");
+
+                break;
         }
 
-        public void Display(VacationsCommand command)
+        DisplayVacations(command.TeamMemberVacations);
+    }
+
+    private void DisplayVacations(List<TeamMemberVacationViewModel> teamMemberVacations)
+    {
+        foreach (TeamMemberVacationViewModel teamMemberVacation in teamMemberVacations)
         {
-            switch (command.RequestType)
-            {
-                case RequestType.ByName:
-                    if (command.TeamMemberVacations.Count == 0)
-                    {
-                        CustomConsole.WriteLineWarning($"No team member was found with name '{command.PersonName}'.");
-                        return;
-                    }
-                    else
-                    {
-                        CustomConsole.WriteLine($"Vacations for team member '{command.PersonName}':");
-                    }
+            DataGrid dataGrid = dataGridFactory.Create();
+            dataGrid.Title = teamMemberVacation.PersonName.ToString();
+            dataGrid.Border.DisplayBorderBetweenRows = true;
 
-                    break;
+            IEnumerable<ContentRow> rows = teamMemberVacation.MonthsOfVacations.Select(ToRow);
 
-                case RequestType.ByCurrentDate:
-                    if (command.TeamMemberVacations.Count == 0)
-                    {
-                        CustomConsole.WriteLineWarning($"No team member is active at date {command.Date:yyyy MM dd}.");
-                        return;
-                    }
-                    else
-                    {
-                        CustomConsole.WriteLine($"Vacations for all the team members active at {command.Date:yyyy MM dd}:");
-                    }
+            foreach (ContentRow row in rows)
+                dataGrid.Rows.Add(row);
 
-                    break;
-            }
-
-            DisplayVacations(command.TeamMemberVacations);
+            dataGrid.Display();
         }
+    }
 
-        private void DisplayVacations(List<TeamMemberVacationViewModel> teamMemberVacations)
-        {
-            foreach (TeamMemberVacationViewModel teamMemberVacation in teamMemberVacations)
-            {
-                DataGrid dataGrid = dataGridFactory.Create();
-                dataGrid.Title = teamMemberVacation.PersonName.ToString();
-                dataGrid.Border.DisplayBorderBetweenRows = true;
+    private static ContentRow ToRow(MonthOfVacationsViewModel monthOfVacations)
+    {
+        ContentRow row = new();
+        row.AddCell($"{monthOfVacations.DateTimeMonth:short-name}");
 
-                IEnumerable<ContentRow> rows = teamMemberVacation.MonthsOfVacations.Select(ToRow);
+        List<string> lines = monthOfVacations.Vacations
+            .Select(x => x.ToString())
+            .ToList();
 
-                foreach (ContentRow row in rows)
-                    dataGrid.Rows.Add(row);
+        row.AddCell(lines);
 
-                dataGrid.Display();
-            }
-        }
-
-        private static ContentRow ToRow(MonthOfVacationsViewModel monthOfVacations)
-        {
-            ContentRow row = new();
-            row.AddCell($"{monthOfVacations.DateTimeMonth:short-name}");
-
-            List<string> lines = monthOfVacations.Vacations
-                .Select(x => x.ToString())
-                .ToList();
-
-            row.AddCell(lines);
-
-            return row;
-        }
+        return row;
     }
 }

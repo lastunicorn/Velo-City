@@ -14,39 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+public class VacationMonthlyViewModel : VacationViewModel
 {
-    public class VacationMonthlyViewModel : VacationViewModel
+    public List<int> MonthDays { get; set; }
+
+    public DateInterval DateInterval { get; set; }
+
+    public override DateTime? SignificantDate => DateInterval.StartDate;
+
+    public override DateTime? StartDate => DateInterval.StartDate;
+
+    public override DateTime? EndDate => DateInterval.EndDate;
+
+    public VacationMonthlyViewModel(VacationMonthlyInfo vacationMonthly)
+        : base(vacationMonthly)
     {
-        public List<int> MonthDays { get; set; }
+        MonthDays = vacationMonthly.MonthDays;
+        DateInterval = vacationMonthly.DateInterval;
+    }
 
-        public DateInterval DateInterval { get; set; }
+    public override string ToString()
+    {
+        string monthDaysString = MonthDays == null || MonthDays.Count == 0
+            ? "<none>"
+            : string.Join(", ", MonthDays);
 
-        public override DateTime? SignificantDate => DateInterval.StartDate;
-
-        public override DateTime? StartDate => DateInterval.StartDate;
-
-        public override DateTime? EndDate => DateInterval.EndDate;
-
-        public VacationMonthlyViewModel(VacationMonthlyInfo vacationMonthly)
-            : base(vacationMonthly)
-        {
-            MonthDays = vacationMonthly.MonthDays;
-            DateInterval = vacationMonthly.DateInterval;
-        }
-
-        public override string ToString()
-        {
-            string monthDaysString = MonthDays == null || MonthDays.Count == 0
-                ? "<none>"
-                : string.Join(", ", MonthDays);
-
-            return $"Each {monthDaysString} of the month between [{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
-        }
+        return $"Each {monthDaysString} of the month between [{DateInterval}]" + (Comments == null ? string.Empty : " - " + Comments);
     }
 }

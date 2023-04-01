@@ -17,21 +17,20 @@
 
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
+
+public class OfficialHolidayDto
 {
-    public class OfficialHolidayDto
+    public string HolidayName { get; init; }
+
+    public string HolidayCountry { get; init; }
+
+    public string HolidayDescription { get; init; }
+
+    public OfficialHolidayDto(OfficialHolidayInstance officialHolidayInstance)
     {
-        public string HolidayName { get; init; }
-
-        public string HolidayCountry { get; init; }
-
-        public string HolidayDescription { get; init; }
-
-        public OfficialHolidayDto(OfficialHolidayInstance officialHolidayInstance)
-        {
-            HolidayName = officialHolidayInstance.Name;
-            HolidayCountry = officialHolidayInstance.Country;
-            HolidayDescription = officialHolidayInstance.ShortDescription;
-        }
+        HolidayName = officialHolidayInstance.Name;
+        HolidayCountry = officialHolidayInstance.Country;
+        HolidayDescription = officialHolidayInstance.ShortDescription;
     }
 }

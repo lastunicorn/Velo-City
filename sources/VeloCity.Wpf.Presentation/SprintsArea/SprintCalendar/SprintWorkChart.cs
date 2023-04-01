@@ -14,35 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.ChartTools;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
+
+internal class SprintWorkChart : Chart<SprintCalendarDayViewModel>
 {
-    internal class SprintWorkChart : Chart<SprintCalendarDayViewModel>
+    public SprintWorkChart(IEnumerable<SprintCalendarDayViewModel> items)
     {
-        public SprintWorkChart(IEnumerable<SprintCalendarDayViewModel> items)
+        if (items == null) throw new ArgumentNullException(nameof(items));
+
+        ActualSize = 100;
+
+        AddRange(items);
+        Calculate();
+    }
+
+    protected override ChartBarValue<SprintCalendarDayViewModel> ToChartBarValue(SprintCalendarDayViewModel sprintCalendarDayViewModel)
+    {
+        int workHours = sprintCalendarDayViewModel.WorkHours?.Value ?? 0;
+        int absenceHours = sprintCalendarDayViewModel.AbsenceHours?.Value ?? 0;
+
+        return new ChartBarValue<SprintCalendarDayViewModel>
         {
-            if (items == null) throw new ArgumentNullException(nameof(items));
-
-            ActualSize = 100;
-
-            AddRange(items);
-            Calculate();
-        }
-
-        protected override ChartBarValue<SprintCalendarDayViewModel> ToChartBarValue(SprintCalendarDayViewModel sprintCalendarDayViewModel)
-        {
-            int workHours = sprintCalendarDayViewModel.WorkHours?.Value ?? 0;
-            int absenceHours = sprintCalendarDayViewModel.AbsenceHours?.Value ?? 0;
-
-            return new ChartBarValue<SprintCalendarDayViewModel>
-            {
-                MaxValue = workHours + absenceHours,
-                FillValue = workHours,
-                Item = sprintCalendarDayViewModel
-            };
-        }
+            MaxValue = workHours + absenceHours,
+            FillValue = workHours,
+            Item = sprintCalendarDayViewModel
+        };
     }
 }

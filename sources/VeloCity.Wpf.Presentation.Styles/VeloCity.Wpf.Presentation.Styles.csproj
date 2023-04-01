@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <UseWPF>true</UseWPF>
         <AssemblyName>DustInTheWind.VeloCity.Wpf.Presentation.Styles</AssemblyName>
         <RootNamespace>DustInTheWind.VeloCity.Wpf.Presentation.Styles</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>

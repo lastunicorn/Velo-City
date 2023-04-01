@@ -16,16 +16,15 @@
 
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
+
+/// <summary>
+/// Interaction logic for SprintMemberCalendarWindow.xaml
+/// </summary>
+public partial class SprintMemberCalendarWindow : OkCancelWindow
 {
-    /// <summary>
-    /// Interaction logic for SprintMemberCalendarWindow.xaml
-    /// </summary>
-    public partial class SprintMemberCalendarWindow : OkCancelWindow
+    public SprintMemberCalendarWindow()
     {
-        public SprintMemberCalendarWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers
+public class PresentTeamMembersResponse
 {
-    public class PresentTeamMembersResponse
-    {
-        public List<TeamMemberInfo> TeamMembers { get; set; }
-        
-        public int? CurrentTeamMemberId { get; set; }
-    }
+    public List<TeamMemberInfo> TeamMembers { get; set; }
+
+    public int? CurrentTeamMemberId { get; set; }
 }

@@ -14,39 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+
+public class VacationYearlyViewModel : VacationViewModel
 {
-    public class VacationYearlyViewModel : VacationViewModel
+    public List<DateTime> Dates { get; set; }
+
+    public DateInterval DateInterval { get; set; }
+
+    public override DateTime? SignificantDate => DateInterval.StartDate;
+
+    public override DateTime? StartDate => DateInterval.StartDate;
+
+    public override DateTime? EndDate => DateInterval.EndDate;
+
+    public VacationYearlyViewModel(VacationYearly vacationYearly)
+        : base(vacationYearly)
     {
-        public List<DateTime> Dates { get; set; }
+        Dates = vacationYearly.Dates;
+        DateInterval = vacationYearly.DateInterval;
+    }
 
-        public DateInterval DateInterval { get; set; }
+    protected override string RenderDate()
+    {
+        string datesString = Dates == null || Dates.Count == 0
+            ? "<none>"
+            : string.Join(", ", Dates);
 
-        public override DateTime? SignificantDate => DateInterval.StartDate;
-
-        public override DateTime? StartDate => DateInterval.StartDate;
-
-        public override DateTime? EndDate => DateInterval.EndDate;
-
-        public VacationYearlyViewModel(VacationYearly vacationYearly)
-            : base(vacationYearly)
-        {
-            Dates = vacationYearly.Dates;
-            DateInterval = vacationYearly.DateInterval;
-        }
-
-        protected override string RenderDate()
-        {
-            string datesString = Dates == null || Dates.Count == 0
-                ? "<none>"
-                : string.Join(", ", Dates);
-
-            return $"Each {datesString} between [{DateInterval}]";
-        }
+        return $"Each {datesString} between [{DateInterval}]";
     }
 }

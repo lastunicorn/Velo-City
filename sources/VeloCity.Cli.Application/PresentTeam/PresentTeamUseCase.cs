@@ -39,13 +39,13 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
     {
         if (request.Date != null)
             return CreateResponseForDate(request.Date.Value);
-     
+
         if (request.DateInterval != null)
             return CreateResponseForDateInterval(request.DateInterval.Value);
-        
+
         if (request.SprintNumber != null)
             return await CreateResponseForSprint(request.SprintNumber.Value);
-        
+
         return await CreateResponseForCurrentSprint();
     }
 

@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Cli.Application.PresentTeam;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team;
+
+public class InformationViewModel
 {
-    public class InformationViewModel
+    private readonly PresentTeamResponse response;
+
+    public InformationViewModel(PresentTeamResponse response)
     {
-        private readonly PresentTeamResponse response;
+        this.response = response ?? throw new ArgumentNullException(nameof(response));
+    }
 
-        public InformationViewModel(PresentTeamResponse response)
+    public override string ToString()
+    {
+        return response.ResponseType switch
         {
-            this.response = response ?? throw new ArgumentNullException(nameof(response));
-        }
-
-        public override string ToString()
-        {
-            return response.ResponseType switch
-            {
-                TeamResponseType.Date => $"Team composition for date {response.Date:d}:",
-                TeamResponseType.DateInterval => $"Team composition for date interval {response.DateInterval}:",
-                TeamResponseType.Sprint => $"Team composition for the sprint {response.SprintNumber} ({response.DateInterval}):",
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
+            TeamResponseType.Date => $"Team composition for date {response.Date:d}:",
+            TeamResponseType.DateInterval => $"Team composition for date interval {response.DateInterval}:",
+            TeamResponseType.Sprint => $"Team composition for the sprint {response.SprintNumber} ({response.DateInterval}):",
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

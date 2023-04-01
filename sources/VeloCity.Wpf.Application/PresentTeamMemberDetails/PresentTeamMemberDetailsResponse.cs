@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails;
+
+public class PresentTeamMemberDetailsResponse
 {
-    public class PresentTeamMemberDetailsResponse
-    {
-        public string TeamMemberName { get; set; }
-    }
+    public string TeamMemberName { get; set; }
 }

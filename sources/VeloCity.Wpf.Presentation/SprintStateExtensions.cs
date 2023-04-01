@@ -14,24 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using PresentationSprintState = DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.SprintState;
 using DomainSprintState = DustInTheWind.VeloCity.Domain.SprintModel.SprintState;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.Presentation;
+
+internal static class SprintStateExtensions
 {
-    internal static class SprintStateExtensions
+    public static PresentationSprintState ToPresentationModel(this DomainSprintState sprintState)
     {
-        public static PresentationSprintState ToPresentationModel(this DomainSprintState sprintState)
+        return sprintState switch
         {
-            return sprintState switch
-            {
-                DomainSprintState.Unknown => PresentationSprintState.Unknown,
-                DomainSprintState.New => PresentationSprintState.New,
-                DomainSprintState.InProgress => PresentationSprintState.InProgress,
-                DomainSprintState.Closed => PresentationSprintState.Closed,
-                _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
-            };
-        }
+            DomainSprintState.Unknown => PresentationSprintState.Unknown,
+            DomainSprintState.New => PresentationSprintState.New,
+            DomainSprintState.InProgress => PresentationSprintState.InProgress,
+            DomainSprintState.Closed => PresentationSprintState.Closed,
+            _ => throw new ArgumentOutOfRangeException(nameof(sprintState), sprintState, null)
+        };
     }
 }

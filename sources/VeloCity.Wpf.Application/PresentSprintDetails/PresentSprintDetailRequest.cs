@@ -16,10 +16,9 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
+
+public class PresentSprintDetailRequest : IRequest<PresentSprintDetailResponse>
 {
-    public class PresentSprintDetailRequest : IRequest<PresentSprintDetailResponse>
-    {
-        public int? SprintId { get; set; }
-    }
+    public int? SprintId { get; set; }
 }

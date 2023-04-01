@@ -22,37 +22,36 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig
+namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig;
+
+internal class PresentConfigUseCase : IRequestHandler<PresentConfigRequest, PresentConfigResponse>
 {
-    internal class PresentConfigUseCase : IRequestHandler<PresentConfigRequest, PresentConfigResponse>
+    private readonly IConfig config;
+
+    public PresentConfigUseCase(IConfig config)
     {
-        private readonly IConfig config;
+        this.config = config ?? throw new ArgumentNullException(nameof(config));
+    }
 
-        public PresentConfigUseCase(IConfig config)
+    public Task<PresentConfigResponse> Handle(PresentConfigRequest request, CancellationToken cancellationToken)
+    {
+        List<ConfigItem> values = config.GetAllValuesRaw();
+
+        if (request.ConfigPropertyName != null)
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
+            values = values
+                .Where(x => x.Name == request.ConfigPropertyName)
+                .ToList();
+
+            if (values.Count == 0)
+                throw new ConfigPropertyNotFoundException(request.ConfigPropertyName);
         }
 
-        public Task<PresentConfigResponse> Handle(PresentConfigRequest request, CancellationToken cancellationToken)
+        PresentConfigResponse response = new()
         {
-            List<ConfigItem> values = config.GetAllValuesRaw();
+            ConfigValues = values
+        };
 
-            if (request.ConfigPropertyName != null)
-            {
-                values = values
-                    .Where(x => x.Name == request.ConfigPropertyName)
-                    .ToList();
-
-                if (values.Count == 0)
-                    throw new ConfigPropertyNotFoundException(request.ConfigPropertyName);
-            }
-
-            PresentConfigResponse response = new()
-            {
-                ConfigValues = values
-            };
-
-            return Task.FromResult(response);
-        }
+        return Task.FromResult(response);
     }
 }

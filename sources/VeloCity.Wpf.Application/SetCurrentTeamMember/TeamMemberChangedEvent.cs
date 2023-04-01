@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember
+namespace DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
+
+public class TeamMemberChangedEvent
 {
-    public class TeamMemberChangedEvent
-    {
-        public int? NewTeamMemberId { get; set; }
-    }
+    public int? NewTeamMemberId { get; set; }
 }

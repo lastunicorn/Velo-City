@@ -18,17 +18,16 @@ using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Database
-{
-    public class DatabaseView : IView<DatabaseCommand>
-    {
-        public void Display(DatabaseCommand command)
-        {
-            string editorTypeText = command.DatabaseEditorType == DatabaseEditorType.Custom
-                ? "custom"
-                : "default";
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Database;
 
-            CustomConsole.WriteLineSuccess($"Database file '{command.DatabaseFilePath}' was successfully opened in the {editorTypeText} editor.");
-        }
+public class DatabaseView : IView<DatabaseCommand>
+{
+    public void Display(DatabaseCommand command)
+    {
+        string editorTypeText = command.DatabaseEditorType == DatabaseEditorType.Custom
+            ? "custom"
+            : "default";
+
+        CustomConsole.WriteLineSuccess($"Database file '{command.DatabaseFilePath}' was successfully opened in the {editorTypeText} editor.");
     }
 }

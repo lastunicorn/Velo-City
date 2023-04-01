@@ -14,11 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
@@ -28,86 +23,85 @@ using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
+
+public class SprintCalendarViewModel : ViewModelBase
 {
-    public class SprintCalendarViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private List<SprintCalendarDayViewModel> sprintCalendarDays;
+
+    public List<SprintCalendarDayViewModel> SprintCalendarDays
     {
-        private readonly IRequestBus requestBus;
-        private List<SprintCalendarDayViewModel> sprintCalendarDays;
-
-        public List<SprintCalendarDayViewModel> SprintCalendarDays
+        get => sprintCalendarDays;
+        private set
         {
-            get => sprintCalendarDays;
-            private set
-            {
-                sprintCalendarDays = value;
-                OnPropertyChanged();
-            }
+            sprintCalendarDays = value;
+            OnPropertyChanged();
         }
+    }
 
-        public SprintCalendarViewModel(IRequestBus requestBus, EventBus eventBus)
+    public SprintCalendarViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+        eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+        eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
+        eventBus.Subscribe<SprintsListChangedEvent>(HandleSprintsListChangedEvent);
+    }
+
+    private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveSprintCalendar();
+    }
+
+    private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveSprintCalendar();
+    }
+
+    private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveSprintCalendar();
+    }
+
+    private async Task HandleSprintsListChangedEvent(SprintsListChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await RetrieveSprintCalendar();
+    }
+
+    private async Task RetrieveSprintCalendar()
+    {
+        PresentSprintCalendarRequest request = new();
+        PresentSprintCalendarResponse response = await requestBus.Send<PresentSprintCalendarRequest, PresentSprintCalendarResponse>(request);
+
+        DisplayResponse(response);
+    }
+
+    private void DisplayResponse(PresentSprintCalendarResponse response)
+    {
+        List<SprintCalendarDayViewModel> sprintCalendarDays = CreateCalendarItems(response.SprintCalendarDays);
+        CreateChartBars(sprintCalendarDays);
+
+        SprintCalendarDays = sprintCalendarDays;
+    }
+
+    private static List<SprintCalendarDayViewModel> CreateCalendarItems(IEnumerable<SprintCalendarDay> sprintCalendarDays)
+    {
+        return sprintCalendarDays
+            .Select(x => new SprintCalendarDayViewModel(x))
+            .ToList();
+    }
+
+    private static void CreateChartBars(IEnumerable<SprintCalendarDayViewModel> calendarItems)
+    {
+        SprintWorkChart chart = new(calendarItems);
+
+        foreach (ChartBarValue<SprintCalendarDayViewModel> chartBarValue in chart)
         {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
-            eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
-            eventBus.Subscribe<SprintsListChangedEvent>(HandleSprintsListChangedEvent);
-        }
-
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintCalendar();
-        }
-
-        private async Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintCalendar();
-        }
-
-        private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintCalendar();
-        }
-
-        private async Task HandleSprintsListChangedEvent(SprintsListChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await RetrieveSprintCalendar();
-        }
-
-        private async Task RetrieveSprintCalendar()
-        {
-            PresentSprintCalendarRequest request = new();
-            PresentSprintCalendarResponse response = await requestBus.Send<PresentSprintCalendarRequest, PresentSprintCalendarResponse>(request);
-
-            DisplayResponse(response);
-        }
-
-        private void DisplayResponse(PresentSprintCalendarResponse response)
-        {
-            List<SprintCalendarDayViewModel> sprintCalendarDays = CreateCalendarItems(response.SprintCalendarDays);
-            CreateChartBars(sprintCalendarDays);
-
-            SprintCalendarDays = sprintCalendarDays;
-        }
-
-        private static List<SprintCalendarDayViewModel> CreateCalendarItems(IEnumerable<SprintCalendarDay> sprintCalendarDays)
-        {
-            return sprintCalendarDays
-                .Select(x => new SprintCalendarDayViewModel(x))
-                .ToList();
-        }
-
-        private static void CreateChartBars(IEnumerable<SprintCalendarDayViewModel> calendarItems)
-        {
-            SprintWorkChart chart = new(calendarItems);
-
-            foreach (ChartBarValue<SprintCalendarDayViewModel> chartBarValue in chart)
-            {
-                if (chartBarValue.Item?.IsWorkDay == true)
-                    chartBarValue.Item.ChartBarValue = chartBarValue;
-            }
+            if (chartBarValue.Item?.IsWorkDay == true)
+                chartBarValue.Item.ChartBarValue = chartBarValue;
         }
     }
 }

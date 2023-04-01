@@ -14,46 +14,43 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
+
+public class TeamMemberAbsenceDetails
 {
-    public class TeamMemberAbsenceDetails
+    private readonly SprintMemberDay sprintMemberDay;
+
+    public bool IsPartialVacation { get; }
+
+    public bool IsMissingByContract { get; }
+
+    public TeamMemberAbsenceDetails(SprintMemberDay sprintMemberDay)
     {
-        private readonly SprintMemberDay sprintMemberDay;
+        this.sprintMemberDay = sprintMemberDay ?? throw new ArgumentNullException(nameof(sprintMemberDay));
 
-        public bool IsPartialVacation { get; }
+        IsPartialVacation = sprintMemberDay.WorkHours > 0;
+        IsMissingByContract = sprintMemberDay.AbsenceReason == AbsenceReason.Contract;
+    }
 
-        public bool IsMissingByContract { get; }
+    public override string ToString()
+    {
+        List<char> notes = new(2);
+        if (IsMissingByContract)
+            notes.Add('c');
 
-        public TeamMemberAbsenceDetails(SprintMemberDay sprintMemberDay)
-        {
-            this.sprintMemberDay = sprintMemberDay ?? throw new ArgumentNullException(nameof(sprintMemberDay));
+        if (IsPartialVacation)
+            notes.Add('*');
 
-            IsPartialVacation = sprintMemberDay.WorkHours > 0;
-            IsMissingByContract = sprintMemberDay.AbsenceReason == AbsenceReason.Contract;
-        }
+        PersonName name = sprintMemberDay.TeamMember.Name;
+        string shortName = name.ShortName;
 
-        public override string ToString()
-        {
-            List<char> notes = new(2);
-            if (IsMissingByContract)
-                notes.Add('c');
+        if (notes.Count <= 0)
+            return shortName;
 
-            if (IsPartialVacation)
-                notes.Add('*');
-
-            PersonName name = sprintMemberDay.TeamMember.Name;
-            string shortName = name.ShortName;
-
-            if (notes.Count <= 0)
-                return shortName;
-
-            string notesAsString = string.Join(string.Empty, notes);
-            return $"{shortName} ({notesAsString})";
-        }
+        string notesAsString = string.Join(string.Empty, notes);
+        return $"{shortName} ({notesAsString})";
     }
 }

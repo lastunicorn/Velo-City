@@ -14,12 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
+public class PresentTeamMemberVacationsResponse
 {
-    public class PresentTeamMemberVacationsResponse
-    {
-        public List<VacationInfo> Vacations { get; set; }
-    }
+    public List<VacationInfo> Vacations { get; set; }
 }

@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.VelocityChart;
+
+/// <summary>
+/// Interaction logic for CommitmentChartControl.xaml
+/// </summary>
+public partial class VelocityChartControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for CommitmentChartControl.xaml
-    /// </summary>
-    public partial class VelocityChartControl : UserControl
+    public VelocityChartControl()
     {
-        public VelocityChartControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -16,10 +16,9 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
+
+public class PresentVelocityResponse
 {
-    public class PresentVelocityResponse
-    {
-        public List<SprintVelocity> SprintVelocities { get; set; }
-    }
+    public List<SprintVelocity> SprintVelocities { get; set; }
 }

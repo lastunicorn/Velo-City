@@ -17,14 +17,13 @@
 using System;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprintCalendar;
+
+public class PresentSprintCalendarRequest : IRequest<PresentSprintCalendarResponse>
 {
-    public class PresentSprintCalendarRequest : IRequest<PresentSprintCalendarResponse>
-    {
-        public int? SprintNumber { get; set; }
+    public int? SprintNumber { get; set; }
 
-        public DateTime? StartDate { get; set; }
+    public DateTime? StartDate { get; set; }
 
-        public DateTime? EndDate { get; set; }
-    }
+    public DateTime? EndDate { get; set; }
 }

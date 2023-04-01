@@ -16,10 +16,9 @@
 
 using System.Collections.ObjectModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
+
+public class AbsenceGroup : Collection<TeamMemberAbsence>
 {
-    public class AbsenceGroup : Collection<TeamMemberAbsence>
-    {
-        public OfficialHolidayDto OfficialHoliday { get; init; }
-    }
+    public OfficialHolidayDto OfficialHoliday { get; init; }
 }

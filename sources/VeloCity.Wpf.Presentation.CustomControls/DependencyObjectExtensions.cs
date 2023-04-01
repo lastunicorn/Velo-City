@@ -17,36 +17,35 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+internal static class DependencyObjectExtensions
 {
-    internal static class DependencyObjectExtensions
+    public static T FindParent<T>(this DependencyObject child)
+        where T : DependencyObject
     {
-        public static T FindParent<T>(this DependencyObject child)
-            where T : DependencyObject
-        {
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+        DependencyObject parentObject = VisualTreeHelper.GetParent(child);
 
-            if (parentObject == null)
-                return null;
+        if (parentObject == null)
+            return null;
 
-            if (parentObject is T parent)
-                return parent;
+        if (parentObject is T parent)
+            return parent;
 
-            return parentObject.FindParent<T>();
-        }
+        return parentObject.FindParent<T>();
+    }
 
-        public static DependencyObject FindParentBefore<T>(this DependencyObject child)
-            where T : DependencyObject
-        {
-            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+    public static DependencyObject FindParentBefore<T>(this DependencyObject child)
+        where T : DependencyObject
+    {
+        DependencyObject parentObject = VisualTreeHelper.GetParent(child);
 
-            if (parentObject == null)
-                return null;
+        if (parentObject == null)
+            return null;
 
-            if (parentObject is T)
-                return child;
+        if (parentObject is T)
+            return child;
 
-            return parentObject.FindParentBefore<T>();
-        }
+        return parentObject.FindParentBefore<T>();
     }
 }

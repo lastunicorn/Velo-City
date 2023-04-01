@@ -14,49 +14,45 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails;
+
+internal class PresentTeamMemberDetailsUseCase : IRequestHandler<PresentTeamMemberDetailsRequest, PresentTeamMemberDetailsResponse>
 {
-    internal class PresentTeamMemberDetailsUseCase : IRequestHandler<PresentTeamMemberDetailsRequest, PresentTeamMemberDetailsResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+
+    public PresentTeamMemberDetailsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+    }
 
-        public PresentTeamMemberDetailsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
-        {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
+    public async Task<PresentTeamMemberDetailsResponse> Handle(PresentTeamMemberDetailsRequest request, CancellationToken cancellationToken)
+    {
+        TeamMember currentTeamMember = await RetrieveCurrentTeamMember();
+        return BuildResponse(currentTeamMember);
+    }
 
-        public async Task<PresentTeamMemberDetailsResponse> Handle(PresentTeamMemberDetailsRequest request, CancellationToken cancellationToken)
-        {
-            TeamMember currentTeamMember = await RetrieveCurrentTeamMember();
-            return BuildResponse(currentTeamMember);
-        }
+    private async Task<TeamMember> RetrieveCurrentTeamMember()
+    {
+        if (applicationState.SelectedTeamMemberId == null)
+            return null;
 
-        private async Task<TeamMember> RetrieveCurrentTeamMember()
-        {
-            if (applicationState.SelectedTeamMemberId == null)
-                return null;
+        int teamMemberId = applicationState.SelectedTeamMemberId.Value;
+        return await unitOfWork.TeamMemberRepository.Get(teamMemberId);
+    }
 
-            int teamMemberId = applicationState.SelectedTeamMemberId.Value;
-            return await unitOfWork.TeamMemberRepository.Get(teamMemberId);
-        }
+    private static PresentTeamMemberDetailsResponse BuildResponse(TeamMember currentTeamMember)
+    {
+        PresentTeamMemberDetailsResponse response = new();
 
-        private static PresentTeamMemberDetailsResponse BuildResponse(TeamMember currentTeamMember)
-        {
-            PresentTeamMemberDetailsResponse response = new();
+        if (currentTeamMember != null)
+            response.TeamMemberName = currentTeamMember.Name;
 
-            if (currentTeamMember != null)
-                response.TeamMemberName = currentTeamMember.Name;
-
-            return response;
-        }
+        return response;
     }
 }

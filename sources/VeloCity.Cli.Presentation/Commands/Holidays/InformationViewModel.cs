@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays;
+
+public class InformationViewModel
 {
-    public class InformationViewModel
+    private readonly PresentOfficialHolidaysResponse response;
+
+    public InformationViewModel(PresentOfficialHolidaysResponse response)
     {
-        private readonly PresentOfficialHolidaysResponse response;
+        this.response = response ?? throw new ArgumentNullException(nameof(response));
+    }
 
-        public InformationViewModel(PresentOfficialHolidaysResponse response)
+    public override string ToString()
+    {
+        return response.RequestType switch
         {
-            this.response = response ?? throw new ArgumentNullException(nameof(response));
-        }
-
-        public override string ToString()
-        {
-            return response.RequestType switch
-            {
-                RequestType.BySprint => $"The official holidays for the sprint {response.SprintNumber} ({response.SprintDateInterval}):",
-                RequestType.ByYear => $"The official holidays for the year {response.Year}:",
-                RequestType.ByCurrentYear => $"The official holidays for the current year {response.Year}:",
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
+            RequestType.BySprint => $"The official holidays for the sprint {response.SprintNumber} ({response.SprintDateInterval}):",
+            RequestType.ByYear => $"The official holidays for the year {response.Year}:",
+            RequestType.ByCurrentYear => $"The official holidays for the current year {response.Year}:",
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

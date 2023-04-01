@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts;
+
+/// <summary>
+/// Interaction logic for ChartsPage.xaml
+/// </summary>
+public partial class ChartsPage : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ChartsPage.xaml
-    /// </summary>
-    public partial class ChartsPage : UserControl
+    public ChartsPage()
     {
-        public ChartsPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

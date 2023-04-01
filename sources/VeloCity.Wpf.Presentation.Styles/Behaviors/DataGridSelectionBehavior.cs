@@ -17,47 +17,46 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors;
+
+public static class DataGridSelectionBehavior
 {
-    public static class DataGridSelectionBehavior
+    public static readonly DependencyProperty EnableSelectionProperty = DependencyProperty.RegisterAttached(
+        "EnableSelection",
+        typeof(bool),
+        typeof(DataGridSelectionBehavior),
+        new UIPropertyMetadata(true, OnEnableSelectionPropertyChangedCallback));
+
+    public static bool GetEnableSelection(DependencyObject d)
     {
-        public static readonly DependencyProperty EnableSelectionProperty = DependencyProperty.RegisterAttached(
-            "EnableSelection",
-            typeof(bool),
-            typeof(DataGridSelectionBehavior),
-            new UIPropertyMetadata(true, OnEnableSelectionPropertyChangedCallback));
+        return (bool)d.GetValue(EnableSelectionProperty);
+    }
 
-        public static bool GetEnableSelection(DependencyObject d)
-        {
-            return (bool)d.GetValue(EnableSelectionProperty);
-        }
+    public static void SetEnableSelection(DependencyObject d, bool value)
+    {
+        d.SetValue(EnableSelectionProperty, value);
+    }
 
-        public static void SetEnableSelection(DependencyObject d, bool value)
+    private static void OnEnableSelectionPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is DataGrid dataGrid)
         {
-            d.SetValue(EnableSelectionProperty, value);
-        }
-
-        private static void OnEnableSelectionPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is DataGrid dataGrid)
+            if (e.NewValue is false)
             {
-                if (e.NewValue is false)
-                {
-                    dataGrid.SelectionMode = DataGridSelectionMode.Single;
-                    dataGrid.SelectionUnit = DataGridSelectionUnit.Cell;
-                    dataGrid.SelectedCellsChanged += HandleSelectedCellsChanged;
-                }
-                else
-                {
-                    dataGrid.SelectedCellsChanged -= HandleSelectedCellsChanged;
-                }
+                dataGrid.SelectionMode = DataGridSelectionMode.Single;
+                dataGrid.SelectionUnit = DataGridSelectionUnit.Cell;
+                dataGrid.SelectedCellsChanged += HandleSelectedCellsChanged;
+            }
+            else
+            {
+                dataGrid.SelectedCellsChanged -= HandleSelectedCellsChanged;
             }
         }
+    }
 
-        private static void HandleSelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            if (sender is DataGrid dataGrid)
-                dataGrid.UnselectAllCells();
-        }
+    private static void HandleSelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+    {
+        if (sender is DataGrid dataGrid)
+            dataGrid.UnselectAllCells();
     }
 }

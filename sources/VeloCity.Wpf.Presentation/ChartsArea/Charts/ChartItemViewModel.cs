@@ -16,17 +16,16 @@
 
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.Charts;
+
+public class ChartItemViewModel
 {
-    public class ChartItemViewModel
+    public string Title { get; set; }
+
+    public ViewModelBase ViewModel { get; set; }
+
+    public override string ToString()
     {
-        public string Title { get; set; }
-
-        public ViewModelBase ViewModel { get; set; }
-
-        public override string ToString()
-        {
-            return Title;
-        }
+        return Title;
     }
 }

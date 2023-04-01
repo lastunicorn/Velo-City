@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Commando;
@@ -25,80 +22,79 @@ using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using log4net;
 
-namespace DustInTheWind.VeloCity.Cli.Bootstrapper
+namespace DustInTheWind.VeloCity.Cli.Bootstrapper;
+
+internal class Program
 {
-    internal class Program
+    private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+
+    private static async Task Main(string[] args)
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+        ErrorMessageLevel errorMessageLevel = ErrorMessageLevel.Verbose;
 
-        private static async Task Main(string[] args)
+        try
         {
-            ErrorMessageLevel errorMessageLevel = ErrorMessageLevel.Verbose;
+            DisplayApplicationHeader();
 
-            try
+            IContainer container = SetupServices.BuildContainer();
+
+            OpenDatabase(container);
+
+            await using ILifetimeScope lifetimeScope = container.BeginLifetimeScope();
+            errorMessageLevel = GetErrorMessageLevel(lifetimeScope);
+            await ProcessRequest(args, lifetimeScope);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex);
+
+            if (errorMessageLevel == ErrorMessageLevel.Verbose)
+                CustomConsole.WriteLineError(ex);
+            else
+                CustomConsole.WriteLineError(ex.Message);
+        }
+    }
+
+    private static void DisplayApplicationHeader()
+    {
+        ApplicationHeader applicationHeader = new();
+        applicationHeader.Display();
+    }
+
+    private static void OpenDatabase(IComponentContext container)
+    {
+        JsonDatabase jsonDatabase = container.Resolve<JsonDatabase>();
+        jsonDatabase.Open();
+    }
+
+    private static ErrorMessageLevel GetErrorMessageLevel(IComponentContext container)
+    {
+        IConfig config = container.Resolve<IConfig>();
+        return config.ErrorMessageLevel;
+    }
+
+    private static async Task ProcessRequest(string[] args, IComponentContext container)
+    {
+        CommandRouter commandRouter = container.Resolve<CommandRouter>();
+        commandRouter.CommandCreated += (sender, e) =>
+        {
+            string argsAsString = string.Join(' ', e.Args);
+            Log.Info($"Execute command: {e.CommandFullName} - Arguments: {argsAsString}");
+
+            if (e.UnusedArguments.Count > 0)
             {
-                DisplayApplicationHeader();
-                
-                IContainer container = SetupServices.BuildContainer();
+                string[] unusedArguments = e.UnusedArguments
+                    .Select(x => x.Name ?? x.Value)
+                    .ToArray();
 
-                OpenDatabase(container);
+                Log.Warn("Unused arguments: " + string.Join(' ', unusedArguments));
 
-                await using ILifetimeScope lifetimeScope = container.BeginLifetimeScope();
-                errorMessageLevel = GetErrorMessageLevel(lifetimeScope);
-                await ProcessRequest(args, lifetimeScope);
+                foreach (string argumentInfo in unusedArguments)
+                    CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"Unknown argument: {argumentInfo}");
             }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
+        };
 
-                if (errorMessageLevel == ErrorMessageLevel.Verbose)
-                    CustomConsole.WriteLineError(ex);
-                else
-                    CustomConsole.WriteLineError(ex.Message);
-            }
-        }
-
-        private static void DisplayApplicationHeader()
-        {
-            ApplicationHeader applicationHeader = new();
-            applicationHeader.Display();
-        }
-
-        private static void OpenDatabase(IComponentContext container)
-        {
-            JsonDatabase jsonDatabase = container.Resolve<JsonDatabase>();
-            jsonDatabase.Open();
-        }
-
-        private static ErrorMessageLevel GetErrorMessageLevel(IComponentContext container)
-        {
-            IConfig config = container.Resolve<IConfig>();
-            return config.ErrorMessageLevel;
-        }
-
-        private static async Task ProcessRequest(string[] args, IComponentContext container)
-        {
-            CommandRouter commandRouter = container.Resolve<CommandRouter>();
-            commandRouter.CommandCreated += (sender, e) =>
-            {
-                string argsAsString = string.Join(' ', e.Args);
-                Log.Info($"Execute command: {e.CommandFullName} - Arguments: {argsAsString}");
-
-                if (e.UnusedArguments.Count > 0)
-                {
-                    string[] unusedArguments = e.UnusedArguments
-                        .Select(x => x.Name ?? x.Value)
-                        .ToArray();
-
-                    Log.Warn("Unused arguments: " + string.Join(' ', unusedArguments));
-
-                    foreach (string argumentInfo in unusedArguments)
-                        CustomConsole.WriteLine(ConsoleColor.DarkYellow, $"Unknown argument: {argumentInfo}");
-                }
-            };
-
-            Arguments arguments = new(args);
-            await commandRouter.Execute(arguments);
-        }
+        Arguments arguments = new(args);
+        await commandRouter.Execute(arguments);
     }
 }

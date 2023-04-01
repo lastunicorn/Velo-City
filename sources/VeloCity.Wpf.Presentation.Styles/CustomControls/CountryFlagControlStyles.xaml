@@ -39,7 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Text="{TemplateBinding CountryCode}"
                             Margin="0 0 10 0"
                             VerticalAlignment="Center"
-                            Visibility="{Binding ShowCountryCode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            Visibility="{Binding ShowCountryCode, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                         <Border
                             BorderThickness="{TemplateBinding BorderThickness}"

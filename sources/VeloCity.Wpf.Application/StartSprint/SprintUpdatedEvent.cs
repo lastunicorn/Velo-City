@@ -22,20 +22,20 @@ namespace DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 public class SprintUpdatedEvent
 {
     public int SprintId { get; set; }
-        
+
     public int SprintNumber { get; set; }
 
     public string SprintTitle { get; set; }
 
     public SprintState SprintState { get; set; }
-        
+
     public StoryPoints CommitmentStoryPoints { get; set; }
-        
+
     public string SprintGoal { get; set; }
-        
+
     public StoryPoints ActualStoryPoints { get; set; }
-        
+
     public Velocity ActualVelocity { get; set; }
-        
+
     public string Comments { get; set; }
 }

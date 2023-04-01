@@ -17,24 +17,23 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments;
+
+public class EmploymentViewModel
 {
-    public class EmploymentViewModel
+    public DateInterval TimeInterval { get; }
+
+    public HoursValue HoursPerDay { get; }
+
+    public EmploymentWeekViewModel EmploymentWeek { get; }
+
+    public string Country { get; }
+
+    public EmploymentViewModel(EmploymentInfo employmentInfo)
     {
-        public DateInterval TimeInterval { get; }
-
-        public HoursValue HoursPerDay { get; }
-
-        public EmploymentWeekViewModel EmploymentWeek { get; }
-
-        public string Country { get; }
-
-        public EmploymentViewModel(EmploymentInfo employmentInfo)
-        {
-            TimeInterval = employmentInfo.TimeInterval;
-            HoursPerDay = employmentInfo.HoursPerDay;
-            EmploymentWeek = new EmploymentWeekViewModel(employmentInfo.EmploymentWeek);
-            Country = employmentInfo.Country;
-        }
+        TimeInterval = employmentInfo.TimeInterval;
+        HoursPerDay = employmentInfo.HoursPerDay;
+        EmploymentWeek = new EmploymentWeekViewModel(employmentInfo.EmploymentWeek);
+        Country = employmentInfo.Country;
     }
 }

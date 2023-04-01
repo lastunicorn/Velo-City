@@ -14,40 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentConfig;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Config
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Config;
+
+[Command("config", ShortDescription = "Inspect and change the application's configuration values.", Order = 100)]
+public class ConfigCommand : ICommand
 {
-    [Command("config", ShortDescription = "Inspect and change the application's configuration values.", Order = 100)]
-    public class ConfigCommand : ICommand
+    private readonly IMediator mediator;
+
+    [CommandParameter(DisplayName = "property name", Name = "get", Order = 1, IsOptional = true)]
+    public string PropertyName { get; set; }
+
+    public List<ConfigItem> ConfigValues { get; private set; }
+
+    public ConfigCommand(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
-        [CommandParameter(DisplayName = "property name", Name = "get", Order = 1, IsOptional = true)]
-        public string PropertyName { get; set; }
-
-        public List<ConfigItem> ConfigValues { get; private set; }
-
-        public ConfigCommand(IMediator mediator)
+    public async Task Execute()
+    {
+        PresentConfigRequest request = new()
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+            ConfigPropertyName = PropertyName
+        };
+        PresentConfigResponse response = await mediator.Send(request);
 
-        public async Task Execute()
-        {
-            PresentConfigRequest request = new()
-            {
-                ConfigPropertyName = PropertyName
-            };
-            PresentConfigResponse response = await mediator.Send(request);
-
-            ConfigValues = response.ConfigValues;
-        }
+        ConfigValues = response.ConfigValues;
     }
 }

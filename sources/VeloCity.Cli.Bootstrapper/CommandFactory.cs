@@ -14,41 +14,39 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using Autofac;
 using DustInTheWind.ConsoleTools.Commando;
 
-namespace DustInTheWind.VeloCity.Cli.Bootstrapper
+namespace DustInTheWind.VeloCity.Cli.Bootstrapper;
+
+internal class CommandFactory : ICommandFactory
 {
-    internal class CommandFactory : ICommandFactory
+    private readonly IComponentContext context;
+
+    public CommandFactory(IComponentContext context)
     {
-        private readonly IComponentContext context;
+        this.context = context ?? throw new ArgumentNullException(nameof(context));
+    }
 
-        public CommandFactory(IComponentContext context)
-        {
-            this.context = context ?? throw new ArgumentNullException(nameof(context));
-        }
+    public TCommand Create<TCommand>()
+        where TCommand : ICommand
+    {
+        return context.Resolve<TCommand>();
+    }
 
-        public TCommand Create<TCommand>()
-            where TCommand : ICommand
-        {
-            return context.Resolve<TCommand>();
-        }
+    public ICommand Create(Type commandType)
+    {
+        if (commandType == null) throw new ArgumentNullException(nameof(commandType));
 
-        public ICommand Create(Type commandType)
-        {
-            if (commandType == null) throw new ArgumentNullException(nameof(commandType));
+        bool isCommandType = typeof(ICommand).IsAssignableFrom(commandType);
+        if (!isCommandType)
+            throw new TypeIsNotCommandException(commandType);
 
-            bool isCommandType = typeof(ICommand).IsAssignableFrom(commandType);
-            if (!isCommandType)
-                throw new TypeIsNotCommandException(commandType);
+        return (ICommand)context.Resolve(commandType);
+    }
 
-            return (ICommand)context.Resolve(commandType);
-        }
-
-        public object CreateView(Type viewType)
-        {
-            return context.Resolve(viewType);
-        }
+    public object CreateView(Type viewType)
+    {
+        return context.Resolve(viewType);
     }
 }

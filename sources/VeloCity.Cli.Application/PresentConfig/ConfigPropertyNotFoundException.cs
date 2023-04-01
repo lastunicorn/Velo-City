@@ -16,15 +16,14 @@
 
 using System;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig
-{
-    internal class ConfigPropertyNotFoundException : Exception
-    {
-        private const string DefaultMessage = "There is no property with the name {0}.";
+namespace DustInTheWind.VeloCity.Cli.Application.PresentConfig;
 
-        public ConfigPropertyNotFoundException(string configPropertyName)
-            : base(string.Format(DefaultMessage, configPropertyName))
-        {
-        }
+internal class ConfigPropertyNotFoundException : Exception
+{
+    private const string DefaultMessage = "There is no property with the name {0}.";
+
+    public ConfigPropertyNotFoundException(string configPropertyName)
+        : base(string.Format(DefaultMessage, configPropertyName))
+    {
     }
 }

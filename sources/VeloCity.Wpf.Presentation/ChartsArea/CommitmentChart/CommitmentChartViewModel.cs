@@ -15,11 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
@@ -28,123 +23,122 @@ using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using LiveCharts;
 using LiveCharts.Wpf;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CommitmentChart;
+
+internal class CommitmentChartViewModel : ViewModelBase
 {
-    internal class CommitmentChartViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private ChartValues<float> values;
+    private ChartValues<float> actualValues;
+    private uint sprintCount;
+    private List<string> sprintsLabels;
+
+    public uint SprintCount
     {
-        private readonly IRequestBus requestBus;
-        private ChartValues<float> values;
-        private ChartValues<float> actualValues;
-        private uint sprintCount;
-        private List<string> sprintsLabels;
-
-        public uint SprintCount
+        get => sprintCount;
+        set
         {
-            get => sprintCount;
-            set
+            if (value == sprintCount)
+                return;
+
+            sprintCount = value;
+            OnPropertyChanged();
+
+            if (!IsInitializeMode)
+                _ = Initialize();
+        }
+    }
+
+    public SeriesCollection SeriesCollection { get; private set; }
+
+    public ChartValues<float> Values
+    {
+        get => values;
+        private set
+        {
+            values = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ChartValues<float> ActualValues
+    {
+        get => actualValues;
+        private set
+        {
+            actualValues = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public List<string> SprintsLabels
+    {
+        get => sprintsLabels;
+        set
+        {
+            sprintsLabels = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public Func<double, string> AxisYLabelFormatter { get; } = x => ((StoryPoints)x).ToString("standard");
+
+    public CommitmentChartViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+
+        _ = Initialize();
+    }
+
+    private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        await Initialize();
+    }
+
+    private async Task Initialize()
+    {
+        await RunInInitializeMode(async () =>
+        {
+            PresentCommitmentRequest request = new()
             {
-                if (value == sprintCount)
-                    return;
+                SprintCount = SprintCount == 0
+                    ? null
+                    : SprintCount
+            };
+            PresentCommitmentResponse response = await requestBus.Send<PresentCommitmentRequest, PresentCommitmentResponse>(request);
 
-                sprintCount = value;
-                OnPropertyChanged();
+            SprintCount = response.RequestedSprintCount;
 
-                if (!IsInitializeMode)
-                    _ = Initialize();
-            }
-        }
+            IEnumerable<float> commitmentValues = response.SprintsCommitments
+                .Select(x => x.CommitmentStoryPoints.Value);
 
-        public SeriesCollection SeriesCollection { get; private set; }
+            Values = new ChartValues<float>(commitmentValues);
 
-        public ChartValues<float> Values
-        {
-            get => values;
-            private set
+            IEnumerable<float> actualValues1 = response.SprintsCommitments
+                .Select(x => x.ActualStoryPoints.Value);
+
+            ActualValues = new ChartValues<float>(actualValues1);
+
+            SeriesCollection = new SeriesCollection
             {
-                values = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ChartValues<float> ActualValues
-        {
-            get => actualValues;
-            private set
-            {
-                actualValues = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public List<string> SprintsLabels
-        {
-            get => sprintsLabels;
-            set
-            {
-                sprintsLabels = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Func<double, string> AxisYLabelFormatter { get; } = x => ((StoryPoints)x).ToString("standard");
-
-        public CommitmentChartViewModel(IRequestBus requestBus, EventBus eventBus)
-        {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-
-            _ = Initialize();
-        }
-
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            await Initialize();
-        }
-
-        private async Task Initialize()
-        {
-            await RunInInitializeMode(async () =>
-            {
-                PresentCommitmentRequest request = new()
+                new ColumnSeries
                 {
-                    SprintCount = SprintCount == 0
-                        ? null
-                        : SprintCount
-                };
-                PresentCommitmentResponse response = await requestBus.Send<PresentCommitmentRequest, PresentCommitmentResponse>(request);
-
-                SprintCount = response.RequestedSprintCount;
-
-                IEnumerable<float> commitmentValues = response.SprintsCommitments
-                    .Select(x => x.CommitmentStoryPoints.Value);
-
-                Values = new ChartValues<float>(commitmentValues);
-
-                IEnumerable<float> actualValues1 = response.SprintsCommitments
-                    .Select(x => x.ActualStoryPoints.Value);
-
-                ActualValues = new ChartValues<float>(actualValues1);
-
-                SeriesCollection = new SeriesCollection
+                    Title = "Commitment",
+                    Values = Values
+                },
+                new ColumnSeries
                 {
-                    new ColumnSeries
-                    {
-                        Title = "Commitment",
-                        Values = Values
-                    },
-                    new ColumnSeries
-                    {
-                        Title = "Actual Burn",
-                        Values = ActualValues
-                    }
-                };
+                    Title = "Actual Burn",
+                    Values = ActualValues
+                }
+            };
 
-                SprintsLabels = response.SprintsCommitments
-                    .Select(x => $"Sprint {x.SprintNumber}")
-                    .ToList();
-            });
-        }
+            SprintsLabels = response.SprintsCommitments
+                .Select(x => $"Sprint {x.SprintNumber}")
+                .ToList();
+        });
     }
 }

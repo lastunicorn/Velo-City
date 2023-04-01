@@ -14,31 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+
+public class VacationDailyViewModel : VacationViewModel
 {
-    public class VacationDailyViewModel : VacationViewModel
+    public DateInterval DateInterval { get; set; }
+
+    public override DateTime? SignificantDate => DateInterval.StartDate;
+
+    public override DateTime? StartDate => DateInterval.StartDate;
+
+    public override DateTime? EndDate => DateInterval.EndDate;
+
+    public VacationDailyViewModel(VacationDaily vacationDaily)
+        : base(vacationDaily)
     {
-        public DateInterval DateInterval { get; set; }
+        DateInterval = vacationDaily.DateInterval;
+    }
 
-        public override DateTime? SignificantDate => DateInterval.StartDate;
-
-        public override DateTime? StartDate => DateInterval.StartDate;
-
-        public override DateTime? EndDate => DateInterval.EndDate;
-
-        public VacationDailyViewModel(VacationDaily vacationDaily)
-            : base(vacationDaily)
-        {
-            DateInterval = vacationDaily.DateInterval;
-        }
-
-        protected override string RenderDate()
-        {
-            return $"[{DateInterval}]";
-        }
+    protected override string RenderDate()
+    {
+        return $"[{DateInterval}]";
     }
 }

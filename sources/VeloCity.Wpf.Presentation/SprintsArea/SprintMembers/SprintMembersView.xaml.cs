@@ -19,84 +19,83 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers;
+
+/// <summary>
+/// Interaction logic for SprintMembersView.xaml
+/// </summary>
+public partial class SprintMembersView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SprintMembersView.xaml
-    /// </summary>
-    public partial class SprintMembersView : UserControl
+    public SprintMembersView()
     {
-        public SprintMembersView()
+        InitializeComponent();
+    }
+
+    private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        MouseWheelEventArgs eventArg = new(e.MouseDevice, e.Timestamp, e.Delta)
         {
-            InitializeComponent();
+            RoutedEvent = MouseWheelEvent,
+            Source = e.Source
+        };
+
+        DependencyObject uiElement = (DependencyObject)sender;
+        ScrollViewer parent = FindAncestor<ScrollViewer>(uiElement);
+
+        if (parent != null)
+        {
+            parent.RaiseEvent(eventArg);
+            e.Handled = true;
+        }
+    }
+
+    public static T FindAncestor<T>(DependencyObject obj)
+        where T : DependencyObject
+    {
+        if (obj != null)
+        {
+            DependencyObject dependObj = obj;
+            do
+            {
+                dependObj = GetParent(dependObj);
+
+                if (dependObj is T dependencyObject)
+                    return dependencyObject;
+            } while (dependObj != null);
         }
 
-        private void UIElement_OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            MouseWheelEventArgs eventArg = new(e.MouseDevice, e.Timestamp, e.Delta)
-            {
-                RoutedEvent = MouseWheelEvent,
-                Source = e.Source
-            };
+        return null;
+    }
 
-            DependencyObject uiElement = (DependencyObject)sender;
-            ScrollViewer parent = FindAncestor<ScrollViewer>(uiElement);
+    public static DependencyObject GetParent(DependencyObject obj)
+    {
+        if (obj == null)
+            return null;
+
+        if (obj is ContentElement element)
+        {
+            DependencyObject parent = ContentOperations.GetParent(element);
 
             if (parent != null)
-            {
-                parent.RaiseEvent(eventArg);
-                e.Handled = true;
-            }
-        }
+                return parent;
 
-        public static T FindAncestor<T>(DependencyObject obj)
-            where T : DependencyObject
-        {
-            if (obj != null)
-            {
-                DependencyObject dependObj = obj;
-                do
-                {
-                    dependObj = GetParent(dependObj);
-
-                    if (dependObj is T dependencyObject)
-                        return dependencyObject;
-                } while (dependObj != null);
-            }
+            if (element is FrameworkContentElement contentElement)
+                return contentElement.Parent;
 
             return null;
         }
 
-        public static DependencyObject GetParent(DependencyObject obj)
+        return VisualTreeHelper.GetParent(obj);
+    }
+
+    private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is DataGridRow dataGridRow)
         {
-            if (obj == null)
-                return null;
-
-            if (obj is ContentElement element)
+            if (dataGridRow.IsSelected)
             {
-                DependencyObject parent = ContentOperations.GetParent(element);
-
-                if (parent != null)
-                    return parent;
-
-                if (element is FrameworkContentElement contentElement)
-                    return contentElement.Parent;
-
-                return null;
-            }
-
-            return VisualTreeHelper.GetParent(obj);
-        }
-
-        private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is DataGridRow dataGridRow)
-            {
-                if (dataGridRow.IsSelected)
-                {
-                    dataGridRow.IsSelected = false;
-                    e.Handled = true;
-                }
+                dataGridRow.IsSelected = false;
+                e.Handled = true;
             }
         }
     }

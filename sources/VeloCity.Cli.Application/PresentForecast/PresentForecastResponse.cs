@@ -18,24 +18,23 @@ using System;
 using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
+namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast;
+
+public class PresentForecastResponse
 {
-    public class PresentForecastResponse
-    {
-        public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+    public DateTime EndDate { get; set; }
 
-        public int TotalWorkHours { get; set; }
+    public int TotalWorkHours { get; set; }
 
-        public Velocity EstimatedVelocity { get; set; }
+    public Velocity EstimatedVelocity { get; set; }
 
-        public StoryPoints EstimatedStoryPoints { get; set; }
+    public StoryPoints EstimatedStoryPoints { get; set; }
 
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
+    public StoryPoints EstimatedStoryPointsWithVelocityPenalties { get; set; }
 
-        public List<int> PreviouslyClosedSprints { get; set; }
+    public List<int> PreviouslyClosedSprints { get; set; }
 
-        public List<SprintForecast> Sprints { get; set; }
-    }
+    public List<SprintForecast> Sprints { get; set; }
 }

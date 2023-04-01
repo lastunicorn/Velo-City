@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.HolidaysArea.Holidays
+namespace DustInTheWind.VeloCity.Wpf.Presentation.HolidaysArea.Holidays;
+
+/// <summary>
+/// Interaction logic for HolidaysPage.xaml
+/// </summary>
+public partial class HolidaysPage : UserControl
 {
-    /// <summary>
-    /// Interaction logic for HolidaysPage.xaml
-    /// </summary>
-    public partial class HolidaysPage : UserControl
+    public HolidaysPage()
     {
-        public HolidaysPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

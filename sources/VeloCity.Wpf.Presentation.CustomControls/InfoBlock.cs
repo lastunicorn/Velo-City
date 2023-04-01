@@ -17,26 +17,25 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class InfoBlock : ContentControl
 {
-    public class InfoBlock : ContentControl
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached(
+        nameof(CornerRadius),
+        typeof(CornerRadius),
+        typeof(InfoBlock),
+        new FrameworkPropertyMetadata(new CornerRadius(), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+    );
+
+    public CornerRadius CornerRadius
     {
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(InfoBlock),
-            new FrameworkPropertyMetadata(defaultValue: new CornerRadius(), flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
 
-        public CornerRadius CornerRadius
-        {
-            get => (CornerRadius)GetValue(CornerRadiusProperty);
-            set => SetValue(CornerRadiusProperty, value);
-        }
-
-        static InfoBlock()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(InfoBlock), new FrameworkPropertyMetadata(typeof(InfoBlock)));
-        }
+    static InfoBlock()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(InfoBlock), new FrameworkPropertyMetadata(typeof(InfoBlock)));
     }
 }

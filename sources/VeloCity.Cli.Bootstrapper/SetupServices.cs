@@ -29,47 +29,46 @@ using DustInTheWind.VeloCity.SettingsAccess;
 using DustInTheWind.VeloCity.SystemAccess;
 using MediatR.Extensions.Autofac.DependencyInjection;
 
-namespace DustInTheWind.VeloCity.Cli.Bootstrapper
+namespace DustInTheWind.VeloCity.Cli.Bootstrapper;
+
+internal class SetupServices
 {
-    internal class SetupServices
+    public static IContainer BuildContainer()
     {
-        public static IContainer BuildContainer()
-        {
-            ContainerBuilder containerBuilder = new();
-            ConfigureServices(containerBuilder);
+        ContainerBuilder containerBuilder = new();
+        ConfigureServices(containerBuilder);
 
-            return containerBuilder.Build();
-        }
+        return containerBuilder.Build();
+    }
 
-        private static void ConfigureServices(ContainerBuilder containerBuilder)
-        {
-            Assembly applicationAssembly = typeof(PresentSprintRequest).Assembly;
-            containerBuilder.RegisterMediatR(applicationAssembly);
+    private static void ConfigureServices(ContainerBuilder containerBuilder)
+    {
+        Assembly applicationAssembly = typeof(PresentSprintRequest).Assembly;
+        containerBuilder.RegisterMediatR(applicationAssembly);
 
-            Assembly presentationAssembly = typeof(SprintCommand).Assembly;
-            containerBuilder.RegisterCommando(presentationAssembly);
+        Assembly presentationAssembly = typeof(SprintCommand).Assembly;
+        containerBuilder.RegisterCommando(presentationAssembly);
 
-            containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
-            containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
+        containerBuilder.RegisterType<SystemClock>().As<ISystemClock>();
+        containerBuilder.RegisterType<Config>().As<IConfig>().SingleInstance();
 
-            containerBuilder
-                .Register(context =>
+        containerBuilder
+            .Register(context =>
+            {
+                IConfig config = context.Resolve<IConfig>();
+
+                return new JsonDatabase
                 {
-                    IConfig config = context.Resolve<IConfig>();
+                    PersistenceLocation = config.DatabaseLocation
+                };
+            })
+            .AsSelf()
+            .As<IDataStorage>()
+            .SingleInstance();
 
-                    return new JsonDatabase
-                    {
-                        PersistenceLocation = config.DatabaseLocation
-                    };
-                })
-                .AsSelf()
-                .As<IDataStorage>()
-                .SingleInstance();
+        containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
+        containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
 
-            containerBuilder.RegisterType<VeloCityDbContext>().AsSelf();
-            containerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<DataGridFactory>().AsSelf();
-        }
+        containerBuilder.RegisterType<DataGridFactory>().AsSelf();
     }
 }

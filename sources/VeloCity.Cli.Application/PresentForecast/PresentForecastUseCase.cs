@@ -22,55 +22,54 @@ using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast
+namespace DustInTheWind.VeloCity.Cli.Application.PresentForecast;
+
+internal class PresentForecastUseCase : IRequestHandler<PresentForecastRequest, PresentForecastResponse>
 {
-    internal class PresentForecastUseCase : IRequestHandler<PresentForecastRequest, PresentForecastResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly IConfig config;
+
+    public PresentForecastUseCase(IUnitOfWork unitOfWork, IConfig config)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IConfig config;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.config = config ?? throw new ArgumentNullException(nameof(config));
+    }
 
-        public PresentForecastUseCase(IUnitOfWork unitOfWork, IConfig config)
+    public async Task<PresentForecastResponse> Handle(PresentForecastRequest request, CancellationToken cancellationToken)
+    {
+        Forecast forecast = await CalculateForecast(request);
+
+        return CreateResponse(forecast);
+    }
+
+    private async Task<Forecast> CalculateForecast(PresentForecastRequest request)
+    {
+        Forecast forecast = new(unitOfWork)
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-        }
+            EndDate = request.EndDate,
+            AnalysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack,
+            ExcludedSprints = request.ExcludedSprints,
+            ExcludedTeamMembers = request.ExcludedTeamMembers
+        };
+        await forecast.Calculate();
 
-        public async Task<PresentForecastResponse> Handle(PresentForecastRequest request, CancellationToken cancellationToken)
+        return forecast;
+    }
+
+    private static PresentForecastResponse CreateResponse(Forecast forecast)
+    {
+        return new PresentForecastResponse
         {
-            Forecast forecast = await CalculateForecast(request);
-
-            return CreateResponse(forecast);
-        }
-
-        private async Task<Forecast> CalculateForecast(PresentForecastRequest request)
-        {
-            Forecast forecast = new(unitOfWork)
-            {
-                EndDate = request.EndDate,
-                AnalysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack,
-                ExcludedSprints = request.ExcludedSprints,
-                ExcludedTeamMembers = request.ExcludedTeamMembers
-            };
-            await forecast.Calculate();
-
-            return forecast;
-        }
-
-        private static PresentForecastResponse CreateResponse(Forecast forecast)
-        {
-            return new PresentForecastResponse
-            {
-                StartDate = forecast.ActualStartDate,
-                EndDate = forecast.ActualEndDate,
-                TotalWorkHours = forecast.TotalWorkHours,
-                EstimatedVelocity = forecast.EstimatedVelocity,
-                EstimatedStoryPoints = forecast.EstimatedStoryPoints,
-                EstimatedStoryPointsWithVelocityPenalties = forecast.EstimatedStoryPointsWithVelocityPenalties,
-                PreviouslyClosedSprints = forecast.HistorySprints?
-                    .Select(x => x.Number)
-                    .ToList(),
-                Sprints = forecast.ForecastSprints
-            };
-        }
+            StartDate = forecast.ActualStartDate,
+            EndDate = forecast.ActualEndDate,
+            TotalWorkHours = forecast.TotalWorkHours,
+            EstimatedVelocity = forecast.EstimatedVelocity,
+            EstimatedStoryPoints = forecast.EstimatedStoryPoints,
+            EstimatedStoryPointsWithVelocityPenalties = forecast.EstimatedStoryPointsWithVelocityPenalties,
+            PreviouslyClosedSprints = forecast.HistorySprints?
+                .Select(x => x.Number)
+                .ToList(),
+            Sprints = forecast.ForecastSprints
+        };
     }
 }

@@ -18,18 +18,17 @@ using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays
+namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays;
+
+public class PresentOfficialHolidaysResponse
 {
-    public class PresentOfficialHolidaysResponse
-    {
-        public List<OfficialHolidayInstance> OfficialHolidays { get; set; }
+    public List<OfficialHolidayInstance> OfficialHolidays { get; set; }
 
-        public int? Year { get; set; }
+    public int? Year { get; set; }
 
-        public int? SprintNumber { get; set; }
+    public int? SprintNumber { get; set; }
 
-        public RequestType RequestType { get; set; }
+    public RequestType RequestType { get; set; }
 
-        public DateInterval SprintDateInterval { get; set; }
-    }
+    public DateInterval SprintDateInterval { get; set; }
 }

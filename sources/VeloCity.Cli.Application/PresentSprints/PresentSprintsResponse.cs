@@ -16,10 +16,9 @@
 
 using System.Collections.Generic;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprints;
+
+public class PresentSprintsResponse
 {
-    public class PresentSprintsResponse
-    {
-        public List<SprintOverview> SprintOverviews { get; set; }
-    }
+    public List<SprintOverview> SprintOverviews { get; set; }
 }

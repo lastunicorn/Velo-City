@@ -114,7 +114,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <ScrollViewer
                         x:Name="PART_ContentHost"
                         Margin="0"
-                        Background="{TemplateBinding Background}"/>
+                        Background="{TemplateBinding Background}" />
 
                     <ControlTemplate.Triggers>
 

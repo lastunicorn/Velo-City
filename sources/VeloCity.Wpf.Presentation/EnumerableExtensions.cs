@@ -14,16 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation
+namespace DustInTheWind.VeloCity.Wpf.Presentation;
+
+internal static class EnumerableExtensions
 {
-    internal static class EnumerableExtensions
+    public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> enumerable)
     {
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> enumerable)
-        {
-            return new ObservableCollection<T>(enumerable);
-        }
+        return new ObservableCollection<T>(enumerable);
     }
 }

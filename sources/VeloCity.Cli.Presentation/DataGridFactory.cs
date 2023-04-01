@@ -14,47 +14,45 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation
+namespace DustInTheWind.VeloCity.Cli.Presentation;
+
+public class DataGridFactory
 {
-    public class DataGridFactory
+    private readonly IConfig config;
+
+    public DataGridFactory(IConfig config)
     {
-        private readonly IConfig config;
+        this.config = config ?? throw new ArgumentNullException(nameof(config));
+    }
 
-        public DataGridFactory(IConfig config)
+    public DataGrid Create()
+    {
+        return new DataGrid
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-        }
-
-        public DataGrid Create()
-        {
-            return new DataGrid
+            TitleRow =
             {
-                TitleRow =
-                {
-                    ForegroundColor = ConsoleColor.Black,
-                    BackgroundColor = ConsoleColor.DarkGray
-                },
-                Margin = "0 1 0 0",
-                Border =
-                {
-                    Template = DecideBorderTemplate()
-                }
-            };
-        }
-
-        private BorderTemplate DecideBorderTemplate()
-        {
-            return config.DataGridStyle switch
+                ForegroundColor = ConsoleColor.Black,
+                BackgroundColor = ConsoleColor.DarkGray
+            },
+            Margin = "0 1 0 0",
+            Border =
             {
-                DataGridStyle.PlusMinus => BorderTemplate.PlusMinusBorderTemplate,
-                DataGridStyle.SingleLine => BorderTemplate.SingleLineBorderTemplate,
-                DataGridStyle.DoubleLine => BorderTemplate.DoubleLineBorderTemplate,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
+                Template = DecideBorderTemplate()
+            }
+        };
+    }
+
+    private BorderTemplate DecideBorderTemplate()
+    {
+        return config.DataGridStyle switch
+        {
+            DataGridStyle.PlusMinus => BorderTemplate.PlusMinusBorderTemplate,
+            DataGridStyle.SingleLine => BorderTemplate.SingleLineBorderTemplate,
+            DataGridStyle.DoubleLine => BorderTemplate.DoubleLineBorderTemplate,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

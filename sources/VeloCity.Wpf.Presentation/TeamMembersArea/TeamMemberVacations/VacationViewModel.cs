@@ -14,44 +14,42 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+public abstract class VacationViewModel
 {
-    public abstract class VacationViewModel
+    public HoursValue? HourCount { get; set; }
+
+    public string Comments { get; set; }
+
+    public abstract DateTime? SignificantDate { get; }
+
+    public abstract DateTime? StartDate { get; }
+
+    public abstract DateTime? EndDate { get; }
+
+    protected VacationViewModel(VacationInfo vacationInfo)
     {
-        public HoursValue? HourCount { get; set; }
+        HourCount = vacationInfo.HourCount.HasValue
+            ? vacationInfo.HourCount
+            : (HoursValue?)null;
 
-        public string Comments { get; set; }
+        Comments = vacationInfo.Comments;
+    }
 
-        public abstract DateTime? SignificantDate { get; }
-
-        public abstract DateTime? StartDate { get; }
-
-        public abstract DateTime? EndDate { get; }
-
-        protected VacationViewModel(VacationInfo vacationInfo)
+    public static VacationViewModel From(VacationInfo vacation)
+    {
+        return vacation switch
         {
-            HourCount = vacationInfo.HourCount.HasValue
-                ? vacationInfo.HourCount
-                : (HoursValue?)null;
-
-            Comments = vacationInfo.Comments;
-        }
-
-        public static VacationViewModel From(VacationInfo vacation)
-        {
-            return vacation switch
-            {
-                VacationOnceInfo vacationOnce => new VacationOnceViewModel(vacationOnce),
-                VacationDailyInfo vacationDaily => new VacationDailyViewModel(vacationDaily),
-                VacationWeeklyInfo vacationWeekly => new VacationWeeklyViewModel(vacationWeekly),
-                VacationMonthlyInfo vacationMonthly => new VacationMonthlyViewModel(vacationMonthly),
-                VacationYearlyInfo vacationYearly => new VacationYearlyViewModel(vacationYearly),
-                _ => throw new ArgumentOutOfRangeException(nameof(vacation))
-            };
-        }
+            VacationOnceInfo vacationOnce => new VacationOnceViewModel(vacationOnce),
+            VacationDailyInfo vacationDaily => new VacationDailyViewModel(vacationDaily),
+            VacationWeeklyInfo vacationWeekly => new VacationWeeklyViewModel(vacationWeekly),
+            VacationMonthlyInfo vacationMonthly => new VacationMonthlyViewModel(vacationMonthly),
+            VacationYearlyInfo vacationYearly => new VacationYearlyViewModel(vacationYearly),
+            _ => throw new ArgumentOutOfRangeException(nameof(vacation))
+        };
     }
 }

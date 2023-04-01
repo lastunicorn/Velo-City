@@ -14,85 +14,81 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Cli.Application.PresentSprint;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
+
+public class SprintOverviewViewModel
 {
-    public class SprintOverviewViewModel
+    private readonly PresentSprintResponse response;
+
+    public string SprintName => response.SprintName;
+
+    public DateTime StartDate => response.SprintDateInterval.StartDate!.Value;
+
+    public DateTime EndDate => response.SprintDateInterval.EndDate!.Value;
+
+    public SprintStateViewModel State { get; }
+
+    public int? WorkDaysCount { get; }
+
+    public HoursValue TotalWorkHours => response.TotalWorkHours;
+
+    public StoryPoints EstimatedStoryPoints => response.EstimatedStoryPoints;
+
+    public StoryPoints EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties;
+
+    public Velocity EstimatedVelocity => response.EstimatedVelocity;
+
+    public StoryPoints CommitmentStoryPoints => response.CommitmentStoryPoints;
+
+    public StoryPoints ActualStoryPoints => response.ActualStoryPoints;
+
+    public Velocity ActualVelocity => response.ActualVelocity;
+
+    public List<NoteBase> Notes { get; }
+
+    public SprintOverviewViewModel(PresentSprintResponse response)
     {
-        private readonly PresentSprintResponse response;
+        this.response = response ?? throw new ArgumentNullException(nameof(response));
 
-        public string SprintName => response.SprintName;
+        State = new SprintStateViewModel(response.SprintState);
+        WorkDaysCount = response.WorkDaysCount;
+        Notes = CreateNotes().ToList();
+    }
 
-        public DateTime StartDate => response.SprintDateInterval.StartDate!.Value;
+    private IEnumerable<NoteBase> CreateNotes()
+    {
+        bool previousSprintsExist = response.PreviouslyClosedSprints is { Count: > 0 };
 
-        public DateTime EndDate => response.SprintDateInterval.EndDate!.Value;
-
-        public SprintStateViewModel State { get; }
-
-        public int? WorkDaysCount { get; }
-
-        public HoursValue TotalWorkHours => response.TotalWorkHours;
-
-        public StoryPoints EstimatedStoryPoints => response.EstimatedStoryPoints;
-
-        public StoryPoints EstimatedStoryPointsWithVelocityPenalties => response.EstimatedStoryPointsWithVelocityPenalties;
-
-        public Velocity EstimatedVelocity => response.EstimatedVelocity;
-
-        public StoryPoints CommitmentStoryPoints => response.CommitmentStoryPoints;
-
-        public StoryPoints ActualStoryPoints => response.ActualStoryPoints;
-
-        public Velocity ActualVelocity => response.ActualVelocity;
-
-        public List<NoteBase> Notes { get; }
-
-        public SprintOverviewViewModel(PresentSprintResponse response)
+        if (previousSprintsExist)
         {
-            this.response = response ?? throw new ArgumentNullException(nameof(response));
-
-            State = new SprintStateViewModel(response.SprintState);
-            WorkDaysCount = response.WorkDaysCount;
-            Notes = CreateNotes().ToList();
+            yield return new PreviousSprintsCalculationNote
+            {
+                PreviousSprintNumbers = response.PreviouslyClosedSprints
+            };
+        }
+        else
+        {
+            yield return new NoPreviousSprintsNote();
         }
 
-        private IEnumerable<NoteBase> CreateNotes()
+        if (response.ExcludedSprints is { Count: > 0 })
         {
-            bool previousSprintsExist = response.PreviouslyClosedSprints is { Count: > 0 };
+            yield return new ExcludedSprintsNote
+            {
+                ExcludesSprintNumbers = response.ExcludedSprints
+            };
+        }
 
-            if (previousSprintsExist)
+        if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotEmpty)
+        {
+            yield return new VelocityPenaltiesNote
             {
-                yield return new PreviousSprintsCalculationNote
-                {
-                    PreviousSprintNumbers = response.PreviouslyClosedSprints
-                };
-            }
-            else
-            {
-                yield return new NoPreviousSprintsNote();
-            }
-
-            if (response.ExcludedSprints is { Count: > 0 })
-            {
-                yield return new ExcludedSprintsNote
-                {
-                    ExcludesSprintNumbers = response.ExcludedSprints
-                };
-            }
-
-            if (response.EstimatedStoryPointsWithVelocityPenalties.IsNotEmpty)
-            {
-                yield return new VelocityPenaltiesNote
-                {
-                    VelocityPenalties = response.VelocityPenalties
-                };
-            }
+                VelocityPenalties = response.VelocityPenalties
+            };
         }
     }
 }

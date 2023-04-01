@@ -14,11 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
@@ -26,111 +21,110 @@ using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList;
+
+public class TeamMembersListViewModel : ViewModelBase
 {
-    public class TeamMembersListViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+    private List<TeamMemberViewModel> teamMembers;
+    private TeamMemberViewModel selectedTeamMember;
+    private bool hasTeamMembers;
+
+    public List<TeamMemberViewModel> TeamMembers
     {
-        private readonly IRequestBus requestBus;
-        private List<TeamMemberViewModel> teamMembers;
-        private TeamMemberViewModel selectedTeamMember;
-        private bool hasTeamMembers;
-
-        public List<TeamMemberViewModel> TeamMembers
+        get => teamMembers;
+        private set
         {
-            get => teamMembers;
-            private set
-            {
-                teamMembers = value;
-                OnPropertyChanged();
-            }
+            teamMembers = value;
+            OnPropertyChanged();
         }
+    }
 
-        public TeamMemberViewModel SelectedTeamMember
+    public TeamMemberViewModel SelectedTeamMember
+    {
+        get => selectedTeamMember;
+        set
         {
-            get => selectedTeamMember;
-            set
-            {
-                if (ReferenceEquals(selectedTeamMember, value))
-                    return;
+            if (ReferenceEquals(selectedTeamMember, value))
+                return;
 
-                selectedTeamMember = value;
-                OnPropertyChanged();
+            selectedTeamMember = value;
+            OnPropertyChanged();
 
-                if (!IsInitializeMode)
-                    _ = SetCurrentTeamMember(selectedTeamMember?.TeamMemberId);
-            }
+            if (!IsInitializeMode)
+                _ = SetCurrentTeamMember(selectedTeamMember?.TeamMemberId);
         }
+    }
 
-        public bool HasTeamMembers
+    public bool HasTeamMembers
+    {
+        get => hasTeamMembers;
+        set
         {
-            get => hasTeamMembers;
-            set
-            {
-                hasTeamMembers = value;
-                OnPropertyChanged();
-            }
+            hasTeamMembers = value;
+            OnPropertyChanged();
         }
+    }
 
-        public TeamMembersListViewModel(IRequestBus requestBus, EventBus eventBus)
+    public TeamMembersListViewModel(IRequestBus requestBus, EventBus eventBus)
+    {
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+        eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
+        //eventBus.Subscribe<TeamMemberUpdatedEvent>(HandleSprintUpdatedEvent);
+
+        _ = Initialize();
+    }
+
+    private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        await Initialize();
+    }
+
+    private Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
+    {
+        SelectedTeamMember = teamMembers.FirstOrDefault(x => x.TeamMemberId == ev.NewTeamMemberId);
+
+        return Task.CompletedTask;
+    }
+
+    //private Task HandleSprintUpdatedEvent(TeamMemberUpdatedEvent ev, CancellationToken cancellationToken)
+    //{
+    //    TeamMemberViewModel teamMemberViewModel = teamMembers.FirstOrDefault(x => x.TeamMemberId == ev.SprintId);
+
+    //    //if (teamMemberViewModel != null)
+    //    //    teamMemberViewModel.SprintState = ev.SprintState.ToPresentationModel();
+
+    //    return Task.CompletedTask;
+    //}
+
+    private async Task Initialize()
+    {
+        PresentTeamMembersRequest request = new();
+        PresentTeamMembersResponse response = await requestBus.Send<PresentTeamMembersRequest, PresentTeamMembersResponse>(request);
+
+        RunInInitializeMode(() =>
         {
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+            TeamMembers = response.TeamMembers
+                .Select(x => new TeamMemberViewModel(x))
+                .ToList();
 
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-            eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
-            //eventBus.Subscribe<TeamMemberUpdatedEvent>(HandleSprintUpdatedEvent);
+            SelectedTeamMember = response.CurrentTeamMemberId == null
+                ? null
+                : TeamMembers.FirstOrDefault(x => x.TeamMemberId == response.CurrentTeamMemberId.Value);
 
-            _ = Initialize();
-        }
+            HasTeamMembers = TeamMembers?.Count > 0;
+        });
+    }
 
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    private async Task SetCurrentTeamMember(int? teamMemberId)
+    {
+        SetCurrentTeamMemberRequest request = new()
         {
-            await Initialize();
-        }
+            TeamMemberId = teamMemberId
+        };
 
-        private Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
-        {
-            SelectedTeamMember = teamMembers.FirstOrDefault(x => x.TeamMemberId == ev.NewTeamMemberId);
-
-            return Task.CompletedTask;
-        }
-
-        //private Task HandleSprintUpdatedEvent(TeamMemberUpdatedEvent ev, CancellationToken cancellationToken)
-        //{
-        //    TeamMemberViewModel teamMemberViewModel = teamMembers.FirstOrDefault(x => x.TeamMemberId == ev.SprintId);
-
-        //    //if (teamMemberViewModel != null)
-        //    //    teamMemberViewModel.SprintState = ev.SprintState.ToPresentationModel();
-
-        //    return Task.CompletedTask;
-        //}
-
-        private async Task Initialize()
-        {
-            PresentTeamMembersRequest request = new();
-            PresentTeamMembersResponse response = await requestBus.Send<PresentTeamMembersRequest, PresentTeamMembersResponse>(request);
-
-            RunInInitializeMode(() =>
-            {
-                TeamMembers = response.TeamMembers
-                    .Select(x => new TeamMemberViewModel(x))
-                    .ToList();
-
-                SelectedTeamMember = response.CurrentTeamMemberId == null
-                    ? null
-                    : TeamMembers.FirstOrDefault(x => x.TeamMemberId == response.CurrentTeamMemberId.Value);
-
-                HasTeamMembers = TeamMembers?.Count > 0;
-            });
-        }
-
-        private async Task SetCurrentTeamMember(int? teamMemberId)
-        {
-            SetCurrentTeamMemberRequest request = new()
-            {
-                TeamMemberId = teamMemberId
-            };
-
-            await requestBus.Send(request);
-        }
+        await requestBus.Send(request);
     }
 }

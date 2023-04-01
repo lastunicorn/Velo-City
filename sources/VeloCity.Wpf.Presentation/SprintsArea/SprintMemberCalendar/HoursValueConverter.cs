@@ -14,46 +14,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Globalization;
 using System.Windows.Data;
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMemberCalendar;
+
+public class HoursValueConverter : IValueConverter
 {
-    public class HoursValueConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        if (value is HoursValue hoursValue)
         {
-            if (value is HoursValue hoursValue)
+            if (targetType == typeof(string))
             {
-                if (targetType == typeof(string))
-                {
-                    return hoursValue.ToString();
-                }
+                return hoursValue.ToString();
             }
-
-            return null;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        return null;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is string stringValue)
         {
-            if (value is string stringValue)
+            if (targetType == typeof(HoursValue) || targetType == typeof(HoursValue?))
             {
-                if (targetType == typeof(HoursValue) || targetType == typeof(HoursValue?))
+                try
                 {
-                    try
-                    {
-                        return HoursValue.Parse(stringValue);
-                    }
-                    catch
-                    {
-                        return null;
-                    }
+                    return HoursValue.Parse(stringValue);
+                }
+                catch
+                {
+                    return null;
                 }
             }
-
-            return null;
         }
+
+        return null;
     }
 }

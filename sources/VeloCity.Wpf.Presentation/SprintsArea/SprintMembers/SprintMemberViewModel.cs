@@ -14,46 +14,43 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Linq;
 using DustInTheWind.VeloCity.ChartTools;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintMembers;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintMembers;
+
+public class SprintMemberViewModel : DataGridRowViewModel
 {
-    public class SprintMemberViewModel : DataGridRowViewModel
+    public override bool IsSelectable => true;
+
+    public PersonName Name { get; }
+
+    public HoursValue WorkHours { get; }
+
+    public bool HasWorkHours => WorkHours.Value > 0;
+
+    public HoursValue AbsenceHours { get; }
+
+    public bool HasAbsenceHours => AbsenceHours.Value > 0;
+
+    public ChartBarValue<SprintMemberViewModel> ChartBarValue { get; set; }
+
+    public ShowSprintMemberCalendarCommand ShowSprintMemberCalendarCommand { get; }
+
+    public SprintMemberViewModel(IRequestBus requestBus, EventBus eventBus, SprintMemberDto sprintMember)
     {
-        public override bool IsSelectable => true;
+        if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
 
-        public PersonName Name { get; }
+        Name = sprintMember.Name;
+        WorkHours = sprintMember.WorkHours;
+        AbsenceHours = sprintMember.AbsenceHours;
 
-        public HoursValue WorkHours { get; }
-
-        public bool HasWorkHours => WorkHours.Value > 0;
-
-        public HoursValue AbsenceHours { get; }
-
-        public bool HasAbsenceHours => AbsenceHours.Value > 0;
-
-        public ChartBarValue<SprintMemberViewModel> ChartBarValue { get; set; }
-
-        public ShowSprintMemberCalendarCommand ShowSprintMemberCalendarCommand { get; }
-
-        public SprintMemberViewModel(IRequestBus requestBus, EventBus eventBus, SprintMemberDto sprintMember)
+        ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand(requestBus, eventBus)
         {
-            if (sprintMember == null) throw new ArgumentNullException(nameof(sprintMember));
-
-            Name = sprintMember.Name;
-            WorkHours = sprintMember.WorkHours;
-            AbsenceHours = sprintMember.AbsenceHours;
-
-            ShowSprintMemberCalendarCommand = new ShowSprintMemberCalendarCommand(requestBus, eventBus)
-            {
-                TeamMemberId = sprintMember.TeamMemberId,
-                SprintId = sprintMember.SprintId
-            };
-        }
+            TeamMemberId = sprintMember.TeamMemberId,
+            SprintId = sprintMember.SprintId
+        };
     }
 }

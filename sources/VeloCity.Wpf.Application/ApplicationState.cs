@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application
+namespace DustInTheWind.VeloCity.Wpf.Application;
+
+public class ApplicationState
 {
-    public class ApplicationState
-    {
-        public int? SelectedSprintId { get; set; }
-        
-        public int? SelectedTeamMemberId { get; set; }
-    }
+    public int? SelectedSprintId { get; set; }
+
+    public int? SelectedTeamMemberId { get; set; }
 }

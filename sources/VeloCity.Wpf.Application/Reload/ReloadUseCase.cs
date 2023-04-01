@@ -14,53 +14,49 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.Reload
+namespace DustInTheWind.VeloCity.Wpf.Application.Reload;
+
+public class ReloadUseCase : IRequestHandler<ReloadRequest, Unit>
 {
-    public class ReloadUseCase : IRequestHandler<ReloadRequest, Unit>
+    private readonly EventBus eventBus;
+    private readonly IDataStorage dataStorage;
+
+    public ReloadUseCase(EventBus eventBus, IDataStorage dataStorage)
     {
-        private readonly EventBus eventBus;
-        private readonly IDataStorage dataStorage;
+        this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+        this.dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
+    }
 
-        public ReloadUseCase(EventBus eventBus, IDataStorage dataStorage)
+    public async Task<Unit> Handle(ReloadRequest request, CancellationToken cancellationToken)
+    {
+        bool success = ReloadData();
+
+        if (success)
+            await RaiseEvent(cancellationToken);
+
+        return Unit.Value;
+    }
+
+    private bool ReloadData()
+    {
+        try
         {
-            this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            this.dataStorage = dataStorage ?? throw new ArgumentNullException(nameof(dataStorage));
+            dataStorage.Reopen();
+            return true;
         }
-
-        public async Task<Unit> Handle(ReloadRequest request, CancellationToken cancellationToken)
+        catch
         {
-            bool success = ReloadData();
-
-            if (success)
-                await RaiseEvent(cancellationToken);
-
-            return Unit.Value;
+            return false;
         }
+    }
 
-        private bool ReloadData()
-        {
-            try
-            {
-                dataStorage.Reopen();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private async Task RaiseEvent(CancellationToken cancellationToken)
-        {
-            ReloadEvent reloadEvent = new();
-            await eventBus.Publish(reloadEvent, cancellationToken);
-        }
+    private async Task RaiseEvent(CancellationToken cancellationToken)
+    {
+        ReloadEvent reloadEvent = new();
+        await eventBus.Publish(reloadEvent, cancellationToken);
     }
 }

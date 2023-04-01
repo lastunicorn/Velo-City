@@ -16,14 +16,13 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays
+namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays;
+
+public class PresentOfficialHolidaysRequest : IRequest<PresentOfficialHolidaysResponse>
 {
-    public class PresentOfficialHolidaysRequest : IRequest<PresentOfficialHolidaysResponse>
-    {
-        public int? Year { get; set; }
+    public int? Year { get; set; }
 
-        public int? SprintNumber { get; set; }
+    public int? SprintNumber { get; set; }
 
-        public string Country { get; set; }
-    }
+    public string Country { get; set; }
 }

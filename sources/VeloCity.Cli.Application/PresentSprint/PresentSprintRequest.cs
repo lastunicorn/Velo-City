@@ -17,18 +17,17 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint
+namespace DustInTheWind.VeloCity.Cli.Application.PresentSprint;
+
+public class PresentSprintRequest : IRequest<PresentSprintResponse>
 {
-    public class PresentSprintRequest : IRequest<PresentSprintResponse>
-    {
-        public int? SprintNumber { get; set; }
+    public int? SprintNumber { get; set; }
 
-        public List<int> ExcludedSprints { get; set; }
+    public List<int> ExcludedSprints { get; set; }
 
-        public bool IncludeTeamDetails { get; set; }
+    public bool IncludeTeamDetails { get; set; }
 
-        public List<string> ExcludedTeamMembers { get; set; }
+    public List<string> ExcludedTeamMembers { get; set; }
 
-        public uint? AnalysisLookBack { get; set; }
-    }
+    public uint? AnalysisLookBack { get; set; }
 }

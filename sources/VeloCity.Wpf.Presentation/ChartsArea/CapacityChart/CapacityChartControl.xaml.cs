@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CapacityChart
+namespace DustInTheWind.VeloCity.Wpf.Presentation.ChartsArea.CapacityChart;
+
+/// <summary>
+/// Interaction logic for CommitmentChartControl.xaml
+/// </summary>
+public partial class CapacityChartControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for CommitmentChartControl.xaml
-    /// </summary>
-    public partial class CapacityChartControl : UserControl
+    public CapacityChartControl()
     {
-        public CapacityChartControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

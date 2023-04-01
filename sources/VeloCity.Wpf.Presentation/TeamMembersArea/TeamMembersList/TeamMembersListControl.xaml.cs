@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMembersList;
+
+/// <summary>
+/// Interaction logic for TeamMembersListControl.xaml
+/// </summary>
+public partial class TeamMembersListControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for TeamMembersListControl.xaml
-    /// </summary>
-    public partial class TeamMembersListControl : UserControl
+    public TeamMembersListControl()
     {
-        public TeamMembersListControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

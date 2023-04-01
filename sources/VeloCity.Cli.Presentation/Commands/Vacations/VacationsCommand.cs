@@ -14,53 +14,48 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentVacations;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+
+[Command("vacations", ShortDescription = "The team member's vacation days.", Order = 5)]
+public class VacationsCommand : ICommand
 {
-    [Command("vacations", ShortDescription = "The team member's vacation days.", Order = 5)]
-    public class VacationsCommand : ICommand
+    private readonly IMediator mediator;
+
+    [CommandParameter(Name = "name", ShortName = 'n', Order = 1, IsOptional = true)]
+    public string PersonName { get; set; }
+
+    [CommandParameter(Name = "date", ShortName = 'd', IsOptional = true)]
+    public DateTime? Date { get; set; }
+
+    public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }
+
+    public RequestType RequestType { get; private set; }
+
+    public VacationsCommand(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
-        [CommandParameter(Name = "name", ShortName = 'n', Order = 1, IsOptional = true)]
-        public string PersonName { get; set; }
-
-        [CommandParameter(Name = "date", ShortName = 'd', IsOptional = true)]
-        public DateTime? Date { get; set; }
-
-        public List<TeamMemberVacationViewModel> TeamMemberVacations { get; private set; }
-
-        public RequestType RequestType { get; private set; }
-
-        public VacationsCommand(IMediator mediator)
+    public async Task Execute()
+    {
+        PresentVacationsRequest request = new()
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+            TeamMemberName = PersonName,
+            Date = Date
+        };
 
-        public async Task Execute()
-        {
-            PresentVacationsRequest request = new()
-            {
-                TeamMemberName = PersonName,
-                Date = Date
-            };
+        PresentVacationsResponse response = await mediator.Send(request);
 
-            PresentVacationsResponse response = await mediator.Send(request);
+        TeamMemberVacations = response.TeamMemberVacations
+            .Select(x => new TeamMemberVacationViewModel(x))
+            .ToList();
 
-            TeamMemberVacations = response.TeamMemberVacations
-                .Select(x => new TeamMemberVacationViewModel(x))
-                .ToList();
-
-            RequestType = response.RequestType;
-            PersonName = response.RequestedTeamMemberName;
-            Date = response.RequestedDate;
-        }
+        RequestType = response.RequestType;
+        PersonName = response.RequestedTeamMemberName;
+        Date = response.RequestedDate;
     }
 }

@@ -17,37 +17,36 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class MissingContentPanel : ContentControl
 {
-    public class MissingContentPanel : ContentControl
+    public static readonly DependencyProperty MissingContentProperty = DependencyProperty.Register(
+        nameof(MissingContent),
+        typeof(object),
+        typeof(MissingContentPanel)
+    );
+
+    public object MissingContent
     {
-        public static readonly DependencyProperty MissingContentProperty = DependencyProperty.Register(
-            nameof(MissingContent),
-            typeof(object),
-            typeof(MissingContentPanel)
-        );
+        get => GetValue(MissingContentProperty);
+        set => SetValue(MissingContentProperty, value);
+    }
 
-        public object MissingContent
-        {
-            get => GetValue(MissingContentProperty);
-            set => SetValue(MissingContentProperty, value);
-        }
+    public static readonly DependencyProperty IsContentVisibleProperty = DependencyProperty.Register(
+        nameof(IsContentVisible),
+        typeof(bool),
+        typeof(MissingContentPanel)
+    );
 
-        public static readonly DependencyProperty IsContentVisibleProperty = DependencyProperty.Register(
-            nameof(IsContentVisible),
-            typeof(bool),
-            typeof(MissingContentPanel)
-        );
+    public bool IsContentVisible
+    {
+        get => (bool)GetValue(IsContentVisibleProperty);
+        set => SetValue(IsContentVisibleProperty, value);
+    }
 
-        public bool IsContentVisible
-        {
-            get => (bool)GetValue(IsContentVisibleProperty);
-            set => SetValue(IsContentVisibleProperty, value);
-        }
-
-        static MissingContentPanel()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(MissingContentPanel), new FrameworkPropertyMetadata(typeof(MissingContentPanel)));
-        }
+    static MissingContentPanel()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(MissingContentPanel), new FrameworkPropertyMetadata(typeof(MissingContentPanel)));
     }
 }

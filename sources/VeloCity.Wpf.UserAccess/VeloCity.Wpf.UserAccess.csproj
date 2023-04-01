@@ -21,6 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <PropertyGroup>
         <TargetFramework>net6.0-windows</TargetFramework>
         <UseWPF>true</UseWPF>
+        <ImplicitUsings>enable</ImplicitUsings>
         <AssemblyName>DustInTheWind.VeloCity.Wpf.UserAccess</AssemblyName>
         <RootNamespace>DustInTheWind.VeloCity.Wpf.UserAccess</RootNamespace>
     </PropertyGroup>

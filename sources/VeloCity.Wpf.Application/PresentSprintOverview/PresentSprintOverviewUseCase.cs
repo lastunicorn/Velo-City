@@ -14,10 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Infrastructure;
@@ -25,81 +21,80 @@ using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Wpf.Application.AnalyzeSprint;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
+
+internal class PresentSprintOverviewUseCase : IRequestHandler<PresentSprintOverviewRequest, PresentSprintOverviewResponse>
 {
-    internal class PresentSprintOverviewUseCase : IRequestHandler<PresentSprintOverviewRequest, PresentSprintOverviewResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+    private readonly IRequestBus requestBus;
+
+    public PresentSprintOverviewUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, IRequestBus requestBus)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
-        private readonly IRequestBus requestBus;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+    }
 
-        public PresentSprintOverviewUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, IRequestBus requestBus)
+    public async Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
+    {
+        Sprint currentSprint = applicationState.SelectedSprintId == null
+            ? await RetrieveDefaultSprintToAnalyze()
+            : await RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
+
+        AnalyzeSprintResponse analyzeSprintResponse = await AnalyzeSprint(currentSprint);
+        PresentSprintOverviewResponse response = CreateResponse(currentSprint, analyzeSprintResponse);
+
+        return response;
+    }
+
+    private async Task<Sprint> RetrieveDefaultSprintToAnalyze()
+    {
+        Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
+
+        return sprint ?? throw new NoSprintInProgressException();
+    }
+
+    private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintNumber)
+    {
+        Sprint sprint = await unitOfWork.SprintRepository.Get(sprintNumber);
+
+        return sprint ?? throw new SprintDoesNotExistException(sprintNumber);
+    }
+
+    private async Task<AnalyzeSprintResponse> AnalyzeSprint(Sprint sprint)
+    {
+        AnalyzeSprintRequest request = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-        }
+            Sprint = sprint
+        };
 
-        public async Task<PresentSprintOverviewResponse> Handle(PresentSprintOverviewRequest request, CancellationToken cancellationToken)
+        return await requestBus.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(request);
+    }
+
+    private static PresentSprintOverviewResponse CreateResponse(Sprint sprint, AnalyzeSprintResponse analyzeSprintResponse)
+    {
+        return new PresentSprintOverviewResponse
         {
-            Sprint currentSprint = applicationState.SelectedSprintId == null
-                ? await RetrieveDefaultSprintToAnalyze()
-                : await RetrieveSpecificSprintToAnalyze(applicationState.SelectedSprintId.Value);
-
-            AnalyzeSprintResponse analyzeSprintResponse = await AnalyzeSprint(currentSprint);
-            PresentSprintOverviewResponse response = CreateResponse(currentSprint, analyzeSprintResponse);
-
-            return response;
-        }
-
-        private async Task<Sprint> RetrieveDefaultSprintToAnalyze()
-        {
-            Sprint sprint = await unitOfWork.SprintRepository.GetLastInProgress();
-
-            return sprint ?? throw new NoSprintInProgressException();
-        }
-
-        private async Task<Sprint> RetrieveSpecificSprintToAnalyze(int sprintNumber)
-        {
-            Sprint sprint = await unitOfWork.SprintRepository.Get(sprintNumber);
-
-            return sprint ?? throw new SprintDoesNotExistException(sprintNumber);
-        }
-
-        private async Task<AnalyzeSprintResponse> AnalyzeSprint(Sprint sprint)
-        {
-            AnalyzeSprintRequest request = new()
-            {
-                Sprint = sprint
-            };
-
-            return await requestBus.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(request);
-        }
-
-        private static PresentSprintOverviewResponse CreateResponse(Sprint sprint, AnalyzeSprintResponse analyzeSprintResponse)
-        {
-            return new PresentSprintOverviewResponse
-            {
-                SprintState = sprint.State,
-                SprintDateInterval = sprint.DateInterval,
-                SprintGoal = sprint.Goal,
-                WorkDaysCount = sprint.CountWorkDays(),
-                TotalWorkHours = sprint.TotalWorkHours,
-                EstimatedStoryPoints = analyzeSprintResponse.EstimatedStoryPoints,
-                EstimatedStoryPointsWithVelocityPenalties = analyzeSprintResponse.EstimatedStoryPointsWithVelocityPenalties,
-                EstimatedVelocity = analyzeSprintResponse.EstimatedVelocity,
-                VelocityPenalties = analyzeSprintResponse.VelocityPenalties?
-                    .Select(x => new VelocityPenaltyDto(x))
-                    .ToList(),
-                CommitmentStoryPoints = sprint.CommitmentStoryPoints,
-                ActualStoryPoints = sprint.ActualStoryPoints,
-                ActualVelocity = sprint.Velocity,
-                PreviouslyClosedSprintNumbers = analyzeSprintResponse.HistorySprints?
-                    .Select(x => x.Number)
-                    .ToList(),
-                ExcludedSprints = null,
-                SprintComments = sprint.Comments,
-            };
-        }
+            SprintState = sprint.State,
+            SprintDateInterval = sprint.DateInterval,
+            SprintGoal = sprint.Goal,
+            WorkDaysCount = sprint.CountWorkDays(),
+            TotalWorkHours = sprint.TotalWorkHours,
+            EstimatedStoryPoints = analyzeSprintResponse.EstimatedStoryPoints,
+            EstimatedStoryPointsWithVelocityPenalties = analyzeSprintResponse.EstimatedStoryPointsWithVelocityPenalties,
+            EstimatedVelocity = analyzeSprintResponse.EstimatedVelocity,
+            VelocityPenalties = analyzeSprintResponse.VelocityPenalties?
+                .Select(x => new VelocityPenaltyDto(x))
+                .ToList(),
+            CommitmentStoryPoints = sprint.CommitmentStoryPoints,
+            ActualStoryPoints = sprint.ActualStoryPoints,
+            ActualVelocity = sprint.Velocity,
+            PreviouslyClosedSprintNumbers = analyzeSprintResponse.HistorySprints?
+                .Select(x => x.Number)
+                .ToList(),
+            ExcludedSprints = null,
+            SprintComments = sprint.Comments
+        };
     }
 }

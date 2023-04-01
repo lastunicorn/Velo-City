@@ -17,18 +17,17 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity;
+
+public class SprintCapacity
 {
-    public class SprintCapacity
+    public int SprintNumber { get; }
+
+    public HoursValue Hours { get; }
+
+    public SprintCapacity(Sprint sprint)
     {
-        public int SprintNumber { get; }
-
-        public HoursValue Hours { get; }
-
-        public SprintCapacity(Sprint sprint)
-        {
-            SprintNumber = sprint.Number;
-            Hours = sprint.TotalWorkHours;
-        }
+        SprintNumber = sprint.Number;
+        Hours = sprint.TotalWorkHours;
     }
 }

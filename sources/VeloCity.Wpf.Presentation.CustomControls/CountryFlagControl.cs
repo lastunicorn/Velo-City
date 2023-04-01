@@ -14,88 +14,86 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class CountryFlagControl : Control
 {
-    public class CountryFlagControl : Control
+    public static readonly DependencyProperty CountryCodeProperty = DependencyProperty.Register(
+        nameof(CountryCode),
+        typeof(string),
+        typeof(CountryFlagControl),
+        new PropertyMetadata(null, CountryCodeChangedCallback)
+    );
+
+    private static void CountryCodeChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        public static readonly DependencyProperty CountryCodeProperty = DependencyProperty.Register(
-            nameof(CountryCode),
-            typeof(string),
-            typeof(CountryFlagControl),
-            new PropertyMetadata(null, CountryCodeChangedCallback)
-        );
-
-        private static void CountryCodeChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        if (d is CountryFlagControl countryFlagControl)
         {
-            if (d is CountryFlagControl countryFlagControl)
+            if (e.NewValue is string newCountryCode)
             {
-                if (e.NewValue is string newCountryCode)
+                string newCountryCodeUpperCase = newCountryCode.ToUpper();
+
+                Uri resourceUri = new($"Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CountryFlags/{newCountryCodeUpperCase}.xaml");
+                string resourceName = "CountryFlag_" + newCountryCodeUpperCase;
+
+                try
                 {
-                    string newCountryCodeUpperCase = newCountryCode.ToUpper();
-
-                    Uri resourceUri = new($"Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CountryFlags/{newCountryCodeUpperCase}.xaml");
-                    string resourceName = "CountryFlag_" + newCountryCodeUpperCase;
-
-                    try
+                    ResourceDictionary resourceDictionary = new()
                     {
-                        ResourceDictionary resourceDictionary = new()
-                        {
-                            Source = resourceUri
-                        };
+                        Source = resourceUri
+                    };
 
-                        object resource = resourceDictionary[resourceName];
-                        countryFlagControl.FlagTemplate = resource as ControlTemplate;
-                    }
-                    catch { }
+                    object resource = resourceDictionary[resourceName];
+                    countryFlagControl.FlagTemplate = resource as ControlTemplate;
                 }
-                else
-                {
-                    countryFlagControl.Template = null;
-                }
+                catch { }
+            }
+            else
+            {
+                countryFlagControl.Template = null;
             }
         }
+    }
 
-        public string CountryCode
-        {
-            get => (string)GetValue(CountryCodeProperty);
-            set => SetValue(CountryCodeProperty, value);
-        }
+    public string CountryCode
+    {
+        get => (string)GetValue(CountryCodeProperty);
+        set => SetValue(CountryCodeProperty, value);
+    }
 
-        public static readonly DependencyProperty ShowCountryCodeProperty = DependencyProperty.Register(
-            nameof(ShowCountryCode),
-            typeof(bool),
-            typeof(CountryFlagControl),
-            new PropertyMetadata(false)
-        );
+    public static readonly DependencyProperty ShowCountryCodeProperty = DependencyProperty.Register(
+        nameof(ShowCountryCode),
+        typeof(bool),
+        typeof(CountryFlagControl),
+        new PropertyMetadata(false)
+    );
 
-        public bool ShowCountryCode
-        {
-            get => (bool)GetValue(ShowCountryCodeProperty);
-            set => SetValue(ShowCountryCodeProperty, value);
-        }
+    public bool ShowCountryCode
+    {
+        get => (bool)GetValue(ShowCountryCodeProperty);
+        set => SetValue(ShowCountryCodeProperty, value);
+    }
 
-        private static readonly DependencyPropertyKey FlagTemplatePropertyKey = DependencyProperty.RegisterReadOnly(
-            nameof(FlagTemplate),
-            typeof(ControlTemplate),
-            typeof(CountryFlagControl),
-            new FrameworkPropertyMetadata(null, flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+    private static readonly DependencyPropertyKey FlagTemplatePropertyKey = DependencyProperty.RegisterReadOnly(
+        nameof(FlagTemplate),
+        typeof(ControlTemplate),
+        typeof(CountryFlagControl),
+        new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+    );
 
-        public static readonly DependencyProperty FlagTemplateProperty = FlagTemplatePropertyKey.DependencyProperty;
+    public static readonly DependencyProperty FlagTemplateProperty = FlagTemplatePropertyKey.DependencyProperty;
 
-        public ControlTemplate FlagTemplate
-        {
-            get => (ControlTemplate)GetValue(FlagTemplateProperty);
-            private set => SetValue(FlagTemplatePropertyKey, value);
-        }
+    public ControlTemplate FlagTemplate
+    {
+        get => (ControlTemplate)GetValue(FlagTemplateProperty);
+        private set => SetValue(FlagTemplatePropertyKey, value);
+    }
 
-        static CountryFlagControl()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CountryFlagControl), new FrameworkPropertyMetadata(typeof(CountryFlagControl)));
-        }
+    static CountryFlagControl()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(CountryFlagControl), new FrameworkPropertyMetadata(typeof(CountryFlagControl)));
     }
 }

@@ -21,35 +21,34 @@ using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.OpenDatabase
+namespace DustInTheWind.VeloCity.Cli.Application.OpenDatabase;
+
+internal class OpenDatabaseUseCase : IRequestHandler<OpenDatabaseRequest, OpenDatabaseResponse>
 {
-    internal class OpenDatabaseUseCase : IRequestHandler<OpenDatabaseRequest, OpenDatabaseResponse>
+    private readonly IConfig config;
+
+    public OpenDatabaseUseCase(IConfig config)
     {
-        private readonly IConfig config;
+        this.config = config ?? throw new ArgumentNullException(nameof(config));
+    }
 
-        public OpenDatabaseUseCase(IConfig config)
+    public Task<OpenDatabaseResponse> Handle(OpenDatabaseRequest request, CancellationToken cancellationToken)
+    {
+        DatabaseEditor databaseEditor = CreateDatabaseEditor();
+        databaseEditor.OpenDatabase();
+
+        OpenDatabaseResponse response = new(databaseEditor);
+
+        return Task.FromResult(response);
+    }
+
+    private DatabaseEditor CreateDatabaseEditor()
+    {
+        return new DatabaseEditor
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-        }
-
-        public Task<OpenDatabaseResponse> Handle(OpenDatabaseRequest request, CancellationToken cancellationToken)
-        {
-            DatabaseEditor databaseEditor = CreateDatabaseEditor();
-            databaseEditor.OpenDatabase();
-
-            OpenDatabaseResponse response = new(databaseEditor);
-
-            return Task.FromResult(response);
-        }
-
-        private DatabaseEditor CreateDatabaseEditor()
-        {
-            return new DatabaseEditor
-            {
-                Editor = config.DatabaseEditor,
-                EditorArguments = config.DatabaseEditorArguments,
-                DatabaseFilePath = config.DatabaseLocation
-            };
-        }
+            Editor = config.DatabaseEditor,
+            EditorArguments = config.DatabaseEditorArguments,
+            DatabaseFilePath = config.DatabaseLocation
+        };
     }
 }

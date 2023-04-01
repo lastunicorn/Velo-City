@@ -14,36 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.OpenDatabase;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Database
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Database;
+
+[Command("db", ShortDescription = "Opens the database for editing.", Order = 101)]
+public class DatabaseCommand : ICommand
 {
-    [Command("db", ShortDescription = "Opens the database for editing.", Order = 101)]
-    public class DatabaseCommand : ICommand
+    private readonly IMediator mediator;
+
+    public string DatabaseFilePath { get; private set; }
+
+    public DatabaseEditorType DatabaseEditorType { get; private set; }
+
+    public DatabaseCommand(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
-        public string DatabaseFilePath { get; private set; }
+    public async Task Execute()
+    {
+        OpenDatabaseRequest request = new();
+        OpenDatabaseResponse response = await mediator.Send(request);
 
-        public DatabaseEditorType DatabaseEditorType { get; private set; }
-
-        public DatabaseCommand(IMediator mediator)
-        {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
-
-        public async Task Execute()
-        {
-            OpenDatabaseRequest request = new();
-            OpenDatabaseResponse response = await mediator.Send(request);
-
-            DatabaseFilePath = response.DatabaseFilePath;
-            DatabaseEditorType = response.DatabaseEditorType;
-        }
+        DatabaseFilePath = response.DatabaseFilePath;
+        DatabaseEditorType = response.DatabaseEditorType;
     }
 }

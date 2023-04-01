@@ -18,14 +18,13 @@ using System;
 using DustInTheWind.VeloCity.Domain;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam
+namespace DustInTheWind.VeloCity.Cli.Application.PresentTeam;
+
+public class PresentTeamRequest : IRequest<PresentTeamResponse>
 {
-    public class PresentTeamRequest : IRequest<PresentTeamResponse>
-    {
-        public DateTime? Date { get; set; }
+    public DateTime? Date { get; set; }
 
-        public DateInterval? DateInterval { get; set; }
+    public DateInterval? DateInterval { get; set; }
 
-        public int? SprintNumber { get; set; }
-    }
+    public int? SprintNumber { get; set; }
 }

@@ -15,13 +15,12 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // using System;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public enum SprintState
 {
-    public enum SprintState
-    {
-        Unknown = 0,
-        New,
-        InProgress,
-        Closed
-    }
+    Unknown = 0,
+    New,
+    InProgress,
+    Closed
 }

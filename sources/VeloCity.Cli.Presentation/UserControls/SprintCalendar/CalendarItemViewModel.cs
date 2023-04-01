@@ -14,40 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
+
+public class CalendarItemViewModel
 {
-    public class CalendarItemViewModel
+    public DateTime Date { get; }
+
+    public bool IsWorkDay { get; set; }
+
+    public HoursValue WorkHours { get; }
+
+    public HoursValue AbsenceHours { get; }
+
+    public AbsenceDetailsViewModel AbsenceDetails { get; }
+
+    public bool IsHighlighted { get; set; }
+
+    public CalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
     {
-        public DateTime Date { get; }
+        if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
+        if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
 
-        public bool IsWorkDay { get; set; }
-
-        public HoursValue WorkHours { get; }
-
-        public HoursValue AbsenceHours { get; }
-
-        public AbsenceDetailsViewModel AbsenceDetails { get; }
-
-        public bool IsHighlighted { get; set; }
-
-        public CalendarItemViewModel(SprintDay sprintDay, List<SprintMemberDay> sprintMemberDays)
-        {
-            if (sprintMemberDays == null) throw new ArgumentNullException(nameof(sprintMemberDays));
-            if (sprintDay == null) throw new ArgumentNullException(nameof(sprintDay));
-
-            Date = sprintDay.Date;
-            IsWorkDay = sprintMemberDays.Any(x => x.AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday);
-            WorkHours = sprintMemberDays.Sum(x => x.WorkHours);
-            AbsenceHours = sprintMemberDays
-                .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
-                .Sum(x => x.AbsenceHours);
-            AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
-        }
+        Date = sprintDay.Date;
+        IsWorkDay = sprintMemberDays.Any(x => x.AbsenceReason is AbsenceReason.None or AbsenceReason.Vacation or AbsenceReason.OfficialHoliday);
+        WorkHours = sprintMemberDays.Sum(x => x.WorkHours);
+        AbsenceHours = sprintMemberDays
+            .Where(x => x.AbsenceReason != AbsenceReason.WeekEnd)
+            .Sum(x => x.AbsenceHours);
+        AbsenceDetails = new AbsenceDetailsViewModel(sprintMemberDays, sprintDay);
     }
 }

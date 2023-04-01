@@ -18,84 +18,83 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Styles.Behaviors;
+
+public class WindowButtonBehavior
 {
-    public class WindowButtonBehavior
+    public static readonly DependencyProperty IsDefaultProperty = DependencyProperty.RegisterAttached(
+        "IsDefault",
+        typeof(bool),
+        typeof(WindowButtonBehavior),
+        new UIPropertyMetadata(false, HandleIsDefaultChanged));
+
+    public static bool GetIsDefault(DependencyObject obj)
     {
-        public static readonly DependencyProperty IsDefaultProperty = DependencyProperty.RegisterAttached(
-            "IsDefault",
-            typeof(bool),
-            typeof(WindowButtonBehavior),
-            new UIPropertyMetadata(false, HandleIsDefaultChanged));
+        return (bool)obj.GetValue(IsDefaultProperty);
+    }
 
-        public static bool GetIsDefault(DependencyObject obj)
+    public static void SetIsDefault(DependencyObject obj, bool value)
+    {
+        obj.SetValue(IsDefaultProperty, value);
+    }
+
+    private static void HandleIsDefaultChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is Button button)
         {
-            return (bool)obj.GetValue(IsDefaultProperty);
+            if ((bool)e.NewValue)
+                button.Click += HandleClick;
+            else
+                button.Click -= HandleClick;
         }
+    }
 
-        public static void SetIsDefault(DependencyObject obj, bool value)
+    private static void HandleClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is not UIElement uiElement)
+            return;
+
+        Window parentWindow = Window.GetWindow(uiElement);
+
+        if (parentWindow != null)
+            parentWindow.DialogResult = true;
+    }
+
+    public static readonly DependencyProperty IsCloseButtonProperty = DependencyProperty.RegisterAttached(
+        "IsCloseButton",
+        typeof(bool),
+        typeof(WindowButtonBehavior),
+        new UIPropertyMetadata(false, HandleIsCloseButtonChanged));
+
+    public static bool GetIsCloseButton(DependencyObject obj)
+    {
+        return (bool)obj.GetValue(IsCloseButtonProperty);
+    }
+
+    public static void SetIsCloseButton(DependencyObject obj, bool value)
+    {
+        obj.SetValue(IsCloseButtonProperty, value);
+    }
+
+    private static void HandleIsCloseButtonChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    {
+        if (obj is Button button)
         {
-            obj.SetValue(IsDefaultProperty, value);
+            if ((bool)e.NewValue)
+                button.Click += HandleCloseButtonClick;
+            else
+                button.Click -= HandleCloseButtonClick;
         }
+    }
 
-        private static void HandleIsDefaultChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            if (obj is Button button)
-            {
-                if ((bool)e.NewValue)
-                    button.Click += HandleClick;
-                else
-                    button.Click -= HandleClick;
-            }
-        }
+    private static void HandleCloseButtonClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is not UIElement uiElement)
+            return;
 
-        private static void HandleClick(object sender, RoutedEventArgs e)
-        {
-            if (sender is not UIElement uiElement)
-                return;
+        Window parentWindow = Window.GetWindow(uiElement);
 
-            Window parentWindow = Window.GetWindow(uiElement);
-
-            if (parentWindow != null)
-                parentWindow.DialogResult = true;
-        }
-
-        public static readonly DependencyProperty IsCloseButtonProperty = DependencyProperty.RegisterAttached(
-            "IsCloseButton",
-            typeof(bool),
-            typeof(WindowButtonBehavior),
-            new UIPropertyMetadata(false, HandleIsCloseButtonChanged));
-
-        public static bool GetIsCloseButton(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(IsCloseButtonProperty);
-        }
-
-        public static void SetIsCloseButton(DependencyObject obj, bool value)
-        {
-            obj.SetValue(IsCloseButtonProperty, value);
-        }
-
-        private static void HandleIsCloseButtonChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
-        {
-            if (obj is Button button)
-            {
-                if ((bool)e.NewValue)
-                    button.Click += HandleCloseButtonClick;
-                else
-                    button.Click -= HandleCloseButtonClick;
-            }
-        }
-
-        private static void HandleCloseButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (sender is not UIElement uiElement)
-                return;
-
-            Window parentWindow = Window.GetWindow(uiElement);
-
-            if (parentWindow != null)
-                parentWindow.DialogResult = false;
-        }
+        if (parentWindow != null)
+            parentWindow.DialogResult = false;
     }
 }

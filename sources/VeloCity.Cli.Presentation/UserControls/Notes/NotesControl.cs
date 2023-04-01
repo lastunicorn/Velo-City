@@ -14,49 +14,45 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools.Controls;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
+
+internal class NotesControl : BlockControl
 {
-    internal class NotesControl : BlockControl
+    public List<NoteBase> Notes { get; set; }
+
+    public bool ShowTitle { get; set; } = true;
+
+    public NotesControl()
     {
-        public List<NoteBase> Notes { get; set; }
+        Margin = "0 1 0 0";
+        ForegroundColor = ConsoleColor.DarkYellow;
+    }
 
-        public bool ShowTitle { get; set; } = true;
+    protected override void DoDisplayContent(ControlDisplay display)
+    {
+        if (Notes.Count == 0)
+            return;
 
-        public NotesControl()
-        {
-            Margin = "0 1 0 0";
-            ForegroundColor = ConsoleColor.DarkYellow;
-        }
+        if (ShowTitle)
+            display.WriteRow("Notes:");
 
-        protected override void DoDisplayContent(ControlDisplay display)
-        {
-            if (Notes.Count == 0)
-                return;
+        foreach (NoteBase note in Notes)
+            display.WriteRow($"  - {note}");
+    }
 
-            if (ShowTitle)
-                display.WriteRow("Notes:");
+    public IEnumerable<string> ToLines()
+    {
+        return Notes
+            .SelectMany(x => x.ToLines());
+    }
 
-            foreach (NoteBase note in Notes)
-                display.WriteRow($"  - {note}");
-        }
+    public override string ToString()
+    {
+        if (Notes.Count == 0)
+            return string.Empty;
 
-        public IEnumerable<string> ToLines()
-        {
-            return Notes
-                .SelectMany(x => x.ToLines());
-        }
-
-        public override string ToString()
-        {
-            if (Notes.Count == 0)
-                return string.Empty;
-
-            return string.Join(Environment.NewLine, Notes);
-        }
+        return string.Join(Environment.NewLine, Notes);
     }
 }

@@ -16,9 +16,8 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
+
+public class PresentTeamMemberVacationsRequest : IRequest<PresentTeamMemberVacationsResponse>
 {
-    public class PresentTeamMemberVacationsRequest : IRequest<PresentTeamMemberVacationsResponse>
-    {
-    }
 }

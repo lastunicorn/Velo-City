@@ -14,21 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
+
+public class MonthOfVacationsViewModel
 {
-    public class MonthOfVacationsViewModel
+    public DateMonth DateTimeMonth { get; }
+
+    public List<VacationViewModel> Vacations { get; }
+
+    public MonthOfVacationsViewModel(DateMonth dateTimeMonth)
     {
-        public DateMonth DateTimeMonth { get; }
-
-        public List<VacationViewModel> Vacations { get; }
-
-        public MonthOfVacationsViewModel(DateMonth dateTimeMonth)
-        {
-            DateTimeMonth = dateTimeMonth;
-            Vacations = new List<VacationViewModel>();
-        }
+        DateTimeMonth = dateTimeMonth;
+        Vacations = new List<VacationViewModel>();
     }
 }

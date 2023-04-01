@@ -14,19 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
-{
-    internal class ExcludedSprintsNote : NoteBase
-    {
-        public List<int> ExcludesSprintNumbers { get; set; }
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
 
-        protected override IEnumerable<string> BuildMessage()
-        {
-            string excludedSprints = string.Join(",", ExcludesSprintNumbers);
-            yield return $"Estimations excluded sprints: {excludedSprints}";
-        }
+internal class ExcludedSprintsNote : NoteBase
+{
+    public List<int> ExcludesSprintNumbers { get; set; }
+
+    protected override IEnumerable<string> BuildMessage()
+    {
+        string excludedSprints = string.Join(",", ExcludesSprintNumbers);
+        yield return $"Estimations excluded sprints: {excludedSprints}";
     }
 }

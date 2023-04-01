@@ -18,25 +18,24 @@ using System.Windows;
 using System.Windows.Controls;
 using DustInTheWind.VeloCity.ChartTools;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class ChartBar : Control
 {
-    public class ChartBar : Control
+    public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+        nameof(Value),
+        typeof(IChartBarValue),
+        typeof(ChartBar)
+    );
+
+    public IChartBarValue Value
     {
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
-            nameof(Value),
-            typeof(IChartBarValue),
-            typeof(ChartBar)
-        );
+        get => (IChartBarValue)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
 
-        public IChartBarValue Value
-        {
-            get => (IChartBarValue)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
-
-        static ChartBar()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ChartBar), new FrameworkPropertyMetadata(typeof(ChartBar)));
-        }
+    static ChartBar()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(ChartBar), new FrameworkPropertyMetadata(typeof(ChartBar)));
     }
 }

@@ -14,23 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Config
-{
-    public class ConfigView : IView<ConfigCommand>
-    {
-        public void Display(ConfigCommand command)
-        {
-            Console.WriteLine("Configuration values:");
-            Console.WriteLine();
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Config;
 
-            foreach (ConfigItem configItem in command.ConfigValues)
-            {
-                Console.WriteLine($"  - {configItem.Name} = {configItem.Value}");
-            }
-        }
+public class ConfigView : IView<ConfigCommand>
+{
+    public void Display(ConfigCommand command)
+    {
+        Console.WriteLine("Configuration values:");
+        Console.WriteLine();
+
+        foreach (ConfigItem configItem in command.ConfigValues)
+            Console.WriteLine($"  - {configItem.Name} = {configItem.Value}");
     }
 }

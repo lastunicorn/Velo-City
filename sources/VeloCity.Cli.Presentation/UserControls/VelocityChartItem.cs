@@ -16,12 +16,11 @@
 
 using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls
-{
-    internal class VelocityChartItem
-    {
-        public int SprintNumber { get; set; }
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls;
 
-        public Velocity Velocity { get; set; }
-    }
+internal class VelocityChartItem
+{
+    public int SprintNumber { get; set; }
+
+    public Velocity Velocity { get; set; }
 }

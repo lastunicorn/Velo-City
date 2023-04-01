@@ -14,29 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls.Converters;
+
+[Localizability(LocalizationCategory.NeverLocalize)]
+public class IntToGridLengthConverter : IValueConverter
 {
-    [Localizability(LocalizationCategory.NeverLocalize)]
-    public class IntToGridLengthConverter : IValueConverter
+    public GridUnitType GridUnitType { get; set; }
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public GridUnitType GridUnitType { get; set; }
+        if (value is int intValue)
+            return new GridLength(intValue, GridUnitType);
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is int intValue)
-                return new GridLength(intValue, GridUnitType);
+        return DependencyProperty.UnsetValue;
+    }
 
-            return DependencyProperty.UnsetValue;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return DependencyProperty.UnsetValue;
-        }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return DependencyProperty.UnsetValue;
     }
 }

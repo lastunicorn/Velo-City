@@ -16,10 +16,9 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentCommitment;
+
+public class PresentCommitmentRequest : IRequest<PresentCommitmentResponse>
 {
-    public class PresentCommitmentRequest : IRequest<PresentCommitmentResponse>
-    {
-        public uint? SprintCount { get; set; }
-    }
+    public uint? SprintCount { get; set; }
 }

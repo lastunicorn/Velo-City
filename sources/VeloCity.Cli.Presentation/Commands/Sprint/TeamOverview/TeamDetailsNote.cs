@@ -14,16 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
+
+internal class TeamDetailsNote : NoteBase
 {
-    internal class TeamDetailsNote : NoteBase
+    protected override IEnumerable<string> BuildMessage()
     {
-        protected override IEnumerable<string> BuildMessage()
-        {
-            yield return "Use 'velo sprint -show-team' to display more details about the team.";
-        }
+        yield return "Use 'velo sprint -show-team' to display more details about the team.";
     }
 }

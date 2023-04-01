@@ -14,31 +14,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMain
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentMain;
+
+internal class PresentMainUseCase : IRequestHandler<PresentMainRequest, PresentMainResponse>
 {
-    internal class PresentMainUseCase : IRequestHandler<PresentMainRequest, PresentMainResponse>
+    private readonly IConfig config;
+
+    public PresentMainUseCase(IConfig config)
     {
-        private readonly IConfig config;
+        this.config = config ?? throw new ArgumentNullException(nameof(config));
+    }
 
-        public PresentMainUseCase(IConfig config)
+    public Task<PresentMainResponse> Handle(PresentMainRequest request, CancellationToken cancellationToken)
+    {
+        PresentMainResponse response = new()
         {
-            this.config = config ?? throw new ArgumentNullException(nameof(config));
-        }
+            DatabaseConnectionString = config.DatabaseLocation
+        };
 
-        public Task<PresentMainResponse> Handle(PresentMainRequest request, CancellationToken cancellationToken)
-        {
-            PresentMainResponse response = new()
-            {
-                DatabaseConnectionString = config.DatabaseLocation
-            };
-
-            return Task.FromResult(response);
-        }
+        return Task.FromResult(response);
     }
 }

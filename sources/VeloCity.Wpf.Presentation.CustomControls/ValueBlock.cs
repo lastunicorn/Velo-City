@@ -19,38 +19,37 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class ValueBlock : ContentControl
 {
-    public class ValueBlock : ContentControl
+    public static readonly DependencyProperty DescriptionContentProperty = DependencyProperty.Register(
+        nameof(DescriptionContent),
+        typeof(object),
+        typeof(ValueBlock));
+
+    public object DescriptionContent
     {
-        public static readonly DependencyProperty DescriptionContentProperty = DependencyProperty.Register(
-            nameof(DescriptionContent),
-            typeof(object),
-            typeof(ValueBlock));
-        
-        public object DescriptionContent
-        {
-            get => GetValue(DescriptionContentProperty);
-            set => SetValue(DescriptionContentProperty, value);
-        }
+        get => GetValue(DescriptionContentProperty);
+        set => SetValue(DescriptionContentProperty, value);
+    }
 
-        public static readonly DependencyProperty DescriptionFontSizeProperty = DependencyProperty.Register(
-            nameof(DescriptionFontSize),
-            typeof(double),
-            typeof(ValueBlock),
-            new FrameworkPropertyMetadata(16d, FrameworkPropertyMetadataOptions.Inherits));
-        
-        [TypeConverter(typeof(FontSizeConverter))]
-        [Localizability(LocalizationCategory.None)]
-        public double DescriptionFontSize
-        {
-            get => (double)GetValue(DescriptionFontSizeProperty);
-            set => SetValue(DescriptionFontSizeProperty, value);
-        }
+    public static readonly DependencyProperty DescriptionFontSizeProperty = DependencyProperty.Register(
+        nameof(DescriptionFontSize),
+        typeof(double),
+        typeof(ValueBlock),
+        new FrameworkPropertyMetadata(16d, FrameworkPropertyMetadataOptions.Inherits));
 
-        static ValueBlock()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ValueBlock), new FrameworkPropertyMetadata(typeof(ValueBlock)));
-        }
+    [TypeConverter(typeof(FontSizeConverter))]
+    [Localizability(LocalizationCategory.None)]
+    public double DescriptionFontSize
+    {
+        get => (double)GetValue(DescriptionFontSizeProperty);
+        set => SetValue(DescriptionFontSizeProperty, value);
+    }
+
+    static ValueBlock()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(ValueBlock), new FrameworkPropertyMetadata(typeof(ValueBlock)));
     }
 }

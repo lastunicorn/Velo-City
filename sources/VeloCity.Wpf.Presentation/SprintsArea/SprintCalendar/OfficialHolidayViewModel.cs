@@ -17,24 +17,23 @@
 
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
+
+public class OfficialHolidayViewModel
 {
-    public class OfficialHolidayViewModel
+    public string HolidayName { get; init; }
+
+    public string HolidayCountry { get; init; }
+
+    public string HolidayDescription { get; init; }
+
+    public OfficialHolidayViewModel(OfficialHolidayDto officialHolidayDto)
     {
-        public string HolidayName { get; init; }
+        if (officialHolidayDto == null)
+            return;
 
-        public string HolidayCountry { get; init; }
-        
-        public string HolidayDescription { get; init; }
-
-        public OfficialHolidayViewModel(OfficialHolidayDto officialHolidayDto)
-        {
-            if (officialHolidayDto == null)
-                return;
-
-            HolidayName = officialHolidayDto.HolidayName;
-            HolidayCountry = officialHolidayDto.HolidayCountry;
-            HolidayDescription = officialHolidayDto.HolidayDescription;
-        }
+        HolidayName = officialHolidayDto.HolidayName;
+        HolidayCountry = officialHolidayDto.HolidayCountry;
+        HolidayDescription = officialHolidayDto.HolidayDescription;
     }
 }

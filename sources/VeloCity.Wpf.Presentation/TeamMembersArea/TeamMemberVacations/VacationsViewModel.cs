@@ -14,12 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
@@ -27,95 +22,94 @@ using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
 using DustInTheWind.VeloCity.Wpf.Application.UpdateVacationHours;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberVacations;
+
+public class VacationsViewModel : ViewModelBase
 {
-    public class VacationsViewModel : ViewModelBase
+    private readonly IRequestBus requestBus;
+
+    public ObservableCollection<VacationGroupViewModel> VacationGroups { get; } = new();
+
+    public VacationsViewModel(IRequestBus requestBus, EventBus eventBus)
     {
-        private readonly IRequestBus requestBus;
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
-        public ObservableCollection<VacationGroupViewModel> VacationGroups { get; } = new();
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+        eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
+        eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
+    }
 
-        public VacationsViewModel(IRequestBus requestBus, EventBus eventBus)
+    private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        await ReloadVacations();
+    }
+
+    private async Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await ReloadVacations();
+    }
+
+    private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await ReloadVacations();
+    }
+
+    private async Task ReloadVacations()
+    {
+        PresentTeamMemberVacationsRequest request = new();
+        PresentTeamMemberVacationsResponse response = await requestBus.Send<PresentTeamMemberVacationsRequest, PresentTeamMemberVacationsResponse>(request);
+
+        VacationGroups.Clear();
+        GroupVacationsByMonth(response.Vacations);
+    }
+
+    private void GroupVacationsByMonth(IEnumerable<VacationInfo> vacationInfos)
+    {
+        IEnumerable<VacationViewModel> vacationViewModels = vacationInfos
+            .Select(VacationViewModel.From)
+            .OrderByDescending(x => x.SignificantDate);
+
+        foreach (VacationViewModel vacationViewModel in vacationViewModels)
         {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
-
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-            eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
-            eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
-        }
-
-        private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            await ReloadVacations();
-        }
-
-        private async Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await ReloadVacations();
-        }
-
-        private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
-        {
-            await ReloadVacations();
-        }
-
-        private async Task ReloadVacations()
-        {
-            PresentTeamMemberVacationsRequest request = new();
-            PresentTeamMemberVacationsResponse response = await requestBus.Send<PresentTeamMemberVacationsRequest, PresentTeamMemberVacationsResponse>(request);
-
-            VacationGroups.Clear();
-            GroupVacationsByMonth(response.Vacations);
-        }
-
-        private void GroupVacationsByMonth(IEnumerable<VacationInfo> vacationInfos)
-        {
-            IEnumerable<VacationViewModel> vacationViewModels = vacationInfos
-                .Select(VacationViewModel.From)
-                .OrderByDescending(x => x.SignificantDate);
-
-            foreach (VacationViewModel vacationViewModel in vacationViewModels)
+            if (vacationViewModel.StartDate == null || vacationViewModel.EndDate == null)
             {
-                if (vacationViewModel.StartDate == null || vacationViewModel.EndDate == null)
+                DateTime? date = vacationViewModel.SignificantDate;
+                if (date != null)
                 {
-                    DateTime? date = vacationViewModel.SignificantDate;
-                    if (date != null)
-                    {
-                        DateMonth dateTimeMonth = new(date.Value);
-                        AddVacation(dateTimeMonth, vacationViewModel);
-                    }
+                    DateMonth dateTimeMonth = new(date.Value);
+                    AddVacation(dateTimeMonth, vacationViewModel);
                 }
-                else
+            }
+            else
+            {
+                DateTime date = vacationViewModel.StartDate.Value;
+                DateMonth dateTimeMonth = new(date);
+
+                while (dateTimeMonth <= vacationViewModel.EndDate.Value)
                 {
-                    DateTime date = vacationViewModel.StartDate.Value;
-                    DateMonth dateTimeMonth = new(date);
+                    AddVacation(dateTimeMonth, vacationViewModel);
 
-                    while (dateTimeMonth <= vacationViewModel.EndDate.Value)
-                    {
-                        AddVacation(dateTimeMonth, vacationViewModel);
-
-                        dateTimeMonth = dateTimeMonth.AddMonths(1);
-                    }
+                    dateTimeMonth = dateTimeMonth.AddMonths(1);
                 }
             }
         }
+    }
 
-        private void AddVacation(DateMonth dateTimeMonth, VacationViewModel vacationViewModel)
+    private void AddVacation(DateMonth dateTimeMonth, VacationViewModel vacationViewModel)
+    {
+        VacationGroupViewModel vacationGroupViewModel = VacationGroups.FirstOrDefault(x => x.Month == dateTimeMonth);
+
+        if (vacationGroupViewModel == null)
         {
-            VacationGroupViewModel vacationGroupViewModel = VacationGroups.FirstOrDefault(x => x.Month == dateTimeMonth);
-
-            if (vacationGroupViewModel == null)
+            vacationGroupViewModel = new VacationGroupViewModel
             {
-                vacationGroupViewModel = new VacationGroupViewModel()
-                {
-                    Month = dateTimeMonth,
-                    Vacations = new List<VacationViewModel>()
-                };
-                VacationGroups.Add(vacationGroupViewModel);
-            }
-
-            vacationGroupViewModel.Vacations.Add(vacationViewModel);
+                Month = dateTimeMonth,
+                Vacations = new List<VacationViewModel>()
+            };
+            VacationGroups.Add(vacationGroupViewModel);
         }
+
+        vacationGroupViewModel.Vacations.Add(vacationViewModel);
     }
 }

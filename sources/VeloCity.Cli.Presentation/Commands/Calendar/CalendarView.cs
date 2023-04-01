@@ -14,66 +14,62 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Calendar;
+
+public class CalendarView : IView<CalendarCommand>
 {
-    public class CalendarView : IView<CalendarCommand>
+    private readonly DataGridFactory dataGridFactory;
+
+    public CalendarView(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+    }
 
-        public CalendarView(DataGridFactory dataGridFactory)
+    public void Display(CalendarCommand command)
+    {
+        if (command.SprintCalendar != null)
+            DisplaySprintCalendar(command.SprintCalendar);
+
+        if (command.MonthCalendars != null)
+            DisplayMonthCalendars(command.MonthCalendars);
+    }
+
+    private void DisplaySprintCalendar(SprintCalendar sprintCalendar)
+    {
+        SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
         {
-            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
-        }
-
-        public void Display(CalendarCommand command)
-        {
-            if (command.SprintCalendar != null)
-                DisplaySprintCalendar(command.SprintCalendar);
-
-            if (command.MonthCalendars != null)
-                DisplayMonthCalendars(command.MonthCalendars);
-        }
-
-        private void DisplaySprintCalendar(SprintCalendar sprintCalendar)
-        {
-            SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
+            ViewModel = new SprintCalendarViewModel(sprintCalendar.Days, sprintCalendar.SprintMembers)
             {
-                ViewModel = new SprintCalendarViewModel(sprintCalendar.Days, sprintCalendar.SprintMembers)
-                {
-                    Title = $"{sprintCalendar.SprintName} ({sprintCalendar.StartDate:d} - {sprintCalendar.EndDate:d})"
-                }
-            };
+                Title = $"{sprintCalendar.SprintName} ({sprintCalendar.StartDate:d} - {sprintCalendar.EndDate:d})"
+            }
+        };
 
-            sprintCalendarControl.Display();
-        }
+        sprintCalendarControl.Display();
+    }
 
-        private void DisplayMonthCalendars(List<MonthCalendar> monthCalendars)
+    private void DisplayMonthCalendars(List<MonthCalendar> monthCalendars)
+    {
+        foreach (MonthCalendar monthCalendar in monthCalendars)
+            DisplayMonthCalendar(monthCalendar);
+    }
+
+    private void DisplayMonthCalendar(MonthCalendar monthCalendar)
+    {
+        List<SprintDay> monthDays = monthCalendar.EnumerateAllDays()
+            .ToList();
+
+        SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
         {
-            foreach (MonthCalendar monthCalendar in monthCalendars)
-                DisplayMonthCalendar(monthCalendar);
-        }
-
-        private void DisplayMonthCalendar(MonthCalendar monthCalendar)
-        {
-            List<SprintDay> monthDays = monthCalendar.EnumerateAllDays()
-                .ToList();
-
-            SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
+            ViewModel = new SprintCalendarViewModel(monthDays, monthCalendar.MonthMembers)
             {
-                ViewModel = new SprintCalendarViewModel(monthDays, monthCalendar.MonthMembers)
-                {
-                    Title = $"{monthCalendar.Year:D4} {monthCalendar.Month:D2}"
-                }
-            };
-            sprintCalendarControl.Display();
-        }
+                Title = $"{monthCalendar.Year:D4} {monthCalendar.Month:D2}"
+            }
+        };
+        sprintCalendarControl.Display();
     }
 }

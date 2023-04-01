@@ -14,81 +14,79 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class CalendarDate : Control
 {
-    public class CalendarDate : Control
+    #region Value
+
+    public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
+        nameof(Value),
+        typeof(DateTime),
+        typeof(CalendarDate)
+    );
+
+    public DateTime Value
     {
-        #region Value
+        get => (DateTime)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
 
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
-            nameof(Value),
-            typeof(DateTime),
-            typeof(CalendarDate)
-        );
+    #endregion
 
-        public DateTime Value
-        {
-            get => (DateTime)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
+    #region ShowWeekDay
 
-        #endregion
+    public static readonly DependencyProperty ShowWeekDayProperty = DependencyProperty.Register(
+        nameof(ShowWeekDay),
+        typeof(bool),
+        typeof(CalendarDate)
+    );
 
-        #region ShowWeekDay
+    public bool ShowWeekDay
+    {
+        get => (bool)GetValue(ValueProperty);
+        set => SetValue(ValueProperty, value);
+    }
 
-        public static readonly DependencyProperty ShowWeekDayProperty = DependencyProperty.Register(
-            nameof(ShowWeekDay),
-            typeof(bool),
-            typeof(CalendarDate)
-        );
+    #endregion
 
-        public bool ShowWeekDay
-        {
-            get => (bool)GetValue(ValueProperty);
-            set => SetValue(ValueProperty, value);
-        }
+    #region MonthFontSize
 
-        #endregion
+    public static readonly DependencyProperty MonthFontSizeProperty = DependencyProperty.Register(
+        nameof(MonthFontSize),
+        typeof(double),
+        typeof(CalendarDate)
+    );
 
-        #region MonthFontSize
+    public double MonthFontSize
+    {
+        get => (double)GetValue(MonthFontSizeProperty);
+        set => SetValue(MonthFontSizeProperty, value);
+    }
 
-        public static readonly DependencyProperty MonthFontSizeProperty = DependencyProperty.Register(
-            nameof(MonthFontSize),
-            typeof(double),
-            typeof(CalendarDate)
-        );
+    #endregion
 
-        public double MonthFontSize
-        {
-            get => (double)GetValue(MonthFontSizeProperty);
-            set => SetValue(MonthFontSizeProperty, value);
-        }
+    #region WeekFontSize
 
-        #endregion
+    public static readonly DependencyProperty WeekFontSizeProperty = DependencyProperty.Register(
+        nameof(WeekFontSize),
+        typeof(double),
+        typeof(CalendarDate)
+    );
 
-        #region WeekFontSize
+    public double WeekFontSize
+    {
+        get => (double)GetValue(WeekFontSizeProperty);
+        set => SetValue(WeekFontSizeProperty, value);
+    }
 
-        public static readonly DependencyProperty WeekFontSizeProperty = DependencyProperty.Register(
-            nameof(WeekFontSize),
-            typeof(double),
-            typeof(CalendarDate)
-        );
+    #endregion
 
-        public double WeekFontSize
-        {
-            get => (double)GetValue(WeekFontSizeProperty);
-            set => SetValue(WeekFontSizeProperty, value);
-        }
-
-        #endregion
-
-        static CalendarDate()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(CalendarDate), new FrameworkPropertyMetadata(typeof(CalendarDate)));
-        }
+    static CalendarDate()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(CalendarDate), new FrameworkPropertyMetadata(typeof(CalendarDate)));
     }
 }

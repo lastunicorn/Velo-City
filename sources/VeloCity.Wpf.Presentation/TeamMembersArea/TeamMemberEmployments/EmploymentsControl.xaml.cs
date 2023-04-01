@@ -16,16 +16,15 @@
 
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments
+namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmployments;
+
+/// <summary>
+/// Interaction logic for EmploymentsControl.xaml
+/// </summary>
+public partial class EmploymentsControl : UserControl
 {
-    /// <summary>
-    /// Interaction logic for EmploymentsControl.xaml
-    /// </summary>
-    public partial class EmploymentsControl : UserControl
+    public EmploymentsControl()
     {
-        public EmploymentsControl()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentMain
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentMain;
+
+public class PresentMainResponse
 {
-    public class PresentMainResponse
-    {
-        public string DatabaseConnectionString { get; set; }
-    }
+    public string DatabaseConnectionString { get; set; }
 }

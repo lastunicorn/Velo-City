@@ -14,23 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar
+namespace DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
+
+public class OfficialHolidayAbsenceDetails
 {
-    public class OfficialHolidayAbsenceDetails
+    private readonly OfficialHolidayInstance officialHolidayInstance;
+
+    public OfficialHolidayAbsenceDetails(OfficialHolidayInstance officialHolidayInstance)
     {
-        private readonly OfficialHolidayInstance officialHolidayInstance;
+        this.officialHolidayInstance = officialHolidayInstance ?? throw new ArgumentNullException(nameof(officialHolidayInstance));
+    }
 
-        public OfficialHolidayAbsenceDetails(OfficialHolidayInstance officialHolidayInstance)
-        {
-            this.officialHolidayInstance = officialHolidayInstance ?? throw new ArgumentNullException(nameof(officialHolidayInstance));
-        }
-
-        public override string ToString()
-        {
-            return $"{officialHolidayInstance.Name} ({officialHolidayInstance.Country})";
-        }
+    public override string ToString()
+    {
+        return $"{officialHolidayInstance.Name} ({officialHolidayInstance.Country})";
     }
 }

@@ -18,39 +18,38 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class PanelWithTitle : ContentControl
 {
-    public class PanelWithTitle : ContentControl
+    public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
+        nameof(Title),
+        typeof(object),
+        typeof(PanelWithTitle),
+        new PropertyMetadata(null)
+    );
+
+    public object Title
     {
-        public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
-            nameof(Title),
-            typeof(object),
-            typeof(PanelWithTitle),
-            new PropertyMetadata(null)
-        );
+        get => GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
 
-        public object Title
-        {
-            get => GetValue(TitleProperty);
-            set => SetValue(TitleProperty, value);
-        }
+    public static readonly DependencyProperty ContentPaddingProperty = DependencyProperty.Register(
+        nameof(ContentPadding),
+        typeof(Thickness),
+        typeof(PanelWithTitle),
+        new PropertyMetadata(new Thickness())
+    );
 
-        public static readonly DependencyProperty ContentPaddingProperty = DependencyProperty.Register(
-            nameof(ContentPadding),
-            typeof(Thickness),
-            typeof(PanelWithTitle),
-            new PropertyMetadata(new Thickness())
-        );
+    public Thickness ContentPadding
+    {
+        get => (Thickness)GetValue(ContentPaddingProperty);
+        set => SetValue(ContentPaddingProperty, value);
+    }
 
-        public Thickness ContentPadding
-        {
-            get => (Thickness)GetValue(ContentPaddingProperty);
-            set => SetValue(ContentPaddingProperty, value);
-        }
-
-        static PanelWithTitle()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PanelWithTitle), new FrameworkPropertyMetadata(typeof(PanelWithTitle)));
-        }
+    static PanelWithTitle()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(PanelWithTitle), new FrameworkPropertyMetadata(typeof(PanelWithTitle)));
     }
 }

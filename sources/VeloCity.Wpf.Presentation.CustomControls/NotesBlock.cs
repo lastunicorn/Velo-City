@@ -17,26 +17,25 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class NotesBlock : ItemsControl
 {
-    public class NotesBlock : ItemsControl
+    public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
+        nameof(CornerRadius),
+        typeof(CornerRadius),
+        typeof(NotesBlock),
+        new FrameworkPropertyMetadata(new CornerRadius(), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
+    );
+
+    public CornerRadius CornerRadius
     {
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
-            nameof(CornerRadius),
-            typeof(CornerRadius),
-            typeof(NotesBlock),
-            new FrameworkPropertyMetadata(defaultValue: new CornerRadius(), flags: FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsRender)
-        );
+        get => (CornerRadius)GetValue(CornerRadiusProperty);
+        set => SetValue(CornerRadiusProperty, value);
+    }
 
-        public CornerRadius CornerRadius
-        {
-            get => (CornerRadius)GetValue(CornerRadiusProperty);
-            set => SetValue(CornerRadiusProperty, value);
-        }
-
-        static NotesBlock()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(NotesBlock), new FrameworkPropertyMetadata(typeof(NotesBlock)));
-        }
+    static NotesBlock()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(NotesBlock), new FrameworkPropertyMetadata(typeof(NotesBlock)));
     }
 }

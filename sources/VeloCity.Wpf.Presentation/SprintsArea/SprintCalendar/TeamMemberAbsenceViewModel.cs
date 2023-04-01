@@ -17,27 +17,26 @@
 
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
+
+public class TeamMemberAbsenceViewModel
 {
-    public class TeamMemberAbsenceViewModel
+    public string Name { get; init; }
+
+    public bool IsPartialVacation { get; init; }
+
+    public bool IsMissingByContract { get; init; }
+
+    public int AbsenceHours { get; init; }
+
+    public TeamMemberAbsenceViewModel(TeamMemberAbsence teamMemberAbsence)
     {
-        public string Name { get; init; }
+        if (teamMemberAbsence == null)
+            return;
 
-        public bool IsPartialVacation { get; init; }
-
-        public bool IsMissingByContract { get; init; }
-
-        public int AbsenceHours { get; init; }
-
-        public TeamMemberAbsenceViewModel(TeamMemberAbsence teamMemberAbsence)
-        {
-            if (teamMemberAbsence == null)
-                return;
-
-            Name = teamMemberAbsence.Name;
-            IsPartialVacation = teamMemberAbsence.IsPartialVacation;
-            IsMissingByContract = teamMemberAbsence.IsMissingByContract;
-            AbsenceHours = teamMemberAbsence.AbsenceHours;
-        }
+        Name = teamMemberAbsence.Name;
+        IsPartialVacation = teamMemberAbsence.IsPartialVacation;
+        IsMissingByContract = teamMemberAbsence.IsMissingByContract;
+        AbsenceHours = teamMemberAbsence.AbsenceHours;
     }
 }

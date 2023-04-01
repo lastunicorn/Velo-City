@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.CanCloseSprint;
@@ -25,67 +22,66 @@ using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands
+namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands;
+
+public class CloseSprintCommand : ICommand
 {
-    public class CloseSprintCommand : ICommand
+    private readonly IRequestBus requestBus;
+
+    public event EventHandler CanExecuteChanged;
+
+    public CloseSprintCommand(IRequestBus requestBus, EventBus eventBus)
     {
-        private readonly IRequestBus requestBus;
+        if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
+        this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
-        public event EventHandler CanExecuteChanged;
+        eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
+        eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
+        eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
+    }
 
-        public CloseSprintCommand(IRequestBus requestBus, EventBus eventBus)
-        {
-            if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
-            this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+    private Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
+    {
+        OnCanExecuteChanged();
 
-            eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-            eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
-            eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
-        }
+        return Task.CompletedTask;
+    }
 
-        private Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
-        {
-            OnCanExecuteChanged();
+    private Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
+    {
+        OnCanExecuteChanged();
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        private Task HandleSprintChangedEvent(SprintChangedEvent ev, CancellationToken cancellationToken)
-        {
-            OnCanExecuteChanged();
+    private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
+    {
+        OnCanExecuteChanged();
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
-        {
-            OnCanExecuteChanged();
+    public bool CanExecute(object parameter)
+    {
+        return CanCloseCurrentSprint().Result;
+    }
 
-            return Task.CompletedTask;
-        }
+    private async Task<bool> CanCloseCurrentSprint()
+    {
+        CanCloseSprintRequest request = new();
+        CanCloseSprintResponse response = await requestBus.Send<CanCloseSprintRequest, CanCloseSprintResponse>(request);
 
-        public bool CanExecute(object parameter)
-        {
-            return CanCloseCurrentSprint().Result;
-        }
+        return response.CanCloseSprint;
+    }
 
-        private async Task<bool> CanCloseCurrentSprint()
-        {
-            CanCloseSprintRequest request = new();
-            CanCloseSprintResponse response = await requestBus.Send<CanCloseSprintRequest, CanCloseSprintResponse>(request);
+    public void Execute(object parameter)
+    {
+        CloseSprintRequest request = new();
+        _ = requestBus.Send(request);
+    }
 
-            return response.CanCloseSprint;
-        }
-
-        public void Execute(object parameter)
-        {
-            CloseSprintRequest request = new();
-            _ = requestBus.Send(request);
-        }
-
-        protected virtual void OnCanExecuteChanged()
-        {
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
+    protected virtual void OnCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }

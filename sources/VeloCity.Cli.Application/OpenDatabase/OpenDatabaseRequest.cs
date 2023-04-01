@@ -16,9 +16,8 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Application.OpenDatabase
+namespace DustInTheWind.VeloCity.Cli.Application.OpenDatabase;
+
+public class OpenDatabaseRequest : IRequest<OpenDatabaseResponse>
 {
-    public class OpenDatabaseRequest : IRequest<OpenDatabaseResponse>
-    {
-    }
 }

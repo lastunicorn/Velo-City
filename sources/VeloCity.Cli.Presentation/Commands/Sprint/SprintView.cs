@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintMembers;
 using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
@@ -22,68 +21,67 @@ using DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.TeamOverview;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.SprintCalendar;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint;
+
+public class SprintView : IView<SprintCommand>
 {
-    public class SprintView : IView<SprintCommand>
+    private readonly DataGridFactory dataGridFactory;
+
+    public SprintView(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+    }
 
-        public SprintView(DataGridFactory dataGridFactory)
+    public void Display(SprintCommand command)
+    {
+        DisplayOverview(command);
+        DisplaySprintCalendar(command);
+
+        if (command.ShowTeam)
         {
-            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+            foreach (SprintMember sprintMember in command.SprintMembers)
+                DisplaySprintMemberDetails(sprintMember);
         }
-
-        public void Display(SprintCommand command)
+        else
         {
-            DisplayOverview(command);
-            DisplaySprintCalendar(command);
-
-            if (command.ShowTeam)
-            {
-                foreach (SprintMember sprintMember in command.SprintMembers)
-                    DisplaySprintMemberDetails(sprintMember);
-            }
-            else
-            {
-                DisplayTeamOverview(command);
-            }
+            DisplayTeamOverview(command);
         }
+    }
 
-        private void DisplayOverview(SprintCommand command)
+    private void DisplayOverview(SprintCommand command)
+    {
+        SprintOverviewControl sprintOverviewControl = new(dataGridFactory)
         {
-            SprintOverviewControl sprintOverviewControl = new(dataGridFactory)
-            {
-                ViewModel = command.SprintOverviewViewModel
-            };
-            sprintOverviewControl.Display();
-        }
+            ViewModel = command.SprintOverviewViewModel
+        };
+        sprintOverviewControl.Display();
+    }
 
-        private void DisplaySprintCalendar(SprintCommand command)
+    private void DisplaySprintCalendar(SprintCommand command)
+    {
+        SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
         {
-            SprintCalendarControl sprintCalendarControl = new(dataGridFactory)
-            {
-                ViewModel = command.SprintCalendarViewModel
-            };
+            ViewModel = command.SprintCalendarViewModel
+        };
 
-            sprintCalendarControl.Display();
-        }
+        sprintCalendarControl.Display();
+    }
 
-        private void DisplaySprintMemberDetails(SprintMember sprintMember)
+    private void DisplaySprintMemberDetails(SprintMember sprintMember)
+    {
+        SprintMemberDetailsControl sprintMemberDetailsControl = new(dataGridFactory)
         {
-            SprintMemberDetailsControl sprintMemberDetailsControl = new(dataGridFactory)
-            {
-                SprintMember = sprintMember
-            };
-            sprintMemberDetailsControl.Display();
-        }
+            SprintMember = sprintMember
+        };
+        sprintMemberDetailsControl.Display();
+    }
 
-        private void DisplayTeamOverview(SprintCommand command)
+    private void DisplayTeamOverview(SprintCommand command)
+    {
+        TeamOverviewControl teamOverviewControl = new(dataGridFactory)
         {
-            TeamOverviewControl teamOverviewControl = new(dataGridFactory)
-            {
-                ViewModel = command.TeamOverviewViewModel
-            };
-            teamOverviewControl.Display();
-        }
+            ViewModel = command.TeamOverviewViewModel
+        };
+        teamOverviewControl.Display();
     }
 }

@@ -14,14 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity
+public class PresentSprintsCapacityResponse
 {
-    public class PresentSprintsCapacityResponse
-    {
-        public uint RequestedSprintCount { get; set; }
+    public uint RequestedSprintCount { get; set; }
 
-        public List<SprintCapacity> SprintCapacities { get; set; }
-    }
+    public List<SprintCapacity> SprintCapacities { get; set; }
 }

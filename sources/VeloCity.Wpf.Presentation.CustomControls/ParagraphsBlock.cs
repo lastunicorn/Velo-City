@@ -18,18 +18,17 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
-{
-    public class ParagraphsBlock : ItemsControl
-    {
-        static ParagraphsBlock()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ParagraphsBlock), new FrameworkPropertyMetadata(typeof(ParagraphsBlock)));
-        }
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-        protected override bool IsItemItsOwnContainerOverride(object item)
-        {
-            return false;
-        }
+public class ParagraphsBlock : ItemsControl
+{
+    static ParagraphsBlock()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(ParagraphsBlock), new FrameworkPropertyMetadata(typeof(ParagraphsBlock)));
+    }
+
+    protected override bool IsItemItsOwnContainerOverride(object item)
+    {
+        return false;
     }
 }

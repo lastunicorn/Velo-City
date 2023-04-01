@@ -14,52 +14,48 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Autofac;
 using DustInTheWind.VeloCity.Infrastructure;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Bootstrapper;
+
+internal class MediatRRequestBus : IRequestBus
 {
-    internal class MediatRRequestBus : IRequestBus
+    private readonly ILifetimeScope lifetimeScope;
+
+    public MediatRRequestBus(ILifetimeScope lifetimeScope)
     {
-        private readonly ILifetimeScope lifetimeScope;
+        this.lifetimeScope = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
+    }
 
-        public MediatRRequestBus(ILifetimeScope lifetimeScope)
-        {
-            this.lifetimeScope = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
-        }
+    public async Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default)
+    {
+        await using ILifetimeScope localLifetimeScope = lifetimeScope.BeginLifetimeScope();
 
-        public async Task<TResponse> Send<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken = default)
-        {
-            await using ILifetimeScope localLifetimeScope = lifetimeScope.BeginLifetimeScope();
+        IMediator mediator = localLifetimeScope.Resolve<IMediator>();
 
-            IMediator mediator = localLifetimeScope.Resolve<IMediator>();
+        if (request is IRequest<TResponse> mediatorRequest)
+            return await mediator.Send(mediatorRequest, cancellationToken);
 
-            if (request is IRequest<TResponse> mediatorRequest)
-                return await mediator.Send(mediatorRequest, cancellationToken);
+        object rawResponse = await mediator.Send(request, cancellationToken);
 
-            object rawResponse = await mediator.Send(request, cancellationToken);
+        if (rawResponse is TResponse response)
+            return response;
 
-            if (rawResponse is TResponse response)
-                return response;
+        Type responseType = typeof(TResponse);
+        throw new Exception($"Response is not of type {responseType.FullName}");
+    }
 
-            Type responseType = typeof(TResponse);
-            throw new Exception($"Response is not of type {responseType.FullName}");
-        }
+    public async Task Send<TRequest>(TRequest request, CancellationToken cancellationToken)
+    {
+        await using ILifetimeScope localLifetimeScope = lifetimeScope.BeginLifetimeScope();
 
-        public async Task Send<TRequest>(TRequest request, CancellationToken cancellationToken)
-        {
-            await using ILifetimeScope localLifetimeScope = lifetimeScope.BeginLifetimeScope();
+        IMediator mediator = localLifetimeScope.Resolve<IMediator>();
 
-            IMediator mediator = localLifetimeScope.Resolve<IMediator>();
-
-            if (request is IRequest mediatorRequest)
-                await mediator.Send(mediatorRequest, cancellationToken);
-            else
-                await mediator.Send(request, cancellationToken);
-        }
+        if (request is IRequest mediatorRequest)
+            await mediator.Send(mediatorRequest, cancellationToken);
+        else
+            await mediator.Send(request, cancellationToken);
     }
 }

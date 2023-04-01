@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Globalization;
-using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
 using Autofac;
@@ -23,44 +22,43 @@ using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using DustInTheWind.VeloCity.Wpf.Presentation.MainArea.Main;
 
-namespace DustInTheWind.VeloCity.Wpf.Bootstrapper
+namespace DustInTheWind.VeloCity.Wpf.Bootstrapper;
+
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
+public partial class App : System.Windows.Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : global::System.Windows.Application
+    protected override void OnStartup(StartupEventArgs e)
     {
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            IContainer container = Setup.BuildContainer();
+        IContainer container = Setup.BuildContainer();
 
-            SetCurrentCulture(container);
-            OpenDatabase(container);
+        SetCurrentCulture(container);
+        OpenDatabase(container);
 
-            MainWindow mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
+        MainWindow mainWindow = container.Resolve<MainWindow>();
+        mainWindow.Show();
 
-            MainWindow = mainWindow;
-            
-            base.OnStartup(e);
-        }
+        MainWindow = mainWindow;
 
-        private static void SetCurrentCulture(IComponentContext container)
-        {
-            IConfig config = container.Resolve<IConfig>();
+        base.OnStartup(e);
+    }
 
-            CultureInfo.CurrentCulture = config.Culture;
+    private static void SetCurrentCulture(IComponentContext container)
+    {
+        IConfig config = container.Resolve<IConfig>();
 
-            string currentCultureTag = CultureInfo.CurrentCulture.IetfLanguageTag;
-            XmlLanguage xmlLanguage = XmlLanguage.GetLanguage(currentCultureTag);
-            FrameworkPropertyMetadata frameworkPropertyMetadata = new(xmlLanguage);
-            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), frameworkPropertyMetadata);
-        }
+        CultureInfo.CurrentCulture = config.Culture;
 
-        private static void OpenDatabase(IComponentContext container)
-        {
-            JsonDatabase jsonDatabase = container.Resolve<JsonDatabase>();
-            jsonDatabase.Open();
-        }
+        string currentCultureTag = CultureInfo.CurrentCulture.IetfLanguageTag;
+        XmlLanguage xmlLanguage = XmlLanguage.GetLanguage(currentCultureTag);
+        FrameworkPropertyMetadata frameworkPropertyMetadata = new(xmlLanguage);
+        FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), frameworkPropertyMetadata);
+    }
+
+    private static void OpenDatabase(IComponentContext container)
+    {
+        JsonDatabase jsonDatabase = container.Resolve<JsonDatabase>();
+        jsonDatabase.Open();
     }
 }

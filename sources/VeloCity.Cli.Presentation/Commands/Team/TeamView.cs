@@ -14,40 +14,37 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Team;
+
+public class TeamView : IView<TeamCommand>
 {
-    public class TeamView : IView<TeamCommand>
+    private readonly DataGridFactory dataGridFactory;
+
+    public TeamView(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+    }
 
-        public TeamView(DataGridFactory dataGridFactory)
+    public void Display(TeamCommand command)
+    {
+        Console.WriteLine(command.Information);
+
+        if (command.TeamMembers == null || command.TeamMembers.Count == 0)
+            CustomConsole.WriteLineWarning("There are no team members.");
+        else
+            DisplayTeamMembersGrid(command.TeamMembers);
+    }
+
+    private void DisplayTeamMembersGrid(List<TeamMember> teamMembers)
+    {
+        TeamMembersControl teamMembersControl = new(dataGridFactory)
         {
-            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
-        }
-
-        public void Display(TeamCommand command)
-        {
-            Console.WriteLine(command.Information);
-
-            if (command.TeamMembers == null || command.TeamMembers.Count == 0)
-                CustomConsole.WriteLineWarning("There are no team members.");
-            else
-                DisplayTeamMembersGrid(command.TeamMembers);
-        }
-
-        private void DisplayTeamMembersGrid(List<TeamMember> teamMembers)
-        {
-            TeamMembersControl teamMembersControl = new(dataGridFactory)
-            {
-                TeamMembers = teamMembers
-            };
-            teamMembersControl.Display();
-        }
+            TeamMembers = teamMembers
+        };
+        teamMembersControl.Display();
     }
 }

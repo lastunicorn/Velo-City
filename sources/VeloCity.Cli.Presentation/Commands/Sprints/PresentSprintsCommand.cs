@@ -14,40 +14,36 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.VeloCity.Cli.Application.PresentSprints;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprints;
+
+[Command("sprints", ShortDescription = "An overview of the last n sprints.", Order = 2)]
+public class PresentSprintsCommand : ICommand
 {
-    [Command("sprints", ShortDescription = "An overview of the last n sprints.", Order = 2)]
-    public class PresentSprintsCommand : ICommand
+    private readonly IMediator mediator;
+
+    [CommandParameter(DisplayName = "sprint count", Name = "count", ShortName = 'c', Order = 1, IsOptional = true)]
+    public int? SprintCount { get; set; }
+
+    public List<SprintOverview> SprintOverviews { get; private set; }
+
+    public PresentSprintsCommand(IMediator mediator)
     {
-        private readonly IMediator mediator;
+        this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
 
-        [CommandParameter(DisplayName = "sprint count", Name = "count", ShortName = 'c', Order = 1, IsOptional = true)]
-        public int? SprintCount { get; set; }
-
-        public List<SprintOverview> SprintOverviews { get; private set; }
-
-        public PresentSprintsCommand(IMediator mediator)
+    public async Task Execute()
+    {
+        PresentSprintsRequest request = new()
         {
-            this.mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
+            Count = SprintCount
+        };
 
-        public async Task Execute()
-        {
-            PresentSprintsRequest request = new()
-            {
-                Count = SprintCount
-            };
+        PresentSprintsResponse response = await mediator.Send(request);
 
-            PresentSprintsResponse response = await mediator.Send(request);
-
-            SprintOverviews = response.SprintOverviews;
-        }
+        SprintOverviews = response.SprintOverviews;
     }
 }

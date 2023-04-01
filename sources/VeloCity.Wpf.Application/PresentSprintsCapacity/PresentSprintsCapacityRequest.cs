@@ -16,10 +16,9 @@
 
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity;
+
+public class PresentSprintsCapacityRequest : IRequest<PresentSprintsCapacityResponse>
 {
-    public class PresentSprintsCapacityRequest : IRequest<PresentSprintsCapacityResponse>
-    {
-        public uint? SprintCount { get; set; }
-    }
+    public uint? SprintCount { get; set; }
 }

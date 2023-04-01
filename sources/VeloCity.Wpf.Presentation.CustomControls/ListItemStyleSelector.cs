@@ -17,28 +17,27 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class ListItemStyleSelector : StyleSelector
 {
-    public class ListItemStyleSelector : StyleSelector
+    public Style FirstItemStyle { get; set; }
+
+    public Style NormalItemStyle { get; set; }
+
+    public Style LastItemStyle { get; set; }
+
+    public override Style SelectStyle(object item, DependencyObject container)
     {
-        public Style FirstItemStyle { get; set; }
+        ItemsControl itemsControl = ItemsControl.ItemsControlFromItemContainer(container);
+        int index = itemsControl.ItemContainerGenerator.IndexFromContainer(container);
 
-        public Style NormalItemStyle { get; set; }
+        if (index == 0)
+            return FirstItemStyle ?? NormalItemStyle ?? base.SelectStyle(item, container);
 
-        public Style LastItemStyle { get; set; }
+        if (index == itemsControl.Items.Count - 1)
+            return LastItemStyle ?? NormalItemStyle ?? base.SelectStyle(item, container);
 
-        public override Style SelectStyle(object item, DependencyObject container)
-        {
-            ItemsControl itemsControl = ItemsControl.ItemsControlFromItemContainer(container);
-            int index = itemsControl.ItemContainerGenerator.IndexFromContainer(container);
-
-            if (index == 0)
-                return FirstItemStyle ?? NormalItemStyle ?? base.SelectStyle(item, container);
-
-            if (index == itemsControl.Items.Count - 1)
-                return LastItemStyle ?? NormalItemStyle ?? base.SelectStyle(item, container);
-
-            return NormalItemStyle ?? base.SelectStyle(item, container);
-        }
+        return NormalItemStyle ?? base.SelectStyle(item, container);
     }
 }

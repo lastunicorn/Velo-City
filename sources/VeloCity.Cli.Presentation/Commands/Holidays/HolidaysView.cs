@@ -14,58 +14,56 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.ConsoleTools;
 using DustInTheWind.ConsoleTools.Commando;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Holidays;
+
+public class HolidaysView : IView<HolidaysCommand>
 {
-    public class HolidaysView : IView<HolidaysCommand>
+    private readonly DataGridFactory dataGridFactory;
+
+    public HolidaysView(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+    }
 
-        public HolidaysView(DataGridFactory dataGridFactory)
+    public void Display(HolidaysCommand command)
+    {
+        Console.WriteLine(command.Information);
+
+        if (command.OfficialHolidays == null || command.OfficialHolidays.Count == 0)
+            DisplayEmptyInformation();
+        else
+            DisplayTable(command);
+    }
+
+    private static void DisplayEmptyInformation()
+    {
+        CustomConsole.WriteLine();
+        CustomConsole.WriteLineWarning("There are no holidays in the requested time interval.");
+    }
+
+    private void DisplayTable(HolidaysCommand command)
+    {
+        DataGrid dataGrid = dataGridFactory.Create();
+        dataGrid.Title = "Official Holidays";
+
+        dataGrid.Columns.Add("Date");
+        dataGrid.Columns.Add("Country");
+        dataGrid.Columns.Add("Name");
+
+        foreach (OfficialHolidayInstance officialHolidayInstance in command.OfficialHolidays)
         {
-            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+            string dateCellContent = $"{officialHolidayInstance.Date:d} ({officialHolidayInstance.Date:ddd})";
+            string countryCellContent = officialHolidayInstance.Country;
+            string nameCellContent = officialHolidayInstance.Name;
+
+            dataGrid.Rows.Add(dateCellContent, countryCellContent, nameCellContent);
         }
 
-        public void Display(HolidaysCommand command)
-        {
-            Console.WriteLine(command.Information);
-
-            if (command.OfficialHolidays == null || command.OfficialHolidays.Count == 0)
-                DisplayEmptyInformation();
-            else
-                DisplayTable(command);
-        }
-
-        private static void DisplayEmptyInformation()
-        {
-            CustomConsole.WriteLine();
-            CustomConsole.WriteLineWarning("There are no holidays in the requested time interval.");
-        }
-
-        private void DisplayTable(HolidaysCommand command)
-        {
-            DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = "Official Holidays";
-
-            dataGrid.Columns.Add("Date");
-            dataGrid.Columns.Add("Country");
-            dataGrid.Columns.Add("Name");
-
-            foreach (OfficialHolidayInstance officialHolidayInstance in command.OfficialHolidays)
-            {
-                string dateCellContent = $"{officialHolidayInstance.Date:d} ({officialHolidayInstance.Date:ddd})";
-                string countryCellContent = officialHolidayInstance.Country;
-                string nameCellContent = officialHolidayInstance.Name;
-
-                dataGrid.Rows.Add(dateCellContent, countryCellContent, nameCellContent);
-            }
-
-            dataGrid.Display();
-        }
+        dataGrid.Display();
     }
 }

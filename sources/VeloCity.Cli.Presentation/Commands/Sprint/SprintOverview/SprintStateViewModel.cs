@@ -14,32 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.ComponentModel;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
+
+public class SprintStateViewModel
 {
-    public class SprintStateViewModel
+    private readonly SprintState sprintState;
+
+    public SprintStateViewModel(SprintState sprintState)
     {
-        private readonly SprintState sprintState;
+        if (!Enum.IsDefined(typeof(SprintState), sprintState)) throw new InvalidEnumArgumentException(nameof(sprintState), (int)sprintState, typeof(SprintState));
+        this.sprintState = sprintState;
+    }
 
-        public SprintStateViewModel(SprintState sprintState)
+    public override string ToString()
+    {
+        return sprintState switch
         {
-            if (!Enum.IsDefined(typeof(SprintState), sprintState)) throw new InvalidEnumArgumentException(nameof(sprintState), (int)sprintState, typeof(SprintState));
-            this.sprintState = sprintState;
-        }
-
-        public override string ToString()
-        {
-            return sprintState switch
-            {
-                SprintState.Unknown => "unknown",
-                SprintState.New => "new",
-                SprintState.InProgress => "in progress",
-                SprintState.Closed => "closed",
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
+            SprintState.Unknown => "unknown",
+            SprintState.New => "new",
+            SprintState.InProgress => "in progress",
+            SprintState.Closed => "closed",
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

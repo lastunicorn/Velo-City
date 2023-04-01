@@ -17,18 +17,17 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity
+namespace DustInTheWind.VeloCity.Cli.Application.PresentVelocity;
+
+public class SprintVelocity
 {
-    public class SprintVelocity
+    public int SprintNumber { get; }
+
+    public Velocity Velocity { get; }
+
+    public SprintVelocity(Sprint sprint)
     {
-        public int SprintNumber { get; }
-
-        public Velocity Velocity { get; }
-
-        public SprintVelocity(Sprint sprint)
-        {
-            SprintNumber = sprint.Number;
-            Velocity = sprint.Velocity;
-        }
+        SprintNumber = sprint.Number;
+        Velocity = sprint.Velocity;
     }
 }

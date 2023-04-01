@@ -19,30 +19,29 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
+
+public class SideNavigator : TabControl
 {
-    public class SideNavigator : TabControl
+    public static readonly DependencyProperty ButtonsProperty = DependencyProperty.Register(
+        nameof(Buttons),
+        typeof(ObservableCollection<Button>),
+        typeof(SideNavigator)
+    );
+
+    public ObservableCollection<Button> Buttons
     {
-        public static readonly DependencyProperty ButtonsProperty = DependencyProperty.Register(
-            nameof(Buttons),
-            typeof(ObservableCollection<Button>),
-            typeof(SideNavigator)
-        );
+        get => (ObservableCollection<Button>)GetValue(ButtonsProperty);
+        set => SetValue(ButtonsProperty, value);
+    }
 
-        public ObservableCollection<Button> Buttons
-        {
-            get => (ObservableCollection<Button>)GetValue(ButtonsProperty);
-            set => SetValue(ButtonsProperty, value);
-        }
+    static SideNavigator()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(SideNavigator), new FrameworkPropertyMetadata(typeof(SideNavigator)));
+    }
 
-        static SideNavigator()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SideNavigator), new FrameworkPropertyMetadata(typeof(SideNavigator)));
-        }
-
-        public SideNavigator()
-        {
-            Buttons = new ObservableCollection<Button>();
-        }
+    public SideNavigator()
+    {
+        Buttons = new ObservableCollection<Button>();
     }
 }

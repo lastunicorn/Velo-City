@@ -14,12 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays
+namespace DustInTheWind.VeloCity.Cli.Application.PresentOfficialHolidays;
+
+public enum RequestType
 {
-    public enum RequestType
-    {
-        BySprint,
-        ByYear,
-        ByCurrentYear
-    }
+    BySprint,
+    ByYear,
+    ByCurrentYear
 }

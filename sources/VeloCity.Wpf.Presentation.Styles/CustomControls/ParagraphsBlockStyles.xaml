@@ -25,29 +25,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style 
-        TargetType="{x:Type ContentPresenter}" 
+    <Style
+        TargetType="{x:Type ContentPresenter}"
         x:Key="ParagraphsBlockFirstItemStyle" />
 
-    <Style 
-        TargetType="{x:Type ContentPresenter}" 
+    <Style
+        TargetType="{x:Type ContentPresenter}"
         x:Key="ParagraphsBlockNormalItemStyle">
 
-        <Setter Property="Margin" Value="0 15 0 0"/>
+        <Setter Property="Margin" Value="0 15 0 0" />
     </Style>
 
-    <Style 
-        TargetType="{x:Type ContentPresenter}" 
+    <Style
+        TargetType="{x:Type ContentPresenter}"
         x:Key="ParagraphsBlockLastItemStyle">
 
-        <Setter Property="Margin" Value="0 15 0 0"/>
+        <Setter Property="Margin" Value="0 15 0 0" />
     </Style>
 
     <customControls:ListItemStyleSelector
         x:Key="ListItemStyleSelector"
         FirstItemStyle="{StaticResource ParagraphsBlockFirstItemStyle}"
         NormalItemStyle="{StaticResource ParagraphsBlockNormalItemStyle}"
-        LastItemStyle="{StaticResource ParagraphsBlockLastItemStyle}"/>
+        LastItemStyle="{StaticResource ParagraphsBlockLastItemStyle}" />
 
     <Style TargetType="{x:Type customControls:ParagraphsBlock}" BasedOn="{StaticResource {x:Type ItemsControl}}">
 

@@ -14,52 +14,46 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprintsCapacity;
+
+public class PresentSprintsCapacityUseCase : IRequestHandler<PresentSprintsCapacityRequest, PresentSprintsCapacityResponse>
 {
-    public class PresentSprintsCapacityUseCase : IRequestHandler<PresentSprintsCapacityRequest, PresentSprintsCapacityResponse>
+    private readonly IUnitOfWork unitOfWork;
+
+    public PresentSprintsCapacityUseCase(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+    }
 
-        public PresentSprintsCapacityUseCase(IUnitOfWork unitOfWork)
+    public Task<PresentSprintsCapacityResponse> Handle(PresentSprintsCapacityRequest request, CancellationToken cancellationToken)
+    {
+        uint sprintCount = CalculateSprintCount(request);
+        List<SprintCapacity> sprintsCommitments = RetrieveSprintCommitment(sprintCount);
+
+        PresentSprintsCapacityResponse response = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        }
+            RequestedSprintCount = sprintCount,
+            SprintCapacities = sprintsCommitments
+        };
 
-        public Task<PresentSprintsCapacityResponse> Handle(PresentSprintsCapacityRequest request, CancellationToken cancellationToken)
-        {
-            uint sprintCount = CalculateSprintCount(request);
-            List<SprintCapacity> sprintsCommitments = RetrieveSprintCommitment(sprintCount);
+        return Task.FromResult(response);
+    }
 
-            PresentSprintsCapacityResponse response = new()
-            {
-                RequestedSprintCount = sprintCount,
-                SprintCapacities = sprintsCommitments
-            };
+    private static uint CalculateSprintCount(PresentSprintsCapacityRequest request)
+    {
+        return request.SprintCount is null or < 1
+            ? 10
+            : request.SprintCount.Value;
+    }
 
-            return Task.FromResult(response);
-        }
-
-        private static uint CalculateSprintCount(PresentSprintsCapacityRequest request)
-        {
-            return request.SprintCount is null or < 1
-                ? 10
-                : request.SprintCount.Value;
-        }
-
-        private List<SprintCapacity> RetrieveSprintCommitment(uint sprintCount)
-        {
-            return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
-                .OrderByDescending(x => x.StartDate)
-                .Select(x => new SprintCapacity(x))
-                .ToList();
-        }
+    private List<SprintCapacity> RetrieveSprintCommitment(uint sprintCount)
+    {
+        return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
+            .OrderByDescending(x => x.StartDate)
+            .Select(x => new SprintCapacity(x))
+            .ToList();
     }
 }

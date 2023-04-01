@@ -14,15 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
 
-namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview
+internal class NoPreviousSprintsNote : NoteBase
 {
-    internal class NoPreviousSprintsNote : NoteBase
+    protected override IEnumerable<string> BuildMessage()
     {
-        protected override IEnumerable<string> BuildMessage()
-        {
-            yield return "Could not calculate an estimation because no previous closed sprints exist.";
-        }
+        yield return "Could not calculate an estimation because no previous closed sprints exist.";
     }
 }

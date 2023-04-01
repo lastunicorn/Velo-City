@@ -14,38 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
-namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints
+namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
+
+internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, PresentSprintsResponse>
 {
-    internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, PresentSprintsResponse>
+    private readonly IUnitOfWork unitOfWork;
+    private readonly ApplicationState applicationState;
+
+    public PresentSprintsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly ApplicationState applicationState;
+        this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+        this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
+    }
 
-        public PresentSprintsUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState)
+    public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
+    {
+        PresentSprintsResponse response = new()
         {
-            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
-        }
+            Sprints = unitOfWork.SprintRepository.GetAll()
+                .OrderByDescending(x => x.StartDate)
+                .Select(x => new SprintInfo(x))
+                .ToList(),
+            CurrentSprintId = applicationState.SelectedSprintId
+        };
 
-        public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
-        {
-            PresentSprintsResponse response = new()
-            {
-                Sprints = unitOfWork.SprintRepository.GetAll()
-                    .OrderByDescending(x => x.StartDate)
-                    .Select(x => new SprintInfo(x))
-                    .ToList(),
-                CurrentSprintId = applicationState.SelectedSprintId
-            };
-
-            return Task.FromResult(response);
-        }
+        return Task.FromResult(response);
     }
 }

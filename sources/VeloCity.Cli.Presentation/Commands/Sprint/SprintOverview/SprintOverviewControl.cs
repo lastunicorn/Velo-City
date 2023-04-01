@@ -14,75 +14,73 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using DustInTheWind.ConsoleTools.Controls;
 using DustInTheWind.ConsoleTools.Controls.Tables;
 using DustInTheWind.VeloCity.Cli.Presentation.UserControls.Notes;
 
-namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview
+namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Sprint.SprintOverview;
+
+internal class SprintOverviewControl : Control
 {
-    internal class SprintOverviewControl : Control
+    private readonly DataGridFactory dataGridFactory;
+
+    public SprintOverviewViewModel ViewModel { get; set; }
+
+    public SprintOverviewControl(DataGridFactory dataGridFactory)
     {
-        private readonly DataGridFactory dataGridFactory;
+        this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
+    }
 
-        public SprintOverviewViewModel ViewModel { get; set; }
+    protected override void DoDisplay()
+    {
+        DisplayOverviewTable();
+    }
 
-        public SprintOverviewControl(DataGridFactory dataGridFactory)
+    private void DisplayOverviewTable()
+    {
+        DataGrid dataGrid = dataGridFactory.Create();
+        dataGrid.Title = ViewModel.SprintName;
+
+        dataGrid.Columns.Add("q");
+        dataGrid.Columns.Add("a").CellHorizontalAlignment = HorizontalAlignment.Stretch;
+        dataGrid.HeaderRow.IsVisible = false;
+
+        AddContent(dataGrid);
+        AddFooter(dataGrid);
+
+        dataGrid.Display();
+    }
+
+    private void AddContent(DataGrid dataGrid)
+    {
+        dataGrid.Rows.Add("Time Interval", $"{ViewModel.StartDate:d} - {ViewModel.EndDate:d}");
+        dataGrid.Rows.Add("State", ViewModel.State);
+        dataGrid.Rows.Add(" ", " ");
+        dataGrid.Rows.Add("Work Days", ViewModel.WorkDaysCount + " days");
+        dataGrid.Rows.Add("Total Work Hours", $"{ViewModel.TotalWorkHours}");
+        dataGrid.Rows.Add(" ", " ");
+        dataGrid.Rows.Add("Estimated Story Points", $"{ViewModel.EstimatedStoryPoints.ToStandardDigitsString()}");
+
+        if (!ViewModel.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
+            dataGrid.Rows.Add("Estimated Story Points (*)", $"{ViewModel.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
+
+        dataGrid.Rows.Add("Estimated Velocity", $"{ViewModel.EstimatedVelocity.ToStandardDigitsString()}");
+        dataGrid.Rows.Add("Commitment Story Points", $"{ViewModel.CommitmentStoryPoints.ToStandardDigitsString()}");
+        dataGrid.Rows.Add(" ", " ");
+        dataGrid.Rows.Add("Actual Story Points", $"{ViewModel.ActualStoryPoints.ToStandardDigitsString()}");
+        dataGrid.Rows.Add("Actual Velocity", $"{ViewModel.ActualVelocity.ToStandardDigitsString()}");
+    }
+
+    private void AddFooter(DataGrid dataGrid)
+    {
+        if (ViewModel.Notes is { Count: > 0 })
         {
-            this.dataGridFactory = dataGridFactory ?? throw new ArgumentNullException(nameof(dataGridFactory));
-        }
-
-        protected override void DoDisplay()
-        {
-            DisplayOverviewTable();
-        }
-
-        private void DisplayOverviewTable()
-        {
-            DataGrid dataGrid = dataGridFactory.Create();
-            dataGrid.Title = ViewModel.SprintName;
-
-            dataGrid.Columns.Add("q");
-            dataGrid.Columns.Add("a").CellHorizontalAlignment = HorizontalAlignment.Stretch;
-            dataGrid.HeaderRow.IsVisible = false;
-
-            AddContent(dataGrid);
-            AddFooter(dataGrid);
-
-            dataGrid.Display();
-        }
-
-        private void AddContent(DataGrid dataGrid)
-        {
-            dataGrid.Rows.Add("Time Interval", $"{ViewModel.StartDate:d} - {ViewModel.EndDate:d}");
-            dataGrid.Rows.Add("State", ViewModel.State);
-            dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Work Days", ViewModel.WorkDaysCount + " days");
-            dataGrid.Rows.Add("Total Work Hours", $"{ViewModel.TotalWorkHours}");
-            dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Estimated Story Points", $"{ViewModel.EstimatedStoryPoints.ToStandardDigitsString()}");
-
-            if (!ViewModel.EstimatedStoryPointsWithVelocityPenalties.IsEmpty)
-                dataGrid.Rows.Add("Estimated Story Points (*)", $"{ViewModel.EstimatedStoryPointsWithVelocityPenalties.ToStandardDigitsString()}");
-
-            dataGrid.Rows.Add("Estimated Velocity", $"{ViewModel.EstimatedVelocity.ToStandardDigitsString()}");
-            dataGrid.Rows.Add("Commitment Story Points", $"{ViewModel.CommitmentStoryPoints.ToStandardDigitsString()}");
-            dataGrid.Rows.Add(" ", " ");
-            dataGrid.Rows.Add("Actual Story Points", $"{ViewModel.ActualStoryPoints.ToStandardDigitsString()}");
-            dataGrid.Rows.Add("Actual Velocity", $"{ViewModel.ActualVelocity.ToStandardDigitsString()}");
-        }
-
-        private void AddFooter(DataGrid dataGrid)
-        {
-            if (ViewModel.Notes is { Count: > 0 })
+            NotesControl notesControl = new()
             {
-                NotesControl notesControl = new()
-                {
-                    Notes = ViewModel.Notes
-                };
-                dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
-                dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
-            }
+                Notes = ViewModel.Notes
+            };
+            dataGrid.FooterRow.FooterCell.Content = new MultilineText(notesControl.ToLines());
+            dataGrid.FooterRow.FooterCell.ForegroundColor = ConsoleColor.DarkYellow;
         }
     }
 }
