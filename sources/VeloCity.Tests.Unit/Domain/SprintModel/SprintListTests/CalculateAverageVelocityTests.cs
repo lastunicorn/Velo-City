@@ -103,7 +103,7 @@ public class CalculateAverageVelocityTests
         {
             new()
             {
-                EmploymentWeek = new EmploymentWeek(),
+                EmploymentWeek = EmploymentWeek.NewDefault,
                 HoursPerDay = 8
             }
         };

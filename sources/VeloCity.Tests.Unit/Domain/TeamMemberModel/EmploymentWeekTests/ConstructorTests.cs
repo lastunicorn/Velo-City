@@ -21,29 +21,21 @@ namespace DustInTheWind.VeloCity.Tests.Unit.Domain.TeamMemberModel.EmploymentWee
 public class ConstructorTests
 {
     [Fact]
-    public void WhenCreatingEmploymentWeekWithoutDays_ThenContainsMondayToFridayDays()
+    public void WhenCreatingEmploymentWeekWithoutDays_ThenContainsNoDays()
     {
         EmploymentWeek employmentWeek = new();
 
         IEnumerable<DayOfWeek> days = employmentWeek;
 
-        days.Should().HaveCount(5)
-            .And.ContainInOrder(new[]
-            {
-                DayOfWeek.Monday,
-                DayOfWeek.Tuesday,
-                DayOfWeek.Wednesday,
-                DayOfWeek.Thursday,
-                DayOfWeek.Friday
-            });
+        days.Should().BeEmpty();
     }
 
     [Fact]
-    public void WhenCreatingEmploymentWeekWithoutDays_ThenIsDefaultIsTrue()
+    public void WhenCreatingEmploymentWeekWithoutDays_ThenIsDefaultIsFalse()
     {
         EmploymentWeek employmentWeek = new();
 
-        employmentWeek.IsDefault.Should().BeTrue();
+        employmentWeek.IsDefault.Should().BeFalse();
     }
 
     [Theory]
@@ -80,28 +72,20 @@ public class ConstructorTests
     }
 
     [Fact]
-    public void WhenCreatingEmploymentWeekWithNullCollectionOfDays_ThenContainsMondayToFridayDays()
+    public void WhenCreatingEmploymentWeekWithNullCollectionOfDays_ThenContainsNoDays()
     {
         EmploymentWeek employmentWeek = new(null);
 
         IEnumerable<DayOfWeek> days = employmentWeek;
 
-        days.Should().HaveCount(5)
-            .And.ContainInOrder(new[]
-            {
-                DayOfWeek.Monday,
-                DayOfWeek.Tuesday,
-                DayOfWeek.Wednesday,
-                DayOfWeek.Thursday,
-                DayOfWeek.Friday
-            });
+        days.Should().BeEmpty();
     }
 
     [Fact]
-    public void WhenCreatingEmploymentWeekWithNullCollectionOfDays_ThenIsDefaultIsTrue()
+    public void WhenCreatingEmploymentWeekWithNullCollectionOfDays_ThenIsDefaultIsFalse()
     {
         EmploymentWeek employmentWeek = new(null);
 
-        employmentWeek.IsDefault.Should().BeTrue();
+        employmentWeek.IsDefault.Should().BeFalse();
     }
 }

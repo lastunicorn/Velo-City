@@ -58,7 +58,7 @@ public class Handle_SprintSelected_OneSprintMember_NoVacation_Tests
                 {
                     StartDate = new DateTime(2000, 06, 01),
                     HoursPerDay = 8,
-                    EmploymentWeek = new EmploymentWeek()
+                    EmploymentWeek = EmploymentWeek.NewDefault
                 }
             }
         };

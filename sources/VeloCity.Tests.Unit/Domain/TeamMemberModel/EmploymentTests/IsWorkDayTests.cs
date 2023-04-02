@@ -60,7 +60,7 @@ public class IsWorkDayTests
     {
         Employment employment = new()
         {
-            EmploymentWeek = new EmploymentWeek()
+            EmploymentWeek = EmploymentWeek.NewDefault
         };
 
         bool actual = employment.IsWorkDay(dayOfWeek);
@@ -75,7 +75,7 @@ public class IsWorkDayTests
     {
         Employment employment = new()
         {
-            EmploymentWeek = new EmploymentWeek()
+            EmploymentWeek = EmploymentWeek.NewDefault
         };
 
         bool actual = employment.IsWorkDay(dayOfWeek);
@@ -91,7 +91,7 @@ public class IsWorkDayTests
     {
         Employment employment = new()
         {
-            EmploymentWeek = new EmploymentWeek()
+            EmploymentWeek = EmploymentWeek.NewDefault
         };
 
         bool actual = employment.IsWorkDay(dayOfWeek);

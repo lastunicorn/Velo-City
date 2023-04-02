@@ -19,7 +19,13 @@ namespace DustInTheWind.VeloCity.Domain;
 public class InvalidDateIntervalException : Exception
 {
     public InvalidDateIntervalException(int sprintNumber)
-        : base(string.Format(Resources.InvalidDateInterval_DefaultErrorMessage, sprintNumber))
+        : base(BuildMessage(sprintNumber))
     {
+    }
+
+    private static string BuildMessage(int sprintNumber)
+    {
+        string messageTemplate = Resources.InvalidDateInterval_DefaultErrorMessage;
+        return string.Format(messageTemplate, sprintNumber);
     }
 }

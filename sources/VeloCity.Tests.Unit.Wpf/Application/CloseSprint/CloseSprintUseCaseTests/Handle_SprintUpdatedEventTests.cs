@@ -172,7 +172,7 @@ public class Handle_SprintUpdatedEventTests
                 {
                     StartDate = new DateTime(2000, 01, 13),
                     HoursPerDay = 5,
-                    EmploymentWeek = new EmploymentWeek()
+                    EmploymentWeek = EmploymentWeek.NewDefault
                 }
             }
         };

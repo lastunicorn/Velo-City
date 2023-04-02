@@ -119,7 +119,7 @@ public class Handle_NoSprintSelected_ResponseTests
                 {
                     StartDate = new DateTime(2000, 01, 01),
                     HoursPerDay = 4,
-                    EmploymentWeek = new EmploymentWeek()
+                    EmploymentWeek = EmploymentWeek.NewDefault
                 }
             }
         };
@@ -246,7 +246,7 @@ public class Handle_NoSprintSelected_ResponseTests
                 {
                     StartDate = new DateTime(2000, 01, 01),
                     HoursPerDay = 4,
-                    EmploymentWeek = new EmploymentWeek()
+                    EmploymentWeek = EmploymentWeek.NewDefault
                 }
             }
         };

@@ -62,7 +62,7 @@ internal static class EmploymentExtensions
             TimeInterval = new DateInterval(employment.StartDate, employment.EndDate),
             HoursPerDay = employment.HoursPerDay,
             EmploymentWeek = employment.WeekDays == null
-                ? new EmploymentWeek()
+                ? EmploymentWeek.NewDefault
                 : new EmploymentWeek(employment.WeekDays.Select(x => x.ToEntity())),
             Country = employment.Country
         };

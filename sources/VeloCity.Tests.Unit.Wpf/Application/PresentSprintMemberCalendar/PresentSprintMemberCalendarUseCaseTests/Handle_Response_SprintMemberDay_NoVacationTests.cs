@@ -105,7 +105,7 @@ public class Handle_Response_SprintMemberDay_NoVacationTests
         Employment employment = new()
         {
             StartDate = new DateTime(2000, 01, 01),
-            EmploymentWeek = new EmploymentWeek(),
+            EmploymentWeek = EmploymentWeek.NewDefault,
             HoursPerDay = 8
         };
         teamMember.Employments.Add(employment);
@@ -140,7 +140,7 @@ public class Handle_Response_SprintMemberDay_NoVacationTests
         Employment employment = new()
         {
             StartDate = new DateTime(2000, 01, 01),
-            EmploymentWeek = new EmploymentWeek(),
+            EmploymentWeek = EmploymentWeek.NewDefault,
             HoursPerDay = 8
         };
         teamMember.Employments.Add(employment);
@@ -171,7 +171,7 @@ public class Handle_Response_SprintMemberDay_NoVacationTests
         Employment employment = new()
         {
             StartDate = new DateTime(2000, 01, 01),
-            EmploymentWeek = new EmploymentWeek(),
+            EmploymentWeek = EmploymentWeek.NewDefault,
             HoursPerDay = 8
         };
         teamMember.Employments.Add(employment);
@@ -202,7 +202,7 @@ public class Handle_Response_SprintMemberDay_NoVacationTests
         Employment employment = new()
         {
             StartDate = new DateTime(2000, 01, 01),
-            EmploymentWeek = new EmploymentWeek(),
+            EmploymentWeek = EmploymentWeek.NewDefault,
             HoursPerDay = 8
         };
         teamMember.Employments.Add(employment);
@@ -233,7 +233,7 @@ public class Handle_Response_SprintMemberDay_NoVacationTests
         Employment employment = new()
         {
             StartDate = new DateTime(2000, 01, 01),
-            EmploymentWeek = new EmploymentWeek(),
+            EmploymentWeek = EmploymentWeek.NewDefault,
             HoursPerDay = 8
         };
         teamMember.Employments.Add(employment);
@@ -264,7 +264,7 @@ public class Handle_Response_SprintMemberDay_NoVacationTests
         Employment employment = new()
         {
             StartDate = new DateTime(2000, 01, 01),
-            EmploymentWeek = new EmploymentWeek(),
+            EmploymentWeek = EmploymentWeek.NewDefault,
             HoursPerDay = 8
         };
         teamMember.Employments.Add(employment);
@@ -295,7 +295,7 @@ public class Handle_Response_SprintMemberDay_NoVacationTests
         Employment employment = new()
         {
             StartDate = new DateTime(2000, 01, 01),
-            EmploymentWeek = new EmploymentWeek(),
+            EmploymentWeek = EmploymentWeek.NewDefault,
             HoursPerDay = 8
         };
         teamMember.Employments.Add(employment);
@@ -326,7 +326,7 @@ public class Handle_Response_SprintMemberDay_NoVacationTests
         Employment employment = new()
         {
             StartDate = new DateTime(2000, 01, 01),
-            EmploymentWeek = new EmploymentWeek(),
+            EmploymentWeek = EmploymentWeek.NewDefault,
             HoursPerDay = 8
         };
         teamMember.Employments.Add(employment);

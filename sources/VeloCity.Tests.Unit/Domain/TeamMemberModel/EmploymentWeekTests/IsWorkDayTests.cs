@@ -28,7 +28,7 @@ public class IsWorkDayTests
     [InlineData(DayOfWeek.Friday)]
     public void HavingDefaultEmploymentWeek_WhenVerifyingMondayToFriday_ThenReturnsTrue(DayOfWeek dayOfWeek)
     {
-        EmploymentWeek employmentWeek = new();
+        EmploymentWeek employmentWeek = EmploymentWeek.NewDefault;
 
         bool actual = employmentWeek.IsWorkDay(dayOfWeek);
 
@@ -40,7 +40,7 @@ public class IsWorkDayTests
     [InlineData(DayOfWeek.Sunday)]
     public void HavingDefaultEmploymentWeek_WhenVerifyingSaturdayAndSunday_ThenReturnsFalse(DayOfWeek dayOfWeek)
     {
-        EmploymentWeek employmentWeek = new();
+        EmploymentWeek employmentWeek = EmploymentWeek.NewDefault;
 
         bool actual = employmentWeek.IsWorkDay(dayOfWeek);
 
@@ -53,7 +53,7 @@ public class IsWorkDayTests
     [InlineData((DayOfWeek)(-3548))]
     public void HavingDefaultEmploymentWeek_WhenVerifyingNonexistentDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
     {
-        EmploymentWeek employmentWeek = new();
+        EmploymentWeek employmentWeek = EmploymentWeek.NewDefault;
 
         bool actual = employmentWeek.IsWorkDay(dayOfWeek);
 
@@ -93,7 +93,7 @@ public class IsWorkDayTests
     [InlineData((DayOfWeek)(-3548))]
     public void HavingEmploymentWeekWithOneDay_WhenVerifyingNonexistentDays_ThenReturnsFalse(DayOfWeek dayOfWeek)
     {
-        EmploymentWeek employmentWeek = new();
+        EmploymentWeek employmentWeek = new(new[] { DayOfWeek.Wednesday });
 
         bool actual = employmentWeek.IsWorkDay(dayOfWeek);
 

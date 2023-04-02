@@ -101,46 +101,15 @@ public readonly partial struct PersonName : IComparable<PersonName>, IEquatable<
     {
         if (text == null) throw new ArgumentNullException(nameof(text));
 
-        string[] parts = text.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        PersonNameParser parser = new(text);
 
-        if (parts.Length == 1)
+        return new PersonName
         {
-            return new PersonName
-            {
-                FirstName = parts[0]
-            };
-        }
-
-        if (parts.Length == 2)
-        {
-            return new PersonName
-            {
-                FirstName = parts[0],
-                LastName = parts[1]
-            };
-        }
-
-        if (parts.Length == 3)
-        {
-            return new PersonName
-            {
-                FirstName = parts[0],
-                MiddleName = parts[1],
-                LastName = parts[2]
-            };
-        }
-
-        if (parts.Length > 3)
-        {
-            return new PersonName
-            {
-                FirstName = parts[0],
-                MiddleName = string.Join(" ", parts.Skip(1).Take(parts.Length - 2)),
-                LastName = parts[^1]
-            };
-        }
-
-        return new PersonName();
+            FirstName = parser.FirstName,
+            MiddleName = parser.MiddleName,
+            LastName = parser.LastName,
+            Nickname = parser.Nickname
+        };
     }
 
     public bool Contains(string text)

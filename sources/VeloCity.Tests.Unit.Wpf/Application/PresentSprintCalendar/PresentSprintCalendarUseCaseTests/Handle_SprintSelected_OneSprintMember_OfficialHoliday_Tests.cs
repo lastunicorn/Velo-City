@@ -59,7 +59,7 @@ public class Handle_SprintSelected_OneSprintMember_OfficialHoliday_Tests
                 {
                     StartDate = new DateTime(2000, 06, 01),
                     HoursPerDay = 8,
-                    EmploymentWeek = new EmploymentWeek()
+                    EmploymentWeek = EmploymentWeek.NewDefault
                 }
             },
             Vacations = new VacationCollection()

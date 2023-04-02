@@ -100,7 +100,7 @@ public class Handle_SprintMemberDtoPropertiesTests
             {
                 new()
                 {
-                    EmploymentWeek = new EmploymentWeek(),
+                    EmploymentWeek = EmploymentWeek.NewDefault,
                     HoursPerDay = 4,
                     StartDate = new DateTime(2000, 01, 01)
                 }
@@ -124,7 +124,7 @@ public class Handle_SprintMemberDtoPropertiesTests
             {
                 new()
                 {
-                    EmploymentWeek = new EmploymentWeek(),
+                    EmploymentWeek = EmploymentWeek.NewDefault,
                     HoursPerDay = 4,
                     StartDate = new DateTime(2000, 01, 01)
                 }

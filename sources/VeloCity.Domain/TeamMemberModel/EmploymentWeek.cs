@@ -20,30 +20,36 @@ namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 public class EmploymentWeek : IEnumerable<DayOfWeek>
 {
-    private readonly SortedSet<DayOfWeek> workDays;
+    private readonly SortedSet<DayOfWeek> workDays = new();
 
-    public bool IsDefault { get; }
+    public bool IsDefault { get; private init; }
+
+    public static EmploymentWeek NewDefault
+    {
+        get
+        {
+            IEnumerable<DayOfWeek> days = GetDefaultWorkDays();
+            return new EmploymentWeek(days)
+            {
+                IsDefault = true
+            };
+        }
+    }
 
     public EmploymentWeek()
     {
-        workDays = GetDefaultWorkDays();
-        IsDefault = true;
     }
 
     public EmploymentWeek(IEnumerable<DayOfWeek> workDays)
     {
         if (workDays == null)
-        {
-            this.workDays = GetDefaultWorkDays();
-            IsDefault = true;
-        }
-        else
-        {
-            this.workDays = new SortedSet<DayOfWeek>(workDays);
-        }
+            return;
+
+        foreach (DayOfWeek dayOfWeek in workDays)
+            this.workDays.Add(dayOfWeek);
     }
 
-    private static SortedSet<DayOfWeek> GetDefaultWorkDays()
+    private static IEnumerable<DayOfWeek> GetDefaultWorkDays()
     {
         return new SortedSet<DayOfWeek>
         {

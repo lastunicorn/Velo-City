@@ -68,7 +68,7 @@ public class Handle_SprintVelocityPropertiesTests
             {
                 new()
                 {
-                    EmploymentWeek = new EmploymentWeek(),
+                    EmploymentWeek = EmploymentWeek.NewDefault,
                     HoursPerDay = 8,
                     StartDate = new DateTime(2000, 01, 01)
                 }
