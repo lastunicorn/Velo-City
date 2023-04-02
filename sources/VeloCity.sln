@@ -20,15 +20,9 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "VeloCity.Installer", "VeloC
 		{FED35DE4-65E2-4777-9B52-A21B0669A680} = {FED35DE4-65E2-4777-9B52-A21B0669A680}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{124DD8ED-0D48-48B5-8B59-0715B4152421}"
-	ProjectSection(SolutionItems) = preProject
-		AssemblyInfo.Shared.cs = AssemblyInfo.Shared.cs
-		Directory.build.props = Directory.build.props
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Installer.CustomActions", "VeloCity.Installer.CustomActions\VeloCity.Installer.CustomActions.csproj", "{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests", "VeloCity.Tests\VeloCity.Tests.csproj", "{6E96C113-31C2-4065-B876-023BAF251B74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests.Unit", "VeloCity.Tests.Unit\VeloCity.Tests.Unit.csproj", "{6E96C113-31C2-4065-B876-023BAF251B74}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Wpf.Bootstrapper", "VeloCity.Wpf.Bootstrapper\VeloCity.Wpf.Bootstrapper.csproj", "{822E656F-39EC-4858-884E-E046D52D4C4C}"
 EndProject
@@ -68,7 +62,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Ports.SettingsAcce
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installer", "Installer", "{3842CCF5-0144-49CF-9A6C-75193EAC2D23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Tests.Wpf", "VeloCity.Tests.Wpf\VeloCity.Tests.Wpf.csproj", "{45B9E766-F7BE-4F52-AE35-78AA681335EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests.Unit.Wpf", "VeloCity.Tests.Unit.Wpf\VeloCity.Tests.Unit.Wpf.csproj", "{45B9E766-F7BE-4F52-AE35-78AA681335EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E45614F9-8A7F-4177-A9B0-94EFB8665B1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Tests.Integration", "VeloCity.Tests.Integration\VeloCity.Tests.Integration.csproj", "{7E3A9646-C06B-4377-8493-61BE1457BB73}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EAC22D58-5335-4F7E-89AD-CB9694660C29}"
+	ProjectSection(SolutionItems) = preProject
+		AssemblyInfo.Shared.cs = AssemblyInfo.Shared.cs
+		Directory.build.props = Directory.build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Tests.Unit.Cli", "VeloCity.Tests.Unit.Cli\VeloCity.Tests.Unit.Cli.csproj", "{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -366,6 +372,30 @@ Global
 		{45B9E766-F7BE-4F52-AE35-78AA681335EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45B9E766-F7BE-4F52-AE35-78AA681335EC}.Release|x86.ActiveCfg = Release|Any CPU
 		{45B9E766-F7BE-4F52-AE35-78AA681335EC}.Release|x86.Build.0 = Release|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Debug|x86.Build.0 = Debug|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Debug-With-Installer|Any CPU.Build.0 = Debug|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Debug-With-Installer|x86.ActiveCfg = Debug|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Debug-With-Installer|x86.Build.0 = Debug|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E3A9646-C06B-4377-8493-61BE1457BB73}.Release|x86.Build.0 = Release|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Debug|x86.Build.0 = Debug|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Debug-With-Installer|Any CPU.Build.0 = Debug|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Debug-With-Installer|x86.ActiveCfg = Debug|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Debug-With-Installer|x86.Build.0 = Debug|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Release|x86.ActiveCfg = Release|Any CPU
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -378,6 +408,7 @@ Global
 		{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15} = {2CCB7854-35D5-4458-BF4C-69FE17B90DCD}
 		{74D86E62-8460-46E9-AEC2-126F8C2285F8} = {3842CCF5-0144-49CF-9A6C-75193EAC2D23}
 		{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3} = {3842CCF5-0144-49CF-9A6C-75193EAC2D23}
+		{6E96C113-31C2-4065-B876-023BAF251B74} = {E45614F9-8A7F-4177-A9B0-94EFB8665B1F}
 		{822E656F-39EC-4858-884E-E046D52D4C4C} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
 		{03D04179-6A41-4AA4-A57E-689B67FE42C2} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
 		{642279F1-84BE-432C-BFB9-69D9C2EA41D8} = {A935F5EA-F2B1-4FE4-AFC9-072605D3BFB8}
@@ -390,6 +421,9 @@ Global
 		{D4165B4E-6B90-420D-ADCB-1DC7B12F6369} = {D56DD2AD-35B0-4059-BF0A-83E5DB9F70CD}
 		{AF860813-2A62-4B79-BD16-8A5969EF5169} = {54CCCDCD-D464-43BF-8A57-D16308BC6846}
 		{8E2B68A4-69C3-4903-95E3-EEB8F0B7A0FF} = {54CCCDCD-D464-43BF-8A57-D16308BC6846}
+		{45B9E766-F7BE-4F52-AE35-78AA681335EC} = {E45614F9-8A7F-4177-A9B0-94EFB8665B1F}
+		{7E3A9646-C06B-4377-8493-61BE1457BB73} = {E45614F9-8A7F-4177-A9B0-94EFB8665B1F}
+		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70} = {E45614F9-8A7F-4177-A9B0-94EFB8665B1F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {416DF04A-8ACB-461F-866E-98A0873E1E9F}

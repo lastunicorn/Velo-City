@@ -46,7 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>DustInTheWind.VeloCity.Tests.Wpf</_Parameter1>
+            <_Parameter1>DustInTheWind.VeloCity.Tests.Unit.Wpf</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
 
