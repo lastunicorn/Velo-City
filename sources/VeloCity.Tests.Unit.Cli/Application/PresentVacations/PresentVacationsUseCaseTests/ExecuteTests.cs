@@ -54,7 +54,7 @@ public class ExecuteTests
         TeamMember teamMember = new();
         teamMemberRepository
             .Setup(x => x.GetByDate(It.IsAny<DateTime>()))
-            .Returns(new[] { teamMember });
+            .ReturnsAsync(new[] { teamMember });
 
         PresentVacationsRequest request = new();
         PresentVacationsResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -78,7 +78,7 @@ public class ExecuteTests
         };
         teamMemberRepository
             .Setup(x => x.GetByDate(It.IsAny<DateTime>()))
-            .Returns(new[] { teamMember });
+            .ReturnsAsync(new[] { teamMember });
 
         PresentVacationsRequest request = new();
         PresentVacationsResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -106,7 +106,7 @@ public class ExecuteTests
         };
         teamMemberRepository
             .Setup(x => x.GetByDate(It.IsAny<DateTime>()))
-            .Returns(new[] { teamMember });
+            .ReturnsAsync(new[] { teamMember });
 
         PresentVacationsRequest request = new();
         PresentVacationsResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -130,7 +130,7 @@ public class ExecuteTests
         };
         teamMemberRepository
             .Setup(x => x.Find("team member name"))
-            .Returns(new[] { teamMember });
+            .ReturnsAsync(new[] { teamMember });
 
         PresentVacationsRequest request = new()
         {
@@ -148,7 +148,7 @@ public class ExecuteTests
         TeamMember teamMember = new();
         teamMemberRepository
             .Setup(x => x.Find("team member name"))
-            .Returns(new[] { teamMember });
+            .ReturnsAsync(new[] { teamMember });
 
         PresentVacationsRequest request = new()
         {
@@ -166,7 +166,7 @@ public class ExecuteTests
         TeamMember teamMember2 = new() { Name = PersonName.Parse("aaa") };
         teamMemberRepository
             .Setup(x => x.GetByDate(It.IsAny<DateTime>()))
-            .Returns(new[] { teamMember1, teamMember2 });
+            .ReturnsAsync(new[] { teamMember1, teamMember2 });
 
         PresentVacationsRequest request = new();
         PresentVacationsResponse response = await useCase.Handle(request, CancellationToken.None);

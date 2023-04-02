@@ -29,9 +29,10 @@ internal class SprintRepository : ISprintRepository
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public IEnumerable<Sprint> GetAll()
+    public Task<IEnumerable<Sprint>> GetAll()
     {
-        return dbContext.Sprints;
+        IEnumerable<Sprint> dbContextSprints = dbContext.Sprints;
+        return Task.FromResult(dbContextSprints);
     }
 
     public Task<Sprint> Get(int id)
@@ -48,19 +49,22 @@ internal class SprintRepository : ISprintRepository
         return Task.FromResult(sprint);
     }
 
-    public DateInterval? GetDateIntervalFor(int sprintNumber)
+    public Task<DateInterval?> GetDateIntervalFor(int sprintNumber)
     {
-        return dbContext.Sprints
+        DateInterval? dateInterval = dbContext.Sprints
             .FirstOrDefault(x => x.Number == sprintNumber)?
             .DateInterval;
+
+        return Task.FromResult(dateInterval);
     }
 
-    public bool IsAnyInProgress()
+    public Task<bool> IsAnyInProgress()
     {
-        return dbContext.Sprints.Any(x => x.State == SprintState.InProgress);
+        bool isAnyInProgress = dbContext.Sprints.Any(x => x.State == SprintState.InProgress);
+        return Task.FromResult(isAnyInProgress);
     }
 
-    public bool IsFirstNewSprint(int sprintId)
+    public Task<bool> IsFirstNewSprint(int sprintId)
     {
         int id = dbContext.Sprints
             .Where(x => x.State == SprintState.New)
@@ -68,43 +72,51 @@ internal class SprintRepository : ISprintRepository
             .Select(x => x.Id)
             .FirstOrDefault();
 
-        return id == sprintId;
+        bool isFirstNewSprint = id == sprintId;
+        return Task.FromResult(isFirstNewSprint);
     }
 
-    public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count)
+    public Task<IEnumerable<Sprint>> GetClosedSprintsBefore(int sprintNumber, uint count)
     {
-        return dbContext.Sprints
+        IEnumerable<Sprint> sprints = dbContext.Sprints
             .OrderByDescending(x => x.StartDate)
             .SkipWhile(x => x.Number != sprintNumber)
             .Skip(1)
             .Where(x => x.State == SprintState.Closed)
             .Take((int)count);
+
+        return Task.FromResult(sprints);
     }
 
-    public IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count, IEnumerable<int> excludedSprints)
+    public Task<IEnumerable<Sprint>> GetClosedSprintsBefore(int sprintNumber, uint count, IEnumerable<int> excludedSprints)
     {
         List<int> excludedSprintsList = excludedSprints.ToList();
 
-        return dbContext.Sprints
+        IEnumerable<Sprint> sprints = dbContext.Sprints
             .Where(x => !excludedSprintsList.Contains(x.Number))
             .OrderByDescending(x => x.StartDate)
             .SkipWhile(x => x.Number != sprintNumber)
             .Skip(1)
             .Where(x => x.State == SprintState.Closed)
             .Take((int)count);
+        
+        return Task.FromResult(sprints);
     }
 
-    public Sprint GetLast()
+    public Task<Sprint> GetLast()
     {
-        return dbContext.Sprints.MaxBy(x => x.StartDate);
+        Sprint sprint = dbContext.Sprints.MaxBy(x => x.StartDate);
+        return Task.FromResult(sprint);
     }
 
-    public IEnumerable<Sprint> GetLast(int count)
+    public Task<IEnumerable<Sprint>> GetLast(int count)
     {
-        return dbContext.Sprints
+        IEnumerable<Sprint> sprints = dbContext.Sprints
             .Where(x => x.State is SprintState.InProgress or SprintState.Closed)
             .OrderByDescending(x => x.StartDate)
             .Take(count);
+
+        return Task.FromResult(sprints);
     }
 
     public Task<Sprint> GetLastInProgress()
@@ -116,37 +128,32 @@ internal class SprintRepository : ISprintRepository
         return Task.FromResult(sprint);
     }
 
-    public IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints)
+    public Task<IEnumerable<Sprint>> GetLastClosed(uint count)
     {
-        List<int> excludedSprintsList = excludedSprints.ToList();
-
-        return dbContext.Sprints
-            .Where(x => !excludedSprintsList.Contains(x.Number))
+        IEnumerable<Sprint> sprints = dbContext.Sprints
             .OrderByDescending(x => x.StartDate)
             .Where(x => x.State == SprintState.Closed)
             .Take((int)count);
+
+        return Task.FromResult(sprints);
     }
 
-    public IEnumerable<Sprint> GetLastClosed(uint count)
+    public Task<Sprint> GetLastClosed()
     {
-        return dbContext.Sprints
-            .OrderByDescending(x => x.StartDate)
-            .Where(x => x.State == SprintState.Closed)
-            .Take((int)count);
-    }
-
-    public Sprint GetLastClosed()
-    {
-        return dbContext.Sprints
+        Sprint sprints = dbContext.Sprints
             .OrderByDescending(x => x.StartDate)
             .FirstOrDefault(x => x.State == SprintState.Closed);
+
+        return Task.FromResult(sprints);
     }
 
-    public IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate)
+    public Task<IEnumerable<Sprint>> Get(DateTime startDate, DateTime endDate)
     {
-        return dbContext.Sprints
+        IEnumerable<Sprint> sprints = dbContext.Sprints
             .OrderByDescending(x => x.StartDate)
             .Where(x => x.EndDate >= startDate && x.StartDate <= endDate);
+
+        return Task.FromResult(sprints);
     }
 
     public void Add(Sprint sprint)

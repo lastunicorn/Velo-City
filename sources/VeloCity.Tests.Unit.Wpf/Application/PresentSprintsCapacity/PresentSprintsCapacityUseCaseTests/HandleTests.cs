@@ -90,7 +90,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
-            .Returns(sprintsFromRepository);
+            .ReturnsAsync(sprintsFromRepository);
 
         PresentSprintsCapacityRequest request = new();
         PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -109,7 +109,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
-            .Returns(sprintsFromRepository);
+            .ReturnsAsync(sprintsFromRepository);
 
         PresentSprintsCapacityRequest request = new();
         PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -136,7 +136,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
-            .Returns(sprintsFromRepository);
+            .ReturnsAsync(sprintsFromRepository);
 
         PresentSprintsCapacityRequest request = new();
         PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -167,7 +167,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
-            .Returns(sprintsFromRepository);
+            .ReturnsAsync(sprintsFromRepository);
 
         PresentSprintsCapacityRequest request = new();
         PresentSprintsCapacityResponse response = await useCase.Handle(request, CancellationToken.None);

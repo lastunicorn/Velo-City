@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 using DustInTheWind.VeloCity.Domain.SprintModel;
@@ -33,28 +31,28 @@ public class SprintFactory
         this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public Sprint GenerateImaginarySprint(DateTime startDate, DateTime endDate)
+    public async Task<Sprint> GenerateImaginarySprint(DateTime startDate, DateTime endDate)
     {
         Sprint sprint = new()
         {
             DateInterval = new DateInterval(startDate, endDate)
         };
 
-        PopulateOfficialHolidays(sprint);
-        PopulateSprintMembers(sprint);
+        await PopulateOfficialHolidays(sprint);
+        await PopulateSprintMembers(sprint);
 
         return sprint;
     }
 
-    private void PopulateOfficialHolidays(Sprint sprint)
+    private async Task PopulateOfficialHolidays(Sprint sprint)
     {
-        IEnumerable<OfficialHoliday> officialHolidays = unitOfWork.OfficialHolidayRepository.Get(sprint.DateInterval);
+        IEnumerable<OfficialHoliday> officialHolidays = await unitOfWork.OfficialHolidayRepository.Get(sprint.DateInterval);
         sprint.OfficialHolidays.AddRange(officialHolidays);
     }
 
-    private void PopulateSprintMembers(Sprint sprint)
+    private async Task PopulateSprintMembers(Sprint sprint)
     {
-        IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval);
+        IEnumerable<TeamMember> teamMembers = await unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval);
         sprint.AddSprintMembers(teamMembers);
     }
 }

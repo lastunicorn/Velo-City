@@ -23,7 +23,7 @@ namespace DustInTheWind.VeloCity.Cli.Presentation.Commands.Vacations;
 
 public class TeamMemberVacationViewModel
 {
-    private readonly SortedList<DateMonth, MonthOfVacationsViewModel> groupedVacations = new();
+    private readonly SortedList<DateTimeMonth, MonthOfVacationsViewModel> groupedVacations = new();
 
     public PersonName PersonName { get; }
 
@@ -49,14 +49,14 @@ public class TeamMemberVacationViewModel
                 DateTime? date = vacationViewModel.SignificantDate;
                 if (date != null)
                 {
-                    DateMonth dateTimeMonth = new(date.Value);
+                    DateTimeMonth dateTimeMonth = new(date.Value);
                     AddVacation(dateTimeMonth, vacationViewModel);
                 }
             }
             else
             {
                 DateTime date = vacationViewModel.StartDate.Value;
-                DateMonth dateTimeMonth = new(date);
+                DateTimeMonth dateTimeMonth = new(date);
 
                 while (dateTimeMonth <= vacationViewModel.EndDate.Value)
                 {
@@ -70,7 +70,7 @@ public class TeamMemberVacationViewModel
         return groupedVacations.Values.ToList();
     }
 
-    private void AddVacation(DateMonth dateTimeMonth, VacationViewModel vacationViewModel)
+    private void AddVacation(DateTimeMonth dateTimeMonth, VacationViewModel vacationViewModel)
     {
         MonthOfVacationsViewModel monthOfVacationsViewModel;
 

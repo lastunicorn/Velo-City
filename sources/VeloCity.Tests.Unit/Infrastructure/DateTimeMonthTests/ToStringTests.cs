@@ -16,26 +16,21 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateMonthTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateTimeMonthTests;
 
-public class ConstructorWithoutParametersTests
+public class ToStringTests
 {
-    private readonly DateMonth dateMonth;
-
-    public ConstructorWithoutParametersTests()
+    [Theory]
+    [InlineData(2025, 04, "2025 04")]
+    [InlineData(3458, 01, "3458 01")]
+    [InlineData(1, 03, "0001 03")]
+    [InlineData(100, 12, "0100 12")]
+    public void HavingAnInstance_WhenSerialized_ThenReturnsYearAndMonthAsNumbers(int year, int month, string expected)
     {
-        dateMonth = new DateMonth();
-    }
+        DateTimeMonth dateTimeMonth = new(year, month);
 
-    [Fact]
-    public void WhenCreateInstanceWithoutParameters_ThenYearIsZero()
-    {
-        dateMonth.Year.Should().Be(0);
-    }
+        string actual = dateTimeMonth.ToString();
 
-    [Fact]
-    public void WhenCreateInstanceWithoutParameters_ThenMonthIsOne()
-    {
-        dateMonth.Month.Should().Be(1);
+        actual.Should().Be(expected);
     }
 }

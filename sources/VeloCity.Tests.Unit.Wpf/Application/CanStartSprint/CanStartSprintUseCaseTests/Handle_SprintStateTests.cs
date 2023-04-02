@@ -38,11 +38,11 @@ public class Handle_SprintStateTests
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())
-            .Returns(false);
+            .ReturnsAsync(false);
 
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(It.IsAny<int>()))
-            .Returns(true);
+            .ReturnsAsync(true);
 
         applicationState = new ApplicationState
         {

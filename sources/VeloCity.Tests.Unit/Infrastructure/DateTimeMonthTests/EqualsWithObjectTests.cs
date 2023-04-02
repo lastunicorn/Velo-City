@@ -16,16 +16,16 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateMonthTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateTimeMonthTests;
 
 public class EqualsWithObjectTests
 {
     [Fact]
     public void HavingOneInstances_WhenComparedWithNull_ThenReturnsFalse()
     {
-        DateMonth dateMonth = new(2023, 03);
+        DateTimeMonth dateTimeMonth = new(2023, 03);
 
-        bool actual = dateMonth.Equals(null);
+        bool actual = dateTimeMonth.Equals(null);
 
         actual.Should().BeFalse();
     }
@@ -33,10 +33,10 @@ public class EqualsWithObjectTests
     [Fact]
     public void HavingOneInstances_WhenComparedWithAnotherObject_ThenReturnsFalse()
     {
-        DateMonth dateMonth = new(2023, 03);
+        DateTimeMonth dateTimeMonth = new(2023, 03);
         object otherObject = new();
 
-        bool actual = dateMonth.Equals(otherObject);
+        bool actual = dateTimeMonth.Equals(otherObject);
 
         actual.Should().BeFalse();
     }
@@ -44,10 +44,10 @@ public class EqualsWithObjectTests
     [Fact]
     public void HavingTwoInstancesWithSameValues_WhenCompared_ThenReturnsTrue()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        object dateMonth2 = new DateMonth(2023, 03);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        object dateMonth2 = new DateTimeMonth(2023, 03);
 
-        bool actual = dateMonth1.Equals(dateMonth2);
+        bool actual = dateTimeMonth1.Equals(dateMonth2);
 
         actual.Should().BeTrue();
     }
@@ -55,10 +55,10 @@ public class EqualsWithObjectTests
     [Fact]
     public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCompared_ThenReturnsFalse()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        object dateMonth2 = new DateMonth(2023, 04);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        object dateMonth2 = new DateTimeMonth(2023, 04);
 
-        bool actual = dateMonth1.Equals(dateMonth2);
+        bool actual = dateTimeMonth1.Equals(dateMonth2);
 
         actual.Should().BeFalse();
     }
@@ -66,10 +66,10 @@ public class EqualsWithObjectTests
     [Fact]
     public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCompared_ThenReturnsFalse()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        object dateMonth2 = new DateMonth(2027, 03);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        object dateMonth2 = new DateTimeMonth(2027, 03);
 
-        bool actual = dateMonth1.Equals(dateMonth2);
+        bool actual = dateTimeMonth1.Equals(dateMonth2);
 
         actual.Should().BeFalse();
     }

@@ -16,7 +16,7 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateMonthTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateTimeMonthTests;
 
 public class ConstructorFromYearMonthTests
 {
@@ -28,9 +28,9 @@ public class ConstructorFromYearMonthTests
     [InlineData(248964875)]
     public void HavingANumberAsYear_WhenCreatingAnInstanceWithThatYear_ThenYearHasSpecifiedValue(int year)
     {
-        DateMonth dateMonth = new(year, 1);
+        DateTimeMonth dateTimeMonth = new(year, 1);
 
-        dateMonth.Year.Should().Be(year);
+        dateTimeMonth.Year.Should().Be(year);
     }
 
     [Theory]
@@ -48,9 +48,9 @@ public class ConstructorFromYearMonthTests
     [InlineData(12)]
     public void HavingANumberAsMonth_WhenCreatingAnInstanceWithThatMonth_ThenMonthHasSpecifiedValue(int month)
     {
-        DateMonth dateMonth = new(0, month);
+        DateTimeMonth dateTimeMonth = new(0, month);
 
-        dateMonth.Month.Should().Be(month);
+        dateTimeMonth.Month.Should().Be(month);
     }
 
     [Theory]
@@ -61,7 +61,7 @@ public class ConstructorFromYearMonthTests
     {
         Action action = () =>
         {
-            _ = new DateMonth(0, month);
+            _ = new DateTimeMonth(0, month);
         };
 
         action.Should().Throw<ArgumentOutOfRangeException>();
@@ -75,7 +75,7 @@ public class ConstructorFromYearMonthTests
     {
         Action action = () =>
         {
-            _ = new DateMonth(0, month);
+            _ = new DateTimeMonth(0, month);
         };
 
         action.Should().Throw<ArgumentOutOfRangeException>();

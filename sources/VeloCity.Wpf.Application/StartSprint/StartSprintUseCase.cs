@@ -50,7 +50,7 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
 
         ValidateSprintState(selectedSprint);
         await ValidateNoSprintIsInProgress();
-        ValidateSprintIsNextInLine(selectedSprint);
+        await ValidateSprintIsNextInLine(selectedSprint);
 
         SprintStartConfirmationResponse sprintStartConfirmationResponse = await RequestUserConfirmation(selectedSprint);
 
@@ -91,9 +91,9 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
             throw new OtherSprintAlreadyInProgressException(sprintInProgress.Number);
     }
 
-    private void ValidateSprintIsNextInLine(Sprint sprint)
+    private async Task ValidateSprintIsNextInLine(Sprint sprint)
     {
-        bool isNextInLine = unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
+        bool isNextInLine = await unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
 
         if (!isNextInLine)
             throw new SprintIsNotNextException(sprint.Number);

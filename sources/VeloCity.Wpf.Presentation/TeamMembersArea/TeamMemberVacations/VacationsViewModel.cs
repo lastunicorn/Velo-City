@@ -77,14 +77,14 @@ public class VacationsViewModel : ViewModelBase
                 DateTime? date = vacationViewModel.SignificantDate;
                 if (date != null)
                 {
-                    DateMonth dateTimeMonth = new(date.Value);
+                    DateTimeMonth dateTimeMonth = new(date.Value);
                     AddVacation(dateTimeMonth, vacationViewModel);
                 }
             }
             else
             {
                 DateTime date = vacationViewModel.StartDate.Value;
-                DateMonth dateTimeMonth = new(date);
+                DateTimeMonth dateTimeMonth = new(date);
 
                 while (dateTimeMonth <= vacationViewModel.EndDate.Value)
                 {
@@ -96,7 +96,7 @@ public class VacationsViewModel : ViewModelBase
         }
     }
 
-    private void AddVacation(DateMonth dateTimeMonth, VacationViewModel vacationViewModel)
+    private void AddVacation(DateTimeMonth dateTimeMonth, VacationViewModel vacationViewModel)
     {
         VacationGroupViewModel vacationGroupViewModel = VacationGroups.FirstOrDefault(x => x.Month == dateTimeMonth);
 

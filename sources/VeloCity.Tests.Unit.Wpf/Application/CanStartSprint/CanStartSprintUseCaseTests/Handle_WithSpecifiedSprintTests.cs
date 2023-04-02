@@ -67,7 +67,7 @@ public class Handle_WithSpecifiedSprintTests
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())
-            .Returns(true);
+            .ReturnsAsync(true);
 
         CanStartSprintRequest request = new();
         CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -90,7 +90,7 @@ public class Handle_WithSpecifiedSprintTests
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())
-            .Returns(false);
+            .ReturnsAsync(false);
 
         CanStartSprintRequest request = new();
         _ = await useCase.Handle(request, CancellationToken.None);
@@ -112,11 +112,11 @@ public class Handle_WithSpecifiedSprintTests
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())
-            .Returns(false);
+            .ReturnsAsync(false);
 
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(4))
-            .Returns(false);
+            .ReturnsAsync(false);
 
         CanStartSprintRequest request = new();
         CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -141,11 +141,11 @@ public class Handle_WithSpecifiedSprintTests
 
         sprintRepository
             .Setup(x => x.IsAnyInProgress())
-            .Returns(false);
+            .ReturnsAsync(false);
 
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(4))
-            .Returns(true);
+            .ReturnsAsync(true);
 
         CanStartSprintRequest request = new();
         CanStartSprintResponse response = await useCase.Handle(request, CancellationToken.None);

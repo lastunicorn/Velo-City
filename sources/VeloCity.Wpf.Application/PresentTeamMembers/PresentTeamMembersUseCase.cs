@@ -31,16 +31,15 @@ internal class PresentTeamMembersUseCase : IRequestHandler<PresentTeamMembersReq
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
     }
 
-    public Task<PresentTeamMembersResponse> Handle(PresentTeamMembersRequest request, CancellationToken cancellationToken)
+    public async Task<PresentTeamMembersResponse> Handle(PresentTeamMembersRequest request, CancellationToken cancellationToken)
     {
-        IEnumerable<TeamMember> teamMembers = RetrieveTeamMembers();
+        IEnumerable<TeamMember> teamMembers = await RetrieveTeamMembers();
         IEnumerable<TeamMember> orderedTeamMembers = OrderTeamMembers(teamMembers);
-        PresentTeamMembersResponse response = CreateResponse(orderedTeamMembers);
-
-        return Task.FromResult(response);
+        
+        return CreateResponse(orderedTeamMembers);
     }
 
-    private IEnumerable<TeamMember> RetrieveTeamMembers()
+    private Task<IEnumerable<TeamMember>> RetrieveTeamMembers()
     {
         return unitOfWork.TeamMemberRepository.GetAll();
     }

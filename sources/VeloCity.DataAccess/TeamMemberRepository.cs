@@ -37,18 +37,22 @@ internal class TeamMemberRepository : ITeamMemberRepository
         return Task.FromResult(teamMember);
     }
 
-    public IEnumerable<TeamMember> GetAll()
+    public Task<IEnumerable<TeamMember>> GetAll()
     {
-        return dbContext.TeamMembers;
+        IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers;
+
+        return Task.FromResult(teamMembers);
     }
 
-    public IEnumerable<TeamMember> GetByDate(DateTime date)
+    public Task<IEnumerable<TeamMember>> GetByDate(DateTime date)
     {
-        return dbContext.TeamMembers
+        IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers
             .Where(x => x.Employments?.Any(e => e.ContainsDate(date)) ?? false);
+
+        return Task.FromResult(teamMembers);
     }
 
-    public IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null)
+    public Task<IEnumerable<TeamMember>> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null)
     {
         IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers
             .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(dateInterval)) ?? false);
@@ -56,12 +60,14 @@ internal class TeamMemberRepository : ITeamMemberRepository
         if (excludedNames is { Count: > 0 })
             teamMembers = teamMembers.Where(x => !excludedNames.Any(z => x.Name.Contains(z)));
 
-        return teamMembers;
+        return Task.FromResult(teamMembers);
     }
 
-    public IEnumerable<TeamMember> Find(string text)
+    public Task<IEnumerable<TeamMember>> Find(string text)
     {
-        return dbContext.TeamMembers
+        IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers
             .Where(x => x.Name.Contains(text));
+
+        return Task.FromResult(teamMembers);
     }
 }

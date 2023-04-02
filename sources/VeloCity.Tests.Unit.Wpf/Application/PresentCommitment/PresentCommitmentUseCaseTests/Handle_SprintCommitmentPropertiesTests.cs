@@ -41,7 +41,7 @@ public class Handle_SprintCommitmentPropertiesTests
 
         sprintRepository
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
-            .Returns(sprintsFromRepository);
+            .ReturnsAsync(sprintsFromRepository);
     }
 
     [Fact]

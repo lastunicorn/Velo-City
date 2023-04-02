@@ -16,17 +16,17 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateMonthTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateTimeMonthTests;
 
 public class GetHashCodeTests
 {
     [Fact]
     public void HavingAnInstances_WhenCalculatingHashCodeTwice_ThenReturnsSameValue()
     {
-        DateMonth dateMonth = new(2023, 03);
+        DateTimeMonth dateTimeMonth = new(2023, 03);
 
-        int hash1 = dateMonth.GetHashCode();
-        int hash2 = dateMonth.GetHashCode();
+        int hash1 = dateTimeMonth.GetHashCode();
+        int hash2 = dateTimeMonth.GetHashCode();
 
         hash1.Should().Be(hash2);
     }
@@ -34,11 +34,11 @@ public class GetHashCodeTests
     [Fact]
     public void HavingTwoInstancesWithSameValues_WhenCalculatingHashCode_ThenBothReturnsSameValue()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        DateMonth dateMonth2 = new(2023, 03);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        DateTimeMonth dateTimeMonth2 = new(2023, 03);
 
-        int hash1 = dateMonth1.GetHashCode();
-        int hash2 = dateMonth2.GetHashCode();
+        int hash1 = dateTimeMonth1.GetHashCode();
+        int hash2 = dateTimeMonth2.GetHashCode();
 
         hash1.Should().Be(hash2);
     }
@@ -46,11 +46,11 @@ public class GetHashCodeTests
     [Fact]
     public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCalculatingHashCode_ThenReturnsDifferentValues()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        DateMonth dateMonth2 = new(2023, 04);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        DateTimeMonth dateTimeMonth2 = new(2023, 04);
 
-        int hash1 = dateMonth1.GetHashCode();
-        int hash2 = dateMonth2.GetHashCode();
+        int hash1 = dateTimeMonth1.GetHashCode();
+        int hash2 = dateTimeMonth2.GetHashCode();
 
         hash1.Should().NotBe(hash2);
     }
@@ -58,11 +58,11 @@ public class GetHashCodeTests
     [Fact]
     public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCalculatingHashCode_ThenReturnsDifferentValues()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        DateMonth dateMonth2 = new(2027, 03);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        DateTimeMonth dateTimeMonth2 = new(2027, 03);
 
-        int hash1 = dateMonth1.GetHashCode();
-        int hash2 = dateMonth2.GetHashCode();
+        int hash1 = dateTimeMonth1.GetHashCode();
+        int hash2 = dateTimeMonth2.GetHashCode();
 
         hash1.Should().NotBe(hash2);
     }

@@ -14,10 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 
@@ -90,12 +87,12 @@ public class SprintsSpace : IEnumerable<Sprint>
                 }
 
                 DateTime maxEndDate = existingSprint.StartDate.AddDays(-1);
-                PromoteNewImaginarySprint(maxEndDate);
+                PromoteNewImaginarySprint(maxEndDate).Wait();
 
                 return true;
             }
 
-            PromoteNewImaginarySprint(endDate);
+            PromoteNewImaginarySprint(endDate).Wait();
             return true;
         }
 
@@ -136,13 +133,13 @@ public class SprintsSpace : IEnumerable<Sprint>
             nextStartDate = existingSprint.EndDate.AddDays(1);
         }
 
-        private void PromoteNewImaginarySprint(DateTime maxEndDate)
+        private async Task PromoteNewImaginarySprint(DateTime maxEndDate)
         {
             int daysUntilNextSprint = (int)(maxEndDate - nextStartDate).TotalDays;
             int currentSprintSize = Math.Min(sprintsSpace.DefaultSprintSize, daysUntilNextSprint + 1);
             DateTime sprintEndDate = nextStartDate.AddDays(currentSprintSize - 1);
 
-            Sprint nextSprint = sprintsSpace.sprintFactory.GenerateImaginarySprint(nextStartDate, sprintEndDate);
+            Sprint nextSprint = await sprintsSpace.sprintFactory.GenerateImaginarySprint(nextStartDate, sprintEndDate);
             lastSprintNumber++;
             nextSprint.Number = lastSprintNumber;
             nextSprint.Title = $"Sprint {lastSprintNumber} (Presumed)";

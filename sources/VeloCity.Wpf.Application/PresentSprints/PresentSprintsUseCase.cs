@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
@@ -30,17 +31,17 @@ internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, Pr
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
     }
 
-    public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
+    public async Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
     {
-        PresentSprintsResponse response = new()
+        IEnumerable<Sprint> allSprints = await unitOfWork.SprintRepository.GetAll();
+
+        return new PresentSprintsResponse
         {
-            Sprints = unitOfWork.SprintRepository.GetAll()
+            Sprints = allSprints
                 .OrderByDescending(x => x.StartDate)
                 .Select(x => new SprintInfo(x))
                 .ToList(),
             CurrentSprintId = applicationState.SelectedSprintId
         };
-
-        return Task.FromResult(response);
     }
 }

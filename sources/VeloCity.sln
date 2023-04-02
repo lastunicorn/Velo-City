@@ -66,7 +66,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests.Unit.Wpf", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E45614F9-8A7F-4177-A9B0-94EFB8665B1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Tests.Integration", "VeloCity.Tests.Integration\VeloCity.Tests.Integration.csproj", "{7E3A9646-C06B-4377-8493-61BE1457BB73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests.Integration", "VeloCity.Tests.Integration\VeloCity.Tests.Integration.csproj", "{7E3A9646-C06B-4377-8493-61BE1457BB73}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EAC22D58-5335-4F7E-89AD-CB9694660C29}"
 	ProjectSection(SolutionItems) = preProject
@@ -74,7 +74,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.build.props = Directory.build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Tests.Unit.Cli", "VeloCity.Tests.Unit.Cli\VeloCity.Tests.Unit.Cli.csproj", "{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VeloCity.Tests.Unit.Cli", "VeloCity.Tests.Unit.Cli\VeloCity.Tests.Unit.Cli.csproj", "{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VeloCity.Installer.CustomActions.Business", "VeloCity.Installer.CustomActions.Business\VeloCity.Installer.CustomActions.Business.csproj", "{E19DB08C-A065-42EC-A454-6861C606F11F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -160,7 +162,6 @@ Global
 		{C547CC4F-E4CD-4E2C-A9A6-CDC5CBCCEA15}.Release|x86.Build.0 = Release|Any CPU
 		{74D86E62-8460-46E9-AEC2-126F8C2285F8}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{74D86E62-8460-46E9-AEC2-126F8C2285F8}.Debug|x86.ActiveCfg = Debug|x86
-		{74D86E62-8460-46E9-AEC2-126F8C2285F8}.Debug|x86.Build.0 = Debug|x86
 		{74D86E62-8460-46E9-AEC2-126F8C2285F8}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|x86
 		{74D86E62-8460-46E9-AEC2-126F8C2285F8}.Debug-With-Installer|Any CPU.Build.0 = Debug|x86
 		{74D86E62-8460-46E9-AEC2-126F8C2285F8}.Debug-With-Installer|x86.ActiveCfg = Debug|x86
@@ -171,7 +172,6 @@ Global
 		{74D86E62-8460-46E9-AEC2-126F8C2285F8}.Release|x86.Build.0 = Release|x86
 		{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3}.Debug|x86.ActiveCfg = Debug|x86
-		{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3}.Debug|x86.Build.0 = Debug|x86
 		{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|x86
 		{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3}.Debug-With-Installer|Any CPU.Build.0 = Debug|x86
 		{5F8EB48D-91D4-40D1-AF0D-BCE84941DAD3}.Debug-With-Installer|x86.ActiveCfg = Debug|x86
@@ -396,6 +396,16 @@ Global
 		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Release|x86.ActiveCfg = Release|Any CPU
 		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70}.Release|x86.Build.0 = Release|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Debug-With-Installer|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Debug-With-Installer|Any CPU.Build.0 = Debug|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Debug-With-Installer|x86.ActiveCfg = Debug|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Debug-With-Installer|x86.Build.0 = Debug|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Release|x86.ActiveCfg = Release|Any CPU
+		{E19DB08C-A065-42EC-A454-6861C606F11F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -424,6 +434,7 @@ Global
 		{45B9E766-F7BE-4F52-AE35-78AA681335EC} = {E45614F9-8A7F-4177-A9B0-94EFB8665B1F}
 		{7E3A9646-C06B-4377-8493-61BE1457BB73} = {E45614F9-8A7F-4177-A9B0-94EFB8665B1F}
 		{B34F0A06-D8F3-4FFC-89AE-58BA984E0B70} = {E45614F9-8A7F-4177-A9B0-94EFB8665B1F}
+		{E19DB08C-A065-42EC-A454-6861C606F11F} = {3842CCF5-0144-49CF-9A6C-75193EAC2D23}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {416DF04A-8ACB-461F-866E-98A0873E1E9F}

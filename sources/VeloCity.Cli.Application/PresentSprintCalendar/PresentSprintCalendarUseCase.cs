@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.OfficialHolidayModel;
 using DustInTheWind.VeloCity.Domain.SprintModel;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
@@ -81,11 +82,12 @@ internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalen
                     DateTime monthEndDate = x.EndDate!.Value;
                     DateInterval monthDateInterval = new(startDate, endDate);
 
+                    IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(monthDateInterval).Result;
+
                     return new MonthCalendar(monthStartDate, monthEndDate)
                     {
                         OfficialHolidays = officialHolidays,
-                        TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(monthDateInterval)
-                            .ToList()
+                        TeamMembers = teamMembers.ToList()
                     };
                 })
                 .ToList()

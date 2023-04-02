@@ -14,11 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
@@ -38,17 +33,17 @@ internal class AnalyzeSprintUseCase : IRequestHandler<AnalyzeSprintRequest, Anal
         this.config = config ?? throw new ArgumentNullException(nameof(config));
     }
 
-    public Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
+    public async Task<AnalyzeSprintResponse> Handle(AnalyzeSprintRequest request, CancellationToken cancellationToken)
     {
         request.Sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;
 
-        SprintList historySprints = RetrievePreviousSprints(request);
+        SprintList historySprints = await RetrievePreviousSprints(request);
         Velocity estimatedVelocity = historySprints.CalculateAverageVelocity();
 
         List<VelocityPenaltyInstance> velocityPenalties = request.Sprint.GetVelocityPenalties();
         HoursValue totalWorkHoursWithVelocityPenalties = request.Sprint.TotalWorkHoursWithVelocityPenalties;
 
-        AnalyzeSprintResponse response = new()
+        return new AnalyzeSprintResponse
         {
             HistorySprints = historySprints,
             EstimatedVelocity = estimatedVelocity,
@@ -61,18 +56,18 @@ internal class AnalyzeSprintUseCase : IRequestHandler<AnalyzeSprintRequest, Anal
                 ? StoryPoints.Empty
                 : totalWorkHoursWithVelocityPenalties * estimatedVelocity
         };
-
-        return Task.FromResult(response);
     }
 
-    private SprintList RetrievePreviousSprints(AnalyzeSprintRequest request)
+    private async Task<SprintList> RetrievePreviousSprints(AnalyzeSprintRequest request)
     {
         bool excludedSprintsExists = request.ExcludedSprints is { Count: > 0 };
         uint analysisLookBack = request.AnalysisLookBack ?? config.AnalysisLookBack;
 
-        List<Sprint> sprints = excludedSprintsExists
-            ? unitOfWork.SprintRepository.GetClosedSprintsBefore(request.Sprint.Number, analysisLookBack, request.ExcludedSprints).ToList()
-            : unitOfWork.SprintRepository.GetClosedSprintsBefore(request.Sprint.Number, analysisLookBack).ToList();
+        IEnumerable<Sprint> sprintEnumeration = excludedSprintsExists
+            ? await unitOfWork.SprintRepository.GetClosedSprintsBefore(request.Sprint.Number, analysisLookBack, request.ExcludedSprints)
+            : await unitOfWork.SprintRepository.GetClosedSprintsBefore(request.Sprint.Number, analysisLookBack);
+
+        List<Sprint> sprints = sprintEnumeration.ToList();
 
         foreach (Sprint sprint in sprints)
             sprint.ExcludedTeamMembers = request.ExcludedTeamMembers;

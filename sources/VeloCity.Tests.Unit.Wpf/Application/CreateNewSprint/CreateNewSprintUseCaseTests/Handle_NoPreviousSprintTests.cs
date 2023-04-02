@@ -46,7 +46,7 @@ public class Handle_NoPreviousSprintTests
 
         sprintRepository
             .Setup(x => x.GetLast())
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         userInterface = new Mock<IUserInterface>();
 

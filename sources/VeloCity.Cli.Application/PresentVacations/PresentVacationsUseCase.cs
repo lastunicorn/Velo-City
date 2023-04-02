@@ -39,12 +39,6 @@ internal class PresentVacationsUseCase : IRequestHandler<PresentVacationsRequest
 
     public Task<PresentVacationsResponse> Handle(PresentVacationsRequest request, CancellationToken cancellationToken)
     {
-        PresentVacationsResponse response = CreateResponse(request);
-        return Task.FromResult(response);
-    }
-
-    private PresentVacationsResponse CreateResponse(PresentVacationsRequest request)
-    {
         if (request.TeamMemberName != null)
             return GetVacationsByTeamMember(request.TeamMemberName);
 
@@ -54,9 +48,9 @@ internal class PresentVacationsUseCase : IRequestHandler<PresentVacationsRequest
         return GetVacationsByDate(systemClock.Today);
     }
 
-    private PresentVacationsResponse GetVacationsByTeamMember(string teamMemberName)
+    private async Task<PresentVacationsResponse> GetVacationsByTeamMember(string teamMemberName)
     {
-        IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.Find(teamMemberName);
+        IEnumerable<TeamMember> teamMembers = await unitOfWork.TeamMemberRepository.Find(teamMemberName);
 
         return new PresentVacationsResponse
         {
@@ -69,9 +63,9 @@ internal class PresentVacationsUseCase : IRequestHandler<PresentVacationsRequest
         };
     }
 
-    private PresentVacationsResponse GetVacationsByDate(DateTime date)
+    private async Task<PresentVacationsResponse> GetVacationsByDate(DateTime date)
     {
-        IEnumerable<TeamMember> teamMembers = unitOfWork.TeamMemberRepository.GetByDate(date);
+        IEnumerable<TeamMember> teamMembers = await unitOfWork.TeamMemberRepository.GetByDate(date);
 
         return new PresentVacationsResponse
         {

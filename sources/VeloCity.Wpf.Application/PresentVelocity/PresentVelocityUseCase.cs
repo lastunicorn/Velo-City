@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
@@ -28,13 +29,11 @@ public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, Pr
         this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
+    public async Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
     {
         uint sprintCount = CalculateSprintCount(request);
-        List<SprintVelocity> sprintVelocities = RetrieveSprintVelocities(sprintCount);
-        PresentVelocityResponse response = CreateResponse(sprintCount, sprintVelocities);
-
-        return Task.FromResult(response);
+        List<SprintVelocity> sprintVelocities = await RetrieveSprintVelocities(sprintCount);
+        return CreateResponse(sprintCount, sprintVelocities);
     }
 
     private static uint CalculateSprintCount(PresentVelocityRequest request)
@@ -44,9 +43,11 @@ public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, Pr
             : request.SprintCount.Value;
     }
 
-    private List<SprintVelocity> RetrieveSprintVelocities(uint sprintCount)
+    private async Task<List<SprintVelocity>> RetrieveSprintVelocities(uint sprintCount)
     {
-        return unitOfWork.SprintRepository.GetLastClosed(sprintCount)
+        IEnumerable<Sprint> sprints = await unitOfWork.SprintRepository.GetLastClosed(sprintCount);
+
+        return sprints
             .OrderByDescending(x => x.StartDate)
             .Select(x => new SprintVelocity(x))
             .ToList();

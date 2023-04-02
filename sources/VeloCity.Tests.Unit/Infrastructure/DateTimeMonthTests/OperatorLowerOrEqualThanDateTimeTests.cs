@@ -16,17 +16,17 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateMonthTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateTimeMonthTests;
 
 public class OperatorLowerOrEqualThanDateTimeTests
 {
     [Fact]
     public void HavingOneInstance_WhenComparedToDateTimeFromSameMonth_ThenReturnsTrue()
     {
-        DateMonth dateMonth = new(2022, 01);
+        DateTimeMonth dateTimeMonth = new(2022, 01);
         DateTime dateTime = new(2022, 01, 14);
 
-        bool actual = dateMonth <= dateTime;
+        bool actual = dateTimeMonth <= dateTime;
 
         actual.Should().BeTrue();
     }
@@ -34,10 +34,10 @@ public class OperatorLowerOrEqualThanDateTimeTests
     [Fact]
     public void HavingOneInstance_WhenComparedToDateTimeFromNextMonth_ThenReturnsTrue()
     {
-        DateMonth dateMonth = new(2022, 01);
+        DateTimeMonth dateTimeMonth = new(2022, 01);
         DateTime dateTime = new(2022, 02, 14);
 
-        bool actual = dateMonth <= dateTime;
+        bool actual = dateTimeMonth <= dateTime;
 
         actual.Should().BeTrue();
     }
@@ -45,10 +45,10 @@ public class OperatorLowerOrEqualThanDateTimeTests
     [Fact]
     public void HavingOneInstance_WhenComparedToDateTimeFromNextYear_ThenReturnsTrue()
     {
-        DateMonth dateMonth = new(2022, 01);
+        DateTimeMonth dateTimeMonth = new(2022, 01);
         DateTime dateTime = new(2023, 01, 14);
 
-        bool actual = dateMonth <= dateTime;
+        bool actual = dateTimeMonth <= dateTime;
 
         actual.Should().BeTrue();
     }
@@ -56,10 +56,10 @@ public class OperatorLowerOrEqualThanDateTimeTests
     [Fact]
     public void HavingOneInstance_WhenComparedToDateTimeFromPreviousMonth_ThenReturnsFalse()
     {
-        DateMonth dateMonth = new(2022, 05);
+        DateTimeMonth dateTimeMonth = new(2022, 05);
         DateTime dateTime = new(2022, 04, 14);
 
-        bool actual = dateMonth <= dateTime;
+        bool actual = dateTimeMonth <= dateTime;
 
         actual.Should().BeFalse();
     }
@@ -67,10 +67,10 @@ public class OperatorLowerOrEqualThanDateTimeTests
     [Fact]
     public void HavingOneInstance_WhenComparedToDateTimeFromPreviousYear_ThenReturnsFalse()
     {
-        DateMonth dateMonth = new(2022, 05);
+        DateTimeMonth dateTimeMonth = new(2022, 05);
         DateTime dateTime = new(2021, 05, 14);
 
-        bool actual = dateMonth <= dateTime;
+        bool actual = dateTimeMonth <= dateTime;
 
         actual.Should().BeFalse();
     }

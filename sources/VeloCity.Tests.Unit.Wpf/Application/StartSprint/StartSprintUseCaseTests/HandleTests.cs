@@ -164,7 +164,7 @@ public class HandleTests
             .ReturnsAsync(null as Sprint);
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(247))
-            .Returns(false);
+            .ReturnsAsync(false);
 
         StartSprintRequest request = new();
         Func<Task> action = async () =>
@@ -190,7 +190,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(It.IsAny<int>()))
-            .Returns(true);
+            .ReturnsAsync(true);
 
         requestBus
             .Setup(x => x.Send<AnalyzeSprintRequest, AnalyzeSprintResponse>(It.IsAny<AnalyzeSprintRequest>(), CancellationToken.None))

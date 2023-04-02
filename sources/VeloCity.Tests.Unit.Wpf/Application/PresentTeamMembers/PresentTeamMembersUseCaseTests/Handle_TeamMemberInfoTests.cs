@@ -50,7 +50,7 @@ public class Handle_TeamMemberInfoTests
 
         teamMemberRepository
             .Setup(x => x.GetAll())
-            .Returns(teamMembersFromRepository);
+            .ReturnsAsync(teamMembersFromRepository);
 
         PresentTeamMembersRequest request = new();
         PresentTeamMembersResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -68,7 +68,7 @@ public class Handle_TeamMemberInfoTests
 
         teamMemberRepository
             .Setup(x => x.GetAll())
-            .Returns(teamMembersFromRepository);
+            .ReturnsAsync(teamMembersFromRepository);
 
         PresentTeamMembersRequest request = new();
         PresentTeamMembersResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -95,7 +95,7 @@ public class Handle_TeamMemberInfoTests
 
         teamMemberRepository
             .Setup(x => x.GetAll())
-            .Returns(teamMembersFromRepository);
+            .ReturnsAsync(teamMembersFromRepository);
 
         PresentTeamMembersRequest request = new();
         PresentTeamMembersResponse response = await useCase.Handle(request, CancellationToken.None);

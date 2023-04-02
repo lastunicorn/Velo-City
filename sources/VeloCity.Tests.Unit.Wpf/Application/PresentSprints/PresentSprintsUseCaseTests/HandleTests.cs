@@ -37,7 +37,7 @@ public class HandleTests
 
         sprintRepository
             .Setup(x => x.GetAll())
-            .Returns(sprintsFromRepository);
+            .ReturnsAsync(sprintsFromRepository);
 
         unitOfWork
             .SetupGet(x => x.SprintRepository)

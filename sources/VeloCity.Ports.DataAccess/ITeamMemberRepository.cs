@@ -23,11 +23,11 @@ public interface ITeamMemberRepository
 {
     Task<TeamMember> Get(int id);
 
-    IEnumerable<TeamMember> GetAll();
+    Task<IEnumerable<TeamMember>> GetAll();
 
-    IEnumerable<TeamMember> GetByDate(DateTime date);
+    Task<IEnumerable<TeamMember>> GetByDate(DateTime date);
 
-    IEnumerable<TeamMember> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
+    Task<IEnumerable<TeamMember>> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
 
-    IEnumerable<TeamMember> Find(string text);
+    Task<IEnumerable<TeamMember>> Find(string text);
 }

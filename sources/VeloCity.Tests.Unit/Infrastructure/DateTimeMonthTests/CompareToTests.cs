@@ -16,16 +16,16 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateMonthTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateTimeMonthTests;
 
 public class CompareToTests
 {
     [Fact]
     public void HavingOneInstance_WhenComparedToItself_ThenReturnsZero()
     {
-        DateMonth dateMonth = new(2022, 01);
+        DateTimeMonth dateTimeMonth = new(2022, 01);
 
-        int actual = dateMonth.CompareTo(dateMonth);
+        int actual = dateTimeMonth.CompareTo(dateTimeMonth);
 
         actual.Should().Be(0);
     }
@@ -33,10 +33,10 @@ public class CompareToTests
     [Fact]
     public void HavingTwoInstancesRepresentingSameMonth_WhenCompared_ThenReturnsZero()
     {
-        DateMonth dateMonth1 = new(2022, 01);
-        DateMonth dateMonth2 = new(2022, 01);
+        DateTimeMonth dateTimeMonth1 = new(2022, 01);
+        DateTimeMonth dateTimeMonth2 = new(2022, 01);
 
-        int actual = dateMonth1.CompareTo(dateMonth2);
+        int actual = dateTimeMonth1.CompareTo(dateTimeMonth2);
 
         actual.Should().Be(0);
     }
@@ -44,10 +44,10 @@ public class CompareToTests
     [Fact]
     public void HavingOneInstanceRepresentingJanuaryAndSecondOneRepresentingFebruary_WhenCompared_ThenReturnsNegativeValue()
     {
-        DateMonth dateMonth1 = new(2022, 01);
-        DateMonth dateMonth2 = new(2022, 02);
+        DateTimeMonth dateTimeMonth1 = new(2022, 01);
+        DateTimeMonth dateTimeMonth2 = new(2022, 02);
 
-        int actual = dateMonth1.CompareTo(dateMonth2);
+        int actual = dateTimeMonth1.CompareTo(dateTimeMonth2);
 
         actual.Should().BeLessThan(0);
     }
@@ -55,10 +55,10 @@ public class CompareToTests
     [Fact]
     public void HavingOneInstanceRepresentingFebruaryAndSecondOneRepresentingJanuary_WhenCompared_ThenReturnsPositiveValue()
     {
-        DateMonth dateMonth1 = new(2022, 02);
-        DateMonth dateMonth2 = new(2022, 01);
+        DateTimeMonth dateTimeMonth1 = new(2022, 02);
+        DateTimeMonth dateTimeMonth2 = new(2022, 01);
 
-        int actual = dateMonth1.CompareTo(dateMonth2);
+        int actual = dateTimeMonth1.CompareTo(dateTimeMonth2);
 
         actual.Should().BeGreaterThan(0);
     }
@@ -66,10 +66,10 @@ public class CompareToTests
     [Fact]
     public void HavingTwoInstancesWithSameMonthButFirstWithLowerYearValue_WhenCompared_ThenReturnsNegativeValue()
     {
-        DateMonth dateMonth1 = new(2021, 05);
-        DateMonth dateMonth2 = new(2022, 05);
+        DateTimeMonth dateTimeMonth1 = new(2021, 05);
+        DateTimeMonth dateTimeMonth2 = new(2022, 05);
 
-        int actual = dateMonth1.CompareTo(dateMonth2);
+        int actual = dateTimeMonth1.CompareTo(dateTimeMonth2);
 
         actual.Should().BeLessThan(0);
     }
@@ -77,10 +77,10 @@ public class CompareToTests
     [Fact]
     public void HavingTwoInstancesWithSameMonthButFirstWithHigherYearValue_WhenCompared_ThenReturnsPositiveValue()
     {
-        DateMonth dateMonth1 = new(2024, 06);
-        DateMonth dateMonth2 = new(2022, 06);
+        DateTimeMonth dateTimeMonth1 = new(2024, 06);
+        DateTimeMonth dateTimeMonth2 = new(2022, 06);
 
-        int actual = dateMonth1.CompareTo(dateMonth2);
+        int actual = dateTimeMonth1.CompareTo(dateTimeMonth2);
 
         actual.Should().BeGreaterThan(0);
     }

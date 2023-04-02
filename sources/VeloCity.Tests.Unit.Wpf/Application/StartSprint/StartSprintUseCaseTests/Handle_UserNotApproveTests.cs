@@ -58,7 +58,7 @@ public class Handle_UserNotApproveTests
 
         sprintRepository
             .Setup(x => x.IsFirstNewSprint(It.IsAny<int>()))
-            .Returns(true);
+            .ReturnsAsync(true);
 
         Mock<IRequestBus> requestBus = new();
         requestBus

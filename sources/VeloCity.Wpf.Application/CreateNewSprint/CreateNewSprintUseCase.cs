@@ -40,7 +40,7 @@ public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
 
     public async Task<Unit> Handle(CreateNewSprintRequest request, CancellationToken cancellationToken)
     {
-        Sprint lastSprint = RetrieveLastSprintFromStorage();
+        Sprint lastSprint = await RetrieveLastSprintFromStorage();
         SprintNewConfirmationResponse sprintNewConfirmationResponse = RequestUserConfirmationToCreateNewSprint(lastSprint);
 
         if (sprintNewConfirmationResponse?.IsAccepted == true)
@@ -55,9 +55,9 @@ public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
         return Unit.Value;
     }
 
-    private Sprint RetrieveLastSprintFromStorage()
+    private async Task<Sprint> RetrieveLastSprintFromStorage()
     {
-        return unitOfWork.SprintRepository.GetLast();
+        return await unitOfWork.SprintRepository.GetLast();
     }
 
     private SprintNewConfirmationResponse RequestUserConfirmationToCreateNewSprint(Sprint lastSprint)

@@ -49,7 +49,7 @@ public class Handle_WithPreviousSprintTests
 
         sprintRepository
             .Setup(x => x.GetLast())
-            .Returns(lastSprint);
+            .ReturnsAsync(lastSprint);
 
         userInterface = new Mock<IUserInterface>();
 

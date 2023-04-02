@@ -40,7 +40,7 @@ public class Handle_NoPreviousSprint_RequestForPermissionParametersTests
 
         sprintRepository
             .Setup(x => x.GetLast())
-            .Returns(null as Sprint);
+            .ReturnsAsync(null as Sprint);
 
         Mock<IUserInterface> userInterface = new();
         EventBus eventBus = new();

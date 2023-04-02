@@ -35,41 +35,48 @@ internal class OfficialHolidayRepository : IOfficialHolidayRepository
         return Task.FromResult(items);
     }
 
-    public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate)
+    public Task<IEnumerable<OfficialHoliday>> Get(DateTime startDate, DateTime endDate)
     {
-        return dbContext.OfficialHolidays
-            .Where(x => x.Match(startDate, endDate))
-            .ToList();
+        IEnumerable<OfficialHoliday> officialHolidays = dbContext.OfficialHolidays
+            .Where(x => x.Match(startDate, endDate));
+
+        return Task.FromResult(officialHolidays);
     }
 
-    public IEnumerable<OfficialHoliday> Get(DateInterval dateInterval)
+    public Task<IEnumerable<OfficialHoliday>> Get(DateInterval dateInterval)
     {
         DateTime calculatedStartDate = dateInterval.StartDate ?? DateTime.MinValue;
         DateTime calculatedEndDate = dateInterval.EndDate ?? DateTime.MaxValue;
 
-        return dbContext.OfficialHolidays
-            .Where(x => x.Match(calculatedStartDate, calculatedEndDate))
-            .ToList();
+        IEnumerable<OfficialHoliday> officialHolidays = dbContext.OfficialHolidays
+            .Where(x => x.Match(calculatedStartDate, calculatedEndDate));
+
+        return Task.FromResult(officialHolidays);
     }
 
-    public IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country)
+    public Task<IEnumerable<OfficialHoliday>> Get(DateTime startDate, DateTime endDate, string country)
     {
-        return dbContext.OfficialHolidays
+        IEnumerable<OfficialHoliday> officialHolidays = dbContext.OfficialHolidays
             .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
-            .Where(x => x.Match(startDate, endDate))
-            .ToList();
+            .Where(x => x.Match(startDate, endDate));
+
+        return Task.FromResult(officialHolidays);
     }
 
-    public IEnumerable<OfficialHoliday> GetByYear(int year)
+    public Task<IEnumerable<OfficialHoliday>> GetByYear(int year)
     {
-        return dbContext.OfficialHolidays
+        IEnumerable<OfficialHoliday> officialHolidays = dbContext.OfficialHolidays
             .Where(x => x.Match(year));
+
+        return Task.FromResult(officialHolidays);
     }
 
-    public IEnumerable<OfficialHoliday> GetByYear(int year, string country)
+    public Task<IEnumerable<OfficialHoliday>> GetByYear(int year, string country)
     {
-        return dbContext.OfficialHolidays
+        IEnumerable<OfficialHoliday> officialHolidays = dbContext.OfficialHolidays
             .Where(x => string.Equals(x.Country, country, StringComparison.InvariantCultureIgnoreCase))
             .Where(x => x.Match(year));
+
+        return Task.FromResult(officialHolidays);
     }
 }

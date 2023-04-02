@@ -34,7 +34,7 @@ internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, Ca
     public async Task<CanStartSprintResponse> Handle(CanStartSprintRequest request, CancellationToken cancellationToken)
     {
         Sprint sprint = await RetrieveSelectedSprint();
-        bool canStartSprint = CanStartSelectedSprint(sprint);
+        bool canStartSprint = await CanStartSelectedSprint(sprint);
 
         return new CanStartSprintResponse
         {
@@ -51,12 +51,12 @@ internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, Ca
             : null;
     }
 
-    private bool CanStartSelectedSprint(Sprint sprint)
+    private async Task<bool> CanStartSelectedSprint(Sprint sprint)
     {
         return sprint != null &&
                IsCorrectState(sprint) &&
-               NoSprintIsInProgress() &&
-               IsFirstNewSprint(sprint);
+               await NoSprintIsInProgress() &&
+               await IsFirstNewSprint(sprint);
     }
 
     private static bool IsCorrectState(Sprint sprint)
@@ -71,12 +71,13 @@ internal class CanStartSprintUseCase : IRequestHandler<CanStartSprintRequest, Ca
         };
     }
 
-    private bool NoSprintIsInProgress()
+    private async Task<bool> NoSprintIsInProgress()
     {
-        return !unitOfWork.SprintRepository.IsAnyInProgress();
+        bool isAnyInProgress = await unitOfWork.SprintRepository.IsAnyInProgress();
+        return !isAnyInProgress;
     }
 
-    private bool IsFirstNewSprint(Sprint sprint)
+    private Task<bool> IsFirstNewSprint(Sprint sprint)
     {
         return unitOfWork.SprintRepository.IsFirstNewSprint(sprint.Id);
     }

@@ -16,7 +16,7 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateMonthTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateTimeMonthTests;
 
 public class ConstructorFromNullableDateTimeTests
 {
@@ -25,9 +25,9 @@ public class ConstructorFromNullableDateTimeTests
     {
         DateTime? dateTime = new DateTime(2001, 05, 02);
 
-        DateMonth dateMonth = new(dateTime);
+        DateTimeMonth dateTimeMonth = new(dateTime);
 
-        dateMonth.Year.Should().Be(2001);
+        dateTimeMonth.Year.Should().Be(2001);
     }
 
     [Fact]
@@ -35,9 +35,9 @@ public class ConstructorFromNullableDateTimeTests
     {
         DateTime? dateTime = new DateTime(2001, 05, 02);
 
-        DateMonth dateMonth = new(dateTime);
+        DateTimeMonth dateTimeMonth = new(dateTime);
 
-        dateMonth.Month.Should().Be(5);
+        dateTimeMonth.Month.Should().Be(5);
     }
 
     [Fact]
@@ -45,9 +45,9 @@ public class ConstructorFromNullableDateTimeTests
     {
         DateTime? dateTime = null;
 
-        DateMonth dateMonth = new(dateTime);
+        DateTimeMonth dateTimeMonth = new(dateTime);
 
-        dateMonth.Year.Should().Be(0);
+        dateTimeMonth.Year.Should().Be(0);
     }
 
     [Fact]
@@ -55,8 +55,8 @@ public class ConstructorFromNullableDateTimeTests
     {
         DateTime? dateTime = null;
 
-        DateMonth dateMonth = new(dateTime);
+        DateTimeMonth dateTimeMonth = new(dateTime);
 
-        dateMonth.Month.Should().Be(1);
+        dateTimeMonth.Month.Should().Be(1);
     }
 }

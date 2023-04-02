@@ -16,16 +16,16 @@
 
 using DustInTheWind.VeloCity.Infrastructure;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateMonthTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Infrastructure.DateTimeMonthTests;
 
 public class OperatorDifferentTests
 {
     [Fact]
     public void HavingOneInstances_WhenComparedWithNull_ThenReturnsFalse()
     {
-        DateMonth dateMonth = new(2023, 03);
+        DateTimeMonth dateTimeMonth = new(2023, 03);
 
-        bool actual = dateMonth != null;
+        bool actual = dateTimeMonth != null;
 
         actual.Should().BeTrue();
     }
@@ -33,10 +33,10 @@ public class OperatorDifferentTests
     [Fact]
     public void HavingTwoInstancesWithSameValues_WhenCompared_ThenReturnsFalse()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        DateMonth dateMonth2 = new(2023, 03);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        DateTimeMonth dateTimeMonth2 = new(2023, 03);
 
-        bool actual = dateMonth1 != dateMonth2;
+        bool actual = dateTimeMonth1 != dateTimeMonth2;
 
         actual.Should().BeFalse();
     }
@@ -44,10 +44,10 @@ public class OperatorDifferentTests
     [Fact]
     public void HavingTwoInstancesWithSameYearButDifferentMonth_WhenCompared_ThenReturnsTrue()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        DateMonth dateMonth2 = new(2023, 04);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        DateTimeMonth dateTimeMonth2 = new(2023, 04);
 
-        bool actual = dateMonth1 != dateMonth2;
+        bool actual = dateTimeMonth1 != dateTimeMonth2;
 
         actual.Should().BeTrue();
     }
@@ -55,10 +55,10 @@ public class OperatorDifferentTests
     [Fact]
     public void HavingTwoInstancesWithSameMonthButDifferentYear_WhenCompared_ThenReturnsTrue()
     {
-        DateMonth dateMonth1 = new(2023, 03);
-        DateMonth dateMonth2 = new(2027, 03);
+        DateTimeMonth dateTimeMonth1 = new(2023, 03);
+        DateTimeMonth dateTimeMonth2 = new(2027, 03);
 
-        bool actual = dateMonth1 != dateMonth2;
+        bool actual = dateTimeMonth1 != dateTimeMonth2;
 
         actual.Should().BeTrue();
     }

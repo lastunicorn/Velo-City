@@ -18,19 +18,19 @@ using System.Globalization;
 
 namespace DustInTheWind.VeloCity.Infrastructure;
 
-public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
+public readonly struct DateTimeMonth : IComparable<DateTimeMonth>, IFormattable
 {
     public int Year { get; }
 
     public int Month { get; }
 
-    public DateMonth()
+    public DateTimeMonth()
     {
         Year = 0;
         Month = 1;
     }
 
-    public DateMonth(int year, int month)
+    public DateTimeMonth(int year, int month)
     {
         if (month is <= 0 or > 12) throw new ArgumentOutOfRangeException(nameof(month));
 
@@ -38,29 +38,29 @@ public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
         Month = month;
     }
 
-    public DateMonth(DateTime dateTime)
+    public DateTimeMonth(DateTime dateTime)
     {
         Year = dateTime.Year;
         Month = dateTime.Month;
     }
 
-    public DateMonth(DateTime? dateTime)
+    public DateTimeMonth(DateTime? dateTime)
     {
         Year = dateTime?.Year ?? 0;
         Month = dateTime?.Month ?? 1;
     }
 
-    public int CompareTo(DateMonth other)
+    public int CompareTo(DateTimeMonth other)
     {
         int yearComparison = Year.CompareTo(other.Year);
         if (yearComparison != 0) return yearComparison;
         return Month.CompareTo(other.Month);
     }
 
-    public DateMonth AddMonths(int count)
+    public DateTimeMonth AddMonths(int count)
     {
         if (count == 0)
-            return new DateMonth(Year, Month);
+            return new DateTimeMonth(Year, Month);
 
         int totalMonthsToAdd = Month - 1 + count;
 
@@ -73,17 +73,17 @@ public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
             newMonth += 12;
         }
 
-        return new DateMonth(newYear, newMonth + 1);
+        return new DateTimeMonth(newYear, newMonth + 1);
     }
 
-    public bool Equals(DateMonth other)
+    public bool Equals(DateTimeMonth other)
     {
         return Year == other.Year && Month == other.Month;
     }
 
     public override bool Equals(object obj)
     {
-        return obj is DateMonth other && Equals(other);
+        return obj is DateTimeMonth other && Equals(other);
     }
 
     public override int GetHashCode()
@@ -134,19 +134,19 @@ public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
         }
     }
 
-    public static bool operator ==(DateMonth dateTimeMonth1, DateMonth dateTimeMonth2)
+    public static bool operator ==(DateTimeMonth dateTimeMonth1, DateTimeMonth dateTimeMonth2)
     {
         return dateTimeMonth1.Year == dateTimeMonth2.Year &&
                dateTimeMonth1.Month == dateTimeMonth2.Month;
     }
 
-    public static bool operator !=(DateMonth dateTimeMonth1, DateMonth dateTimeMonth2)
+    public static bool operator !=(DateTimeMonth dateTimeMonth1, DateTimeMonth dateTimeMonth2)
     {
         return dateTimeMonth1.Year != dateTimeMonth2.Year ||
                dateTimeMonth1.Month != dateTimeMonth2.Month;
     }
 
-    public static bool operator >(DateMonth dateTimeMonth, DateTime dateTime)
+    public static bool operator >(DateTimeMonth dateTimeMonth, DateTime dateTime)
     {
         int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
@@ -160,7 +160,7 @@ public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
         return monthComparison > 0;
     }
 
-    public static bool operator <(DateMonth dateTimeMonth, DateTime dateTime)
+    public static bool operator <(DateTimeMonth dateTimeMonth, DateTime dateTime)
     {
         int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
@@ -174,7 +174,7 @@ public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
         return monthComparison < 0;
     }
 
-    public static bool operator >=(DateMonth dateTimeMonth, DateTime dateTime)
+    public static bool operator >=(DateTimeMonth dateTimeMonth, DateTime dateTime)
     {
         int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 
@@ -188,7 +188,7 @@ public readonly struct DateMonth : IComparable<DateMonth>, IFormattable
         return monthComparison >= 0;
     }
 
-    public static bool operator <=(DateMonth dateTimeMonth, DateTime dateTime)
+    public static bool operator <=(DateTimeMonth dateTimeMonth, DateTime dateTime)
     {
         int yearComparison = dateTimeMonth.Year.CompareTo(dateTime.Year);
 

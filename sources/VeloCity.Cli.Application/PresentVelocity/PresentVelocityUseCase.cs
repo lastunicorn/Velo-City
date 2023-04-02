@@ -14,11 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
@@ -33,17 +29,15 @@ public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, Pr
         this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
+    public async Task<PresentVelocityResponse> Handle(PresentVelocityRequest request, CancellationToken cancellationToken)
     {
         int sprintCount = CalculateSprintCount(request);
-        List<SprintVelocity> sprintVelocities = RetrieveSprintVelocities(sprintCount);
+        List<SprintVelocity> sprintVelocities = await RetrieveSprintVelocities(sprintCount);
 
-        PresentVelocityResponse response = new()
+        return new PresentVelocityResponse
         {
             SprintVelocities = sprintVelocities
         };
-
-        return Task.FromResult(response);
     }
 
     private static int CalculateSprintCount(PresentVelocityRequest request)
@@ -53,9 +47,11 @@ public class PresentVelocityUseCase : IRequestHandler<PresentVelocityRequest, Pr
             : request.SprintCount.Value;
     }
 
-    private List<SprintVelocity> RetrieveSprintVelocities(int sprintCount)
+    private async Task<List<SprintVelocity>> RetrieveSprintVelocities(int sprintCount)
     {
-        return unitOfWork.SprintRepository.GetLast(sprintCount)
+        IEnumerable<Sprint> sprints = await unitOfWork.SprintRepository.GetLast(sprintCount);
+
+        return sprints
             .Select(x => new SprintVelocity(x))
             .ToList();
     }

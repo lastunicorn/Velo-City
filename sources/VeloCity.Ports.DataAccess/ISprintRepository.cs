@@ -21,35 +21,33 @@ namespace DustInTheWind.VeloCity.Ports.DataAccess;
 
 public interface ISprintRepository
 {
-    IEnumerable<Sprint> GetAll();
+    Task<IEnumerable<Sprint>> GetAll();
 
     Task<Sprint> Get(int id);
 
     Task<Sprint> GetByNumber(int number);
 
-    IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count);
+    Task<IEnumerable<Sprint>> GetClosedSprintsBefore(int sprintNumber, uint count);
 
-    IEnumerable<Sprint> GetClosedSprintsBefore(int sprintNumber, uint count, IEnumerable<int> excludedSprints);
+    Task<IEnumerable<Sprint>> GetClosedSprintsBefore(int sprintNumber, uint count, IEnumerable<int> excludedSprints);
 
-    Sprint GetLast();
+    Task<Sprint> GetLast();
 
-    IEnumerable<Sprint> GetLast(int count);
+    Task<IEnumerable<Sprint>> GetLast(int count);
 
     Task<Sprint> GetLastInProgress();
+    
+    Task<IEnumerable<Sprint>> GetLastClosed(uint count);
 
-    IEnumerable<Sprint> GetLastClosed(uint count, IEnumerable<int> excludedSprints);
+    Task<Sprint> GetLastClosed();
 
-    IEnumerable<Sprint> GetLastClosed(uint count);
+    Task<IEnumerable<Sprint>> Get(DateTime startDate, DateTime endDate);
 
-    Sprint GetLastClosed();
+    Task<DateInterval?> GetDateIntervalFor(int sprintNumber);
 
-    IEnumerable<Sprint> Get(DateTime startDate, DateTime endDate);
+    Task<bool> IsAnyInProgress();
 
-    DateInterval? GetDateIntervalFor(int sprintNumber);
-
-    bool IsAnyInProgress();
-
-    bool IsFirstNewSprint(int sprintId);
+    Task<bool> IsFirstNewSprint(int sprintId);
 
     void Add(Sprint sprint);
 }

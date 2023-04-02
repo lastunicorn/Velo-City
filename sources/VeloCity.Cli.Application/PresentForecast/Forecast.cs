@@ -63,10 +63,10 @@ public class Forecast
     {
         Sprint referenceSprint = await GetReferenceSprint();
 
-        HistorySprints = RetrievePreviousSprints(referenceSprint);
+        HistorySprints = await RetrievePreviousSprints(referenceSprint);
         EstimatedVelocity = EstimateVelocity(HistorySprints);
 
-        FutureSprints = GenerateFutureSprints(referenceSprint);
+        FutureSprints = await GenerateFutureSprints(referenceSprint);
 
         foreach (Sprint futureSprint in FutureSprints)
             futureSprint.ExcludedTeamMembers = ExcludedTeamMembers;
@@ -94,7 +94,7 @@ public class Forecast
     public async Task<Sprint> GetReferenceSprint()
     {
         Sprint currentSprint = await unitOfWork.SprintRepository.GetLastInProgress()
-                               ?? unitOfWork.SprintRepository.GetLastClosed();
+                               ?? await unitOfWork.SprintRepository.GetLastClosed();
 
         if (currentSprint == null)
             throw new NoSprintException();
@@ -104,23 +104,23 @@ public class Forecast
         return currentSprint;
     }
 
-    private SprintList RetrievePreviousSprints(Sprint referenceSprint)
+    private async Task<SprintList> RetrievePreviousSprints(Sprint referenceSprint)
     {
         bool excludedSprintsExists = ExcludedSprints is { Count: > 0 };
 
-        IEnumerable<Sprint> sprints = excludedSprintsExists
-            ? unitOfWork.SprintRepository.GetClosedSprintsBefore(referenceSprint.Number, AnalysisLookBack, ExcludedSprints)
-            : unitOfWork.SprintRepository.GetClosedSprintsBefore(referenceSprint.Number, AnalysisLookBack);
+        IEnumerable<Sprint> sprintEnumeration = excludedSprintsExists
+            ? await unitOfWork.SprintRepository.GetClosedSprintsBefore(referenceSprint.Number, AnalysisLookBack, ExcludedSprints)
+            : await unitOfWork.SprintRepository.GetClosedSprintsBefore(referenceSprint.Number, AnalysisLookBack);
 
-        SprintList sprintList = sprints.ToSprintList();
+        SprintList sprints = sprintEnumeration.ToSprintList();
 
-        if (sprintList.Count == 0)
+        if (sprints.Count == 0)
             throw new Exception("There are no history sprints. The forecast calculation cannot proceed. History sprints are needed to calculate the estimated velocity.");
 
-        foreach (Sprint sprint in sprintList)
+        foreach (Sprint sprint in sprints)
             sprint.ExcludedTeamMembers = ExcludedTeamMembers;
 
-        return sprintList;
+        return sprints;
     }
 
     private static Velocity EstimateVelocity(SprintList historySprints)
@@ -133,7 +133,7 @@ public class Forecast
         return estimatedVelocity;
     }
 
-    private SprintList GenerateFutureSprints(Sprint referenceSprint)
+    private async Task<SprintList> GenerateFutureSprints(Sprint referenceSprint)
     {
         const int defaultSprintSize = 14;
 
@@ -145,7 +145,7 @@ public class Forecast
         {
             DefaultSprintSize = defaultSprintSize,
             DateInterval = new DateInterval(calculatedStartDate, calculatedEndDate),
-            ExistingSprints = unitOfWork.SprintRepository.Get(calculatedStartDate, calculatedEndDate)
+            ExistingSprints = (await unitOfWork.SprintRepository.Get(calculatedStartDate, calculatedEndDate))
                 .ToList()
         };
 

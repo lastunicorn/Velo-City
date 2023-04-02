@@ -139,11 +139,11 @@ public class Handle_TeamMembersOrderTests
         await PerformTestsAndAssertTheOrder(teamMembersFromRepository, new[] { 2, 1 });
     }
 
-    private async Task PerformTestsAndAssertTheOrder(List<TeamMember> teamMembersFromRepository, int[] expectedTeamMemberIds)
+    private async Task PerformTestsAndAssertTheOrder(IEnumerable<TeamMember> teamMembersFromRepository, int[] expectedTeamMemberIds)
     {
         teamMemberRepository
             .Setup(x => x.GetAll())
-            .Returns(teamMembersFromRepository);
+            .ReturnsAsync(teamMembersFromRepository);
 
         PresentTeamMembersRequest request = new();
         PresentTeamMembersResponse response = await useCase.Handle(request, CancellationToken.None);

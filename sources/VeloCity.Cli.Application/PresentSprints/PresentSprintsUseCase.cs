@@ -14,11 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using MediatR;
 
@@ -33,21 +29,21 @@ internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, Pr
         this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
+    public async Task<PresentSprintsResponse> Handle(PresentSprintsRequest request, CancellationToken cancellationToken)
     {
         int sprintCount = request.Count is null or < 1
             ? 6
             : request.Count.Value;
 
-        List<SprintOverview> sprintOverviews = unitOfWork.SprintRepository.GetLast(sprintCount)
+        IEnumerable<Sprint> sprints = await unitOfWork.SprintRepository.GetLast(sprintCount);
+
+        List<SprintOverview> sprintOverviews = sprints
             .Select(x => new SprintOverview(x))
             .ToList();
 
-        PresentSprintsResponse response = new()
+        return new PresentSprintsResponse
         {
             SprintOverviews = sprintOverviews
         };
-
-        return Task.FromResult(response);
     }
 }

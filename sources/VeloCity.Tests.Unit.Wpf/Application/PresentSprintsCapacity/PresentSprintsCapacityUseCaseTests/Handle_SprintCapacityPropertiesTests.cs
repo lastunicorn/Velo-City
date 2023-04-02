@@ -42,7 +42,7 @@ public class Handle_SprintCapacityPropertiesTests
 
         sprintRepository
             .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
-            .Returns(sprintsFromRepository);
+            .ReturnsAsync(sprintsFromRepository);
     }
 
     [Fact]

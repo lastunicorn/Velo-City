@@ -23,13 +23,13 @@ public interface IOfficialHolidayRepository
 {
     Task<IEnumerable<OfficialHoliday>> GetAll();
 
-    IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate);
+    Task<IEnumerable<OfficialHoliday>> Get(DateTime startDate, DateTime endDate);
 
-    IEnumerable<OfficialHoliday> Get(DateInterval dateInterval);
+    Task<IEnumerable<OfficialHoliday>> Get(DateInterval dateInterval);
 
-    IEnumerable<OfficialHoliday> Get(DateTime startDate, DateTime endDate, string country);
+    Task<IEnumerable<OfficialHoliday>> Get(DateTime startDate, DateTime endDate, string country);
 
-    IEnumerable<OfficialHoliday> GetByYear(int year);
+    Task<IEnumerable<OfficialHoliday>> GetByYear(int year);
 
-    IEnumerable<OfficialHoliday> GetByYear(int year, string country);
+    Task<IEnumerable<OfficialHoliday>> GetByYear(int year, string country);
 }

@@ -14,10 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
@@ -35,7 +31,7 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
         this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
     }
 
-    public async Task<PresentTeamResponse> Handle(PresentTeamRequest request, CancellationToken cancellationToken)
+    public Task<PresentTeamResponse> Handle(PresentTeamRequest request, CancellationToken cancellationToken)
     {
         if (request.Date != null)
             return CreateResponseForDate(request.Date.Value);
@@ -44,16 +40,18 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
             return CreateResponseForDateInterval(request.DateInterval.Value);
 
         if (request.SprintNumber != null)
-            return await CreateResponseForSprint(request.SprintNumber.Value);
+            return CreateResponseForSprint(request.SprintNumber.Value);
 
-        return await CreateResponseForCurrentSprint();
+        return CreateResponseForCurrentSprint();
     }
 
-    private PresentTeamResponse CreateResponseForDate(DateTime date)
+    private async Task<PresentTeamResponse> CreateResponseForDate(DateTime date)
     {
+        IEnumerable<TeamMember> teamMembers = await unitOfWork.TeamMemberRepository.GetByDate(date);
+
         return new PresentTeamResponse
         {
-            TeamMembers = unitOfWork.TeamMemberRepository.GetByDate(date)
+            TeamMembers = teamMembers
                 .OrderByEmploymentForDate(date)
                 .ToList(),
             ResponseType = TeamResponseType.Date,
@@ -61,11 +59,13 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
         };
     }
 
-    private PresentTeamResponse CreateResponseForDateInterval(DateInterval dateInterval)
+    private async Task<PresentTeamResponse> CreateResponseForDateInterval(DateInterval dateInterval)
     {
+        IEnumerable<TeamMember> teamMembers = await unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval);
+
         return new PresentTeamResponse
         {
-            TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(dateInterval)
+            TeamMembers = teamMembers
                 .OrderByEmploymentForDate(dateInterval.StartDate)
                 .ToList(),
             ResponseType = TeamResponseType.DateInterval,
@@ -76,7 +76,7 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
     private async Task<PresentTeamResponse> CreateResponseForSprint(int sprintNumber)
     {
         Sprint sprint = await RetrieveSprint(sprintNumber);
-        return CreateResponseForSprint(sprint);
+        return await CreateResponseForSprint(sprint);
     }
 
     private async Task<Sprint> RetrieveSprint(int sprintNumber)
@@ -89,7 +89,7 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
     private async Task<PresentTeamResponse> CreateResponseForCurrentSprint()
     {
         Sprint currentSprint = await RetrieveCurrentSprint();
-        return CreateResponseForSprint(currentSprint);
+        return await CreateResponseForSprint(currentSprint);
     }
 
     private async Task<Sprint> RetrieveCurrentSprint()
@@ -99,11 +99,13 @@ internal class PresentTeamUseCase : IRequestHandler<PresentTeamRequest, PresentT
         return currentSprint ?? throw new NoSprintException();
     }
 
-    private PresentTeamResponse CreateResponseForSprint(Sprint sprint)
+    private async Task<PresentTeamResponse> CreateResponseForSprint(Sprint sprint)
     {
+        IEnumerable<TeamMember> teamMembers = await unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval);
+
         return new PresentTeamResponse
         {
-            TeamMembers = unitOfWork.TeamMemberRepository.GetByDateInterval(sprint.DateInterval)
+            TeamMembers = teamMembers
                 .OrderByEmploymentForDate(sprint.StartDate)
                 .ToList(),
             ResponseType = TeamResponseType.Sprint,
