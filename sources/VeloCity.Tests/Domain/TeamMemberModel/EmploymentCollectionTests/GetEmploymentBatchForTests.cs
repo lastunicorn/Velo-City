@@ -330,7 +330,7 @@ public class GetEmploymentBatchForTests
         };
         Employment employment2 = new()
         {
-            TimeInterval = new DateInterval(new DateTime(2022, 06, 02), null)
+            TimeInterval = new DateInterval(new DateTime(2022, 06, 02))
         };
         EmploymentCollection employmentCollection = new()
         {

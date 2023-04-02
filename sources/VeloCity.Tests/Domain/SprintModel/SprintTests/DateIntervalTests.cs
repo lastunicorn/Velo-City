@@ -95,7 +95,7 @@ public class DateIntervalTests
         // arrange
         Sprint sprint = new();
         DateTime startDate = new(2000, 02, 04);
-        DateInterval dateInterval = new(startDate, null);
+        DateInterval dateInterval = new(startDate);
 
         // assert
         Assert.Throws<ArgumentException>(() =>

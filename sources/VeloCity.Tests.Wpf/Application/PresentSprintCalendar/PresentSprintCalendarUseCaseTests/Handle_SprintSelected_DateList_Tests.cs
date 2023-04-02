@@ -16,7 +16,6 @@
 
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
-using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 using DustInTheWind.VeloCity.Ports.SystemAccess;
 using DustInTheWind.VeloCity.Wpf.Application;
@@ -24,13 +23,12 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprintCalendar;
 
 namespace DustInTheWind.VeloCity.Tests.Wpf.Application.PresentSprintCalendar.PresentSprintCalendarUseCaseTests;
 
-public class Handle_SprintSelectedTests
+public class Handle_SprintSelected_DateList_Tests
 {
     private readonly Sprint sprintFromRepository;
     private readonly PresentSprintCalendarUseCase useCase;
-    private readonly Mock<ISystemClock> systemClock;
 
-    public Handle_SprintSelectedTests()
+    public Handle_SprintSelected_DateList_Tests()
     {
         Mock<IUnitOfWork> unitOfWork = new();
         Mock<ISprintRepository> sprintRepository = new();
@@ -40,7 +38,7 @@ public class Handle_SprintSelectedTests
             .Returns(sprintRepository.Object);
 
         ApplicationState applicationState = new();
-        systemClock = new Mock<ISystemClock>();
+        Mock<ISystemClock> systemClock = new();
 
         applicationState.SelectedSprintId = 97;
 
@@ -54,53 +52,38 @@ public class Handle_SprintSelectedTests
     }
 
     [Fact]
-    public async Task HavingInProgressSprintWith7DaysInRepository_WhenUseCaseIsExecuted_ThenResponseContains7SprintDays()
+    public async Task HavingSprintWithOneDayInRepository_WhenUseCaseIsExecuted_ThenResponseContainsOnSprintDay()
     {
-        sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 20), new DateTime(2023, 03, 26));
+        sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 20), new DateTime(2023, 03, 20));
 
         PresentSprintCalendarRequest request = new();
         PresentSprintCalendarResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        response.SprintCalendarDays.Should().HaveCount(7);
-    }
-
-    [Fact]
-    public async Task HavingSystemClockDaySetOnSecondDayOfSprint_WhenUseCaseIsExecuted_ThenResponseContainsSecondSprintDaysAsBeingCurrent()
-    {
-        sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 20), new DateTime(2023, 03, 26));
-        systemClock
-            .Setup(x => x.Today)
-            .Returns(new DateTime(2023, 03, 21));
-
-        PresentSprintCalendarRequest request = new();
-        PresentSprintCalendarResponse response = await useCase.Handle(request, CancellationToken.None);
-
-        bool[] expectedIsCurrent = { false, true, false, false, false, false, false };
-        response.SprintCalendarDays.Select(x => x.IsCurrentDay).Should().Equal(expectedIsCurrent);
-    }
-
-    [Fact]
-    public async Task HavingOneTeamMember_WhenUseCaseIsExecuted_ThenSprintDaysFromResponseContainTheTeamMemberHours()
-    {
-        sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 20), new DateTime(2023, 03, 26));
-        TeamMember teamMember = new()
+        DateTime[] expectedDateTimes =
         {
-            Employments = new EmploymentCollection
-            {
-                new()
-                {
-                    StartDate = new DateTime(2000, 06, 01),
-                    HoursPerDay = 8,
-                    EmploymentWeek = new EmploymentWeek()
-                }
-            }
+            new(2023, 03, 20)
         };
-        sprintFromRepository.AddSprintMember(teamMember);
+        response.SprintCalendarDays.Select(x => x.Date).Should().Equal(expectedDateTimes);
+    }
+
+    [Fact]
+    public async Task HavingSprintWith7DaysInRepository_WhenUseCaseIsExecuted_ThenResponseContainsThose7SprintDays()
+    {
+        sprintFromRepository.DateInterval = new DateInterval(new DateTime(2023, 03, 20), new DateTime(2023, 03, 26));
 
         PresentSprintCalendarRequest request = new();
         PresentSprintCalendarResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        HoursValue?[] expectedWorkHours = { 8, 8, 8, 8, 8, 0, 0 };
-        response.SprintCalendarDays.Select(x => x.WorkHours).Should().Equal(expectedWorkHours);
+        DateTime[] expectedDateTimes =
+        {
+            new(2023, 03, 20),
+            new(2023, 03, 21),
+            new(2023, 03, 22),
+            new(2023, 03, 23),
+            new(2023, 03, 24),
+            new(2023, 03, 25),
+            new(2023, 03, 26)
+        };
+        response.SprintCalendarDays.Select(x => x.Date).Should().Equal(expectedDateTimes);
     }
 }

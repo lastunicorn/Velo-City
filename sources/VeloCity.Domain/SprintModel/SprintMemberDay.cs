@@ -78,9 +78,7 @@ public class SprintMemberDay
         {
             AbsenceHours = employment.HoursPerDay;
             AbsenceReason = AbsenceReason.OfficialHoliday;
-
-            IEnumerable<string> officialHolidayNames = officialHolidays.Select(x => x.Name);
-            AbsenceComments = string.Join(", ", officialHolidayNames);
+            AbsenceComments = CalculateAbsenceComments(officialHolidays);
 
             return;
         }
@@ -109,7 +107,6 @@ public class SprintMemberDay
             {
                 AbsenceHours = employment.HoursPerDay;
                 AbsenceReason = AbsenceReason.Vacation;
-
                 AbsenceComments = CalculateAbsenceComments(wholeDayVacations);
 
                 return;
@@ -137,6 +134,12 @@ public class SprintMemberDay
         }
 
         WorkHours = employment.HoursPerDay;
+    }
+
+    private static string CalculateAbsenceComments(IEnumerable<OfficialHolidayInstance> officialHolidays)
+    {
+        IEnumerable<string> officialHolidayNames = officialHolidays.Select(x => x.Name);
+        return string.Join(", ", officialHolidayNames);
     }
 
     private static string CalculateAbsenceComments(IEnumerable<Vacation> vacations)

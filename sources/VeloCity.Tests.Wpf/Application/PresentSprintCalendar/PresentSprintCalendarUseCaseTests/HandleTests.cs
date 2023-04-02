@@ -14,9 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
@@ -56,10 +53,9 @@ public class HandleTests
             .Setup(x => x.GetLastInProgress())
             .ReturnsAsync(null as Sprint);
 
-        PresentSprintCalendarRequest request = new();
-
         Func<Task> action = async () =>
         {
+            PresentSprintCalendarRequest request = new();
             await useCase.Handle(request, CancellationToken.None);
         };
 
@@ -75,10 +71,9 @@ public class HandleTests
             .Setup(x => x.Get(97))
             .ReturnsAsync(null as Sprint);
 
-        PresentSprintCalendarRequest request = new();
-
         try
         {
+            PresentSprintCalendarRequest request = new();
             await useCase.Handle(request, CancellationToken.None);
         }
         catch { }
@@ -95,10 +90,9 @@ public class HandleTests
             .Setup(x => x.Get(97))
             .ReturnsAsync(null as Sprint);
 
-        PresentSprintCalendarRequest request = new();
-
         Func<Task> action = async () =>
         {
+            PresentSprintCalendarRequest request = new();
             await useCase.Handle(request, CancellationToken.None);
         };
 

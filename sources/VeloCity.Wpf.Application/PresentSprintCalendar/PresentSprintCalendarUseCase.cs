@@ -73,11 +73,13 @@ internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalen
             .ToList();
     }
 
-    private SprintCalendarDay CreateSprintCalendarDay(SprintDay sprintDay, IReadOnlyCollection<SprintMember> sprintMembers)
+    private SprintCalendarDay CreateSprintCalendarDay(SprintDay sprintDay, IEnumerable<SprintMember> sprintMembers)
     {
-        SprintCalendarDay sprintCalendarDay = new(sprintDay);
+        IEnumerable<SprintMemberDay> sprintMemberDays = sprintMembers
+            .Select(x => x.Days[sprintDay.Date])
+            .Where(x => x != null);
 
-        IEnumerable<SprintMemberDay> sprintMemberDays = GetSprintMemberDays(sprintDay, sprintMembers);
+        SprintCalendarDay sprintCalendarDay = new(sprintDay);
 
         foreach (SprintMemberDay sprintMemberDay in sprintMemberDays)
             sprintCalendarDay.AddSprintMemberDay(sprintMemberDay);
@@ -86,15 +88,5 @@ internal class PresentSprintCalendarUseCase : IRequestHandler<PresentSprintCalen
             sprintCalendarDay.SetAsCurrentDay();
 
         return sprintCalendarDay;
-    }
-
-    private static IEnumerable<SprintMemberDay> GetSprintMemberDays(SprintDay sprintDay, IReadOnlyCollection<SprintMember> sprintMembers)
-    {
-        if (sprintMembers == null)
-            return Enumerable.Empty<SprintMemberDay>();
-
-        return sprintMembers
-            .Select(x => x.Days[sprintDay.Date])
-            .Where(x => x != null);
     }
 }
