@@ -22,128 +22,43 @@ namespace DustInTheWind.VeloCity.SettingsAccess;
 
 public class Config : IConfig
 {
-    private const string CulturePropertyName = "Culture";
-    private const string ErrorMessageLevelPropertyName = "ErrorMessageLevel";
-    private const string DatabaseLocationPropertyName = "DatabaseLocation";
-    private const string DatabaseEditorPropertyName = "DatabaseEditor";
-    private const string DatabaseEditorArgumentsPropertyName = "DatabaseEditorArguments";
-    private const string DataGridStylePropertyName = "DataGridStyle";
-    private const string AnalysisLookBackPropertyName = "AnalysisLookBack";
+    private readonly CultureProperty cultureProperty;
+    private readonly ErrorMessageLevelProperty errorMessageLevelProperty;
+    private readonly DatabaseLocationProperty databaseLocationProperty;
+    private readonly DatabaseEditorProperty databaseEditorProperty;
+    private readonly DatabaseEditorArgumentsProperty databaseEditorArgumentsProperty;
+    private readonly DataGridStyleProperty dataGridStyleProperty;
+    private readonly AnalysisLookBackProperty analysisLookBackProperty;
 
-    private readonly IConfiguration config;
+    public CultureInfo Culture => cultureProperty.Value;
 
-    public CultureInfo Culture
-    {
-        get
-        {
-            IConfigurationSection configurationSection = config.GetSection(CulturePropertyName);
+    public ErrorMessageLevel ErrorMessageLevel => errorMessageLevelProperty.Value;
 
-            return configurationSection.Exists()
-                ? new CultureInfo(configurationSection.Value)
-                : CultureInfo.CurrentCulture;
-        }
-    }
+    public string DatabaseLocation => databaseLocationProperty.Value;
 
-    public ErrorMessageLevel ErrorMessageLevel
-    {
-        get
-        {
-            try
-            {
-                IConfigurationSection configurationSection = config.GetSection(ErrorMessageLevelPropertyName);
+    public string DatabaseEditor => databaseEditorProperty.Value;
 
-                return configurationSection.Exists()
-                    ? (ErrorMessageLevel)Enum.Parse(typeof(ErrorMessageLevel), configurationSection.Value, true)
-                    : ErrorMessageLevel.Simple;
-            }
-            catch (Exception ex)
-            {
-                throw new ConfigurationElementException(ErrorMessageLevelPropertyName, ex);
-            }
-        }
-    }
+    public string DatabaseEditorArguments => databaseEditorArgumentsProperty.Value;
 
-    public string DatabaseLocation
-    {
-        get
-        {
-            IConfigurationSection configurationSection = config.GetSection(DatabaseLocationPropertyName);
+    public DataGridStyle DataGridStyle => dataGridStyleProperty.Value;
 
-            return configurationSection.Exists()
-                ? configurationSection.Value
-                : "velo-city-database.json";
-        }
-    }
-
-    public string DatabaseEditor
-    {
-        get
-        {
-            IConfigurationSection configurationSection = config.GetSection(DatabaseEditorPropertyName);
-
-            return configurationSection.Exists()
-                ? configurationSection.Value
-                : null;
-        }
-    }
-
-    public string DatabaseEditorArguments
-    {
-        get
-        {
-            IConfigurationSection configurationSection = config.GetSection(DatabaseEditorArgumentsPropertyName);
-
-            return configurationSection.Exists()
-                ? configurationSection.Value
-                : null;
-        }
-    }
-
-    public DataGridStyle DataGridStyle
-    {
-        get
-        {
-            try
-            {
-                IConfigurationSection configurationSection = config.GetSection(DataGridStylePropertyName);
-
-                return configurationSection.Exists()
-                    ? (DataGridStyle)Enum.Parse(typeof(DataGridStyle), configurationSection.Value, true)
-                    : DataGridStyle.PlusMinus;
-            }
-            catch (Exception ex)
-            {
-                throw new ConfigurationElementException(DataGridStylePropertyName, ex);
-            }
-        }
-    }
-
-    public uint AnalysisLookBack
-    {
-        get
-        {
-            try
-            {
-                IConfigurationSection configurationSection = config.GetSection(AnalysisLookBackPropertyName);
-
-                return configurationSection.Exists()
-                    ? uint.Parse(configurationSection.Value)
-                    : 3;
-            }
-            catch (Exception ex)
-            {
-                throw new ConfigurationElementException(AnalysisLookBackPropertyName, ex);
-            }
-        }
-    }
+    public uint AnalysisLookBack => analysisLookBackProperty.Value;
 
     public Config()
     {
         try
         {
-            config = new ConfigurationBuilder()
+            IConfiguration config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
+
+            cultureProperty = new CultureProperty(config);
+            errorMessageLevelProperty = new ErrorMessageLevelProperty(config);
+            databaseLocationProperty = new DatabaseLocationProperty(config);
+            databaseEditorProperty = new DatabaseEditorProperty(config);
+            databaseEditorArgumentsProperty = new DatabaseEditorArgumentsProperty(config);
+            dataGridStyleProperty = new DataGridStyleProperty(config);
+            analysisLookBackProperty = new AnalysisLookBackProperty(config);
         }
         catch (Exception ex)
         {
@@ -157,28 +72,28 @@ public class Config : IConfig
         {
             new()
             {
-                Name = ErrorMessageLevelPropertyName,
-                Value = ErrorMessageLevel.ToString()
+                Name = ErrorMessageLevelProperty.PropertyName,
+                Value = errorMessageLevelProperty.Value.ToString()
             },
             new()
             {
-                Name = DatabaseLocationPropertyName,
-                Value = DatabaseLocation
+                Name = DatabaseLocationProperty.PropertyName,
+                Value = databaseLocationProperty.Value
             },
             new()
             {
-                Name = DatabaseEditorPropertyName,
-                Value = DatabaseEditor
+                Name = DatabaseEditorProperty.PropertyName,
+                Value = databaseEditorProperty.Value
             },
             new()
             {
-                Name = DatabaseEditorArgumentsPropertyName,
-                Value = DatabaseEditorArguments
+                Name = DatabaseEditorArgumentsProperty.PropertyName,
+                Value = databaseEditorArgumentsProperty.Value
             },
             new()
             {
-                Name = DataGridStylePropertyName,
-                Value = DataGridStyle.ToString()
+                Name = DataGridStyleProperty.PropertyName,
+                Value = dataGridStyleProperty.Value.ToString()
             }
         };
     }
