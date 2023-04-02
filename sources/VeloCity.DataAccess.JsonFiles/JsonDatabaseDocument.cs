@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using Newtonsoft.Json;
+
 namespace DustInTheWind.VeloCity.JsonFiles;
 
 internal class JsonDatabaseDocument
@@ -25,4 +27,20 @@ internal class JsonDatabaseDocument
     public List<JTeamMember> TeamMembers { get; set; }
 
     public List<JOfficialHoliday> OfficialHolidays { get; set; }
+
+    public static JsonDatabaseDocument Parse(string json)
+    {
+        return JsonConvert.DeserializeObject<JsonDatabaseDocument>(json);
+    }
+
+    public string Serialize()
+    {
+        JsonSerializerSettings settings = new()
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            Formatting = Formatting.Indented
+        };
+
+        return JsonConvert.SerializeObject(this, settings);
+    }
 }

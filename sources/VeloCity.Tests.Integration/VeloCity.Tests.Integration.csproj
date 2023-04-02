@@ -42,9 +42,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj" PrivateAssets="All" />
       <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" PrivateAssets="All" />
+      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
       <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" PrivateAssets="All" />
       <ProjectReference Include="..\VeloCity.SystemAccess\VeloCity.SystemAccess.csproj" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="TestData\DataAccess\SprintRepositoryTests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\01-empty.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\02-database-info.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\04-one-team-member.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\03-one-sprint.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\SprintRepositoryTests\velo-city-database.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

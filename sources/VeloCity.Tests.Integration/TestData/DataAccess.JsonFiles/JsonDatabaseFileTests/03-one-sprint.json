@@ -1,0 +1,19 @@
+{
+  "DatabaseInfo": {
+    "DatabaseVersion": "2.0.0"
+  },
+  "Sprints": [
+    {
+      "Id": 5,
+      "Number": 7,
+      "Name": "Dummy Name",
+      "StartDate": "2022-02-21T00:00:00",
+      "EndDate": "2022-03-06T00:00:00",
+      "Goal": "The goal of the sprint",
+      "CommitmentStoryPoints": 27,
+      "ActualStoryPoints": 24,
+      "State": "closed",
+      "Comments": "some comments"
+    }
+  ]
+}

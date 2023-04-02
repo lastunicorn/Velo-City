@@ -16,7 +16,6 @@
 
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Ports.DataAccess;
-using Newtonsoft.Json;
 
 namespace DustInTheWind.VeloCity.JsonFiles;
 
@@ -41,7 +40,7 @@ internal class JsonDatabaseFile
             throw new DatabaseNotFoundException(filePath);
 
         string json = File.ReadAllText(filePath);
-        Document = JsonConvert.DeserializeObject<JsonDatabaseDocument>(json);
+        Document = JsonDatabaseDocument.Parse(json);
 
         DatabaseVersionValidator databaseVersionValidator = new();
 
@@ -57,13 +56,7 @@ internal class JsonDatabaseFile
 
     public void Save()
     {
-        JsonSerializerSettings settings = new()
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented
-        };
-
-        string json = JsonConvert.SerializeObject(Document, settings);
+        string json = Document.Serialize();
         File.WriteAllText(filePath, json);
     }
 }

@@ -1,0 +1,42 @@
+{
+  "DatabaseInfo": {
+    "DatabaseVersion": "2.0.0"
+  },
+  "TeamMembers": [
+    {
+      "Id": 7,
+      "FirstName": "Laura",
+      "MiddleName": "Allison",
+      "LastName": "Amberson",
+      "Nickname": "Alli",
+      "Employments": [
+        {
+          "StartDate": "2022-02-21T00:00:00",
+          "EndDate": "2027-01-25T00:00:00",
+          "HoursPerDay": 4,
+          "WeekDays": [
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "Country": "RO"
+        }
+      ],
+      "VacationDays": [
+        {
+          "Recurrence": "once",
+          "Date": "2022-01-20T00:00:00",
+          "Comments": "first vacation"
+        },
+        {
+          "Recurrence": "daily",
+          "StartDate": "2022-03-28T00:00:00",
+          "EndDate": "2022-03-31T00:00:00",
+          "Comments": "daily one"
+        }
+      ],
+      "Comments": "This is the team member"
+    }
+  ]
+}

@@ -32,4 +32,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ProjectReference Include="..\VeloCity.Ports.SettingsAccess\VeloCity.Ports.SettingsAccess.csproj" PrivateAssets="All" />
     </ItemGroup>
 
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DustInTheWind.VeloCity.Tests.Integration</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
 </Project>
