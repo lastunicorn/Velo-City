@@ -14,10 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.IO;
 using Microsoft.Deployment.WindowsInstaller;
-using Newtonsoft.Json;
 
 namespace DustInTheWind.VeloCity.Installer.CustomActions
 {
@@ -26,46 +23,27 @@ namespace DustInTheWind.VeloCity.Installer.CustomActions
         [CustomAction("UpdateConfigFile")]
         public static ActionResult Execute(Session session)
         {
-            try
-            {
-                session.Log("Begin UpdateConfigFile Custom Action");
+            ExecutionContext executionContext = new ExecutionContext(session);
 
+            return executionContext.Execute("ReadFromConfigFile", log =>
+            {
                 string databaseJsonLocation = session.CustomActionData["DatabaseJsonLocation"];
-                
+
                 string installDirCli = session.CustomActionData["InstallDirCli"];
                 UpdateConfigFile(installDirCli, databaseJsonLocation);
-                
+
                 string installDirGui = session.CustomActionData["InstallDirGui"];
                 UpdateConfigFile(installDirGui, databaseJsonLocation);
-
-                return ActionResult.Success;
-            }
-            catch (Exception ex)
-            {
-                session.Log("ERROR: {0}", ex);
-                return ActionResult.Failure;
-            }
-            finally
-            {
-                session.Log("End UpdateConfigFile Custom Action");
-            }
+            });
         }
 
         private static void UpdateConfigFile(string installDir, string databaseFilePath)
         {
-            const string configFileName = "appsettings.json";
-            string configFilePath = Path.Combine(installDir, configFileName);
+            ConfigFile configFile = new ConfigFile(installDir);
 
-            if (!File.Exists(configFilePath))
-                throw new MissingConfigurationFileException(configFilePath);
-
-            string inputJson = File.ReadAllText(configFilePath);
-
-            dynamic jsonObj = JsonConvert.DeserializeObject(inputJson);
-            jsonObj["DatabaseLocation"] = databaseFilePath;
-
-            string outputJson = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-            File.WriteAllText(configFilePath, outputJson);
+            configFile.Open();
+            configFile.DatabaseLocation = databaseFilePath;
+            configFile.Save();
         }
     }
 }

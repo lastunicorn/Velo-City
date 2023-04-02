@@ -14,10 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.IO;
 using Microsoft.Deployment.WindowsInstaller;
-using Newtonsoft.Json;
 
 namespace DustInTheWind.VeloCity.Installer.CustomActions
 {
@@ -26,43 +23,34 @@ namespace DustInTheWind.VeloCity.Installer.CustomActions
         [CustomAction("ReadFromConfigFile")]
         public static ActionResult Execute(Session session)
         {
-            try
+            ExecutionContext executionContext = new ExecutionContext(session);
+
+            return executionContext.Execute("ReadFromConfigFile", log =>
             {
-                session.Log("Begin ReadFromConfigFile Custom Action");
-
-                string installDir = session["INSTALLDIR_CLI"];
-
-                const string configFileName = "appsettings.json";
-                string configFilePath = Path.Combine(installDir, configFileName);
-
-                if (!File.Exists(configFilePath))
+                try
                 {
-                    session.Log($"WARNING: Configuration file could not be found: '{configFilePath}'.");
-                    return ActionResult.Success;
+                    string installDir = session["INSTALLDIR_CLI"];
+
+                    string databaseJsonLocation = ReadDatabaseJsonLocation(installDir);
+
+                    if (databaseJsonLocation != null)
+                        session["DATABASE_JSON_LOCATION"] = databaseJsonLocation;
+                    else
+                        log.Warning("DatabaseLocation property not found in the config file.");
                 }
+                catch (MissingConfigurationFileException ex)
+                {
+                    log.Warning(ex);
+                }
+            });
+        }
 
-                session.Log($"Open config file {configFilePath}");
-                string inputJson = File.ReadAllText(configFilePath);
+        private static string ReadDatabaseJsonLocation(string installDir)
+        {
+            ConfigFile configFile = new ConfigFile(installDir);
 
-                dynamic jsonObj = JsonConvert.DeserializeObject(inputJson);
-                dynamic databaseJsonLocation = jsonObj?["DatabaseLocation"];
-
-                if (databaseJsonLocation != null)
-                    session["DATABASE_JSON_LOCATION"] = databaseJsonLocation;
-                else
-                    session.Log("DatabaseLocation property not found in the config file.");
-
-                return ActionResult.Success;
-            }
-            catch (Exception ex)
-            {
-                session.Log("ERROR: {0}", ex);
-                return ActionResult.Failure;
-            }
-            finally
-            {
-                session.Log("End ReadFromConfigFile Custom Action");
-            }
+            configFile.Open();
+            return configFile.DatabaseLocation;
         }
     }
 }
