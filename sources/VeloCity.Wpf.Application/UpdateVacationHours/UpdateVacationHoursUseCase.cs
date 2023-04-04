@@ -36,7 +36,7 @@ internal class UpdateVacationHoursUseCase : IRequestHandler<UpdateVacationHoursR
     {
         TeamMember teamMember = await RetrieveTeamMember(request.TeamMemberId);
         teamMember.SetVacation(request.Date, request.Hours);
-        unitOfWork.SaveChanges();
+        await unitOfWork.SaveChanges();
 
         await PublishEvent(cancellationToken);
 

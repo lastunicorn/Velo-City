@@ -17,24 +17,22 @@
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
-using DustInTheWind.VeloCity.JsonFiles;
+using DustInTheWind.VeloCity.Tests.Integration.TestUtils;
 using FluentAssertions;
 
-namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess;
+namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.SprintRepositoryTests;
 
-public class GetAllTests
+public class RetrieveTests : DatabaseTestsBase
 {
+    private const string DatabaseFilePath = @"TestData\DataAccess\SprintRepositoryTests\db-retrieve.json";
+
     private readonly SprintRepository sprintRepository;
 
-    public GetAllTests()
+    public RetrieveTests()
+    : base(DatabaseFilePath)
     {
-        JsonDatabase jsonDatabase = new()
-        {
-            PersistenceLocation = @"TestData\DataAccess\SprintRepositoryTests\velo-city-database.json"
-        };
-        jsonDatabase.Open();
-        VeloCityDbContext veloCityDbContext = new(jsonDatabase);
-        sprintRepository = new SprintRepository(veloCityDbContext);
+        OpenDatabase();
+        sprintRepository = new SprintRepository(VeloCityDbContext);
     }
 
     [Fact]
@@ -54,11 +52,27 @@ public class GetAllTests
     }
 
     [Fact]
+    public async Task GetByNonExistentId()
+    {
+        Sprint sprint = await sprintRepository.Get(234235);
+
+        sprint.Should().BeNull();
+    }
+
+    [Fact]
     public async Task GetByNumber()
     {
         Sprint sprint = await sprintRepository.GetByNumber(5);
 
         sprint.Number.Should().Be(5);
+    }
+
+    [Fact]
+    public async Task GetByNonExistentNumber()
+    {
+        Sprint sprint = await sprintRepository.GetByNumber(39247869);
+
+        sprint.Should().BeNull();
     }
 
     [Fact]

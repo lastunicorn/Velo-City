@@ -50,7 +50,7 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
         if (sprintCloseConfirmationResponse.IsAccepted)
         {
             CloseSprint(selectedSprint, sprintCloseConfirmationResponse);
-            unitOfWork.SaveChanges();
+            await unitOfWork.SaveChanges();
 
             await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
         }

@@ -50,10 +50,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="TestData\DataAccess\SprintRepositoryTests\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\01-empty.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
@@ -66,8 +62,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\03-one-sprint.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\velo-city-database.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <None Update="TestData\DataAccess\SprintRepositoryTests\db-empty.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\SprintRepositoryTests\db-update.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\SprintRepositoryTests\db-retrieve.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 

@@ -42,8 +42,8 @@ public class UnitOfWork : IUnitOfWork
         this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    public void SaveChanges()
+    public Task SaveChanges()
     {
-        dbContext.SaveChanges();
+        return dbContext.SaveChanges();
     }
 }

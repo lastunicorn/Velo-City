@@ -27,5 +27,7 @@ public enum JSprintState
     InProgress = 1,
 
     [EnumMember(Value = "closed")]
-    Closed = 2
+    Closed = 2,
+    
+    Invlid = 999
 }

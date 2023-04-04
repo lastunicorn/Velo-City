@@ -57,7 +57,7 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
         if (sprintStartConfirmationResponse.IsAccepted)
         {
             UpdateSprint(selectedSprint, sprintStartConfirmationResponse);
-            unitOfWork.SaveChanges();
+            await unitOfWork.SaveChanges();
 
             await RaiseSprintUpdatedEvent(selectedSprint, cancellationToken);
         }

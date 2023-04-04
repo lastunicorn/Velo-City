@@ -134,19 +134,22 @@ public class VeloCityDbContext
             sprint.AddSprintMember(teamMember);
     }
 
-    public void SaveChanges()
+    public Task SaveChanges()
     {
-        if (jsonDatabase.InstanceId != databaseId)
-            throw new Exception("The database was changed, current context cannot save the data.");
+        return Task.Run(() =>
+         {
+             if (jsonDatabase.InstanceId != databaseId)
+                 throw new Exception("The database was changed, current context cannot save the data.");
 
-        VerifySprintIdsAreUnique();
-        VerifySTeamMemberIdsAreUnique();
+             VerifySprintIdsAreUnique();
+             VerifySTeamMemberIdsAreUnique();
 
-        jsonDatabase.Sprints = Sprints.ToJEntities().ToList();
-        jsonDatabase.TeamMembers = TeamMembers.ToJEntities().ToList();
-        jsonDatabase.OfficialHolidays = OfficialHolidays.ToJEntities().ToList();
+             jsonDatabase.Sprints = Sprints.ToJEntities().ToList();
+             jsonDatabase.TeamMembers = TeamMembers.ToJEntities().ToList();
+             jsonDatabase.OfficialHolidays = OfficialHolidays.ToJEntities().ToList();
 
-        jsonDatabase.Persist();
+             jsonDatabase.Persist();
+         });
     }
 
     private void VerifySprintIdsAreUnique()

@@ -50,6 +50,7 @@ internal static class SprintExtensions
     {
         return sprintState switch
         {
+            SprintState.Unknown => JSprintState.Invlid,
             SprintState.New => JSprintState.New,
             SprintState.InProgress => JSprintState.InProgress,
             SprintState.Closed => JSprintState.Closed,
@@ -59,6 +60,9 @@ internal static class SprintExtensions
 
     public static IEnumerable<Sprint> ToEntities(this IEnumerable<JSprint> sprints)
     {
+        if (sprints == null)
+            return Enumerable.Empty<Sprint>();
+
         return sprints
             .Select(x => x.ToEntity());
     }
@@ -83,6 +87,7 @@ internal static class SprintExtensions
     {
         return sprintState switch
         {
+            JSprintState.Invlid => SprintState.Unknown,
             JSprintState.New => SprintState.New,
             JSprintState.InProgress => SprintState.InProgress,
             JSprintState.Closed => SprintState.Closed,

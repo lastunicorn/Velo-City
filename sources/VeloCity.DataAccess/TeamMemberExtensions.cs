@@ -52,6 +52,9 @@ internal static class TeamMemberExtensions
 
     public static IEnumerable<TeamMember> ToEntities(this IEnumerable<JTeamMember> teamMembers, VeloCityDbContext dbContext)
     {
+        if(teamMembers == null)
+            return Enumerable.Empty<TeamMember>();
+
         return teamMembers
             .Select(x => x.ToEntity(dbContext));
     }

@@ -62,6 +62,9 @@ internal static class OfficialHolidayExtensions
 
     public static IEnumerable<OfficialHoliday> ToEntities(this IEnumerable<JOfficialHoliday> officialHolidays)
     {
+        if(officialHolidays == null)
+            return Enumerable.Empty<OfficialHoliday>();
+
         return officialHolidays
             .Select(x => x.ToEntity());
     }

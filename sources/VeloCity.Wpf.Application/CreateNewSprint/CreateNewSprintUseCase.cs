@@ -46,7 +46,7 @@ public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
         if (sprintNewConfirmationResponse?.IsAccepted == true)
         {
             Sprint newSprint = CreateNewSprint(sprintNewConfirmationResponse, lastSprint);
-            unitOfWork.SaveChanges();
+            await unitOfWork.SaveChanges();
 
             SetTheNewSprintAsCurrent(newSprint);
             await RaiseSprintListChangedEvent(newSprint, cancellationToken);
