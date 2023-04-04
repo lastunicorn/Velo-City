@@ -6,6 +6,7 @@ packages/
 *.suo
 *.db
 publish/
+TestResults/
 
 VeloCity.Installer/Components/ApplicationFilesCli.wxs
 VeloCity.Installer/Components/ApplicationFilesGui.wxs

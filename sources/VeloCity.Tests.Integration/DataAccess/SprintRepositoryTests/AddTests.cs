@@ -16,108 +16,116 @@
 
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain.SprintModel;
-using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Tests.Integration.TestUtils;
 using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.SprintRepositoryTests;
 
-public class AddTests : DatabaseTestsBase
+public class AddTests
 {
-    private const string DatabaseFilePath = @"TestData\DataAccess\SprintRepositoryTests\db-update.json";
+    private const string DatabaseDirectoryPath = @"TestData\DataAccess\SprintRepositoryTests";
 
-    private readonly SprintRepository sprintRepository;
-
-    public AddTests()
-        : base(DatabaseFilePath)
+    [Fact]
+    public async Task WhenAddingSprintWithoutId_ThenSprintIdIs1AndSprintExistsInDatabase()
     {
-        OpenDatabase();
-        sprintRepository = new SprintRepository(VeloCityDbContext);
+        await DatabaseTestContext
+            .WithDatabase(DatabaseDirectoryPath, "db-add.empty.json")
+            .Execute(async context =>
+            {
+                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+
+                Sprint sprint = new()
+                {
+                    Number = 5
+                };
+                sprintRepository.Add(sprint);
+
+                await context.VeloCityDbContext.SaveChanges();
+
+                sprint.Id.Should().NotBe(0);
+                await context.DatabaseAsserts.AssertExistsSprint(sprint.Id);
+            });
     }
 
     [Fact]
-    public async Task WhenAddingNullSprint_ThenThrows()
+    public void WhenAddingNullSprint_ThenThrows()
     {
-        Sprint sprint = new()
-        {
-            Id = 5,
-            Number = 5
-        };
-        sprintRepository.Add(sprint);
+        DatabaseTestContext
+            .WithDatabase(DatabaseDirectoryPath, "db-add.json")
+            .Execute(context =>
+            {
+                SprintRepository sprintRepository = new(context.VeloCityDbContext);
 
-        await VeloCityDbContext.SaveChanges();
+                Action action = () =>
+                {
+                    sprintRepository.Add(null);
+                };
 
-        await AssertExistsSprint(5);
+                action.Should().Throw<ArgumentNullException>();
+            });
     }
 
     [Fact]
     public async Task WhenAddingSprintWithIdAndSave_ThenSprintExistsInDatabase()
     {
-        Sprint sprint = new()
-        {
-            Id = 5,
-            Number = 5
-        };
-        sprintRepository.Add(sprint);
+        await DatabaseTestContext
+             .WithDatabase(DatabaseDirectoryPath, "db-add.json")
+             .Execute(async context =>
+             {
+                 SprintRepository sprintRepository = new(context.VeloCityDbContext);
 
-        await VeloCityDbContext.SaveChanges();
+                 Sprint sprint = new()
+                 {
+                     Id = 5,
+                     Number = 5
+                 };
+                 sprintRepository.Add(sprint);
 
-        await AssertExistsSprint(5);
+                 await context.VeloCityDbContext.SaveChanges();
+
+                 await context.DatabaseAsserts.AssertExistsSprint(5);
+             });
     }
 
     [Fact]
     public async Task WhenAddingSprintWithoutIdAndSave_ThenSprintIdIsAddedAndSprintExistsInDatabase()
     {
-        Sprint sprint = new()
-        {
-            Number = 5
-        };
-        sprintRepository.Add(sprint);
+        await DatabaseTestContext
+            .WithDatabase(DatabaseDirectoryPath, "db-add.json")
+            .Execute(async context =>
+            {
+                SprintRepository sprintRepository = new(context.VeloCityDbContext);
 
-        await VeloCityDbContext.SaveChanges();
+                Sprint sprint = new()
+                {
+                    Number = 5
+                };
+                sprintRepository.Add(sprint);
 
-        sprint.Id.Should().NotBe(0);
-        await AssertExistsSprint(sprint.Id);
+                await context.VeloCityDbContext.SaveChanges();
+
+                sprint.Id.Should().NotBe(0);
+                await context.DatabaseAsserts.AssertExistsSprint(sprint.Id);
+            });
     }
 
     [Fact]
     public async Task WhenAddingSprintWithIdAndNotSave_ThenSprintDoesNotExistInDatabase()
     {
-        Sprint sprint = new()
-        {
-            Id = 5,
-            Number = 5
-        };
-        sprintRepository.Add(sprint);
+        await DatabaseTestContext
+            .WithDatabase(DatabaseDirectoryPath, "db-add.json")
+            .Execute(async context =>
+            {
+                SprintRepository sprintRepository = new(context.VeloCityDbContext);
 
-        await AssertNotExistsSprint(5);
-    }
+                Sprint sprint = new()
+                {
+                    Id = 5,
+                    Number = 5
+                };
+                sprintRepository.Add(sprint);
 
-    private static async Task AssertExistsSprint(int id)
-    {
-        JsonDatabase jsonDatabase = new()
-        {
-            PersistenceLocation = DatabaseFilePath
-        };
-        jsonDatabase.Open();
-        VeloCityDbContext veloCityDbContext = new(jsonDatabase);
-        SprintRepository sprintRepository = new(veloCityDbContext);
-        Sprint sprint = await sprintRepository.Get(id);
-
-        sprint.Should().NotBeNull();
-    }
-
-    private static async Task AssertNotExistsSprint(int id)
-    {
-        JsonDatabase jsonDatabase = new()
-        {
-            PersistenceLocation = DatabaseFilePath
-        };
-        jsonDatabase.Open();
-        VeloCityDbContext veloCityDbContext = new(jsonDatabase);
-        SprintRepository sprintRepository = new(veloCityDbContext);
-        Sprint sprint = await sprintRepository.Get(id);
-
-        sprint.Should().BeNull();
+                await context.DatabaseAsserts.AssertNotExistsSprint(5);
+            });
     }
 }

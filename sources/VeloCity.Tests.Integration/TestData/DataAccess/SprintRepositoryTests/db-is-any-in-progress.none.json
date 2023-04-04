@@ -1,0 +1,37 @@
+{
+  "DatabaseInfo": {
+    "DatabaseVersion": "2.0.0"
+  },
+  "Sprints": [
+    {
+      "Id": 1,
+      "Number": 1,
+      "Name": "Empty app with CI/CD in place",
+      "StartDate": "2022-02-21T00:00:00",
+      "EndDate": "2022-03-06T00:00:00",
+      "CommitmentStoryPoints": 27,
+      "ActualStoryPoints": 24,
+      "State": "closed"
+    },
+    {
+      "Id": 2,
+      "Number": 2,
+      "Name": "Implement main page",
+      "StartDate": "2022-03-07T00:00:00",
+      "EndDate": "2022-03-20T00:00:00",
+      "CommitmentStoryPoints": 22,
+      "ActualStoryPoints": 30,
+      "State": "closed"
+    },
+    {
+      "Id": 3,
+      "Number": 3,
+      "Name": "Implement authentication",
+      "StartDate": "2022-03-21T00:00:00",
+      "EndDate": "2022-04-03T00:00:00",
+      "CommitmentStoryPoints": 24,
+      "ActualStoryPoints": 37,
+      "State": "closed"
+    }
+  ]
+}

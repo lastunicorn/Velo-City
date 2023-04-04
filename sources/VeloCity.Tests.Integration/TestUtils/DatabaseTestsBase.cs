@@ -28,12 +28,15 @@ public class DatabaseTestsBase : IDisposable
 
     protected VeloCityDbContext VeloCityDbContext { get; private set; }
 
+    protected DatabaseAsserts DatabaseAsserts { get;}
 
     public DatabaseTestsBase(string filePath)
     {
         this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
 
         backupFile = new BackupFile(filePath);
+
+        DatabaseAsserts = new DatabaseAsserts(filePath);
     }
 
     protected void OpenDatabase()

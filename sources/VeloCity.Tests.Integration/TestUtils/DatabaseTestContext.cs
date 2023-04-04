@@ -27,9 +27,13 @@ public class DatabaseTestContext
 
     public VeloCityDbContext VeloCityDbContext { get; private set; }
 
+    public DatabaseAsserts DatabaseAsserts { get; }
+
     private DatabaseTestContext(string filePath)
     {
         this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+
+        DatabaseAsserts = new DatabaseAsserts(filePath);
     }
 
     public async Task Execute(Func<DatabaseTestContext, Task> action)
@@ -42,6 +46,23 @@ public class DatabaseTestContext
             OpenDatabase();
 
             await action(this);
+        }
+        finally
+        {
+            backupFile.RestoreFromBackup();
+        }
+    }
+
+    public void Execute(Action<DatabaseTestContext> action)
+    {
+        using BackupFile backupFile = new(filePath);
+        backupFile.CreateBackup();
+
+        try
+        {
+            OpenDatabase();
+
+            action(this);
         }
         finally
         {

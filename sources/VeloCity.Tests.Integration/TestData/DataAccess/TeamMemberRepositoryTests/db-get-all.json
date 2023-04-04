@@ -1,0 +1,74 @@
+{
+  "DatabaseInfo": {
+    "DatabaseVersion": "2.0.0"
+  },
+  "TeamMembers": [
+    {
+      "Id": 1,
+      "FirstName": "Valentin",
+      "LastName": "Nedelcu",
+      "Employments": [
+        {
+          "StartDate": "2022-02-21T00:00:00",
+          "HoursPerDay": 4,
+          "Country": "RO"
+        }
+      ],
+      "VacationDays": [
+        {
+          "Recurrence": "daily",
+          "StartDate": "2022-03-28T00:00:00",
+          "EndDate": "2022-03-31T00:00:00"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "FirstName": "Laura",
+      "MiddleName": "J.",
+      "LastName": "McClain",
+      "Employments": [
+        {
+          "StartDate": "2022-02-21T00:00:00",
+          "HoursPerDay": 8,
+          "WeekDays": [
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "Country": "US"
+        }
+      ],
+      "VacationDays": [
+        {
+          "Date": "2022-04-05T00:00:00"
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "FirstName": "Puneet",
+      "LastName": "Akbar",
+      "Employments": [
+        {
+          "StartDate": "2022-02-21T00:00:00",
+          "HoursPerDay": 8,
+          "Country": "IN"
+        }
+      ],
+      "VacationDays": [
+        {
+          "Recurrence": "daily",
+          "StartDate": "2022-04-07T00:00:00",
+          "EndDate": "2022-04-08T00:00:00"
+        },
+        {
+          "Recurrence": "once",
+          "Date": "2022-08-17T00:00:00",
+          "HourCount": 4
+        }
+      ]
+    }
+  ]
+}

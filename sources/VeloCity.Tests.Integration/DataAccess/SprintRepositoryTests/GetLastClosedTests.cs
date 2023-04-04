@@ -16,51 +16,38 @@
 
 using DustInTheWind.VeloCity.DataAccess;
 using DustInTheWind.VeloCity.Domain.SprintModel;
-using DustInTheWind.VeloCity.JsonFiles;
 using DustInTheWind.VeloCity.Tests.Integration.TestUtils;
 using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.SprintRepositoryTests;
 
-public class Add_WithEmptyDatabase_Tests : DatabaseTestsBase
+public class GetLastClosedTests : DatabaseTestsBase
 {
-    private const string DatabaseFilePath = @"TestData\DataAccess\SprintRepositoryTests\db-empty.json";
+    private const string DatabaseFilePath = @"TestData\DataAccess\SprintRepositoryTests\db-get-last-closed.json";
 
     private readonly SprintRepository sprintRepository;
 
-    public Add_WithEmptyDatabase_Tests()
+    public GetLastClosedTests()
         : base(DatabaseFilePath)
     {
         OpenDatabase();
         sprintRepository = new SprintRepository(VeloCityDbContext);
     }
-    
+
     [Fact]
-    public async Task WhenAddingSprintWithoutId_ThenSprintIdIs1AndSprintExistsInDatabase()
+    public async Task GetLastClosed()
     {
-        Sprint sprint = new()
-        {
-            Number = 5
-        };
-        sprintRepository.Add(sprint);
+        Sprint lastSprint = await sprintRepository.GetLastClosed();
 
-        await VeloCityDbContext.SaveChanges();
-
-        sprint.Id.Should().NotBe(0);
-        await AssertExistsSprint(sprint.Id);
+        lastSprint.Id.Should().Be(5);
     }
 
-    private static async Task AssertExistsSprint(int id)
+    [Fact]
+    public async Task GetLastClosedMany()
     {
-        JsonDatabase jsonDatabase = new()
-        {
-            PersistenceLocation = DatabaseFilePath
-        };
-        jsonDatabase.Open();
-        VeloCityDbContext veloCityDbContext = new(jsonDatabase);
-        SprintRepository sprintRepository = new(veloCityDbContext);
-        Sprint sprint = await sprintRepository.Get(id);
+        IEnumerable<Sprint> lastSprints = await sprintRepository.GetLastClosed(7);
 
-        sprint.Should().NotBeNull();
+        int[] expectedIds = { 5, 4, 3, 2, 1 };
+        lastSprints.Select(x => x.Id).Should().Equal(expectedIds);
     }
 }

@@ -28,7 +28,8 @@ public class VacationCollection : Collection<Vacation>
 
     public VacationCollection(IEnumerable<Vacation> vacations)
     {
-        if (vacations == null) throw new ArgumentNullException(nameof(vacations));
+        if (vacations == null)
+            return;
 
         IEnumerable<Vacation> nonNullVacations = vacations.Where(x => x != null);
 
