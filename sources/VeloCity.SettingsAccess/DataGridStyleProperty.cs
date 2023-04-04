@@ -44,6 +44,12 @@ internal class DataGridStyleProperty
         }
     }
 
+    public ConfigItem Raw => new()
+    {
+        Name = PropertyName,
+        Value = Value.ToString()
+    };
+
     public DataGridStyleProperty(IConfiguration config)
     {
         this.config = config ?? throw new ArgumentNullException(nameof(config));

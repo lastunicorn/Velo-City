@@ -70,31 +70,13 @@ public class Config : IConfig
     {
         return new List<ConfigItem>
         {
-            new()
-            {
-                Name = ErrorMessageLevelProperty.PropertyName,
-                Value = errorMessageLevelProperty.Value.ToString()
-            },
-            new()
-            {
-                Name = DatabaseLocationProperty.PropertyName,
-                Value = databaseLocationProperty.Value
-            },
-            new()
-            {
-                Name = DatabaseEditorProperty.PropertyName,
-                Value = databaseEditorProperty.Value
-            },
-            new()
-            {
-                Name = DatabaseEditorArgumentsProperty.PropertyName,
-                Value = databaseEditorArgumentsProperty.Value
-            },
-            new()
-            {
-                Name = DataGridStyleProperty.PropertyName,
-                Value = dataGridStyleProperty.Value.ToString()
-            }
+            cultureProperty.Raw,
+            errorMessageLevelProperty.Raw,
+            databaseLocationProperty.Raw,
+            databaseEditorProperty.Raw,
+            databaseEditorArgumentsProperty.Raw,
+            dataGridStyleProperty.Raw,
+            analysisLookBackProperty.Raw
         };
     }
 }

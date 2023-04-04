@@ -44,6 +44,12 @@ internal class AnalysisLookBackProperty
         }
     }
 
+    public ConfigItem Raw => new()
+    {
+        Name = PropertyName,
+        Value = Value.ToString()
+    };
+
     public AnalysisLookBackProperty(IConfiguration config)
     {
         this.config = config ?? throw new ArgumentNullException(nameof(config));

@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Globalization;
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using Microsoft.Extensions.Configuration;
 
 namespace DustInTheWind.VeloCity.SettingsAccess;
@@ -36,6 +37,12 @@ internal class CultureProperty
                 : CultureInfo.CurrentCulture;
         }
     }
+
+    public ConfigItem Raw => new()
+    {
+        Name = PropertyName,
+        Value = Value.ToString()
+    };
 
     public CultureProperty(IConfiguration config)
     {

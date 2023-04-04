@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Ports.SettingsAccess;
 using Microsoft.Extensions.Configuration;
 
 namespace DustInTheWind.VeloCity.SettingsAccess;
@@ -35,6 +36,12 @@ internal class DatabaseEditorProperty
                 : null;
         }
     }
+
+    public ConfigItem Raw => new()
+    {
+        Name = PropertyName,
+        Value = Value
+    };
 
     public DatabaseEditorProperty(IConfiguration config)
     {

@@ -20,10 +20,16 @@ namespace DustInTheWind.VeloCity.Tests.Unit.Domain.OfficialHolidayModel.Official
 
 public class GetInstancesForTests
 {
+    private readonly Mock<OfficialHoliday> officialHoliday;
+
+    public GetInstancesForTests()
+    {
+        officialHoliday = new Mock<OfficialHoliday>();
+    }
+
     [Fact]
     public void HavingAnOfficialHoliday_WhenEnumeratingInstancesForOneYear_ThenGetInstanceForIsCalledForThatYear()
     {
-        Mock<OfficialHoliday> officialHoliday = new();
         officialHoliday
             .Setup(x => x.GetInstanceFor(It.IsAny<int>()))
             .Returns(new OfficialHolidayInstance());
@@ -38,7 +44,6 @@ public class GetInstancesForTests
     [Fact]
     public void HavingAnOfficialHoliday_WhenEnumeratingInstancesForTwoYears_ThenGetInstanceForIsCalledForEachYear()
     {
-        Mock<OfficialHoliday> officialHoliday = new();
         officialHoliday
             .Setup(x => x.GetInstanceFor(It.IsAny<int>()))
             .Returns(new OfficialHolidayInstance());
@@ -54,7 +59,6 @@ public class GetInstancesForTests
     [Fact]
     public void HavingAnOfficialHoliday_WhenEnumeratingInstancesForThreeYears_ThenGetInstanceForIsCalledForEachYear()
     {
-        Mock<OfficialHoliday> officialHoliday = new();
         officialHoliday
             .Setup(x => x.GetInstanceFor(It.IsAny<int>()))
             .Returns(new OfficialHolidayInstance());
@@ -71,7 +75,6 @@ public class GetInstancesForTests
     [Fact]
     public void HavingAnOfficialHolidayForSpecificDate_WhenEnumeratingInstancesForIntervalInSameYearNotContainingDate_ThenReturnsEmptyCollection()
     {
-        Mock<OfficialHoliday> officialHoliday = new();
         officialHoliday
             .Setup(x => x.GetInstanceFor(It.IsAny<int>()))
             .Returns(new OfficialHolidayInstance());
@@ -88,7 +91,6 @@ public class GetInstancesForTests
     [Fact]
     public void HavingAnOfficialHolidayForSpecificDate_WhenEnumeratingInstancesForIntervalInSameYearContainingDate_ThenReturnsInstanceForSpecifiedYear()
     {
-        Mock<OfficialHoliday> officialHoliday = new();
         officialHoliday
             .Setup(x => x.GetInstanceFor(2000))
             .Returns(new OfficialHolidayInstance

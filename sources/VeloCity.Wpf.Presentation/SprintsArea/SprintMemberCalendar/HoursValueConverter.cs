@@ -24,34 +24,30 @@ public class HoursValueConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is HoursValue hoursValue)
-        {
-            if (targetType == typeof(string))
-            {
-                return hoursValue.ToString();
-            }
-        }
+        if (value is not HoursValue hoursValue)
+            return null;
 
-        return null;
+        return targetType == typeof(string)
+            ? hoursValue.ToString()
+            : null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is string stringValue)
-        {
-            if (targetType == typeof(HoursValue) || targetType == typeof(HoursValue?))
-            {
-                try
-                {
-                    return HoursValue.Parse(stringValue);
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
+        if (value is not string stringValue)
+            return null;
 
-        return null;
+        bool targetTypeIsHoursValue = targetType == typeof(HoursValue) || targetType == typeof(HoursValue?);
+        if (!targetTypeIsHoursValue)
+            return null;
+
+        try
+        {
+            return HoursValue.Parse(stringValue);
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

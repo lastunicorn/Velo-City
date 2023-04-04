@@ -44,6 +44,12 @@ internal class ErrorMessageLevelProperty
         }
     }
 
+    public ConfigItem Raw => new()
+    {
+        Name = PropertyName,
+        Value = Value.ToString()
+    };
+
     public ErrorMessageLevelProperty(IConfiguration config)
     {
         this.config = config ?? throw new ArgumentNullException(nameof(config));

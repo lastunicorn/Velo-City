@@ -35,11 +35,7 @@ public partial class App : System.Windows.Application
 
         SetCurrentCulture(container);
         OpenDatabase(container);
-
-        MainWindow mainWindow = container.Resolve<MainWindow>();
-        mainWindow.Show();
-
-        MainWindow = mainWindow;
+        SetupMainWindow(container);
 
         base.OnStartup(e);
     }
@@ -60,5 +56,13 @@ public partial class App : System.Windows.Application
     {
         JsonDatabase jsonDatabase = container.Resolve<JsonDatabase>();
         jsonDatabase.Open();
+    }
+
+    private void SetupMainWindow(IComponentContext container)
+    {
+        MainWindow mainWindow = container.Resolve<MainWindow>();
+        mainWindow.Show();
+
+        MainWindow = mainWindow;
     }
 }

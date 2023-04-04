@@ -30,14 +30,18 @@ public sealed class ExceptionHandlingBehavior<TRequest, TResponse> : IPipelineBe
         }
         catch (Exception ex)
         {
-            Window mainWindow = System.Windows.Application.Current.MainWindow;
-
-            if (mainWindow != null)
-                MessageBox.Show(mainWindow, ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            else
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-
+            DisplayException(ex);
             throw;
         }
+    }
+
+    private static void DisplayException(Exception exception)
+    {
+        Window mainWindow = System.Windows.Application.Current.MainWindow;
+
+        if (mainWindow != null)
+            MessageBox.Show(mainWindow, exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        else
+            MessageBox.Show(exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
     }
 }
