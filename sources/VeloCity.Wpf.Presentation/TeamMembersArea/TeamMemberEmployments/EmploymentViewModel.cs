@@ -21,7 +21,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.TeamMemberEmpl
 
 public class EmploymentViewModel
 {
-    public DateInterval TimeInterval { get; }
+    public string TimeInterval { get; }
 
     public HoursValue HoursPerDay { get; }
 
@@ -31,9 +31,22 @@ public class EmploymentViewModel
 
     public EmploymentViewModel(EmploymentInfo employmentInfo)
     {
-        TimeInterval = employmentInfo.TimeInterval;
+        TimeInterval = BuildDateInterval(employmentInfo.TimeInterval);
         HoursPerDay = employmentInfo.HoursPerDay;
         EmploymentWeek = new EmploymentWeekViewModel(employmentInfo.EmploymentWeek);
         Country = employmentInfo.Country;
+    }
+
+    private static string BuildDateInterval(DateInterval dateInterval)
+    {
+        string startDate = dateInterval.StartDate == null
+            ? ">>>"
+            : dateInterval.StartDate.Value.ToString("dd MMM yyyy");
+
+        string endDate = dateInterval.EndDate == null
+            ? ">>>"
+            : dateInterval.EndDate.Value.ToString("dd MMM yyyy");
+
+        return $"{startDate} - {endDate}";
     }
 }

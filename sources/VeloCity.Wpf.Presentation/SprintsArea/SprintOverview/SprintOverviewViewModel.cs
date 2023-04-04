@@ -18,6 +18,7 @@ using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 using DustInTheWind.VeloCity.Wpf.Application.PresentSprintOverview;
+using DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
@@ -29,7 +30,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
 public class SprintOverviewViewModel : ViewModelBase
 {
     private readonly IRequestBus requestBus;
-    private DateInterval timeInterval;
+    private string timeInterval;
     private SprintState sprintState;
     private string sprintGoal;
     private int workDays;
@@ -51,7 +52,7 @@ public class SprintOverviewViewModel : ViewModelBase
     private List<NoteBase> notes;
     private int lookBackSprintCount;
 
-    public DateInterval TimeInterval
+    public string TimeInterval
     {
         get => timeInterval;
         private set
@@ -310,9 +311,7 @@ public class SprintOverviewViewModel : ViewModelBase
 
     private void DisplayResponse(PresentSprintOverviewResponse response)
     {
-        DateTime? startDate = response.SprintDateInterval.StartDate;
-        DateTime? endDate = response.SprintDateInterval.EndDate;
-        TimeInterval = new DateInterval(startDate, endDate);
+        TimeInterval = BuildDateInterval(response.SprintDateInterval);
         SprintState = response.SprintState.ToPresentationModel();
         SprintGoal = response.SprintGoal;
 
@@ -351,6 +350,14 @@ public class SprintOverviewViewModel : ViewModelBase
         LookBackSprintCount = response.PreviouslyClosedSprintNumbers?.Count ?? 0;
 
         Notes = CreateNotes(response).ToList();
+    }
+
+    private static string BuildDateInterval(DateInterval dateInterval)
+    {
+        DateTime? startDate = dateInterval.StartDate;
+        DateTime? endDate = dateInterval.EndDate;
+
+        return $"{startDate:dd MMM yyyy} - {endDate:dd MMM yyyy}";
     }
 
     private static IEnumerable<NoteBase> CreateNotes(PresentSprintOverviewResponse response)

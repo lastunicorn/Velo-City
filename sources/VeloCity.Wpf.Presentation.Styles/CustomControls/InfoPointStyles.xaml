@@ -84,7 +84,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                 VerticalOffset="-10"
                                 Margin="10">
 
-                                <Grid Margin="20">
+                                <Grid Margin="30">
 
                                     <Border
                                         Background="{TemplateBinding InfoBackground}"
@@ -113,7 +113,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                             Color="Black"
                                             Direction="0"
                                             ShadowDepth="0"
-                                            BlurRadius="15"
+                                            BlurRadius="30"
                                             Opacity="0.75" />
                                     </Grid.Effect>
 

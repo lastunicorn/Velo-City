@@ -152,7 +152,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                                     <TextBlock
                                                         x:Name="PART_DateInterval"
-                                                        Text="{Binding SprintDateInterval, StringFormat={}[{0}]}"
+                                                        Text="{Binding SprintDateInterval}"
                                                         Margin="10 0 0 0"
                                                         VerticalAlignment="Center" />
 

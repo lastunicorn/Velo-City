@@ -25,15 +25,16 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList;
 public class SprintViewModel : ViewModelBase
 {
     private SprintState sprintState;
-    private string title;
+    private readonly string title;
     private string subtitle;
+    private string sprintDateInterval;
 
     public int SprintId { get; }
 
     public string Title
     {
         get => title;
-        private set
+        private init
         {
             title = value;
             OnPropertyChanged();
@@ -50,7 +51,16 @@ public class SprintViewModel : ViewModelBase
         }
     }
 
-    public DateInterval SprintDateInterval { get; }
+    public string SprintDateInterval
+    {
+        get => sprintDateInterval;
+        set
+        {
+            if (value == sprintDateInterval) return;
+            sprintDateInterval = value;
+            OnPropertyChanged();
+        }
+    }
 
     public SprintState SprintState
     {
@@ -68,11 +78,26 @@ public class SprintViewModel : ViewModelBase
 
         SprintId = sprintInfo.Id;
         subtitle = sprintInfo.Title;
-        Title = "Sprint " + sprintInfo.Number;
+        Title = BuildTitle(sprintInfo);
         SprintState = sprintInfo.State.ToPresentationModel();
-        SprintDateInterval = sprintInfo.DateInterval;
+        SprintDateInterval = BuildDateInterval(sprintInfo);
 
         eventBus.Subscribe<SprintUpdatedEvent>(HandleSprintUpdatedEvent);
+    }
+
+    private static string BuildTitle(SprintInfo sprintInfo)
+    {
+        int sprintNumber = sprintInfo.Number;
+        return $"Sprint {sprintNumber}";
+    }
+
+    private static string BuildDateInterval(SprintInfo sprintInfo)
+    {
+        DateTime? startDate = sprintInfo.DateInterval.StartDate;
+        DateTime? endDate = sprintInfo.DateInterval.EndDate;
+
+        return $"[{startDate:dd MMM} - {endDate:dd MMM}]";
+
     }
 
     private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
