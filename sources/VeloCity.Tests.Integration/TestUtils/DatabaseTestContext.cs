@@ -27,13 +27,13 @@ public class DatabaseTestContext
 
     public VeloCityDbContext VeloCityDbContext { get; private set; }
 
-    public DatabaseAsserts DatabaseAsserts { get; }
+    public DatabaseAssertsContext Asserts { get; }
 
     private DatabaseTestContext(string filePath)
     {
         this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
 
-        DatabaseAsserts = new DatabaseAsserts(filePath);
+        Asserts = new DatabaseAssertsContext(filePath);
     }
 
     public async Task Execute(Func<DatabaseTestContext, Task> action)

@@ -28,7 +28,7 @@ public class DatabaseTestsBase : IDisposable
 
     protected VeloCityDbContext VeloCityDbContext { get; private set; }
 
-    protected DatabaseAsserts DatabaseAsserts { get;}
+    protected DatabaseAssertsContext DatabaseAsserts { get;}
 
     public DatabaseTestsBase(string filePath)
     {
@@ -36,7 +36,7 @@ public class DatabaseTestsBase : IDisposable
 
         backupFile = new BackupFile(filePath);
 
-        DatabaseAsserts = new DatabaseAsserts(filePath);
+        DatabaseAsserts = new DatabaseAssertsContext(filePath);
     }
 
     protected void OpenDatabase()

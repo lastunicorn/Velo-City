@@ -43,7 +43,7 @@ public class AddTests
                 await context.VeloCityDbContext.SaveChanges();
 
                 sprint.Id.Should().NotBe(0);
-                await context.DatabaseAsserts.AssertExistsSprint(sprint.Id);
+                await context.Asserts.ExistsSprint(sprint.Id);
             });
     }
 
@@ -83,7 +83,7 @@ public class AddTests
 
                  await context.VeloCityDbContext.SaveChanges();
 
-                 await context.DatabaseAsserts.AssertExistsSprint(5);
+                 await context.Asserts.ExistsSprint(5);
              });
     }
 
@@ -105,7 +105,7 @@ public class AddTests
                 await context.VeloCityDbContext.SaveChanges();
 
                 sprint.Id.Should().NotBe(0);
-                await context.DatabaseAsserts.AssertExistsSprint(sprint.Id);
+                await context.Asserts.ExistsSprint(sprint.Id);
             });
     }
 
@@ -125,7 +125,7 @@ public class AddTests
                 };
                 sprintRepository.Add(sprint);
 
-                await context.DatabaseAsserts.AssertNotExistsSprint(5);
+                await context.Asserts.NotExistsSprint(5);
             });
     }
 }

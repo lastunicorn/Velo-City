@@ -28,7 +28,8 @@ public class EmploymentCollection : IEnumerable<Employment>
 
     public EmploymentCollection(IEnumerable<Employment> employments)
     {
-        if (employments == null) throw new ArgumentNullException(nameof(employments));
+        if (employments == null)
+            return;
 
         IEnumerable<Employment> orderedEmployments = employments
             .Where(x => x != null)

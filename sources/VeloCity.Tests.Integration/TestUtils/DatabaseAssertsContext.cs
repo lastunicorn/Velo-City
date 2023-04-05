@@ -21,38 +21,50 @@ using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.TestUtils;
 
-public class DatabaseAsserts
+public class DatabaseAssertsContext
 {
     private readonly string databaseFilePath;
+    private bool isOpened;
 
-    public DatabaseAsserts(string databaseFilePath)
+    public JsonDatabase JsonDatabase { get; private set; }
+
+    public VeloCityDbContext VeloCityDbContext { get; private set; }
+
+    public DatabaseAssertsContext(string databaseFilePath)
     {
         this.databaseFilePath = databaseFilePath ?? throw new ArgumentNullException(nameof(databaseFilePath));
     }
 
-    public async Task AssertExistsSprint(int id)
+    private void OpenDatabase()
     {
-        JsonDatabase jsonDatabase = new()
+        JsonDatabase = new JsonDatabase
         {
             PersistenceLocation = databaseFilePath
         };
-        jsonDatabase.Open();
-        VeloCityDbContext veloCityDbContext = new(jsonDatabase);
-        SprintRepository sprintRepository = new(veloCityDbContext);
+        JsonDatabase.Open();
+
+        VeloCityDbContext = new VeloCityDbContext(JsonDatabase);
+
+        isOpened = true;
+    }
+
+    public async Task ExistsSprint(int id)
+    {
+        if (!isOpened)
+            OpenDatabase();
+
+        SprintRepository sprintRepository = new(VeloCityDbContext);
         Sprint sprint = await sprintRepository.Get(id);
 
         sprint.Should().NotBeNull();
     }
 
-    public async Task AssertNotExistsSprint(int id)
+    public async Task NotExistsSprint(int id)
     {
-        JsonDatabase jsonDatabase = new()
-        {
-            PersistenceLocation = databaseFilePath
-        };
-        jsonDatabase.Open();
-        VeloCityDbContext veloCityDbContext = new(jsonDatabase);
-        SprintRepository sprintRepository = new(veloCityDbContext);
+        if (!isOpened)
+            OpenDatabase();
+
+        SprintRepository sprintRepository = new(VeloCityDbContext);
         Sprint sprint = await sprintRepository.Get(id);
 
         sprint.Should().BeNull();

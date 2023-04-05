@@ -1,0 +1,17 @@
+{
+  "DatabaseInfo": {
+    "DatabaseVersion": "2.0.0"
+  },
+  "TeamMembers": [
+    {
+      "Id": 1,
+      "FirstName": "Valentin",
+      "LastName": "Nedelcu"
+    },
+    {
+      "Id": 2,
+      "FirstName": "Maria",
+      "LastName": "Toma"
+    }
+  ]
+}

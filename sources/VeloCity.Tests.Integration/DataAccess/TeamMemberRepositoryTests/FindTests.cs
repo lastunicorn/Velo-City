@@ -21,51 +21,50 @@ using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.TeamMemberRepositoryTests;
 
-public class GetByDate_TwoTeamMembersTests
+public class FindTests
 {
     private const string DatabaseDirectoryPath = @"TestData\DataAccess\TeamMemberRepositoryTests";
 
     [Fact]
-    public async Task HavingDateBeforeBothEmployments_WhenGetByDate_ThenReturnsEmptyCollection()
+    public async Task HavingEmptyDatabase_WhenFind_ThenReturnsEmptyCollection()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-find.empty.json")
             .Execute(async context =>
             {
                 TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
 
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2000, 01, 15));
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("anything");
 
                 teamMembers.Should().BeEmpty();
             });
     }
 
     [Fact]
-    public async Task HavingDateDuringFirstTeamMemberEmployment_WhenGetByDate_ThenReturnsFirstTeamMember()
+    public async Task HavingDatabaseWithTeamMembers_WhenFindNonExistingName_ThenReturnsEmptyCollection()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-find.json")
             .Execute(async context =>
             {
                 TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
 
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 03, 15));
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("blabla");
 
-                int[] expectedIds = { 1 };
-                teamMembers.Select(x => x.Id).Should().Equal(expectedIds);
+                teamMembers.Should().BeEmpty();
             });
     }
 
     [Fact]
-    public async Task HavingDateDuringBothTeamMemberEmployments_WhenGetByDate_ThenReturnsBothTeamMembers()
+    public async Task HavingDatabaseWithTeamMembers_WhenFindNameMatchingTwoTeamMembers_ThenReturnsTwoTeamMembers()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-find.json")
             .Execute(async context =>
             {
                 TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
 
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 06, 15));
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("Vale");
 
                 int[] expectedIds = { 1, 2 };
                 teamMembers.Select(x => x.Id).Should().Equal(expectedIds);
@@ -73,33 +72,34 @@ public class GetByDate_TwoTeamMembersTests
     }
 
     [Fact]
-    public async Task HavingDateDuringSecondTeamMemberEmployment_WhenGetByDate_ThenReturnsSecondTeamMember()
+    public async Task HavingDatabaseWithTeamMembers_WhenFindNameMatchingTwoTeamMembersCaseInsensitive_ThenReturnsTwoTeamMembers()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-find.json")
             .Execute(async context =>
             {
                 TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
 
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 08, 15));
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("vale");
 
-                int[] expectedIds = { 2 };
+                int[] expectedIds = { 1, 2 };
                 teamMembers.Select(x => x.Id).Should().Equal(expectedIds);
             });
     }
 
     [Fact]
-    public async Task HavingDateAfterBothTeamMemberEmployment_WhenGetByDate_ThenReturnsEmptyCollection()
+    public async Task HavingDatabaseWithTeamMembers_WhenFindNameMatchingOneTeamMembersCaseInsensitive_ThenReturnsTheTeamMember()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-find.json")
             .Execute(async context =>
             {
                 TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
 
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 11, 15));
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("mar");
 
-                teamMembers.Should().BeEmpty();
+                int[] expectedIds = { 2 };
+                teamMembers.Select(x => x.Id).Should().Equal(expectedIds);
             });
     }
 }

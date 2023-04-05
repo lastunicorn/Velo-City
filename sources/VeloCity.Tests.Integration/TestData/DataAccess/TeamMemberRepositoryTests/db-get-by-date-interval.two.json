@@ -1,0 +1,33 @@
+{
+  "DatabaseInfo": {
+    "DatabaseVersion": "2.0.0"
+  },
+  "TeamMembers": [
+    {
+      "Id": 1,
+      "FirstName": "Valentin",
+      "LastName": "Nedelcu",
+      "Employments": [
+        {
+          "StartDate": "2022-02-01T00:00:00",
+          "EndDate": "2022-07-01T00:00:00",
+          "HoursPerDay": 4,
+          "Country": "RO"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "FirstName": "Maria",
+      "LastName": "Toma",
+      "Employments": [
+        {
+          "StartDate": "2022-05-01T00:00:00",
+          "EndDate": "2022-10-01T00:00:00",
+          "HoursPerDay": 8,
+          "Country": "RO"
+        }
+      ]
+    }
+  ]
+}
