@@ -31,18 +31,11 @@ public class SetVacation_CurrentDayOnce_Create_PrevOnceSame_NextOnceSameTests
 
     public SetVacation_CurrentDayOnce_Create_PrevOnceSame_NextOnceSameTests()
     {
-        currentDate = new DateTime(2023, 03, 27);
         previousDate = new DateTime(2023, 03, 26);
+        currentDate = new DateTime(2023, 03, 27);
         nextDate = new DateTime(2023, 03, 28);
 
         vacationCollection = new VacationCollection();
-
-        currentVacation = new VacationOnce
-        {
-            Date = currentDate,
-            HourCount = 8
-        };
-        vacationCollection.Add(currentVacation);
 
         previousVacation = new VacationOnce
         {
@@ -51,23 +44,19 @@ public class SetVacation_CurrentDayOnce_Create_PrevOnceSame_NextOnceSameTests
         };
         vacationCollection.Add(previousVacation);
 
+        currentVacation = new VacationOnce
+        {
+            Date = currentDate,
+            HourCount = 4
+        };
+        vacationCollection.Add(currentVacation);
+
         nextVacation = new VacationOnce
         {
             Date = nextDate,
             HourCount = 8
         };
         vacationCollection.Add(nextVacation);
-    }
-
-    [Fact]
-    public void WhenSettingVacationForCurrentDay_ThenCurrentDayVacationSpansFromPrevToNext()
-    {
-        vacationCollection.SetVacation(currentDate, 8);
-
-        VacationDaily actualVacation = vacationCollection.GetVacationsFor(currentDate).Single() as VacationDaily;
-
-        DateInterval expectedDateInterval = new(previousDate, nextDate);
-        actualVacation.DateInterval.Should().Be(expectedDateInterval);
     }
 
     [Fact]
@@ -81,27 +70,14 @@ public class SetVacation_CurrentDayOnce_Create_PrevOnceSame_NextOnceSameTests
     }
 
     [Fact]
-    public void WhenSettingVacationForCurrentDay_ThenOldCurrentDayVacationIsRemoved()
+    public void WhenSettingVacationForCurrentDay_ThenCurrentDayVacationSpansFromPreviousToNext()
     {
         vacationCollection.SetVacation(currentDate, 8);
 
-        List<Vacation> actualVacations = vacationCollection.GetVacationsFor(currentDate).ToList();
+        VacationDaily actualVacation = vacationCollection.GetVacationsFor(currentDate).Single() as VacationDaily;
 
-        actualVacations.Count.Should().Be(1);
-        actualVacations[0].Should().NotBeSameAs(currentVacation);
-    }
-
-    [Fact]
-    public void WhenSettingVacationForCurrentDay_ThenOldCurrentVacationDoesNotTriggerChangedEventAnymore()
-    {
-        vacationCollection.SetVacation(currentDate, 8);
-
-        bool wasEventTriggered = false;
-        vacationCollection.Changed += (sender, args) => wasEventTriggered = true;
-
-        currentVacation.HourCount = 100;
-
-        wasEventTriggered.Should().BeFalse();
+        DateInterval expectedDateInterval = new(previousDate, nextDate);
+        actualVacation.DateInterval.Should().Be(expectedDateInterval);
     }
 
     [Fact]

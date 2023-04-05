@@ -21,7 +21,7 @@ public class VacationDaily : Vacation
     private DateInterval dateInterval;
 
     public DateTime? StartDate => dateInterval.StartDate;
-    
+
     public DateTime? EndDate => dateInterval.EndDate;
 
     public DateInterval DateInterval
@@ -57,5 +57,27 @@ public class VacationDaily : Vacation
     public void ExtendLeft(uint dayCount)
     {
         DateInterval = DateInterval.InflateLeft(dayCount);
+    }
+
+    public uint CountDaysBefore(DateTime date)
+    {
+        if (date == DateTime.MinValue)
+            return 0;
+
+        DateInterval chopInterval = new(null, date.AddDays(-1));
+
+        DateInterval? intersection = DateInterval.Intersect(DateInterval, chopInterval);
+        return intersection?.TotalDays ?? 0;
+    }
+
+    public uint CountDaysAfter(DateTime date)
+    {
+        if (date == DateTime.MaxValue)
+            return 0;
+
+        DateInterval chopInterval = new(date.AddDays(1));
+
+        DateInterval? intersection = DateInterval.Intersect(DateInterval, chopInterval);
+        return intersection?.TotalDays ?? 0;
     }
 }

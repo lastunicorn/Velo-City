@@ -28,7 +28,7 @@ public readonly struct DateInterval
 
     public bool IsZero => StartDate != null && EndDate != null && StartDate.Value == EndDate.Value;
 
-    public int TotalDays => (int)((EndDate ?? DateTime.MaxValue) - (StartDate ?? DateTime.MinValue)).TotalDays + 1;
+    public uint TotalDays => (uint)((EndDate ?? DateTime.MaxValue) - (StartDate ?? DateTime.MinValue)).TotalDays + 1;
 
     public DateInterval(DateTime? startDate = null, DateTime? endDate = null)
     {
@@ -115,5 +115,49 @@ public readonly struct DateInterval
     {
         DateTime? newEndDate = date?.Date;
         return new DateInterval(StartDate, newEndDate);
+    }
+
+    public DateInterval? Intersect(DateInterval dateInterval1, DateInterval dateInterval2)
+    {
+        DateTime startDate1 = dateInterval1.StartDate ?? DateTime.MinValue;
+        DateTime endDate1 = dateInterval1.EndDate ?? DateTime.MaxValue;
+
+        DateTime startDate2 = dateInterval2.StartDate ?? DateTime.MinValue;
+        DateTime endDate2 = dateInterval2.EndDate ?? DateTime.MaxValue;
+        
+        if (startDate1 < startDate2)
+        {
+            if (endDate1 < startDate2)
+                return null;
+
+            if (endDate1 >= startDate2 && endDate1 < endDate2)
+                return new DateInterval(startDate2, endDate1);
+
+            if (endDate1 >= endDate2)
+                return dateInterval2;
+        }
+
+        if (startDate1 == startDate2)
+        {
+            if (endDate1 <= endDate2)
+                return dateInterval1;
+
+            if (endDate1 > endDate2)
+                return dateInterval2;
+        }
+
+        if (startDate1 > startDate2 && startDate1 <= endDate2)
+        {
+            if (endDate1 <= endDate2)
+                return dateInterval1;
+
+            if (endDate1 > endDate2)
+                return new DateInterval(startDate1, endDate2);
+        }
+
+        if (startDate1 > endDate2)
+            return null;
+
+        return null;
     }
 }
