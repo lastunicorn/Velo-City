@@ -62,7 +62,7 @@ public class SprintViewModel : ViewModelBase
         }
     }
 
-    public SprintViewModel(SprintInfo sprintInfo, EventBus eventBus)
+    public SprintViewModel(SprintDto sprintInfo, EventBus eventBus)
     {
         if (sprintInfo == null) throw new ArgumentNullException(nameof(sprintInfo));
 

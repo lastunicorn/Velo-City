@@ -18,7 +18,7 @@ namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 
 public class PresentSprintsResponse
 {
-    public List<SprintInfo> Sprints { get; set; }
+    public List<SprintDto> Sprints { get; set; }
 
     public int? CurrentSprintId { get; set; }
 }

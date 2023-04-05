@@ -107,7 +107,7 @@ public class HandleTests
         AssertSprintIds(response.Sprints, new[] { 1, 2 });
     }
 
-    private static void AssertSprintIds(IEnumerable<SprintInfo> actualSprints, int[] expectedSprintIds)
+    private static void AssertSprintIds(IEnumerable<SprintDto> actualSprints, int[] expectedSprintIds)
     {
         int[] actualSprintIds = actualSprints
             .Select(x => x.Id)

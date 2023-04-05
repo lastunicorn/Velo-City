@@ -39,7 +39,7 @@ internal class PresentSprintsUseCase : IRequestHandler<PresentSprintsRequest, Pr
         {
             Sprints = allSprints
                 .OrderByDescending(x => x.StartDate)
-                .Select(x => new SprintInfo(x))
+                .Select(x => new SprintDto(x))
                 .ToList(),
             CurrentSprintId = applicationState.SelectedSprintId
         };

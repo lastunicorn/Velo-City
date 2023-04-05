@@ -20,6 +20,10 @@ public class VacationDaily : Vacation
 {
     private DateInterval dateInterval;
 
+    public DateTime? StartDate => dateInterval.StartDate;
+    
+    public DateTime? EndDate => dateInterval.EndDate;
+
     public DateInterval DateInterval
     {
         get => dateInterval;
@@ -33,5 +37,25 @@ public class VacationDaily : Vacation
     public override bool Match(DateTime date)
     {
         return DateInterval.ContainsDate(date);
+    }
+
+    public void ChangeStartDate(DateTime? startDate)
+    {
+        DateInterval = DateInterval.ChangeStartDate(startDate);
+    }
+
+    public void ChangeEndDate(DateTime? endDate)
+    {
+        DateInterval = DateInterval.ChangeEndDate(endDate);
+    }
+
+    public void ExtendRight(uint dayCount)
+    {
+        DateInterval = DateInterval.InflateRight(dayCount);
+    }
+
+    public void ExtendLeft(uint dayCount)
+    {
+        DateInterval = DateInterval.InflateLeft(dayCount);
     }
 }

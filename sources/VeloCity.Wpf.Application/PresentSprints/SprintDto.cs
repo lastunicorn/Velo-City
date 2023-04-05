@@ -19,7 +19,7 @@ using DustInTheWind.VeloCity.Domain.SprintModel;
 
 namespace DustInTheWind.VeloCity.Wpf.Application.PresentSprints;
 
-public class SprintInfo
+public class SprintDto
 {
     public int Id { get; }
 
@@ -31,7 +31,7 @@ public class SprintInfo
 
     public SprintState State { get; }
 
-    public SprintInfo(Sprint sprint)
+    public SprintDto(Sprint sprint)
     {
         Id = sprint.Id;
         Title = sprint.Title;
