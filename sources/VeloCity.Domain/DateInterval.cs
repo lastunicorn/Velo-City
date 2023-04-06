@@ -117,47 +117,8 @@ public readonly struct DateInterval
         return new DateInterval(StartDate, newEndDate);
     }
 
-    public DateInterval? Intersect(DateInterval dateInterval1, DateInterval dateInterval2)
+    public static DateInterval? Intersect(DateInterval dateInterval1, DateInterval dateInterval2)
     {
-        DateTime startDate1 = dateInterval1.StartDate ?? DateTime.MinValue;
-        DateTime endDate1 = dateInterval1.EndDate ?? DateTime.MaxValue;
-
-        DateTime startDate2 = dateInterval2.StartDate ?? DateTime.MinValue;
-        DateTime endDate2 = dateInterval2.EndDate ?? DateTime.MaxValue;
-        
-        if (startDate1 < startDate2)
-        {
-            if (endDate1 < startDate2)
-                return null;
-
-            if (endDate1 >= startDate2 && endDate1 < endDate2)
-                return new DateInterval(startDate2, endDate1);
-
-            if (endDate1 >= endDate2)
-                return dateInterval2;
-        }
-
-        if (startDate1 == startDate2)
-        {
-            if (endDate1 <= endDate2)
-                return dateInterval1;
-
-            if (endDate1 > endDate2)
-                return dateInterval2;
-        }
-
-        if (startDate1 > startDate2 && startDate1 <= endDate2)
-        {
-            if (endDate1 <= endDate2)
-                return dateInterval1;
-
-            if (endDate1 > endDate2)
-                return new DateInterval(startDate1, endDate2);
-        }
-
-        if (startDate1 > endDate2)
-            return null;
-
-        return null;
+        return new DateIntervalIntersection(dateInterval1, dateInterval2);
     }
 }
