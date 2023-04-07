@@ -51,7 +51,7 @@ internal class Setup
         containerBuilder.RegisterMediatR(assembly);
         containerBuilder.RegisterGeneric(typeof(ExceptionHandlingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
 
-        containerBuilder.RegisterType<MediatRRequestBus>().As<IRequestBus>().SingleInstance();
+        containerBuilder.RegisterType<MediatrRequestBus>().As<IRequestBus>().SingleInstance();
 
         containerBuilder.RegisterType<ApplicationState>().AsSelf().SingleInstance();
         containerBuilder.RegisterType<EventBus>().AsSelf().SingleInstance();

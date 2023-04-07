@@ -20,11 +20,11 @@ using MediatR;
 
 namespace DustInTheWind.VeloCity.Wpf.Bootstrapper;
 
-internal class MediatRRequestBus : IRequestBus
+internal class MediatrRequestBus : IRequestBus
 {
     private readonly ILifetimeScope lifetimeScope;
 
-    public MediatRRequestBus(ILifetimeScope lifetimeScope)
+    public MediatrRequestBus(ILifetimeScope lifetimeScope)
     {
         this.lifetimeScope = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
     }

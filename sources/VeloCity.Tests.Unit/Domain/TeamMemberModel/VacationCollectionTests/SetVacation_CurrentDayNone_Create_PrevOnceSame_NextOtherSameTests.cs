@@ -19,22 +19,25 @@ using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 namespace DustInTheWind.VeloCity.Tests.Unit.Domain.TeamMemberModel.VacationCollectionTests;
 
+// --- --- --- --- --- --- --- --- ---
+//             (=)     {=}
+//             (=) (=) {=}
+//             [=====] {=}
+
 public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextOtherSameTests
 {
     private readonly VacationCollection vacationCollection;
     private readonly DateTime currentDate;
     private readonly DateTime previousDate;
-    private readonly DateTime nextDate;
     private readonly VacationOnce previousVacation;
     private readonly VacationMonthly nextVacation;
-    private readonly DateTime maxDate;
 
     public SetVacation_CurrentDayNone_Create_PrevOnceSame_NextOtherSameTests()
     {
         currentDate = new DateTime(2023, 03, 27);
         previousDate = new DateTime(2023, 03, 26);
-        nextDate = new DateTime(2023, 03, 28);
-        maxDate = new DateTime(3000, 01, 01);
+        DateTime nextDate = new(2023, 03, 28);
+        DateTime maxDate = new(3000, 01, 01);
 
         vacationCollection = new VacationCollection();
 

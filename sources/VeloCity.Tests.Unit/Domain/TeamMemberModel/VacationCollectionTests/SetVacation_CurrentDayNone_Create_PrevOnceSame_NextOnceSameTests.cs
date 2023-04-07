@@ -19,6 +19,11 @@ using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 namespace DustInTheWind.VeloCity.Tests.Unit.Domain.TeamMemberModel.VacationCollectionTests;
 
+// --- --- --- --- --- --- --- --- ---
+//             (=)     (=)
+//             (=) (=) (=)
+//             [=========]
+
 public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextOnceSameTests
 {
     private readonly VacationCollection vacationCollection;
