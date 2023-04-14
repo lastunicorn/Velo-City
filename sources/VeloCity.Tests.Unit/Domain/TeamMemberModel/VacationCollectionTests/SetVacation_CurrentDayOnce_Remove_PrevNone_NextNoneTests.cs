@@ -30,7 +30,7 @@ public class SetVacation_CurrentDayOnce_Remove_PrevNone_NextNoneTests
     private readonly DateTime currentDate;
     private readonly DateTime previousDate;
     private readonly DateTime nextDate;
-    private readonly VacationOnce currentVacation;
+    private readonly SingleDayVacation currentVacation;
 
     public SetVacation_CurrentDayOnce_Remove_PrevNone_NextNoneTests()
     {
@@ -40,7 +40,7 @@ public class SetVacation_CurrentDayOnce_Remove_PrevNone_NextNoneTests
 
         vacationCollection = new VacationCollection();
 
-        currentVacation = new VacationOnce
+        currentVacation = new SingleDayVacation
         {
             Date = currentDate,
             HourCount = 8

@@ -24,7 +24,7 @@ namespace DustInTheWind.VeloCity.Tests.Unit.Wpf.Application.PresentTeamMemberVac
 public class Handle_WithVacationOnceTests
 {
     private readonly PresentTeamMemberVacationsUseCase useCase;
-    private readonly VacationOnce vacation;
+    private readonly SingleDayVacation singleDayVacation;
 
     public Handle_WithVacationOnceTests()
     {
@@ -40,11 +40,11 @@ public class Handle_WithVacationOnceTests
             SelectedTeamMemberId = 123
         };
 
-        vacation = new VacationOnce();
+        singleDayVacation = new SingleDayVacation();
 
         TeamMember teamMember = new()
         {
-            Vacations = new VacationCollection { vacation }
+            Vacations = new VacationCollection { singleDayVacation }
         };
 
         teamMemberRepository
@@ -57,7 +57,7 @@ public class Handle_WithVacationOnceTests
     [Fact]
     public async Task HavingVacationWithSpecificDateInRepository_WhenUseCaseIsExecuted_ThenResponseContainsVacationWithSameDate()
     {
-        vacation.Date = new DateTime(2023, 01, 04);
+        singleDayVacation.Date = new DateTime(2023, 01, 04);
 
         PresentTeamMemberVacationsRequest request = new();
         PresentTeamMemberVacationsResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -69,7 +69,7 @@ public class Handle_WithVacationOnceTests
     [Fact]
     public async Task HavingVacationWithSpecificHourCountInRepository_WhenUseCaseIsExecuted_ThenResponseContainsVacationWithSameHourCount()
     {
-        vacation.HourCount = 20;
+        singleDayVacation.HourCount = 20;
 
         PresentTeamMemberVacationsRequest request = new();
         PresentTeamMemberVacationsResponse response = await useCase.Handle(request, CancellationToken.None);
@@ -81,7 +81,7 @@ public class Handle_WithVacationOnceTests
     [Fact]
     public async Task HavingVacationWithSpecificCommentsInRepository_WhenUseCaseIsExecuted_ThenResponseContainsVacationWithSameComments()
     {
-        vacation.Comments = "some text";
+        singleDayVacation.Comments = "some text";
 
         PresentTeamMemberVacationsRequest request = new();
         PresentTeamMemberVacationsResponse response = await useCase.Handle(request, CancellationToken.None);

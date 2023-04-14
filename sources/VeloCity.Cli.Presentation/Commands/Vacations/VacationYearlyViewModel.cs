@@ -31,11 +31,11 @@ public class VacationYearlyViewModel : VacationViewModel
 
     public override DateTime? EndDate => DateInterval.EndDate;
 
-    public VacationYearlyViewModel(VacationYearly vacationYearly)
-        : base(vacationYearly)
+    public VacationYearlyViewModel(YearlyVacation yearlyVacation)
+        : base(yearlyVacation)
     {
-        Dates = vacationYearly.Dates;
-        DateInterval = vacationYearly.DateInterval;
+        Dates = yearlyVacation.Dates;
+        DateInterval = yearlyVacation.DateInterval;
     }
 
     protected override string RenderDate()

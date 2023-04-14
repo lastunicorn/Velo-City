@@ -30,8 +30,8 @@ public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextOnceSameTests
     private readonly DateTime currentDate;
     private readonly DateTime previousDate;
     private readonly DateTime nextDate;
-    private readonly VacationOnce previousVacation;
-    private readonly VacationOnce nextVacation;
+    private readonly SingleDayVacation previousVacation;
+    private readonly SingleDayVacation nextVacation;
 
     public SetVacation_CurrentDayNone_Create_PrevOnceSame_NextOnceSameTests()
     {
@@ -41,14 +41,14 @@ public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextOnceSameTests
 
         vacationCollection = new VacationCollection();
 
-        previousVacation = new VacationOnce
+        previousVacation = new SingleDayVacation
         {
             Date = previousDate,
             HourCount = 8
         };
         vacationCollection.Add(previousVacation);
 
-        nextVacation = new VacationOnce
+        nextVacation = new SingleDayVacation
         {
             Date = nextDate,
             HourCount = 8
@@ -61,7 +61,7 @@ public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextOnceSameTests
     {
         vacationCollection.SetVacation(currentDate, 8);
 
-        VacationDaily actualVacation = vacationCollection.GetVacationsFor(currentDate).Single() as VacationDaily;
+        DailyVacation actualVacation = vacationCollection.GetVacationsFor(currentDate).Single() as DailyVacation;
 
         DateInterval expectedDateInterval = new(previousDate, nextDate);
         actualVacation.DateInterval.Should().Be(expectedDateInterval);
@@ -85,7 +85,7 @@ public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextOnceSameTests
         List<Vacation> actualVacations = vacationCollection.GetVacationsFor(previousDate).ToList();
 
         actualVacations.Count.Should().Be(1);
-        actualVacations[0].Should().BeOfType<VacationDaily>();
+        actualVacations[0].Should().BeOfType<DailyVacation>();
     }
 
     [Fact]

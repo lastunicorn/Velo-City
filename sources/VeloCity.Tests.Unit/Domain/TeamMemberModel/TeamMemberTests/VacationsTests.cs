@@ -38,7 +38,7 @@ public class VacationsTests
         bool eventWasTriggered = false;
         teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
 
-        vacationCollection.Add(new VacationDaily());
+        vacationCollection.Add(new DailyVacation());
 
         eventWasTriggered.Should().BeTrue();
     }
@@ -50,7 +50,7 @@ public class VacationsTests
         bool eventWasTriggered = false;
         teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
 
-        vacationCollection.Add(new VacationDaily());
+        vacationCollection.Add(new DailyVacation());
 
         eventWasTriggered.Should().BeFalse();
     }
@@ -62,7 +62,7 @@ public class VacationsTests
         bool eventWasTriggered = false;
         teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
 
-        vacationCollection.Add(new VacationDaily());
+        vacationCollection.Add(new DailyVacation());
 
         eventWasTriggered.Should().BeFalse();
     }
@@ -75,7 +75,7 @@ public class VacationsTests
         bool eventWasTriggered = false;
         teamMember.VacationsChanged += (sender, args) => eventWasTriggered = true;
 
-        newVacationCollection.Add(new VacationDaily());
+        newVacationCollection.Add(new DailyVacation());
 
         eventWasTriggered.Should().BeTrue();
     }

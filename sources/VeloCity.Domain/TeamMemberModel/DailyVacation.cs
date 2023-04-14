@@ -16,7 +16,7 @@
 
 namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-public class VacationDaily : Vacation
+public class DailyVacation : Vacation
 {
     private DateInterval dateInterval;
 

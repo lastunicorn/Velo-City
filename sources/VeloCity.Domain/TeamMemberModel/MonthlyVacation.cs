@@ -16,22 +16,36 @@
 
 namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-public class VacationOnce : Vacation
+public class MonthlyVacation : Vacation
 {
-    private DateTime date;
+    private List<int> monthDays;
+    private DateInterval dateInterval;
 
-    public DateTime Date
+    public List<int> MonthDays
     {
-        get => date;
+        get => monthDays;
         set
         {
-            date = value;
+            monthDays = value;
+            OnChanged();
+        }
+    }
+
+    public DateInterval DateInterval
+    {
+        get => dateInterval;
+        set
+        {
+            dateInterval = value;
             OnChanged();
         }
     }
 
     public override bool Match(DateTime date)
     {
-        return date.Date == Date.Date;
+        if (!DateInterval.ContainsDate(date))
+            return false;
+
+        return MonthDays?.Contains(date.Day) ?? false;
     }
 }

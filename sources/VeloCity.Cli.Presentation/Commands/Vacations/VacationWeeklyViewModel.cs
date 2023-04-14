@@ -31,11 +31,11 @@ public class VacationWeeklyViewModel : VacationViewModel
 
     public override DateTime? EndDate => DateInterval.EndDate;
 
-    public VacationWeeklyViewModel(VacationWeekly vacationWeekly)
-        : base(vacationWeekly)
+    public VacationWeeklyViewModel(WeeklyVacation weeklyVacation)
+        : base(weeklyVacation)
     {
-        WeekDays = vacationWeekly.WeekDays;
-        DateInterval = vacationWeekly.DateInterval;
+        WeekDays = weeklyVacation.WeekDays;
+        DateInterval = weeklyVacation.DateInterval;
     }
 
     protected override string RenderDate()

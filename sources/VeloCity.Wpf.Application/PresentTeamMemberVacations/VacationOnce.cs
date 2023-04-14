@@ -22,9 +22,9 @@ public class VacationOnceInfo : VacationInfo
 {
     public DateTime Date { get; set; }
 
-    public VacationOnceInfo(VacationOnce vacationOnce)
-        : base(vacationOnce)
+    public VacationOnceInfo(SingleDayVacation singleDayVacation)
+        : base(singleDayVacation)
     {
-        Date = vacationOnce.Date;
+        Date = singleDayVacation.Date;
     }
 }

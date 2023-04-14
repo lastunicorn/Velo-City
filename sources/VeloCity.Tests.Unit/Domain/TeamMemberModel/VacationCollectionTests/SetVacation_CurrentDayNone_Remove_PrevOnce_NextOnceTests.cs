@@ -30,8 +30,8 @@ public class SetVacation_CurrentDayNone_Remove_PrevOnce_NextOnceTests
     private readonly DateTime currentDate;
     private readonly DateTime previousDate;
     private readonly DateTime nextDate;
-    private readonly VacationOnce previousVacation;
-    private readonly VacationOnce nextVacation;
+    private readonly SingleDayVacation previousVacation;
+    private readonly SingleDayVacation nextVacation;
 
     public SetVacation_CurrentDayNone_Remove_PrevOnce_NextOnceTests()
     {
@@ -41,14 +41,14 @@ public class SetVacation_CurrentDayNone_Remove_PrevOnce_NextOnceTests
 
         vacationCollection = new VacationCollection();
 
-        previousVacation = new VacationOnce
+        previousVacation = new SingleDayVacation
         {
             Date = previousDate,
             HourCount = 8
         };
         vacationCollection.Add(previousVacation);
 
-        nextVacation = new VacationOnce
+        nextVacation = new SingleDayVacation
         {
             Date = nextDate,
             HourCount = 8

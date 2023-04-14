@@ -16,8 +16,22 @@
 
 namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-public enum VacationSetOption
+public class SingleDayVacation : Vacation
 {
-    SingleDay,
-    WholeSeries
+    private DateTime date;
+
+    public DateTime Date
+    {
+        get => date;
+        set
+        {
+            date = value;
+            OnChanged();
+        }
+    }
+
+    public override bool Match(DateTime date)
+    {
+        return date.Date == Date.Date;
+    }
 }

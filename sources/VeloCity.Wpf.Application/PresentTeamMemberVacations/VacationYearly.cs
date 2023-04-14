@@ -25,10 +25,10 @@ public class VacationYearlyInfo : VacationInfo
 
     public DateInterval DateInterval { get; set; }
 
-    public VacationYearlyInfo(VacationYearly vacationYearly)
-        : base(vacationYearly)
+    public VacationYearlyInfo(YearlyVacation yearlyVacation)
+        : base(yearlyVacation)
     {
-        Dates = vacationYearly.Dates;
-        DateInterval = vacationYearly.DateInterval;
+        Dates = yearlyVacation.Dates;
+        DateInterval = yearlyVacation.DateInterval;
     }
 }

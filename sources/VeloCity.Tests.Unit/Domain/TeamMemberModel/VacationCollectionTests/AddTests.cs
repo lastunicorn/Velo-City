@@ -30,19 +30,19 @@ public class AddTests
     [Fact]
     public void HavingVacationCollection_WhenAddingOneVacation_ThenCollectionContainsThatVacation()
     {
-        VacationOnce vacation = new();
-        vacationCollection.Add(vacation);
+        SingleDayVacation singleDayVacation = new();
+        vacationCollection.Add(singleDayVacation);
 
-        vacationCollection.Single().Should().BeSameAs(vacation);
+        vacationCollection.Single().Should().BeSameAs(singleDayVacation);
     }
 
     [Fact]
     public void HavingVacationCollection_WhenAddingTwoVacations_ThenCollectionContainsThoseTwoVacations()
     {
-        VacationOnce vacation1 = new();
+        SingleDayVacation vacation1 = new();
         vacationCollection.Add(vacation1);
 
-        VacationOnce vacation2 = new();
+        SingleDayVacation vacation2 = new();
         vacationCollection.Add(vacation2);
 
         vacationCollection.Should().BeEquivalentTo(new[] { vacation1, vacation2 });
@@ -54,10 +54,10 @@ public class AddTests
         bool wasEventRaised = false;
         vacationCollection.Changed += (sender, args) => wasEventRaised = true;
 
-        VacationOnce vacation = new();
-        vacationCollection.Add(vacation);
+        SingleDayVacation singleDayVacation = new();
+        vacationCollection.Add(singleDayVacation);
 
-        vacation.Date = new DateTime(2023, 03, 27);
+        singleDayVacation.Date = new DateTime(2023, 03, 27);
 
         wasEventRaised.Should().BeTrue();
     }

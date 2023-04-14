@@ -31,11 +31,11 @@ public class VacationMonthlyViewModel : VacationViewModel
 
     public override DateTime? EndDate => DateInterval.EndDate;
 
-    public VacationMonthlyViewModel(VacationMonthly vacationMonthly)
-        : base(vacationMonthly)
+    public VacationMonthlyViewModel(MonthlyVacation monthlyVacation)
+        : base(monthlyVacation)
     {
-        MonthDays = vacationMonthly.MonthDays;
-        DateInterval = vacationMonthly.DateInterval;
+        MonthDays = monthlyVacation.MonthDays;
+        DateInterval = monthlyVacation.DateInterval;
     }
 
     protected override string RenderDate()

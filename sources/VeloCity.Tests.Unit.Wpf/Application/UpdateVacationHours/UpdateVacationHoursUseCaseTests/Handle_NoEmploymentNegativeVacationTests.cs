@@ -41,7 +41,7 @@ public class Handle_NoEmploymentNegativeVacationTests
             Employments = null,
             Vacations = new VacationCollection
             {
-                new VacationOnce
+                new SingleDayVacation
                 {
                     Date = new DateTime(2023, 03, 26),
                     HourCount = -5

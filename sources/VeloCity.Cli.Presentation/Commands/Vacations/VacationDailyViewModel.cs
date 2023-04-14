@@ -29,10 +29,10 @@ public class VacationDailyViewModel : VacationViewModel
 
     public override DateTime? EndDate => DateInterval.EndDate;
 
-    public VacationDailyViewModel(VacationDaily vacationDaily)
-        : base(vacationDaily)
+    public VacationDailyViewModel(DailyVacation dailyVacation)
+        : base(dailyVacation)
     {
-        DateInterval = vacationDaily.DateInterval;
+        DateInterval = dailyVacation.DateInterval;
     }
 
     protected override string RenderDate()

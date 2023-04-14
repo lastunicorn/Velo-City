@@ -28,10 +28,10 @@ public class VacationOnceViewModel : VacationViewModel
 
     public override DateTime? EndDate => Date;
 
-    public VacationOnceViewModel(VacationOnce vacationOnce)
-        : base(vacationOnce)
+    public VacationOnceViewModel(SingleDayVacation singleDayVacation)
+        : base(singleDayVacation)
     {
-        Date = vacationOnce.Date;
+        Date = singleDayVacation.Date;
     }
 
     protected override string RenderDate()

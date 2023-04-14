@@ -90,7 +90,7 @@ public class VacationCollection : Collection<Vacation>
         OnChanged();
     }
 
-    public void SetVacation(DateTime date, HoursValue? hours, VacationSetOption option = VacationSetOption.WholeSeries)
+    public void SetVacation(DateTime date, HoursValue? hours, VacationUpdateOption option = VacationUpdateOption.WholeSeries)
     {
         date = date.Date;
 
@@ -102,20 +102,20 @@ public class VacationCollection : Collection<Vacation>
                 SetVacation_WhenCurrentIsNone(date, hours);
                 break;
 
-            case VacationOnce existingVacationOnce:
+            case SingleDayVacation existingVacationOnce:
                 SetVacation_WhenCurrentIsOnce(existingVacationOnce, hours);
                 break;
 
-            case VacationDaily existingVacationDaily:
+            case DailyVacation existingVacationDaily:
                 if (existingVacationDaily.DateInterval.StartDate == date && existingVacationDaily.DateInterval.EndDate == date)
                     SetVacation_WhenCurrentIsDaily_Current(existingVacationDaily, date, hours);
                 else
                     SetVacation_WhenCurrentIsDaily(existingVacationDaily, date, hours, option);
                 break;
 
-            case VacationWeekly:
-            case VacationMonthly:
-            case VacationYearly:
+            case WeeklyVacation:
+            case MonthlyVacation:
+            case YearlyVacation:
                 SetVacation_WhenCurrentIsSeries(existingVacation, hours, option);
 
                 break;
@@ -137,14 +137,14 @@ public class VacationCollection : Collection<Vacation>
         Vacation nextVacation = Items.FirstOrDefault(x => x.Match(nextDate));
 
         // previous day == once vacation (can merge left)
-        if (previousVacation is VacationOnce previousVacationOnce && previousVacationOnce.HourCount == hours)
+        if (previousVacation is SingleDayVacation previousVacationOnce && previousVacationOnce.HourCount == hours)
         {
             // next day == once vacation (can merge right)
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
                 Merge(previousVacationOnce, nextVacationOnce);
 
             // next day == daily vacation (can merge right)
-            else if (nextVacation is VacationDaily nextVacationDaily && nextVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextVacationDaily && nextVacationDaily.HourCount == hours)
                 Merge(previousVacationOnce, nextVacationDaily);
 
             // next day == other vacation (cannot merge right)
@@ -153,14 +153,14 @@ public class VacationCollection : Collection<Vacation>
         }
 
         // previous day == daily vacation (can merge left)
-        else if (previousVacation is VacationDaily previousDayVacationDaily && previousDayVacationDaily.HourCount == hours)
+        else if (previousVacation is DailyVacation previousDayVacationDaily && previousDayVacationDaily.HourCount == hours)
         {
             // next day == once vacation
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
                 Merge(previousDayVacationDaily, nextVacationOnce);
 
             // next day == daily vacation
-            else if (nextVacation is VacationDaily nextDayVacationDaily && nextDayVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextDayVacationDaily && nextDayVacationDaily.HourCount == hours)
                 Merge(previousDayVacationDaily, nextDayVacationDaily);
 
             // next day == other vacation (cannot merge right)
@@ -172,11 +172,11 @@ public class VacationCollection : Collection<Vacation>
         else
         {
             // next day == once vacation (can merge right)
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
                 ExtendLeft(nextVacationOnce);
 
             // next day == daily vacation (can merge right)
-            else if (nextVacation is VacationDaily nextDayVacationDaily && nextDayVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextDayVacationDaily && nextDayVacationDaily.HourCount == hours)
                 ExtendLeft(nextDayVacationDaily);
 
             // next day == other vacation (cannot merge right)
@@ -184,7 +184,7 @@ public class VacationCollection : Collection<Vacation>
             {
                 // create new once vacation
 
-                AddInternal(new VacationOnce
+                AddInternal(new SingleDayVacation
                 {
                     Date = date,
                     HourCount = hours
@@ -193,7 +193,7 @@ public class VacationCollection : Collection<Vacation>
         }
     }
 
-    private void SetVacation_WhenCurrentIsOnce(VacationOnce existingVacation, HoursValue? hours)
+    private void SetVacation_WhenCurrentIsOnce(SingleDayVacation existingVacation, HoursValue? hours)
     {
         if (hours == existingVacation.HourCount)
             return;
@@ -211,16 +211,16 @@ public class VacationCollection : Collection<Vacation>
         Vacation nextVacation = Items.FirstOrDefault(x => x.Match(nextDate));
 
         // previous day == once vacation
-        if (previousVacation is VacationOnce previousVacationOnce && previousVacationOnce.HourCount == hours)
+        if (previousVacation is SingleDayVacation previousVacationOnce && previousVacationOnce.HourCount == hours)
         {
             RemoveInternal(existingVacation);
 
             // next day == once vacation
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
                 Merge(previousVacationOnce, nextVacationOnce);
 
             // next day == daily vacation
-            else if (nextVacation is VacationDaily nextVacationDaily && nextVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextVacationDaily && nextVacationDaily.HourCount == hours)
                 Merge(previousVacationOnce, nextVacationDaily);
 
             // next day == other vacation (cannot merge right)
@@ -229,16 +229,16 @@ public class VacationCollection : Collection<Vacation>
         }
 
         // previous day == daily vacation
-        else if (previousVacation is VacationDaily previousDayVacationDaily && previousDayVacationDaily.HourCount == hours)
+        else if (previousVacation is DailyVacation previousDayVacationDaily && previousDayVacationDaily.HourCount == hours)
         {
             RemoveInternal(existingVacation);
 
             // next day == once vacation
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
                 Merge(previousDayVacationDaily, nextVacationOnce);
 
             // next day == daily vacation
-            else if (nextVacation is VacationDaily nextDayVacationDaily && nextDayVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextDayVacationDaily && nextDayVacationDaily.HourCount == hours)
                 Merge(previousDayVacationDaily, nextDayVacationDaily);
 
             // next day == other vacation (cannot merge right)
@@ -250,14 +250,14 @@ public class VacationCollection : Collection<Vacation>
         else
         {
             // next day == once vacation
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
             {
                 RemoveInternal(existingVacation);
                 ExtendLeft(nextVacationOnce);
             }
 
             // next day == daily vacation
-            else if (nextVacation is VacationDaily nextDayVacationDaily && nextDayVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextDayVacationDaily && nextDayVacationDaily.HourCount == hours)
             {
                 RemoveInternal(existingVacation);
                 ExtendLeft(nextDayVacationDaily);
@@ -271,7 +271,7 @@ public class VacationCollection : Collection<Vacation>
         }
     }
 
-    private void SetVacation_WhenCurrentIsDaily_Current(VacationDaily existingVacation, DateTime date, HoursValue? hours)
+    private void SetVacation_WhenCurrentIsDaily_Current(DailyVacation existingVacation, DateTime date, HoursValue? hours)
     {
         if (hours == existingVacation.HourCount)
             return;
@@ -288,14 +288,14 @@ public class VacationCollection : Collection<Vacation>
         Vacation nextVacation = Items.FirstOrDefault(x => x.Match(nextDate));
 
         // previous day == once vacation
-        if (previousVacation is VacationOnce previousVacationOnce && previousVacationOnce.HourCount == hours)
+        if (previousVacation is SingleDayVacation previousVacationOnce && previousVacationOnce.HourCount == hours)
         {
             // next day == once vacation
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
                 Merge(previousVacationOnce, nextVacationOnce);
 
             // next day == daily vacation
-            else if (nextVacation is VacationDaily nextVacationDaily && nextVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextVacationDaily && nextVacationDaily.HourCount == hours)
                 Merge(previousVacationOnce, nextVacationDaily);
 
             // next day == other vacation (cannot merge)
@@ -304,14 +304,14 @@ public class VacationCollection : Collection<Vacation>
         }
 
         // previous day == daily vacation
-        else if (previousVacation is VacationDaily previousVacationDaily && previousVacationDaily.HourCount == hours)
+        else if (previousVacation is DailyVacation previousVacationDaily && previousVacationDaily.HourCount == hours)
         {
             // next day == once vacation
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
                 Merge(previousVacationDaily, nextVacationOnce);
 
             // next day == daily vacation
-            else if (nextVacation is VacationDaily nextVacationDaily && nextVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextVacationDaily && nextVacationDaily.HourCount == hours)
                 Merge(previousVacationDaily, nextVacationDaily);
 
             // next day == other vacation (cannot merge)
@@ -323,17 +323,17 @@ public class VacationCollection : Collection<Vacation>
         else
         {
             // next day == once vacation
-            if (nextVacation is VacationOnce nextVacationOnce && nextVacationOnce.HourCount == hours)
+            if (nextVacation is SingleDayVacation nextVacationOnce && nextVacationOnce.HourCount == hours)
                 ExtendLeft(nextVacationOnce);
 
             // next day == daily vacation
-            else if (nextVacation is VacationDaily nextVacationDaily && nextVacationDaily.HourCount == hours)
+            else if (nextVacation is DailyVacation nextVacationDaily && nextVacationDaily.HourCount == hours)
                 ExtendLeft(nextVacationDaily);
 
             // next day == other vacation (cannot merge)
             else
             {
-                AddInternal(new VacationOnce
+                AddInternal(new SingleDayVacation
                 {
                     Date = date,
                     HourCount = hours
@@ -342,19 +342,19 @@ public class VacationCollection : Collection<Vacation>
         }
     }
 
-    private void SetVacation_WhenCurrentIsDaily(VacationDaily existingVacation, DateTime date, HoursValue? hours, VacationSetOption option)
+    private void SetVacation_WhenCurrentIsDaily(DailyVacation existingVacation, DateTime date, HoursValue? hours, VacationUpdateOption option)
     {
         if (hours == existingVacation.HourCount)
             return;
 
         switch (option)
         {
-            case VacationSetOption.SingleDay:
+            case VacationUpdateOption.SingleDay:
                 RemoveSingleDay(existingVacation, date);
 
                 if (hours > 0)
                 {
-                    AddInternal(new VacationOnce
+                    AddInternal(new SingleDayVacation
                     {
                         Date = date,
                         HourCount = hours
@@ -363,7 +363,7 @@ public class VacationCollection : Collection<Vacation>
 
                 break;
 
-            case VacationSetOption.WholeSeries:
+            case VacationUpdateOption.WholeSeries:
                 if (hours <= 0)
                     RemoveInternal(existingVacation);
                 else
@@ -375,7 +375,7 @@ public class VacationCollection : Collection<Vacation>
         }
     }
 
-    private void RemoveSingleDay(VacationDaily vacation, DateTime date)
+    private void RemoveSingleDay(DailyVacation vacation, DateTime date)
     {
         bool dateIsDuringVacation = vacation.DateInterval.ContainsDate(date);
 
@@ -395,7 +395,7 @@ public class VacationCollection : Collection<Vacation>
 
                 case 1:
                     RemoveInternal(vacation);
-                    AddInternal(new VacationOnce
+                    AddInternal(new SingleDayVacation
                     {
                         Date = vacation.EndDate ?? DateTime.MaxValue,
                         HourCount = vacation.HourCount
@@ -418,7 +418,7 @@ public class VacationCollection : Collection<Vacation>
 
                 case 1:
                     RemoveInternal(vacation);
-                    AddInternal(new VacationOnce
+                    AddInternal(new SingleDayVacation
                     {
                         Date = vacation.EndDate ?? DateTime.MaxValue,
                         HourCount = vacation.HourCount
@@ -431,7 +431,7 @@ public class VacationCollection : Collection<Vacation>
                     break;
             }
 
-            AddInternal(new VacationOnce
+            AddInternal(new SingleDayVacation
             {
                 Date = vacation.StartDate ?? DateTime.MinValue,
                 HourCount = vacation.HourCount
@@ -450,7 +450,7 @@ public class VacationCollection : Collection<Vacation>
                     break;
 
                 case 1:
-                    AddInternal(new VacationOnce
+                    AddInternal(new SingleDayVacation
                     {
                         Date = vacation.EndDate ?? DateTime.MaxValue,
                         HourCount = vacation.HourCount
@@ -460,7 +460,7 @@ public class VacationCollection : Collection<Vacation>
                 default:
                     DateTime startDate = date.AddDays(1);
 
-                    AddInternal(new VacationDaily
+                    AddInternal(new DailyVacation
                     {
                         DateInterval = new DateInterval(startDate, lastDate),
                         HourCount = vacation.HourCount
@@ -471,24 +471,24 @@ public class VacationCollection : Collection<Vacation>
         }
     }
 
-    private void SetVacation_WhenCurrentIsSeries(Vacation existingVacation, HoursValue? hours, VacationSetOption option)
+    private void SetVacation_WhenCurrentIsSeries(Vacation existingVacation, HoursValue? hours, VacationUpdateOption option)
     {
         switch (option)
         {
-            case VacationSetOption.SingleDay:
+            case VacationUpdateOption.SingleDay:
                 throw new Exception("Updating a single day from a series is not supported.");
 
-            case VacationSetOption.WholeSeries when hours <= 0:
+            case VacationUpdateOption.WholeSeries when hours <= 0:
                 RemoveInternal(existingVacation);
                 break;
 
-            case VacationSetOption.WholeSeries:
+            case VacationUpdateOption.WholeSeries:
                 existingVacation.HourCount = hours;
                 break;
         }
     }
 
-    private void Merge(VacationOnce vacationLeft, VacationOnce vacationRight)
+    private void Merge(SingleDayVacation vacationLeft, SingleDayVacation vacationRight)
     {
         RemoveInternal(vacationLeft);
         RemoveInternal(vacationRight);
@@ -496,70 +496,70 @@ public class VacationCollection : Collection<Vacation>
         DateTime startDate = vacationLeft.Date;
         DateTime endDate = vacationRight.Date;
 
-        AddInternal(new VacationDaily
+        AddInternal(new DailyVacation
         {
             DateInterval = new DateInterval(startDate, endDate),
             HourCount = vacationLeft.HourCount
         });
     }
 
-    private void Merge(VacationOnce vacationLeft, VacationDaily vacationRight)
+    private void Merge(SingleDayVacation vacationLeft, DailyVacation vacationRight)
     {
         RemoveInternal(vacationLeft);
         vacationRight.ChangeStartDate(vacationLeft.Date);
     }
 
-    private void Merge(VacationDaily vacationLeft, VacationOnce vacationRight)
+    private void Merge(DailyVacation vacationLeft, SingleDayVacation vacationRight)
     {
         RemoveInternal(vacationRight);
         vacationLeft.ChangeEndDate(vacationRight.Date);
     }
 
-    private void Merge(VacationDaily vacationLeft, VacationDaily vacationRight)
+    private void Merge(DailyVacation vacationLeft, DailyVacation vacationRight)
     {
         RemoveInternal(vacationRight);
         vacationLeft.ChangeEndDate(vacationRight.EndDate);
     }
 
-    private void ExtendLeft(VacationOnce vacation)
+    private void ExtendLeft(SingleDayVacation singleDayVacation)
     {
         //  delete vacation and create daily for new-left and vacation.
 
-        RemoveInternal(vacation);
+        RemoveInternal(singleDayVacation);
 
-        DateTime startDate = vacation.Date.AddDays(-1);
-        DateTime endDate = vacation.Date;
+        DateTime startDate = singleDayVacation.Date.AddDays(-1);
+        DateTime endDate = singleDayVacation.Date;
 
-        Vacation newVacation = new VacationDaily
+        Vacation newVacation = new DailyVacation
         {
             DateInterval = new DateInterval(startDate, endDate),
-            HourCount = vacation.HourCount
+            HourCount = singleDayVacation.HourCount
         };
         AddInternal(newVacation);
     }
 
-    private static void ExtendLeft(VacationDaily vacation)
+    private static void ExtendLeft(DailyVacation vacation)
     {
         vacation.ExtendLeft(1);
     }
 
-    private void ExtendRight(VacationOnce vacation)
+    private void ExtendRight(SingleDayVacation singleDayVacation)
     {
         //  delete vacation and create a daily for vacation and new-right.
 
-        RemoveInternal(vacation);
+        RemoveInternal(singleDayVacation);
 
-        DateTime startDate = vacation.Date;
-        DateTime endDate = vacation.Date.AddDays(1);
+        DateTime startDate = singleDayVacation.Date;
+        DateTime endDate = singleDayVacation.Date.AddDays(1);
 
-        AddInternal(new VacationDaily
+        AddInternal(new DailyVacation
         {
             DateInterval = new DateInterval(startDate, endDate),
-            HourCount = vacation.HourCount
+            HourCount = singleDayVacation.HourCount
         });
     }
 
-    private static void ExtendRight(VacationDaily vacation)
+    private static void ExtendRight(DailyVacation vacation)
     {
         vacation.ExtendRight(1);
     }

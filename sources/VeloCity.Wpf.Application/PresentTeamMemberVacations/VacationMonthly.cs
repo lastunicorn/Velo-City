@@ -25,10 +25,10 @@ public class VacationMonthlyInfo : VacationInfo
 
     public DateInterval DateInterval { get; set; }
 
-    public VacationMonthlyInfo(VacationMonthly vacationMonthly)
-        : base(vacationMonthly)
+    public VacationMonthlyInfo(MonthlyVacation monthlyVacation)
+        : base(monthlyVacation)
     {
-        MonthDays = vacationMonthly.MonthDays;
-        DateInterval = vacationMonthly.DateInterval;
+        MonthDays = monthlyVacation.MonthDays;
+        DateInterval = monthlyVacation.DateInterval;
     }
 }

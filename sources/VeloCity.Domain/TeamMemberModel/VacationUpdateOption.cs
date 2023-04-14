@@ -16,36 +16,8 @@
 
 namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-public class VacationWeekly : Vacation
+public enum VacationUpdateOption
 {
-    private List<DayOfWeek> weekDays;
-    private DateInterval dateInterval;
-
-    public List<DayOfWeek> WeekDays
-    {
-        get => weekDays;
-        set
-        {
-            weekDays = value;
-            OnChanged();
-        }
-    }
-
-    public DateInterval DateInterval
-    {
-        get => dateInterval;
-        set
-        {
-            dateInterval = value;
-            OnChanged();
-        }
-    }
-
-    public override bool Match(DateTime date)
-    {
-        if (!DateInterval.ContainsDate(date))
-            return false;
-
-        return WeekDays?.Contains(date.DayOfWeek) ?? false;
-    }
+    SingleDay,
+    WholeSeries
 }

@@ -18,6 +18,8 @@ namespace DustInTheWind.VeloCity.Domain;
 
 public readonly struct DateInterval
 {
+    public static DateInterval FullInfinite { get; } = new();
+
     public DateTime? StartDate { get; }
 
     public DateTime? EndDate { get; }

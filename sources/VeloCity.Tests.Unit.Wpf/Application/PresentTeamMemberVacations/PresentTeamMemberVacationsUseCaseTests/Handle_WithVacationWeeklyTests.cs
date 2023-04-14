@@ -25,7 +25,7 @@ namespace DustInTheWind.VeloCity.Tests.Unit.Wpf.Application.PresentTeamMemberVac
 public class Handle_WithVacationWeeklyTests
 {
     private readonly PresentTeamMemberVacationsUseCase useCase;
-    private readonly VacationWeekly vacation;
+    private readonly WeeklyVacation vacation;
 
     public Handle_WithVacationWeeklyTests()
     {
@@ -41,7 +41,7 @@ public class Handle_WithVacationWeeklyTests
             SelectedTeamMemberId = 123
         };
 
-        vacation = new VacationWeekly();
+        vacation = new WeeklyVacation();
 
         TeamMember teamMember = new()
         {

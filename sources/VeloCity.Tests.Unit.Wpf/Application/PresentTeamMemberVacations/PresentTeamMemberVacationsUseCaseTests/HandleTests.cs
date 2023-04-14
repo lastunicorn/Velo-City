@@ -116,7 +116,7 @@ public class HandleTests
         {
             Vacations = new VacationCollection
             {
-                new VacationOnce()
+                new SingleDayVacation()
             }
         };
 
@@ -139,8 +139,8 @@ public class HandleTests
         {
             Vacations = new VacationCollection
             {
-                new VacationOnce(),
-                new VacationOnce()
+                new SingleDayVacation(),
+                new SingleDayVacation()
             }
         };
 

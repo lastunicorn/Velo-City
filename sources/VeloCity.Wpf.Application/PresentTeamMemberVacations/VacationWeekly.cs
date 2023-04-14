@@ -25,10 +25,10 @@ public class VacationWeeklyInfo : VacationInfo
 
     public DateInterval DateInterval { get; set; }
 
-    public VacationWeeklyInfo(VacationWeekly vacationWeekly)
-        : base(vacationWeekly)
+    public VacationWeeklyInfo(WeeklyVacation weeklyVacation)
+        : base(weeklyVacation)
     {
-        WeekDays = vacationWeekly.WeekDays;
-        DateInterval = vacationWeekly.DateInterval;
+        WeekDays = weeklyVacation.WeekDays;
+        DateInterval = weeklyVacation.DateInterval;
     }
 }

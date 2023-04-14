@@ -48,7 +48,7 @@ public class Handle_EmploymentPositiveVacationTests
             },
             Vacations = new VacationCollection
             {
-                new VacationOnce
+                new SingleDayVacation
                 {
                     Date = new DateTime(2023, 03, 26),
                     HourCount = 5

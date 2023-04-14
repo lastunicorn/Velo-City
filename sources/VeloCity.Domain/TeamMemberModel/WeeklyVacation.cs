@@ -16,17 +16,17 @@
 
 namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-public class VacationYearly : Vacation
+public class WeeklyVacation : Vacation
 {
-    private List<DateTime> dates;
+    private List<DayOfWeek> weekDays;
     private DateInterval dateInterval;
 
-    public List<DateTime> Dates
+    public List<DayOfWeek> WeekDays
     {
-        get => dates;
+        get => weekDays;
         set
         {
-            dates = value;
+            weekDays = value;
             OnChanged();
         }
     }
@@ -46,8 +46,6 @@ public class VacationYearly : Vacation
         if (!DateInterval.ContainsDate(date))
             return false;
 
-        return Dates?
-            .Select(x => x.Date)
-            .Contains(date.Date) ?? false;
+        return WeekDays?.Contains(date.DayOfWeek) ?? false;
     }
 }

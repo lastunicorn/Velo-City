@@ -70,7 +70,7 @@ public class ExecuteTests
         {
             Vacations = new VacationCollection
             {
-                new VacationOnce
+                new SingleDayVacation
                 {
                     Date = new DateTime(2020, 05, 28)
                 }
@@ -94,11 +94,11 @@ public class ExecuteTests
         {
             Vacations = new VacationCollection
             {
-                new VacationOnce
+                new SingleDayVacation
                 {
                     Date = new DateTime(2020, 05, 28)
                 },
-                new VacationDaily
+                new DailyVacation
                 {
                     DateInterval = new DateInterval(new DateTime(2020, 05, 28), new DateTime(2020, 05, 30))
                 }
@@ -122,7 +122,7 @@ public class ExecuteTests
         {
             Vacations = new VacationCollection
             {
-                new VacationOnce
+                new SingleDayVacation
                 {
                     Date = new DateTime(2020, 05, 28)
                 }

@@ -23,9 +23,9 @@ public class VacationDailyInfo : VacationInfo
 {
     public DateInterval DateInterval { get; set; }
 
-    public VacationDailyInfo(VacationDaily vacationDaily)
-        : base(vacationDaily)
+    public VacationDailyInfo(DailyVacation dailyVacation)
+        : base(dailyVacation)
     {
-        DateInterval = vacationDaily.DateInterval;
+        DateInterval = dailyVacation.DateInterval;
     }
 }

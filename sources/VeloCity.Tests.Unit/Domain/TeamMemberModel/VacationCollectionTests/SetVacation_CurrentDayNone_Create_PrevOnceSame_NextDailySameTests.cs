@@ -29,8 +29,8 @@ public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextDailySameTests
     private readonly VacationCollection vacationCollection;
     private readonly DateTime currentDate;
     private readonly DateTime previousDate;
-    private readonly VacationOnce previousVacation;
-    private readonly VacationDaily nextVacation;
+    private readonly SingleDayVacation previousVacation;
+    private readonly DailyVacation nextVacation;
     private readonly DateTime maxDate;
 
     public SetVacation_CurrentDayNone_Create_PrevOnceSame_NextDailySameTests()
@@ -42,14 +42,14 @@ public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextDailySameTests
 
         vacationCollection = new VacationCollection();
 
-        previousVacation = new VacationOnce
+        previousVacation = new SingleDayVacation
         {
             Date = previousDate,
             HourCount = 8
         };
         vacationCollection.Add(previousVacation);
 
-        nextVacation = new VacationDaily
+        nextVacation = new DailyVacation
         {
             DateInterval = new DateInterval(nextDate, maxDate),
             HourCount = 8
@@ -62,7 +62,7 @@ public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextDailySameTests
     {
         vacationCollection.SetVacation(currentDate, 8);
 
-        VacationDaily actualVacation = vacationCollection.GetVacationsFor(currentDate).Single() as VacationDaily;
+        DailyVacation actualVacation = vacationCollection.GetVacationsFor(currentDate).Single() as DailyVacation;
 
         DateInterval expectedDateInterval = new(previousDate, maxDate);
         actualVacation.DateInterval.Should().Be(expectedDateInterval);
@@ -86,7 +86,7 @@ public class SetVacation_CurrentDayNone_Create_PrevOnceSame_NextDailySameTests
         List<Vacation> actualVacations = vacationCollection.GetVacationsFor(previousDate).ToList();
 
         actualVacations.Count.Should().Be(1);
-        actualVacations[0].Should().BeOfType<VacationDaily>();
+        actualVacations[0].Should().BeOfType<DailyVacation>();
     }
 
     [Fact]

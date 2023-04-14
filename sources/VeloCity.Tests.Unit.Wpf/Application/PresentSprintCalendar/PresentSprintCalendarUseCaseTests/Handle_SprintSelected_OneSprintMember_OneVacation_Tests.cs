@@ -71,7 +71,7 @@ public class Handle_SprintSelected_OneSprintMember_OneVacation_Tests
     [Fact]
     public async Task HavingOneFullDayVacation_WhenUseCaseIsExecuted_ThenDaysFromResponseContainCorrectWorkHours()
     {
-        teamMember.Vacations.Add(new VacationOnce
+        teamMember.Vacations.Add(new SingleDayVacation
         {
             Date = new DateTime(2023, 03, 21)
         });
@@ -86,7 +86,7 @@ public class Handle_SprintSelected_OneSprintMember_OneVacation_Tests
     [Fact]
     public async Task HavingOneFullDayVacation_WhenUseCaseIsExecuted_ThenDaysFromResponseContainCorrectAbsenceHours()
     {
-        teamMember.Vacations.Add(new VacationOnce
+        teamMember.Vacations.Add(new SingleDayVacation
         {
             Date = new DateTime(2023, 03, 21)
         });
@@ -101,7 +101,7 @@ public class Handle_SprintSelected_OneSprintMember_OneVacation_Tests
     [Fact]
     public async Task HavingOneFullDayVacation_WhenUseCaseIsExecuted_ThenDaysFromResponseContainCorrectIsWorkDay()
     {
-        teamMember.Vacations.Add(new VacationOnce
+        teamMember.Vacations.Add(new SingleDayVacation
         {
             Date = new DateTime(2023, 03, 21)
         });
@@ -116,7 +116,7 @@ public class Handle_SprintSelected_OneSprintMember_OneVacation_Tests
     [Fact]
     public async Task HavingOnePartialDayVacation_WhenUseCaseIsExecuted_ThenDaysFromResponseContainCorrectWorkHours()
     {
-        teamMember.Vacations.Add(new VacationOnce
+        teamMember.Vacations.Add(new SingleDayVacation
         {
             Date = new DateTime(2023, 03, 21),
             HourCount = 2
@@ -132,7 +132,7 @@ public class Handle_SprintSelected_OneSprintMember_OneVacation_Tests
     [Fact]
     public async Task HavingOnPartialDayVacation_WhenUseCaseIsExecuted_ThenDaysFromResponseContainCorrectAbsenceHours()
     {
-        teamMember.Vacations.Add(new VacationOnce
+        teamMember.Vacations.Add(new SingleDayVacation
         {
             Date = new DateTime(2023, 03, 21),
             HourCount = 2
@@ -148,7 +148,7 @@ public class Handle_SprintSelected_OneSprintMember_OneVacation_Tests
     [Fact]
     public async Task HavingOnePartialDayVacation_WhenUseCaseIsExecuted_ThenDaysFromResponseContainCorrectIsWorkDay()
     {
-        teamMember.Vacations.Add(new VacationOnce
+        teamMember.Vacations.Add(new SingleDayVacation
         {
             Date = new DateTime(2023, 03, 21),
             HourCount = 2

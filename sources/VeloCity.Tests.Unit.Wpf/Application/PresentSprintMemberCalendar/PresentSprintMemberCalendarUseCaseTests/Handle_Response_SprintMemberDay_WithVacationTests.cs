@@ -74,7 +74,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21)
             }
@@ -98,7 +98,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21)
             }
@@ -129,7 +129,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21)
             }
@@ -164,7 +164,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21)
             }
@@ -195,7 +195,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21)
             }
@@ -226,7 +226,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21),
                 HourCount = 4
@@ -258,7 +258,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21),
                 HourCount = 4
@@ -290,7 +290,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21)
             }
@@ -321,7 +321,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21)
             }
@@ -352,7 +352,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21),
                 HourCount = 4
@@ -384,7 +384,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21)
             }
@@ -415,7 +415,7 @@ public class Handle_Response_SprintMemberDay_WithVacationTests
     {
         teamMemberFromRepository.Vacations = new VacationCollection
         {
-            new VacationOnce
+            new SingleDayVacation
             {
                 Date = new DateTime(2023, 03, 21),
                 HourCount = 4

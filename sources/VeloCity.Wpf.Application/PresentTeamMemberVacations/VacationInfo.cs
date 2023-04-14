@@ -34,11 +34,11 @@ public abstract class VacationInfo
     {
         return vacation switch
         {
-            VacationOnce vacationOnce => new VacationOnceInfo(vacationOnce),
-            VacationDaily vacationDaily => new VacationDailyInfo(vacationDaily),
-            VacationWeekly vacationWeekly => new VacationWeeklyInfo(vacationWeekly),
-            VacationMonthly vacationMonthly => new VacationMonthlyInfo(vacationMonthly),
-            VacationYearly vacationYearly => new VacationYearlyInfo(vacationYearly),
+            SingleDayVacation vacationOnce => new VacationOnceInfo(vacationOnce),
+            DailyVacation vacationDaily => new VacationDailyInfo(vacationDaily),
+            WeeklyVacation vacationWeekly => new VacationWeeklyInfo(vacationWeekly),
+            MonthlyVacation vacationMonthly => new VacationMonthlyInfo(vacationMonthly),
+            YearlyVacation vacationYearly => new VacationYearlyInfo(vacationYearly),
             _ => throw new ArgumentOutOfRangeException(nameof(vacation))
         };
     }

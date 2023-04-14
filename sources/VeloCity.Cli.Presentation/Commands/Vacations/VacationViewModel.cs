@@ -31,10 +31,10 @@ public abstract class VacationViewModel
 
     public abstract DateTime? EndDate { get; }
 
-    protected VacationViewModel(Vacation vacationOnce)
+    protected VacationViewModel(Vacation vacation)
     {
-        HourCount = vacationOnce.HourCount;
-        Comments = vacationOnce.Comments;
+        HourCount = vacation.HourCount;
+        Comments = vacation.Comments;
     }
 
     public override string ToString()
@@ -58,11 +58,11 @@ public abstract class VacationViewModel
     {
         return vacation switch
         {
-            VacationOnce vacationOnce => new VacationOnceViewModel(vacationOnce),
-            VacationDaily vacationDaily => new VacationDailyViewModel(vacationDaily),
-            VacationWeekly vacationWeekly => new VacationWeeklyViewModel(vacationWeekly),
-            VacationMonthly vacationMonthly => new VacationMonthlyViewModel(vacationMonthly),
-            VacationYearly vacationYearly => new VacationYearlyViewModel(vacationYearly),
+            SingleDayVacation vacationOnce => new VacationOnceViewModel(vacationOnce),
+            DailyVacation vacationDaily => new VacationDailyViewModel(vacationDaily),
+            WeeklyVacation vacationWeekly => new VacationWeeklyViewModel(vacationWeekly),
+            MonthlyVacation vacationMonthly => new VacationMonthlyViewModel(vacationMonthly),
+            YearlyVacation vacationYearly => new VacationYearlyViewModel(vacationYearly),
             _ => throw new ArgumentOutOfRangeException(nameof(vacation))
         };
     }

@@ -14,38 +14,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
+using System.Globalization;
 
-public class VacationMonthly : Vacation
+namespace DustInTheWind.VeloCity.Tests.Unit.Domain.TeamMemberModel.DailyVacationTests;
+
+internal static class DateTimeExtensions
 {
-    private List<int> monthDays;
-    private DateInterval dateInterval;
-
-    public List<int> MonthDays
+    public static DateTime? ToNullableDateTime(this string dateString)
     {
-        get => monthDays;
-        set
+        return dateString switch
         {
-            monthDays = value;
-            OnChanged();
-        }
+            null => null,
+            "-" => DateTime.MinValue.Date,
+            "+" => DateTime.MaxValue.Date,
+            _ => DateTime.Parse(dateString, CultureInfo.InvariantCulture)
+        };
     }
-
-    public DateInterval DateInterval
+    public static DateTime ToDateTime(this string dateString)
     {
-        get => dateInterval;
-        set
+        return dateString switch
         {
-            dateInterval = value;
-            OnChanged();
-        }
-    }
-
-    public override bool Match(DateTime date)
-    {
-        if (!DateInterval.ContainsDate(date))
-            return false;
-
-        return MonthDays?.Contains(date.Day) ?? false;
+            "-" => DateTime.MinValue.Date,
+            "+" => DateTime.MaxValue.Date,
+            _ => DateTime.Parse(dateString, CultureInfo.InvariantCulture)
+        };
     }
 }

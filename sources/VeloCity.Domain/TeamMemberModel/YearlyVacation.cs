@@ -16,24 +16,38 @@
 
 namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-internal class MergeAnalysis
+public class YearlyVacation : Vacation
 {
-    public Vacation PreviousVacation { get; init; }
+    private List<DateTime> dates;
+    private DateInterval dateInterval;
 
-    public Vacation NextVacation { get; init; }
-
-    public HoursValue Hours { get; init; }
-
-    public bool CanMergeLeft { get; private set; }
-
-    public bool CanMergeRight { get; private set; }
-
-    private void Analyze()
+    public List<DateTime> Dates
     {
-        if (PreviousVacation is SingleDayVacation or DailyVacation && PreviousVacation.HourCount == Hours)
-            CanMergeLeft = true;
+        get => dates;
+        set
+        {
+            dates = value;
+            OnChanged();
+        }
+    }
 
-        if (NextVacation is SingleDayVacation or DailyVacation && NextVacation.HourCount == Hours)
-            CanMergeRight = true;
+    public DateInterval DateInterval
+    {
+        get => dateInterval;
+        set
+        {
+            dateInterval = value;
+            OnChanged();
+        }
+    }
+
+    public override bool Match(DateTime date)
+    {
+        if (!DateInterval.ContainsDate(date))
+            return false;
+
+        return Dates?
+            .Select(x => x.Date)
+            .Contains(date.Date) ?? false;
     }
 }

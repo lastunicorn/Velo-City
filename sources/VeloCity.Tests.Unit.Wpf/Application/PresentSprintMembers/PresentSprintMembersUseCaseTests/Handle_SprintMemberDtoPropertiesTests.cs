@@ -131,7 +131,7 @@ public class Handle_SprintMemberDtoPropertiesTests
             },
             Vacations = new VacationCollection
             {
-                new VacationDaily
+                new DailyVacation
                 {
                     HourCount = 4,
                     DateInterval = new DateInterval(new DateTime(2023, 03, 13), new DateTime(2023, 03, 17))

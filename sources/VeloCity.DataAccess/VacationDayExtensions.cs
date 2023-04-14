@@ -33,7 +33,7 @@ internal static class VacationDayExtensions
     {
         switch (vacation)
         {
-            case VacationOnce vacationOnce:
+            case SingleDayVacation vacationOnce:
                 return new JVacationDay
                 {
                     Recurrence = JVacationRecurrence.Once,
@@ -42,7 +42,7 @@ internal static class VacationDayExtensions
                     Comments = vacationOnce.Comments
                 };
 
-            case VacationDaily vacationDaily:
+            case DailyVacation vacationDaily:
                 return new JVacationDay
                 {
                     Recurrence = JVacationRecurrence.Daily,
@@ -52,7 +52,7 @@ internal static class VacationDayExtensions
                     Comments = vacationDaily.Comments
                 };
 
-            case VacationMonthly vacationMonthly:
+            case MonthlyVacation vacationMonthly:
                 return new JVacationDay
                 {
                     Recurrence = JVacationRecurrence.Monthly,
@@ -63,7 +63,7 @@ internal static class VacationDayExtensions
                     Comments = vacationMonthly.Comments
                 };
 
-            case VacationWeekly vacationWeekly:
+            case WeeklyVacation vacationWeekly:
                 return new JVacationDay
                 {
                     Recurrence = JVacationRecurrence.Weekly,
@@ -76,7 +76,7 @@ internal static class VacationDayExtensions
                     Comments = vacationWeekly.Comments
                 };
 
-            case VacationYearly vacationYearly:
+            case YearlyVacation vacationYearly:
                 return new JVacationDay
                 {
                     Recurrence = JVacationRecurrence.Yearly,
@@ -106,7 +106,7 @@ internal static class VacationDayExtensions
                 if (vacationDay.Date == null)
                     throw new DataAccessException("Missing date for the vacation with recurrence 'once'.");
 
-                return new VacationOnce
+                return new SingleDayVacation
                 {
                     Date = vacationDay.Date.Value,
                     HourCount = vacationDay.HourCount,
@@ -114,7 +114,7 @@ internal static class VacationDayExtensions
                 };
 
             case JVacationRecurrence.Daily:
-                return new VacationDaily
+                return new DailyVacation
                 {
                     DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
                     HourCount = vacationDay.HourCount,
@@ -122,7 +122,7 @@ internal static class VacationDayExtensions
                 };
 
             case JVacationRecurrence.Weekly:
-                return new VacationWeekly
+                return new WeeklyVacation
                 {
                     DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
                     WeekDays = vacationDay.WeekDays
@@ -133,7 +133,7 @@ internal static class VacationDayExtensions
                 };
 
             case JVacationRecurrence.Monthly:
-                return new VacationMonthly
+                return new MonthlyVacation
                 {
                     DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
                     MonthDays = vacationDay.MonthDays,
@@ -142,7 +142,7 @@ internal static class VacationDayExtensions
                 };
 
             case JVacationRecurrence.Yearly:
-                return new VacationYearly
+                return new YearlyVacation
                 {
                     DateInterval = new DateInterval(vacationDay.StartDate, vacationDay.EndDate),
                     Dates = vacationDay.Dates,

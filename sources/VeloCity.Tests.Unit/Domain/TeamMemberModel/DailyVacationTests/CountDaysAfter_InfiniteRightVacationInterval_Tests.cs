@@ -17,15 +17,15 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Tests.Unit.Domain.TeamMemberModel.VacationDailyTests;
+namespace DustInTheWind.VeloCity.Tests.Unit.Domain.TeamMemberModel.DailyVacationTests;
 
 public class CountDaysAfter_InfiniteRightVacationInterval_Tests
 {
-    private readonly VacationDaily vacationDaily;
+    private readonly DailyVacation dailyVacation;
 
     public CountDaysAfter_InfiniteRightVacationInterval_Tests()
     {
-        vacationDaily = new VacationDaily
+        dailyVacation = new DailyVacation
         {
             DateInterval = new DateInterval(new DateTime(2023, 04, 03))
         };
@@ -36,7 +36,7 @@ public class CountDaysAfter_InfiniteRightVacationInterval_Tests
     {
         DateTime referenceDate = DateTime.MinValue;
 
-        uint actual = vacationDaily.CountDaysAfter(referenceDate);
+        uint actual = dailyVacation.CountDaysAfter(referenceDate);
 
         actual.Should().Be(2913448u);
     }
@@ -46,7 +46,7 @@ public class CountDaysAfter_InfiniteRightVacationInterval_Tests
     {
         DateTime referenceDate = new(2023, 01, 01);
 
-        uint actual = vacationDaily.CountDaysAfter(referenceDate);
+        uint actual = dailyVacation.CountDaysAfter(referenceDate);
 
         actual.Should().Be(2913448u);
     }
@@ -56,7 +56,7 @@ public class CountDaysAfter_InfiniteRightVacationInterval_Tests
     {
         DateTime referenceDate = new(2023, 04, 02);
 
-        uint actual = vacationDaily.CountDaysAfter(referenceDate);
+        uint actual = dailyVacation.CountDaysAfter(referenceDate);
 
         actual.Should().Be(2913448u);
     }
@@ -66,7 +66,7 @@ public class CountDaysAfter_InfiniteRightVacationInterval_Tests
     {
         DateTime referenceDate = new(2023, 04, 03);
 
-        uint actual = vacationDaily.CountDaysAfter(referenceDate);
+        uint actual = dailyVacation.CountDaysAfter(referenceDate);
 
         actual.Should().Be(2913447u);
     }
@@ -76,7 +76,7 @@ public class CountDaysAfter_InfiniteRightVacationInterval_Tests
     {
         DateTime referenceDate = DateTime.MaxValue;
 
-        uint actual = vacationDaily.CountDaysAfter(referenceDate);
+        uint actual = dailyVacation.CountDaysAfter(referenceDate);
 
         actual.Should().Be(0);
     }
