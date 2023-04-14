@@ -38,7 +38,7 @@ public readonly struct DateInterval
         EndDate = endDate?.Date;
 
         if (StartDate > EndDate)
-            throw new ArgumentException($"End date ({endDate}) must be after start date ({startDate}).", nameof(endDate));
+            throw new ArgumentException($"End date ({endDate}) must be greater or equal to start date ({startDate}).", nameof(endDate));
     }
 
     public bool IsIntersecting(DateInterval dateInterval)

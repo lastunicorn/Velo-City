@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DustInTheWind.VeloCity.Domain {
+namespace DustInTheWind.VeloCity.Domain.DatabaseEditing {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace DustInTheWind.VeloCity.Domain {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DustInTheWind.VeloCity.Domain.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DustInTheWind.VeloCity.Domain.DatabaseEditing.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,20 @@ namespace DustInTheWind.VeloCity.Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The sprint {0} has an invalid date interval..
+        ///   Looks up a localized string similar to Database file does not exist: &apos;{0}&apos;.
         /// </summary>
-        internal static string InvalidDateInterval_DefaultErrorMessage {
+        internal static string DatabaseFileNotFound_DefaultErrorMessage {
             get {
-                return ResourceManager.GetString("InvalidDateInterval_DefaultErrorMessage", resourceCulture);
+                return ResourceManager.GetString("DatabaseFileNotFound_DefaultErrorMessage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no sprint in the database..
+        ///   Looks up a localized string similar to Failed to open the database file..
         /// </summary>
-        internal static string NoSprint_DefaultErrorMessage {
+        internal static string DatabaseOpen_DefaultErrorMessage {
             get {
-                return ResourceManager.GetString("NoSprint_DefaultErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is no sprint in progress. Please provide a specific sprint number..
-        /// </summary>
-        internal static string NoSprintInProgress_DefaultErrorMessage {
-            get {
-                return ResourceManager.GetString("NoSprintInProgress_DefaultErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The sprint with number {0} does not exist in the database..
-        /// </summary>
-        internal static string SprintDoesNotExist_DefaultErrorMessage {
-            get {
-                return ResourceManager.GetString("SprintDoesNotExist_DefaultErrorMessage", resourceCulture);
+                return ResourceManager.GetString("DatabaseOpen_DefaultErrorMessage", resourceCulture);
             }
         }
     }

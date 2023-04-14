@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 VeloCity
 Copyright (C) 2022 Dust in the Wind
 
@@ -21,26 +21,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <AssemblyName>DustInTheWind.VeloCity.Cli.Application</AssemblyName>
-        <RootNamespace>DustInTheWind.VeloCity.Cli.Application</RootNamespace>
+        <AssemblyName>DustInTheWind.VeloCity.Domain.DatabaseEditing</AssemblyName>
+        <RootNamespace>DustInTheWind.VeloCity.Domain.DatabaseEditing</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="10.0.1" />
+      <Compile Update="Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Domain.DatabaseEditing\VeloCity.Domain.DatabaseEditing.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Ports.DataAccess\VeloCity.Ports.DataAccess.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Ports.SettingsAccess\VeloCity.Ports.SettingsAccess.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Ports.SystemAccess\VeloCity.Ports.SystemAccess.csproj" PrivateAssets="All" />
+      <EmbeddedResource Update="Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>DustInTheWind.VeloCity.Tests.Unit.Cli</_Parameter1>
+            <_Parameter1>DustInTheWind.VeloCity.Tests.Unit</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
 

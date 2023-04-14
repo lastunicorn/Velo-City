@@ -117,16 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InvalidDateInterval_DefaultErrorMessage" xml:space="preserve">
-    <value>The sprint {0} has an invalid date interval.</value>
+  <data name="DatabaseFileNotFound_DefaultErrorMessage" xml:space="preserve">
+    <value>Database file does not exist: '{0}'</value>
   </data>
-  <data name="NoSprintInProgress_DefaultErrorMessage" xml:space="preserve">
-    <value>There is no sprint in progress. Please provide a specific sprint number.</value>
-  </data>
-  <data name="NoSprint_DefaultErrorMessage" xml:space="preserve">
-    <value>There is no sprint in the database.</value>
-  </data>
-  <data name="SprintDoesNotExist_DefaultErrorMessage" xml:space="preserve">
-    <value>The sprint with number {0} does not exist in the database.</value>
+  <data name="DatabaseOpen_DefaultErrorMessage" xml:space="preserve">
+    <value>Failed to open the database file.</value>
   </data>
 </root>

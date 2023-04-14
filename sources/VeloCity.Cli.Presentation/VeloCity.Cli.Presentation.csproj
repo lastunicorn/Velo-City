@@ -34,8 +34,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <ItemGroup>
         <ProjectReference Include="..\VeloCity.ChartTools\VeloCity.ChartTools.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Cli.Application\VeloCity.Cli.Application.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Domain.DatabaseEditing\VeloCity.Domain.DatabaseEditing.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
-        <ProjectReference Include="..\VeloCity.Ports.SettingsAccess\VeloCity.Ports.SettingsAccess.csproj" />
+        <ProjectReference Include="..\VeloCity.Ports.SettingsAccess\VeloCity.Ports.SettingsAccess.csproj" PrivateAssets="All" />
         <ProjectReference Include="..\VeloCity.Wpf.Infrastructure\VeloCity.Infrastructure.csproj" PrivateAssets="All" />
     </ItemGroup>
 

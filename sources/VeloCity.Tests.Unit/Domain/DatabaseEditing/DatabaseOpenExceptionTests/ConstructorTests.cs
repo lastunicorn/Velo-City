@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.DatabaseEditing;
 
 namespace DustInTheWind.VeloCity.Tests.Unit.Domain.DatabaseEditing.DatabaseOpenExceptionTests;

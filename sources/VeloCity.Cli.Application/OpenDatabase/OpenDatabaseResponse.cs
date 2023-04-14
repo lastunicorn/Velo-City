@@ -24,7 +24,7 @@ public class OpenDatabaseResponse
 
     public DatabaseEditorType DatabaseEditorType { get; }
 
-    public OpenDatabaseResponse(DatabaseEditor databaseEditor)
+    internal OpenDatabaseResponse(DatabaseEditor databaseEditor)
     {
         DatabaseFilePath = databaseEditor.DatabaseFilePath;
         DatabaseEditorType = databaseEditor.EditorType;
