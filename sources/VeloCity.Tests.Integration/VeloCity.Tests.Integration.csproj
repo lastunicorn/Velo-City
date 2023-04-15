@@ -62,6 +62,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\03-one-sprint.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.two.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.one-recurrent.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.one-fixed.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.empty.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.one-fixed.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.one-recurrent.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.two.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.empty.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-all.two.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

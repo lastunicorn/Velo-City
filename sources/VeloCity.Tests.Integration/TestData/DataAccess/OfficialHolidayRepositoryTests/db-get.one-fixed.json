@@ -1,0 +1,14 @@
+{
+  "DatabaseInfo": {
+    "DatabaseVersion": "2.0.0"
+  },
+  "OfficialHolidays": [
+    {
+      "Recurrence": "once",
+      "Date": "2022-03-18T00:00:00",
+      "Name": "Holi",
+      "Country": "IN",
+      "ShortDescription": "Holi, also known as the Festival of Colours, Festival of Spring, and Festival of Love, is one of the most popular and significant festivals in Hinduism."
+    }
+  ]
+}

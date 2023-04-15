@@ -1,0 +1,23 @@
+{
+  "DatabaseInfo": {
+    "DatabaseVersion": "2.0.0"
+  },
+  "OfficialHolidays": [
+    {
+      "Recurrence": "yearly",
+      "Date": "0100-06-01T00:00:00",
+      "Name": "Children’s day",
+      "StartYear": 1925,
+      "Country": "RO",
+      "ShortDescription": "Children's Day is a commemorative date celebrated annually in honor of children.",
+      "Description": "Children's Day is a commemorative date celebrated annually in honor of children. Its date of observance varies by country. In 1925, International Children's Day was first proclaimed in Geneva during the World Conference on Child Welfare. Since 1950, it is celebrated on June 1 in most Communist and post-Communist countries. (https://en.wikipedia.org/wiki/Children%27s_Day)"
+    },
+    {
+      "Recurrence": "once",
+      "Date": "2022-03-18T00:00:00",
+      "Name": "Holi",
+      "Country": "IN",
+      "ShortDescription": "Holi, also known as the Festival of Colours, Festival of Spring, and Festival of Love, is one of the most popular and significant festivals in Hinduism."
+    }
+  ]
+}
