@@ -32,7 +32,7 @@ public class GetLastTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-last.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
 
                 Sprint lastSprint = await sprintRepository.GetLast();
 
@@ -47,7 +47,7 @@ public class GetLastTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-last.empty.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
 
                 Sprint lastSprint = await sprintRepository.GetLast();
 
@@ -62,7 +62,7 @@ public class GetLastTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-last.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
 
                 IEnumerable<Sprint> lastSprints = await sprintRepository.GetLast(3);
 

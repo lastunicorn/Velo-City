@@ -22,18 +22,29 @@ namespace DustInTheWind.VeloCity.Tests.Integration.TestUtils;
 public class DatabaseTestContext
 {
     private readonly string filePath;
+    private DatabaseAssertsContext databaseAssertsContext;
 
     public JsonDatabase JsonDatabase { get; private set; }
 
-    public VeloCityDbContext VeloCityDbContext { get; private set; }
+    public VeloCityDbContext DbContext { get; private set; }
 
-    public DatabaseAssertsContext Asserts { get; }
+    public DatabaseAssertsContext Asserts => databaseAssertsContext ??= new DatabaseAssertsContext(filePath);
 
     private DatabaseTestContext(string filePath)
     {
         this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+    }
 
-        Asserts = new DatabaseAssertsContext(filePath);
+    public static DatabaseTestContext WithDatabase(string filePath)
+    {
+        return new DatabaseTestContext(filePath);
+    }
+
+    public static DatabaseTestContext WithDatabase(string directoryPath, string fileName)
+    {
+        string databaseFilePath = Path.Combine(directoryPath, fileName);
+
+        return new DatabaseTestContext(databaseFilePath);
     }
 
     public async Task Execute(Func<DatabaseTestContext, Task> action)
@@ -78,18 +89,6 @@ public class DatabaseTestContext
         };
         JsonDatabase.Open();
 
-        VeloCityDbContext = new VeloCityDbContext(JsonDatabase);
-    }
-
-    public static DatabaseTestContext WithDatabase(string filePath)
-    {
-        return new DatabaseTestContext(filePath);
-    }
-
-    public static DatabaseTestContext WithDatabase(string directoryPath, string fileName)
-    {
-        string databaseFilePath = Path.Combine(directoryPath, fileName);
-
-        return new DatabaseTestContext(databaseFilePath);
+        DbContext = new VeloCityDbContext(JsonDatabase);
     }
 }

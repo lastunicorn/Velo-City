@@ -32,7 +32,7 @@ public class GetLastInProgressTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-last-in-progress.last.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
                 Sprint sprint = await sprintRepository.GetLastInProgress();
 
                 sprint.Id.Should().Be(3);
@@ -46,7 +46,7 @@ public class GetLastInProgressTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-last-in-progress.not-last.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
                 Sprint sprint = await sprintRepository.GetLastInProgress();
 
                 sprint.Id.Should().Be(3);
@@ -60,7 +60,7 @@ public class GetLastInProgressTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-last-in-progress.none.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
                 Sprint sprint = await sprintRepository.GetLastInProgress();
 
                 sprint.Should().BeNull();
@@ -74,7 +74,7 @@ public class GetLastInProgressTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-last-in-progress.empty.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
                 Sprint sprint = await sprintRepository.GetLastInProgress();
 
                 sprint.Should().BeNull();

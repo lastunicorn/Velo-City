@@ -15,28 +15,26 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.DataAccess;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Tests.Integration.TestUtils;
 using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.TeamMemberRepositoryTests;
 
-public class GetByDateInterval_NoEmploymentTests
+public class GetByDate_NoEmployment_Tests
 {
     private const string DatabaseDirectoryPath = @"TestData\DataAccess\TeamMemberRepositoryTests";
 
     [Fact]
-    public async Task HavingDatabaseWithTeamMembersWithoutEmployment_WhenGetByDateInterval_ThenReturnsEmptyCollection()
+    public async Task HavingDatabaseWithTeamMembersWithoutEmployment_WhenGetByDate_ThenReturnsEmptyCollection()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.no-employment.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.no-employment.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
-
-                DateInterval dateInterval = new(new DateTime(2000, 01, 15), new DateTime(2100, 01, 15));
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
+                
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 06, 15));
 
                 teamMembers.Should().BeEmpty();
             });

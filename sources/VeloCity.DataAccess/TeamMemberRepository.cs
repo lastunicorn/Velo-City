@@ -59,7 +59,7 @@ internal class TeamMemberRepository : ITeamMemberRepository
 
         if (excludedNames is { Count: > 0 })
             teamMembers = teamMembers.Where(x => !excludedNames.Any(z => x.Name.Contains(z)));
-
+        
         return Task.FromResult(teamMembers);
     }
 

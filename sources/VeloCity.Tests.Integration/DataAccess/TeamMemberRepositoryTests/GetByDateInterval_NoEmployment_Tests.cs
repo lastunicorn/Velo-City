@@ -22,18 +22,18 @@ using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.TeamMemberRepositoryTests;
 
-public class GetByDateInterval_NoTeamMembersTests
+public class GetByDateInterval_NoEmployment_Tests
 {
     private const string DatabaseDirectoryPath = @"TestData\DataAccess\TeamMemberRepositoryTests";
 
     [Fact]
-    public async Task HavingEmptyDatabase_WhenGetByDateInterval_ThenReturnsEmptyCollection()
+    public async Task HavingDatabaseWithTeamMembersWithoutEmployment_WhenGetByDateInterval_ThenReturnsEmptyCollection()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.empty.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.no-employment.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 DateInterval dateInterval = new(new DateTime(2000, 01, 15), new DateTime(2100, 01, 15));
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);

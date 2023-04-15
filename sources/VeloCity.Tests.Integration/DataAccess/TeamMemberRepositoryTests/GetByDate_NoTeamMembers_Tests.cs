@@ -21,20 +21,20 @@ using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.TeamMemberRepositoryTests;
 
-public class GetByDate_NoEmploymentTests
+public class GetByDate_NoTeamMembers_Tests
 {
     private const string DatabaseDirectoryPath = @"TestData\DataAccess\TeamMemberRepositoryTests";
 
     [Fact]
-    public async Task HavingDatabaseWithTeamMembersWithoutEmployment_WhenGetByDate_ThenReturnsEmptyCollection()
+    public async Task HavingEmptyDatabase_WhenGetByDate_ThenReturnsEmptyCollection()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.no-employment.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.empty.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
-                
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 06, 15));
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
+
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2000, 01, 01));
 
                 teamMembers.Should().BeEmpty();
             });

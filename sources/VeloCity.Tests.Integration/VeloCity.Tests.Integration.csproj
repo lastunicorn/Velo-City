@@ -137,6 +137,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
       <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-find.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.with-exclusions.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
       <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.no-employment.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

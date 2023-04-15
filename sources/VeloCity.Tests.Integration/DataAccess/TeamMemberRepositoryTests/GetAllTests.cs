@@ -32,7 +32,7 @@ public class GetAllTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-all.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetAll();
 
@@ -47,7 +47,7 @@ public class GetAllTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-all.empty.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetAll();
 

@@ -32,7 +32,7 @@ public class AddTests
             .WithDatabase(DatabaseDirectoryPath, "db-add.empty.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
 
                 Sprint sprint = new()
                 {
@@ -40,7 +40,7 @@ public class AddTests
                 };
                 sprintRepository.Add(sprint);
 
-                await context.VeloCityDbContext.SaveChanges();
+                await context.DbContext.SaveChanges();
 
                 sprint.Id.Should().NotBe(0);
                 await context.Asserts.ExistsSprint(sprint.Id);
@@ -54,7 +54,7 @@ public class AddTests
             .WithDatabase(DatabaseDirectoryPath, "db-add.json")
             .Execute(context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
 
                 Action action = () =>
                 {
@@ -72,7 +72,7 @@ public class AddTests
              .WithDatabase(DatabaseDirectoryPath, "db-add.json")
              .Execute(async context =>
              {
-                 SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                 SprintRepository sprintRepository = new(context.DbContext);
 
                  Sprint sprint = new()
                  {
@@ -81,7 +81,7 @@ public class AddTests
                  };
                  sprintRepository.Add(sprint);
 
-                 await context.VeloCityDbContext.SaveChanges();
+                 await context.DbContext.SaveChanges();
 
                  await context.Asserts.ExistsSprint(5);
              });
@@ -94,7 +94,7 @@ public class AddTests
             .WithDatabase(DatabaseDirectoryPath, "db-add.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
 
                 Sprint sprint = new()
                 {
@@ -102,7 +102,7 @@ public class AddTests
                 };
                 sprintRepository.Add(sprint);
 
-                await context.VeloCityDbContext.SaveChanges();
+                await context.DbContext.SaveChanges();
 
                 sprint.Id.Should().NotBe(0);
                 await context.Asserts.ExistsSprint(sprint.Id);
@@ -116,7 +116,7 @@ public class AddTests
             .WithDatabase(DatabaseDirectoryPath, "db-add.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
 
                 Sprint sprint = new()
                 {

@@ -21,7 +21,7 @@ using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.TeamMemberRepositoryTests;
 
-public class GetByDate_TwoTeamMembersTests
+public class GetByDate_TwoTeamMembers_Tests
 {
     private const string DatabaseDirectoryPath = @"TestData\DataAccess\TeamMemberRepositoryTests";
 
@@ -32,7 +32,7 @@ public class GetByDate_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2000, 01, 15));
 
@@ -47,7 +47,7 @@ public class GetByDate_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 03, 15));
 
@@ -63,7 +63,7 @@ public class GetByDate_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 06, 15));
 
@@ -79,7 +79,7 @@ public class GetByDate_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 08, 15));
 
@@ -95,7 +95,7 @@ public class GetByDate_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 11, 15));
 

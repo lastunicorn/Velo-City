@@ -32,7 +32,7 @@ public class GetAllTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-all.empty.json")
             .Execute(async context =>
             {
-                OfficialHolidayRepository officialHolidayRepository = new(context.VeloCityDbContext);
+                OfficialHolidayRepository officialHolidayRepository = new(context.DbContext);
 
                 IEnumerable<OfficialHoliday> officialHolidays = await officialHolidayRepository.GetAll();
 
@@ -47,7 +47,7 @@ public class GetAllTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-all.one.json")
             .Execute(async context =>
             {
-                OfficialHolidayRepository officialHolidayRepository = new(context.VeloCityDbContext);
+                OfficialHolidayRepository officialHolidayRepository = new(context.DbContext);
 
                 IEnumerable<OfficialHoliday> officialHolidays = await officialHolidayRepository.GetAll();
 
@@ -62,7 +62,7 @@ public class GetAllTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-all.two.json")
             .Execute(async context =>
             {
-                OfficialHolidayRepository officialHolidayRepository = new(context.VeloCityDbContext);
+                OfficialHolidayRepository officialHolidayRepository = new(context.DbContext);
 
                 IEnumerable<OfficialHoliday> officialHolidays = await officialHolidayRepository.GetAll();
 

@@ -15,60 +15,56 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.DataAccess;
-using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Tests.Integration.TestUtils;
 using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.TeamMemberRepositoryTests;
 
-public class GetByDateInterval_OneTeamMemberTests
+public class GetByDate_OneTeamMember_Tests
 {
     private const string DatabaseDirectoryPath = @"TestData\DataAccess\TeamMemberRepositoryTests";
     
     [Fact]
-    public async Task HavingDateIntervalBeforeEmployment_WhenGetByDateInterval_ThenReturnsEmptyCollection()
+    public async Task HavingDateBeforeEmployment_WhenGetByDate_ThenReturnsEmptyCollection()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.one.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.one.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
-                DateInterval dateInterval = new(new DateTime(2000, 01, 15), new DateTime(2011, 05, 15));
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2000, 01, 15));
 
                 teamMembers.Should().BeEmpty();
             });
     }
 
     [Fact]
-    public async Task HavingDateIntervalAfterEmployment_WhenGetByDateInterval_ThenReturnsEmptyCollection()
+    public async Task HavingDateAfterEmployment_WhenGetByDate_ThenReturnsEmptyCollection()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.one.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.one.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
-                DateInterval dateInterval = new(new DateTime(2100, 01, 01), new DateTime(2200, 01, 01));
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2100, 01, 15));
 
                 teamMembers.Should().BeEmpty();
             });
     }
 
     [Fact]
-    public async Task HavingDateIntervalContainingEmployment_WhenGetByDateInterval_ThenReturnsEmptyCollection()
+    public async Task HavingDateDuringEmployment_WhenGetByDate_ThenReturnsEmptyCollection()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.one.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date.one.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
-                DateInterval dateInterval = new(new DateTime(2000, 01, 15), new DateTime(2022, 05, 15));
-                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDate(new DateTime(2022, 03, 15));
 
                 teamMembers.Should().HaveCount(1);
             });

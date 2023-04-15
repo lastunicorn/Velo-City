@@ -15,58 +15,50 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.DataAccess;
+using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Tests.Integration.TestUtils;
 using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.TeamMemberRepositoryTests;
 
-public class GetTests
+public class GetByDateInterval_WithExclusions_Tests
 {
     private const string DatabaseDirectoryPath = @"TestData\DataAccess\TeamMemberRepositoryTests";
 
     [Fact]
-    public async Task HavingDatabaseWithTeamMembers_WhenGetExistingId_ThenReturnsTeamMemberWithSpecifiedId()
+    public async Task HavingThreeTeamMembersAndOneExclusionThatMatchesTwoOfThem_WhenGetByDateInterval_ThenReturnsOneTeamMember()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.with-exclusions.json")
             .Execute(async context =>
             {
                 TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
-                TeamMember teamMember = await teamMemberRepository.Get(2);
+                DateInterval dateInterval = DateInterval.FullInfinite;
+                string[] excludedNames = { "mari" };
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval, excludedNames);
 
-                teamMember.Id.Should().Be(2);
+                int[] expectedIds = { 1 };
+                teamMembers.Select(x => x.Id).Should().Equal(expectedIds);
             });
     }
 
     [Fact]
-    public async Task HavingDatabaseWithTeamMembers_WhenGetNonExistingId_ThenReturnsNull()
+    public async Task HavingThreeTeamMembersAndTwoExclusionThatMatchesTwoOfThem_WhenGetByDateInterval_ThenReturnsOneTeamMember()
     {
         await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get.json")
+            .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.with-exclusions.json")
             .Execute(async context =>
             {
                 TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
-                TeamMember teamMember = await teamMemberRepository.Get(45521);
+                DateInterval dateInterval = DateInterval.FullInfinite;
+                string[] excludedNames = { "valentin", "marius" };
+                IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval, excludedNames);
 
-                teamMember.Should().BeNull();
-            });
-    }
-
-    [Fact]
-    public async Task HavingEmptyDatabase_WhenGetNonExistingId_ThenReturnsNull()
-    {
-        await DatabaseTestContext
-            .WithDatabase(DatabaseDirectoryPath, "db-get.empty.json")
-            .Execute(async context =>
-            {
-                TeamMemberRepository teamMemberRepository = new(context.DbContext);
-
-                TeamMember teamMember = await teamMemberRepository.Get(1);
-
-                teamMember.Should().BeNull();
+                int[] expectedIds = { 2 };
+                teamMembers.Select(x => x.Id).Should().Equal(expectedIds);
             });
     }
 }

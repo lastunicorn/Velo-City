@@ -31,7 +31,7 @@ public class IsAnyInProgressTests
             .WithDatabase(DatabaseDirectoryPath, "db-is-any-in-progress.last.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
                 bool isAnyInProgress = await sprintRepository.IsAnyInProgress();
 
                 isAnyInProgress.Should().BeTrue();
@@ -45,7 +45,7 @@ public class IsAnyInProgressTests
             .WithDatabase(DatabaseDirectoryPath, "db-is-any-in-progress.not-last.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
                 bool isAnyInProgress = await sprintRepository.IsAnyInProgress();
 
                 isAnyInProgress.Should().BeTrue();
@@ -59,7 +59,7 @@ public class IsAnyInProgressTests
             .WithDatabase(DatabaseDirectoryPath, "db-is-any-in-progress.none.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
                 bool isAnyInProgress = await sprintRepository.IsAnyInProgress();
 
                 isAnyInProgress.Should().BeFalse();
@@ -73,7 +73,7 @@ public class IsAnyInProgressTests
             .WithDatabase(DatabaseDirectoryPath, "db-is-any-in-progress.empty.json")
             .Execute(async context =>
             {
-                SprintRepository sprintRepository = new(context.VeloCityDbContext);
+                SprintRepository sprintRepository = new(context.DbContext);
                 bool isAnyInProgress = await sprintRepository.IsAnyInProgress();
 
                 isAnyInProgress.Should().BeFalse();

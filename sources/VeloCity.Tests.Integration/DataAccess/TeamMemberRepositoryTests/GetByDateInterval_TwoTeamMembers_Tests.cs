@@ -22,7 +22,7 @@ using FluentAssertions;
 
 namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.TeamMemberRepositoryTests;
 
-public class GetByDateInterval_TwoTeamMembersTests
+public class GetByDateInterval_TwoTeamMembers_Tests
 {
     private const string DatabaseDirectoryPath = @"TestData\DataAccess\TeamMemberRepositoryTests";
 
@@ -33,7 +33,7 @@ public class GetByDateInterval_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 DateInterval dateInterval = new(new DateTime(2000, 01, 15), new DateTime(2011, 05, 15));
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);
@@ -49,7 +49,7 @@ public class GetByDateInterval_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 DateInterval dateInterval = new(new DateTime(2000, 01, 15), new DateTime(2022, 03, 15));
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);
@@ -66,7 +66,7 @@ public class GetByDateInterval_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 DateInterval dateInterval = new(new DateTime(2022, 03, 15), new DateTime(2022, 06, 15));
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);
@@ -83,7 +83,7 @@ public class GetByDateInterval_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 DateInterval dateInterval = new(new DateTime(2022, 08, 15), new DateTime(2100, 01, 15));
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);
@@ -100,7 +100,7 @@ public class GetByDateInterval_TwoTeamMembersTests
             .WithDatabase(DatabaseDirectoryPath, "db-get-by-date-interval.two.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 DateInterval dateInterval = new(new DateTime(2022, 11, 15), new DateTime(2100, 01, 15));
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.GetByDateInterval(dateInterval);

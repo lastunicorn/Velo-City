@@ -32,7 +32,7 @@ public class FindTests
             .WithDatabase(DatabaseDirectoryPath, "db-find.empty.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("anything");
 
@@ -47,7 +47,7 @@ public class FindTests
             .WithDatabase(DatabaseDirectoryPath, "db-find.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("blabla");
 
@@ -62,7 +62,7 @@ public class FindTests
             .WithDatabase(DatabaseDirectoryPath, "db-find.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("Vale");
 
@@ -78,7 +78,7 @@ public class FindTests
             .WithDatabase(DatabaseDirectoryPath, "db-find.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("vale");
 
@@ -94,7 +94,7 @@ public class FindTests
             .WithDatabase(DatabaseDirectoryPath, "db-find.json")
             .Execute(async context =>
             {
-                TeamMemberRepository teamMemberRepository = new(context.VeloCityDbContext);
+                TeamMemberRepository teamMemberRepository = new(context.DbContext);
 
                 IEnumerable<TeamMember> teamMembers = await teamMemberRepository.Find("mar");
 
