@@ -5,6 +5,8 @@ v1.16.0
 ----------------------------------------------------------------------------------------------------
 - [feature] [wpf] Displayed the story points with bigger font size on the sprint overview page.
 - [bug fix] Adding vacation to one day, wrongfully changes also vacation hours from previous day.
+- [feature] [wpf] Rearranged the displayed information for an item in the sprint list.
+- [feature] [wpf] Removed the year from the date box.
 
 v1.15.0
 ----------------------------------------------------------------------------------------------------

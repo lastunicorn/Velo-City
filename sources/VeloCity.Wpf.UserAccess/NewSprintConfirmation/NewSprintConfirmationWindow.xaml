@@ -108,7 +108,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 ShowWeekDay="True"
                 Margin="60 0 0 0"
                 MonthFontSize="10"
-                FontSize="20" />
+                FontSize="20"
+                Padding="10" />
 
         </StackPanel>
 

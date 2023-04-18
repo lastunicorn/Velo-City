@@ -25,17 +25,17 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintsList;
 public class SprintViewModel : ViewModelBase
 {
     private SprintState sprintState;
-    private string title;
+    private readonly string sprintNumber;
     private string subtitle;
 
     public int SprintId { get; }
 
-    public string Title
+    public string SprintNumber
     {
-        get => title;
-        private set
+        get => sprintNumber;
+        private init
         {
-            title = value;
+            sprintNumber = value;
             OnPropertyChanged();
         }
     }
@@ -67,8 +67,8 @@ public class SprintViewModel : ViewModelBase
         if (sprintInfo == null) throw new ArgumentNullException(nameof(sprintInfo));
 
         SprintId = sprintInfo.Id;
-        subtitle = sprintInfo.Title;
-        Title = "Sprint " + sprintInfo.Number;
+        Subtitle = string.IsNullOrEmpty(sprintInfo.Title) ? null : sprintInfo.Title;
+        SprintNumber = sprintInfo.Number.ToString();
         SprintState = sprintInfo.State.ToPresentationModel();
         SprintDateInterval = sprintInfo.DateInterval;
 

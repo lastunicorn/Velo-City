@@ -32,6 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         x:Key="{x:Type customControls:StoryPointsBox}"
         TargetType="{x:Type customControls:StoryPointsBox}">
 
+        <Setter Property="FontSize" Value="60" />
+        <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="IsTabStop" Value="False" />
 
         <Setter Property="Template">
@@ -39,31 +41,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ControlTemplate TargetType="{x:Type customControls:StoryPointsBox}">
 
                     <TextBlock
+                        FontSize="1"
                         Background="{TemplateBinding Background}"
                         Padding="{TemplateBinding Padding}">
 
                         <TextBlock
-                            FontSize="60"
+                            FontSize="{TemplateBinding FontSize}"
                             Text="{Binding WholePart, RelativeSource={RelativeSource TemplatedParent}}"
-                            FontWeight="DemiBold"
+                            FontWeight="{TemplateBinding FontWeight}"
                             Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
 
                         <TextBlock
                             FontSize="30"
                             Text="{Binding FractionalPart, RelativeSource={RelativeSource TemplatedParent}, StringFormat=.00}"
-                            FontWeight="DemiBold"
+                            FontWeight="{TemplateBinding FontWeight}"
                             Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
 
                         <TextBlock
-                            FontSize="60"
+                            FontSize="{TemplateBinding FontSize}"
                             Text="-"
                             Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                         <TextBlock
-                            FontSize="60"
-                            Text="SP"
-                            Margin="10 0 0 0"
-                            FontWeight="DemiBold" />
+                            FontSize="{TemplateBinding FontSize}"
+                            Text=" SP"
+                            FontWeight="{TemplateBinding FontWeight}" />
 
                     </TextBlock>
 

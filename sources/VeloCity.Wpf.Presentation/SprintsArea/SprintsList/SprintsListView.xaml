@@ -98,7 +98,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     <TextBlock
                         DockPanel.Dock="Top"
-                        Text="New Sprint"
+                        Text="New Sprint ..."
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center" />
 
@@ -111,7 +111,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 ItemsSource="{Binding Sprints}"
                 SelectedItem="{Binding SelectedSprint}"
                 SelectionMode="Single"
-                BorderThickness="0">
+                BorderThickness="0"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DockPanel}}}">
 
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -137,34 +139,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                 Margin="0 3 15 3"
                                                 Value="{Binding SprintState}"
                                                 IsLabelVisible="False"
-                                                VerticalAlignment="Top"
+                                                VerticalAlignment="Center"
                                                 IsTabStop="False" />
 
-                                            <StackPanel
-                                                Margin="0 2">
-
-                                                <StackPanel Orientation="Horizontal">
-
-                                                    <TextBlock
-                                                        x:Name="PART_Title"
-                                                        FontSize="16"
-                                                        Text="{Binding Title}" />
-
-                                                    <TextBlock
-                                                        x:Name="PART_DateInterval"
-                                                        Text="{Binding SprintDateInterval, StringFormat={}[{0}]}"
-                                                        Margin="10 0 0 0"
-                                                        VerticalAlignment="Center" />
-
-                                                </StackPanel>
-
                                                 <TextBlock
-                                                    x:Name="PART_Subtitle"
-                                                    Text="{Binding Subtitle}"
-                                                    FontSize="12"
-                                                    Margin="0 2 0 0" />
+                                                    DockPanel.Dock="Left"
+                                                    x:Name="PART_Title"
+                                                    FontSize="20"
+                                                    Text="{Binding SprintNumber}"
+                                                    VerticalAlignment="Center"/>
 
-                                            </StackPanel>
+                                                <DockPanel
+                                                    Margin="15 0 0 0"
+                                                    VerticalAlignment="Center">
+
+                                                    <TextBlock
+                                                        DockPanel.Dock="Top"
+                                                        x:Name="PART_DateInterval"
+                                                        Text="{Binding SprintDateInterval}" />
+
+                                                    <TextBlock
+                                                        x:Name="PART_Subtitle"
+                                                        Text="{Binding Subtitle}"
+                                                        FontSize="12"
+                                                        Margin="0 3 0 0"
+                                                        TextWrapping="Wrap"
+                                                        TextTrimming="WordEllipsis"
+                                                        HorizontalAlignment="Left"/>
+
+                                                </DockPanel>
 
                                         </DockPanel>
 

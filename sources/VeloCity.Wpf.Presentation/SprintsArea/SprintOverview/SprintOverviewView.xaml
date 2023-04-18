@@ -214,8 +214,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Text="After Close"
                             HorizontalAlignment="Center"
                             Margin="0 0 0 3"
-                            FontSize="24"
-                            FontWeight="DemiBold" />
+                            FontSize="24" />
 
                     </Border>
 
@@ -228,30 +227,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         Padding="15 0 15 15">
 
                         <DockPanel>
-
-                            <!--<TextBlock
-                                DockPanel.Dock="Top"
-                                HorizontalAlignment="Center"
-                                Margin="0 0 0 10">
-                            
-                                <TextBlock
-                                    FontSize="60"
-                                    Text="{Binding EstimatedStoryPoints.WholePart}"
-                                    FontWeight="DemiBold" />
-
-                                <TextBlock
-                                    FontSize="30"
-                                    Text="{Binding EstimatedStoryPoints.DecimalPart, StringFormat=.00}"
-                                    FontWeight="DemiBold"/>
-
-                                <TextBlock
-                                    Grid.Column="0"
-                                    FontSize="60"
-                                    Text="SP"
-                                    Margin="10 0 0 0"
-                                    FontWeight="DemiBold"/>
-
-                            </TextBlock>-->
 
                             <customControls:StoryPointsBox
                                 DockPanel.Dock="Top"

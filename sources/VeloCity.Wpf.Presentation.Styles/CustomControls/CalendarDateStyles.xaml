@@ -29,10 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <Style TargetType="{x:Type customControls:CalendarDate}">
         <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
-        <Setter Property="FontSize" Value="{StaticResource DefaultFontSize}" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="MonthFontSize" Value="{StaticResource DefaultFontSize}" />
         <Setter Property="WeekFontSize" Value="{StaticResource DefaultFontSize}" />
-        <Setter Property="Padding" Value="8" />
+        <Setter Property="Padding" Value="8 5" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left" />
 
@@ -64,7 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                     HorizontalAlignment="Center" />
 
                                 <TextBlock
-                                    Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:MMM yyyy}}"
+                                    Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:MMM}}"
                                     FontWeight="DemiBold"
                                     FontSize="{TemplateBinding MonthFontSize}"
                                     HorizontalAlignment="Center" />

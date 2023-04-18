@@ -46,8 +46,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         BorderBrush="{TemplateBinding BorderBrush}"
                         Background="{TemplateBinding Background}">
 
-                        <ScrollViewer>
+                        <ScrollViewer
+                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                            
                             <ItemsPresenter />
+
                         </ScrollViewer>
                     </Border>
 
