@@ -88,7 +88,7 @@ namespace DustInTheWind.VeloCity.Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The sprint with number {0} does not exist in the database..
+        ///   Looks up a localized string similar to The sprint with id {0} does not exist in the database..
         /// </summary>
         internal static string SprintDoesNotExist_DefaultErrorMessage {
             get {

@@ -46,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/MissingContentPanelStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/SprintIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/SprintStateControlStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/EditableTextBlockStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
@@ -162,14 +163,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             TextTrimming="CharacterEllipsis"
                             Margin="0 10" />
 
-                        <TextBlock
+                        <!--<TextBlock
                             DockPanel.Dock="Left"
                             Text="{Binding Subtitle}"
                             FontSize="26"
                             Foreground="{StaticResource FontDimBrush}"
                             VerticalAlignment="Center"
                             TextTrimming="CharacterEllipsis"
-                            Margin="20 10 0 10" />
+                            Margin="20 10 0 10" />-->
+
+                        <customControls:EditableTextBlock
+                            DockPanel.Dock="Left"
+                            Text="{Binding Subtitle, Mode=TwoWay}"
+                            Margin="20 10 0 10"/>
+
+                        <ContentControl IsTabStop="False" />
 
                     </DockPanel>
 

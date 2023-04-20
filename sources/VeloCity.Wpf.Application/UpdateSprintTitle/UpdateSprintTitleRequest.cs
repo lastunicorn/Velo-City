@@ -14,18 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain;
+using MediatR;
 
-public class SprintDoesNotExistException : Exception
+namespace DustInTheWind.VeloCity.Wpf.Application.UpdateSprintTitle;
+
+public class UpdateSprintTitleRequest : IRequest
 {
-    public SprintDoesNotExistException(int sprintId)
-        : base(BuildMessage(sprintId))
-    {
-    }
+    public int SprintId { get; set; }
 
-    private static string BuildMessage(int sprintId)
-    {
-        string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
-        return string.Format(messageTemplate, sprintId);
-    }
+    public string SprintTitle { get; set; }
 }

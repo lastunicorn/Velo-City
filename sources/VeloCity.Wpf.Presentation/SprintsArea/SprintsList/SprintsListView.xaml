@@ -139,35 +139,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                 Margin="0 3 15 3"
                                                 Value="{Binding SprintState}"
                                                 IsLabelVisible="False"
-                                                VerticalAlignment="Center"
+                                                VerticalAlignment="Top"
                                                 IsTabStop="False" />
 
-                                                <TextBlock
-                                                    DockPanel.Dock="Left"
-                                                    x:Name="PART_Title"
-                                                    FontSize="20"
-                                                    Text="{Binding SprintNumber}"
-                                                    VerticalAlignment="Center"/>
+                                            <DockPanel
+                                                VerticalAlignment="Center">
 
                                                 <DockPanel
-                                                    Margin="15 0 0 0"
-                                                    VerticalAlignment="Center">
+                                                    DockPanel.Dock="top">
 
                                                     <TextBlock
-                                                        DockPanel.Dock="Top"
+                                                        DockPanel.Dock="Left"
+                                                        x:Name="PART_Title"
+                                                        FontSize="20"
+                                                        Text="{Binding SprintNumber}"
+                                                        VerticalAlignment="Center"
+                                                        Margin="0 0 10 0"/>
+
+                                                    <TextBlock
                                                         x:Name="PART_DateInterval"
-                                                        Text="{Binding SprintDateInterval}" />
-
-                                                    <TextBlock
-                                                        x:Name="PART_Subtitle"
-                                                        Text="{Binding Subtitle}"
-                                                        FontSize="12"
-                                                        Margin="0 3 0 0"
-                                                        TextWrapping="Wrap"
-                                                        TextTrimming="WordEllipsis"
-                                                        HorizontalAlignment="Left"/>
+                                                        Text="{Binding SprintDateInterval}"
+                                                        VerticalAlignment="Center"/>
 
                                                 </DockPanel>
+
+                                                <TextBlock
+                                                    x:Name="PART_Subtitle"
+                                                    Text="{Binding Subtitle}"
+                                                    FontSize="12"
+                                                    Margin="0 3 0 0"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    HorizontalAlignment="Left" />
+
+                                            </DockPanel>
 
                                         </DockPanel>
 

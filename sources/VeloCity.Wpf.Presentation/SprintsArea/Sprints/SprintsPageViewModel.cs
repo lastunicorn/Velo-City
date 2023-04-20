@@ -20,6 +20,7 @@ using DustInTheWind.VeloCity.Wpf.Application.PresentSprintDetails;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentSprint;
 using DustInTheWind.VeloCity.Wpf.Application.StartSprint;
+using DustInTheWind.VeloCity.Wpf.Application.UpdateSprintTitle;
 using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintCalendar;
@@ -65,6 +66,9 @@ public class SprintsPageViewModel : ViewModelBase
         {
             subtitle = value;
             OnPropertyChanged();
+
+            if (!IsInitializeMode)
+                _ = UpdateSprintTitle();
         }
     }
 
@@ -141,11 +145,25 @@ public class SprintsPageViewModel : ViewModelBase
         PresentSprintDetailRequest request = new();
         PresentSprintDetailResponse response = await requestBus.Send<PresentSprintDetailRequest, PresentSprintDetailResponse>(request);
 
-        displayedSprintId = response.SprintId;
+        RunInInitializeMode(() =>
+        {
+            displayedSprintId = response.SprintId;
 
-        IsContentDisplayed = true;
-        Title = $"Sprint {response.SprintNumber}";
-        Subtitle = response.SprintTitle;
-        SprintState = response.SprintState.ToPresentationModel();
+            IsContentDisplayed = true;
+            Title = $"Sprint {response.SprintNumber}";
+            Subtitle = response.SprintTitle;
+            SprintState = response.SprintState.ToPresentationModel();
+        });
+    }
+
+    private async Task UpdateSprintTitle()
+    {
+        UpdateSprintTitleRequest request = new()
+        {
+            SprintId = displayedSprintId,
+            SprintTitle = Subtitle
+        };
+
+        await requestBus.Send(request);
     }
 }
