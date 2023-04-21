@@ -14,34 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
-using Newtonsoft.Json;
+using DustInTheWind.VeloCity.JsonFiles.DatabaseVersionModel;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.Tests.Unit.DataAccess.JsonFiles.DatabaseVersionModel.DatabaseVersionsTableTests;
 
-internal class JsonDatabaseDocument
+public class ConstructorTests
 {
-    public JDatabaseInfo DatabaseInfo { get; set; }
-
-    public List<JSprint> Sprints { get; set; }
-
-    public List<JTeamMember> TeamMembers { get; set; }
-
-    public List<JOfficialHoliday> OfficialHolidays { get; set; }
-
-    public static JsonDatabaseDocument Parse(string json)
+    [Fact]
+    public void HavingNonNullLibraryVersion_WhenInstantiating_ThenDoesNotThrow()
     {
-        return JsonConvert.DeserializeObject<JsonDatabaseDocument>(json);
-    }
+        Version libraryVersion = new(1, 0, 0);
 
-    public string Serialize()
-    {
-        JsonSerializerSettings settings = new()
+        Action action = () =>
         {
-            NullValueHandling = NullValueHandling.Ignore,
-            Formatting = Formatting.Indented
+            _ = new DatabaseVersionsTable(libraryVersion);
         };
 
-        return JsonConvert.SerializeObject(this, settings);
+        action.Should().NotThrow();
+    }
+
+    [Fact]
+    public void HavingNullLibraryVersion_WhenInstantiating_ThenThrows()
+    {
+        Action action = () =>
+        {
+            _ = new DatabaseVersionsTable(null);
+        };
+
+        action.Should().Throw<ArgumentNullException>();
     }
 }

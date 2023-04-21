@@ -14,28 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+using System.Runtime.Serialization;
 
-public class JTeamMember
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
+
+public enum JOfficialHolidayRecurrence
 {
-    public int Id { get; set; }
+    [EnumMember(Value = "once")]
+    Once = 0,
 
-    [Obsolete("Use FirstName, MiddleName, LastName and Nickname instead.")]
-    public string Name { get; set; }
-
-    public string FirstName { get; set; }
-
-    public string MiddleName { get; set; }
-
-    public string LastName { get; set; }
-
-    public string Nickname { get; set; }
-
-    public List<JEmployment> Employments { get; set; }
-
-    public string Comments { get; set; }
-
-    public List<JVacationDay> VacationDays { get; set; }
-
-    public List<JVelocityPenalty> VelocityPenalties { get; set; }
+    [EnumMember(Value = "yearly")]
+    Yearly = 1
 }

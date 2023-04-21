@@ -14,20 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
+using DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
+using FluentAssertions;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.JsonFiles.JsonDatabaseFileTests;
 
-public enum JSprintState
+public class ConstructorTests
 {
-    [EnumMember(Value = "new")]
-    New = 0,
+    [Fact]
+    public void HavingNullPath_WhenCreateInstance_ThenThrows()
+    {
+        Action action = () =>
+        {
+            _ = new JsonDatabaseFile(null);
+        };
 
-    [EnumMember(Value = "in-progress")]
-    InProgress = 1,
-
-    [EnumMember(Value = "closed")]
-    Closed = 2,
-    
-    Invlid = 999
+        action.Should().Throw<ArgumentNullException>();
+    }
 }

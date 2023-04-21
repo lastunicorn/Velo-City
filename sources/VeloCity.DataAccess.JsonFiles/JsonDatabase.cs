@@ -15,6 +15,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.JsonFiles.DatabaseVersionModel;
+using DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
 namespace DustInTheWind.VeloCity.JsonFiles;
@@ -50,10 +52,14 @@ public class JsonDatabase : IDataStorage
         if (State != DatabaseState.Closed)
             CloseInternal();
 
+        LastWarning = null;
+
         try
         {
             jsonDatabaseFile = new JsonDatabaseFile(PersistenceLocation);
             jsonDatabaseFile.Open();
+
+            ValidateVersion();
 
             LoadAllData();
 
@@ -76,10 +82,20 @@ public class JsonDatabase : IDataStorage
 
             throw dataAccessException;
         }
-        finally
-        {
-            LastWarning = jsonDatabaseFile.LastWarning;
-        }
+    }
+
+    private void ValidateVersion()
+    {
+        DatabaseVersionsTable databaseVersionsTable = new(LibraryInfo.Version);
+
+        Version databaseVersion = jsonDatabaseFile.Document?.DatabaseInfo?.DatabaseVersion;
+        VersionValidationResult result = databaseVersionsTable.ValidateVersion(databaseVersion);
+
+        if (result.Warning != null)
+            LastWarning = result.Warning;
+
+        if (result.Exception != null)
+            throw result.Exception;
     }
 
     private void LoadAllData()

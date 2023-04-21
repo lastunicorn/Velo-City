@@ -14,24 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
-
-public enum JVacationRecurrence
+public class JVelocityPenalty
 {
-    [EnumMember(Value = "once")]
-    Once = 0,
+    public int SprintId { get; set; }
 
-    [EnumMember(Value = "daily")]
-    Daily = 1,
+    public int Value { get; set; }
 
-    [EnumMember(Value = "weekly")]
-    Weekly = 2,
+    public int? Duration { get; set; }
 
-    [EnumMember(Value = "monthly")]
-    Monthly = 3,
-
-    [EnumMember(Value = "yearly")]
-    Yearly = 4
+    public string Comments { get; set; }
 }

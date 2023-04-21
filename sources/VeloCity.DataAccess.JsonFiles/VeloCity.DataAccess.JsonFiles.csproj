@@ -38,6 +38,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
             <_Parameter1>DustInTheWind.VeloCity.Tests.Integration</_Parameter1>
         </AssemblyAttribute>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>DustInTheWind.VeloCity.Tests.Unit</_Parameter1>
+        </AssemblyAttribute>
     </ItemGroup>
 
 </Project>

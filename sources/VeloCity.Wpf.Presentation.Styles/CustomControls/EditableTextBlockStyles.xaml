@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
-        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/ChartIconStyles.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/EditIconStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -69,7 +69,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             x:Name="PART_EditIcon"
                             Width="16"
                             Height="16"
-                            Style="{StaticResource ChartIconStyle}"
+                            Style="{StaticResource EditIconStyle}"
                             Margin="10 0 0 0"
                             Visibility="Collapsed"
                             Cursor="Hand">

@@ -17,28 +17,27 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
-public class JSprint
+public class JVacationDay
 {
-    public int Id { get; set; }
-
-    public int Number { get; set; }
-
-    public string Name { get; set; }
-
-    public DateTime StartDate { get; set; }
-
-    public DateTime EndDate { get; set; }
-
-    public string Goal { get; set; }
-
-    public float? CommitmentStoryPoints { get; set; }
-
-    public float? ActualStoryPoints { get; set; }
-
     [JsonConverter(typeof(StringEnumConverter))]
-    public JSprintState State { get; set; }
+    public JVacationRecurrence Recurrence { get; set; }
+
+    public DateTime? Date { get; set; }
+
+    public DateTime? StartDate { get; set; }
+
+    public DateTime? EndDate { get; set; }
+
+    [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
+    public List<JDayOfWeek> WeekDays { get; set; }
+
+    public List<int> MonthDays { get; set; }
+
+    public List<DateTime> Dates { get; set; }
+
+    public int? HourCount { get; set; }
 
     public string Comments { get; set; }
 }

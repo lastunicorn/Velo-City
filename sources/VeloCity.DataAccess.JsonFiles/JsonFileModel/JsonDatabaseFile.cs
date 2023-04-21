@@ -14,16 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
-internal class MissingDatabaseVersionWarning : WarningException
+internal class JsonDatabaseFile
 {
-    private const string DefaultMessage = "The json file has no version. The data may not be parsed correctly. Expected file version: {0}.";
+    private readonly string filePath;
 
-    public MissingDatabaseVersionWarning(Version expectedDatabaseVersion)
-        : base(string.Format(DefaultMessage, expectedDatabaseVersion))
+    public JsonDatabaseDocument Document { get; set; }
+    
+    public JsonDatabaseFile(string filePath)
     {
+        this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+    }
+
+    public void Open()
+    {
+        if (!File.Exists(filePath))
+            throw new DatabaseNotFoundException(filePath);
+
+        string json = File.ReadAllText(filePath);
+        Document = JsonDatabaseDocument.Parse(json);
+    }
+
+    public void Save()
+    {
+        string json = Document.Serialize();
+        File.WriteAllText(filePath, json);
     }
 }

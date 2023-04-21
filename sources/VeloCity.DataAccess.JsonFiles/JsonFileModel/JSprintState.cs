@@ -14,27 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
-public class JOfficialHoliday
+public enum JSprintState
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public JOfficialHolidayRecurrence Recurrence { get; set; }
+    [EnumMember(Value = "new")]
+    New = 0,
 
-    public DateTime Date { get; set; }
+    [EnumMember(Value = "in-progress")]
+    InProgress = 1,
 
-    public string Name { get; set; }
+    [EnumMember(Value = "closed")]
+    Closed = 2,
 
-    public int? StartYear { get; set; }
-
-    public int? EndYear { get; set; }
-
-    public string Country { get; set; }
-
-    public string ShortDescription { get; set; }
-
-    public string Description { get; set; }
+    Invlid = 999
 }

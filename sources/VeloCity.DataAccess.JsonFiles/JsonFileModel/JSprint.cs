@@ -14,15 +14,31 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-public class JVelocityPenalty
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
+
+public class JSprint
 {
-    public int SprintId { get; set; }
+    public int Id { get; set; }
 
-    public int Value { get; set; }
+    public int Number { get; set; }
 
-    public int? Duration { get; set; }
+    public string Name { get; set; }
+
+    public DateTime StartDate { get; set; }
+
+    public DateTime EndDate { get; set; }
+
+    public string Goal { get; set; }
+
+    public float? CommitmentStoryPoints { get; set; }
+
+    public float? ActualStoryPoints { get; set; }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public JSprintState State { get; set; }
 
     public string Comments { get; set; }
 }

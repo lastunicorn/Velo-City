@@ -14,16 +14,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
+using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
-internal class DatabaseVersionWarning : WarningException
+public enum JVacationRecurrence
 {
-    private const string DefaultMessage = "The version of the json file is unexpected. The parsed data may be incomplete. Actual file version: {0}. Expected file version: {1}.";
+    [EnumMember(Value = "once")]
+    Once = 0,
 
-    public DatabaseVersionWarning(Version actualDatabaseVersion, Version expectedDatabaseVersion)
-        : base(string.Format(DefaultMessage, actualDatabaseVersion, expectedDatabaseVersion))
-    {
-    }
+    [EnumMember(Value = "daily")]
+    Daily = 1,
+
+    [EnumMember(Value = "weekly")]
+    Weekly = 2,
+
+    [EnumMember(Value = "monthly")]
+    Monthly = 3,
+
+    [EnumMember(Value = "yearly")]
+    Yearly = 4
 }

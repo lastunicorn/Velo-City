@@ -14,16 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Ports.DataAccess;
+using DustInTheWind.VeloCity.Domain;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.JsonFiles.DatabaseVersionModel;
 
-public class TooBigDatabaseVersionException : DataAccessException
+internal class VersionValidationResult
 {
-    private const string DefaultMessage = "The database json file in newer than expected. Please upgrade the VeloCity application. Actual database version: {0}. Current version of VeloCity works with database version: {1}.";
+    public Exception Exception { get; set; }
 
-    public TooBigDatabaseVersionException(Version actualVersion, Version expectedVersion)
-        : base(string.Format(DefaultMessage, actualVersion, expectedVersion))
-    {
-    }
+    public WarningException Warning { get; set; }
 }

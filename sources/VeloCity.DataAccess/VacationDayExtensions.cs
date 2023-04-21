@@ -16,7 +16,7 @@
 
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
-using DustInTheWind.VeloCity.JsonFiles;
+using DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 using DustInTheWind.VeloCity.Ports.DataAccess;
 
 namespace DustInTheWind.VeloCity.DataAccess;
