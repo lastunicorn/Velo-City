@@ -18,6 +18,7 @@ using DustInTheWind.VeloCity.Infrastructure;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
+using DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 using DustInTheWind.VeloCity.Wpf.Presentation.TeamMembersArea.Team;
 
@@ -65,6 +66,7 @@ public class TeamMembersListViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    public NewTeamMemberCommand NewTeamMemberCommand { get; }
 
     public TeamMembersListViewModel(IRequestBus requestBus, EventBus eventBus)
     {
@@ -72,7 +74,8 @@ public class TeamMembersListViewModel : ViewModelBase
 
         eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
         eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
-        //eventBus.Subscribe<TeamMemberUpdatedEvent>(HandleSprintUpdatedEvent);
+
+        NewTeamMemberCommand = new NewTeamMemberCommand(requestBus);
 
         _ = Initialize();
     }
@@ -88,17 +91,7 @@ public class TeamMembersListViewModel : ViewModelBase
 
         return Task.CompletedTask;
     }
-
-    //private Task HandleSprintUpdatedEvent(TeamMemberUpdatedEvent ev, CancellationToken cancellationToken)
-    //{
-    //    TeamMemberViewModel teamMemberViewModel = teamMembers.FirstOrDefault(x => x.TeamMemberId == ev.SprintId);
-
-    //    //if (teamMemberViewModel != null)
-    //    //    teamMemberViewModel.SprintState = ev.SprintState.ToPresentationModel();
-
-    //    return Task.CompletedTask;
-    //}
-
+    
     private async Task Initialize()
     {
         PresentTeamMembersRequest request = new();
