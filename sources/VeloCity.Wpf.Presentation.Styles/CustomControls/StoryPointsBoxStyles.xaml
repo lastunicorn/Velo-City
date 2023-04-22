@@ -27,12 +27,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <converters:BooleanToVisibilityInverseConverter x:Key="BooleanToVisibilityInverseConverter" />
+    <converters:FloatToStringRoundDownConverter x:Key="FloatToStringRoundDownConverter" />
 
     <Style
         x:Key="{x:Type customControls:StoryPointsBox}"
         TargetType="{x:Type customControls:StoryPointsBox}">
 
-        <Setter Property="FontSize" Value="50" />
+        <Setter Property="FontSize" Value="40" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="IsTabStop" Value="False" />
 
@@ -52,8 +53,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
 
                         <TextBlock
-                            FontSize="30"
-                            Text="{Binding FractionalPart, RelativeSource={RelativeSource TemplatedParent}, StringFormat=.00}"
+                            FontSize="20"
+                            Text="{Binding FractionalPart, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource FloatToStringRoundDownConverter}}"
                             FontWeight="{TemplateBinding FontWeight}"
                             Visibility="{Binding IsNull, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BooleanToVisibilityInverseConverter}}" />
 

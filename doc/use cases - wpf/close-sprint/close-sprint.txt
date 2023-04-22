@@ -1,0 +1,21 @@
+CloseSprintUseCase
+
+Setup Variables
+- selected sprint in application state - 2 states: yes, no
+- sprint exists in db - 2 states: yes, no
+- sprint state is correct - 2 states: yes (InProgress), no (Unknown, New, Closed, not declared value)
+- user confirmation - 2 states: yes, no
+
+16 possible setups for tests
+
+
+Visible Results
+	- ex-dep call: SprintRepository.Get()
+	- ex-dep call: UserInterface.ConfirmCloseSprint()
+	- update: state = Closed
+	- update: actual story points = from user
+	- update: comments = from user
+	- event published: SprintUpdatedEvent
+
+Exceptions
+	- no sprint is selected as current -> NoSprintSelectedException

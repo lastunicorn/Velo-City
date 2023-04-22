@@ -51,10 +51,11 @@ public class SprintCalendarDay
     {
         IsWorkDay = IsWorkDay || sprintMemberDay.IsWorkDay;
 
-        WorkHours += sprintMemberDay.WorkHours;
-
         if (sprintMemberDay.AbsenceReason != AbsenceReason.WeekEnd)
+        {
+            WorkHours += sprintMemberDay.WorkHours;
             AbsenceHours += sprintMemberDay.AbsenceHours;
+        }
 
         if (sprintMemberDay.AbsenceHours > 0 || sprintMemberDay.AbsenceReason == AbsenceReason.Contract)
         {

@@ -90,6 +90,9 @@ public readonly partial struct HoursValue
 
     public static HoursValue operator +(HoursValue? hoursValue1, HoursValue? hoursValue2)
     {
+        if (hoursValue1 == null && hoursValue2 == null)
+            return null;
+
         int value1 = hoursValue1?.Value ?? 0;
         int value2 = hoursValue2?.Value ?? 0;
 
@@ -101,6 +104,9 @@ public readonly partial struct HoursValue
 
     public static HoursValue operator -(HoursValue? hoursValue1, HoursValue? hoursValue2)
     {
+        if (hoursValue1 == null && hoursValue2 == null)
+            return null;
+
         int value1 = hoursValue1?.Value ?? 0;
         int value2 = hoursValue2?.Value ?? 0;
 
