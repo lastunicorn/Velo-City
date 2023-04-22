@@ -14,20 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
-
-public enum JSprintState
+public class JVelocityPenalty
 {
-    [EnumMember(Value = "new")]
-    New = 0,
+    public int SprintId { get; set; }
 
-    [EnumMember(Value = "in-progress")]
-    InProgress = 1,
+    public int Value { get; set; }
 
-    [EnumMember(Value = "closed")]
-    Closed = 2,
-    
-    Invlid = 999
+    public int? Duration { get; set; }
+
+    public string Comments { get; set; }
 }

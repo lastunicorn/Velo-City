@@ -14,30 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Runtime.Serialization;
+using DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
+using FluentAssertions;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.Tests.Integration.DataAccess.JsonFiles.JsonDatabaseFileTests;
 
-public enum JDayOfWeek
+public class ConstructorTests
 {
-    [EnumMember(Value = "sunday")]
-    Sunday,
+    [Fact]
+    public void HavingNullPath_WhenCreateInstance_ThenThrows()
+    {
+        Action action = () =>
+        {
+            _ = new JsonDatabaseFile(null);
+        };
 
-    [EnumMember(Value = "monday")]
-    Monday,
-
-    [EnumMember(Value = "tuesday")]
-    Tuesday,
-
-    [EnumMember(Value = "wednesday")]
-    Wednesday,
-
-    [EnumMember(Value = "thursday")]
-    Thursday,
-
-    [EnumMember(Value = "friday")]
-    Friday,
-
-    [EnumMember(Value = "saturday")]
-    Saturday
+        action.Should().Throw<ArgumentNullException>();
+    }
 }

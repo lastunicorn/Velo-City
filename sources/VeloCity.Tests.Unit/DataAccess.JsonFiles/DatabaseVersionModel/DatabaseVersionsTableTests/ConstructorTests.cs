@@ -14,18 +14,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.JsonFiles.DatabaseVersionModel;
 
-public class SprintDoesNotExistException : Exception
+namespace DustInTheWind.VeloCity.Tests.Unit.DataAccess.JsonFiles.DatabaseVersionModel.DatabaseVersionsTableTests;
+
+public class ConstructorTests
 {
-    public SprintDoesNotExistException(int sprintId)
-        : base(BuildMessage(sprintId))
+    [Fact]
+    public void HavingNonNullLibraryVersion_WhenInstantiating_ThenDoesNotThrow()
     {
+        Version libraryVersion = new(1, 0, 0);
+
+        Action action = () =>
+        {
+            _ = new DatabaseVersionsTable(libraryVersion);
+        };
+
+        action.Should().NotThrow();
     }
 
-    private static string BuildMessage(int sprintId)
+    [Fact]
+    public void HavingNullLibraryVersion_WhenInstantiating_ThenThrows()
     {
-        string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
-        return string.Format(messageTemplate, sprintId);
+        Action action = () =>
+        {
+            _ = new DatabaseVersionsTable(null);
+        };
+
+        action.Should().Throw<ArgumentNullException>();
     }
 }

@@ -118,7 +118,7 @@ public class HandleTests
     }
 
     [Fact]
-    public async Task HavingTwoSprintsInRepositoryInDescendingOrder_WhenUseCaseIsExecuted_ThenTwoSprintsAreReturnedInThatOrder()
+    public async Task HavingTwoSprintsInRepositoryInDescendingOrder_WhenUseCaseIsExecuted_ThenTwoSprintsAreReturnedInReversedOrder()
     {
         List<Sprint> sprintsFromRepository = new()
         {
@@ -131,37 +131,6 @@ public class HandleTests
             {
                 Number = 2,
                 DateInterval = new DateInterval(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
-            }
-        };
-
-        sprintRepository
-            .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
-            .ReturnsAsync(sprintsFromRepository);
-
-        PresentVelocityRequest request = new();
-        PresentVelocityResponse response = await useCase.Handle(request, CancellationToken.None);
-
-        IEnumerable<int> actualSprintNumbers = response.SprintVelocities
-            .Select(x => x.SprintNumber);
-
-        int[] expectedSprintNumbers = { 1, 2 };
-        actualSprintNumbers.Should().Equal(expectedSprintNumbers);
-    }
-
-    [Fact]
-    public async Task HavingTwoSprintsInRepositoryInAscendingOrder_WhenUseCaseIsExecuted_ThenTwoSprintsAreReturnedInReversedOrder()
-    {
-        List<Sprint> sprintsFromRepository = new()
-        {
-            new Sprint
-            {
-                Number = 1,
-                DateInterval = new DateInterval(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
-            },
-            new Sprint
-            {
-                Number = 2,
-                DateInterval = new DateInterval(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
             }
         };
 
@@ -176,6 +145,37 @@ public class HandleTests
             .Select(x => x.SprintNumber);
 
         int[] expectedSprintNumbers = { 2, 1 };
+        actualSprintNumbers.Should().Equal(expectedSprintNumbers);
+    }
+
+    [Fact]
+    public async Task HavingTwoSprintsInRepositoryInAscendingOrder_WhenUseCaseIsExecuted_ThenTwoSprintsAreReturnedInThatOrder()
+    {
+        List<Sprint> sprintsFromRepository = new()
+        {
+            new Sprint
+            {
+                Number = 1,
+                DateInterval = new DateInterval(new DateTime(2022, 09, 03), new DateTime(2022, 09, 17))
+            },
+            new Sprint
+            {
+                Number = 2,
+                DateInterval = new DateInterval(new DateTime(2022, 10, 03), new DateTime(2022, 10, 17))
+            }
+        };
+
+        sprintRepository
+            .Setup(x => x.GetLastClosed(It.IsAny<uint>()))
+            .ReturnsAsync(sprintsFromRepository);
+
+        PresentVelocityRequest request = new();
+        PresentVelocityResponse response = await useCase.Handle(request, CancellationToken.None);
+
+        IEnumerable<int> actualSprintNumbers = response.SprintVelocities
+            .Select(x => x.SprintNumber);
+
+        int[] expectedSprintNumbers = { 1, 2 };
         actualSprintNumbers.Should().Equal(expectedSprintNumbers);
     }
 }

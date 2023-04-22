@@ -14,28 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
-public class JTeamMember
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
+
+public class JVacationDay
 {
-    public int Id { get; set; }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public JVacationRecurrence Recurrence { get; set; }
 
-    [Obsolete("Use FirstName, MiddleName, LastName and Nickname instead.")]
-    public string Name { get; set; }
+    public DateTime? Date { get; set; }
 
-    public string FirstName { get; set; }
+    public DateTime? StartDate { get; set; }
 
-    public string MiddleName { get; set; }
+    public DateTime? EndDate { get; set; }
 
-    public string LastName { get; set; }
+    [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
+    public List<JDayOfWeek> WeekDays { get; set; }
 
-    public string Nickname { get; set; }
+    public List<int> MonthDays { get; set; }
 
-    public List<JEmployment> Employments { get; set; }
+    public List<DateTime> Dates { get; set; }
+
+    public int? HourCount { get; set; }
 
     public string Comments { get; set; }
-
-    public List<JVacationDay> VacationDays { get; set; }
-
-    public List<JVelocityPenalty> VelocityPenalties { get; set; }
 }

@@ -127,6 +127,6 @@
     <value>There is no sprint in the database.</value>
   </data>
   <data name="SprintDoesNotExist_DefaultErrorMessage" xml:space="preserve">
-    <value>The sprint with number {0} does not exist in the database.</value>
+    <value>The sprint with id {0} does not exist in the database.</value>
   </data>
 </root>

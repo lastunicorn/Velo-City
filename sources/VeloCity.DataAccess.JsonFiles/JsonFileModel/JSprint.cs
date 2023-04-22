@@ -17,7 +17,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
 public class JSprint
 {

@@ -14,18 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain;
 
-public class SprintDoesNotExistException : Exception
+namespace DustInTheWind.VeloCity.JsonFiles.DatabaseVersionModel;
+
+internal class MissingDatabaseVersionWarning : WarningException
 {
-    public SprintDoesNotExistException(int sprintId)
-        : base(BuildMessage(sprintId))
-    {
-    }
+    private const string DefaultMessage = "The json file has no version. The data may not be parsed correctly. Expected file version: {0}.";
 
-    private static string BuildMessage(int sprintId)
+    public MissingDatabaseVersionWarning(Version expectedDatabaseVersion)
+        : base(string.Format(DefaultMessage, expectedDatabaseVersion))
     {
-        string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
-        return string.Format(messageTemplate, sprintId);
     }
 }

@@ -14,30 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using DustInTheWind.VeloCity.Ports.DataAccess;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.JsonFiles.DatabaseVersionModel;
 
-public class JVacationDay
+public class TooSmallDatabaseVersionException : DataAccessException
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public JVacationRecurrence Recurrence { get; set; }
+    public TooSmallDatabaseVersionException(Version actualVersion, Version expectedVersion)
+        : base(BuildMessage(actualVersion, expectedVersion))
+    {
+    }
 
-    public DateTime? Date { get; set; }
-
-    public DateTime? StartDate { get; set; }
-
-    public DateTime? EndDate { get; set; }
-
-    [JsonProperty(ItemConverterType = typeof(StringEnumConverter))]
-    public List<JDayOfWeek> WeekDays { get; set; }
-
-    public List<int> MonthDays { get; set; }
-
-    public List<DateTime> Dates { get; set; }
-
-    public int? HourCount { get; set; }
-
-    public string Comments { get; set; }
+    private static string BuildMessage(Version actualVersion, Version expectedVersion)
+    {
+        const string messageTemplate = "The database json file has an old format. Please upgrade the database format. Actual database version: {0}. Expected database version: {1}.";
+        return string.Format(messageTemplate, actualVersion, expectedVersion);
+    }
 }

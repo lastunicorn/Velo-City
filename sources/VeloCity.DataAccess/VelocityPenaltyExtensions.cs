@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.JsonFiles;
+using DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
 namespace DustInTheWind.VeloCity.DataAccess;
 

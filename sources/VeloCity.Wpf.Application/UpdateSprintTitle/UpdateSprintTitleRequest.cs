@@ -14,27 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.Wpf.Application.UpdateSprintTitle;
 
-public class JOfficialHoliday
+public class UpdateSprintTitleRequest : IRequest
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public JOfficialHolidayRecurrence Recurrence { get; set; }
+    public int SprintId { get; set; }
 
-    public DateTime Date { get; set; }
-
-    public string Name { get; set; }
-
-    public int? StartYear { get; set; }
-
-    public int? EndYear { get; set; }
-
-    public string Country { get; set; }
-
-    public string ShortDescription { get; set; }
-
-    public string Description { get; set; }
+    public string SprintTitle { get; set; }
 }

@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         x:Key="{x:Type customControls:StoryPointsBox}"
         TargetType="{x:Type customControls:StoryPointsBox}">
 
-        <Setter Property="FontSize" Value="60" />
+        <Setter Property="FontSize" Value="50" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="IsTabStop" Value="False" />
 

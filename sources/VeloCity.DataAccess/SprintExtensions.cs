@@ -16,7 +16,7 @@
 
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.SprintModel;
-using DustInTheWind.VeloCity.JsonFiles;
+using DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
 namespace DustInTheWind.VeloCity.DataAccess;
 

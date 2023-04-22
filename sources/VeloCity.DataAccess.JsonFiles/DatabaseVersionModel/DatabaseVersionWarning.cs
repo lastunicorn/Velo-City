@@ -14,9 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+using DustInTheWind.VeloCity.Domain;
 
-public class JDatabaseInfo
+namespace DustInTheWind.VeloCity.JsonFiles.DatabaseVersionModel;
+
+internal class DatabaseVersionWarning : WarningException
 {
-    public Version DatabaseVersion { get; set; }
+    public DatabaseVersionWarning(Version actualVersion, Version expectedVersion)
+        : base(BuildMessage(actualVersion, expectedVersion))
+    {
+    }
+
+    private static string BuildMessage(Version actualVersion, Version expectedVersion)
+    {
+        const string messageTemplate = "The version of the json file is unexpected. The parsed data may be incomplete. Actual file version: {0}. Expected file version: {1}.";
+        return string.Format(messageTemplate, actualVersion, expectedVersion);
+    }
 }

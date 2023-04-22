@@ -14,18 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
-public class SprintDoesNotExistException : Exception
+public class JDatabaseInfo
 {
-    public SprintDoesNotExistException(int sprintId)
-        : base(BuildMessage(sprintId))
-    {
-    }
-
-    private static string BuildMessage(int sprintId)
-    {
-        string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
-        return string.Format(messageTemplate, sprintId);
-    }
+    public Version DatabaseVersion { get; set; }
 }

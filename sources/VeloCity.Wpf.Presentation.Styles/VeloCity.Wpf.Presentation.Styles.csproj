@@ -54,6 +54,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>
         </Page>
+        <Page Update="Icons\EditIconStyles.xaml">
+          <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
         <Page Update="Icons\RemoveVacationIconStyles.xaml">
             <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
             <SubType>Designer</SubType>

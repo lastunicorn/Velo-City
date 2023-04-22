@@ -14,18 +14,28 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
-public class SprintDoesNotExistException : Exception
+public class JTeamMember
 {
-    public SprintDoesNotExistException(int sprintId)
-        : base(BuildMessage(sprintId))
-    {
-    }
+    public int Id { get; set; }
 
-    private static string BuildMessage(int sprintId)
-    {
-        string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
-        return string.Format(messageTemplate, sprintId);
-    }
+    [Obsolete("Use FirstName, MiddleName, LastName and Nickname instead.")]
+    public string Name { get; set; }
+
+    public string FirstName { get; set; }
+
+    public string MiddleName { get; set; }
+
+    public string LastName { get; set; }
+
+    public string Nickname { get; set; }
+
+    public List<JEmployment> Employments { get; set; }
+
+    public string Comments { get; set; }
+
+    public List<JVacationDay> VacationDays { get; set; }
+
+    public List<JVelocityPenalty> VelocityPenalties { get; set; }
 }

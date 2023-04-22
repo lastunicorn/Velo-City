@@ -42,164 +42,165 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" PrivateAssets="All" />
-      <ProjectReference Include="..\VeloCity.SystemAccess\VeloCity.SystemAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.DataAccess.JsonFiles\VeloCity.DataAccess.JsonFiles.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.DataAccess\VeloCity.DataAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Domain\VeloCity.Domain.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.Ports.DataAccess\VeloCity.Ports.DataAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.SettingsAccess\VeloCity.SettingsAccess.csproj" PrivateAssets="All" />
+        <ProjectReference Include="..\VeloCity.SystemAccess\VeloCity.SystemAccess.csproj" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\01-empty.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\02-database-info.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\04-one-team-member.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\03-one-sprint.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.two.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.one-recurrent.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.one-fixed.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.one-fixed.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.one-recurrent.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.two.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-all.two.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-all.one.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-all.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-add.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-any-in-progress.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-in-progress.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-in-progress.last.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-in-progress.none.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-in-progress.not-last.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-any-in-progress.none.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-any-in-progress.not-last.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-first-new-sprint.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-by-number.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-all.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-any-in-progress.last.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-date-interval-for.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-closed-sprints-before.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-closed.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-add.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-between-dates.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-find.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-find.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.with-exclusions.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.no-employment.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date.no-employment.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.two.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.one.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date.two.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date.one.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-all.empty.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-all.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\db-open.empty.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\db-open.database-info.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\db-open.one-team-member.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess.JsonFiles\JsonDatabaseFileTests\db-open.one-sprint.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.two.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.one-recurrent.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.one-fixed.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-by-date-interval.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.one-fixed.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.one-recurrent.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.two.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-all.two.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-all.one.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\OfficialHolidayRepositoryTests\db-get-all.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-add.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-any-in-progress.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-in-progress.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-in-progress.last.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-in-progress.none.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-in-progress.not-last.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-any-in-progress.none.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-any-in-progress.not-last.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-first-new-sprint.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-by-number.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-all.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-is-any-in-progress.last.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-date-interval-for.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-closed-sprints-before.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-last-closed.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-add.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\SprintRepositoryTests\db-get-between-dates.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-find.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-find.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.with-exclusions.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.no-employment.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date.no-employment.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.two.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.one.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date-interval.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date.two.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date.one.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-by-date.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-all.empty.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get-all.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="TestData\DataAccess\TeamMemberRepositoryTests\db-get.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

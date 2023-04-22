@@ -16,7 +16,7 @@
 
 using System.Runtime.Serialization;
 
-namespace DustInTheWind.VeloCity.JsonFiles;
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
 
 public enum JVacationRecurrence
 {

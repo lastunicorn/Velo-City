@@ -53,7 +53,7 @@ public class PresentSprintsCapacityUseCase : IRequestHandler<PresentSprintsCapac
         IEnumerable<Sprint> sprints = await unitOfWork.SprintRepository.GetLastClosed(sprintCount);
 
         return sprints
-            .OrderByDescending(x => x.StartDate)
+            .OrderBy(x => x.StartDate)
             .Select(x => new SprintCapacity(x))
             .ToList();
     }

@@ -14,18 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace DustInTheWind.VeloCity.Domain;
+using System.Runtime.Serialization;
 
-public class SprintDoesNotExistException : Exception
+namespace DustInTheWind.VeloCity.JsonFiles.JsonFileModel;
+
+public enum JDayOfWeek
 {
-    public SprintDoesNotExistException(int sprintId)
-        : base(BuildMessage(sprintId))
-    {
-    }
+    [EnumMember(Value = "sunday")]
+    Sunday,
 
-    private static string BuildMessage(int sprintId)
-    {
-        string messageTemplate = Resources.SprintDoesNotExist_DefaultErrorMessage;
-        return string.Format(messageTemplate, sprintId);
-    }
+    [EnumMember(Value = "monday")]
+    Monday,
+
+    [EnumMember(Value = "tuesday")]
+    Tuesday,
+
+    [EnumMember(Value = "wednesday")]
+    Wednesday,
+
+    [EnumMember(Value = "thursday")]
+    Thursday,
+
+    [EnumMember(Value = "friday")]
+    Friday,
+
+    [EnumMember(Value = "saturday")]
+    Saturday
 }

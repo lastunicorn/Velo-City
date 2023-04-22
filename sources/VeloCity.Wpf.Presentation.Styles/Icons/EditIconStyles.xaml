@@ -1,0 +1,42 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022-2023 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:customControls="clr-namespace:DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;assembly=DustInTheWind.VeloCity.Wpf.Presentation.CustomControls">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/GenericIconStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Geometry x:Key="EditIconGeometry">
+        m 409.13952,0.05727382 a 15.0015,15.0015 0 0 0 -5.18945,0.453128 15.0015,15.0015 0 0 0 -6.72461,3.88086298 L 341.04382,60.5729 451.42832,170.95599 507.608,114.7763 a 15.0015,15.0015 0 0 0 0,-21.214846 L 418.43808,4.3915338 A 15.0015,15.0015 0 0 0 409.13925,0.05754182 Z M 319.83288,81.783841 85.801633,315.8151 l -2.86328,2.86328 110.382797,110.38478 2.86328,-2.86328 234.03125,-234.03126 z M 61.72546,339.89127 l -8.318354,8.31835 -19.216801,19.21681 -6.886725,25.69921 -2.408201,8.99023 -7.781243,29.04102 -16.60351804,61.95899 A 15.001482,15.001482 0 0 0 18.883677,511.48696 l 61.958988,-16.60157 29.041005,-7.78125 8.98828,-2.4082 25.70508,-6.88867 19.2129,-19.2129 8.31835,-8.31835 z
+    </Geometry>
+
+    <Style
+        x:Key="EditIconStyle"
+        TargetType="{x:Type customControls:GenericIcon}"
+        BasedOn="{StaticResource {x:Type customControls:GenericIcon}}">
+
+        <Setter Property="Geometry" Value="{StaticResource EditIconGeometry}" />
+
+    </Style>
+
+</ResourceDictionary>
