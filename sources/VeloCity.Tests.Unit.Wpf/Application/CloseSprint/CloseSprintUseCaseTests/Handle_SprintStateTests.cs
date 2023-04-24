@@ -28,7 +28,7 @@ public class Handle_SprintStateTests
 {
     private readonly Sprint sprintFromRepository;
     private readonly CloseSprintUseCase useCase;
-    private readonly Mock<IUserInterface> userInterface;
+    private readonly Mock<IUserTerminal> userInterface;
 
     public Handle_SprintStateTests()
     {
@@ -36,7 +36,7 @@ public class Handle_SprintStateTests
         Mock<ISprintRepository> sprintRepository = new();
         ApplicationState applicationState = new();
         EventBus eventBus = new();
-        userInterface = new Mock<IUserInterface>();
+        userInterface = new Mock<IUserTerminal>();
 
         unitOfWork
             .Setup(x => x.SprintRepository)

@@ -16,6 +16,7 @@
 
 using System.Windows.Input;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewTeamMember;
 
 namespace DustInTheWind.VeloCity.Wpf.Presentation.Commands;
 
@@ -37,5 +38,7 @@ public class NewTeamMemberCommand : ICommand
 
     public void Execute(object parameter)
     {
+        CreateNewTeamMemberRequest request = new();
+        _ = requestBus.Send(request);
     }
 }

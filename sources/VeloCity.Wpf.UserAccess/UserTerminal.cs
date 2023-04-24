@@ -16,17 +16,20 @@
 
 using System.Windows;
 using DustInTheWind.VeloCity.Domain;
+using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 using DustInTheWind.VeloCity.Ports.UserAccess;
+using DustInTheWind.VeloCity.Ports.UserAccess.NewTeamMemberConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 using DustInTheWind.VeloCity.Wpf.UserAccess.CloseSprintConfirmation;
 using DustInTheWind.VeloCity.Wpf.UserAccess.NewSprintConfirmation;
+using DustInTheWind.VeloCity.Wpf.UserAccess.NewTeamMemberConfirmation;
 using DustInTheWind.VeloCity.Wpf.UserAccess.StartSprintConfirmation;
 
 namespace DustInTheWind.VeloCity.Wpf.UserAccess;
 
-public class UserInterface : IUserInterface
+public class UserTerminal : IUserTerminal
 {
     public SprintNewConfirmationResponse ConfirmNewSprint(SprintNewConfirmationRequest request)
     {
@@ -100,6 +103,40 @@ public class UserInterface : IUserInterface
             IsAccepted = response == true,
             ActualStoryPoints = viewModel.ActualStoryPoints,
             Comments = viewModel.Comments
+        };
+    }
+
+    public NewTeamMemberConfirmationResponse ConfirmNewTeamMember(NewTeamMemberConfirmationRequest request)
+    {
+        NewTeamMemberConfirmationViewModel viewModel = new()
+        {
+            EmploymentHours = request.EmploymentHours,
+            EmploymentCountry = request.EmploymentCountry,
+            StartDate = request.StartDate
+        };
+
+        NewTeamMemberConfirmationWindow window = new()
+        {
+            DataContext = viewModel,
+            Owner = Application.Current.MainWindow
+        };
+
+        bool? response = window.ShowDialog();
+
+        return new NewTeamMemberConfirmationResponse
+        {
+            IsAccepted = response == true,
+            EmploymentHours = viewModel.EmploymentHours,
+            EmploymentCountry = viewModel.EmploymentCountry,
+            StartDate = viewModel.StartDate,
+            TeamMemberName = new PersonName()
+            {
+                FirstName = viewModel.FirstName,
+                MiddleName = viewModel.MiddleName,
+                LastName = viewModel.LastName,
+                Nickname = viewModel.Nickname,
+            },
+            EmploymentWeek = EmploymentWeek.NewDefault
         };
     }
 }

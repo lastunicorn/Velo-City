@@ -45,7 +45,11 @@ internal class TeamMemberList : Collection<TeamMember>
             .OrderByEmployment();
 
         IEnumerable<TeamMember> orderedUnemployedTeamMembers = unemployedTeamMembers
-            .OrderByDescending(x => x.Employments?.GetLastEmployment().EndDate ?? DateTime.MinValue);
+            .OrderByDescending(x =>
+            {
+                Employment lastEmployment = x.Employments.GetLastEmployment();
+                return lastEmployment?.EndDate ?? DateTime.MinValue;
+            });
 
         IEnumerable<TeamMember> allTeamMembers = orderedEmployedTeamMembers
             .Concat(orderedUnemployedTeamMembers);

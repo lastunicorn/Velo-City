@@ -46,7 +46,7 @@ public static class TeamMembersExtensions
     public static IEnumerable<TeamMember> OrderByEmployment(this IEnumerable<TeamMember> teamMembers)
     {
         return teamMembers
-            .OrderBy(x => x.Employments?.GetLastEmploymentBatch()?.StartDate)
+            .OrderBy(x => x.Employments.GetLastEmploymentBatch()?.StartDate)
             .ThenBy(x => x.Name);
     }
 }

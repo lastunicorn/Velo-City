@@ -53,7 +53,7 @@ public class SprintMemberDay
         if (SprintDay == null)
             return;
 
-        Employment employment = TeamMember.Employments?.GetEmploymentFor(SprintDay.Date);
+        Employment employment = TeamMember.Employments.GetEmploymentFor(SprintDay.Date);
 
         bool isEmployed = employment != null;
         if (!isEmployed)
@@ -156,7 +156,7 @@ public class SprintMemberDay
 
     public Employment GetEmployment()
     {
-        return TeamMember.Employments?.GetEmploymentFor(SprintDay.Date);
+        return TeamMember.Employments.GetEmploymentFor(SprintDay.Date);
     }
 
     public string GetCountry()

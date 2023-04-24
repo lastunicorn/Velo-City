@@ -128,7 +128,7 @@ public class VeloCityDbContext
     private void AddTeamMembers(Sprint sprint)
     {
         IEnumerable<TeamMember> matchedTeamMembers = TeamMembers
-            .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(sprint.DateInterval)) ?? false);
+            .Where(x => x.Employments.Any(e => e.TimeInterval.IsIntersecting(sprint.DateInterval)));
 
         foreach (TeamMember teamMember in matchedTeamMembers)
             sprint.AddSprintMember(teamMember);

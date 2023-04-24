@@ -28,7 +28,7 @@ namespace DustInTheWind.VeloCity.Tests.Unit.Wpf.Application.CreateNewSprint.Crea
 public class Handle_WithPreviousSprintTests
 {
     private readonly Mock<IUnitOfWork> unitOfWork;
-    private readonly Mock<IUserInterface> userInterface;
+    private readonly Mock<IUserTerminal> userInterface;
     private readonly EventBus eventBus;
     private readonly ApplicationState applicationState;
     private readonly Mock<ISprintRepository> sprintRepository;
@@ -51,7 +51,7 @@ public class Handle_WithPreviousSprintTests
             .Setup(x => x.GetLast())
             .ReturnsAsync(lastSprint);
 
-        userInterface = new Mock<IUserInterface>();
+        userInterface = new Mock<IUserTerminal>();
 
         confirmationResponse = new SprintNewConfirmationResponse();
 

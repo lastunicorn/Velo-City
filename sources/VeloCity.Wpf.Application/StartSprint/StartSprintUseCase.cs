@@ -31,16 +31,16 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
     private readonly IUnitOfWork unitOfWork;
     private readonly ApplicationState applicationState;
     private readonly EventBus eventBus;
-    private readonly IUserInterface userInterface;
+    private readonly IUserTerminal userTerminal;
     private readonly IRequestBus requestBus;
 
     public StartSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus,
-        IUserInterface userInterface, IRequestBus requestBus)
+        IUserTerminal userTerminal, IRequestBus requestBus)
     {
         this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-        this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
+        this.userTerminal = userTerminal ?? throw new ArgumentNullException(nameof(userTerminal));
         this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
     }
 
@@ -116,7 +116,7 @@ internal class StartSprintUseCase : IRequestHandler<StartSprintRequest>
             SprintGoal = selectedSprint.Goal
         };
 
-        SprintStartConfirmationResponse userResponse = userInterface.ConfirmStartSprint(sprintStartConfirmationRequest);
+        SprintStartConfirmationResponse userResponse = userTerminal.ConfirmStartSprint(sprintStartConfirmationRequest);
 
         return userResponse ?? throw new InternalException("User confirmation response is null.");
     }

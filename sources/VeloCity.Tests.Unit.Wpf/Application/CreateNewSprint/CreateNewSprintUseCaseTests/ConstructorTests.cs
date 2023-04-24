@@ -27,7 +27,7 @@ public class ConstructorTests
     [Fact]
     public void HavingNullUnitOfWork_WhenInstantiatingUseCase_ThenThrows()
     {
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
         EventBus eventBus = new();
         ApplicationState applicationState = new();
 
@@ -58,7 +58,7 @@ public class ConstructorTests
     public void HavingNullEventBus_WhenInstantiatingUseCase_ThenThrows()
     {
         Mock<IUnitOfWork> unitOfWork = new();
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
         ApplicationState applicationState = new();
 
         Action action = () =>
@@ -73,7 +73,7 @@ public class ConstructorTests
     public void HavingNullApplicationState_WhenInstantiatingUseCase_ThenThrows()
     {
         Mock<IUnitOfWork> unitOfWork = new();
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
         EventBus eventBus = new();
 
         Action action = () =>
@@ -88,7 +88,7 @@ public class ConstructorTests
     public void HavingAllDependencies_WhenInstantiatingUseCase_ThenDoesNotThrow()
     {
         Mock<IUnitOfWork> unitOfWork = new();
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
         EventBus eventBus = new();
         ApplicationState applicationState = new();
 

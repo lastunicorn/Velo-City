@@ -41,8 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Icons/SprintStateIconStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/OkCancelWindowStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/CalendarDateStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/FormStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/FormFieldStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </Window.Resources>
 
@@ -54,44 +55,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <customControls:GenericIcon Style="{StaticResource SprintNewIconStyle}" />
     </customControls:OkCancelWindow.TitleIcon>
 
-    <Grid>
+    <customControls:Form>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+        <customControls:FormField Label="Title">
+            <TextBox Text="{Binding SprintTitle}" />
+        </customControls:FormField>
 
-
-        <TextBlock
-            Grid.Row="0"
-            Grid.Column="0"
-            Text="Title"
-            Margin="0 0 0 8" />
-
-        <TextBox
-            Grid.Row="1"
-            Grid.Column="0"
-            Text="{Binding SprintTitle}" />
-
-        <TextBlock
-            Grid.Row="2"
-            Grid.Column="0"
-            Text="Length (Days)"
-            Margin="0 30 0 8" />
-
-        <TextBox
-            Grid.Row="3"
-            Grid.Column="0"
-            Text="{Binding SprintLength, UpdateSourceTrigger=PropertyChanged}" />
+        <customControls:FormField Label="Length (Days)">
+            <TextBox Text="{Binding SprintLength, UpdateSourceTrigger=PropertyChanged}" />
+        </customControls:FormField>
 
         <StackPanel
-            Grid.Row="5"
-            Grid.Column="0"
             Orientation="Horizontal"
             Margin="0 40 0 0"
             HorizontalAlignment="Center">
@@ -113,6 +87,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
         </StackPanel>
 
-    </Grid>
+    </customControls:Form>
 
 </customControls:OkCancelWindow>

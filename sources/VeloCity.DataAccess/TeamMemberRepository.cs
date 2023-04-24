@@ -47,7 +47,7 @@ internal class TeamMemberRepository : ITeamMemberRepository
     public Task<IEnumerable<TeamMember>> GetByDate(DateTime date)
     {
         IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers
-            .Where(x => x.Employments?.Any(e => e.ContainsDate(date)) ?? false);
+            .Where(x => x.Employments.Any(e => e.ContainsDate(date)));
 
         return Task.FromResult(teamMembers);
     }
@@ -55,11 +55,11 @@ internal class TeamMemberRepository : ITeamMemberRepository
     public Task<IEnumerable<TeamMember>> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null)
     {
         IEnumerable<TeamMember> teamMembers = dbContext.TeamMembers
-            .Where(x => x.Employments?.Any(e => e.TimeInterval.IsIntersecting(dateInterval)) ?? false);
+            .Where(x => x.Employments.Any(e => e.TimeInterval.IsIntersecting(dateInterval)));
 
         if (excludedNames is { Count: > 0 })
             teamMembers = teamMembers.Where(x => !excludedNames.Any(z => x.Name.Contains(z)));
-        
+
         return Task.FromResult(teamMembers);
     }
 
@@ -69,5 +69,26 @@ internal class TeamMemberRepository : ITeamMemberRepository
             .Where(x => x.Name.Contains(text));
 
         return Task.FromResult(teamMembers);
+    }
+
+    public Task Add(TeamMember teamMember)
+    {
+        if (teamMember == null) throw new ArgumentNullException(nameof(teamMember));
+
+        if (teamMember.Id == 0)
+            teamMember.Id = CreateNewId();
+
+        dbContext.TeamMembers.Add(teamMember);
+
+        return Task.CompletedTask;
+    }
+
+    private int CreateNewId()
+    {
+        TeamMember teamMemberWithBiggestId = dbContext.TeamMembers.MaxBy(x => x.Id);
+
+        return teamMemberWithBiggestId == null
+            ? 1
+            : teamMemberWithBiggestId.Id + 1;
     }
 }

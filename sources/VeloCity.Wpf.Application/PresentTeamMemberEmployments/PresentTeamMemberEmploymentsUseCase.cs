@@ -33,8 +33,22 @@ internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeam
 
     public async Task<PresentTeamMemberEmploymentsResponse> Handle(PresentTeamMemberEmploymentsRequest request, CancellationToken cancellationToken)
     {
+        TeamMember teamMember = await RetrieveTeamMember();
+
+        return new PresentTeamMemberEmploymentsResponse
+        {
+            Employments = GetEmploymentsList(teamMember)
+        };
+
         List<EmploymentInfo> employmentInfos = await ComputeEmployments();
         return CreateResponse(employmentInfos);
+    }
+
+    private static List<EmploymentInfo> GetEmploymentsList(TeamMember teamMember)
+    {
+        return teamMember.Employments
+            .Select(x => new EmploymentInfo(x))
+            .ToList();
     }
 
     private async Task<List<EmploymentInfo>> ComputeEmployments()
@@ -51,6 +65,15 @@ internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeam
         return teamMember.Employments
             .Select(x => new EmploymentInfo(x))
             .ToList();
+    }
+
+    private async Task<TeamMember> RetrieveTeamMember()
+    {
+        if (applicationState.SelectedTeamMemberId == null)
+            return null;
+
+        int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
+        return await unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
     }
 
     private static PresentTeamMemberEmploymentsResponse CreateResponse(List<EmploymentInfo> employmentInfos)

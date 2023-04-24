@@ -30,7 +30,7 @@ public class HandleTests
     private readonly ApplicationState applicationState;
     private readonly Mock<ISprintRepository> sprintRepository;
     private readonly CloseSprintUseCase useCase;
-    private readonly Mock<IUserInterface> userInterface;
+    private readonly Mock<IUserTerminal> userInterface;
 
     public HandleTests()
     {
@@ -38,7 +38,7 @@ public class HandleTests
         sprintRepository = new Mock<ISprintRepository>();
         applicationState = new ApplicationState();
         EventBus eventBus = new();
-        userInterface = new Mock<IUserInterface>();
+        userInterface = new Mock<IUserTerminal>();
 
         unitOfWork
             .Setup(x => x.SprintRepository)

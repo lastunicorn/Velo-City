@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewTeamMember;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMembers;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
@@ -73,7 +74,8 @@ public class TeamMembersListViewModel : ViewModelBase
         this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
         eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-        eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
+        eventBus.Subscribe<TeamMemberChangedEvent>(HandleTeamMemberChangedEvent);
+        eventBus.Subscribe< TeamMemberListChangedEvent>(HandleTeamMemberListChangedEvent);
 
         NewTeamMemberCommand = new NewTeamMemberCommand(requestBus);
 
@@ -85,13 +87,20 @@ public class TeamMembersListViewModel : ViewModelBase
         await Initialize();
     }
 
-    private Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
+    private Task HandleTeamMemberChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
     {
         SelectedTeamMember = teamMembers.FirstOrDefault(x => x.TeamMemberId == ev.NewTeamMemberId);
 
         return Task.CompletedTask;
     }
-    
+
+    private async Task HandleTeamMemberListChangedEvent(TeamMemberListChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await Initialize();
+
+        SelectedTeamMember = teamMembers.FirstOrDefault(x => x.TeamMemberId == ev.NewTeamMemberId);
+    }
+
     private async Task Initialize()
     {
         PresentTeamMembersRequest request = new();

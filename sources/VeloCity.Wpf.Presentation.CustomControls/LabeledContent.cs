@@ -66,8 +66,8 @@ public class LabeledContent : ContentControl
 
     public GridLength BetweenSpace
     {
-        get => (GridLength)GetValue(LabelProperty);
-        set => SetValue(LabelProperty, value);
+        get => (GridLength)GetValue(BetweenSpaceProperty);
+        set => SetValue(BetweenSpaceProperty, value);
     }
 
     #endregion

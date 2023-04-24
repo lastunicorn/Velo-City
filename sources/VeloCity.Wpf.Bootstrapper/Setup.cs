@@ -79,6 +79,6 @@ internal class Setup
         containerBuilder.RegisterType<MainViewModel>().AsSelf();
         containerBuilder.RegisterType<NewSprintCommand>().AsSelf();
 
-        containerBuilder.RegisterType<UserInterface>().As<IUserInterface>();
+        containerBuilder.RegisterType<UserTerminal>().As<IUserTerminal>();
     }
 }

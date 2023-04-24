@@ -70,7 +70,7 @@ public class Handle_UserNotApproveTests
             IsAccepted = false
         };
 
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
         userInterface
             .Setup(x => x.ConfirmStartSprint(It.IsAny<SprintStartConfirmationRequest>()))
             .Returns(userConfirmationResponse);

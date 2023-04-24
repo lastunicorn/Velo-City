@@ -40,7 +40,7 @@ public class Handle_SprintUpdatedEventTests
         Mock<ISprintRepository> sprintRepository = new();
         ApplicationState applicationState = new();
         eventBus = new EventBus();
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
 
         unitOfWork
             .Setup(x => x.SprintRepository)
