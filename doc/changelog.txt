@@ -7,6 +7,7 @@ v1.16.0
 - [bug fix] Adding vacation to one day, wrongfully changes also vacation hours from previous day.
 - [feature] [wpf] Rearranged the displayed information for an item in the sprint list.
 - [feature] [wpf] Removed the year from the date box.
+- [feature] [wpf] Added button to create new team member.
 
 v1.15.0
 ----------------------------------------------------------------------------------------------------
