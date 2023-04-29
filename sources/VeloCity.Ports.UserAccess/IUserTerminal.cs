@@ -14,17 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DustInTheWind.VeloCity.Ports.UserAccess.NewTeamMemberConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintCloseConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintNewConfirmation;
 using DustInTheWind.VeloCity.Ports.UserAccess.SprintStartConfirmation;
 
 namespace DustInTheWind.VeloCity.Ports.UserAccess;
 
-public interface IUserInterface
+public interface IUserTerminal
 {
     SprintNewConfirmationResponse ConfirmNewSprint(SprintNewConfirmationRequest request);
 
     SprintStartConfirmationResponse ConfirmStartSprint(SprintStartConfirmationRequest request);
 
     SprintCloseConfirmationResponse ConfirmCloseSprint(SprintCloseConfirmationRequest request);
+
+    NewTeamMemberConfirmationResponse ConfirmNewTeamMember(NewTeamMemberConfirmationRequest request);
 }

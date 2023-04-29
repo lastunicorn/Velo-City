@@ -14,22 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.TeamMemberModel;
+using DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess;
+namespace DustInTheWind.VeloCity.Wpf.UserAccess.NewTeamMemberConfirmation;
 
-public interface ITeamMemberRepository
+/// <summary>
+/// Interaction logic for NewTeamMemberConfirmationWindow.xaml
+/// </summary>
+public partial class NewTeamMemberConfirmationWindow : OkCancelWindow
 {
-    Task<TeamMember> Get(int id);
-
-    Task<IEnumerable<TeamMember>> GetAll();
-
-    Task<IEnumerable<TeamMember>> GetByDate(DateTime date);
-
-    Task<IEnumerable<TeamMember>> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
-
-    Task<IEnumerable<TeamMember>> Find(string text);
-
-    Task Add(TeamMember teamMember);
+    public NewTeamMemberConfirmationWindow()
+    {
+        InitializeComponent();
+    }
 }

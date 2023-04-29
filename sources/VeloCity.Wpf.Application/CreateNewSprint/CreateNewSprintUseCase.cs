@@ -26,14 +26,14 @@ namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewSprint;
 public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
 {
     private readonly IUnitOfWork unitOfWork;
-    private readonly IUserInterface userInterface;
+    private readonly IUserTerminal userTerminal;
     private readonly EventBus eventBus;
     private readonly ApplicationState applicationState;
 
-    public CreateNewSprintUseCase(IUnitOfWork unitOfWork, IUserInterface userInterface, EventBus eventBus, ApplicationState applicationState)
+    public CreateNewSprintUseCase(IUnitOfWork unitOfWork, IUserTerminal userTerminal, EventBus eventBus, ApplicationState applicationState)
     {
         this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-        this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
+        this.userTerminal = userTerminal ?? throw new ArgumentNullException(nameof(userTerminal));
         this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
     }
@@ -41,11 +41,11 @@ public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
     public async Task<Unit> Handle(CreateNewSprintRequest request, CancellationToken cancellationToken)
     {
         Sprint lastSprint = await RetrieveLastSprintFromStorage();
-        SprintNewConfirmationResponse sprintNewConfirmationResponse = RequestUserConfirmationToCreateNewSprint(lastSprint);
+        SprintNewConfirmationResponse confirmationResponse = RequestUserConfirmationToCreateNewSprint(lastSprint);
 
-        if (sprintNewConfirmationResponse?.IsAccepted == true)
+        if (confirmationResponse?.IsAccepted == true)
         {
-            Sprint newSprint = CreateNewSprint(sprintNewConfirmationResponse, lastSprint);
+            Sprint newSprint = CreateNewSprint(confirmationResponse, lastSprint);
             await unitOfWork.SaveChanges();
 
             SetTheNewSprintAsCurrent(newSprint);
@@ -68,7 +68,7 @@ public class CreateNewSprintUseCase : IRequestHandler<CreateNewSprintRequest>
             SprintStartDate = lastSprint?.EndDate.AddDays(1) ?? DateTime.Today,
             SprintLength = 14
         };
-        return userInterface.ConfirmNewSprint(sprintNewConfirmationRequest);
+        return userTerminal.ConfirmNewSprint(sprintNewConfirmationRequest);
     }
 
     private Sprint CreateNewSprint(SprintNewConfirmationResponse sprintNewConfirmationResponse, Sprint lastSprint)

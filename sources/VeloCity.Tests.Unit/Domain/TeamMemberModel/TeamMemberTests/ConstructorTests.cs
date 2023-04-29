@@ -43,9 +43,9 @@ public class ConstructorTests
     }
 
     [Fact]
-    public void WhenNewInstanceIsCreated_ThenEmploymentsIsNull()
+    public void WhenNewInstanceIsCreated_ThenEmploymentsIsEmpty()
     {
-        teamMember.Employments.Should().BeNull();
+        teamMember.Employments.Should().BeEmpty();
     }
 
     [Fact]

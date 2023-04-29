@@ -30,14 +30,14 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
     private readonly IUnitOfWork unitOfWork;
     private readonly ApplicationState applicationState;
     private readonly EventBus eventBus;
-    private readonly IUserInterface userInterface;
+    private readonly IUserTerminal userTerminal;
 
-    public CloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus, IUserInterface userInterface)
+    public CloseSprintUseCase(IUnitOfWork unitOfWork, ApplicationState applicationState, EventBus eventBus, IUserTerminal userTerminal)
     {
         this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         this.applicationState = applicationState ?? throw new ArgumentNullException(nameof(applicationState));
         this.eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-        this.userInterface = userInterface ?? throw new ArgumentNullException(nameof(userInterface));
+        this.userTerminal = userTerminal ?? throw new ArgumentNullException(nameof(userTerminal));
     }
 
     public async Task<Unit> Handle(CloseSprintRequest request, CancellationToken cancellationToken)
@@ -85,7 +85,7 @@ internal class CloseSprintUseCase : IRequestHandler<CloseSprintRequest>
             Comments = selectedSprint.Comments
         };
 
-        SprintCloseConfirmationResponse response = userInterface.ConfirmCloseSprint(request);
+        SprintCloseConfirmationResponse response = userTerminal.ConfirmCloseSprint(request);
 
         return response ?? throw new InternalException("User confirmation response is null.");
     }

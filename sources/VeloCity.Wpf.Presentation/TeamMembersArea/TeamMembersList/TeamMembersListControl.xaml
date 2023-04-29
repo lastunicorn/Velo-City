@@ -65,86 +65,127 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </Border>
         </customControls:MissingContentPanel.MissingContent>
 
-        <ListView
-            ItemsSource="{Binding TeamMembers}"
-            SelectedItem="{Binding SelectedTeamMember}"
-            BorderThickness="0">
+        <DockPanel>
 
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+            <Button
+                DockPanel.Dock="Top"
+                MinHeight="50"
+                Padding="8"
+                Margin="10"
+                Command="{Binding NewTeamMemberCommand}">
 
-                                <Border
-                                    x:Name="PART_Border"
-                                    Padding="8"
-                                    SnapsToDevicePixels="true"
-                                    Background="Transparent"
-                                    MinHeight="40">
+                <DockPanel>
 
-                                    <TextBlock
-                                        x:Name="PART_Title"
-                                        Text="{Binding}"
-                                        Margin="15 5">
+                    <customControls:GenericIcon
+                        DockPanel.Dock="Left"
+                        Geometry="{StaticResource TeamIconGeometry}"
+                        Width="16"
+                        Height="16"
+                        Margin="0 0 8 0"
+                        VerticalAlignment="Center">
 
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsEmployed}" Value="False">
-                                                        <Setter Property="Foreground" Value="{StaticResource FontDimBrush}" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
+                        <customControls:GenericIcon.Effect>
+                            <DropShadowEffect
+                                Color="{StaticResource ShadowColor}"
+                                Direction="0"
+                                ShadowDepth="0"
+                                BlurRadius="10" />
+                        </customControls:GenericIcon.Effect>
 
-                                    </TextBlock>
+                    </customControls:GenericIcon>
 
-                                </Border>
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        Text="New Person ..."
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center" />
 
-                                <ControlTemplate.Triggers>
+                </DockPanel>
 
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="True" />
-                                            <Condition Property="Selector.IsSelectionActive" Value="True" />
-                                        </MultiTrigger.Conditions>
-                                        <MultiTrigger.Setters>
-                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource AccentBrush}" />
-                                            <Setter TargetName="PART_Title" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
-                                        </MultiTrigger.Setters>
-                                    </MultiTrigger>
+            </Button>
 
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="True" />
-                                            <Condition Property="Selector.IsSelectionActive" Value="False" />
-                                        </MultiTrigger.Conditions>
-                                        <MultiTrigger.Setters>
-                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
-                                        </MultiTrigger.Setters>
-                                    </MultiTrigger>
+            <ListView
+                ItemsSource="{Binding TeamMembers}"
+                SelectedItem="{Binding SelectedTeamMember}"
+                BorderThickness="0">
 
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="False" />
-                                            <Condition Property="IsMouseOver" Value="True" />
-                                        </MultiTrigger.Conditions>
-                                        <MultiTrigger.Setters>
-                                            <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
-                                        </MultiTrigger.Setters>
-                                    </MultiTrigger>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+
+                                    <Border
+                                        x:Name="PART_Border"
+                                        Padding="8"
+                                        SnapsToDevicePixels="true"
+                                        Background="Transparent"
+                                        MinHeight="40">
+
+                                        <TextBlock
+                                            x:Name="PART_Title"
+                                            Text="{Binding}"
+                                            Margin="15 5">
+
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsEmployed}" Value="False">
+                                                            <Setter Property="Foreground" Value="{StaticResource FontDimBrush}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+
+                                        </TextBlock>
+
+                                    </Border>
+
+                                    <ControlTemplate.Triggers>
+
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource AccentBrush}" />
+                                                <Setter TargetName="PART_Title" Property="Foreground" Value="{StaticResource FontAccentBrush}" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="True" />
+                                                <Condition Property="Selector.IsSelectionActive" Value="False" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
+
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="False" />
+                                                <Condition Property="IsMouseOver" Value="True" />
+                                            </MultiTrigger.Conditions>
+                                            <MultiTrigger.Setters>
+                                                <Setter TargetName="PART_Border" Property="Background" Value="{StaticResource PrimaryLightBrush}" />
+                                            </MultiTrigger.Setters>
+                                        </MultiTrigger>
 
 
-                                </ControlTemplate.Triggers>
+                                    </ControlTemplate.Triggers>
 
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
 
-        </ListView>
+            </ListView>
+
+        </DockPanel>
 
     </customControls:MissingContentPanel>
 

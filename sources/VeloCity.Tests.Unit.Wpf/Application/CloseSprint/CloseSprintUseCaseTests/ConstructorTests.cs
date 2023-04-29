@@ -29,7 +29,7 @@ public class ConstructorTests
     {
         ApplicationState applicationState = new();
         EventBus eventBus = new();
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
 
         Action action = () =>
         {
@@ -44,7 +44,7 @@ public class ConstructorTests
     {
         Mock<IUnitOfWork> unitOfWork = new();
         EventBus eventBus = new();
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
 
         Action action = () =>
         {
@@ -59,7 +59,7 @@ public class ConstructorTests
     {
         Mock<IUnitOfWork> unitOfWork = new();
         ApplicationState applicationState = new();
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
 
         Action action = () =>
         {
@@ -90,7 +90,7 @@ public class ConstructorTests
         Mock<IUnitOfWork> unitOfWork = new();
         ApplicationState applicationState = new();
         EventBus eventBus = new();
-        Mock<IUserInterface> userInterface = new();
+        Mock<IUserTerminal> userInterface = new();
 
         Action action = () =>
         {

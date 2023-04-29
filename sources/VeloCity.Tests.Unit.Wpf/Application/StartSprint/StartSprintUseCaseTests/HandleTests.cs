@@ -33,7 +33,7 @@ public class HandleTests
     private readonly Mock<IRequestBus> requestBus;
     private readonly Mock<ISprintRepository> sprintRepository;
     private readonly StartSprintUseCase useCase;
-    private readonly Mock<IUserInterface> userInterface;
+    private readonly Mock<IUserTerminal> userInterface;
 
     public HandleTests()
     {
@@ -41,7 +41,7 @@ public class HandleTests
         sprintRepository = new Mock<ISprintRepository>();
         applicationState = new ApplicationState();
         EventBus eventBus = new();
-        userInterface = new Mock<IUserInterface>();
+        userInterface = new Mock<IUserTerminal>();
         requestBus = new Mock<IRequestBus>();
 
         unitOfWork

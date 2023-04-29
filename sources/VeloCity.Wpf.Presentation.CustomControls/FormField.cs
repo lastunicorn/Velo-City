@@ -14,22 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.TeamMemberModel;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess;
+namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
-public interface ITeamMemberRepository
+public class FormField : ContentControl
 {
-    Task<TeamMember> Get(int id);
+    #region Label
 
-    Task<IEnumerable<TeamMember>> GetAll();
+    public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(
+        nameof(Label),
+        typeof(object),
+        typeof(FormField),
+        new PropertyMetadata(null)
+    );
 
-    Task<IEnumerable<TeamMember>> GetByDate(DateTime date);
+    public object Label
+    {
+        get => GetValue(LabelProperty);
+        set => SetValue(LabelProperty, value);
+    }
 
-    Task<IEnumerable<TeamMember>> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
+    #endregion
 
-    Task<IEnumerable<TeamMember>> Find(string text);
-
-    Task Add(TeamMember teamMember);
+    static FormField()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(FormField), new FrameworkPropertyMetadata(typeof(FormField)));
+    }
 }

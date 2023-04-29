@@ -79,7 +79,7 @@ public class Handle_SprintSelected_OneSprintMember_OneVacation_Tests
         PresentSprintCalendarRequest request = new();
         PresentSprintCalendarResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        HoursValue?[] expectedWorkHours = { 8, 0, 8, 8, 8, 0, 0 };
+        HoursValue?[] expectedWorkHours = { 8, 0, 8, 8, 8, null, null };
         response.SprintCalendarDays.Select(x => x.WorkHours).Should().Equal(expectedWorkHours);
     }
 
@@ -125,7 +125,7 @@ public class Handle_SprintSelected_OneSprintMember_OneVacation_Tests
         PresentSprintCalendarRequest request = new();
         PresentSprintCalendarResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        HoursValue?[] expectedWorkHours = { 8, 6, 8, 8, 8, 0, 0 };
+        HoursValue?[] expectedWorkHours = { 8, 6, 8, 8, 8, null, null };
         response.SprintCalendarDays.Select(x => x.WorkHours).Should().Equal(expectedWorkHours);
     }
 

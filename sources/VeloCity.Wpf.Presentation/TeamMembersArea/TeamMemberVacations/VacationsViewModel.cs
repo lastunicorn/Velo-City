@@ -16,6 +16,7 @@
 
 using System.Collections.ObjectModel;
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewTeamMember;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberVacations;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
@@ -38,6 +39,7 @@ public class VacationsViewModel : ViewModelBase
         eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
         eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
         eventBus.Subscribe<TeamMemberVacationChangedEvent>(HandleTeamMemberVacationChangedEvent);
+        eventBus.Subscribe<TeamMemberListChangedEvent>(HandleTeamMemberListChangedEvent);
     }
 
     private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
@@ -51,6 +53,11 @@ public class VacationsViewModel : ViewModelBase
     }
 
     private async Task HandleTeamMemberVacationChangedEvent(TeamMemberVacationChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await ReloadVacations();
+    }
+
+    private async Task HandleTeamMemberListChangedEvent(TeamMemberListChangedEvent ev, CancellationToken cancellationToken)
     {
         await ReloadVacations();
     }

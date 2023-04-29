@@ -41,7 +41,7 @@ public class AbsenceDetailsViewModel
             string[] countries = sprintMemberDays
                 .Select(x =>
                 {
-                    Employment employment = x.TeamMember.Employments?.GetEmploymentFor(x.SprintDay.Date);
+                    Employment employment = x.TeamMember.Employments.GetEmploymentFor(x.SprintDay.Date);
                     return employment?.Country;
                 })
                 .Where(x => x != null)

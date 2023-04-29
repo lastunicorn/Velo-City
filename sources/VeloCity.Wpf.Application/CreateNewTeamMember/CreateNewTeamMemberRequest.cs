@@ -14,22 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-using DustInTheWind.VeloCity.Domain;
-using DustInTheWind.VeloCity.Domain.TeamMemberModel;
+using MediatR;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess;
+namespace DustInTheWind.VeloCity.Wpf.Application.CreateNewTeamMember;
 
-public interface ITeamMemberRepository
+public class CreateNewTeamMemberRequest : IRequest
 {
-    Task<TeamMember> Get(int id);
-
-    Task<IEnumerable<TeamMember>> GetAll();
-
-    Task<IEnumerable<TeamMember>> GetByDate(DateTime date);
-
-    Task<IEnumerable<TeamMember>> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
-
-    Task<IEnumerable<TeamMember>> Find(string text);
-
-    Task Add(TeamMember teamMember);
 }

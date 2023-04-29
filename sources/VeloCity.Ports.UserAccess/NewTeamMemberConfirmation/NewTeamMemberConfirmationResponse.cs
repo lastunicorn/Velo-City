@@ -17,19 +17,19 @@
 using DustInTheWind.VeloCity.Domain;
 using DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
-namespace DustInTheWind.VeloCity.Ports.DataAccess;
+namespace DustInTheWind.VeloCity.Ports.UserAccess.NewTeamMemberConfirmation;
 
-public interface ITeamMemberRepository
+public class NewTeamMemberConfirmationResponse
 {
-    Task<TeamMember> Get(int id);
+    public bool IsAccepted { get; set; }
 
-    Task<IEnumerable<TeamMember>> GetAll();
+    public PersonName TeamMemberName { get; set; }
 
-    Task<IEnumerable<TeamMember>> GetByDate(DateTime date);
+    public HoursValue EmploymentHours { get; set; }
 
-    Task<IEnumerable<TeamMember>> GetByDateInterval(DateInterval dateInterval, IReadOnlyCollection<string> excludedNames = null);
+    public EmploymentWeek EmploymentWeek { get; set; }
 
-    Task<IEnumerable<TeamMember>> Find(string text);
+    public string EmploymentCountry { get; set; }
 
-    Task Add(TeamMember teamMember);
+    public DateTime StartDate { get; set; }
 }

@@ -20,7 +20,7 @@ namespace DustInTheWind.VeloCity.Domain.TeamMemberModel;
 
 public class EmploymentCollection : IEnumerable<Employment>
 {
-    private readonly SortedList<DateTime, Employment> employments = new(new ReverseDuplicateKeyComparer<DateTime>());
+    private readonly SortedList<DateTime, Employment> employmentsByStartDate = new(new ReverseDuplicateKeyComparer<DateTime>());
 
     public EmploymentCollection()
     {
@@ -46,25 +46,36 @@ public class EmploymentCollection : IEnumerable<Employment>
         AddInternal(employment);
     }
 
+    public void AddRange(IEnumerable<Employment> employments)
+    {
+        if (employments == null)
+            return;
+
+        IEnumerable<Employment> notNullEmployments = employments.Where(x => x != null);
+
+        foreach (Employment employment in notNullEmployments)
+            AddInternal(employment);
+    }
+
     private void AddInternal(Employment employment)
     {
         DateTime key = employment.TimeInterval.StartDate ?? DateTime.MinValue;
-        employments.Add(key, employment);
+        employmentsByStartDate.Add(key, employment);
     }
 
     public Employment GetFirstEmployment()
     {
-        return employments.Values.LastOrDefault();
+        return employmentsByStartDate.Values.LastOrDefault();
     }
 
     public Employment GetLastEmployment()
     {
-        return employments.Values.FirstOrDefault();
+        return employmentsByStartDate.Values.FirstOrDefault();
     }
 
     public Employment GetEmploymentFor(DateTime date)
     {
-        return employments.Values.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
+        return employmentsByStartDate.Values.FirstOrDefault(x => x.TimeInterval.ContainsDate(date));
     }
 
     public EmploymentBatch GetEmploymentBatchFor(DateTime date)
@@ -85,7 +96,7 @@ public class EmploymentCollection : IEnumerable<Employment>
     {
         EmploymentBatch batch = null;
 
-        foreach (Employment employment in employments.Values)
+        foreach (Employment employment in employmentsByStartDate.Values)
         {
             if (batch == null)
             {
@@ -109,7 +120,7 @@ public class EmploymentCollection : IEnumerable<Employment>
 
     public IEnumerator<Employment> GetEnumerator()
     {
-        return employments.Values.GetEnumerator();
+        return employmentsByStartDate.Values.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()

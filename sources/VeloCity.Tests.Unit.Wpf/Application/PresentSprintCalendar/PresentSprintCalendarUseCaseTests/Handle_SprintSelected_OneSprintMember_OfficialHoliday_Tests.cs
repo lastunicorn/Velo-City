@@ -81,7 +81,7 @@ public class Handle_SprintSelected_OneSprintMember_OfficialHoliday_Tests
         PresentSprintCalendarRequest request = new();
         PresentSprintCalendarResponse response = await useCase.Handle(request, CancellationToken.None);
 
-        HoursValue?[] expectedWorkHours = { 8, 0, 8, 8, 8, 0, 0 };
+        HoursValue?[] expectedWorkHours = { 8, 0, 8, 8, 8, null, null };
         response.SprintCalendarDays.Select(x => x.WorkHours).Should().Equal(expectedWorkHours);
     }
 

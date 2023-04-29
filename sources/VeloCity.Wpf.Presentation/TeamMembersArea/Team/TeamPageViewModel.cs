@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewTeamMember;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberDetails;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
@@ -68,21 +69,27 @@ public class TeamPageViewModel : ViewModelBase
 
         eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
         eventBus.Subscribe<TeamMemberChangedEvent>(HandleTeamMemberChangedEvent);
+        eventBus.Subscribe<TeamMemberListChangedEvent>(HandleTeamMemberListChangedEvent);
 
-        _ = RetrieveTeamMemberDetails();
+        _ = ReloadTeamMemberDetails();
     }
 
     private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
     {
-        await RetrieveTeamMemberDetails();
+        await ReloadTeamMemberDetails();
     }
 
     private async Task HandleTeamMemberChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
     {
-        await RetrieveTeamMemberDetails();
+        await ReloadTeamMemberDetails();
     }
 
-    private async Task RetrieveTeamMemberDetails()
+    private async Task HandleTeamMemberListChangedEvent(TeamMemberListChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await ReloadTeamMemberDetails();
+    }
+
+    private async Task ReloadTeamMemberDetails()
     {
         PresentTeamMemberDetailsRequest request = new();
 

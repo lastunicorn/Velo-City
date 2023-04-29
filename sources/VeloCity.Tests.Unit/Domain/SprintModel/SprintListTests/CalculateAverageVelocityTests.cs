@@ -91,21 +91,15 @@ public class CalculateAverageVelocityTests
 
     private static TeamMember CreateStandardTeamMember()
     {
-        return new TeamMember
+        Employment employment = new()
         {
-            Employments = CreateStandardEmployment()
+            EmploymentWeek = EmploymentWeek.NewDefault,
+            HoursPerDay = 8
         };
-    }
 
-    private static EmploymentCollection CreateStandardEmployment()
-    {
-        return new EmploymentCollection
-        {
-            new()
-            {
-                EmploymentWeek = EmploymentWeek.NewDefault,
-                HoursPerDay = 8
-            }
-        };
+        TeamMember teamMember = new();
+        teamMember.Employments.Add(employment);
+
+        return teamMember;
     }
 }

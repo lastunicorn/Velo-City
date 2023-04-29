@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using DustInTheWind.VeloCity.Infrastructure;
+using DustInTheWind.VeloCity.Wpf.Application.CreateNewTeamMember;
 using DustInTheWind.VeloCity.Wpf.Application.PresentTeamMemberEmployments;
 using DustInTheWind.VeloCity.Wpf.Application.Reload;
 using DustInTheWind.VeloCity.Wpf.Application.SetCurrentTeamMember;
@@ -43,7 +44,8 @@ public class EmploymentsViewModel : ViewModelBase
         this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
 
         eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
-        eventBus.Subscribe<TeamMemberChangedEvent>(HandleSprintChangedEvent);
+        eventBus.Subscribe<TeamMemberChangedEvent>(HandleTeamMemberChangedEvent);
+        eventBus.Subscribe<TeamMemberListChangedEvent>(HandleTeamMemberListChangedEvent);
     }
 
     private async Task HandleReloadEvent(ReloadEvent ev, CancellationToken cancellationToken)
@@ -51,7 +53,12 @@ public class EmploymentsViewModel : ViewModelBase
         await ReloadEmployments();
     }
 
-    private async Task HandleSprintChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
+    private async Task HandleTeamMemberChangedEvent(TeamMemberChangedEvent ev, CancellationToken cancellationToken)
+    {
+        await ReloadEmployments();
+    }
+
+    private async Task HandleTeamMemberListChangedEvent(TeamMemberListChangedEvent ev, CancellationToken cancellationToken)
     {
         await ReloadEmployments();
     }

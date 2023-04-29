@@ -90,7 +90,11 @@ public class Sprint
     }
 
     public IEnumerable<SprintMember> SprintMembersOrderedByEmployment => SprintMembersWithoutExcluded
-        .OrderBy(x => x.TeamMember.Employments?.GetLastEmploymentBatch()?.StartDate)
+        .OrderBy(x =>
+        {
+            EmploymentBatch lastEmploymentBatch = x.TeamMember.Employments.GetLastEmploymentBatch();
+            return lastEmploymentBatch?.StartDate;
+        })
         .ThenBy(x => x.Name);
 
     private Velocity? velocity;
@@ -198,7 +202,7 @@ public class Sprint
                 .Where(x => x.SprintDay.Date == sprintDay.Date)
                 .Where(x =>
                 {
-                    Employment employment = x.TeamMember.Employments?.GetEmploymentFor(sprintDay.Date);
+                    Employment employment = x.TeamMember.Employments.GetEmploymentFor(sprintDay.Date);
                     return !sprintDay.OfficialHolidays.Select(z => z.Country).Contains(employment?.Country);
                 })
                 .ToList();

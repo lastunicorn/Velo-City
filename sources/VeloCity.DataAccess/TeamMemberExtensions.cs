@@ -37,7 +37,7 @@ internal static class TeamMemberExtensions
             MiddleName = teamMember.Name.MiddleName,
             LastName = teamMember.Name.LastName,
             Nickname = teamMember.Name.Nickname,
-            Employments = teamMember.Employments?
+            Employments = teamMember.Employments
                 .ToJEntities()
                 .ToList(),
             Comments = teamMember.Comments,
@@ -61,17 +61,20 @@ internal static class TeamMemberExtensions
 
     public static TeamMember ToEntity(this JTeamMember teamMember, VeloCityDbContext dbContext)
     {
-        return new TeamMember
+        TeamMember entity = new()
         {
             Id = teamMember.Id,
             Name = GetPersonName(teamMember),
-            Employments = new EmploymentCollection(teamMember.Employments?.ToEntities()),
             Comments = teamMember.Comments,
             Vacations = new VacationCollection(teamMember.VacationDays?.ToEntities()),
             VelocityPenalties = teamMember.VelocityPenalties?
                 .ToEntities(dbContext)
                 .ToList()
         };
+
+        entity.Employments.AddRange(teamMember.Employments?.ToEntities());
+
+        return entity;
     }
 
     private static PersonName GetPersonName(JTeamMember teamMember)

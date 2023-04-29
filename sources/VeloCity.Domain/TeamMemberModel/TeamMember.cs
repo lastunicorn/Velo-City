@@ -23,6 +23,7 @@ public class TeamMember
     private List<VelocityPenalty> velocityPenalties;
     private VacationCollection vacations;
     private int id;
+    private readonly EmploymentCollection employments = new();
 
     public int Id
     {
@@ -38,13 +39,21 @@ public class TeamMember
 
     public PersonName Name { get; init; }
 
-    public EmploymentCollection Employments { get; init; }
+    public EmploymentCollection Employments
+    {
+        get => employments;
+        init
+        {
+            if (value != null)
+                employments = value;
+        }
+    }
 
     public bool HasActiveEmployment
     {
         get
         {
-            Employment employment = Employments?.GetLastEmployment();
+            Employment employment = Employments.GetLastEmployment();
 
             return employment is { EndDate: null };
         }
@@ -104,7 +113,7 @@ public class TeamMember
     {
         date = date.Date;
 
-        Employment employment = Employments?.GetEmploymentFor(date);
+        Employment employment = Employments.GetEmploymentFor(date);
 
         bool allowToSetVacation = employment != null || hours <= 0;
 
