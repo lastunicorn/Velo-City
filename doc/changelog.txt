@@ -5,9 +5,10 @@ v1.16.0
 ----------------------------------------------------------------------------------------------------
 - [feature] [wpf] Displayed the story points with bigger font size on the sprint overview page.
 - [bug fix] Adding vacation to one day, wrongfully changes also vacation hours from previous day.
-- [feature] [wpf] Rearranged the displayed information for an item in the sprint list.
+- [feature] [wpf] Different format for the item information in the sprint list.
 - [feature] [wpf] Removed the year from the date box.
-- [feature] [wpf] Added button to create new team member.
+- [feature] [wpf] Added button to create new team member (in the team members section).
+- [feature] [wpf] Allow the sprint name to be updated directly in the title of the sprint panel.
 
 v1.15.0
 ----------------------------------------------------------------------------------------------------
