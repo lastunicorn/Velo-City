@@ -26,12 +26,12 @@
 			Condition="!Exists('$(TempPath)zip\VeloCity\')" />
 			
 		<ItemGroup>
-			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.exe" />
-			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.dll" />
-			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.xml" />
-			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\**\*.json" />
-			<CoreFileCli Remove="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\velo.runtimeconfig.dev.json" />
-			<CoreFileCli Remove="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net5.0\ref\**" />
+			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net6.0\**\*.exe" />
+			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net6.0\**\*.dll" />
+			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net6.0\**\*.xml" />
+			<CoreFileCli Include="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net6.0\**\*.json" />
+			<CoreFileCli Remove="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net6.0\velo.runtimeconfig.dev.json" />
+			<CoreFileCli Remove="$(RepositoryRoot)sources\VeloCity.Cli.Bootstrapper\bin\Release\net6.0\ref\**" />
 		</ItemGroup>
 
         <Copy
@@ -55,12 +55,12 @@
 			Condition="!Exists('$(TempPath)zip\VeloCity-GUI\')" />
 			
 		<ItemGroup>
-			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\**\*.exe" />
-			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\**\*.dll" />
-			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\**\*.xml" />
-			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\**\*.json" />
-			<CoreFileWpf Remove="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\velo.runtimeconfig.dev.json" />
-			<CoreFileWpf Remove="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net5.0-windows\ref\**" />
+			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net6.0-windows\**\*.exe" />
+			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net6.0-windows\**\*.dll" />
+			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net6.0-windows\**\*.xml" />
+			<CoreFileWpf Include="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net6.0-windows\**\*.json" />
+			<CoreFileWpf Remove="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net6.0-windows\velo.runtimeconfig.dev.json" />
+			<CoreFileWpf Remove="$(RepositoryRoot)sources\VeloCity.Wpf.Bootstrapper\bin\Release\net6.0-windows\ref\**" />
 		</ItemGroup>
 
         <Copy

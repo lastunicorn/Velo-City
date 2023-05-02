@@ -66,7 +66,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>"$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Cli.Bootstrapper\$(OutDir)net6.0" -cg ApplicationFilesCli -gg -scom -srd -sfrag -sreg -dr INSTALLDIR_CLI -var var.FileSourceDirectoryCli -template fragment -out ..\..\Components\ApplicationFilesCli.wxs
-            "$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Wpf.Bootstrapper\$(OutDir)net6.0-windows" -cg ApplicationFilesGui -gg -scom -srd -sfrag -sreg -dr INSTALLDIR_GUI -var var.FileSourceDirectoryGui -template fragment -out ..\..\Components\ApplicationFilesGui.wxs</PreBuildEvent>
+"$(WIX)bin\heat.exe" dir "$(SolutionDir)VeloCity.Wpf.Bootstrapper\$(OutDir)net6.0-windows" -cg ApplicationFilesGui -gg -scom -srd -sfrag -sreg -dr INSTALLDIR_GUI -var var.FileSourceDirectoryGui -template fragment -out ..\..\Components\ApplicationFilesGui.wxs</PreBuildEvent>
   </PropertyGroup>
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it.
