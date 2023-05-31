@@ -35,33 +35,18 @@ internal class PresentTeamMemberEmploymentsUseCase : IRequestHandler<PresentTeam
     {
         TeamMember teamMember = await RetrieveTeamMember();
 
+        List<EmploymentInfo> employmentsList = teamMember == null
+            ? new List<EmploymentInfo>()
+            : GetEmploymentsList(teamMember);
+
         return new PresentTeamMemberEmploymentsResponse
         {
-            Employments = GetEmploymentsList(teamMember)
+            Employments = employmentsList
         };
-
-        List<EmploymentInfo> employmentInfos = await ComputeEmployments();
-        return CreateResponse(employmentInfos);
     }
 
     private static List<EmploymentInfo> GetEmploymentsList(TeamMember teamMember)
     {
-        return teamMember.Employments
-            .Select(x => new EmploymentInfo(x))
-            .ToList();
-    }
-
-    private async Task<List<EmploymentInfo>> ComputeEmployments()
-    {
-        if (applicationState.SelectedTeamMemberId == null)
-            return new List<EmploymentInfo>();
-
-        int currentTeamMemberId = applicationState.SelectedTeamMemberId.Value;
-        TeamMember teamMember = await unitOfWork.TeamMemberRepository.Get(currentTeamMemberId);
-
-        if (teamMember == null)
-            return new List<EmploymentInfo>();
-
         return teamMember.Employments
             .Select(x => new EmploymentInfo(x))
             .ToList();
