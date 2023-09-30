@@ -3,6 +3,8 @@ Velo City
 
 v1.17.0
 ----------------------------------------------------------------------------------------------------
+- [feature] [wpf] Reduces the size of the navigator buttons and some spaces.
+- [bug fix] [wpf] Fixed the error on the Refresh button.
 
 
 v1.16.0
