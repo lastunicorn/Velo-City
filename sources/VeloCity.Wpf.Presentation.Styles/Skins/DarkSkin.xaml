@@ -117,7 +117,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     ================================================================================================
     -->
 
-    <Color x:Key="UnselectedNavigatorItemColor">#3F3F46</Color>
+    <Color x:Key="UnselectedNavigatorItemColor">Transparent</Color>
     <SolidColorBrush x:Key="UnselectedNavigatorItemBrush" Color="{StaticResource UnselectedNavigatorItemColor}" />
 
     <!--

@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <Style TargetType="{x:Type controls:SideNavigator}">
         <Setter Property="Foreground" Value="{DynamicResource FontPrimaryBrush}" />
         <Setter Property="Background" Value="{DynamicResource PrimaryDarkestBrush}" />
-        <Setter Property="BorderThickness" Value="1 0 1 1" />
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
         <Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}" />
         <Setter Property="TabStripPlacement" Value="Left" />

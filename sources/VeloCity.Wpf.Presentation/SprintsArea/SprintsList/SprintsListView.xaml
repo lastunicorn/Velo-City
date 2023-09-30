@@ -73,7 +73,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 DockPanel.Dock="Top"
                 MinHeight="50"
                 Padding="8"
-                Margin="10"
+                Margin="8"
                 Command="{Binding NewSprintCommand}">
 
                 <DockPanel>
@@ -129,13 +129,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                         <DockPanel
                                             x:Name="DockPanel1"
-                                            Margin="10 0"
+                                            Margin="8 0"
                                             MinHeight="40">
 
                                             <customControls:SprintStateControl
                                                 x:Name="SprintStateControl1"
                                                 DockPanel.Dock="Left"
-                                                Margin="0 3 15 3"
+                                                Margin="0 3 12 3"
                                                 Value="{Binding SprintState}"
                                                 IsLabelVisible="False"
                                                 VerticalAlignment="Top"
@@ -153,7 +153,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                         FontSize="20"
                                                         Text="{Binding SprintNumber}"
                                                         VerticalAlignment="Center"
-                                                        Margin="0 0 10 0"/>
+                                                        Margin="0 0 8 0"/>
 
                                                     <TextBlock
                                                         x:Name="PART_DateInterval"
@@ -166,7 +166,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                                     x:Name="PART_Subtitle"
                                                     Text="{Binding Subtitle}"
                                                     FontSize="12"
-                                                    Margin="0 3 0 0"
+                                                    Margin="0 2 0 0"
                                                     TextTrimming="CharacterEllipsis"
                                                     HorizontalAlignment="Left" />
 
