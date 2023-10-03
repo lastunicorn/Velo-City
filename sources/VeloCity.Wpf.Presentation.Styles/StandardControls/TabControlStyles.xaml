@@ -73,8 +73,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <!-- TabItem -->
 
     <Style TargetType="{x:Type TabItem}">
-        <Setter Property="Padding" Value="15 5" />
-        <Setter Property="MinHeight" Value="30" />
+        <!--<Setter Property="Padding" Value="15 5" />
+        <Setter Property="MinHeight" Value="30" />-->
         <Setter Property="Foreground" Value="{StaticResource FontPrimaryBrush}" />
         <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}" />
 
@@ -135,7 +135,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center"
                             ContentSource="Header"
-                            Margin="15 10" />
+                            Margin="15 8" />
 
                     </Border>
 
