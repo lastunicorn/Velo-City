@@ -31,38 +31,97 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <Style TargetType="{x:Type customControls:ChartBar}">
 
+        <Setter Property="Orientation" Value="Horizontal" />
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type customControls:ChartBar}">
 
-                    <Grid
-                        Visibility="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToVisibilityConverter}}"
-                        HorizontalAlignment="Stretch">
+                    <Grid>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="{Binding Value.ActualFillValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
-                            <ColumnDefinition Width="{Binding Value.ActualEmptyValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
-                            <ColumnDefinition Width="{Binding Value.ActualEmptySpace, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
-                        </Grid.ColumnDefinitions>
+                        <ContentControl x:Name="_Horizontal">
 
-                        <Border
-                            Grid.Column="0"
-                            Background="LimeGreen"
-                            Height="3" />
+                            <Grid
+                                Visibility="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToVisibilityConverter}}"
+                                HorizontalAlignment="Stretch">
 
-                        <Border
-                            Grid.Column="1"
-                            Height="1"
-                            Background="#40F9F1A5" />
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding Value.ActualFillValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding Value.ActualEmptyValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <ColumnDefinition Width="{Binding Value.ActualEmptySpace, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
+                                </Grid.ColumnDefinitions>
 
-                        <Border
-                            Grid.Column="2" />
+                                <Border
+                                    Grid.Column="0"
+                                    Background="LimeGreen"
+                                    Height="3" />
+
+                                <Border
+                                    Grid.Column="1"
+                                    Height="1"
+                                    Background="#40F9F1A5" />
+
+                                <Border
+                                    Grid.Column="2" />
+
+                            </Grid>
+                        </ContentControl>
+
+                        <ContentControl x:Name="_Vertical">
+
+                            <Grid
+                                Visibility="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToVisibilityConverter}}"
+                                VerticalAlignment="Stretch">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="{Binding Value.ActualEmptySpace, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <RowDefinition Height="{Binding Value.ActualEmptyValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
+                                    <RowDefinition Height="{Binding Value.ActualFillValue, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource IntToGridLengthConverter}}" />
+                                </Grid.RowDefinitions>
+
+                                <Border
+                                    Grid.Row="0" />
+
+                                <Border
+                                    Grid.Row="1"
+                                    Width="1"
+                                    Background="#40F9F1A5" />
+
+                                <Border
+                                    Grid.Row="2"
+                                    Background="LimeGreen"
+                                    Width="3" />
+
+                            </Grid>
+                        </ContentControl>
 
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter TargetName="_Horizontal" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="_Vertical" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter TargetName="_Horizontal" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="_Vertical" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
 
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <!--<Style.Triggers>
+            <DataTrigger Binding="{TemplateBinding Orientation}" Value="Horizontal">
+                <Setter TargetName="_Horizontal" Property="Visibility" Value="Visible" />
+                <Setter TargetName="_Vertical" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{TemplateBinding Orientation}" Value="Vertical">
+                <Setter TargetName="_Horizontal" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="_Vertical" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>-->
 
     </Style>
 

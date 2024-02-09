@@ -193,13 +193,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Margin="0 20 0 0" />
                     </TabItem>
 
-                    <TabItem Header="Sprint Calendar">
+                    <TabItem Header="Calendar">
                         <sprintCalendar:SprintCalendarView
                             DataContext="{Binding SprintCalendarViewModel}"
                             Margin="0 20 0 0" />
                     </TabItem>
 
-                    <TabItem Header="Sprint Members">
+                    <TabItem Header="Members">
                         <sprintMembers:SprintMembersView
                             DataContext="{Binding SprintMembersViewModel}"
                             Margin="0 20 0 0" />

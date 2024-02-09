@@ -22,6 +22,8 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.CustomControls;
 
 public class ChartBar : Control
 {
+    #region Value
+
     public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
         nameof(Value),
         typeof(IChartBarValue),
@@ -33,6 +35,24 @@ public class ChartBar : Control
         get => (IChartBarValue)GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
     }
+
+    #endregion
+
+    #region Orientation
+
+    public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
+        nameof(Orientation),
+        typeof(Orientation),
+        typeof(ChartBar)
+    );
+
+    public Orientation Orientation
+    {
+        get => (Orientation)GetValue(OrientationProperty);
+        set => SetValue(OrientationProperty, value);
+    }
+
+    #endregion
 
     static ChartBar()
     {

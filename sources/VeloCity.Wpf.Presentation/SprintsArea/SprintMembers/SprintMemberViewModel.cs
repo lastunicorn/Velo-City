@@ -29,11 +29,7 @@ public class SprintMemberViewModel : DataGridRowViewModel
 
     public HoursValue WorkHours { get; }
 
-    public bool HasWorkHours => WorkHours.Value > 0;
-
     public HoursValue AbsenceHours { get; }
-
-    public bool HasAbsenceHours => AbsenceHours.Value > 0;
 
     public ChartBarValue<SprintMemberViewModel> ChartBarValue { get; set; }
 

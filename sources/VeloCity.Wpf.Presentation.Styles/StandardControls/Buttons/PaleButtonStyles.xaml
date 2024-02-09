@@ -1,0 +1,91 @@
+﻿<!--
+VeloCity
+Copyright (C) 2022-2023 Dust in the Wind
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
+        <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/StandardControls/Buttons/BaseButtonStyles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <SolidColorBrush x:Key="PaleButtonNormalBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PaleButtonNormalForegroundBrush" Color="{StaticResource FontPrimaryColor}" />
+
+    <SolidColorBrush x:Key="PaleButtonOverBackgroundBrush" Color="{StaticResource PrimaryLightColor}" />
+    <SolidColorBrush x:Key="PaleButtonOverForegroundBrush" Color="{StaticResource FontPrimaryColor}" />
+
+    <SolidColorBrush x:Key="PaleButtonPressedBackgroundBrush" Color="{StaticResource PrimaryDarkColor}" />
+    <SolidColorBrush x:Key="PaleButtonPressedForegroundBrush" Color="{StaticResource FontPrimaryColor}" />
+
+    <SolidColorBrush x:Key="PaleButtonDisabledBackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="PaleButtonDisabledForegroundBrush" Color="{StaticResource FontDisabledColor}" />
+
+    <Style
+        TargetType="{x:Type Button}"
+        x:Key="PaleButtonStyle"
+        BasedOn="{StaticResource BaseButtonStyle}">
+
+        <Setter Property="Background" Value="{StaticResource PaleButtonNormalBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource PaleButtonNormalForegroundBrush}" />
+
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type Control}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Control}">
+
+                                <Rectangle
+                                    x:Name="PART_FocusRectangle"
+                                    Margin="2"
+                                    RadiusX="2"
+                                    RadiusY="2"
+                                    Stroke="{StaticResource AccentBrush}"
+                                    StrokeThickness=".7"
+                                    StrokeDashArray="2 2" />
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource PaleButtonOverBackgroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource PaleButtonOverForegroundBrush}" />
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="{StaticResource PaleButtonPressedBackgroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource PaleButtonPressedForegroundBrush}" />
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource PaleButtonDisabledBackgroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource PaleButtonDisabledForegroundBrush}" />
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

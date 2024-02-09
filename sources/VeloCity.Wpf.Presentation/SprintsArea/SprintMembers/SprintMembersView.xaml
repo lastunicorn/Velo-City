@@ -35,116 +35,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/StandardControls/DataGridStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/ChartBarStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/SprintMemberBoxStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <ScrollViewer Padding="0 0 0 0">
+    <ScrollViewer
+        Padding="0 0 0 0"
+        HorizontalScrollBarVisibility="Disabled"
+        VerticalScrollBarVisibility="Auto">
 
-        <DataGrid
-            ItemsSource="{Binding SprintMemberViewModels}"
-            AutoGenerateColumns="False"
-            IsReadOnly="True"
-            PreviewMouseWheel="UIElement_OnPreviewMouseWheel">
+        <ItemsControl
+            ItemsSource="{Binding SprintMemberViewModels}">
 
-            <DataGrid.Columns>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button
+                        Command="{Binding ShowSprintMemberCalendarCommand}"
+                        VerticalContentAlignment="Top"
+                        Style="{StaticResource PaleButtonStyle}">
 
-                <DataGridTemplateColumn CanUserSort="False">
+                        <customControls:SprintMemberBox
+                            MemberName="{Binding Name}"
+                            ChartBarValue="{Binding ChartBarValue}"
+                            WorkHours="{Binding WorkHours}"
+                            AbsenceHours="{Binding AbsenceHours}"
+                            Margin="20"/>
 
-                    <DataGridTemplateColumn.Header>
-                        <TextBlock
-                            Text="Name"
-                            Margin="20 0" />
-                    </DataGridTemplateColumn.Header>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
 
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button
-                                Command="{Binding ShowSprintMemberCalendarCommand}"
-                                Content="{Binding Name}"
-                                HorizontalContentAlignment="Left" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
 
-                </DataGridTemplateColumn>
-
-                <DataGridTextColumn
-                    Binding="{Binding WorkHours}"
-                    CanUserSort="False">
-
-                    <DataGridTextColumn.Header>
-                        <DataGridColumnHeader
-                            Content="Work"
-                            HorizontalAlignment="Right" />
-                    </DataGridTextColumn.Header>
-
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasWorkHours}" Value="True">
-                                    <Setter Property="Foreground" Value="LimeGreen" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-
-                <DataGridTemplateColumn
-                    CanUserSort="False"
-                    Width="250">
-
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <customControls:ChartBar
-                                Value="{Binding ChartBarValue}"
-                                IsTabStop="False" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-
-                </DataGridTemplateColumn>
-
-                <DataGridTextColumn
-                    Binding="{Binding AbsenceHours}"
-                    CanUserSort="False">
-
-                    <DataGridTextColumn.Header>
-                        <DataGridColumnHeader
-                            Content="Absence"
-                            HorizontalAlignment="Right" />
-                    </DataGridTextColumn.Header>
-
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Right" />
-
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasAbsenceHours}" Value="True">
-                                    <Setter Property="Foreground" Value="#F9F1A5" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-
-            </DataGrid.Columns>
-
-            <DataGrid.CellStyle>
-                <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
-                    <Setter Property="IsTabStop" Value="False" />
-                </Style>
-            </DataGrid.CellStyle>
-
-            <DataGrid.ItemContainerStyle>
-                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
-                    <EventSetter Event="MouseDown" Handler="EventSetter_OnHandler" />
-                </Style>
-            </DataGrid.ItemContainerStyle>
-
-        </DataGrid>
+        </ItemsControl>
 
     </ScrollViewer>
 
