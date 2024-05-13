@@ -144,29 +144,29 @@ public class SprintMemberCalendarDayViewModel : DataGridRowViewModel
                 return string.Empty;
 
             case AbsenceReason.OfficialHoliday:
-            {
-                StringBuilder sb = new();
+                {
+                    StringBuilder sb = new();
 
-                if (sprintMemberDay.AbsenceComments != null)
-                    sb.Append(sprintMemberDay.AbsenceComments);
+                    if (sprintMemberDay.AbsenceComments != null)
+                        sb.Append(sprintMemberDay.AbsenceComments);
 
-                return sb.ToString();
-            }
+                    return sb.ToString();
+                }
 
             case AbsenceReason.Vacation:
             case AbsenceReason.Unemployed:
             case AbsenceReason.Contract:
-            {
-                StringBuilder sb = new();
+                {
+                    StringBuilder sb = new();
 
-                string absenceReason = ToString(sprintMemberDay.AbsenceReason);
-                sb.Append(absenceReason);
+                    string absenceReason = ToString(sprintMemberDay.AbsenceReason);
+                    sb.Append(absenceReason);
 
-                if (sprintMemberDay.AbsenceComments != null)
-                    sb.Append($" ({sprintMemberDay.AbsenceComments})");
+                    if (sprintMemberDay.AbsenceComments != null)
+                        sb.Append($" ({sprintMemberDay.AbsenceComments})");
 
-                return sb.ToString();
-            }
+                    return sb.ToString();
+                }
 
             default:
                 throw new ArgumentOutOfRangeException();

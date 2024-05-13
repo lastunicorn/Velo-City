@@ -66,7 +66,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                             Grid.Column="0"
                             Grid.Row="0"
                             Margin="28"
-                            Style="{StaticResource TeamMemberIconStyle}" />
+                            Style="{StaticResource TeamMemberIconStyle}">
+
+                            <Control.Effect>
+                                <DropShadowEffect
+                                    Color="{StaticResource PrimaryLightColor}"
+                                    Direction="0"
+                                    ShadowDepth="0"
+                                    BlurRadius="20"/>
+                            </Control.Effect>
+
+                        </customControls:GenericIcon>
 
                         <customControls:ChartBar
                             Grid.Column="1"
