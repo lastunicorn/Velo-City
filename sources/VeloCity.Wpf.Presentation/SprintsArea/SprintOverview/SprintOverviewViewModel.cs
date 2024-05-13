@@ -29,11 +29,7 @@ namespace DustInTheWind.VeloCity.Wpf.Presentation.SprintsArea.SprintOverview;
 public class SprintOverviewViewModel : ViewModelBase
 {
     private readonly IRequestBus requestBus;
-    private DateInterval timeInterval;
-    private SprintState sprintState;
     private string sprintGoal;
-    private int workDays;
-    private HoursValue totalWorkHours;
     private StoryPoints estimatedStoryPoints;
     private float? estimatedStoryPointsValue;
     private IEnumerable<string> estimatedStoryPointsInfo;
@@ -51,52 +47,12 @@ public class SprintOverviewViewModel : ViewModelBase
     private List<NoteBase> notes;
     private int lookBackSprintCount;
 
-    public DateInterval TimeInterval
-    {
-        get => timeInterval;
-        private set
-        {
-            timeInterval = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public SprintState SprintState
-    {
-        get => sprintState;
-        private set
-        {
-            sprintState = value;
-            OnPropertyChanged();
-        }
-    }
-
     public string SprintGoal
     {
         get => sprintGoal;
         set
         {
             sprintGoal = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public int WorkDays
-    {
-        get => workDays;
-        private set
-        {
-            workDays = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public HoursValue TotalWorkHours
-    {
-        get => totalWorkHours;
-        private set
-        {
-            totalWorkHours = value;
             OnPropertyChanged();
         }
     }
@@ -267,10 +223,14 @@ public class SprintOverviewViewModel : ViewModelBase
         }
     }
 
+    public GeneralInfoViewModel GeneralInfoViewModel { get; }
+
     public SprintOverviewViewModel(IRequestBus requestBus, EventBus eventBus)
     {
         if (eventBus == null) throw new ArgumentNullException(nameof(eventBus));
         this.requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
+
+        GeneralInfoViewModel = new GeneralInfoViewModel(requestBus, eventBus);
 
         eventBus.Subscribe<ReloadEvent>(HandleReloadEvent);
         eventBus.Subscribe<SprintChangedEvent>(HandleSprintChangedEvent);
@@ -310,14 +270,7 @@ public class SprintOverviewViewModel : ViewModelBase
 
     private void DisplayResponse(PresentSprintOverviewResponse response)
     {
-        DateTime? startDate = response.SprintDateInterval.StartDate;
-        DateTime? endDate = response.SprintDateInterval.EndDate;
-        TimeInterval = new DateInterval(startDate, endDate);
-        SprintState = response.SprintState.ToPresentationModel();
         SprintGoal = response.SprintGoal;
-
-        WorkDays = response.WorkDaysCount;
-        TotalWorkHours = response.TotalWorkHours;
 
         EstimatedStoryPoints = response.EstimatedStoryPoints;
         EstimatedStoryPointsInfo = new EstimatedStoryPointsInfo
@@ -380,7 +333,6 @@ public class SprintOverviewViewModel : ViewModelBase
 
     private Task HandleSprintUpdatedEvent(SprintUpdatedEvent ev, CancellationToken cancellationToken)
     {
-        SprintState = ev.SprintState.ToPresentationModel();
         SprintGoal = ev.SprintGoal;
 
         CommitmentStoryPoints = ev.CommitmentStoryPoints;

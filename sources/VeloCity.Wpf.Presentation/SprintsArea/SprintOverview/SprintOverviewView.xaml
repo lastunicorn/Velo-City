@@ -67,100 +67,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                     <Style TargetType="{x:Type customControls:PanelWithTitle}" BasedOn="{StaticResource {x:Type customControls:PanelWithTitle}}">
                         <Setter Property="Margin" Value="0 25 0 0" />
                     </Style>
-                    <Style TargetType="{x:Type customControls:LabeledContent}" BasedOn="{StaticResource {x:Type customControls:LabeledContent}}">
-                        <Setter Property="BetweenSpace" Value="30" />
-                    </Style>
                 </StackPanel.Resources>
 
-                <customControls:PanelWithTitle
-                    Title="General Info"
-                    Margin="0">
-
-                    <StackPanel
-                        HorizontalAlignment="Stretch"
-                        Orientation="Vertical">
-
-                        <customControls:LabeledContent
-                            Label="Time Interval"
-                            Content="{Binding TimeInterval}" />
-
-                        <customControls:LabeledContent
-                            Label="State"
-                            Margin="0 8 0 0">
-
-                            <customControls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
-
-                        </customControls:LabeledContent>
-
-                        <customControls:LabeledContent
-                            Label="Work Days"
-                            Margin="0 8 0 0">
-
-                            <customControls:LabeledContent.InfoContent>
-                                <customControls:ParagraphsBlock>
-
-                                    <DockPanel>
-
-                                        <customControls:GenericIcon
-                                            DockPanel.Dock="Left"
-                                            Style="{StaticResource InfoIconStyle}"
-                                            Width="12"
-                                            Height="12"
-                                            Margin="0 0 10 0" />
-
-                                        <TextBlock
-                                            Text="Work Days"
-                                            FontSize="15" />
-
-                                    </DockPanel>
-
-                                    <TextBlock
-                                        Text="All sprint days that are not week-ends or official holidays."
-                                        FontSize="13" />
-
-                                </customControls:ParagraphsBlock>
-                            </customControls:LabeledContent.InfoContent>
-
-                            <TextBlock Text="{Binding WorkDays, StringFormat={}{0} days}" />
-
-                        </customControls:LabeledContent>
-
-                        <customControls:LabeledContent
-                            Label="Total Work Hours"
-                            Margin="0 8 0 0"
-                            Content="{Binding TotalWorkHours}">
-
-                            <customControls:LabeledContent.InfoContent>
-                                <customControls:ParagraphsBlock>
-
-                                    <DockPanel>
-
-                                        <customControls:GenericIcon
-                                            DockPanel.Dock="Left"
-                                            Style="{StaticResource InfoIconStyle}"
-                                            Width="12"
-                                            Height="12"
-                                            Margin="0 0 10 0" />
-
-                                        <TextBlock
-                                            Text="Total Work Hours"
-                                            FontSize="15" />
-
-                                    </DockPanel>
-
-                                    <customControls:ParagraphsBlock FontSize="13">
-                                        <TextBlock Text="The total number of working hours from all the team members." />
-                                        <TextBlock Text="The vacations and official holidays are excluded." />
-                                    </customControls:ParagraphsBlock>
-
-                                </customControls:ParagraphsBlock>
-                            </customControls:LabeledContent.InfoContent>
-
-                        </customControls:LabeledContent>
-
-                    </StackPanel>
-
-                </customControls:PanelWithTitle>
+                <sprintOverview:GeneralInfoControl
+                    DataContext="{Binding GeneralInfoViewModel}" />
 
                 <Grid Margin="0 25 0 0">
 
@@ -224,7 +134,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         BorderThickness="1"
                         BorderBrush="{StaticResource BorderBrush}"
                         Background="{StaticResource PrimaryDarkBrush}"
-                        Padding="15 0 15 15">
+                        Padding="15 10 15 15">
 
                         <DockPanel>
 
@@ -408,7 +318,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         BorderThickness="1"
                         BorderBrush="{StaticResource BorderBrush}"
                         Background="{StaticResource PrimaryDarkBrush}"
-                        Padding="15 0 15 15">
+                        Padding="15 10 15 15">
 
                         <DockPanel>
 
@@ -463,7 +373,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         BorderThickness="1"
                         BorderBrush="{StaticResource BorderBrush}"
                         Background="{StaticResource PrimaryDarkBrush}"
-                        Padding="15 0 15 15">
+                        Padding="15 10 15 15">
 
                         <DockPanel>
 
