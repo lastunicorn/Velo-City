@@ -30,17 +30,30 @@ public class GeneralInfoViewModel : ViewModelBase
 {
     private readonly IRequestBus requestBus;
 
-    private DateInterval timeInterval;
+    private DateTime? startTime;
+    private DateTime? endTime;
     private SprintState sprintState;
     private int workDays;
     private HoursValue totalWorkHours;
 
-    public DateInterval TimeInterval
+    public DateTime? StartTime
     {
-        get => timeInterval;
-        private set
+        get => startTime;
+        set
         {
-            timeInterval = value;
+            if (value.Equals(startTime)) return;
+            startTime = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public DateTime? EndTime
+    {
+        get => endTime;
+        set
+        {
+            if (value.Equals(endTime)) return;
+            endTime = value;
             OnPropertyChanged();
         }
     }
@@ -120,10 +133,9 @@ public class GeneralInfoViewModel : ViewModelBase
 
     private void DisplayResponse(PresentSprintOverviewResponse response)
     {
-        DateTime? startDate = response.SprintDateInterval.StartDate;
-        DateTime? endDate = response.SprintDateInterval.EndDate;
+        StartTime = response.SprintDateInterval.StartDate;
+        EndTime = response.SprintDateInterval.EndDate;
 
-        TimeInterval = new DateInterval(startDate, endDate);
         SprintState = response.SprintState.ToPresentationModel();
 
         WorkDays = response.WorkDaysCount;

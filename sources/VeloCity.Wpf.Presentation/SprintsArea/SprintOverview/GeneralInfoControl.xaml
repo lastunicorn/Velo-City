@@ -47,12 +47,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <customControls:PanelWithTitle
-        Title="General Info">
+    <customControls:PanelWithTitle>
 
         <customControls:PanelWithTitle.Resources>
             <Style TargetType="{x:Type customControls:LabeledContent}" BasedOn="{StaticResource {x:Type customControls:LabeledContent}}">
-                <Setter Property="BetweenSpace" Value="60" />
+                <Setter Property="BetweenSpace" Value="30" />
             </Style>
         </customControls:PanelWithTitle.Resources>
 
@@ -61,8 +60,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             Orientation="Vertical">
 
             <customControls:LabeledContent
-                Label="Time Interval"
-                Content="{Binding TimeInterval}" />
+                Label="Start Time"
+                Content="{Binding StartTime}" />
+
+            <customControls:LabeledContent
+                Label="End Time"
+                Content="{Binding EndTime}" />
 
             <customControls:LabeledContent
                 Label="State"
