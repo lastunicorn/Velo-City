@@ -3,7 +3,8 @@ Velo City
 
 v1.18.0
 ----------------------------------------------------------------------------------------------------
-- [feature] Display sprint memers as icons in the "Sprint Members" tab.
+- [feature] [wpf] Display sprint members as icons in the "Sprint Members" tab.
+- [feature] [wpf] Moved the General Info panel of the sprint into the right side of the screen.
 
 
 v1.17.0
