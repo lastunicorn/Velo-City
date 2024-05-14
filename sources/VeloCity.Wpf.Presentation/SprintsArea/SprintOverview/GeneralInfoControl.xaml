@@ -55,93 +55,163 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             </Style>
         </customControls:PanelWithTitle.Resources>
 
-        <StackPanel
-            HorizontalAlignment="Stretch"
-            Orientation="Vertical">
+        <Grid
+            HorizontalAlignment="Stretch">
 
-            <customControls:LabeledContent
-                Label="Start Time"
-                Content="{Binding StartTime}" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="15" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-            <customControls:LabeledContent
-                Label="End Time"
-                Content="{Binding EndTime}" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-            <customControls:LabeledContent
-                Label="State"
-                Margin="0 8 0 0">
+            <!-- Start Time -->
 
-                <customControls:SprintStateControl Value="{Binding SprintState, Mode=OneWay}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Start Time" />
 
-            </customControls:LabeledContent>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding StartTime, Mode=OneWay, StringFormat=d}" />
 
-            <customControls:LabeledContent
-                Label="Work Days"
-                Margin="0 8 0 0">
+            <!-- End Time -->
 
-                <customControls:LabeledContent.InfoContent>
-                    <customControls:ParagraphsBlock>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="End Time"
+                Margin="0 10 0 0" />
 
-                        <DockPanel>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="0 10 0 0"
+                Text="{Binding EndTime, Mode=OneWay, StringFormat=d}" />
 
-                            <customControls:GenericIcon
-                                DockPanel.Dock="Left"
-                                Style="{StaticResource InfoIconStyle}"
-                                Width="12"
-                                Height="12"
-                                Margin="0 0 10 0" />
+            <!-- State -->
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="0 10 0 0"
+                Text="State" />
+
+            <customControls:SprintStateControl
+                Grid.Row="2"
+                Grid.Column="2"
+                Margin="0 10 0 0"
+                Value="{Binding SprintState, Mode=OneWay}" />
+
+            <!-- Work Days -->
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="0 10 0 0"
+                Orientation="Horizontal">
+
+                <TextBlock
+                    Text="Work Days" />
+
+                <customControls:InfoPoint
+                    Margin="5 0 0 0">
+
+                    <customControls:InfoPoint.InfoContent>
+                        <customControls:ParagraphsBlock>
+
+                            <DockPanel>
+
+                                <customControls:GenericIcon
+                                    DockPanel.Dock="Left"
+                                    Style="{StaticResource InfoIconStyle}"
+                                    Width="12"
+                                    Height="12"
+                                    Margin="0 0 10 0" />
+
+                                <TextBlock
+                                    Text="Work Days"
+                                    FontSize="15" />
+
+                            </DockPanel>
 
                             <TextBlock
-                                Text="Work Days"
-                                FontSize="15" />
+                                Text="All sprint days that are not week-ends or official holidays."
+                                FontSize="13" />
 
-                        </DockPanel>
-
-                        <TextBlock
-                            Text="All sprint days that are not week-ends or official holidays."
-                            FontSize="13" />
-
-                    </customControls:ParagraphsBlock>
-                </customControls:LabeledContent.InfoContent>
-
-                <TextBlock Text="{Binding WorkDays, StringFormat={}{0} days}" />
-
-            </customControls:LabeledContent>
-
-            <customControls:LabeledContent
-                Label="Total Work Hours"
-                Margin="0 8 0 0"
-                Content="{Binding TotalWorkHours}">
-
-                <customControls:LabeledContent.InfoContent>
-                    <customControls:ParagraphsBlock>
-
-                        <DockPanel>
-
-                            <customControls:GenericIcon
-                                DockPanel.Dock="Left"
-                                Style="{StaticResource InfoIconStyle}"
-                                Width="12"
-                                Height="12"
-                                Margin="0 0 10 0" />
-
-                            <TextBlock
-                                Text="Total Work Hours"
-                                FontSize="15" />
-
-                        </DockPanel>
-
-                        <customControls:ParagraphsBlock FontSize="13">
-                            <TextBlock Text="The total number of working hours from all the team members." />
-                            <TextBlock Text="The vacations and official holidays are excluded." />
                         </customControls:ParagraphsBlock>
+                    </customControls:InfoPoint.InfoContent>
 
-                    </customControls:ParagraphsBlock>
-                </customControls:LabeledContent.InfoContent>
+                </customControls:InfoPoint>
 
-            </customControls:LabeledContent>
+            </StackPanel>
 
-        </StackPanel>
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="2"
+                Margin="0 10 0 0"
+                Text="{Binding WorkDays, StringFormat={}{0} days}" />
+
+            <!-- Total Work Hours -->
+
+            <StackPanel
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="0 10 0 0"
+                Orientation="Horizontal">
+
+                <TextBlock
+                    Text="Total Work Hours" />
+
+                <customControls:InfoPoint
+                    Margin="5 0 0 0">
+
+                    <customControls:InfoPoint.InfoContent>
+                        <customControls:ParagraphsBlock>
+
+                            <DockPanel>
+
+                                <customControls:GenericIcon
+                                    DockPanel.Dock="Left"
+                                    Style="{StaticResource InfoIconStyle}"
+                                    Width="12"
+                                    Height="12"
+                                    Margin="0 0 10 0" />
+
+                                <TextBlock
+                                    Text="Total Work Hours"
+                                    FontSize="15" />
+
+                            </DockPanel>
+
+                            <customControls:ParagraphsBlock FontSize="13">
+                                <TextBlock Text="The total number of working hours from all the team members." />
+                                <TextBlock Text="The vacations and official holidays are excluded." />
+                            </customControls:ParagraphsBlock>
+
+                        </customControls:ParagraphsBlock>
+                    </customControls:InfoPoint.InfoContent>
+
+                </customControls:InfoPoint>
+
+            </StackPanel>
+
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="2"
+                Margin="0 10 0 0"
+                Text="{Binding TotalWorkHours}" />
+
+        </Grid>
 
     </customControls:PanelWithTitle>
 

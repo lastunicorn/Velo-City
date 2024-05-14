@@ -39,7 +39,7 @@ public class GeneralInfoViewModel : ViewModelBase
     public DateTime? StartTime
     {
         get => startTime;
-        set
+        private set
         {
             if (value.Equals(startTime)) return;
             startTime = value;
@@ -50,7 +50,7 @@ public class GeneralInfoViewModel : ViewModelBase
     public DateTime? EndTime
     {
         get => endTime;
-        set
+        private set
         {
             if (value.Equals(endTime)) return;
             endTime = value;
