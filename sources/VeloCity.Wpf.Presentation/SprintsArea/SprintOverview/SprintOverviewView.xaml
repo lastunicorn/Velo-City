@@ -269,6 +269,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                                         <customControls:InfoPoint.InfoContent>
                                             <customControls:ParagraphsBlock>
 
+                                                <!-- ActualStoryPoints -->
+
+                                                <DockPanel>
+
+                                                    <customControls:GenericIcon
+                                                        DockPanel.Dock="Left"
+                                                        Style="{StaticResource InfoIconStyle}"
+                                                        Width="12"
+                                                        Height="12"
+                                                        Margin="0 0 10 0" />
+
+                                                    <TextBlock
+                                                        Text="Actual Story Points"
+                                                        FontSize="15" />
+
+                                                </DockPanel>
+
+                                                <TextBlock
+                                                    Text="{Binding ActualStoryPoints, StringFormat=standard}"
+                                                    FontSize="15"
+                                                    Foreground="Gray" />
+
+                                                <!-- ActualVelocity -->
+
                                                 <DockPanel>
                                                     <customControls:GenericIcon
                                                         DockPanel.Dock="Left"
