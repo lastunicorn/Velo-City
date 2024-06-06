@@ -37,195 +37,308 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/Skins/DarkSkin.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/StandardControls/StandardControlStyles.xaml" />
                 <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/PanelWithTitleStyles.xaml" />
+                <ResourceDictionary Source="Pack://application:,,,/DustInTheWind.VeloCity.Wpf.Presentation.Styles;component/CustomControls/CalendarDateStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <ScrollViewer>
-        <ItemsControl
-            ItemsSource="{Binding VacationGroups}">
 
-            <ItemsControl.ItemContainerStyleSelector>
-                <customControls:ListItemStyleSelector>
+        <StackPanel Orientation="Vertical">
 
-                    <customControls:ListItemStyleSelector.FirstItemStyle>
-                        <Style>
-                            <Setter Property="Control.Margin" Value="0" />
-                        </Style>
-                    </customControls:ListItemStyleSelector.FirstItemStyle>
+            <TextBlock
+                Text="January 2024"
+                Margin="0 10 0 15"
+                FontSize="24" />
 
-                    <customControls:ListItemStyleSelector.NormalItemStyle>
-                        <Style>
-                            <Setter Property="Control.Margin" Value="0 20 0 0" />
-                        </Style>
-                    </customControls:ListItemStyleSelector.NormalItemStyle>
+            <UniformGrid
+                Columns="7"
+                HorizontalAlignment="Left"
+                Margin="0 0 0 20">
 
-                    <customControls:ListItemStyleSelector.LastItemStyle>
-                        <Style>
-                            <Setter Property="Control.Margin" Value="0 20 0 0" />
-                        </Style>
-                    </customControls:ListItemStyleSelector.LastItemStyle>
+                <TextBlock
+                    Text="Monday"
+                    Margin="4 0"
+                    HorizontalAlignment="Center" />
 
-                </customControls:ListItemStyleSelector>
-            </ItemsControl.ItemContainerStyleSelector>
+                <TextBlock
+                    Text="Tuesday"
+                    Margin="4 0"
+                    HorizontalAlignment="Center" />
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
+                <TextBlock
+                    Text="Wednesday"
+                    Margin="4 0"
+                    HorizontalAlignment="Center" />
 
-                    <customControls:PanelWithTitle
-                        Title="{Binding Month}">
+                <TextBlock
+                    Text="Thursday"
+                    Margin="4 0"
+                    HorizontalAlignment="Center" />
 
-                        <ItemsControl ItemsSource="{Binding Vacations}">
+                <TextBlock
+                    Text="Friday"
+                    Margin="4 0"
+                    HorizontalAlignment="Center" />
 
-                            <ItemsControl.ItemContainerStyleSelector>
-                                <customControls:ListItemStyleSelector>
+                <TextBlock
+                    Text="Saturday"
+                    Margin="4 0"
+                    HorizontalAlignment="Center" />
 
-                                    <customControls:ListItemStyleSelector.FirstItemStyle>
-                                        <Style>
-                                            <Setter Property="Control.Margin" Value="0" />
-                                        </Style>
-                                    </customControls:ListItemStyleSelector.FirstItemStyle>
+                <TextBlock
+                    Text="Sunday"
+                    Margin="4 0"
+                    HorizontalAlignment="Center" />
 
-                                    <customControls:ListItemStyleSelector.NormalItemStyle>
-                                        <Style>
-                                            <Setter Property="Control.Margin" Value="0 10 0 0" />
-                                        </Style>
-                                    </customControls:ListItemStyleSelector.NormalItemStyle>
+                <customControls:CalendarDate
+                    Value="2024 01 01"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center"
+                    Background="DarkSeaGreen" />
 
-                                    <customControls:ListItemStyleSelector.LastItemStyle>
-                                        <Style>
-                                            <Setter Property="Control.Margin" Value="0 10 0 0" />
-                                        </Style>
-                                    </customControls:ListItemStyleSelector.LastItemStyle>
+                <customControls:CalendarDate
+                    Value="2024 01 02"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center"
+                    Background="ForestGreen" />
+                <customControls:CalendarDate
+                    Value="2024 01 03"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
+                <customControls:CalendarDate
+                    Value="2024 01 01"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
+                <customControls:CalendarDate
+                    Value="2024 01 04"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
+                <customControls:CalendarDate
+                    Value="2024 01 05"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
+                <customControls:CalendarDate
+                    Value="2024 01 06"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
+                <customControls:CalendarDate
+                    Value="2024 01 07"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
+                <customControls:CalendarDate
+                    Value="2024 01 08"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
+                <customControls:CalendarDate
+                    Value="2024 01 09"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
+                <customControls:CalendarDate
+                    Value="2024 01 10"
+                    Margin="5"
+                    MonthFontSize="10"
+                    HorizontalAlignment="Center" />
 
-                                </customControls:ListItemStyleSelector>
-                            </ItemsControl.ItemContainerStyleSelector>
+            </UniformGrid>
 
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ContentControl Content="{Binding}">
-                                        <ContentControl.Resources>
+            <ItemsControl
+                ItemsSource="{Binding VacationGroups}">
 
-                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationOnceViewModel}">
-                                                <StackPanel Orientation="Horizontal">
+                <ItemsControl.ItemContainerStyleSelector>
+                    <customControls:ListItemStyleSelector>
 
-                                                    <TextBlock
-                                                        Text="Day:"
-                                                        Margin="0 0 10 0"
-                                                        VerticalAlignment="Center" />
+                        <customControls:ListItemStyleSelector.FirstItemStyle>
+                            <Style>
+                                <Setter Property="Control.Margin" Value="0" />
+                            </Style>
+                        </customControls:ListItemStyleSelector.FirstItemStyle>
 
-                                                    <TextBlock Text="{Binding Date, StringFormat=d}" />
+                        <customControls:ListItemStyleSelector.NormalItemStyle>
+                            <Style>
+                                <Setter Property="Control.Margin" Value="0 20 0 0" />
+                            </Style>
+                        </customControls:ListItemStyleSelector.NormalItemStyle>
 
-                                                    <TextBlock
-                                                        Text="{Binding HourCount}"
-                                                        VerticalAlignment="Center"
-                                                        Margin="10 0 0 0" />
+                        <customControls:ListItemStyleSelector.LastItemStyle>
+                            <Style>
+                                <Setter Property="Control.Margin" Value="0 20 0 0" />
+                            </Style>
+                        </customControls:ListItemStyleSelector.LastItemStyle>
 
-                                                </StackPanel>
-                                            </DataTemplate>
+                    </customControls:ListItemStyleSelector>
+                </ItemsControl.ItemContainerStyleSelector>
 
-                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationDailyViewModel}">
-                                                <StackPanel Orientation="Horizontal">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
 
-                                                    <TextBlock
-                                                        Text="Interval:"
-                                                        Margin="0 0 10 0" />
+                        <customControls:PanelWithTitle
+                            Title="{Binding Month}">
 
-                                                    <TextBlock Text="{Binding DateInterval}" />
+                            <ItemsControl ItemsSource="{Binding Vacations}">
 
-                                                    <TextBlock
-                                                        Text="{Binding HourCount}"
-                                                        VerticalAlignment="Center"
-                                                        Margin="10 0 0 0" />
+                                <ItemsControl.ItemContainerStyleSelector>
+                                    <customControls:ListItemStyleSelector>
 
-                                                </StackPanel>
-                                            </DataTemplate>
+                                        <customControls:ListItemStyleSelector.FirstItemStyle>
+                                            <Style>
+                                                <Setter Property="Control.Margin" Value="0" />
+                                            </Style>
+                                        </customControls:ListItemStyleSelector.FirstItemStyle>
 
-                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationWeeklyViewModel}">
-                                                <StackPanel Orientation="Horizontal">
+                                        <customControls:ListItemStyleSelector.NormalItemStyle>
+                                            <Style>
+                                                <Setter Property="Control.Margin" Value="0 10 0 0" />
+                                            </Style>
+                                        </customControls:ListItemStyleSelector.NormalItemStyle>
 
-                                                    <TextBlock
-                                                        Text="Weekly:"
-                                                        Margin="0 0 10 0" />
+                                        <customControls:ListItemStyleSelector.LastItemStyle>
+                                            <Style>
+                                                <Setter Property="Control.Margin" Value="0 10 0 0" />
+                                            </Style>
+                                        </customControls:ListItemStyleSelector.LastItemStyle>
 
-                                                    <ItemsControl
-                                                        ItemsSource="{Binding WeekDays}"
-                                                        VerticalContentAlignment="Center"
-                                                        VerticalAlignment="Center">
+                                    </customControls:ListItemStyleSelector>
+                                </ItemsControl.ItemContainerStyleSelector>
 
-                                                        <ItemsControl.Resources>
-                                                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
-                                                        </ItemsControl.Resources>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ContentControl Content="{Binding}">
+                                            <ContentControl.Resources>
 
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <DataTemplate.Resources>
-                                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
-                                                                </DataTemplate.Resources>
-                                                                <TextBlock
-                                                                    Text="{Binding}"
-                                                                    VerticalAlignment="Center" />
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="{x:Type teamMemberVacations:VacationOnceViewModel}">
+                                                    <StackPanel Orientation="Horizontal">
 
-                                                    </ItemsControl>
+                                                        <TextBlock
+                                                            Text="Day:"
+                                                            Margin="0 0 10 0"
+                                                            VerticalAlignment="Center" />
 
-                                                    <TextBlock
-                                                        Text="|"
-                                                        Margin="5 0" />
+                                                        <TextBlock Text="{Binding Date, StringFormat=d}" />
 
-                                                    <TextBlock Text="{Binding DateInterval}" />
+                                                        <TextBlock
+                                                            Text="{Binding HourCount}"
+                                                            VerticalAlignment="Center"
+                                                            Margin="10 0 0 0" />
 
-                                                    <TextBlock
-                                                        Text="{Binding HourCount}"
-                                                        VerticalAlignment="Center"
-                                                        Margin="10 0 0 0" />
+                                                    </StackPanel>
+                                                </DataTemplate>
 
-                                                </StackPanel>
-                                            </DataTemplate>
+                                                <DataTemplate DataType="{x:Type teamMemberVacations:VacationDailyViewModel}">
+                                                    <StackPanel Orientation="Horizontal">
 
-                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationMonthlyViewModel}">
-                                                <StackPanel Orientation="Horizontal">
+                                                        <TextBlock
+                                                            Text="Interval:"
+                                                            Margin="0 0 10 0" />
 
-                                                    <TextBlock Text="Monthly: " />
-                                                    <TextBlock Text="{Binding MonthDays}" />
-                                                    <TextBlock Text="{Binding DateInterval}" />
+                                                        <TextBlock Text="{Binding DateInterval}" />
 
-                                                    <TextBlock
-                                                        Text="{Binding HourCount}"
-                                                        VerticalAlignment="Center"
-                                                        Margin="10 0 0 0" />
+                                                        <TextBlock
+                                                            Text="{Binding HourCount}"
+                                                            VerticalAlignment="Center"
+                                                            Margin="10 0 0 0" />
 
-                                                </StackPanel>
-                                            </DataTemplate>
+                                                    </StackPanel>
+                                                </DataTemplate>
 
-                                            <DataTemplate DataType="{x:Type teamMemberVacations:VacationYearlyViewModel}">
-                                                <StackPanel Orientation="Horizontal">
+                                                <DataTemplate DataType="{x:Type teamMemberVacations:VacationWeeklyViewModel}">
+                                                    <StackPanel Orientation="Horizontal">
 
-                                                    <TextBlock Text="Yearly: " />
-                                                    <TextBlock Text="{Binding Dates}" />
-                                                    <TextBlock Text="{Binding DateInterval}" />
+                                                        <TextBlock
+                                                            Text="Weekly:"
+                                                            Margin="0 0 10 0" />
 
-                                                    <TextBlock
-                                                        Text="{Binding HourCount}"
-                                                        VerticalAlignment="Center"
-                                                        Margin="10 0 0 0" />
+                                                        <ItemsControl
+                                                            ItemsSource="{Binding WeekDays}"
+                                                            VerticalContentAlignment="Center"
+                                                            VerticalAlignment="Center">
 
-                                                </StackPanel>
-                                            </DataTemplate>
+                                                            <ItemsControl.Resources>
+                                                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
+                                                            </ItemsControl.Resources>
 
-                                        </ContentControl.Resources>
-                                    </ContentControl>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <DataTemplate.Resources>
+                                                                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}" />
+                                                                    </DataTemplate.Resources>
+                                                                    <TextBlock
+                                                                        Text="{Binding}"
+                                                                        VerticalAlignment="Center" />
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
 
-                    </customControls:PanelWithTitle>
+                                                        </ItemsControl>
 
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                                                        <TextBlock
+                                                            Text="|"
+                                                            Margin="5 0" />
 
-        </ItemsControl>
+                                                        <TextBlock Text="{Binding DateInterval}" />
+
+                                                        <TextBlock
+                                                            Text="{Binding HourCount}"
+                                                            VerticalAlignment="Center"
+                                                            Margin="10 0 0 0" />
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+
+                                                <DataTemplate DataType="{x:Type teamMemberVacations:VacationMonthlyViewModel}">
+                                                    <StackPanel Orientation="Horizontal">
+
+                                                        <TextBlock Text="Monthly: " />
+                                                        <TextBlock Text="{Binding MonthDays}" />
+                                                        <TextBlock Text="{Binding DateInterval}" />
+
+                                                        <TextBlock
+                                                            Text="{Binding HourCount}"
+                                                            VerticalAlignment="Center"
+                                                            Margin="10 0 0 0" />
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+
+                                                <DataTemplate DataType="{x:Type teamMemberVacations:VacationYearlyViewModel}">
+                                                    <StackPanel Orientation="Horizontal">
+
+                                                        <TextBlock Text="Yearly: " />
+                                                        <TextBlock Text="{Binding Dates}" />
+                                                        <TextBlock Text="{Binding DateInterval}" />
+
+                                                        <TextBlock
+                                                            Text="{Binding HourCount}"
+                                                            VerticalAlignment="Center"
+                                                            Margin="10 0 0 0" />
+
+                                                    </StackPanel>
+                                                </DataTemplate>
+
+                                            </ContentControl.Resources>
+                                        </ContentControl>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                        </customControls:PanelWithTitle>
+
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+        </StackPanel>
+
     </ScrollViewer>
 
 </UserControl>

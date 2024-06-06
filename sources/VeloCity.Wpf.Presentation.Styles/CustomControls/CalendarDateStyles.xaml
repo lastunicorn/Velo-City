@@ -35,6 +35,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         <Setter Property="Padding" Value="8 5" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush
+                    Color="{StaticResource AccentColor}"
+                    Opacity=".15" />
+            </Setter.Value>
+        </Setter>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -45,13 +52,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}">
 
-                        <Border CornerRadius="2">
-
-                            <Border.Background>
-                                <SolidColorBrush
-                                    Color="{StaticResource AccentColor}"
-                                    Opacity=".15" />
-                            </Border.Background>
+                        <Border
+                            CornerRadius="2"
+                            Background="{TemplateBinding Background}">
 
                             <StackPanel
                                 Margin="{TemplateBinding Padding}"
