@@ -3,6 +3,7 @@ Velo City
 
 v1.19.0
 ----------------------------------------------------------------------------------------------------
+- [feature] [wpf] Cleaner display of the sprint overview information.
 
 
 v1.18.0
