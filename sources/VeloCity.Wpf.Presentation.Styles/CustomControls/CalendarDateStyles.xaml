@@ -54,7 +54,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
                         <Border
                             CornerRadius="2"
-                            Background="{TemplateBinding Background}">
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
 
                             <StackPanel
                                 Margin="{TemplateBinding Padding}"

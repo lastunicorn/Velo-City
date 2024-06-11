@@ -44,113 +44,134 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ScrollViewer>
 
-        <StackPanel Orientation="Vertical">
+        <StackPanel
+            Orientation="Vertical">
 
-            <TextBlock
-                Text="January 2024"
-                Margin="0 10 0 15"
-                FontSize="24" />
+            <StackPanel
+                Orientation="Vertical"
+                HorizontalAlignment="Left">
 
-            <UniformGrid
-                Columns="7"
-                HorizontalAlignment="Left"
-                Margin="0 0 0 20">
+                <DockPanel
+                    Margin="0 10 0 15">
 
-                <TextBlock
-                    Text="Monday"
-                    Margin="4 0"
-                    HorizontalAlignment="Center" />
+                    <Button
+                        DockPanel.Dock="Right"
+                        Content="&gt;" />
 
-                <TextBlock
-                    Text="Tuesday"
-                    Margin="4 0"
-                    HorizontalAlignment="Center" />
+                    <Button
+                        DockPanel.Dock="Right"
+                        Content="&lt;" />
 
-                <TextBlock
-                    Text="Wednesday"
-                    Margin="4 0"
-                    HorizontalAlignment="Center" />
+                    <TextBlock
+                        Text="January 2024"
+                        FontSize="24" />
 
-                <TextBlock
-                    Text="Thursday"
-                    Margin="4 0"
-                    HorizontalAlignment="Center" />
+                </DockPanel>
 
-                <TextBlock
-                    Text="Friday"
-                    Margin="4 0"
-                    HorizontalAlignment="Center" />
+                <UniformGrid
+                    Columns="7"
+                    HorizontalAlignment="Left"
+                    Margin="0 0 0 20">
 
-                <TextBlock
-                    Text="Saturday"
-                    Margin="4 0"
-                    HorizontalAlignment="Center" />
+                    <TextBlock
+                        Text="Monday"
+                        Margin="4 0"
+                        HorizontalAlignment="Center" />
 
-                <TextBlock
-                    Text="Sunday"
-                    Margin="4 0"
-                    HorizontalAlignment="Center" />
+                    <TextBlock
+                        Text="Tuesday"
+                        Margin="4 0"
+                        HorizontalAlignment="Center" />
 
-                <customControls:CalendarDate
-                    Value="2024 01 01"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center"
-                    Background="DarkSeaGreen" />
+                    <TextBlock
+                        Text="Wednesday"
+                        Margin="4 0"
+                        HorizontalAlignment="Center" />
 
-                <customControls:CalendarDate
-                    Value="2024 01 02"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center"
-                    Background="ForestGreen" />
-                <customControls:CalendarDate
-                    Value="2024 01 03"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
-                <customControls:CalendarDate
-                    Value="2024 01 01"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
-                <customControls:CalendarDate
-                    Value="2024 01 04"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
-                <customControls:CalendarDate
-                    Value="2024 01 05"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
-                <customControls:CalendarDate
-                    Value="2024 01 06"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
-                <customControls:CalendarDate
-                    Value="2024 01 07"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
-                <customControls:CalendarDate
-                    Value="2024 01 08"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
-                <customControls:CalendarDate
-                    Value="2024 01 09"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
-                <customControls:CalendarDate
-                    Value="2024 01 10"
-                    Margin="5"
-                    MonthFontSize="10"
-                    HorizontalAlignment="Center" />
+                    <TextBlock
+                        Text="Thursday"
+                        Margin="4 0"
+                        HorizontalAlignment="Center" />
 
-            </UniformGrid>
+                    <TextBlock
+                        Text="Friday"
+                        Margin="4 0"
+                        HorizontalAlignment="Center" />
+
+                    <TextBlock
+                        Text="Saturday"
+                        Margin="4 0"
+                        HorizontalAlignment="Center" />
+
+                    <TextBlock
+                        Text="Sunday"
+                        Margin="4 0"
+                        HorizontalAlignment="Center" />
+
+                    <customControls:CalendarDate
+                        Value="2024 01 01"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center"
+                        Background="ForestGreen"/>
+
+                    <customControls:CalendarDate
+                        Value="2024 01 02"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center"
+                        Background="ForestGreen" />
+                    <customControls:CalendarDate
+                        Value="2024 01 03"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center" />
+                    <customControls:CalendarDate
+                        Value="2024 01 01"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center" />
+                    <customControls:CalendarDate
+                        Value="2024 01 04"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center"
+                        BorderBrush="{StaticResource FontPrimaryBrush}"
+                        BorderThickness="2" />
+                    <customControls:CalendarDate
+                        Value="2024 01 05"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center" />
+                    <customControls:CalendarDate
+                        Value="2024 01 06"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center" />
+                    <customControls:CalendarDate
+                        Value="2024 01 07"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center" />
+                    <customControls:CalendarDate
+                        Value="2024 01 08"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center" />
+                    <customControls:CalendarDate
+                        Value="2024 01 09"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center" />
+                    <customControls:CalendarDate
+                        Value="2024 01 10"
+                        Margin="5"
+                        MonthFontSize="10"
+                        HorizontalAlignment="Center" />
+
+                </UniformGrid>
+
+            </StackPanel>
 
             <ItemsControl
                 ItemsSource="{Binding VacationGroups}">
